@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "WELBX Travel Operating Layer"
+version = "1.0.0"
+id = "artifacts/welbx"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23549
+
+[services.development]
+run = "pnpm --filter @workspace/welbx run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/welbx", "run", "build" ]
+publicDir = "artifacts/welbx/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23549"
+BASE_PATH = "/"

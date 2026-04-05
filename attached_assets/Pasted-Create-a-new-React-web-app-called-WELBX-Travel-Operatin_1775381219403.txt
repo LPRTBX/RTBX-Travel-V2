@@ -1,0 +1,149 @@
+Create a new React web app called WELBX Travel Operating Layer.
+
+This app is a premium enterprise hospitality operating layer and controlled meeting demo for WELBX. It must feel like the live operating system of a hotel, not a dashboard, guest app, or generic SaaS tool.
+
+The product must clearly communicate:
+WELBX detects live operational moments, determines what should happen next, routes the right response, coordinates execution, and proves the outcome in real time.
+
+Design direction:
+Dark, minimalist, sharp, premium, executive-grade, institutional quality. No neon, no clutter, no generic SaaS feel. Desktop-first, tablet-capable.
+
+Build these core screens:
+
+Live Moments
+This is the landing screen and must already feel alive on load with seeded active hospitality moments.
+Include seeded moments such as:
+Queue delay building at check-in
+VIP arrival with room readiness risk
+Housekeeping bottleneck affecting arrivals
+Guest sentiment drop after extended wait
+Recovery opportunity after service disruption
+Dining or transport activation opportunity
+
+Each moment card must show:
+
+moment title
+why the moment was surfaced
+signal inputs
+threshold crossed
+pattern detected
+plain-language explanation
+confidence score
+urgency level
+risk level
+commercial value or cost exposure
+recommended next action
+action buttons: Accept, Override, Escalate, Assign, Monitor
+
+After action is taken, the card must visibly progress through status states such as:
+Detected → Actioned → In Progress → Stabilised → Resolved
+or
+Detected → Escalated
+
+Show execution feedback such as:
+
+what happened
+who was notified
+which team was assigned
+response time
+updated conditions
+outcome delta
+System State
+A live operational control screen showing:
+active moments
+service pressure points
+guest flow health
+staff allocation
+escalation states
+risk indicators
+room readiness bottlenecks
+overall environment status
+Outcome Intelligence
+A board-ready executive screen showing:
+moments handled today
+revenue generated today
+revenue protected today
+cost avoided today
+average response time
+service recovery success rate
+operational consistency trend
+guest experience uplift
+Scenario Demo
+Create a guided in-app scenario called:
+The moment most systems miss
+
+Use this exact copy structure inside the app:
+
+Title:
+The moment most systems miss
+
+Intro:
+Peak check-in. Queue pressure is rising. A VIP guest has arrived. One room is not ready. Staff capacity is tightening. Sentiment is starting to fall.
+
+Detection:
+WELBX detected a compounding arrival risk across service flow, room readiness, guest value, and staff capacity.
+
+Signals:
+
+Queue wait time exceeded threshold
+VIP arrival logged
+Priority room not released
+Front desk capacity constrained
+Negative sentiment cues rising
+
+System recommendation:
+
+Open secondary check-in
+Reallocate nearest available host
+Prioritise housekeeping release
+Trigger service recovery gesture
+Protect loyalty value
+
+Execution:
+
+Front desk lead notified
+Host reassigned
+Housekeeping priority pushed
+VIP welcome and recovery flow activated
+
+Outcome:
+
+Queue pressure reduced
+Room ready faster
+Guest handled smoothly
+Service failure avoided
+Revenue and loyalty protected
+
+Executive close:
+This is not reporting.
+This is operational intelligence turning signals into controlled outcomes in real time.
+
+The scenario should unfold step by step:
+
+signals stack
+WELBX detects the compounding moment
+recommendations appear
+user can Accept, Override, or Escalate
+execution begins
+outcome improves
+before/after summary appears
+
+Also lightly communicate the operating flow:
+Detect → Decide → Route → Execute → Outcome
+
+Use subtle references where helpful:
+
+BXOS = moment intelligence
+Nexus = routing / availability mapping
+Vector = execution orchestration
+
+Important:
+Do not make this feel like a generic dashboard. It must feel like behavioural infrastructure for hospitality. The first 30 seconds should make it obvious that WELBX detects moments, recommends actions, coordinates execution, and proves value.
+
+Then use this as the second prompt after the first version is built:
+
+Refine the app so it feels less like a prototype and more like a category-defining enterprise operating layer. Tighten spacing, typography, hierarchy, transitions, card states, and screen coherence. Make Live Moments feel more commanding, make Scenario Demo more cinematic, and make Outcome Intelligence more board-ready. Remove anything that feels generic, cluttered, or startup-like. Keep it dark, minimal, premium, and unmistakably WELBX.
+
+Then use this as the third prompt:
+
+Now sharpen the Scenario Demo so it becomes the hero meeting asset. Make the progression clearer, the signal stacking more dramatic, the action controls more decisive, and the before/after commercial and operational outcomes more undeniable. The scenario should feel like the moment where investors, operators, and partners immediately understand that WELBX is the layer that decides what happens next.
