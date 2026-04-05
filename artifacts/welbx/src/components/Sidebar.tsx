@@ -1,42 +1,65 @@
 import { Link, useLocation } from "wouter";
+import { motion } from "framer-motion";
+
+const navItems = [
+  { label: "Live Moments", path: "/live-moments", sub: "6 ACTIVE" },
+  { label: "System State", path: "/system-state", sub: "ELEVATED" },
+  { label: "Outcome Intelligence", path: "/outcome-intelligence", sub: "TODAY" },
+  { label: "Scenario Demo", path: "/scenario-demo", sub: "DEMO" },
+];
 
 export function Sidebar() {
   const [location] = useLocation();
 
-  const navItems = [
-    { label: "LIVE MOMENTS", path: "/live-moments" },
-    { label: "SYSTEM STATE", path: "/system-state" },
-    { label: "OUTCOME INTELLIGENCE", path: "/outcome-intelligence" },
-    { label: "SCENARIO DEMO", path: "/scenario-demo" },
-  ];
-
   return (
-    <aside className="fixed inset-y-0 left-0 w-64 bg-background border-r border-border flex flex-col z-50">
-      <div className="p-8">
-        <h1 className="text-2xl font-bold tracking-widest text-white uppercase">WELBX</h1>
+    <aside className="fixed inset-y-0 left-0 w-56 flex flex-col z-50" style={{ background: 'hsl(220 13% 4%)', borderRight: '1px solid hsl(220 13% 9%)' }}>
+      
+      {/* Wordmark */}
+      <div className="px-7 pt-8 pb-6 border-b" style={{ borderColor: 'hsl(220 13% 9%)' }}>
+        <div className="text-white font-bold tracking-[0.25em] text-sm uppercase mb-1">WELBX</div>
+        <div className="flex items-center gap-2">
+          <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" style={{ animation: 'pulse-amber 2s ease-in-out infinite' }} />
+          <span style={{ fontSize: 9, letterSpacing: '0.12em', color: 'hsl(215 16% 38%)', textTransform: 'uppercase', fontWeight: 600 }}>
+            SYSTEM ACTIVE
+          </span>
+        </div>
       </div>
 
-      <nav className="flex-1 px-4 space-y-2">
-        {navItems.map((item) => {
+      {/* Nav */}
+      <nav className="flex-1 pt-3 pb-4">
+        {navItems.map((item, i) => {
           const isActive = location === item.path || (location === "/" && item.path === "/live-moments");
           return (
-            <Link
-              key={item.path}
-              href={item.path}
-              className={`block px-4 py-3 text-xs tracking-wide uppercase transition-colors ${
-                isActive 
-                  ? "text-primary font-bold border-l-2 border-primary pl-3 bg-white/5" 
-                  : "text-muted-foreground hover:text-white"
-              }`}
-            >
-              {item.label}
+            <Link key={item.path} href={item.path}>
+              <div className={`relative px-7 py-3.5 cursor-pointer group transition-all duration-150 ${isActive ? '' : 'hover:bg-white/[0.03]'}`}>
+                {isActive && (
+                  <motion.div
+                    layoutId="nav-indicator"
+                    className="absolute left-0 inset-y-0 w-px"
+                    style={{ background: 'hsl(var(--primary))' }}
+                  />
+                )}
+                <div className={`text-xs font-semibold tracking-wide transition-colors ${
+                  isActive ? 'text-white' : 'text-gray-500 group-hover:text-gray-300'
+                }`}>
+                  {item.label}
+                </div>
+                <div style={{ fontSize: 9, letterSpacing: '0.1em', marginTop: 2, fontWeight: 600, color: isActive ? 'hsl(43 68% 55%)' : 'hsl(215 16% 32%)' }}>
+                  {item.sub}
+                </div>
+              </div>
             </Link>
           );
         })}
       </nav>
 
-      <div className="p-8 border-t border-border">
-        <p className="text-[10px] text-muted-foreground tracking-widest uppercase">BXOS · Nexus · Vector</p>
+      {/* Footer engine credits */}
+      <div className="px-7 py-6 border-t" style={{ borderColor: 'hsl(220 13% 9%)' }}>
+        <div style={{ fontSize: 9, letterSpacing: '0.14em', color: 'hsl(215 16% 28%)', textTransform: 'uppercase', lineHeight: 1.8 }}>
+          <div>BXOS</div>
+          <div>Nexus</div>
+          <div>Vector</div>
+        </div>
       </div>
     </aside>
   );
