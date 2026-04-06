@@ -122,31 +122,35 @@ export default function ScenarioDemo() {
           >
             <motion.div
               initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-              className="label-caps mb-10" style={{ color: 'hsl(215 16% 30%)', letterSpacing: '0.2em' }}
+              className="label-caps mb-6" style={{ color: 'hsl(215 16% 32%)', letterSpacing: '0.22em' }}
             >
               The Moment Most Systems Miss
             </motion.div>
             <motion.h1
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}
-              className="font-bold text-white leading-tight mb-8 max-w-3xl"
-              style={{ fontSize: 40, letterSpacing: '-0.02em', lineHeight: 1.2 }}
+              className="font-bold text-white leading-tight mb-5 max-w-2xl"
+              style={{ fontSize: 30, letterSpacing: '-0.02em', lineHeight: 1.25 }}
             >
               Peak check-in. Queue pressure is rising. A VIP guest has arrived. One room is not ready. Staff capacity is tightening. Sentiment is starting to fall.
             </motion.h1>
+            <motion.div
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.75 }}
+              style={{ width: 48, height: 2, background: '#c9a84c', marginBottom: 20 }}
+            />
             <motion.p
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}
-              className="font-bold tracking-widest uppercase mb-14"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.9 }}
+              className="font-bold tracking-widest uppercase mb-10"
               style={{ fontSize: 11, color: '#c9a84c', letterSpacing: '0.2em' }}
             >
               WELBX detected a compounding arrival risk.
             </motion.p>
             <motion.button
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.1 }}
+              initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.1 }}
               onClick={next}
               className="text-xs font-bold uppercase tracking-widest transition-all"
-              style={{ padding: '14px 40px', background: '#fff', color: 'hsl(220 13% 5%)' }}
-              onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.85)')}
-              onMouseLeave={e => (e.currentTarget.style.background = '#fff')}
+              style={{ padding: '16px 48px', background: '#c9a84c', color: 'hsl(220 13% 5%)' }}
+              onMouseEnter={e => (e.currentTarget.style.background = 'hsl(43 68% 62%)')}
+              onMouseLeave={e => (e.currentTarget.style.background = '#c9a84c')}
             >
               See How
             </motion.button>

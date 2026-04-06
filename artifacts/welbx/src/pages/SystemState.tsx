@@ -88,8 +88,13 @@ export default function SystemState() {
               style={{ borderRight: i < metrics.length - 1 ? '1px solid hsl(220 13% 10%)' : 'none' }}
             >
               <div className="label-caps mb-2">{m.label}</div>
-              <div className="text-xl font-bold leading-none mb-1.5" style={{ color: m.alert ? ALERT_COLOR[m.alertType] : '#fff' }}>
-                {m.value}
+              <div className="flex items-center gap-2">
+                {m.alertType === 'critical' && (
+                  <div className="w-1.5 h-1.5 rounded-full animate-pulse flex-shrink-0" style={{ background: '#ef4444' }} />
+                )}
+                <div className="font-bold leading-none mb-1" style={{ fontSize: 22, letterSpacing: '-0.01em', color: m.alert ? ALERT_COLOR[m.alertType] : '#fff' }}>
+                  {m.value}
+                </div>
               </div>
               <div className="mono-value" style={{ color: 'hsl(215 16% 32%)' }}>{m.sub}</div>
             </motion.div>

@@ -56,11 +56,12 @@ export function MomentCard({ moment: initialMoment, index }: MomentCardProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.08, duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
       style={{
-        background: 'hsl(220 13% 7%)',
+        background: moment.urgency === 'CRITICAL' ? 'hsl(220 13% 7.5%)' : 'hsl(220 13% 7%)',
         borderTop: `1px solid hsl(220 13% 11%)`,
         borderRight: `1px solid hsl(220 13% 11%)`,
         borderBottom: `1px solid hsl(220 13% 11%)`,
-        borderLeft: `2px solid ${urgencyBorder}`,
+        borderLeft: moment.urgency === 'CRITICAL' ? `3px solid ${urgencyBorder}` : `2px solid ${urgencyBorder}`,
+        boxShadow: moment.urgency === 'CRITICAL' ? '0 0 40px rgba(239,68,68,0.06), inset 0 0 40px rgba(239,68,68,0.02)' : 'none',
       }}
       className="relative overflow-hidden"
     >

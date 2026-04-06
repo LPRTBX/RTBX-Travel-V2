@@ -1,0 +1,64 @@
+Refine the Travel Operations Portal so it becomes meeting-ready for global partners, multinational funders, and hotel operators. Tighten the product into a premium enterprise operating layer, not a prototype.
+
+Priority upgrades:
+
+Make the landing experience more commanding
+The first screen should immediately show that WELBX detects live operational moments, recommends action, coordinates execution, and proves value.
+Reduce any generic dashboard feel.
+Increase clarity, hierarchy, and confidence.
+Strengthen the Live Moments screen
+Each moment card should feel sharper and more high-stakes.
+Make sure every card clearly shows:
+why the moment was detected
+signal stack
+confidence
+urgency
+risk
+commercial value
+recommended action
+operational status
+Improve card design, spacing, typography, and action hierarchy.
+Make the holy shit scenario the hero asset
+The Scenario Demo should feel cinematic and undeniable in a meeting.
+Sharpen the flow so it moves clearly through:
+signals stacking
+WELBX detection
+recommendation
+user action
+execution
+outcome
+before and after value summary
+Make the operational and commercial impact impossible to miss.
+Upgrade System State
+Make this screen feel like an operational nerve centre.
+It should look more like a command layer for a hotel environment and less like a standard analytics screen.
+Improve pressure-point visibility, escalation visibility, staff allocation clarity, and environment status.
+Upgrade Outcome Intelligence
+Make this screen board-ready.
+It should look suitable for executive review and clearly show:
+moments handled
+revenue generated
+revenue protected
+cost avoided
+response time improvement
+recovery success
+operational consistency
+guest experience uplift
+Improve overall premium design quality
+Tighten:
+spacing
+typography
+contrast
+transitions
+card states
+navigation clarity
+page consistency
+Keep the app dark, minimal, elegant, premium, and unmistakably WELBX.
+Remove anything that feels generic
+Reduce clutter, unnecessary dashboard elements, or anything that weakens the sense that this is behavioural infrastructure and a live operating layer.
+Keep the product story sharp
+Throughout the app, the experience should subtly reinforce:
+Detect → Decide → Route → Execute → Outcome
+
+Meeting standard:
+This app must feel like something that can knock the socks off a partner, investor, or major hotel group within the first minute of use.

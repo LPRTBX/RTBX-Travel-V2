@@ -13,10 +13,10 @@ const chartData = [
 ];
 
 const headline = [
-  { label: 'Moments Handled',  value: '47',       unit: 'today',   accent: false },
+  { label: 'Moments Handled',  value: '47',       unit: 'today',   accent: true,  color: 'hsl(215 16% 70%)' },
   { label: 'Revenue Generated', value: '£24,800', unit: 'today',   accent: true,  color: '#10b981' },
   { label: 'Revenue Protected', value: '£31,200', unit: 'today',   accent: true,  color: '#c9a84c' },
-  { label: 'Cost Avoided',      value: '£8,400',  unit: 'today',   accent: false },
+  { label: 'Cost Avoided',      value: '£8,400',  unit: 'today',   accent: true,  color: '#60a5fa' },
 ];
 
 const topMoments = [
@@ -62,17 +62,17 @@ export default function OutcomeIntelligence() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.07 }}
-              className="px-7 py-6"
+              className="px-7 py-7"
               style={{
                 borderRight: i < headline.length - 1 ? '1px solid hsl(220 13% 10%)' : 'none',
-                borderTop: h.accent ? `2px solid ${h.color}` : '2px solid transparent',
+                borderTop: `2px solid ${h.color}`,
               }}
             >
               <div className="label-caps mb-3">{h.label}</div>
-              <div className="font-bold text-white leading-none mb-1" style={{ fontSize: 28, letterSpacing: '-0.01em', color: h.accent ? h.color : '#fff' }}>
+              <div className="font-bold leading-none mb-2" style={{ fontSize: 40, letterSpacing: '-0.02em', color: h.color }}>
                 {h.value}
               </div>
-              <div className="mono-value" style={{ color: 'hsl(215 16% 32%)', marginTop: 6 }}>{h.unit.toUpperCase()}</div>
+              <div className="mono-value" style={{ color: 'hsl(215 16% 28%)', marginTop: 4 }}>{h.unit.toUpperCase()}</div>
             </motion.div>
           ))}
         </div>
@@ -143,7 +143,7 @@ export default function OutcomeIntelligence() {
                   </div>
                   <div
                     className="font-bold"
-                    style={{ fontSize: 20, color: k.positive ? '#10b981' : '#ef4444', letterSpacing: '-0.01em' }}
+                    style={{ fontSize: 24, color: k.positive ? '#10b981' : '#ef4444', letterSpacing: '-0.02em' }}
                   >
                     {k.value}
                   </div>
