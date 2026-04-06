@@ -17,11 +17,17 @@ export function Sidebar() {
       {/* Wordmark */}
       <div className="px-7 pt-8 pb-6 border-b" style={{ borderColor: 'hsl(220 13% 9%)' }}>
         <div className="text-white font-bold tracking-[0.25em] text-sm uppercase mb-1">WELBX</div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 mb-2">
           <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" style={{ animation: 'pulse-amber 2s ease-in-out infinite' }} />
           <span style={{ fontSize: 9, letterSpacing: '0.12em', color: 'hsl(215 16% 38%)', textTransform: 'uppercase', fontWeight: 600 }}>
             SYSTEM ACTIVE
           </span>
+        </div>
+        <div style={{ fontSize: 9, letterSpacing: '0.06em', color: 'hsl(215 16% 24%)', lineHeight: 1.4 }}>
+          The Grand Meridian
+        </div>
+        <div style={{ fontSize: 8, letterSpacing: '0.1em', color: 'hsl(215 16% 20%)', textTransform: 'uppercase' }}>
+          London
         </div>
       </div>
 

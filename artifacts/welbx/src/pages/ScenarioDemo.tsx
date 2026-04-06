@@ -145,7 +145,7 @@ export default function ScenarioDemo() {
               WELBX detected a compounding arrival risk.
             </motion.p>
             <motion.button
-              initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.1 }}
+              initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
               onClick={next}
               className="text-xs font-bold uppercase tracking-widest transition-all"
               style={{ padding: '16px 48px', background: '#c9a84c', color: 'hsl(220 13% 5%)' }}

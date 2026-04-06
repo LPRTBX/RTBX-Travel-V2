@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 
+import { AppProvider } from "@/context/AppContext";
 import { Sidebar } from "@/components/Sidebar";
 import LiveMoments from "@/pages/LiveMoments";
 import SystemState from "@/pages/SystemState";
@@ -29,13 +30,15 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-          <div className="min-h-[100dvh] bg-background">
-            <Sidebar />
-            <Router />
-          </div>
-        </WouterRouter>
-        <Toaster />
+        <AppProvider>
+          <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+            <div className="min-h-[100dvh] bg-background">
+              <Sidebar />
+              <Router />
+            </div>
+          </WouterRouter>
+          <Toaster />
+        </AppProvider>
       </TooltipProvider>
     </QueryClientProvider>
   );

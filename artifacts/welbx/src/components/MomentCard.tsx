@@ -6,6 +6,7 @@ import { ChevronDown, ArrowRight } from "lucide-react";
 interface MomentCardProps {
   moment: Moment;
   index: number;
+  onVipAccept?: () => void;
 }
 
 const STATUS_CONFIG: Record<MomentStatus, { label: string; color: string; bg: string; border: string; pulse?: boolean }> = {
@@ -31,7 +32,7 @@ const URGENCY_COLOR: Record<string, string> = {
   LOW:      '#6b7280',
 };
 
-export function MomentCard({ moment: initialMoment, index }: MomentCardProps) {
+export function MomentCard({ moment: initialMoment, index, onVipAccept }: MomentCardProps) {
   const [moment, setMoment] = useState<Moment>(initialMoment);
   const [showFeedback, setShowFeedback] = useState(false);
 
@@ -44,6 +45,10 @@ export function MomentCard({ moment: initialMoment, index }: MomentCardProps) {
     else if (action === 'MONITOR') nextStatus = 'STABILISED';
     setMoment({ ...moment, status: nextStatus });
     if (nextStatus !== 'DETECTED') setShowFeedback(true);
+
+    if (action === 'ACCEPT' && onVipAccept) {
+      onVipAccept();
+    }
   };
 
   const statusCfg = STATUS_CONFIG[moment.status];
@@ -109,7 +114,7 @@ export function MomentCard({ moment: initialMoment, index }: MomentCardProps) {
       <div className="px-6 py-4">
         <div className="grid grid-cols-12 gap-x-6 gap-y-0">
 
-          {/* Signal Stack — 4 cols */}
+          {/* Signal Stack */}
           <div className="col-span-4" style={{ paddingRight: 24, borderRight: '1px solid hsl(220 13% 10%)' }}>
             <div className="label-caps mb-2.5">Signal Stack</div>
             <ul className="space-y-2">
@@ -122,7 +127,7 @@ export function MomentCard({ moment: initialMoment, index }: MomentCardProps) {
             </ul>
           </div>
 
-          {/* Pattern + Risk — 4 cols */}
+          {/* Pattern + Risk */}
           <div className="col-span-4" style={{ paddingLeft: 24, paddingRight: 24, borderRight: '1px solid hsl(220 13% 10%)' }}>
             <div className="space-y-3">
               <div>
@@ -136,7 +141,7 @@ export function MomentCard({ moment: initialMoment, index }: MomentCardProps) {
             </div>
           </div>
 
-          {/* Confidence + Commercial Exposure — 4 cols */}
+          {/* Confidence + Commercial Exposure */}
           <div className="col-span-4" style={{ paddingLeft: 24 }}>
             <div className="space-y-3">
               <div>
@@ -163,7 +168,7 @@ export function MomentCard({ moment: initialMoment, index }: MomentCardProps) {
             </div>
           </div>
 
-          {/* Recommended Action — full width */}
+          {/* Recommended Action */}
           <div className="col-span-12 flex items-start gap-3" style={{ marginTop: 16, paddingTop: 14, borderTop: '1px solid hsl(220 13% 10%)' }}>
             <ArrowRight size={12} style={{ color: 'hsl(43 68% 55%)', flexShrink: 0, marginTop: 2 }} />
             <div className="flex-1">
