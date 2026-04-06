@@ -519,42 +519,50 @@ export default function ScenarioDemo() {
           <motion.div
             key="s7"
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.7 }}
             className="flex-1 flex flex-col items-center justify-center px-16 text-center"
           >
+            <motion.div
+              initial={{ opacity: 0, scaleX: 0 }} animate={{ opacity: 1, scaleX: 1 }} transition={{ delay: 0.1, duration: 0.6 }}
+              style={{ width: 40, height: 2, background: '#c9a84c', marginBottom: 32, transformOrigin: 'left' }}
+            />
             <motion.h2
-              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-              style={{ fontSize: 36, fontWeight: 700, color: '#fff', letterSpacing: '-0.02em', lineHeight: 1.15, marginBottom: 16 }}
+              initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25, duration: 0.5 }}
+              style={{ fontSize: 44, fontWeight: 800, color: '#fff', letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: 20, maxWidth: 680 }}
             >
               This is not reporting.
             </motion.h2>
             <motion.p
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.55 }}
-              style={{ fontSize: 24, fontWeight: 300, color: 'hsl(215 16% 50%)', maxWidth: 700, lineHeight: 1.4, marginBottom: 48 }}
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }}
+              style={{ fontSize: 18, fontWeight: 300, color: 'hsl(215 16% 48%)', maxWidth: 580, lineHeight: 1.55, marginBottom: 40 }}
             >
-              This is operational intelligence turning signals into controlled outcomes in real time.
+              Operational intelligence turning signals into controlled outcomes — before the guest notices anything has gone wrong.
             </motion.p>
 
             <motion.div
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }}
-              className="flex items-center gap-4 mb-14"
-              style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase' }}
+              style={{ display: 'flex', alignItems: 'center', gap: 0, marginBottom: 48 }}
             >
               {['Detect', 'Decide', 'Route', 'Execute', 'Outcome'].map((s, i, arr) => (
-                <div key={s} className="flex items-center gap-4">
-                  <span style={{ color: '#c9a84c' }}>{s}</span>
-                  {i < arr.length - 1 && <span style={{ color: 'hsl(220 13% 22%)' }}>→</span>}
+                <div key={s} style={{ display: 'flex', alignItems: 'center' }}>
+                  <span style={{
+                    fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase',
+                    color: '#c9a84c', padding: '4px 10px',
+                    border: '1px solid rgba(201,168,76,0.2)',
+                    background: 'rgba(201,168,76,0.06)',
+                  }}>{s}</span>
+                  {i < arr.length - 1 && <span style={{ color: 'hsl(220 13% 18%)', fontSize: 9, padding: '0 4px' }}>→</span>}
                 </div>
               ))}
             </motion.div>
 
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.4 }}>
+            <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.4 }}>
               <Link href="/live-moments">
                 <button
                   className="text-xs font-bold uppercase tracking-widest transition-all"
-                  style={{ padding: '14px 40px', background: '#fff', color: 'hsl(220 13% 5%)' }}
-                  onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.85)')}
-                  onMouseLeave={e => (e.currentTarget.style.background = '#fff')}
+                  style={{ padding: '16px 48px', background: '#c9a84c', color: 'hsl(220 13% 5%)' }}
+                  onMouseEnter={e => (e.currentTarget.style.background = 'hsl(43 68% 62%)')}
+                  onMouseLeave={e => (e.currentTarget.style.background = '#c9a84c')}
                 >
                   See It Live
                 </button>

@@ -29,12 +29,12 @@ const signals = [
 ];
 
 const metrics = [
-  { label: 'Active Moments',      value: '6',            sub: '1 CRITICAL · 3 HIGH',      alert: true,  alertType: 'critical' },
-  { label: 'Service Pressure',    value: '73 / 100',     sub: 'ELEVATED — MANAGED',        alert: true,  alertType: 'amber' },
-  { label: 'Staff Allocation',    value: '91%',          sub: 'FRONT DESK · HOUSEKEEPING', alert: true,  alertType: 'amber' },
-  { label: 'Guest Flow',          value: 'CONSTRAINED',  sub: 'QUEUE DELAYS ACTIVE',       alert: true,  alertType: 'amber' },
-  { label: 'Escalations',         value: '0',            sub: 'ALL ROUTED',                alert: false, alertType: 'none' },
-  { label: 'Rooms at Risk',       value: '4',            sub: '7 PENDING RELEASE',         alert: true,  alertType: 'amber' },
+  { label: 'Active Moments',      value: '6',       sub: '1 CRITICAL · 3 HIGH',      alert: true,  alertType: 'critical', compact: false },
+  { label: 'Service Pressure',    value: '73/100',  sub: 'ELEVATED — MANAGED',        alert: true,  alertType: 'amber',    compact: false },
+  { label: 'Staff Allocation',    value: '91%',     sub: 'FRONT DESK · HOUSEKEEPING', alert: true,  alertType: 'amber',    compact: false },
+  { label: 'Guest Flow',          value: 'LIMITED', sub: 'QUEUE DELAYS ACTIVE',       alert: true,  alertType: 'amber',    compact: false },
+  { label: 'Escalations',         value: '0',       sub: 'ALL ROUTED',                alert: false, alertType: 'none',     compact: false },
+  { label: 'Rooms at Risk',       value: '4',       sub: '7 PENDING RELEASE',         alert: true,  alertType: 'amber',    compact: false },
 ];
 
 const ALERT_COLOR: Record<string, string> = {
@@ -53,8 +53,8 @@ export default function SystemState() {
           <div>
             <div className="label-caps mb-2" style={{ color: '#c9a84c' }}>Nexus · Operational Mapping</div>
             <h1 className="text-2xl font-bold text-white tracking-wide">System State</h1>
-            <p className="text-xs mt-1" style={{ color: 'hsl(215 16% 40%)' }}>
-              Live pressure, allocation, and environment status.
+            <p className="text-xs mt-1.5" style={{ color: 'hsl(215 16% 42%)', letterSpacing: '0.01em' }}>
+              Live pressure, staff allocation, room readiness, and environment status.
             </p>
           </div>
           <div className="flex items-center gap-3">

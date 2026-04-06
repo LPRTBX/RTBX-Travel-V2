@@ -54,12 +54,20 @@ export function Sidebar() {
       </nav>
 
       {/* Footer engine credits */}
-      <div className="px-7 py-6 border-t" style={{ borderColor: 'hsl(220 13% 9%)' }}>
-        <div style={{ fontSize: 9, letterSpacing: '0.14em', color: 'hsl(215 16% 28%)', textTransform: 'uppercase', lineHeight: 1.8 }}>
-          <div>BXOS</div>
-          <div>Nexus</div>
-          <div>Vector</div>
+      <div className="px-7 py-5 border-t" style={{ borderColor: 'hsl(220 13% 9%)' }}>
+        <div style={{ fontSize: 8, letterSpacing: '0.16em', color: 'hsl(215 16% 24%)', textTransform: 'uppercase', marginBottom: 8 }}>
+          Engines
         </div>
+        {[
+          { name: 'BXOS', desc: 'Intelligence' },
+          { name: 'Nexus', desc: 'Routing' },
+          { name: 'Vector', desc: 'Execution' },
+        ].map(e => (
+          <div key={e.name} style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', padding: '3px 0' }}>
+            <span style={{ fontSize: 9, letterSpacing: '0.12em', color: 'hsl(215 16% 30%)', textTransform: 'uppercase', fontWeight: 600 }}>{e.name}</span>
+            <span style={{ fontSize: 8, letterSpacing: '0.08em', color: 'hsl(215 16% 22%)', textTransform: 'uppercase' }}>{e.desc}</span>
+          </div>
+        ))}
       </div>
     </aside>
   );

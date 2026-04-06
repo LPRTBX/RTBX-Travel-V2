@@ -1,0 +1,83 @@
+Priority changes:
+
+Make the landing experience more commanding
+The first screen should immediately show that WELBX detects live operational moments, recommends action, coordinates execution, and proves value.
+Reduce any generic dashboard feel.
+Increase clarity, hierarchy, confidence, and premium presence.
+Strengthen the Live Moments screen
+Each moment card should feel sharper, more high-stakes, and more commercially and operationally clear.
+Every card must clearly communicate:
+why the moment was detected
+the signal stack
+confidence
+urgency
+risk
+commercial value
+recommended action
+operational status
+execution feedback
+Improve spacing, typography, card states, button emphasis, and information hierarchy.
+Make the Scenario Demo the hero asset
+Sharpen the flow so it moves clearly through:
+signals stacking
+WELBX detection
+recommendation
+user action
+execution
+outcome
+before and after value summary
+Make the operational and commercial impact impossible to miss in a live meeting.
+This needs to feel cinematic, premium, and undeniable.
+Upgrade System State
+Make this screen feel like an operational nerve centre.
+Improve visibility of:
+pressure points
+escalation states
+staff allocation
+room readiness
+environment status
+Make it feel like command software for a hotel environment, not a generic analytics screen.
+Upgrade Outcome Intelligence
+Make this screen board-ready.
+Clearly highlight:
+moments handled
+revenue generated
+revenue protected
+cost avoided
+response time improvement
+recovery success
+operational consistency
+guest experience uplift
+Improve overall premium design quality
+Tighten:
+spacing
+typography
+contrast
+transitions
+card states
+navigation clarity
+page consistency
+Keep the app dark, minimal, elegant, premium, and unmistakably WELBX.
+Remove anything generic
+Reduce clutter, unnecessary dashboard elements, or anything that weakens the sense that this is behavioural infrastructure and a live operating layer.
+Keep the product story sharp
+Throughout the app, subtly reinforce:
+Detect → Decide → Route → Execute → Outcome
+
+Meeting standard:
+This app must feel like something that knocks the socks off a partner, investor, or major hotel group within the first minute of use.
+
+After that update finishes, paste this second message:
+
+Now do a second refinement pass focused only on polish and authority.
+
+Make the app feel more like an enterprise operating layer and less like a demo. Increase visual authority, improve layout rhythm, refine typography hierarchy, sharpen card interactions, and make transitions cleaner and more controlled.
+
+Specific goals:
+
+make Live Moments feel more commanding
+make Scenario Demo feel more cinematic
+make System State feel more like a hotel command layer
+make Outcome Intelligence feel more executive and board-ready
+reduce anything that feels startup-like, generic, or cluttered
+keep the dark premium WELBX design language consistent across all screens
