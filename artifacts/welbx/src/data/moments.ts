@@ -31,7 +31,7 @@ export const SEEDED_MOMENTS: Moment[] = [
     confidence: 94,
     urgency: 'HIGH',
     risk: 'Service failure, loyalty impact',
-    commercialExposure: 'Est. £2,400 revenue at risk',
+    commercialExposure: 'Est. $2,400 revenue at risk',
     recommendedAction: 'Open secondary check-in lane, reallocate host',
     status: 'DETECTED',
     executionFeedback: {
@@ -51,7 +51,7 @@ export const SEEDED_MOMENTS: Moment[] = [
     confidence: 91,
     urgency: 'CRITICAL',
     risk: 'VIP service failure, loyalty programme damage',
-    commercialExposure: 'Est. £8,000 lifetime value at risk',
+    commercialExposure: 'Est. $8,000 lifetime value at risk',
     recommendedAction: 'Prioritise housekeeping release, activate welcome protocol',
     status: 'DETECTED',
     executionFeedback: {
@@ -71,7 +71,7 @@ export const SEEDED_MOMENTS: Moment[] = [
     confidence: 88,
     urgency: 'HIGH',
     risk: 'Room not ready delays, cascading arrival disruption',
-    commercialExposure: 'Est. £5,200 cost exposure',
+    commercialExposure: 'Est. $5,200 cost exposure',
     recommendedAction: 'Reallocate 2 staff from AM tasks, prioritise by arrival sequence',
     status: 'ACTIONED',
     executionFeedback: {
@@ -91,7 +91,7 @@ export const SEEDED_MOMENTS: Moment[] = [
     confidence: 87,
     urgency: 'HIGH',
     risk: 'Public review, comp cost, loyalty exit',
-    commercialExposure: 'Est. £1,800 recovery cost if unaddressed',
+    commercialExposure: 'Est. $1,800 recovery cost if unaddressed',
     recommendedAction: 'Deploy lobby ambassador, activate service recovery gesture',
     status: 'IN_PROGRESS',
     executionFeedback: {
@@ -111,7 +111,7 @@ export const SEEDED_MOMENTS: Moment[] = [
     confidence: 82,
     urgency: 'MEDIUM',
     risk: 'Silent detractor, negative review',
-    commercialExposure: 'Recovery gesture cost ~£120 vs est. £3,400 review impact',
+    commercialExposure: 'Recovery gesture cost ~$120 vs est. $3,400 review impact',
     recommendedAction: 'Personal call from duty manager, complimentary dinner offer',
     status: 'DETECTED',
     executionFeedback: {
@@ -131,8 +131,8 @@ export const SEEDED_MOMENTS: Moment[] = [
     confidence: 79,
     urgency: 'LOW',
     risk: 'Revenue left uncaptured',
-    commercialValue: 'Est. £960 revenue opportunity',
-    commercialExposure: 'Est. £960 revenue opportunity', // mapped for UI consistency
+    commercialValue: 'Est. $960 revenue opportunity',
+    commercialExposure: 'Est. $960 revenue opportunity', // mapped for UI consistency
     recommendedAction: 'Personalised dining recommendations via concierge touchpoint',
     status: 'DETECTED',
     executionFeedback: {
@@ -140,7 +140,7 @@ export const SEEDED_MOMENTS: Moment[] = [
       whoNotified: 'Concierge Team',
       teamAssigned: 'Concierge',
       responseTime: '15m',
-      outcomeDelta: '3 bookings confirmed (£420 value)',
+      outcomeDelta: '3 bookings confirmed ($420 value)',
     }
   }
 ];

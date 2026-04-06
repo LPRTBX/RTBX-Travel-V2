@@ -14,17 +14,17 @@ const chartData = [
 
 const headline = [
   { label: 'Moments Handled',  value: '47',       unit: 'today',   accent: true,  color: 'hsl(215 16% 70%)' },
-  { label: 'Revenue Generated', value: '£24,800', unit: 'today',   accent: true,  color: '#10b981' },
-  { label: 'Revenue Protected', value: '£31,200', unit: 'today',   accent: true,  color: '#c9a84c' },
-  { label: 'Cost Avoided',      value: '£8,400',  unit: 'today',   accent: true,  color: '#60a5fa' },
+  { label: 'Revenue Generated', value: '$24,800', unit: 'today',   accent: true,  color: '#10b981' },
+  { label: 'Revenue Protected', value: '$31,200', unit: 'today',   accent: true,  color: '#c9a84c' },
+  { label: 'Cost Avoided',      value: '$8,400',  unit: 'today',   accent: true,  color: '#60a5fa' },
 ];
 
 const topMoments = [
-  { title: 'VIP Arrival Risk',            category: 'Loyalty',        value: '£8,000', status: 'RESOLVED' },
-  { title: 'Housekeeping Bottleneck',     category: 'Operations',     value: '£5,200', status: 'ACTIONED' },
-  { title: 'Service Recovery — Rm 604',   category: 'Recovery',       value: '£3,400', status: 'IN PROG' },
-  { title: 'Queue Pressure Building',     category: 'Guest Flow',     value: '£2,400', status: 'RESOLVED' },
-  { title: 'Guest Sentiment Drop',        category: 'Experience',     value: '£1,800', status: 'STABILISED' },
+  { title: 'VIP Arrival Risk',            category: 'Loyalty',        value: '$8,000', status: 'RESOLVED' },
+  { title: 'Housekeeping Bottleneck',     category: 'Operations',     value: '$5,200', status: 'ACTIONED' },
+  { title: 'Service Recovery — Rm 604',   category: 'Recovery',       value: '$3,400', status: 'IN PROG' },
+  { title: 'Queue Pressure Building',     category: 'Guest Flow',     value: '$2,400', status: 'RESOLVED' },
+  { title: 'Guest Sentiment Drop',        category: 'Experience',     value: '$1,800', status: 'STABILISED' },
 ];
 
 const kpis = [
@@ -195,7 +195,7 @@ export default function OutcomeIntelligence() {
         <div style={{ background: 'rgba(201,168,76,0.04)', border: '1px solid rgba(201,168,76,0.15)', padding: 24 }}>
           <div className="label-caps mb-3" style={{ color: ACCENT_COLOR }}>Executive Briefing · WELBX BXOS</div>
           <p style={{ fontSize: 13, color: 'hsl(215 16% 60%)', lineHeight: 1.75, maxWidth: 820 }}>
-            WELBX completed 47 operational interventions today, protecting £31,200 in guest lifetime value through pre-emptive detection and coordinated execution. The BXOS layer identified a compounding VIP arrival risk — converging across room readiness, staff capacity, and queue flow — and routed an automated response through Nexus and Vector in under two minutes, averting a critical service failure. Average response latency held at 4.2 minutes across cross-departmental task execution. Service recovery success rate: 94.1%. Operational consistency trend is +12% against the rolling 30-day baseline.
+            WELBX completed 47 operational interventions today, protecting $31,200 in guest lifetime value through pre-emptive detection and coordinated execution. The BXOS layer identified a compounding VIP arrival risk — converging across room readiness, staff capacity, and queue flow — and routed an automated response through Nexus and Vector in under two minutes, averting a critical service failure. Average response latency held at 4.2 minutes across cross-departmental task execution. Service recovery success rate: 94.1%. Operational consistency trend is +12% against the rolling 30-day baseline.
           </p>
         </div>
       </div>

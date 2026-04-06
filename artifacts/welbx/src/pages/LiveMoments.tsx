@@ -2,7 +2,7 @@ import { SEEDED_MOMENTS } from "@/data/moments";
 import { MomentCard } from "@/components/MomentCard";
 import { motion } from "framer-motion";
 
-const totalExposure = "£17,160";
+const totalExposure = "$17,160";
 
 const summaryStats = [
   { label: "Active Moments", value: "6" },

@@ -495,7 +495,7 @@ export default function ScenarioDemo() {
               {/* Commercial numbers */}
               <div className="grid grid-cols-4 mb-8" style={{ border: '1px solid hsl(220 13% 10%)' }}>
                 {[
-                  { label: 'Value Protected',    value: '£8,000+',      color: '#c9a84c' },
+                  { label: 'Value Protected',    value: '$8,000+',      color: '#c9a84c' },
                   { label: 'Outcome',             value: 'No Failure',   color: '#10b981' },
                   { label: 'Response Time',       value: '1m 47s',       color: '#fff' },
                   { label: 'NPS Delta',           value: '+22pts est.',  color: '#fff' },
