@@ -8,6 +8,11 @@ const navItems = [
   { label: "Scenario Demo", path: "/scenario-demo", sub: "DEMO" },
 ];
 
+const heroNavItems = [
+  { label: "Comparison", path: "/compare", sub: "PROOF" },
+  { label: "Command Mode", path: "/command-mode", sub: "CRITICAL" },
+];
+
 export function Sidebar() {
   const [location] = useLocation();
 
@@ -32,31 +37,68 @@ export function Sidebar() {
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 pt-3 pb-4">
-        {navItems.map((item, i) => {
-          const isActive = location === item.path || (location === "/" && item.path === "/live-moments");
-          return (
-            <Link key={item.path} href={item.path}>
-              <div className={`relative px-7 py-3.5 cursor-pointer group transition-all duration-150 ${isActive ? '' : 'hover:bg-white/[0.03]'}`}>
-                {isActive && (
-                  <motion.div
-                    layoutId="nav-indicator"
-                    className="absolute left-0 inset-y-0 w-px"
-                    style={{ background: 'hsl(var(--primary))' }}
-                  />
-                )}
-                <div className={`text-xs font-semibold tracking-wide transition-colors ${
-                  isActive ? 'text-white' : 'text-gray-500 group-hover:text-gray-300'
-                }`}>
-                  {item.label}
+      <nav className="flex-1 pt-3 pb-4 flex flex-col overflow-y-auto">
+        <div>
+          {navItems.map((item) => {
+            const isActive = location === item.path || (location === "/" && item.path === "/live-moments");
+            return (
+              <Link key={item.path} href={item.path}>
+                <div className={`relative px-7 py-3 cursor-pointer group transition-all duration-150 ${isActive ? '' : 'hover:bg-white/[0.03]'}`}>
+                  {isActive && (
+                    <motion.div
+                      layoutId="nav-indicator"
+                      className="absolute left-0 inset-y-0 w-px"
+                      style={{ background: 'hsl(var(--primary))' }}
+                    />
+                  )}
+                  <div className={`text-xs font-semibold tracking-wide transition-colors ${
+                    isActive ? 'text-white' : 'text-gray-500 group-hover:text-gray-300'
+                  }`}>
+                    {item.label}
+                  </div>
+                  <div style={{ fontSize: 9, letterSpacing: '0.1em', marginTop: 2, fontWeight: 600, color: isActive ? 'hsl(43 68% 55%)' : 'hsl(215 16% 32%)' }}>
+                    {item.sub}
+                  </div>
                 </div>
-                <div style={{ fontSize: 9, letterSpacing: '0.1em', marginTop: 2, fontWeight: 600, color: isActive ? 'hsl(43 68% 55%)' : 'hsl(215 16% 32%)' }}>
-                  {item.sub}
+              </Link>
+            );
+          })}
+        </div>
+
+        {/* Hero scenarios separator */}
+        <div style={{ margin: '10px 28px 6px', display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div style={{ flex: 1, height: 1, background: 'hsl(220 13% 9%)' }} />
+          <span style={{ fontSize: 7, letterSpacing: '0.16em', color: 'hsl(215 16% 20%)', textTransform: 'uppercase', fontWeight: 700, flexShrink: 0 }}>Hero</span>
+          <div style={{ flex: 1, height: 1, background: 'hsl(220 13% 9%)' }} />
+        </div>
+
+        <div>
+          {heroNavItems.map((item) => {
+            const isActive = location === item.path;
+            const isCritical = item.sub === 'CRITICAL';
+            return (
+              <Link key={item.path} href={item.path}>
+                <div className={`relative px-7 py-3 cursor-pointer group transition-all duration-150 ${isActive ? '' : 'hover:bg-white/[0.03]'}`}>
+                  {isActive && (
+                    <motion.div
+                      layoutId="nav-indicator"
+                      className="absolute left-0 inset-y-0 w-px"
+                      style={{ background: isCritical ? '#ef4444' : 'hsl(var(--primary))' }}
+                    />
+                  )}
+                  <div className={`text-xs font-semibold tracking-wide transition-colors ${
+                    isActive ? 'text-white' : 'text-gray-500 group-hover:text-gray-300'
+                  }`}>
+                    {item.label}
+                  </div>
+                  <div style={{ fontSize: 9, letterSpacing: '0.1em', marginTop: 2, fontWeight: 600, color: isActive ? (isCritical ? '#ef4444' : 'hsl(43 68% 55%)') : 'hsl(215 16% 28%)' }}>
+                    {item.sub}
+                  </div>
                 </div>
-              </div>
-            </Link>
-          );
-        })}
+              </Link>
+            );
+          })}
+        </div>
       </nav>
 
       {/* Footer engine credits */}
