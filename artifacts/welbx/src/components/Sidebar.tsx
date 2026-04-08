@@ -6,6 +6,7 @@ const navItems = [
   { label: "System State", path: "/system-state", sub: "ELEVATED" },
   { label: "Outcome Intelligence", path: "/outcome-intelligence", sub: "TODAY" },
   { label: "Scenario Demo", path: "/scenario-demo", sub: "DEMO" },
+  { label: "Guest Layer", path: "/guest-layer", sub: "ENGAGEMENT" },
 ];
 
 const heroNavItems = [

@@ -12,6 +12,7 @@ import OutcomeIntelligence from "@/pages/OutcomeIntelligence";
 import ScenarioDemo from "@/pages/ScenarioDemo";
 import CompareMode from "@/pages/CompareMode";
 import CommandMode from "@/pages/CommandMode";
+import GuestLayer from "@/pages/GuestLayer";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ function Router() {
       <Route path="/system-state" component={SystemState} />
       <Route path="/outcome-intelligence" component={OutcomeIntelligence} />
       <Route path="/scenario-demo" component={ScenarioDemo} />
+      <Route path="/guest-layer" component={GuestLayer} />
       <Route path="/compare" component={CompareMode} />
       <Route path="/command-mode" component={CommandMode} />
       <Route component={NotFound} />
