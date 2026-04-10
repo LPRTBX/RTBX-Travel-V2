@@ -267,11 +267,213 @@ const STATUS_CFG: Record<TouchpointStatus, { color: string; bg: string; border: 
 
 // ─── PHONE MOCKUP ─────────────────────────────────────────────────────────────
 
+// ─── MARKETPLACE DATA ─────────────────────────────────────────────────────────
+
+type MarketplaceCategory = 'Dining' | 'Spa' | 'Key' | 'Service' | 'Transport' | 'Concierge';
+
+interface MarketplaceItem {
+  id: string;
+  name: string;
+  subtitle: string;
+  detail: string;
+  badge?: string;
+  badgeColor?: string;
+  action: string;
+  highlight?: boolean;
+}
+
+const MARKETPLACE: Record<MarketplaceCategory, { title: string; icon: string; items: MarketplaceItem[] }> = {
+  Dining: {
+    title: 'Dining & Restaurants',
+    icon: '🍽',
+    items: [
+      { id: 'd1', name: 'The Meridian Room', subtitle: 'Modern European · Signature dining', detail: 'Open 19:00 — 23:00 · Table availability', badge: 'BXOS MATCH', badgeColor: '#c9a84c', action: 'Reserve Table' },
+      { id: 'd2', name: 'The Atrium Bar & Lounge', subtitle: 'Cocktails & light bites', detail: 'Open now · Walk-in welcome', action: 'View Menu' },
+      { id: 'd3', name: 'In-Room Dining', subtitle: '24-hour service', detail: 'Full menu · 20-minute delivery', action: 'Order Now' },
+      { id: 'd4', name: 'The Garden Terrace', subtitle: 'Breakfast & brunch', detail: 'Daily 07:00 — 11:30', action: 'Book Breakfast' },
+    ],
+  },
+  Spa: {
+    title: 'Spa & Wellness',
+    icon: '🧖',
+    items: [
+      { id: 's1', name: 'Signature Meridian Ritual', subtitle: '90 min · Full body & face', detail: 'Next available: 10:00 tomorrow', badge: 'RECOMMENDED', badgeColor: '#10b981', action: 'Book Treatment' },
+      { id: 's2', name: 'Deep Tissue Massage', subtitle: '60 min · Therapeutic', detail: 'Next available: 14:30 today', action: 'Book Treatment' },
+      { id: 's3', name: 'Thermal Suite Access', subtitle: 'Pool, sauna & steam', detail: 'Open 07:00 — 21:00 · Complimentary for suite guests', action: 'Reserve Access' },
+      { id: 's4', name: 'Facial & Skin Treatment', subtitle: '45 min · Luxury products', detail: 'Next available: 11:00 tomorrow', action: 'Book Treatment' },
+    ],
+  },
+  Key: {
+    title: 'Room Key & Access',
+    icon: '🔑',
+    items: [
+      { id: 'k1', name: 'Digital Room Key', subtitle: 'Tap to unlock with phone', detail: 'Active · Room 847', action: 'View Key' },
+      { id: 'k2', name: 'Request Physical Key', subtitle: 'Card key from front desk', detail: 'Collection from lobby', action: 'Request' },
+    ],
+  },
+  Service: {
+    title: 'Guest Services',
+    icon: '🛎',
+    items: [
+      { id: 'sv0', name: 'Late Checkout', subtitle: 'Extended departure · No charge', detail: 'DIAMOND benefit · Checkout until 13:00', badge: 'ACTIVATED', badgeColor: '#c9a84c', action: 'View Confirmation' },
+      { id: 'sv1', name: 'Housekeeping', subtitle: 'Room servicing', detail: 'Schedule or request now', action: 'Schedule' },
+      { id: 'sv2', name: 'Luggage Assistance', subtitle: 'Storage & delivery', detail: 'Available on request', action: 'Request' },
+      { id: 'sv3', name: 'Laundry & Pressing', subtitle: 'Same-day service available', detail: 'Collection before 09:00', action: 'Request' },
+    ],
+  },
+  Transport: {
+    title: 'Transport & Transfers',
+    icon: '🚗',
+    items: [
+      { id: 't1', name: 'Airport Transfer', subtitle: 'Private chauffeur service', detail: 'Book 24h in advance', action: 'Book Now' },
+      { id: 't2', name: 'City Chauffeur', subtitle: 'On-demand car service', detail: 'Available within 15 minutes', action: 'Book Now' },
+      { id: 't3', name: 'Coming Soon', subtitle: 'More transport options arriving', detail: 'Rail, rental & tours', action: 'Notify Me' },
+    ],
+  },
+  Concierge: {
+    title: 'Concierge',
+    icon: '💬',
+    items: [
+      { id: 'c1', name: 'Chat with Concierge', subtitle: 'Available 24 hours', detail: 'Immediate response', action: 'Start Chat' },
+      { id: 'c2', name: 'Recommendations', subtitle: 'Personalised for your stay', detail: 'Dining, culture, experiences', action: 'Explore' },
+      { id: 'c3', name: 'Reservations & Tickets', subtitle: 'Events, restaurants, theatre', detail: 'WELBX-assisted booking', action: 'Request' },
+    ],
+  },
+};
+
+// Per-guest highlighted items
+const GUEST_HIGHLIGHTS: Record<'returning' | 'first-time', Partial<Record<MarketplaceCategory, string>>> = {
+  'returning': {
+    Dining: 'd3',
+    Spa: 's2',
+    Service: 'sv0',
+  },
+  'first-time': {
+    Dining: 'd1',
+    Spa: 's1',
+  },
+};
+
+function MarketplaceScreen({
+  category,
+  guestType,
+  accentColor,
+  guest,
+  onBack,
+}: {
+  category: MarketplaceCategory;
+  guestType: GuestType;
+  accentColor: string;
+  guest: GuestData;
+  onBack: () => void;
+}) {
+  const [booked, setBooked] = useState<string | null>(null);
+  const isFirst = guestType === 'first-time';
+  const baseData = MARKETPLACE[category];
+  const highlightId = GUEST_HIGHLIGHTS[isFirst ? 'first-time' : 'returning']?.[category];
+
+  // Patch guest-contextual details into items
+  const data = {
+    ...baseData,
+    items: baseData.items.map(item => {
+      if (item.id === 'k1') return { ...item, detail: `Active · Room ${guest.room}` };
+      if (item.id === 'sv0') return {
+        ...item,
+        subtitle: `Extended departure · No charge`,
+        detail: `${guest.tier} benefit · Checkout until 13:00`,
+        badge: isFirst ? undefined : 'ACTIVATED',
+        badgeColor: isFirst ? undefined : '#c9a84c',
+      };
+      return item;
+    }).filter(item => item.id !== 'sv0' || !isFirst),
+  };
+
+  return (
+    <motion.div key="marketplace" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ duration: 0.18 }}
+      style={{ flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+      <div style={{ padding: '10px 14px 8px', borderBottom: '1px solid hsl(220 13% 9%)', display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+        <button onClick={onBack} style={{ background: 'transparent', border: 'none', color: '#c9a84c', cursor: 'pointer', fontSize: 13, padding: 0, lineHeight: 1 }}>‹</button>
+        <span style={{ fontSize: 9, marginRight: 3 }}>{data.icon}</span>
+        <div style={{ fontSize: 9.5, fontWeight: 700, color: '#fff' }}>{data.title}</div>
+      </div>
+      <div style={{ flex: 1, overflowY: 'auto', padding: '8px 10px', display: 'flex', flexDirection: 'column', gap: 6 }}>
+        {data.items.map((item) => {
+          const isHighlighted = item.id === highlightId || item.highlight;
+          const isBooked = booked === item.id;
+          return (
+            <div key={item.id} style={{
+              background: isHighlighted ? `${accentColor}0d` : 'hsl(220 13% 9%)',
+              border: `1px solid ${isHighlighted ? `${accentColor}28` : 'hsl(220 13% 13%)'}`,
+              borderRadius: 7, padding: '9px 10px',
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 3 }}>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 10, fontWeight: 700, color: isHighlighted ? '#fff' : 'hsl(215 16% 72%)', marginBottom: 1 }}>{item.name}</div>
+                  <div style={{ fontSize: 8, color: 'hsl(215 16% 40%)', marginBottom: 2 }}>{item.subtitle}</div>
+                  <div style={{ fontSize: 7.5, color: 'hsl(215 16% 32%)', lineHeight: 1.35 }}>{item.detail}</div>
+                </div>
+                {(item.badge) && (
+                  <div style={{ padding: '1.5px 5px', background: `${item.badgeColor ?? accentColor}15`, border: `1px solid ${item.badgeColor ?? accentColor}30`, borderRadius: 3, marginLeft: 6, flexShrink: 0 }}>
+                    <span style={{ fontSize: 5.5, fontWeight: 700, letterSpacing: '0.08em', color: item.badgeColor ?? accentColor }}>{item.badge}</span>
+                  </div>
+                )}
+              </div>
+              <button
+                onClick={() => setBooked(isBooked ? null : item.id)}
+                style={{
+                  marginTop: 5, width: '100%', padding: '5px 8px',
+                  background: isBooked ? `${accentColor}20` : isHighlighted ? `${accentColor}18` : 'hsl(220 13% 12%)',
+                  border: `1px solid ${isBooked ? accentColor : isHighlighted ? `${accentColor}40` : 'hsl(220 13% 16%)'}`,
+                  borderRadius: 4, cursor: 'pointer',
+                  fontSize: 7.5, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
+                  color: isBooked ? accentColor : isHighlighted ? accentColor : 'hsl(215 16% 46%)',
+                  transition: 'all 0.15s',
+                }}>
+                {isBooked ? '✓ Confirmed' : item.action}
+              </button>
+            </div>
+          );
+        })}
+      </div>
+    </motion.div>
+  );
+}
+
+// ─── BXOS SUGGESTION DATA ─────────────────────────────────────────────────────
+
+interface BxosSuggestion {
+  label: string;
+  headline: string;
+  sub: string;
+  category: MarketplaceCategory;
+  accentColor: string;
+}
+
+const SUGGESTIONS: Record<'returning' | 'first-time', BxosSuggestion> = {
+  'returning': {
+    label: 'BXOS · Late Checkout Ready',
+    headline: '13:00 Checkout Confirmed',
+    sub: 'Activated for Mr. Hartley — no request needed.',
+    category: 'Service',
+    accentColor: '#c9a84c',
+  },
+  'first-time': {
+    label: 'BXOS · Dining Match · 84%',
+    headline: 'The Meridian Room at 19:00',
+    sub: 'Held for you — matched to your profile.',
+    category: 'Dining',
+    accentColor: '#60a5fa',
+  },
+};
+
+// ─── PHONE MOCKUP ─────────────────────────────────────────────────────────────
+
 function PhoneMockup({ scenario, guestType, messages, welcomeLine, notifLabel, notifBody }: {
   scenario?: GuestScenario; guestType: GuestType;
   messages: AppMessage[]; welcomeLine: string; notifLabel: string; notifBody: string;
 }) {
-  const [screen, setScreen] = useState<'home' | 'messages'>('home');
+  const [screen, setScreen] = useState<'home' | 'messages' | 'marketplace' | 'room'>('home');
+  const [marketplaceCategory, setMarketplaceCategory] = useState<MarketplaceCategory | null>(null);
   const [openMsg, setOpenMsg] = useState<number | null>(null);
   const isFirst = guestType === 'first-time';
   const isWelfare = guestType === 'welfare';
@@ -282,6 +484,12 @@ function PhoneMockup({ scenario, guestType, messages, welcomeLine, notifLabel, n
   const tierColor = guest.tierColor;
 
   const accentColor = isCrisis ? '#ef4444' : isWelfare ? '#f59e0b' : isFirst ? '#60a5fa' : '#10b981';
+  const suggestion = SUGGESTIONS[isFirst ? 'first-time' : 'returning'];
+
+  function openMarketplace(cat: MarketplaceCategory) {
+    setMarketplaceCategory(cat);
+    setScreen('marketplace');
+  }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
@@ -312,6 +520,53 @@ function PhoneMockup({ scenario, guestType, messages, welcomeLine, notifLabel, n
 
         <div style={{ flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
           <AnimatePresence mode="wait">
+
+            {screen === 'room' && (
+              <motion.div key="room" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ duration: 0.18 }}
+                style={{ flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+                <div style={{ padding: '10px 14px 8px', borderBottom: '1px solid hsl(220 13% 9%)', display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+                  <div style={{ fontSize: 9.5, fontWeight: 700, color: '#fff' }}>🔑 My Room</div>
+                </div>
+                <div style={{ flex: 1, overflowY: 'auto', padding: '10px 10px', display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  <div style={{ background: 'hsl(220 13% 9%)', border: '1px solid hsl(220 13% 13%)', borderRadius: 7, padding: '12px 12px' }}>
+                    <div style={{ fontSize: 7, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#c9a84c', marginBottom: 6 }}>Room Details</div>
+                    <div style={{ fontSize: 22, fontWeight: 800, color: '#fff', letterSpacing: '-0.02em', lineHeight: 1 }}>{guest.room}</div>
+                    <div style={{ fontSize: 9, color: 'hsl(215 16% 40%)', marginTop: 3 }}>{guest.roomType} · {guest.floor}</div>
+                  </div>
+                  <div style={{ background: 'rgba(201,168,76,0.06)', border: '1px solid rgba(201,168,76,0.18)', borderRadius: 7, padding: '11px 12px' }}>
+                    <div style={{ fontSize: 7, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#c9a84c', marginBottom: 6 }}>Digital Key</div>
+                    <div style={{ fontSize: 9.5, color: '#fff', marginBottom: 2 }}>Tap to unlock Room {guest.room}</div>
+                    <div style={{ fontSize: 8, color: 'hsl(215 16% 38%)' }}>Key active · Valid until {guest.departure}</div>
+                    <div style={{ marginTop: 8, padding: '6px', background: 'rgba(201,168,76,0.1)', border: '1px solid rgba(201,168,76,0.3)', borderRadius: 5, textAlign: 'center' }}>
+                      <span style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: '0.1em', color: '#c9a84c', textTransform: 'uppercase' }}>🔓 Unlock Room</span>
+                    </div>
+                  </div>
+                  <div style={{ background: 'hsl(220 13% 9%)', border: '1px solid hsl(220 13% 13%)', borderRadius: 7, padding: '10px 12px' }}>
+                    <div style={{ fontSize: 7, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'hsl(215 16% 30%)', marginBottom: 5 }}>Stay Info</div>
+                    {[
+                      { label: 'Check-in', value: guest.arrival },
+                      { label: 'Check-out', value: guest.departure },
+                      { label: 'Guest tier', value: guest.tier },
+                    ].map((row, i, arr) => (
+                      <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', borderBottom: i < arr.length - 1 ? '1px solid hsl(220 13% 11%)' : 'none' }}>
+                        <span style={{ fontSize: 8, color: 'hsl(215 16% 32%)', fontWeight: 600 }}>{row.label}</span>
+                        <span style={{ fontSize: 8.5, color: 'hsl(215 16% 60%)', fontWeight: 600 }}>{row.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
+            {screen === 'marketplace' && marketplaceCategory && (
+              <MarketplaceScreen
+                category={marketplaceCategory}
+                guestType={guestType}
+                accentColor={accentColor}
+                guest={guest}
+                onBack={() => { setScreen('home'); setMarketplaceCategory(null); }}
+              />
+            )}
 
             {screen === 'home' && (
               <motion.div key="home" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.18 }}
@@ -377,20 +632,52 @@ function PhoneMockup({ scenario, guestType, messages, welcomeLine, notifLabel, n
                 )}
 
                 {!isCrisis && !isWelfare && (
-                  <div style={{ margin: '0 12px 8px' }}>
-                    <div style={{ fontSize: 7, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'hsl(215 16% 24%)', marginBottom: 5 }}>Quick Access</div>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 5 }}>
-                      {['🍽 Dining', '🧖 Spa', '🔑 Key', '🛎 Service', '🚗 Transport', '💬 Concierge'].map((a) => {
-                        const [icon, label] = a.split(' ');
-                        return (
-                          <div key={label} style={{ background: 'hsl(220 13% 9%)', borderRadius: 6, padding: '7px 4px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, border: '1px solid hsl(220 13% 12%)', cursor: 'pointer' }}>
-                            <span style={{ fontSize: 11 }}>{icon}</span>
-                            <span style={{ fontSize: 6.5, color: 'hsl(215 16% 38%)', fontWeight: 600 }}>{label}</span>
-                          </div>
-                        );
-                      })}
+                  <>
+                    {/* BXOS Suggestion Card */}
+                    <div
+                      onClick={() => openMarketplace(suggestion.category)}
+                      style={{
+                        margin: '0 12px 8px',
+                        padding: '9px 10px',
+                        background: `${suggestion.accentColor}08`,
+                        border: `1px solid ${suggestion.accentColor}30`,
+                        borderRadius: 7,
+                        cursor: 'pointer',
+                        position: 'relative',
+                        overflow: 'hidden',
+                      }}>
+                      <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: 2.5, background: suggestion.accentColor, borderRadius: '0 1px 1px 0' }} />
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 3 }}>
+                        <div style={{ fontSize: 5.5, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: suggestion.accentColor }}>{suggestion.label}</div>
+                        <div style={{ width: 3.5, height: 3.5, borderRadius: '50%', background: suggestion.accentColor }} className="animate-pulse" />
+                      </div>
+                      <div style={{ fontSize: 9.5, fontWeight: 700, color: '#fff', marginBottom: 1.5 }}>{suggestion.headline}</div>
+                      <div style={{ fontSize: 8, color: 'hsl(215 16% 46%)', lineHeight: 1.4 }}>{suggestion.sub}</div>
+                      <div style={{ marginTop: 5, fontSize: 7, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: suggestion.accentColor }}>View Details →</div>
                     </div>
-                  </div>
+
+                    {/* Quick Access */}
+                    <div style={{ margin: '0 12px 8px' }}>
+                      <div style={{ fontSize: 7, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'hsl(215 16% 24%)', marginBottom: 5 }}>Quick Access</div>
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 5 }}>
+                        {(['🍽 Dining', '🧖 Spa', '🔑 Key', '🛎 Service', '🚗 Transport', '💬 Concierge'] as const).map((a) => {
+                          const spaceIdx = a.indexOf(' ');
+                          const icon = a.slice(0, spaceIdx);
+                          const label = a.slice(spaceIdx + 1) as MarketplaceCategory;
+                          return (
+                            <div key={label}
+                              onClick={() => openMarketplace(label)}
+                              style={{ background: 'hsl(220 13% 9%)', borderRadius: 6, padding: '7px 4px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, border: '1px solid hsl(220 13% 12%)', cursor: 'pointer', transition: 'background 0.15s' }}
+                              onMouseEnter={e => (e.currentTarget.style.background = 'hsl(220 13% 11%)')}
+                              onMouseLeave={e => (e.currentTarget.style.background = 'hsl(220 13% 9%)')}>
+                              <span style={{ fontSize: 11 }}>{icon}</span>
+                              <span style={{ fontSize: 6.5, color: 'hsl(215 16% 38%)', fontWeight: 600 }}>{label}</span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </>
                 )}
 
                 {/* Crisis emergency button */}
@@ -469,9 +756,9 @@ function PhoneMockup({ scenario, guestType, messages, welcomeLine, notifLabel, n
         {/* Tab bar */}
         <div style={{ height: 46, background: `${isCrisis ? 'hsl(0 10% 6%)' : 'hsl(220 13% 6%)'}`, borderTop: `1px solid ${isCrisis ? 'rgba(239,68,68,0.15)' : 'hsl(220 13% 9%)'}`, display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', flexShrink: 0 }}>
           {[{ id: 'home', icon: '⌂', label: 'Home' }, { id: 'messages', icon: '✉', label: 'Messages' }, { id: 'room', icon: '🔑', label: 'Room' }].map(tab => {
-            const isActive = screen === tab.id;
+            const isActive = screen === tab.id || (tab.id === 'home' && screen === 'marketplace');
             return (
-              <button key={tab.id} onClick={() => { setScreen(tab.id as any); setOpenMsg(null); }}
+              <button key={tab.id} onClick={() => { setScreen(tab.id as 'home' | 'messages' | 'room'); setOpenMsg(null); setMarketplaceCategory(null); }}
                 style={{ background: 'transparent', border: 'none', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 1.5, position: 'relative' }}>
                 <span style={{ fontSize: 12, opacity: isActive ? 1 : 0.28 }}>{tab.icon}</span>
                 <span style={{ fontSize: 6.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: isActive ? (isCrisis ? '#ef4444' : '#c9a84c') : 'hsl(215 16% 24%)' }}>{tab.label}</span>
