@@ -10,8 +10,9 @@ const navItems = [
 ];
 
 const heroNavItems = [
-  { label: "Comparison", path: "/compare", sub: "PROOF" },
-  { label: "Command Mode", path: "/command-mode", sub: "CRITICAL" },
+  { label: "Live Demo", path: "/demo", sub: "GUIDED", accent: "#c9a84c" },
+  { label: "Comparison", path: "/compare", sub: "PROOF", accent: undefined },
+  { label: "Command Mode", path: "/command-mode", sub: "CRITICAL", accent: "#ef4444" },
 ];
 
 export function Sidebar() {
@@ -19,10 +20,14 @@ export function Sidebar() {
 
   return (
     <aside className="fixed inset-y-0 left-0 w-56 flex flex-col z-50" style={{ background: 'hsl(220 13% 4%)', borderRight: '1px solid hsl(220 13% 9%)' }}>
-      
+
       {/* Wordmark */}
       <div className="px-7 pt-8 pb-6 border-b" style={{ borderColor: 'hsl(220 13% 9%)' }}>
-        <div className="text-white font-bold tracking-[0.25em] text-sm uppercase mb-1">WELBX</div>
+        <Link href="/">
+          <div style={{ cursor: 'pointer' }}>
+            <div className="text-white font-bold tracking-[0.25em] text-sm uppercase mb-1">WELBX</div>
+          </div>
+        </Link>
         <div className="flex items-center gap-2 mb-2">
           <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" style={{ animation: 'pulse-amber 2s ease-in-out infinite' }} />
           <span style={{ fontSize: 9, letterSpacing: '0.12em', color: 'hsl(215 16% 38%)', textTransform: 'uppercase', fontWeight: 600 }}>
@@ -41,7 +46,7 @@ export function Sidebar() {
       <nav className="flex-1 pt-3 pb-4 flex flex-col overflow-y-auto">
         <div>
           {navItems.map((item) => {
-            const isActive = location === item.path || (location === "/" && item.path === "/live-moments");
+            const isActive = location === item.path;
             return (
               <Link key={item.path} href={item.path}>
                 <div className={`relative px-7 py-3 cursor-pointer group transition-all duration-150 ${isActive ? '' : 'hover:bg-white/[0.03]'}`}>
@@ -52,9 +57,7 @@ export function Sidebar() {
                       style={{ background: 'hsl(var(--primary))' }}
                     />
                   )}
-                  <div className={`text-xs font-semibold tracking-wide transition-colors ${
-                    isActive ? 'text-white' : 'text-gray-500 group-hover:text-gray-300'
-                  }`}>
+                  <div className={`text-xs font-semibold tracking-wide transition-colors ${isActive ? 'text-white' : 'text-gray-500 group-hover:text-gray-300'}`}>
                     {item.label}
                   </div>
                   <div style={{ fontSize: 9, letterSpacing: '0.1em', marginTop: 2, fontWeight: 600, color: isActive ? 'hsl(43 68% 55%)' : 'hsl(215 16% 32%)' }}>
@@ -66,7 +69,7 @@ export function Sidebar() {
           })}
         </div>
 
-        {/* Hero scenarios separator */}
+        {/* Hero separator */}
         <div style={{ margin: '10px 28px 6px', display: 'flex', alignItems: 'center', gap: 8 }}>
           <div style={{ flex: 1, height: 1, background: 'hsl(220 13% 9%)' }} />
           <span style={{ fontSize: 7, letterSpacing: '0.16em', color: 'hsl(215 16% 20%)', textTransform: 'uppercase', fontWeight: 700, flexShrink: 0 }}>Hero</span>
@@ -76,7 +79,7 @@ export function Sidebar() {
         <div>
           {heroNavItems.map((item) => {
             const isActive = location === item.path;
-            const isCritical = item.sub === 'CRITICAL';
+            const subColor = item.accent ?? 'hsl(43 68% 55%)';
             return (
               <Link key={item.path} href={item.path}>
                 <div className={`relative px-7 py-3 cursor-pointer group transition-all duration-150 ${isActive ? '' : 'hover:bg-white/[0.03]'}`}>
@@ -84,15 +87,13 @@ export function Sidebar() {
                     <motion.div
                       layoutId="nav-indicator"
                       className="absolute left-0 inset-y-0 w-px"
-                      style={{ background: isCritical ? '#ef4444' : 'hsl(var(--primary))' }}
+                      style={{ background: item.accent ?? 'hsl(var(--primary))' }}
                     />
                   )}
-                  <div className={`text-xs font-semibold tracking-wide transition-colors ${
-                    isActive ? 'text-white' : 'text-gray-500 group-hover:text-gray-300'
-                  }`}>
+                  <div className={`text-xs font-semibold tracking-wide transition-colors ${isActive ? 'text-white' : 'text-gray-500 group-hover:text-gray-300'}`}>
                     {item.label}
                   </div>
-                  <div style={{ fontSize: 9, letterSpacing: '0.1em', marginTop: 2, fontWeight: 600, color: isActive ? (isCritical ? '#ef4444' : 'hsl(43 68% 55%)') : 'hsl(215 16% 28%)' }}>
+                  <div style={{ fontSize: 9, letterSpacing: '0.1em', marginTop: 2, fontWeight: 600, color: isActive ? subColor : 'hsl(215 16% 28%)' }}>
                     {item.sub}
                   </div>
                 </div>

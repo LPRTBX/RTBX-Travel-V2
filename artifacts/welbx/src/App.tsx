@@ -1,4 +1,4 @@
-import { Switch, Route, Router as WouterRouter, Redirect } from "wouter";
+import { Switch, Route, Router as WouterRouter } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -6,6 +6,8 @@ import NotFound from "@/pages/not-found";
 
 import { AppProvider } from "@/context/AppContext";
 import { Sidebar } from "@/components/Sidebar";
+import Landing from "@/pages/Landing";
+import LiveDemo from "@/pages/LiveDemo";
 import LiveMoments from "@/pages/LiveMoments";
 import SystemState from "@/pages/SystemState";
 import OutcomeIntelligence from "@/pages/OutcomeIntelligence";
@@ -19,7 +21,8 @@ const queryClient = new QueryClient();
 function Router() {
   return (
     <Switch>
-      <Route path="/" component={() => <Redirect to="/live-moments" />} />
+      <Route path="/" component={Landing} />
+      <Route path="/demo" component={LiveDemo} />
       <Route path="/live-moments" component={LiveMoments} />
       <Route path="/system-state" component={SystemState} />
       <Route path="/outcome-intelligence" component={OutcomeIntelligence} />
