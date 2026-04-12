@@ -2,6 +2,7 @@ import { Link, useLocation } from "wouter";
 import { motion } from "framer-motion";
 
 const navItems = [
+  { label: "Signal Intelligence", path: "/signal-intelligence", sub: "SOURCES" },
   { label: "Live Moments", path: "/live-moments", sub: "6 ACTIVE" },
   { label: "System State", path: "/system-state", sub: "ELEVATED" },
   { label: "Outcome Intelligence", path: "/outcome-intelligence", sub: "TODAY" },
