@@ -110,10 +110,29 @@ export default function Landing() {
 
         <motion.p
           initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.45 }}
-          style={{ fontSize: 15, color: "hsl(215 16% 40%)", textAlign: "center", maxWidth: 500, lineHeight: 1.7, marginBottom: 56 }}
+          style={{ fontSize: 15, color: "hsl(215 16% 40%)", textAlign: "center", maxWidth: 500, lineHeight: 1.7, marginBottom: 32 }}
         >
           WELBX converts multi-source operational signals into governed system states that trigger the right action in real time.
         </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.62, duration: 0.4 }}
+          style={{ marginBottom: 40, textAlign: "center" }}
+        >
+          <div style={{
+            display: "inline-block",
+            padding: "10px 28px",
+            border: "1px solid rgba(201,168,76,0.2)",
+            background: "rgba(201,168,76,0.04)",
+          }}>
+            <span style={{
+              fontSize: 11, fontWeight: 700, letterSpacing: "0.06em",
+              color: "#c9a84c", fontStyle: "italic",
+            }}>
+              This is not a dashboard. This is the system that decides what happens next.
+            </span>
+          </div>
+        </motion.div>
 
         {/* Flow diagram */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.65, duration: 0.4 }}>

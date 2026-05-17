@@ -21,8 +21,61 @@ function LiveClock() {
 
 const FLOW_LABELS = ['Detect', 'Decide', 'Route', 'Execute', 'Outcome'];
 
+const DECISION_CHAIN = [
+  { label: 'Signal Detected', value: 'Guest Friction · 3 streams', time: '00:45 ago', color: '#ef4444', bg: 'rgba(239,68,68,0.07)' },
+  { label: 'Classification', value: 'Friction Escalation Risk', time: '00:42 ago', color: '#c9a84c', bg: 'rgba(201,168,76,0.07)' },
+  { label: 'Decision', value: 'Proactive Intervention', time: '00:38 ago', color: '#c9a84c', bg: 'rgba(201,168,76,0.06)' },
+  { label: 'Routing', value: 'Guest Relations + F&B', time: '00:32 ago', color: '#60a5fa', bg: 'rgba(96,165,250,0.07)' },
+  { label: 'Execution', value: 'Recovery action pending', time: 'Now', color: '#10b981', bg: 'rgba(16,185,129,0.06)', pulse: true },
+  { label: 'Status', value: 'Monitoring outcome', time: 'Active', color: '#60a5fa', bg: 'rgba(96,165,250,0.04)' },
+];
+
+const CONTROL_STEPS = [
+  { label: 'System detects', engine: 'SENSORS', color: 'hsl(215 16% 38%)' },
+  { label: 'BXOS decides', engine: 'BXOS', color: '#c9a84c' },
+  { label: 'Nexus routes', engine: 'NEXUS', color: '#60a5fa' },
+  { label: 'Vector coordinates', engine: 'VECTOR', color: '#10b981' },
+  { label: 'Organisation learns', engine: 'OUTCOMES', color: '#10b981' },
+];
+
+const VIEW_CONTENT = {
+  operator: {
+    headline: 'Guest in Room 614 — friction escalating',
+    items: [
+      { label: 'Signal source', value: 'Dining + F&B + App activity' },
+      { label: 'Detection', value: '00:45 ago' },
+      { label: 'Recommended action', value: 'Guest Relations contact' },
+      { label: 'Exposure', value: '$1,400 weekend revenue' },
+    ],
+    note: 'Action required within T+8 minutes to preserve guest satisfaction window.',
+  },
+  system: {
+    headline: 'BXOS pattern confidence: 87%',
+    items: [
+      { label: 'Signal convergence', value: '3 streams · 14 min window' },
+      { label: 'Pattern class', value: 'Friction escalation · Historical match' },
+      { label: 'Engine state', value: 'NEXUS routing · VECTOR standby' },
+      { label: 'Decision latency', value: '6 seconds' },
+    ],
+    note: 'Governed response chain active. No manual escalation required unless threshold crossed.',
+  },
+  executive: {
+    headline: 'Revenue protection in progress',
+    items: [
+      { label: 'Risk tier', value: 'HIGH · Guest lifetime value' },
+      { label: 'Intervention cost', value: '$0 — automated' },
+      { label: 'Protected revenue', value: '$1,400 (estimated)' },
+      { label: 'Protocol', value: 'Level 2 · Proactive recovery' },
+    ],
+    note: 'WELBX detected and routed a resolution before the guest escalated. Zero staff overhead.',
+  },
+};
+
+type ViewKey = 'operator' | 'system' | 'executive';
+
 export default function LiveMoments() {
   const { flowStep, vectorExecuting, resolveVIP, momentCount, vipResolved } = useApp();
+  const [activeView, setActiveView] = useState<ViewKey>('operator');
 
   const criticalCount = vipResolved ? 0 : 1;
   const summaryStats = [
@@ -111,7 +164,45 @@ export default function LiveMoments() {
         )}
       </AnimatePresence>
 
-      <div className="px-10 pt-8 pb-16 max-w-5xl">
+      <div className="px-4 sm:px-6 md:px-10 pt-8 pb-16 max-w-5xl">
+
+        {/* ── LIVE SCENARIO BANNER ──────────────────────────────────────────── */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          style={{
+            marginBottom: 28,
+            padding: '14px 20px',
+            border: '1px solid rgba(201,168,76,0.35)',
+            background: 'rgba(201,168,76,0.05)',
+          }}
+        >
+          <div className="flex flex-wrap items-center gap-3">
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+              <div style={{
+                width: 8, height: 8, borderRadius: '50%', background: '#c9a84c', flexShrink: 0,
+                animation: 'pulse-amber 1.8s ease-in-out infinite',
+              }} />
+            </div>
+            <div style={{ flex: 1, minWidth: 200 }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: '#fff', marginBottom: 2, letterSpacing: '0.01em' }}>
+                <span style={{ color: '#c9a84c' }}>LIVE MOMENT:</span>{' '}Guest Friction Escalation Risk
+              </div>
+              <div style={{ fontSize: 10, color: 'hsl(215 16% 42%)', letterSpacing: '0.02em' }}>
+                Room 614 · Detected 00:45 ago · BXOS confidence 87% · Recovery action pending
+              </div>
+            </div>
+            <div style={{
+              fontSize: 8, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase',
+              padding: '4px 10px', color: '#ef4444',
+              background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.25)',
+              flexShrink: 0,
+            }}>
+              HIGH PRIORITY
+            </div>
+          </div>
+        </motion.div>
 
         {/* Header */}
         <header className="mb-8">
@@ -134,11 +225,11 @@ export default function LiveMoments() {
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="grid grid-cols-4 divide-x"
+            className="grid grid-cols-2 sm:grid-cols-4"
             style={{ border: '1px solid hsl(220 13% 10%)' }}
           >
             {summaryStats.map((s, i) => (
-              <div key={i} className="px-6 py-4" style={{ borderRight: i < summaryStats.length - 1 ? '1px solid hsl(220 13% 10%)' : 'none' }}>
+              <div key={i} className="px-4 sm:px-6 py-4" style={{ borderRight: i < summaryStats.length - 1 ? '1px solid hsl(220 13% 10%)' : 'none' }}>
                 <div className="label-caps mb-2">{s.label}</div>
                 <motion.div
                   animate={{ color: s.color || '#fff' }}
@@ -154,7 +245,7 @@ export default function LiveMoments() {
         </header>
 
         {/* Flow indicator */}
-        <div className="flex items-center gap-0 mb-6" style={{ paddingBottom: 16, borderBottom: '1px solid hsl(220 13% 9%)' }}>
+        <div className="flex flex-wrap items-center gap-0 mb-6" style={{ paddingBottom: 16, borderBottom: '1px solid hsl(220 13% 9%)' }}>
           {FLOW_LABELS.map((label, i, arr) => {
             const active = i === flowStep;
             const done = i < flowStep;
@@ -197,6 +288,289 @@ export default function LiveMoments() {
             );
           })}
         </div>
+
+        {/* ── BXOS DECISION PANEL ──────────────────────────────────────────── */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+          style={{ marginBottom: 20, border: '1px solid hsl(220 13% 11%)', background: 'hsl(220 13% 6.5%)' }}
+        >
+          <div style={{
+            padding: '12px 20px', borderBottom: '1px solid hsl(220 13% 10%)',
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8,
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <div style={{ width: 4, height: 4, borderRadius: '50%', background: '#c9a84c' }} className="animate-pulse" />
+              <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: '#c9a84c', textTransform: 'uppercase' }}>
+                BXOS · Decision Panel
+              </span>
+            </div>
+            <span style={{ fontSize: 8, color: 'hsl(215 16% 28%)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+              Guest Friction Escalation Risk · Active
+            </span>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6">
+            {DECISION_CHAIN.map((step, i) => (
+              <div
+                key={step.label}
+                style={{
+                  padding: '16px 14px',
+                  borderRight: '1px solid hsl(220 13% 9%)',
+                  borderBottom: '1px solid hsl(220 13% 9%)',
+                  background: step.bg,
+                  position: 'relative',
+                }}
+              >
+                {step.pulse && (
+                  <div style={{
+                    position: 'absolute', top: 10, right: 10,
+                    width: 5, height: 5, borderRadius: '50%', background: step.color,
+                    animation: 'pulse-amber 1.5s ease-in-out infinite',
+                  }} />
+                )}
+                <div style={{
+                  fontSize: 8, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase',
+                  color: 'hsl(215 16% 32%)', marginBottom: 8,
+                }}>
+                  {step.label}
+                </div>
+                <div style={{
+                  fontSize: 11, fontWeight: 600, color: step.color,
+                  lineHeight: 1.4, marginBottom: 8,
+                }}>
+                  {step.value}
+                </div>
+                <div style={{
+                  fontSize: 8, letterSpacing: '0.08em', color: 'hsl(215 16% 28%)',
+                  fontFamily: 'var(--app-font-mono)',
+                }}>
+                  {step.time}
+                </div>
+                <div style={{
+                  position: 'absolute', bottom: 0, left: 0, right: 0,
+                  height: 2, background: step.color, opacity: 0.35,
+                }} />
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* ── CONTROL TRANSFER IN ACTION ───────────────────────────────────── */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.15 }}
+          style={{ marginBottom: 20, border: '1px solid hsl(220 13% 11%)', background: 'hsl(220 13% 6.5%)' }}
+        >
+          <div style={{
+            padding: '12px 20px', borderBottom: '1px solid hsl(220 13% 10%)',
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8,
+          }}>
+            <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'hsl(215 16% 48%)', textTransform: 'uppercase' }}>
+              Control Transfer in Action
+            </span>
+            <span style={{ fontSize: 8, color: 'hsl(215 16% 24%)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+              Live · Current moment
+            </span>
+          </div>
+
+          <div style={{ padding: '16px 20px', display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 4 }}>
+            {CONTROL_STEPS.map((step, i) => (
+              <div key={step.label} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                <div style={{
+                  padding: '10px 14px',
+                  border: `1px solid ${step.color}28`,
+                  background: `${step.color}06`,
+                  textAlign: 'center',
+                  minWidth: 100,
+                }}>
+                  <div style={{
+                    fontSize: 9, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase',
+                    color: step.color, marginBottom: 4,
+                  }}>
+                    {step.engine}
+                  </div>
+                  <div style={{ fontSize: 10, color: 'hsl(215 16% 55%)', fontWeight: 500 }}>
+                    {step.label}
+                  </div>
+                </div>
+                {i < CONTROL_STEPS.length - 1 && (
+                  <span style={{ color: 'hsl(220 13% 28%)', fontSize: 11, flexShrink: 0 }}>›</span>
+                )}
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* ── VIEW TOGGLES ─────────────────────────────────────────────────── */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.2 }}
+          style={{ marginBottom: 20, border: '1px solid hsl(220 13% 11%)', background: 'hsl(220 13% 6.5%)' }}
+        >
+          {/* Toggle tabs */}
+          <div style={{ display: 'flex', borderBottom: '1px solid hsl(220 13% 10%)' }}>
+            {(['operator', 'system', 'executive'] as ViewKey[]).map((key) => {
+              const labels: Record<ViewKey, string> = {
+                operator: 'Operator View',
+                system: 'System View',
+                executive: 'Executive View',
+              };
+              const isActive = activeView === key;
+              return (
+                <button
+                  key={key}
+                  onClick={() => setActiveView(key)}
+                  style={{
+                    flex: 1,
+                    padding: '10px 8px',
+                    fontSize: 8.5,
+                    fontWeight: 700,
+                    letterSpacing: '0.12em',
+                    textTransform: 'uppercase',
+                    background: isActive ? 'rgba(201,168,76,0.07)' : 'transparent',
+                    color: isActive ? '#c9a84c' : 'hsl(215 16% 34%)',
+                    border: 'none',
+                    borderRight: key !== 'executive' ? '1px solid hsl(220 13% 10%)' : 'none',
+                    borderBottom: isActive ? '2px solid #c9a84c' : '2px solid transparent',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s',
+                  }}
+                >
+                  {labels[key]}
+                </button>
+              );
+            })}
+          </div>
+
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeView}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.18 }}
+              className="grid grid-cols-1 md:grid-cols-2 gap-5"
+              style={{ padding: '16px 20px' }}
+            >
+              <div>
+                <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.16em', color: 'hsl(215 16% 28%)', textTransform: 'uppercase', marginBottom: 8 }}>
+                  Current Signal
+                </div>
+                <div style={{ fontSize: 13, fontWeight: 600, color: '#fff', marginBottom: 12, lineHeight: 1.4 }}>
+                  {VIEW_CONTENT[activeView].headline}
+                </div>
+                {VIEW_CONTENT[activeView].items.map((item, i) => (
+                  <div key={i} style={{
+                    display: 'flex', justifyContent: 'space-between', alignItems: 'baseline',
+                    padding: '6px 0', borderBottom: '1px solid hsl(220 13% 9%)', gap: 12,
+                  }}>
+                    <span style={{ fontSize: 9, color: 'hsl(215 16% 32%)', letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600, flexShrink: 0 }}>
+                      {item.label}
+                    </span>
+                    <span style={{ fontSize: 11, fontWeight: 600, color: 'hsl(215 16% 60%)', textAlign: 'right' }}>
+                      {item.value}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              <div style={{ padding: '14px 16px', border: '1px solid rgba(201,168,76,0.14)', background: 'rgba(201,168,76,0.03)' }}>
+                <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.14em', color: 'hsl(215 16% 26%)', textTransform: 'uppercase', marginBottom: 8 }}>
+                  BXOS Assessment
+                </div>
+                <p style={{ fontSize: 11, color: 'hsl(215 16% 46%)', lineHeight: 1.7, margin: 0 }}>
+                  {VIEW_CONTENT[activeView].note}
+                </p>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </motion.div>
+
+        {/* ── MISSED WITHOUT WELBX ─────────────────────────────────────────── */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.25 }}
+          style={{ marginBottom: 28, border: '1px solid hsl(220 13% 11%)' }}
+        >
+          <div style={{
+            padding: '12px 20px', borderBottom: '1px solid hsl(220 13% 10%)',
+            background: 'hsl(220 13% 6.5%)',
+          }}>
+            <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'hsl(215 16% 48%)', textTransform: 'uppercase' }}>
+              Missed Without WELBX
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2">
+            {/* Without */}
+            <div style={{
+              padding: '20px 24px',
+              borderBottom: '1px solid hsl(220 13% 10%)',
+              background: 'rgba(239,68,68,0.025)',
+            }}
+            className="md:border-b-0 md:border-r"
+            >
+              <div style={{
+                fontSize: 8, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase',
+                color: 'rgba(239,68,68,0.5)', marginBottom: 14,
+              }}>
+                Without WELBX
+              </div>
+              {[
+                { label: 'Signal detection', value: 'None — not monitored' },
+                { label: 'Staff awareness', value: 'Zero' },
+                { label: 'Intervention', value: 'Not triggered' },
+                { label: 'Guest outcome', value: 'Complaint or silent churn' },
+                { label: 'Revenue impact', value: '$1,400 at risk, unprotected' },
+                { label: 'Recovery cost', value: '$800+ in comps (post-failure)' },
+              ].map((row, i) => (
+                <div key={i} style={{
+                  display: 'flex', justifyContent: 'space-between', alignItems: 'baseline',
+                  padding: '7px 0', borderBottom: '1px solid hsl(220 13% 9%)', gap: 12,
+                }}>
+                  <span style={{ fontSize: 9, color: 'hsl(215 16% 30%)', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600, flexShrink: 0 }}>{row.label}</span>
+                  <span style={{ fontSize: 11, fontWeight: 600, color: 'rgba(239,68,68,0.55)', textAlign: 'right' }}>{row.value}</span>
+                </div>
+              ))}
+              <div style={{ fontSize: 10, color: 'hsl(215 16% 28%)', lineHeight: 1.65, paddingTop: 12, marginTop: 4 }}>
+                This moment happens invisibly. Staff respond reactively — if at all. No outcome data is captured.
+              </div>
+            </div>
+
+            {/* With */}
+            <div style={{ padding: '20px 24px', background: 'transparent' }}>
+              <div style={{
+                fontSize: 8, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase',
+                color: '#c9a84c', marginBottom: 14,
+              }}>
+                With WELBX
+              </div>
+              {[
+                { label: 'Signal detection', value: 'Detected 00:45 ago — 3 streams' },
+                { label: 'Staff awareness', value: 'Guest Relations alerted' },
+                { label: 'Intervention', value: 'Recovery action dispatched' },
+                { label: 'Guest outcome', value: 'Friction resolved before escalation' },
+                { label: 'Revenue impact', value: '$1,400 protected' },
+                { label: 'Recovery cost', value: '$0 — proactive resolution' },
+              ].map((row, i) => (
+                <div key={i} style={{
+                  display: 'flex', justifyContent: 'space-between', alignItems: 'baseline',
+                  padding: '7px 0', borderBottom: '1px solid hsl(220 13% 9%)', gap: 12,
+                }}>
+                  <span style={{ fontSize: 9, color: 'hsl(215 16% 30%)', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600, flexShrink: 0 }}>{row.label}</span>
+                  <span style={{ fontSize: 11, fontWeight: 600, color: '#10b981', textAlign: 'right' }}>{row.value}</span>
+                </div>
+              ))}
+              <div style={{ fontSize: 10, color: 'hsl(215 16% 40%)', lineHeight: 1.65, paddingTop: 12, marginTop: 4 }}>
+                WELBX surfaces this moment automatically. The system decides. The team executes. The outcome is recorded.
+              </div>
+            </div>
+          </div>
+        </motion.div>
 
         {/* Moment cards */}
         <div className="space-y-3">
