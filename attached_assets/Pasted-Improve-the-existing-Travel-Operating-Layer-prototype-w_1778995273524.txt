@@ -1,0 +1,90 @@
+Improve the existing Travel Operating Layer prototype without replacing the current structure, styling, routes, or core components.
+
+Do not rebuild from scratch. Do not remove existing sections. Build on top of what is already there.
+
+Objective:
+Make the prototype feel less like a static dashboard and more like a live WELBX system-of-action layer that detects signals, makes decisions, routes actions, and records outcomes in real time.
+
+Add the following enhancements:
+
+1. Add a clear top-level live scenario banner:
+Title: “LIVE MOMENT: Guest Friction Escalation Risk”
+Subtitle: “A real-time operational moment detected across guest experience, workforce load, and service recovery signals.”
+
+2. Add a BXOS Decision Panel:
+Create a new panel/card that shows:
+- Signal Detected: Guest delay + repeat complaint + queue congestion
+- System Classification: Service Recovery Risk — High
+- Decision: Escalate within 3 minutes
+- Routing: Duty Manager + Front Desk Support
+- Execution: Recovery protocol triggered
+- Status: In Progress
+
+This panel should visually demonstrate that BXOS is the decision spine between signal detection and operational action.
+
+3. Add a “Control Transfer in Action” section:
+Show the flow:
+Signal → BXOS Decision → Routing → Human Execution → Outcome Recorded
+
+Include short labels:
+- System detects
+- BXOS decides
+- Nexus routes
+- Vector coordinates
+- Organisation learns
+
+4. Add a comparison section called “Missed Without WELBX”:
+Use two side-by-side panels.
+
+Left panel: “Without WELBX”
+- Delay goes unnoticed
+- Staff response varies
+- Manager informed too late
+- Guest dissatisfaction escalates
+- No recovery pathway triggered
+- No governance record created
+
+Right panel: “With WELBX”
+- Signal detected instantly
+- Decision standardised
+- Routed in real time
+- Recovery executed
+- Outcome tracked
+- Pattern learned
+
+5. Add live-feel microcopy and status indicators:
+Where appropriate, include timestamps and state changes such as:
+- Detected 00:45 ago
+- Routed 00:32 ago
+- Recovery action pending
+- Outcome awaiting confirmation
+
+6. Add three lightweight view toggles or sections:
+- Operator View: “What needs to happen now?”
+- System View: “What is the system deciding?”
+- Executive View: “What value is being created?”
+
+Do not make these fully complex dashboards. Keep them lightweight and aligned with the existing design.
+
+7. Keep the visual style consistent:
+- Maintain the current layout and brand feel
+- Use WELBX blue/gold accents
+- Avoid purple
+- Keep the interface clean, enterprise-grade, and investor/operator ready
+- Do not over-animate or clutter the UI
+
+8. Make the main positioning clearer:
+Add or integrate this line prominently:
+“This is not a dashboard. This is the system that decides what happens next.”
+
+9. Ensure all new additions are responsive and do not break the existing app.
+
+10. After making changes, review for:
+- No removed existing functionality
+- No broken routing
+- No styling conflicts
+- Clear visual hierarchy
+- Mobile responsiveness
+- Clean copywriting
+
+Implement these changes incrementally on top of the current application.
