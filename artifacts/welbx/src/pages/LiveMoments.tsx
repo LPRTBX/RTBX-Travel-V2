@@ -38,38 +38,93 @@ const CONTROL_STEPS = [
   { label: 'Organisation learns', engine: 'OUTCOMES', color: '#10b981' },
 ];
 
-const VIEW_CONTENT = {
-  operator: {
-    headline: 'Guest in Room 614 — friction escalating',
-    items: [
-      { label: 'Signal source', value: 'Dining + F&B + App activity' },
-      { label: 'Detection', value: '00:45 ago' },
-      { label: 'Recommended action', value: 'Guest Relations contact' },
-      { label: 'Exposure', value: '$1,400 weekend revenue' },
-    ],
-    note: 'Action required within T+8 minutes to preserve guest satisfaction window.',
-  },
-  system: {
-    headline: 'BXOS pattern confidence: 87%',
-    items: [
-      { label: 'Signal convergence', value: '3 streams · 14 min window' },
-      { label: 'Pattern class', value: 'Friction escalation · Historical match' },
-      { label: 'Engine state', value: 'NEXUS routing · VECTOR standby' },
-      { label: 'Decision latency', value: '6 seconds' },
-    ],
-    note: 'Governed response chain active. No manual escalation required unless threshold crossed.',
-  },
-  executive: {
-    headline: 'Revenue protection in progress',
-    items: [
-      { label: 'Risk tier', value: 'HIGH · Guest lifetime value' },
-      { label: 'Intervention cost', value: '$0 — automated' },
-      { label: 'Protected revenue', value: '$1,400 (estimated)' },
-      { label: 'Protocol', value: 'Level 2 · Proactive recovery' },
-    ],
-    note: 'WELBX detected and routed a resolution before the guest escalated. Zero staff overhead.',
-  },
-};
+const ENGINE_STATE_BY_STEP = [
+  'SENSORS detecting · BXOS standby',
+  'BXOS deciding · NEXUS standby',
+  'NEXUS routing · VECTOR standby',
+  'VECTOR executing · all engines active',
+  'OUTCOMES learning · cycle complete',
+];
+
+function getViewContent(flowStep: number, vipResolved: boolean) {
+  const flowLabel = FLOW_LABELS[flowStep] ?? 'Detect';
+
+  return {
+    operator: {
+      headline: vipResolved
+        ? 'M2 VIP Arrival Risk — RESOLVED'
+        : 'M2 VIP Arrival Risk — ACTIVE',
+      items: [
+        {
+          label: 'Moment status',
+          value: vipResolved ? 'Resolved · Closed' : 'Critical · Active',
+        },
+        {
+          label: 'Current step',
+          value: flowLabel,
+        },
+        {
+          label: 'Recommended action',
+          value: vipResolved ? 'None — automated resolution complete' : 'Coordinate Housekeeping + Front Desk',
+        },
+        {
+          label: 'Exposure',
+          value: vipResolved ? '$0 — protected' : '$8,000 VIP booking revenue',
+        },
+      ],
+      note: vipResolved
+        ? 'VIP arrival coordinated successfully. No guest-facing friction recorded. Protocol closed.'
+        : 'Critical moment active. BXOS has initiated cross-department coordination. Monitor execution.',
+    },
+    system: {
+      headline: `BXOS pattern confidence: 87% · Step: ${flowLabel}`,
+      items: [
+        { label: 'Signal convergence', value: '3 streams · 14 min window' },
+        { label: 'Pattern class', value: 'VIP Arrival Risk · Historical match' },
+        {
+          label: 'Engine state',
+          value: ENGINE_STATE_BY_STEP[flowStep] ?? ENGINE_STATE_BY_STEP[0],
+        },
+        {
+          label: 'Decision latency',
+          value: flowStep === 0 ? 'Awaiting classification' : '6 seconds',
+        },
+      ],
+      note: flowStep >= 4
+        ? 'Execution cycle complete. OUTCOMES engine recording learnings for future pattern refinement.'
+        : flowStep >= 3
+        ? 'VECTOR execution engine active. Cross-department coordination in progress.'
+        : flowStep >= 2
+        ? 'NEXUS routing response chain. VECTOR engine on standby for execution.'
+        : flowStep >= 1
+        ? 'BXOS classification complete. Routing to NEXUS for response coordination.'
+        : 'Governed response chain active. No manual escalation required unless threshold crossed.',
+    },
+    executive: {
+      headline: vipResolved
+        ? 'Revenue protected — $8,000 secured'
+        : 'Revenue at risk — $8,000 VIP booking',
+      items: [
+        {
+          label: 'Risk tier',
+          value: vipResolved ? 'RESOLVED · Guest retained' : 'HIGH · VIP guest lifetime value',
+        },
+        { label: 'Intervention cost', value: '$0 — automated' },
+        {
+          label: vipResolved ? 'Revenue secured' : 'Revenue at risk',
+          value: vipResolved ? '$8,000 (confirmed)' : '$8,000 (at risk)',
+        },
+        {
+          label: 'Protocol',
+          value: vipResolved ? 'Level 1 · Complete' : 'Level 1 · VIP arrival coordination',
+        },
+      ],
+      note: vipResolved
+        ? 'WELBX resolved the VIP arrival risk automatically. $8,000 booking secured. Zero staff escalation required.'
+        : 'WELBX has detected a VIP arrival coordination gap. Automated resolution in progress — no action required.',
+    },
+  };
+}
 
 type ViewKey = 'operator' | 'system' | 'executive';
 
@@ -77,6 +132,7 @@ export default function LiveMoments() {
   const { flowStep, vectorExecuting, resolveVIP, momentCount, vipResolved } = useApp();
   const [activeView, setActiveView] = useState<ViewKey>('operator');
 
+  const viewContent = getViewContent(flowStep, vipResolved);
   const criticalCount = vipResolved ? 0 : 1;
   const summaryStats = [
     { label: "Active Moments", value: String(momentCount) },
@@ -461,9 +517,9 @@ export default function LiveMoments() {
                   Current Signal
                 </div>
                 <div style={{ fontSize: 13, fontWeight: 600, color: '#fff', marginBottom: 12, lineHeight: 1.4 }}>
-                  {VIEW_CONTENT[activeView].headline}
+                  {viewContent[activeView].headline}
                 </div>
-                {VIEW_CONTENT[activeView].items.map((item, i) => (
+                {viewContent[activeView].items.map((item, i) => (
                   <div key={i} style={{
                     display: 'flex', justifyContent: 'space-between', alignItems: 'baseline',
                     padding: '6px 0', borderBottom: '1px solid hsl(220 13% 9%)', gap: 12,
@@ -482,7 +538,7 @@ export default function LiveMoments() {
                   BXOS Assessment
                 </div>
                 <p style={{ fontSize: 11, color: 'hsl(215 16% 46%)', lineHeight: 1.7, margin: 0 }}>
-                  {VIEW_CONTENT[activeView].note}
+                  {viewContent[activeView].note}
                 </p>
               </div>
             </motion.div>
