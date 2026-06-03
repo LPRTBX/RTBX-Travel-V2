@@ -18,6 +18,7 @@ import GuestLayer from "@/pages/GuestLayer";
 import SignalIntelligence from "@/pages/SignalIntelligence";
 import CommandCentre from "@/pages/CommandCentre";
 import ExecutionTimeline from "@/pages/ExecutionTimeline";
+import ExecutiveDashboard from "@/pages/ExecutiveDashboard";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +35,7 @@ function Router() {
       <Route path="/signal-intelligence" component={SignalIntelligence} />
       <Route path="/command-centre" component={CommandCentre} />
       <Route path="/execution-timeline" component={ExecutionTimeline} />
+      <Route path="/executive-dashboard" component={ExecutiveDashboard} />
       <Route path="/compare" component={CompareMode} />
       <Route path="/command-mode" component={CommandMode} />
       <Route component={NotFound} />
