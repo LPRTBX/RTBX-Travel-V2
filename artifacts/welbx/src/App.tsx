@@ -16,6 +16,7 @@ import CompareMode from "@/pages/CompareMode";
 import CommandMode from "@/pages/CommandMode";
 import GuestLayer from "@/pages/GuestLayer";
 import SignalIntelligence from "@/pages/SignalIntelligence";
+import CommandCentre from "@/pages/CommandCentre";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,7 @@ function Router() {
       <Route path="/scenario-demo" component={ScenarioDemo} />
       <Route path="/guest-layer" component={GuestLayer} />
       <Route path="/signal-intelligence" component={SignalIntelligence} />
+      <Route path="/command-centre" component={CommandCentre} />
       <Route path="/compare" component={CompareMode} />
       <Route path="/command-mode" component={CommandMode} />
       <Route component={NotFound} />

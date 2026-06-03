@@ -1,0 +1,356 @@
+import { motion } from "framer-motion";
+
+const SUMMARY = [
+  { label: "Total Signals", value: "12", sub: "BXOS MONITORING", color: "hsl(215 16% 38%)" },
+  { label: "High Priority", value: "3", sub: "REQUIRES ACTION", color: "#c9a84c" },
+  { label: "Actions In Progress", value: "2", sub: "VECTOR COORDINATING", color: "#3b82f6" },
+  { label: "Outcomes Completed", value: "7", sub: "TODAY", color: "#10b981" },
+];
+
+type Priority = "CRITICAL" | "HIGH" | "ELEVATED" | "STANDARD";
+type Status = "EXECUTING" | "ROUTED" | "RESOLVED" | "MONITORING" | "ACTIVE";
+
+interface Row {
+  id: string;
+  time: string;
+  signal: string;
+  source: string;
+  priority: Priority;
+  conf: number;
+  action: string;
+  engine: string;
+  owner: string;
+  ownerRole: string;
+  status: Status;
+  outcome: string;
+}
+
+const PRIORITY_COLOR: Record<Priority, string> = {
+  CRITICAL: "#ef4444",
+  HIGH: "#c9a84c",
+  ELEVATED: "hsl(43 50% 45%)",
+  STANDARD: "#10b981",
+};
+
+const STATUS_COLOR: Record<Status, string> = {
+  EXECUTING: "#3b82f6",
+  ROUTED: "#c9a84c",
+  RESOLVED: "#10b981",
+  MONITORING: "hsl(215 16% 42%)",
+  ACTIVE: "#ef4444",
+};
+
+const ROWS: Row[] = [
+  {
+    id: "SIG-4471",
+    time: "12:46",
+    signal: "Guest distress detected · Room 412",
+    source: "In-room sensor + zero movement 22 min",
+    priority: "CRITICAL",
+    conf: 96,
+    action: "Initiate welfare protocol. Dispatch duty manager. Activate silent alert.",
+    engine: "BXOS · 96% conf",
+    owner: "J. Halliday",
+    ownerRole: "Duty Manager",
+    status: "EXECUTING",
+    outcome: "—",
+  },
+  {
+    id: "SIG-4468",
+    time: "12:43",
+    signal: "Foyer capacity threshold exceeded",
+    source: "Occupancy sensor + PMS arrival forecast +34%",
+    priority: "HIGH",
+    conf: 89,
+    action: "Open overflow desk. Redirect to mobile check-in. Assign 2 additional floor staff.",
+    engine: "BXOS · 89% conf",
+    owner: "A. Osei",
+    ownerRole: "Front Desk Lead",
+    status: "ROUTED",
+    outcome: "—",
+  },
+  {
+    id: "SIG-4461",
+    time: "12:38",
+    signal: "First-stay guest disengagement · Ms. P. Chen",
+    source: "No staff contact after check-in · 8 min elapsed",
+    priority: "HIGH",
+    conf: 82,
+    action: "Proactive welcome contact. Service introduction. Assign guest liaison.",
+    engine: "BXOS · 82% conf",
+    owner: "M. Vance",
+    ownerRole: "Concierge",
+    status: "RESOLVED",
+    outcome: "Guest engagement confirmed. Satisfaction signal positive.",
+  },
+  {
+    id: "SIG-4449",
+    time: "12:21",
+    signal: "VIP arrival window misalignment · Mr. R. Nakamura",
+    source: "PMS + flight data · ETA moved forward 40 min",
+    priority: "CRITICAL",
+    conf: 99,
+    action: "Pre-stage suite. Brief escort team. Initiate arrival protocol.",
+    engine: "BXOS · 99% conf",
+    owner: "D. Pearce",
+    ownerRole: "General Manager",
+    status: "RESOLVED",
+    outcome: "Arrival handled. Zero friction. Revenue protected.",
+  },
+  {
+    id: "SIG-4437",
+    time: "11:58",
+    signal: "Suite upgrade opportunity · Mr. J. Hartley",
+    source: "Room 308 → Suite 501 · Returning guest + availability",
+    priority: "STANDARD",
+    conf: 78,
+    action: "Offer complimentary upgrade. Personalise with prior preferences on file.",
+    engine: "BXOS · 78% conf",
+    owner: "C. Lim",
+    ownerRole: "Guest Relations",
+    status: "MONITORING",
+    outcome: "Offer accepted. Revenue uplift $420. NPS impact positive.",
+  },
+];
+
+function PriorityBadge({ p }: { p: Priority }) {
+  return (
+    <span style={{
+      display: "inline-block",
+      padding: "3px 8px",
+      fontSize: 8.5, fontWeight: 700, letterSpacing: "0.14em",
+      textTransform: "uppercase",
+      color: PRIORITY_COLOR[p],
+      border: `1px solid ${PRIORITY_COLOR[p]}40`,
+      background: `${PRIORITY_COLOR[p]}0d`,
+    }}>{p}</span>
+  );
+}
+
+function StatusBadge({ s }: { s: Status }) {
+  return (
+    <span style={{
+      display: "inline-block",
+      padding: "3px 8px",
+      fontSize: 8.5, fontWeight: 700, letterSpacing: "0.12em",
+      textTransform: "uppercase",
+      color: STATUS_COLOR[s],
+      border: `1px solid ${STATUS_COLOR[s]}33`,
+      background: `${STATUS_COLOR[s]}0a`,
+    }}>{s}</span>
+  );
+}
+
+export default function CommandCentre() {
+  return (
+    <div className="pl-56 min-h-screen" style={{ background: "hsl(220 13% 5%)" }}>
+      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "36px 40px 60px" }}>
+
+        {/* Page header */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
+          style={{ marginBottom: 32, display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}
+        >
+          <div>
+            <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.22em", color: "#c9a84c", textTransform: "uppercase", marginBottom: 10 }}>
+              WELBX · Operating Layer
+            </div>
+            <h1 style={{ fontSize: 26, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", margin: 0, marginBottom: 6 }}>
+              Command Centre
+            </h1>
+            <p style={{ fontSize: 12, color: "hsl(215 16% 36%)", margin: 0, letterSpacing: "0.04em" }}>
+              The Grand Meridian, London &nbsp;·&nbsp; Signal-to-outcome operating view
+            </p>
+          </div>
+          <div style={{ textAlign: "right" }}>
+            <div style={{ fontSize: 8, letterSpacing: "0.14em", color: "hsl(215 16% 24%)", textTransform: "uppercase", marginBottom: 6 }}>
+              System Time
+            </div>
+            <div style={{ fontSize: 20, fontWeight: 700, color: "hsl(215 16% 50%)", letterSpacing: "0.08em", fontFamily: "var(--app-font-mono)" }}>
+              12:47:14
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 6, justifyContent: "flex-end", marginTop: 6 }}>
+              <div className="animate-pulse" style={{ width: 5, height: 5, borderRadius: "50%", background: "#10b981" }} />
+              <span style={{ fontSize: 8, letterSpacing: "0.14em", color: "#10b981", textTransform: "uppercase", fontWeight: 600 }}>
+                BXOS Active
+              </span>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Summary row */}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.4 }}
+          style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 1, marginBottom: 32 }}
+        >
+          {SUMMARY.map((s, i) => (
+            <div
+              key={s.label}
+              style={{
+                padding: "20px 24px",
+                background: "hsl(220 13% 7%)",
+                borderTop: `2px solid ${s.color}`,
+                borderRight: i < 3 ? "1px solid hsl(220 13% 9%)" : "none",
+                borderBottom: "1px solid hsl(220 13% 9%)",
+                borderLeft: i === 0 ? "1px solid hsl(220 13% 9%)" : "none",
+              }}
+            >
+              <div style={{ fontSize: 32, fontWeight: 800, color: s.color, lineHeight: 1, marginBottom: 8, letterSpacing: "-0.02em" }}>
+                {s.value}
+              </div>
+              <div style={{ fontSize: 12, fontWeight: 600, color: "hsl(215 16% 55%)", marginBottom: 4 }}>
+                {s.label}
+              </div>
+              <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: "hsl(215 16% 28%)", textTransform: "uppercase" }}>
+                {s.sub}
+              </div>
+            </div>
+          ))}
+        </motion.div>
+
+        {/* Table section header */}
+        <motion.div
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2, duration: 0.35 }}
+          style={{
+            display: "flex", justifyContent: "space-between", alignItems: "center",
+            marginBottom: 0, paddingBottom: 12,
+            borderBottom: "1px solid hsl(220 13% 9%)",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+            <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.2em", color: "hsl(215 16% 32%)", textTransform: "uppercase" }}>
+              Operating Layer · Signal to Outcome
+            </span>
+            <span style={{ fontSize: 8, letterSpacing: "0.1em", color: "hsl(215 16% 22%)", textTransform: "uppercase" }}>
+              BXOS · NEXUS · VECTOR
+            </span>
+          </div>
+          <div style={{ fontSize: 8, letterSpacing: "0.1em", color: "hsl(215 16% 22%)", textTransform: "uppercase" }}>
+            Updated 12:47:14
+          </div>
+        </motion.div>
+
+        {/* Column headers */}
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "200px 96px 1fr 140px 104px 1fr",
+          gap: 0,
+          padding: "10px 16px 10px 20px",
+          borderBottom: "1px solid hsl(220 13% 9%)",
+        }}>
+          {["Signal", "Priority", "Recommended Action", "Owner", "Status", "Outcome"].map(col => (
+            <div key={col} style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.16em", color: "hsl(215 16% 26%)", textTransform: "uppercase" }}>
+              {col}
+            </div>
+          ))}
+        </div>
+
+        {/* Rows */}
+        <div>
+          {ROWS.map((row, i) => (
+            <motion.div
+              key={row.id}
+              initial={{ opacity: 0, x: -6 }} animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.25 + i * 0.07, duration: 0.38 }}
+              style={{
+                display: "grid",
+                gridTemplateColumns: "200px 96px 1fr 140px 104px 1fr",
+                gap: 0,
+                padding: "16px 16px 16px 0",
+                borderBottom: "1px solid hsl(220 13% 8%)",
+                borderLeft: `2px solid ${PRIORITY_COLOR[row.priority]}`,
+                paddingLeft: 18,
+                background: i % 2 === 0 ? "transparent" : "hsl(220 13% 6%)",
+                transition: "background 0.15s",
+              }}
+            >
+              {/* Signal */}
+              <div style={{ paddingRight: 12 }}>
+                <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.12em", color: "hsl(215 16% 26%)", textTransform: "uppercase", marginBottom: 5, fontFamily: "var(--app-font-mono)" }}>
+                  {row.id} · {row.time}
+                </div>
+                <div style={{ fontSize: 11.5, fontWeight: 700, color: "#fff", lineHeight: 1.4, marginBottom: 4 }}>
+                  {row.signal}
+                </div>
+                <div style={{ fontSize: 10, color: "hsl(215 16% 36%)", lineHeight: 1.45 }}>
+                  {row.source}
+                </div>
+              </div>
+
+              {/* Priority */}
+              <div style={{ paddingTop: 18, paddingRight: 10 }}>
+                <PriorityBadge p={row.priority} />
+              </div>
+
+              {/* Recommended Action */}
+              <div style={{ paddingRight: 16, paddingTop: 2 }}>
+                <div style={{ fontSize: 11.5, color: "hsl(215 16% 70%)", lineHeight: 1.55, marginBottom: 6 }}>
+                  {row.action}
+                </div>
+                <div style={{ fontSize: 8, letterSpacing: "0.1em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 600, opacity: 0.7 }}>
+                  {row.engine}
+                </div>
+              </div>
+
+              {/* Owner */}
+              <div style={{ paddingTop: 2, paddingRight: 12 }}>
+                <div style={{ fontSize: 11.5, fontWeight: 600, color: "hsl(215 16% 60%)", marginBottom: 3 }}>
+                  {row.owner}
+                </div>
+                <div style={{ fontSize: 9, letterSpacing: "0.06em", color: "hsl(215 16% 32%)", textTransform: "uppercase" }}>
+                  {row.ownerRole}
+                </div>
+                <div style={{ fontSize: 8, letterSpacing: "0.08em", color: "hsl(215 16% 22%)", textTransform: "uppercase", marginTop: 4 }}>
+                  NEXUS · Routed
+                </div>
+              </div>
+
+              {/* Status */}
+              <div style={{ paddingTop: 18, paddingRight: 10 }}>
+                <StatusBadge s={row.status} />
+              </div>
+
+              {/* Outcome */}
+              <div style={{ paddingTop: 4 }}>
+                {row.outcome === "—" ? (
+                  <span style={{ fontSize: 11.5, color: "hsl(215 16% 26%)", letterSpacing: "0.08em" }}>—</span>
+                ) : (
+                  <div style={{ fontSize: 11.5, color: "hsl(215 16% 52%)", lineHeight: 1.55 }}>
+                    {row.outcome}
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Footer attribution */}
+        <motion.div
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7, duration: 0.4 }}
+          style={{
+            marginTop: 28, paddingTop: 18,
+            borderTop: "1px solid hsl(220 13% 8%)",
+            display: "flex", justifyContent: "space-between", alignItems: "center",
+          }}
+        >
+          <div style={{ display: "flex", gap: 28 }}>
+            {[
+              { name: "BXOS", desc: "Signal intelligence · Confidence scoring · Decision recommendation" },
+              { name: "NEXUS", desc: "Owner routing · Escalation pathways" },
+              { name: "VECTOR", desc: "Execution coordination · Outcome tracking" },
+            ].map(e => (
+              <div key={e.name} style={{ display: "flex", gap: 8, alignItems: "baseline" }}>
+                <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.16em", color: "hsl(215 16% 24%)", textTransform: "uppercase" }}>{e.name}</span>
+                <span style={{ fontSize: 8, color: "hsl(215 16% 18%)", letterSpacing: "0.04em" }}>· {e.desc}</span>
+              </div>
+            ))}
+          </div>
+          <div style={{ fontSize: 8, letterSpacing: "0.08em", color: "hsl(215 16% 18%)" }}>
+            Showing 5 of 12 active signals
+          </div>
+        </motion.div>
+
+      </div>
+    </div>
+  );
+}
