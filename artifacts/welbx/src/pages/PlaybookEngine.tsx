@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLocation } from "wouter";
 import { PLAYBOOKS, type Playbook, type PlaybookExecution } from "@/data/playbooks";
 
 /* ─── Filter types ────────────────────────────────────── */
@@ -144,6 +145,7 @@ const OUTCOME_FILTERS: OutcomeFilter[] = ["All", "Resolved", "Escalated", "Parti
 /* ─── Execution timeline ──────────────────────────────── */
 function ExecutionTimeline({ executions }: { executions: PlaybookExecution[] }) {
   const [outcomeFilter, setOutcomeFilter] = useState<OutcomeFilter>("All");
+  const [, navigate] = useLocation();
 
   const filtered = outcomeFilter === "All"
     ? executions
@@ -306,6 +308,39 @@ function ExecutionTimeline({ executions }: { executions: PlaybookExecution[] }) 
                   <span style={{ fontSize: 9, color: "hsl(215 16% 34%)", letterSpacing: "0.04em" }}>
                     {formatResolution(ex.resolutionMinutes)} resolution
                   </span>
+                  {ex.momentId && (
+                    <>
+                      <span style={{
+                        fontSize: 8, color: "hsl(215 16% 26%)",
+                        letterSpacing: "0.06em",
+                      }}>
+                        ·
+                      </span>
+                      <button
+                        onClick={() => navigate(`/command-centre#${ex.momentId}`)}
+                        style={{
+                          background: "transparent",
+                          border: "none",
+                          padding: 0,
+                          cursor: "pointer",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 3,
+                          fontSize: 8,
+                          fontWeight: 700,
+                          letterSpacing: "0.08em",
+                          color: C.amber,
+                          textTransform: "uppercase",
+                          opacity: 0.85,
+                          transition: "opacity 0.14s",
+                        }}
+                        onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
+                        onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.85")}
+                      >
+                        View Moment →
+                      </button>
+                    </>
+                  )}
                 </div>
               </div>
             </div>

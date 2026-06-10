@@ -5,6 +5,7 @@ export interface PlaybookExecution {
   owner: string;
   outcome: "Resolved" | "Escalated" | "Partial";
   resolutionMinutes: number;
+  momentId?: string;
 }
 
 export interface PlaybookStats {
@@ -183,6 +184,7 @@ export const PLAYBOOKS: Playbook[] = [
         owner: "C. Adeyemi (GM)",
         outcome: "Resolved",
         resolutionMinutes: 15,
+        momentId: "m2",
       },
       {
         id: "EX-002-18",
@@ -207,6 +209,7 @@ export const PLAYBOOKS: Playbook[] = [
         owner: "C. Adeyemi (GM)",
         outcome: "Partial",
         resolutionMinutes: 28,
+        momentId: "m6",
       },
       {
         id: "EX-002-15",
@@ -261,6 +264,7 @@ export const PLAYBOOKS: Playbook[] = [
         owner: "B. Okello (Front Desk Lead)",
         outcome: "Resolved",
         resolutionMinutes: 28,
+        momentId: "m4",
       },
       {
         id: "EX-003-11",
@@ -277,6 +281,7 @@ export const PLAYBOOKS: Playbook[] = [
         owner: "B. Okello (Front Desk Lead)",
         outcome: "Escalated",
         resolutionMinutes: 55,
+        momentId: "m1",
       },
       {
         id: "EX-003-09",
@@ -285,6 +290,7 @@ export const PLAYBOOKS: Playbook[] = [
         owner: "L. Ferreira (Guest Relations)",
         outcome: "Resolved",
         resolutionMinutes: 30,
+        momentId: "m5",
       },
     ],
   },
@@ -409,6 +415,7 @@ export const PLAYBOOKS: Playbook[] = [
         owner: "S. Lindqvist (Facilities Manager)",
         outcome: "Resolved",
         resolutionMinutes: 45,
+        momentId: "m3",
       },
       {
         id: "EX-005-06",
