@@ -2,6 +2,7 @@ import { Link, useLocation } from "wouter";
 import { motion } from "framer-motion";
 
 const navItems = [
+  { label: "Environment Health", path: "/environment-health", sub: "INDEX" },
   { label: "Strategic Visibility", path: "/strategic-visibility", sub: "INTELLIGENCE" },
   { label: "Execution Index", path: "/execution-index", sub: "EXECUTION QUALITY" },
   { label: "Consistency Engine", path: "/consistency-engine", sub: "VARIABILITY" },
