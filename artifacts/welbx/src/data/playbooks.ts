@@ -31,6 +31,36 @@ export function getPlaybookById(id: string): Playbook | undefined {
   return PLAYBOOKS.find((p) => p.id === id);
 }
 
+export type MomentCategory = Playbook["category"];
+export type MomentUrgency = "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
+
+export interface MomentPlaybookRule {
+  category: MomentCategory;
+  urgency?: MomentUrgency;
+  playbookId: string;
+}
+
+export const MOMENT_PLAYBOOK_RULES: MomentPlaybookRule[] = [
+  { category: "Guest",       urgency: "CRITICAL", playbookId: "PB-001" },
+  { category: "Guest",       urgency: "HIGH",     playbookId: "PB-001" },
+  { category: "Guest",                            playbookId: "PB-003" },
+  { category: "VIP",                              playbookId: "PB-002" },
+  { category: "Recovery",                         playbookId: "PB-003" },
+  { category: "Workforce",                        playbookId: "PB-004" },
+  { category: "Operational",                      playbookId: "PB-005" },
+];
+
+export function derivePlaybookId(
+  moment: { category: MomentCategory; urgency: MomentUrgency }
+): string | undefined {
+  const rule = MOMENT_PLAYBOOK_RULES.find(
+    (r) =>
+      r.category === moment.category &&
+      (r.urgency === undefined || r.urgency === moment.urgency)
+  );
+  return rule?.playbookId;
+}
+
 export const PLAYBOOKS: Playbook[] = [
   {
     id: "PB-001",
