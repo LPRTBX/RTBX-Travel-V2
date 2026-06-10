@@ -137,31 +137,95 @@ function formatResolution(mins: number): string {
   return m > 0 ? `${h}h ${m}m` : `${h}h`;
 }
 
+/* ─── Outcome filter types ────────────────────────────── */
+type OutcomeFilter = PlaybookExecution["outcome"] | "All";
+const OUTCOME_FILTERS: OutcomeFilter[] = ["All", "Resolved", "Escalated", "Partial"];
+
 /* ─── Execution timeline ──────────────────────────────── */
 function ExecutionTimeline({ executions }: { executions: PlaybookExecution[] }) {
+  const [outcomeFilter, setOutcomeFilter] = useState<OutcomeFilter>("All");
+
+  const filtered = outcomeFilter === "All"
+    ? executions
+    : executions.filter((ex) => ex.outcome === outcomeFilter);
+
   return (
     <div
       style={{
         borderTop: `1px solid ${C.border}`,
         background: "hsl(220 13% 5%)",
         padding: "16px 22px 20px",
-        maxHeight: 300,
+        maxHeight: 340,
         overflowY: "auto",
       }}
     >
+      {/* Filter bar */}
       <div style={{
-        fontSize: 8, fontWeight: 700, letterSpacing: "0.18em",
-        color: C.dimmed, textTransform: "uppercase", marginBottom: 14,
+        display: "flex", alignItems: "center", gap: 6, marginBottom: 14, flexWrap: "wrap",
       }}>
-        Run History
+        {OUTCOME_FILTERS.map((f) => {
+          const isActive = outcomeFilter === f;
+          const count = f === "All"
+            ? executions.length
+            : executions.filter((ex) => ex.outcome === f).length;
+          const accentColor = f === "All" ? C.blue : OUTCOME_COLOR[f as PlaybookExecution["outcome"]];
+          return (
+            <button
+              key={f}
+              onClick={() => setOutcomeFilter(f)}
+              style={{
+                display: "flex", alignItems: "center", gap: 5,
+                padding: "3px 9px",
+                background: isActive ? `${accentColor}18` : "transparent",
+                border: `1px solid ${isActive ? accentColor + "55" : "hsl(220 13% 11%)"}`,
+                cursor: "pointer",
+                transition: "all 0.14s",
+              }}
+            >
+              <span style={{
+                fontSize: 8, fontWeight: 700, letterSpacing: "0.12em",
+                color: isActive ? accentColor : "hsl(215 16% 30%)",
+                textTransform: "uppercase", transition: "color 0.14s",
+              }}>
+                {f}
+              </span>
+              <span style={{
+                fontSize: 8, fontWeight: 700, letterSpacing: "0.06em",
+                color: isActive ? accentColor : "hsl(215 16% 22%)",
+                background: isActive ? `${accentColor}22` : "hsl(220 13% 9%)",
+                padding: "0px 5px", minWidth: 16, textAlign: "center",
+                transition: "all 0.14s",
+              }}>
+                {count}
+              </span>
+            </button>
+          );
+        })}
+        {outcomeFilter !== "All" && (
+          <span style={{
+            fontSize: 8, color: "hsl(215 16% 24%)", letterSpacing: "0.04em", marginLeft: 2,
+          }}>
+            {filtered.length === 0
+              ? "No matching runs"
+              : `${filtered.length} of ${executions.length} run${executions.length !== 1 ? "s" : ""}`}
+          </span>
+        )}
       </div>
+
       <div style={{ position: "relative" }}>
         {/* vertical line */}
         <div style={{
           position: "absolute", left: 6, top: 0, bottom: 0,
           width: 1, background: "hsl(220 13% 10%)",
         }} />
-        {executions.map((ex, i) => {
+        {filtered.length === 0 ? (
+          <div style={{
+            paddingLeft: 22, fontSize: 10, color: "hsl(215 16% 26%)",
+            letterSpacing: "0.04em", fontStyle: "italic",
+          }}>
+            No {outcomeFilter.toLowerCase()} runs in this history.
+          </div>
+        ) : filtered.map((ex, i) => {
           const outcomeColor = OUTCOME_COLOR[ex.outcome];
           return (
             <div
@@ -169,8 +233,7 @@ function ExecutionTimeline({ executions }: { executions: PlaybookExecution[] }) 
               style={{
                 display: "flex", gap: 16, alignItems: "flex-start",
                 paddingLeft: 22,
-                paddingBottom: i < executions.length - 1 ? 16 : 0,
-                marginBottom: i < executions.length - 1 ? 0 : 0,
+                paddingBottom: i < filtered.length - 1 ? 16 : 0,
                 position: "relative",
               }}
             >
