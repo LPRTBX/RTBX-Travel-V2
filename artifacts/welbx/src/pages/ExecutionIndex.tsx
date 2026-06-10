@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import {
-  AreaChart, Area, XAxis, Tooltip,
+  AreaChart, Area, XAxis, YAxis, Tooltip,
   ResponsiveContainer, RadarChart, Radar,
   PolarGrid, PolarAngleAxis,
+  LineChart, Line, CartesianGrid,
 } from "recharts";
 
 /* ─── Palette ────────────────────────────────────────────── */
@@ -81,6 +82,31 @@ const OVERALL_DELTA = "+3";
 const OVERALL_DIR = "up";
 const PERIODS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
 
+/* ─── 12-week history data ───────────────────────────────── */
+const HISTORY_LINE_COLORS = {
+  overall:     "#c9a84c",
+  consistency: "#10b981",
+  visibility:  "#60a5fa",
+  activation:  "#a78bfa",
+  decision:    "#38bdf8",
+  recovery:    "#ef4444",
+};
+
+const HISTORY_DATA = [
+  { week: "25 Mar", overall: 68, visibility: 68, decision: 62, consistency: 68, recovery: 55, activation: 62 },
+  { week: "1 Apr",  overall: 70, visibility: 70, decision: 63, consistency: 70, recovery: 57, activation: 64 },
+  { week: "8 Apr",  overall: 71, visibility: 73, decision: 65, consistency: 73, recovery: 59, activation: 66 },
+  { week: "15 Apr", overall: 73, visibility: 75, decision: 67, consistency: 76, recovery: 62, activation: 68 },
+  { week: "22 Apr", overall: 75, visibility: 77, decision: 70, consistency: 79, recovery: 64, activation: 71 },
+  { week: "29 Apr", overall: 76, visibility: 79, decision: 72, consistency: 82, recovery: 66, activation: 73 },
+  { week: "6 May",  overall: 78, visibility: 81, decision: 74, consistency: 84, recovery: 68, activation: 75 },
+  { week: "13 May", overall: 79, visibility: 83, decision: 76, consistency: 86, recovery: 70, activation: 78 },
+  { week: "20 May", overall: 81, visibility: 85, decision: 78, consistency: 88, recovery: 72, activation: 80 },
+  { week: "27 May", overall: 82, visibility: 86, decision: 79, consistency: 89, recovery: 73, activation: 82 },
+  { week: "3 Jun",  overall: 83, visibility: 87, decision: 81, consistency: 90, recovery: 75, activation: 83 },
+  { week: "10 Jun", overall: 84, visibility: 88, decision: 82, consistency: 91, recovery: 76, activation: 84 },
+];
+
 /* ─── Improvement areas (lowest 2) ──────────────────────── */
 const IMPROVEMENTS = [...METRICS]
   .sort((a, b) => a.score - b.score)
@@ -131,6 +157,51 @@ function ChartTooltip({ active, payload, label }: any) {
     }}>
       <div style={{ color: C.muted, marginBottom: 3, fontSize: 9, letterSpacing: "0.1em", textTransform: "uppercase" }}>{label}</div>
       <div style={{ fontWeight: 700 }}>{payload[0].value}</div>
+    </div>
+  );
+}
+
+/* ─── History multi-line tooltip ─────────────────────────── */
+const HISTORY_LABELS: Record<string, string> = {
+  overall:     "Overall",
+  consistency: "Consistency",
+  visibility:  "Visibility",
+  activation:  "Activation",
+  decision:    "Decision",
+  recovery:    "Recovery",
+};
+
+function HistoryTooltip({ active, payload, label }: any) {
+  if (!active || !payload?.length) return null;
+  const sorted = [...payload].sort((a, b) => b.value - a.value);
+  return (
+    <div style={{
+      background: "hsl(220 13% 10%)", border: "1px solid hsl(220 13% 16%)",
+      padding: "9px 13px", fontSize: 10, color: "#fff", minWidth: 148,
+    }}>
+      <div style={{ color: C.muted, marginBottom: 7, fontSize: 8.5, letterSpacing: "0.14em", textTransform: "uppercase", fontWeight: 700 }}>
+        {label}
+      </div>
+      {sorted.map((entry: any) => (
+        <div key={entry.dataKey} style={{
+          display: "flex", justifyContent: "space-between", alignItems: "center",
+          marginBottom: 4, gap: 12,
+        }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+            <div style={{ width: entry.dataKey === "overall" ? 14 : 8, height: 2, background: entry.color, flexShrink: 0 }} />
+            <span style={{
+              fontSize: 8.5, letterSpacing: "0.06em",
+              color: entry.dataKey === "overall" ? "#fff" : C.muted,
+              fontWeight: entry.dataKey === "overall" ? 700 : 400,
+            }}>
+              {HISTORY_LABELS[entry.dataKey]}
+            </span>
+          </div>
+          <span style={{ fontWeight: entry.dataKey === "overall" ? 800 : 600, color: entry.color, fontSize: 11 }}>
+            {entry.value}
+          </span>
+        </div>
+      ))}
     </div>
   );
 }
@@ -406,6 +477,122 @@ export default function ExecutionIndex() {
                 </motion.div>
               );
             })}
+          </div>
+        </motion.div>
+
+        {/* ── Index History ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.65, duration: 0.42 }}
+          style={{ marginBottom: 32 }}
+        >
+          {/* Section header */}
+          <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 12 }}>
+            <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.22em", color: C.amber, textTransform: "uppercase" }}>
+              Index History
+            </div>
+            <div style={{ flex: 1, height: 1, background: C.border }} />
+            <div style={{ fontSize: 8, color: C.dimmed, letterSpacing: "0.1em", textTransform: "uppercase" }}>
+              12-Week Trend · All Dimensions
+            </div>
+          </div>
+
+          {/* Chart card */}
+          <div style={{
+            background: C.card,
+            border: `1px solid ${C.border}`,
+            padding: "24px 28px 20px",
+          }}>
+            {/* Inline legend */}
+            <div style={{ display: "flex", gap: 20, marginBottom: 18, flexWrap: "wrap" }}>
+              {(Object.entries(HISTORY_LINE_COLORS) as [keyof typeof HISTORY_LINE_COLORS, string][]).map(([key, color]) => (
+                <div key={key} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                  <div style={{
+                    width: key === "overall" ? 20 : 12,
+                    height: key === "overall" ? 2.5 : 1.5,
+                    background: color,
+                    flexShrink: 0,
+                  }} />
+                  <span style={{
+                    fontSize: 8, letterSpacing: "0.08em", textTransform: "uppercase",
+                    color: key === "overall" ? "#fff" : C.muted,
+                    fontWeight: key === "overall" ? 700 : 400,
+                  }}>
+                    {HISTORY_LABELS[key]}
+                  </span>
+                  {key === "overall" && (
+                    <span style={{
+                      fontSize: 7, fontWeight: 700, letterSpacing: "0.1em",
+                      color: C.amber, background: `${C.amber}18`,
+                      border: `1px solid ${C.amber}30`,
+                      padding: "1px 5px", marginLeft: 2,
+                    }}>
+                      COMPOSITE
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* Multi-line chart */}
+            <ResponsiveContainer width="100%" height={220}>
+              <LineChart data={HISTORY_DATA} margin={{ top: 4, right: 8, bottom: 0, left: 0 }}>
+                <CartesianGrid
+                  strokeDasharray="3 3"
+                  stroke="hsl(220 13% 10%)"
+                  vertical={false}
+                />
+                <XAxis
+                  dataKey="week"
+                  tick={{ fontSize: 7.5, fill: "hsl(215 16% 28%)", fontFamily: "inherit" }}
+                  axisLine={false}
+                  tickLine={false}
+                />
+                <YAxis
+                  domain={[50, 100]}
+                  ticks={[50, 60, 70, 80, 90, 100]}
+                  tick={{ fontSize: 7.5, fill: "hsl(215 16% 28%)", fontFamily: "inherit" }}
+                  axisLine={false}
+                  tickLine={false}
+                  width={26}
+                />
+                <Tooltip content={<HistoryTooltip />} />
+
+                {/* Dimension lines */}
+                <Line type="monotone" dataKey="consistency" stroke={HISTORY_LINE_COLORS.consistency} strokeWidth={1.5} dot={false} activeDot={{ r: 3, fill: HISTORY_LINE_COLORS.consistency }} />
+                <Line type="monotone" dataKey="visibility"  stroke={HISTORY_LINE_COLORS.visibility}  strokeWidth={1.5} dot={false} activeDot={{ r: 3, fill: HISTORY_LINE_COLORS.visibility }} />
+                <Line type="monotone" dataKey="activation"  stroke={HISTORY_LINE_COLORS.activation}  strokeWidth={1.5} dot={false} activeDot={{ r: 3, fill: HISTORY_LINE_COLORS.activation }} />
+                <Line type="monotone" dataKey="decision"    stroke={HISTORY_LINE_COLORS.decision}    strokeWidth={1.5} dot={false} activeDot={{ r: 3, fill: HISTORY_LINE_COLORS.decision }} />
+                <Line type="monotone" dataKey="recovery"    stroke={HISTORY_LINE_COLORS.recovery}    strokeWidth={1.5} dot={false} strokeDasharray="4 2" activeDot={{ r: 3, fill: HISTORY_LINE_COLORS.recovery }} />
+
+                {/* Overall composite — bold amber, rendered last so it sits on top */}
+                <Line type="monotone" dataKey="overall" stroke={HISTORY_LINE_COLORS.overall} strokeWidth={3} dot={false} activeDot={{ r: 4, fill: HISTORY_LINE_COLORS.overall }} />
+              </LineChart>
+            </ResponsiveContainer>
+
+            {/* Footer annotation */}
+            <div style={{
+              marginTop: 12, display: "flex", justifyContent: "space-between", alignItems: "center",
+            }}>
+              <span style={{ fontSize: 8, color: "hsl(215 16% 20%)", letterSpacing: "0.06em" }}>
+                25 Mar 2026 — 10 Jun 2026
+              </span>
+              <div style={{ display: "flex", gap: 16 }}>
+                <div style={{ textAlign: "center" }}>
+                  <div style={{ fontSize: 8, color: C.dimmed, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 2 }}>Start</div>
+                  <div style={{ fontSize: 13, fontWeight: 800, color: "#fff" }}>68</div>
+                </div>
+                <div style={{ textAlign: "center" }}>
+                  <div style={{ fontSize: 8, color: C.dimmed, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 2 }}>Current</div>
+                  <div style={{ fontSize: 13, fontWeight: 800, color: C.amber }}>84</div>
+                </div>
+                <div style={{ textAlign: "center" }}>
+                  <div style={{ fontSize: 8, color: C.dimmed, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 2 }}>12-Wk Δ</div>
+                  <div style={{ fontSize: 13, fontWeight: 800, color: C.emerald }}>+16</div>
+                </div>
+              </div>
+            </div>
           </div>
         </motion.div>
 
