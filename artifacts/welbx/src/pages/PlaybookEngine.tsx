@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { PLAYBOOKS, type Playbook, type PlaybookExecution } from "@/data/playbooks";
 
@@ -310,8 +310,17 @@ function PlaybookStatsStrip({ playbook }: { playbook: Playbook }) {
 function PlaybookCard({ playbook, index }: { playbook: Playbook; index: number }) {
   const [activeTab, setActiveTab] = useState<Tab>("trigger");
   const [historyOpen, setHistoryOpen] = useState(false);
+  const [highlighted, setHighlighted] = useState(false);
   const catColor = CAT_COLOR[playbook.category];
   const statusColor = STATUS_COLOR[playbook.status];
+
+  useEffect(() => {
+    const hash = window.location.hash.replace("#", "");
+    if (hash !== playbook.id) return;
+    setHighlighted(true);
+    const timer = setTimeout(() => setHighlighted(false), 2000);
+    return () => clearTimeout(timer);
+  }, [playbook.id]);
 
   const tabContent: Record<Tab, string[]> = {
     trigger:    playbook.triggerConditions,
@@ -333,14 +342,27 @@ function PlaybookCard({ playbook, index }: { playbook: Playbook; index: number }
     <motion.div
       id={playbook.id}
       initial={{ opacity: 0, y: 14 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.25 + index * 0.08, duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
+      animate={{
+        opacity: 1,
+        y: 0,
+        boxShadow: highlighted
+          ? `0 0 0 1px ${C.amber}, 0 0 18px ${C.amber}55`
+          : "0 0 0 0px transparent",
+      }}
+      transition={{
+        opacity: { delay: 0.25 + index * 0.08, duration: 0.42, ease: [0.22, 1, 0.36, 1] },
+        y:       { delay: 0.25 + index * 0.08, duration: 0.42, ease: [0.22, 1, 0.36, 1] },
+        boxShadow: highlighted
+          ? { duration: 0.25, ease: "easeOut" }
+          : { duration: 0.8, ease: "easeOut" },
+      }}
       style={{
-        border: `1px solid ${C.border}`,
+        border: `1px solid ${highlighted ? C.amber : C.border}`,
         borderLeft: `2px solid ${catColor}`,
         background: C.card,
         overflow: "hidden",
         scrollMarginTop: 24,
+        transition: "border-color 0.25s ease",
       }}
     >
       {/* Card header */}
