@@ -4,6 +4,7 @@ import { useLocation } from "wouter";
 import { PLAYBOOKS } from "@/data/playbooks";
 import { DECISIONS } from "@/data/decisions";
 import { getMomentById } from "@/data/interventions";
+import { useInterventionUsage } from "@/context/InterventionUsageContext";
 
 const SUMMARY = [
   { label: "Total Signals", value: "12", sub: "BXOS MONITORING", color: "hsl(215 16% 38%)" },
@@ -166,11 +167,13 @@ function StatusBadge({ s }: { s: Status }) {
 interface InterventionsPanelProps {
   row: Row;
   actioned: Set<string>;
-  onAction: (key: string) => void;
+  onAction: (key: string, momentId: string, interventionName: string) => void;
+  onCloseMoment: (row: Row, outcome: "Resolved" | "Partial" | "Escalated") => void;
 }
 
-function InterventionsPanel({ row, actioned, onAction }: InterventionsPanelProps) {
+function InterventionsPanel({ row, actioned, onAction, onCloseMoment }: InterventionsPanelProps) {
   const moment = getMomentById(row.momentId);
+  const [pendingOutcome, setPendingOutcome] = useState<"Resolved" | "Partial" | "Escalated">("Resolved");
   if (!moment) return null;
 
   const actionedCount = moment.interventions.filter((iv) =>
@@ -309,7 +312,7 @@ function InterventionsPanel({ row, actioned, onAction }: InterventionsPanelProps
 
                 {/* Action button */}
                 <button
-                  onClick={() => onAction(key)}
+                  onClick={() => onAction(key, row.momentId, iv.name)}
                   style={{
                     flexShrink: 0,
                     padding: "5px 12px",
@@ -339,6 +342,68 @@ function InterventionsPanel({ row, actioned, onAction }: InterventionsPanelProps
             );
           })}
         </div>
+
+        {/* Close Moment footer — appears when at least one intervention is actioned */}
+        {actionedCount > 0 && (
+          <div style={{
+            borderTop: "1px solid hsl(220 13% 9%)",
+            background: "hsl(220 13% 5%)",
+            padding: "14px 20px 14px 24px",
+            display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap",
+          }}>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.16em", color: "#a78bfa", textTransform: "uppercase", marginBottom: 4 }}>
+                Close Moment · Log Outcome
+              </div>
+              <div style={{ fontSize: 10, color: "hsl(215 16% 40%)" }}>
+                {actionedCount} intervention{actionedCount > 1 ? "s" : ""} selected — record outcome to update success rates in the library
+              </div>
+            </div>
+            <div style={{ display: "flex", gap: 1, flexShrink: 0 }}>
+              {(["Resolved", "Partial", "Escalated"] as const).map((opt) => {
+                const isSelected = pendingOutcome === opt;
+                const col = opt === "Resolved" ? "#10b981" : opt === "Partial" ? "#c9a84c" : "#ef4444";
+                return (
+                  <button
+                    key={opt}
+                    onClick={() => setPendingOutcome(opt)}
+                    style={{
+                      padding: "5px 12px",
+                      fontSize: 7.5, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase",
+                      color: isSelected ? col : "hsl(215 16% 36%)",
+                      border: `1px solid ${isSelected ? col + "55" : "hsl(220 13% 12%)"}`,
+                      background: isSelected ? col + "12" : "hsl(220 13% 7%)",
+                      cursor: "pointer", transition: "all 0.15s",
+                    }}
+                  >
+                    {opt}
+                  </button>
+                );
+              })}
+            </div>
+            <button
+              onClick={() => onCloseMoment(row, pendingOutcome)}
+              style={{
+                flexShrink: 0, padding: "6px 16px",
+                fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase",
+                color: "#a78bfa",
+                border: "1px solid #a78bfa55",
+                background: "rgba(167,139,250,0.10)",
+                cursor: "pointer", transition: "all 0.15s",
+              }}
+              onMouseEnter={e => {
+                (e.currentTarget as HTMLButtonElement).style.background = "rgba(167,139,250,0.18)";
+                (e.currentTarget as HTMLButtonElement).style.borderColor = "#a78bfa88";
+              }}
+              onMouseLeave={e => {
+                (e.currentTarget as HTMLButtonElement).style.background = "rgba(167,139,250,0.10)";
+                (e.currentTarget as HTMLButtonElement).style.borderColor = "#a78bfa55";
+              }}
+            >
+              Confirm &amp; Close Moment →
+            </button>
+          </div>
+        )}
       </div>
     </motion.div>
   );
@@ -348,12 +413,16 @@ export default function CommandCentre() {
   const [, navigate] = useLocation();
   const [expandedRow, setExpandedRow] = useState<string | null>(null);
   const [actioned, setActioned] = useState<Set<string>>(new Set());
+  const [closedRows, setClosedRows] = useState<Set<string>>(new Set());
+  const [closureOutcome, setClosureOutcome] = useState<Record<string, "Resolved" | "Partial" | "Escalated">>({});
+  const { logUsage } = useInterventionUsage();
 
   function handleToggleInterventions(rowId: string) {
+    if (closedRows.has(rowId)) return;
     setExpandedRow((prev) => (prev === rowId ? null : rowId));
   }
 
-  function handleAction(key: string) {
+  function handleAction(key: string, _momentId: string, _interventionName: string) {
     setActioned((prev) => {
       const next = new Set(prev);
       if (next.has(key)) {
@@ -363,6 +432,20 @@ export default function CommandCentre() {
       }
       return next;
     });
+  }
+
+  function handleCloseMoment(row: Row, outcome: "Resolved" | "Partial" | "Escalated") {
+    const moment = getMomentById(row.momentId);
+    if (!moment) return;
+    const succeeded = outcome === "Resolved";
+    moment.interventions.forEach((iv) => {
+      if (actioned.has(`${row.id}:${iv.name}`)) {
+        logUsage(row.momentId, iv.name, succeeded);
+      }
+    });
+    setClosedRows((prev) => new Set(prev).add(row.id));
+    setClosureOutcome((prev) => ({ ...prev, [row.id]: outcome }));
+    setExpandedRow(null);
   }
 
   return (
@@ -724,9 +807,35 @@ export default function CommandCentre() {
                       row={row}
                       actioned={actioned}
                       onAction={handleAction}
+                      onCloseMoment={handleCloseMoment}
                     />
                   )}
                 </AnimatePresence>
+
+                {/* Closed moment banner */}
+                {closedRows.has(row.id) && (() => {
+                  const oc = closureOutcome[row.id];
+                  const col = oc === "Resolved" ? "#10b981" : oc === "Partial" ? "#c9a84c" : "#ef4444";
+                  return (
+                    <div style={{
+                      padding: "8px 20px 8px 22px",
+                      borderLeft: `2px solid ${col}`,
+                      borderBottom: "1px solid hsl(220 13% 8%)",
+                      background: `${col}08`,
+                      display: "flex", alignItems: "center", gap: 10,
+                    }}>
+                      <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
+                        <path d="M1.5 4.5L3.5 6.5L7.5 2.5" stroke={col} strokeWidth="1.5" strokeLinecap="square"/>
+                      </svg>
+                      <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: col }}>
+                        Moment Closed · {oc}
+                      </span>
+                      <span style={{ fontSize: 8, color: "hsl(215 16% 32%)", letterSpacing: "0.06em" }}>
+                        · Intervention usage logged to library
+                      </span>
+                    </div>
+                  );
+                })()}
               </div>
             );
           })}

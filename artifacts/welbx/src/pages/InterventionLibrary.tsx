@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { LineChart, Line, ResponsiveContainer, Tooltip } from "recharts";
 import { INTERVENTION_LIBRARY, type Category, type FreqLabel, type Intervention, type LibraryMoment } from "@/data/interventions";
+import { useInterventionUsage } from "@/context/InterventionUsageContext";
 
 const C = {
   amber:  "#c9a84c",
@@ -62,7 +64,128 @@ function MetricPill({ label, value, color }: { label: string; value: string | nu
   );
 }
 
-function InterventionRow({ intervention, index }: { intervention: Intervention; index: number }) {
+function UsageCell({ timesUsed, sessionUses }: { timesUsed: number; sessionUses: number }) {
+  const freqColor = timesUsed > 0 ? C.green : C.dimmed;
+  return (
+    <div style={{
+      display: "flex", flexDirection: "column", alignItems: "center",
+      padding: "8px 14px",
+      background: "hsl(220 13% 6%)",
+      border: `1px solid hsl(220 13% 11%)`,
+      minWidth: 80,
+    }}>
+      {timesUsed === 0 ? (
+        <div style={{ fontSize: 12, fontWeight: 700, color: C.dimmed, lineHeight: 1 }}>—</div>
+      ) : (
+        <div style={{ display: "flex", alignItems: "baseline", gap: 3 }}>
+          <div style={{ fontSize: 14, fontWeight: 800, color: freqColor, letterSpacing: "-0.01em", lineHeight: 1 }}>
+            {timesUsed}
+          </div>
+          {sessionUses > 0 && (
+            <div style={{ fontSize: 8, fontWeight: 700, color: C.green, letterSpacing: "0.06em" }}>
+              +{sessionUses}
+            </div>
+          )}
+        </div>
+      )}
+      <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.12em", color: C.dimmed, textTransform: "uppercase", marginTop: 5, textAlign: "center" }}>
+        Times Used
+      </div>
+    </div>
+  );
+}
+
+function OutcomeTrendCell({ recentOutcomes }: { recentOutcomes: boolean[] }) {
+  if (recentOutcomes.length < 2) {
+    return (
+      <div style={{
+        display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+        padding: "8px 10px",
+        background: "hsl(220 13% 6%)",
+        border: `1px solid hsl(220 13% 11%)`,
+        minWidth: 90,
+        gap: 4,
+      }}>
+        <div style={{ fontSize: 10, color: C.dimmed, letterSpacing: "0.04em" }}>—</div>
+        <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.12em", color: C.dimmed, textTransform: "uppercase", textAlign: "center" }}>
+          Outcome Trend
+        </div>
+      </div>
+    );
+  }
+
+  const data = recentOutcomes.map((v, i) => ({ x: i, v: v ? 100 : 0 }));
+  const successCount = recentOutcomes.filter(Boolean).length;
+  const liveRate = Math.round((successCount / recentOutcomes.length) * 100);
+  const first = data[0].v;
+  const last = data[data.length - 1].v;
+  const delta = last - first;
+  const trendColor = liveRate >= 75 ? C.green : liveRate >= 50 ? C.amber : C.red;
+
+  return (
+    <div style={{
+      display: "flex", flexDirection: "column",
+      padding: "8px 10px",
+      background: "hsl(220 13% 6%)",
+      border: `1px solid hsl(220 13% 11%)`,
+      minWidth: 90,
+      gap: 3,
+    }}>
+      <div style={{ width: "100%", height: 28 }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={data}>
+            <Line
+              type="monotone"
+              dataKey="v"
+              stroke={trendColor}
+              strokeWidth={1.5}
+              dot={false}
+              isAnimationActive={false}
+            />
+            <Tooltip
+              content={({ active, payload }) => {
+                if (!active || !payload?.length) return null;
+                return (
+                  <div style={{
+                    background: "hsl(220 13% 8%)",
+                    border: "1px solid hsl(220 13% 12%)",
+                    padding: "3px 6px",
+                    fontSize: 9, color: "#fff", fontWeight: 700,
+                  }}>
+                    {payload[0].value === 100 ? "Resolved" : "Not resolved"}
+                  </div>
+                );
+              }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+      <div style={{
+        display: "flex", justifyContent: "space-between", alignItems: "center",
+      }}>
+        <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.12em", color: C.dimmed, textTransform: "uppercase" }}>
+          Outcome Trend
+        </div>
+        <div style={{ fontSize: 7, fontWeight: 700, color: trendColor, letterSpacing: "0.08em" }}>
+          {delta > 0 ? "▲" : delta < 0 ? "▼" : "—"} {liveRate}%
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function InterventionRow({
+  intervention,
+  momentId,
+  index,
+}: {
+  intervention: Intervention;
+  momentId: string;
+  index: number;
+}) {
+  const { getUsage } = useInterventionUsage();
+  const usage = getUsage(momentId, intervention.name);
+
   const freqColor = FREQ_COLOR[intervention.usageFrequency];
   const qualColor = intervention.outcomeQuality >= 8.5 ? C.green
     : intervention.outcomeQuality >= 7.0 ? C.amber
@@ -88,11 +211,30 @@ function InterventionRow({ intervention, index }: { intervention: Intervention; 
       </div>
       <div style={{ flex: 1, fontSize: 12, fontWeight: 600, color: "#fff", lineHeight: 1.4 }}>
         {intervention.name}
+        {usage.timesUsed > 0 && (
+          <span style={{
+            display: "inline-flex", alignItems: "center", gap: 4, marginLeft: 10,
+            fontSize: 7.5, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase",
+            color: C.green, background: `${C.green}12`, border: `1px solid ${C.green}33`,
+            padding: "2px 7px",
+          }}>
+            <svg width="7" height="7" viewBox="0 0 7 7" fill="none">
+              <path d="M1 3.5L2.8 5.5L6 1.5" stroke="#10b981" strokeWidth="1.5" strokeLinecap="square"/>
+            </svg>
+            Used {usage.timesUsed}x this session
+          </span>
+        )}
       </div>
-      <div style={{ display: "flex", gap: 4, flexShrink: 0 }}>
-        <MetricPill label="Success Rate" value={`${intervention.successRate}%`} color={intervention.successRate >= 85 ? C.green : intervention.successRate >= 72 ? C.amber : C.slate} />
+      <div style={{ display: "flex", gap: 4, flexShrink: 0, alignItems: "flex-start" }}>
+        <MetricPill
+          label="Success Rate"
+          value={`${intervention.successRate}%`}
+          color={intervention.successRate >= 85 ? C.green : intervention.successRate >= 72 ? C.amber : C.slate}
+        />
+        <UsageCell timesUsed={usage.timesUsed} sessionUses={usage.timesUsed} />
         <MetricPill label="Usage Freq" value={intervention.usageFrequency} color={freqColor} />
         <MetricPill label="Outcome Quality" value={intervention.outcomeQuality.toFixed(1)} color={qualColor} />
+        <OutcomeTrendCell recentOutcomes={usage.recentOutcomes} />
       </div>
     </motion.div>
   );
@@ -100,6 +242,8 @@ function InterventionRow({ intervention, index }: { intervention: Intervention; 
 
 function MomentAccordion({ moment, catColor, globalIndex }: { moment: LibraryMoment; catColor: string; globalIndex: number }) {
   const [open, setOpen] = useState(false);
+  const { getUsage } = useInterventionUsage();
+  const totalUses = moment.interventions.reduce((sum, iv) => sum + getUsage(moment.id, iv.name).timesUsed, 0);
 
   return (
     <motion.div
@@ -113,7 +257,6 @@ function MomentAccordion({ moment, catColor, globalIndex }: { moment: LibraryMom
         overflow: "hidden",
       }}
     >
-      {/* Accordion header */}
       <button
         onClick={() => setOpen((v) => !v)}
         style={{
@@ -138,6 +281,11 @@ function MomentAccordion({ moment, catColor, globalIndex }: { moment: LibraryMom
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
+          {totalUses > 0 && (
+            <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.1em", color: C.green, textTransform: "uppercase" }}>
+              {totalUses} use{totalUses !== 1 ? "s" : ""} logged
+            </span>
+          )}
           <span style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.1em", color: C.dim2, textTransform: "uppercase" }}>
             {moment.interventions.length} interventions
           </span>
@@ -156,7 +304,6 @@ function MomentAccordion({ moment, catColor, globalIndex }: { moment: LibraryMom
         </div>
       </button>
 
-      {/* Accordion body */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -180,15 +327,15 @@ function MomentAccordion({ moment, catColor, globalIndex }: { moment: LibraryMom
                   Intervention Option
                 </div>
                 <div style={{ display: "flex", gap: 4, flexShrink: 0 }}>
-                  {["Success Rate", "Usage Frequency", "Outcome Quality"].map((h) => (
-                    <div key={h} style={{ minWidth: 80, fontSize: 7, fontWeight: 700, letterSpacing: "0.12em", color: C.dimmed, textTransform: "uppercase", textAlign: "center" }}>
+                  {["Success Rate", "Times Used", "Usage Frequency", "Outcome Quality", "Outcome Trend"].map((h) => (
+                    <div key={h} style={{ minWidth: h === "Outcome Trend" ? 90 : 80, fontSize: 7, fontWeight: 700, letterSpacing: "0.12em", color: C.dimmed, textTransform: "uppercase", textAlign: "center" }}>
                       {h}
                     </div>
                   ))}
                 </div>
               </div>
               {moment.interventions.map((iv, i) => (
-                <InterventionRow key={iv.name} intervention={iv} index={i} />
+                <InterventionRow key={iv.name} intervention={iv} momentId={moment.id} index={i} />
               ))}
             </div>
           </motion.div>
@@ -196,6 +343,16 @@ function MomentAccordion({ moment, catColor, globalIndex }: { moment: LibraryMom
       </AnimatePresence>
     </motion.div>
   );
+}
+
+function TotalUsesAcrossLibrary() {
+  const { getUsage } = useInterventionUsage();
+  const total = INTERVENTION_LIBRARY.flatMap((d) =>
+    d.moments.flatMap((m) =>
+      m.interventions.map((iv) => getUsage(m.id, iv.name).timesUsed)
+    )
+  ).reduce((a, b) => a + b, 0);
+  return <>{total}</>;
 }
 
 export default function InterventionLibrary() {
@@ -207,7 +364,7 @@ export default function InterventionLibrary() {
 
   return (
     <div className="pl-56 min-h-screen" style={{ background: C.bg }}>
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "36px 40px 80px" }}>
+      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "36px 40px 80px" }}>
 
         {/* Header */}
         <motion.div
@@ -229,8 +386,11 @@ export default function InterventionLibrary() {
             <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.12em", color: C.dimmed, textTransform: "uppercase", marginBottom: 4 }}>
               {INTERVENTION_LIBRARY.reduce((a, d) => a + d.moments.reduce((b, m) => b + m.interventions.length, 0), 0)} interventions
             </div>
-            <div style={{ fontSize: 8, letterSpacing: "0.1em", color: "hsl(215 16% 18%)", textTransform: "uppercase" }}>
+            <div style={{ fontSize: 8, letterSpacing: "0.1em", color: "hsl(215 16% 18%)", textTransform: "uppercase", marginBottom: 4 }}>
               {INTERVENTION_LIBRARY.reduce((a, d) => a + d.moments.length, 0)} moments · 5 domains
+            </div>
+            <div style={{ fontSize: 8, letterSpacing: "0.1em", color: C.dimmed, textTransform: "uppercase" }}>
+              <TotalUsesAcrossLibrary /> uses logged this session
             </div>
           </div>
         </motion.div>
@@ -242,10 +402,8 @@ export default function InterventionLibrary() {
         >
           {INTERVENTION_LIBRARY.map((d) => {
             const cc = CAT_COLOR[d.category];
-            const totalIvs = d.moments.reduce((a, m) => a + m.interventions.length, 0);
-            const avgSuccess = Math.round(
-              d.moments.flatMap((m) => m.interventions).reduce((a, iv) => a + iv.successRate, 0) / totalIvs
-            );
+            const allIvs = d.moments.flatMap((m) => m.interventions);
+            const avgSuccess = Math.round(allIvs.reduce((a, iv) => a + iv.successRate, 0) / allIvs.length);
             return (
               <div
                 key={d.category}
@@ -328,7 +486,6 @@ export default function InterventionLibrary() {
               padding: "16px 16px",
             }}
           >
-            {/* Section label */}
             <div style={{
               display: "flex", alignItems: "center", gap: 12, marginBottom: 14,
               paddingBottom: 12, borderBottom: `1px solid hsl(220 13% 9%)`,
@@ -339,7 +496,7 @@ export default function InterventionLibrary() {
                   {activeCategory} Domain
                 </div>
                 <div style={{ fontSize: 8.5, color: C.dim2, marginTop: 2 }}>
-                  {catData.moments.length} moment categories · Expand to view intervention options
+                  {catData.moments.length} moment categories · Expand to view interventions with live usage data
                 </div>
               </div>
             </div>
@@ -358,7 +515,7 @@ export default function InterventionLibrary() {
           </motion.div>
         </AnimatePresence>
 
-        {/* Legend / key */}
+        {/* Legend */}
         <motion.div
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5, duration: 0.4 }}
           style={{
@@ -379,7 +536,7 @@ export default function InterventionLibrary() {
             </div>
           ))}
           <div style={{ marginLeft: "auto", fontSize: 8, letterSpacing: "0.08em", color: "hsl(215 16% 16%)" }}>
-            Outcome Quality scored 0–10 · Usage Frequency: observed operational pattern
+            Usage &amp; trend data sourced from live operator closures in Command Centre · no synthetic data
           </div>
         </motion.div>
 
@@ -405,7 +562,7 @@ export default function InterventionLibrary() {
             ))}
           </div>
           <div style={{ fontSize: 8, letterSpacing: "0.1em", color: "hsl(215 16% 14%)", textTransform: "uppercase" }}>
-            Response Catalogue · v1.0
+            Response Catalogue · v1.1 · Live Usage Tracking
           </div>
         </motion.div>
 

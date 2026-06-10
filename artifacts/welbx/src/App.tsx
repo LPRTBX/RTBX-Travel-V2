@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 
 import { AppProvider } from "@/context/AppContext";
+import { InterventionUsageProvider } from "@/context/InterventionUsageContext";
 import { Sidebar } from "@/components/Sidebar";
 import { GlobalSearch } from "@/components/GlobalSearch";
 import Landing from "@/pages/Landing";
@@ -87,14 +88,16 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <AppProvider>
-          <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-            <div className="min-h-[100dvh] bg-background">
-              <Sidebar />
-              <GlobalSearch />
-              <Router />
-            </div>
-          </WouterRouter>
-          <Toaster />
+          <InterventionUsageProvider>
+            <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+              <div className="min-h-[100dvh] bg-background">
+                <Sidebar />
+                <GlobalSearch />
+                <Router />
+              </div>
+            </WouterRouter>
+            <Toaster />
+          </InterventionUsageProvider>
         </AppProvider>
       </TooltipProvider>
     </QueryClientProvider>
