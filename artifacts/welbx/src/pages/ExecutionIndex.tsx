@@ -4,7 +4,7 @@ import { useLocation } from "wouter";
 import { SEEDED_MOMENTS } from "@/data/moments";
 import { PLAYBOOKS } from "@/data/playbooks";
 import { SIGNAL_CATEGORIES } from "@/data/signals";
-import { CC_ROWS } from "@/data/command-centre";
+import { useCc } from "@/context/CcContext";
 import {
   AreaChart, Area, XAxis, YAxis, Tooltip,
   ResponsiveContainer, RadarChart, Radar,
@@ -305,64 +305,78 @@ function MetricCard({ m, delay, onNavigate }: { m: Metric; delay: number; onNavi
 export default function ExecutionIndex() {
   const [, navigate] = useLocation();
 
+  const { ccRows } = useCc();
+
   const { metrics, overallScore, overallDelta, improvements, radarData, leader, laggard } = useMemo(() => {
-    const SWEIGHT = { ACTIVE: 1.0, ALERT: 1.0, MONITORING: 0.8, EMERGING: 0.3 } as const;
-    const allSignals     = SIGNAL_CATEGORIES.flatMap(c => c.signals);
-    const sigWSum        = allSignals.reduce((s, sig) => s + sig.confidence * SWEIGHT[sig.status], 0);
-    const sigWTotal      = allSignals.reduce((s, sig) => s + SWEIGHT[sig.status], 0);
-    const visScore       = Math.round(sigWSum / sigWTotal);
-    const activeSigCount = allSignals.filter(s => s.status === "ACTIVE" || s.status === "ALERT").length;
+    // ── Visibility: avg confidence of actively-sensing signals (ACTIVE + ALERT) ──
+    const allSignals      = SIGNAL_CATEGORIES.flatMap(c => c.signals);
+    const liveSignals     = allSignals.filter(s => s.status === "ACTIVE" || s.status === "ALERT");
+    const activeSigCount  = liveSignals.length;
+    const visScore        = liveSignals.length > 0
+      ? Math.round(liveSignals.reduce((s, sig) => s + sig.confidence, 0) / liveSignals.length)
+      : 0;
 
-    const decScore = Math.round(
-      SEEDED_MOMENTS.reduce((s, m) => s + m.confidence, 0) / SEEDED_MOMENTS.length
-    );
+    // ── Decision Quality: avg routing-decision confidence across CC rows ──
+    const decScore = ccRows.length > 0
+      ? Math.round(ccRows.reduce((s, r) => s + r.conf, 0) / ccRows.length)
+      : 0;
 
+    // ── Response Consistency: fire-weighted playbook success rate (Playbook Engine) ──
     const totalFires = PLAYBOOKS.reduce((s, pb) => s + pb.stats.firesLast30Days, 0);
     const totalExecs = PLAYBOOKS.reduce((s, pb) => s + pb.executions.length, 0);
-    const conScore   = Math.round(
-      PLAYBOOKS.reduce((s, pb) => s + pb.stats.successRate * pb.stats.firesLast30Days, 0) / totalFires
-    );
+    const conScore   = totalFires > 0
+      ? Math.round(PLAYBOOKS.reduce((s, pb) => s + pb.stats.successRate * pb.stats.firesLast30Days, 0) / totalFires)
+      : 0;
 
-    const recPBs   = PLAYBOOKS.filter(pb => pb.category === "Recovery" || pb.category === "Guest");
-    const recFires = recPBs.reduce((s, pb) => s + pb.stats.firesLast30Days, 0);
-    const recExecs = recPBs.reduce((s, pb) => s + pb.executions.length, 0);
-    const recScore = Math.round(
-      recPBs.reduce((s, pb) => s + pb.stats.successRate * pb.stats.firesLast30Days, 0) / recFires
-    );
+    // ── Recovery Performance: avg conf of CC rows with confirmed outcomes + recovery PB success ──
+    const recPBs      = PLAYBOOKS.filter(pb => pb.category === "Recovery" || pb.category === "Guest");
+    const recFires    = recPBs.reduce((s, pb) => s + pb.stats.firesLast30Days, 0);
+    const recExecs    = recPBs.reduce((s, pb) => s + pb.executions.length, 0);
+    const recPbRate   = recFires > 0
+      ? recPBs.reduce((s, pb) => s + pb.stats.successRate * pb.stats.firesLast30Days, 0) / recFires
+      : 0;
+    const resolvedRows    = ccRows.filter(r => r.status === "RESOLVED" && r.outcome !== "—");
+    const resolvedAvgConf = resolvedRows.length > 0
+      ? resolvedRows.reduce((s, r) => s + r.conf, 0) / resolvedRows.length
+      : recPbRate;
+    const recScore = Math.round(resolvedAvgConf * 0.4 + recPbRate * 0.6);
 
-    const ccCompleted = CC_ROWS.filter(r => r.status === "RESOLVED" || r.status === "MONITORING").length;
-    const ccRate      = (ccCompleted / CC_ROWS.length) * 100;
-    const actPBs      = PLAYBOOKS.filter(pb => pb.category === "VIP" || pb.category === "Workforce" || pb.category === "Operational");
-    const actFires    = actPBs.reduce((s, pb) => s + pb.stats.firesLast30Days, 0);
-    const actExecs    = actPBs.reduce((s, pb) => s + pb.executions.length, 0);
-    const pbActRate   = actPBs.reduce((s, pb) => s + pb.stats.successRate * pb.stats.firesLast30Days, 0) / actFires;
-    const actScore    = Math.round(ccRate * 0.4 + pbActRate * 0.6);
+    // ── Activation Success: CC completion rate (resolved/monitoring) + VIP/Workforce/Ops PB rate ──
+    const completedRows = ccRows.filter(r => r.status === "RESOLVED" || r.status === "MONITORING");
+    const ccRate        = ccRows.length > 0 ? (completedRows.length / ccRows.length) * 100 : 0;
+    const actPBs        = PLAYBOOKS.filter(pb => pb.category === "VIP" || pb.category === "Workforce" || pb.category === "Operational");
+    const actFires      = actPBs.reduce((s, pb) => s + pb.stats.firesLast30Days, 0);
+    const actExecs      = actPBs.reduce((s, pb) => s + pb.executions.length, 0);
+    const pbActRate     = actFires > 0
+      ? actPBs.reduce((s, pb) => s + pb.stats.successRate * pb.stats.firesLast30Days, 0) / actFires
+      : 0;
+    const actScore      = Math.round(ccRate * 0.4 + pbActRate * 0.6);
 
     const m: Metric[] = [
       {
         id: "visibility", label: "Visibility Score", score: visScore,
         trend: [72, 76, 79, 82, 85, visScore], trendDir: "up",
-        delta: `+${visScore - 72} pts`,
-        description: "Breadth and depth of real-time behavioural sensing across all guest and operational touchpoints.",
+        delta: `+${Math.max(0, visScore - 72)} pts`,
+        description: "Average confidence of actively-sensing signals across all guest and operational categories.",
         source: {
           label: "Signal Registry", link: "/signal-registry",
-          summary: `${allSignals.length} signals · ${activeSigCount} active/alerting · ${SIGNAL_CATEGORIES.length} categories`,
+          summary: `${activeSigCount} of ${allSignals.length} signals active/alerting · ${SIGNAL_CATEGORIES.length} categories · ${visScore}% avg confidence`,
         },
       },
       {
         id: "decision", label: "Decision Quality", score: decScore,
         trend: [65, 68, 72, 76, 79, decScore], trendDir: "up",
-        delta: `+${decScore - 65} pts`,
-        description: "Accuracy and confidence of automated routing decisions against subsequent outcome data.",
+        delta: `+${Math.max(0, decScore - 65)} pts`,
+        description: "Average routing-decision confidence across Command Centre activations — measuring how certain the engine is in each routing recommendation.",
         source: {
-          label: "Live Moments", link: "/live-moments",
-          summary: `${SEEDED_MOMENTS.length} active moments · ${decScore}% avg routing confidence`,
+          label: "Command Centre", link: "/command-centre",
+          summary: `${ccRows.length} CC routing decisions · ${decScore}% avg confidence`,
         },
       },
       {
         id: "consistency", label: "Response Consistency", score: conScore,
         trend: [71, 74, 79, 83, 89, conScore], trendDir: "up",
-        delta: `+${conScore - 71} pts`,
+        delta: `+${Math.max(0, conScore - 71)} pts`,
         description: "Percentage of moments resolved using the correct playbook action within the response window.",
         source: {
           label: "Playbook Engine", link: "/playbook-engine",
@@ -372,21 +386,21 @@ export default function ExecutionIndex() {
       {
         id: "recovery", label: "Recovery Performance", score: recScore,
         trend: [58, 62, 66, 70, 73, recScore], trendDir: "up",
-        delta: `+${recScore - 58} pts`,
-        description: "Success rate of service recovery interventions measured against guest sentiment shift post-action.",
+        delta: `+${Math.max(0, recScore - 58)} pts`,
+        description: "Blended score from confirmed CC outcome confidence and fire-weighted recovery playbook success rate.",
         source: {
           label: "Command Centre · Recovery Playbooks", link: "/command-centre",
-          summary: `${recExecs} recovery & guest runs · ${recFires} fires (30d) · ${recScore}% success`,
+          summary: `${resolvedRows.length} resolved outcomes confirmed · ${recExecs} recovery & guest PB runs · ${Math.round(resolvedAvgConf)}% confirmed conf`,
         },
       },
       {
         id: "activation", label: "Activation Success", score: actScore,
         trend: [64, 68, 72, 77, 81, actScore], trendDir: "up",
-        delta: `+${actScore - 64} pts`,
-        description: "Rate of staff-activation moments completed within the prescribed execution window.",
+        delta: `+${Math.max(0, actScore - 64)} pts`,
+        description: "Rate of Command Centre activations reaching resolved or monitored outcome status, blended with activation playbook success.",
         source: {
           label: "Command Centre · Activation Records", link: "/command-centre",
-          summary: `${ccCompleted}/${CC_ROWS.length} CC activations resolved · ${actExecs} activation runs · ${Math.round(pbActRate)}% PB success`,
+          summary: `${completedRows.length}/${ccRows.length} CC activations completed · ${actExecs} activation PB runs · ${Math.round(pbActRate)}% PB success`,
         },
       },
     ];
@@ -402,7 +416,7 @@ export default function ExecutionIndex() {
     const laggard       = sortedByScore[sortedByScore.length - 1];
 
     return { metrics: m, overallScore, overallDelta, improvements, radarData, leader, laggard };
-  }, []);
+  }, [ccRows]);
 
   return (
     <div className="pl-56 min-h-screen" style={{ background: C.bg }}>

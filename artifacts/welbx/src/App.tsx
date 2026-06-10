@@ -6,6 +6,7 @@ import NotFound from "@/pages/not-found";
 
 import { AppProvider } from "@/context/AppContext";
 import { InterventionUsageProvider } from "@/context/InterventionUsageContext";
+import { CcProvider } from "@/context/CcContext";
 import { Sidebar } from "@/components/Sidebar";
 import { GlobalSearch } from "@/components/GlobalSearch";
 import Landing from "@/pages/Landing";
@@ -88,6 +89,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <AppProvider>
+          <CcProvider>
           <InterventionUsageProvider>
             <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
               <div className="min-h-[100dvh] bg-background">
@@ -98,6 +100,7 @@ function App() {
             </WouterRouter>
             <Toaster />
           </InterventionUsageProvider>
+          </CcProvider>
         </AppProvider>
       </TooltipProvider>
     </QueryClientProvider>
