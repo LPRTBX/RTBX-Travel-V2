@@ -20,6 +20,7 @@ import CommandCentre from "@/pages/CommandCentre";
 import ExecutionTimeline from "@/pages/ExecutionTimeline";
 import ExecutiveDashboard from "@/pages/ExecutiveDashboard";
 import MomentRegistry from "@/pages/MomentRegistry";
+import MomentIntelligence from "@/pages/MomentIntelligence";
 import GHSOL from "@/pages/GHSOL";
 import SignalRegistry from "@/pages/SignalRegistry";
 import BehaviouralGenome from "@/pages/BehaviouralGenome";
@@ -41,6 +42,7 @@ function Router() {
       <Route path="/execution-timeline" component={ExecutionTimeline} />
       <Route path="/executive-dashboard" component={ExecutiveDashboard} />
       <Route path="/moment-registry" component={MomentRegistry} />
+      <Route path="/moment-intelligence" component={MomentIntelligence} />
       <Route path="/ghsol" component={GHSOL} />
       <Route path="/signal-registry" component={SignalRegistry} />
       <Route path="/behavioural-genome" component={BehaviouralGenome} />
