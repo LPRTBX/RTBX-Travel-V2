@@ -10,6 +10,7 @@ export interface Moment {
   urgency: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
   risk: string;
   commercialExposure: string;
+  commercialValue?: string;
   recommendedAction: string;
   status: MomentStatus;
   playbookId?: string;

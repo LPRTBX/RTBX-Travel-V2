@@ -6,6 +6,7 @@ import NotFound from "@/pages/not-found";
 
 import { AppProvider } from "@/context/AppContext";
 import { Sidebar } from "@/components/Sidebar";
+import { GlobalSearch } from "@/components/GlobalSearch";
 import Landing from "@/pages/Landing";
 import LiveDemo from "@/pages/LiveDemo";
 import LiveMoments from "@/pages/LiveMoments";
@@ -35,6 +36,9 @@ import CentralCommunicationsSystem from "@/pages/CentralCommunicationsSystem";
 import CommunicationRegistry from "@/pages/CommunicationRegistry";
 import CommunicationIntelligence from "@/pages/CommunicationIntelligence";
 import OutcomeRegistry from "@/pages/OutcomeRegistry";
+import LearningLayer from "@/pages/LearningLayer";
+import CausalTrace from "@/pages/CausalTrace";
+import ValueProof from "@/pages/ValueProof";
 
 const queryClient = new QueryClient();
 
@@ -68,6 +72,9 @@ function Router() {
       <Route path="/communication-registry" component={CommunicationRegistry} />
       <Route path="/communication-intelligence" component={CommunicationIntelligence} />
       <Route path="/outcome-registry" component={OutcomeRegistry} />
+      <Route path="/learning-layer" component={LearningLayer} />
+      <Route path="/causal-trace" component={CausalTrace} />
+      <Route path="/value-proof" component={ValueProof} />
       <Route path="/compare" component={CompareMode} />
       <Route path="/command-mode" component={CommandMode} />
       <Route component={NotFound} />
@@ -83,6 +90,7 @@ function App() {
           <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
             <div className="min-h-[100dvh] bg-background">
               <Sidebar />
+              <GlobalSearch />
               <Router />
             </div>
           </WouterRouter>

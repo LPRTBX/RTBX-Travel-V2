@@ -546,7 +546,7 @@ export default function OutcomeRegistry() {
               }}
             >
               <div style={{ fontSize: 30, fontWeight: 800, color: "#fff", letterSpacing: "-0.025em", lineHeight: 1, marginBottom: 7 }}>
-                {(m.prefix !== undefined ? m.prefix : "")}
+                {((m as { prefix?: string }).prefix ?? "")}
                 <CountUp target={m.value} />
                 {m.suffix ?? ""}
               </div>

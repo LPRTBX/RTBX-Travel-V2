@@ -96,11 +96,10 @@ export default function ScenarioDemo() {
   const next = () => setStep(s => Math.min(s + 1, TOTAL_STEPS - 1));
 
   useEffect(() => {
-    if (step === 4) {
-      setCountdown(240);
-      const iv = setInterval(() => setCountdown(c => Math.max(0, c - 1)), 1000);
-      return () => clearInterval(iv);
-    }
+    if (step !== 4) return;
+    setCountdown(240);
+    const iv = setInterval(() => setCountdown(c => Math.max(0, c - 1)), 1000);
+    return () => clearInterval(iv);
   }, [step]);
 
   const fmt = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;

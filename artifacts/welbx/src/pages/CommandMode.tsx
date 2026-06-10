@@ -39,7 +39,7 @@ export default function CommandMode() {
   const [outcomeRisk, setOutcomeRisk] = useState(87);
   const [outcomeQueue, setOutcomeQueue] = useState(14);
   const [outcomeValue, setOutcomeValue] = useState(0);
-  const riskIvRef = useRef<ReturnType<typeof setInterval>>();
+  const riskIvRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   // Phase 0: animate risk score up
   useEffect(() => {

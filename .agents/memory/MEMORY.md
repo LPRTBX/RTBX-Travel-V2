@@ -1,0 +1,1 @@
+- [WELBX architecture](welbx-architecture.md) — 32 routes, sectioned sidebar, AppContext with property/role/period/search state, 3 new pages (LearningLayer, CausalTrace, ValueProof)
