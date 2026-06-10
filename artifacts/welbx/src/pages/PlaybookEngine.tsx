@@ -2,6 +2,10 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { PLAYBOOKS, type Playbook, type PlaybookExecution } from "@/data/playbooks";
 
+/* ─── Filter types ────────────────────────────────────── */
+type CategoryFilter = Playbook["category"] | "All";
+type StatusFilter   = Playbook["status"]   | "All";
+
 /* ─── Palette ─────────────────────────────────────────── */
 const C = {
   amber:  "#c9a84c",
@@ -510,8 +514,37 @@ const SUMMARY = [
   { label: "Consistency Rate",  value: "97%",sub: "EXECUTION SCORE",  color: C.amber  },
 ];
 
+/* ─── Filter constants ───────────────────────────────── */
+const ALL_CATEGORIES: Playbook["category"][] = ["Guest", "VIP", "Recovery", "Workforce", "Operational"];
+const ALL_STATUSES:   Playbook["status"][]   = ["ACTIVE", "STANDBY", "ESCALATED"];
+
 /* ─── Page ─────────────────────────────────────────── */
 export default function PlaybookEngine() {
+  const [activeCategory, setActiveCategory] = useState<CategoryFilter>("All");
+  const [activeStatus,   setActiveStatus]   = useState<StatusFilter>("All");
+
+  const filtered = PLAYBOOKS.filter((pb) => {
+    const catMatch = activeCategory === "All" || pb.category === activeCategory;
+    const stsMatch = activeStatus   === "All" || pb.status   === activeStatus;
+    return catMatch && stsMatch;
+  });
+
+  const catCounts = ALL_CATEGORIES.reduce<Record<string, number>>((acc, c) => {
+    const stsMask = activeStatus === "All"
+      ? PLAYBOOKS
+      : PLAYBOOKS.filter(pb => pb.status === activeStatus);
+    acc[c] = stsMask.filter(pb => pb.category === c).length;
+    return acc;
+  }, {});
+
+  const stsCounts = ALL_STATUSES.reduce<Record<string, number>>((acc, s) => {
+    const catMask = activeCategory === "All"
+      ? PLAYBOOKS
+      : PLAYBOOKS.filter(pb => pb.category === activeCategory);
+    acc[s] = catMask.filter(pb => pb.status === s).length;
+    return acc;
+  }, {});
+
   return (
     <div className="pl-56 min-h-screen" style={{ background: C.bg }}>
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "36px 40px 80px" }}>
@@ -609,24 +642,173 @@ export default function PlaybookEngine() {
         </motion.div>
         <CausalChain />
 
-        {/* ── Playbook grid ── */}
+        {/* ── Filter bar ── */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.35 }}
           style={{
-            fontSize: 8.5, fontWeight: 700, letterSpacing: "0.22em",
-            color: C.amber, textTransform: "uppercase", marginBottom: 16,
+            display: "flex", flexDirection: "column", gap: 1, marginBottom: 0,
           }}
         >
-          Configured Playbooks
+          {/* Category tabs */}
+          <div style={{ display: "flex", gap: 1 }}>
+            {(["All", ...ALL_CATEGORIES] as CategoryFilter[]).map((cat) => {
+              const isActive = activeCategory === cat;
+              const color = cat === "All" ? C.amber : CAT_COLOR[cat as Playbook["category"]];
+              const count = cat === "All"
+                ? (activeStatus === "All" ? PLAYBOOKS.length : PLAYBOOKS.filter(pb => pb.status === activeStatus).length)
+                : catCounts[cat as Playbook["category"]];
+              return (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  style={{
+                    padding: "10px 18px",
+                    background: isActive ? "hsl(220 13% 9%)" : "transparent",
+                    border: `1px solid ${isActive ? color + "44" : "hsl(220 13% 10%)"}`,
+                    borderBottom: isActive ? `1px solid hsl(220 13% 9%)` : `1px solid hsl(220 13% 10%)`,
+                    borderTop: isActive ? `2px solid ${color}` : "2px solid transparent",
+                    cursor: "pointer", transition: "all 0.15s",
+                    display: "flex", alignItems: "center", gap: 8,
+                  }}
+                >
+                  <span style={{
+                    fontSize: 10, fontWeight: 700, letterSpacing: "0.08em",
+                    color: isActive ? "#fff" : "hsl(215 16% 36%)",
+                  }}>
+                    {cat}
+                  </span>
+                  <span style={{
+                    fontSize: 8, fontWeight: 700, letterSpacing: "0.1em",
+                    color: isActive ? color : C.dimmed,
+                    border: `1px solid ${isActive ? color + "33" : "transparent"}`,
+                    padding: "1px 5px",
+                    background: isActive ? `${color}0d` : "transparent",
+                  }}>
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Status toggle + count */}
+          <div style={{
+            display: "flex", alignItems: "center", gap: 1,
+            padding: "10px 16px",
+            background: "hsl(220 13% 7%)",
+            border: `1px solid ${C.border}`,
+            borderTop: "none",
+          }}>
+            <span style={{
+              fontSize: 8, fontWeight: 700, letterSpacing: "0.16em",
+              color: C.dimmed, textTransform: "uppercase", marginRight: 12,
+            }}>
+              Status
+            </span>
+            {(["All", ...ALL_STATUSES] as StatusFilter[]).map((sts) => {
+              const isActive = activeStatus === sts;
+              const color = sts === "All" ? C.amber : STATUS_COLOR[sts as Playbook["status"]];
+              const count = sts === "All"
+                ? (activeCategory === "All" ? PLAYBOOKS.length : PLAYBOOKS.filter(pb => pb.category === activeCategory).length)
+                : stsCounts[sts as Playbook["status"]];
+              return (
+                <button
+                  key={sts}
+                  onClick={() => setActiveStatus(sts)}
+                  style={{
+                    padding: "5px 13px",
+                    background: isActive ? `${color}15` : "transparent",
+                    border: `1px solid ${isActive ? color + "55" : "hsl(220 13% 12%)"}`,
+                    cursor: "pointer", transition: "all 0.15s",
+                    display: "flex", alignItems: "center", gap: 7, marginRight: 2,
+                  }}
+                >
+                  <span style={{
+                    fontSize: 9, fontWeight: 700, letterSpacing: "0.1em",
+                    color: isActive ? color : "hsl(215 16% 30%)",
+                    textTransform: "uppercase",
+                  }}>
+                    {sts}
+                  </span>
+                  <span style={{
+                    fontSize: 8, fontWeight: 700, letterSpacing: "0.08em",
+                    color: isActive ? color : C.dimmed,
+                    border: `1px solid ${isActive ? color + "33" : "transparent"}`,
+                    padding: "1px 5px",
+                    background: isActive ? `${color}0d` : "transparent",
+                  }}>
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
+
+            <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 8 }}>
+              <span style={{
+                fontSize: 8, fontWeight: 700, letterSpacing: "0.14em",
+                color: filtered.length > 0 ? C.amber : C.dimmed,
+                textTransform: "uppercase",
+              }}>
+                {filtered.length} playbook{filtered.length !== 1 ? "s" : ""}
+              </span>
+              {(activeCategory !== "All" || activeStatus !== "All") && (
+                <button
+                  onClick={() => { setActiveCategory("All"); setActiveStatus("All"); }}
+                  style={{
+                    padding: "3px 9px", background: "transparent",
+                    border: `1px solid hsl(220 13% 13%)`, cursor: "pointer",
+                  }}
+                >
+                  <span style={{
+                    fontSize: 8, fontWeight: 700, letterSpacing: "0.1em",
+                    color: C.dimmed, textTransform: "uppercase",
+                  }}>
+                    Clear
+                  </span>
+                </button>
+              )}
+            </div>
+          </div>
         </motion.div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1 }}>
-          {PLAYBOOKS.map((pb, i) => (
-            <PlaybookCard key={pb.id} playbook={pb} index={i} />
-          ))}
-        </div>
+        {/* ── Playbook grid ── */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={`${activeCategory}-${activeStatus}`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            style={{ marginTop: 1 }}
+          >
+            {filtered.length > 0 ? (
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1 }}>
+                {filtered.map((pb, i) => (
+                  <PlaybookCard key={pb.id} playbook={pb} index={i} />
+                ))}
+              </div>
+            ) : (
+              <div style={{
+                padding: "48px 24px",
+                background: C.card,
+                border: `1px solid ${C.border}`,
+                textAlign: "center",
+              }}>
+                <div style={{
+                  fontSize: 10, fontWeight: 700, letterSpacing: "0.18em",
+                  color: C.dimmed, textTransform: "uppercase", marginBottom: 10,
+                }}>
+                  No Playbooks Match
+                </div>
+                <div style={{ fontSize: 12, color: "hsl(215 16% 26%)", letterSpacing: "0.02em" }}>
+                  No playbooks match the selected category and status filters.
+                </div>
+              </div>
+            )}
+          </motion.div>
+        </AnimatePresence>
 
         {/* ── Engine footer ── */}
         <motion.div
