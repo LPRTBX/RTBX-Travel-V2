@@ -351,55 +351,150 @@ function ExecutionTimeline({ executions }: { executions: PlaybookExecution[] }) 
   );
 }
 
+/* ─── Sparkline ───────────────────────────────────────── */
+function sparklineTrendColor(data: number[]): string {
+  if (data.length < 2) return C.blue;
+  const mid = Math.floor(data.length / 2);
+  const firstHalf  = data.slice(0, mid);
+  const secondHalf = data.slice(mid);
+  const avg = (arr: number[]) => arr.reduce((a, b) => a + b, 0) / arr.length;
+  const diff = avg(secondHalf) - avg(firstHalf);
+  if (diff > 0.08) return C.amber;
+  if (diff < -0.08) return C.green;
+  return C.blue;
+}
+
+function Sparkline({ data, width = 72, height = 28 }: { data: number[]; width?: number; height?: number }) {
+  if (data.length === 0) return null;
+
+  const color = sparklineTrendColor(data);
+  const max   = Math.max(...data, 1);
+  const pad   = 2;
+  const w     = width  - pad * 2;
+  const h     = height - pad * 2;
+
+  const pts = data.map((v, i) => {
+    const x = pad + (i / (data.length - 1)) * w;
+    const y = pad + h - (v / max) * h;
+    return `${x.toFixed(2)},${y.toFixed(2)}`;
+  });
+
+  const pathD = `M ${pts.join(" L ")}`;
+
+  const areaD = `M ${pts[0]} L ${pts.join(" L ")} L ${(pad + w).toFixed(2)},${(pad + h).toFixed(2)} L ${pad},${(pad + h).toFixed(2)} Z`;
+
+  const gradId = `sg-${data.length}-${data[0]}-${data[data.length - 1]}`;
+
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox={`0 0 ${width} ${height}`}
+      style={{ display: "block", flexShrink: 0 }}
+      aria-hidden="true"
+    >
+      <defs>
+        <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stopColor={color} stopOpacity={0.25} />
+          <stop offset="100%" stopColor={color} stopOpacity={0}    />
+        </linearGradient>
+      </defs>
+      <path d={areaD} fill={`url(#${gradId})`} />
+      <path d={pathD} fill="none" stroke={color} strokeWidth={1.5} strokeLinejoin="round" strokeLinecap="round" />
+      {/* terminal dot */}
+      <circle
+        cx={parseFloat(pts[pts.length - 1].split(",")[0])}
+        cy={parseFloat(pts[pts.length - 1].split(",")[1])}
+        r={2}
+        fill={color}
+      />
+    </svg>
+  );
+}
+
 /* ─── Stats strip ─────────────────────────────────────── */
 function PlaybookStatsStrip({ playbook }: { playbook: Playbook }) {
   const { stats } = playbook;
   const successColor = stats.successRate >= 90 ? C.green : stats.successRate >= 75 ? C.amber : C.red;
+  const sparkColor   = sparklineTrendColor(stats.dailyFires ?? []);
+
   return (
     <div style={{
       display: "flex",
       borderBottom: `1px solid ${C.border}`,
       background: "hsl(220 13% 6%)",
     }}>
-      {[
-        {
-          label: "Fires (30 days)",
-          value: String(stats.firesLast30Days),
-          color: C.blue,
-        },
-        {
-          label: "Avg Resolution",
-          value: formatResolution(stats.avgResolutionMinutes),
-          color: C.violet,
-        },
-        {
-          label: "Success Rate",
-          value: `${stats.successRate}%`,
-          color: successColor,
-        },
-      ].map((s, i, arr) => (
-        <div
-          key={s.label}
-          style={{
-            flex: 1,
-            padding: "10px 18px",
-            borderRight: i < arr.length - 1 ? `1px solid ${C.border}` : "none",
-          }}
-        >
+      {/* Fires + sparkline cell */}
+      <div style={{
+        flex: 1,
+        padding: "10px 18px",
+        borderRight: `1px solid ${C.border}`,
+        display: "flex",
+        alignItems: "center",
+        gap: 12,
+        justifyContent: "space-between",
+      }}>
+        <div>
           <div style={{
-            fontSize: 15, fontWeight: 800, color: s.color,
+            fontSize: 15, fontWeight: 800, color: C.blue,
             letterSpacing: "-0.01em", lineHeight: 1, marginBottom: 4,
           }}>
-            {s.value}
+            {stats.firesLast30Days}
           </div>
           <div style={{
             fontSize: 8, fontWeight: 700, letterSpacing: "0.12em",
             color: C.dimmed, textTransform: "uppercase",
           }}>
-            {s.label}
+            Fires (30 days)
           </div>
         </div>
-      ))}
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 2 }}>
+          <Sparkline data={stats.dailyFires ?? []} />
+          <div style={{
+            fontSize: 7, fontWeight: 700, letterSpacing: "0.1em",
+            color: sparkColor, textTransform: "uppercase",
+            opacity: 0.8,
+          }}>
+            {sparkColor === C.amber ? "↑ rising" : sparkColor === C.green ? "↓ falling" : "→ steady"}
+          </div>
+        </div>
+      </div>
+
+      {/* Avg Resolution */}
+      <div style={{
+        flex: 1,
+        padding: "10px 18px",
+        borderRight: `1px solid ${C.border}`,
+      }}>
+        <div style={{
+          fontSize: 15, fontWeight: 800, color: C.violet,
+          letterSpacing: "-0.01em", lineHeight: 1, marginBottom: 4,
+        }}>
+          {formatResolution(stats.avgResolutionMinutes)}
+        </div>
+        <div style={{
+          fontSize: 8, fontWeight: 700, letterSpacing: "0.12em",
+          color: C.dimmed, textTransform: "uppercase",
+        }}>
+          Avg Resolution
+        </div>
+      </div>
+
+      {/* Success Rate */}
+      <div style={{ flex: 1, padding: "10px 18px" }}>
+        <div style={{
+          fontSize: 15, fontWeight: 800, color: successColor,
+          letterSpacing: "-0.01em", lineHeight: 1, marginBottom: 4,
+        }}>
+          {stats.successRate}%
+        </div>
+        <div style={{
+          fontSize: 8, fontWeight: 700, letterSpacing: "0.12em",
+          color: C.dimmed, textTransform: "uppercase",
+        }}>
+          Success Rate
+        </div>
+      </div>
     </div>
   );
 }

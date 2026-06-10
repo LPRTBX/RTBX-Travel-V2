@@ -12,6 +12,8 @@ export interface PlaybookStats {
   firesLast30Days: number;
   avgResolutionMinutes: number;
   successRate: number;
+  /** Daily fire counts for the last 30 days, index 0 = oldest, 29 = today */
+  dailyFires: number[];
 }
 
 export interface Playbook {
@@ -97,6 +99,7 @@ export const PLAYBOOKS: Playbook[] = [
       firesLast30Days: 7,
       avgResolutionMinutes: 8,
       successRate: 86,
+      dailyFires: [1,0,1,0,0,1,0,1,0,0,1,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0],
     },
     executions: [
       {
@@ -175,6 +178,7 @@ export const PLAYBOOKS: Playbook[] = [
       firesLast30Days: 19,
       avgResolutionMinutes: 18,
       successRate: 95,
+      dailyFires: [0,0,1,0,1,0,0,1,0,0,1,0,1,0,0,1,0,1,0,1,1,0,1,1,0,1,1,1,2,3],
     },
     executions: [
       {
@@ -255,6 +259,7 @@ export const PLAYBOOKS: Playbook[] = [
       firesLast30Days: 12,
       avgResolutionMinutes: 34,
       successRate: 83,
+      dailyFires: [0,0,0,1,0,1,0,0,1,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,1,1,0,0,2],
     },
     executions: [
       {
@@ -328,6 +333,7 @@ export const PLAYBOOKS: Playbook[] = [
       firesLast30Days: 3,
       avgResolutionMinutes: 22,
       successRate: 100,
+      dailyFires: [0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0],
     },
     executions: [
       {
@@ -390,6 +396,7 @@ export const PLAYBOOKS: Playbook[] = [
       firesLast30Days: 9,
       avgResolutionMinutes: 67,
       successRate: 78,
+      dailyFires: [0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,1,0,1,1,0,1,1,0,1],
     },
     executions: [
       {
