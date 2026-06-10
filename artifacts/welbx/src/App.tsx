@@ -28,6 +28,7 @@ import BehaviouralGenome from "@/pages/BehaviouralGenome";
 import PlaybookEngine from "@/pages/PlaybookEngine";
 import DecisionRegistry from "@/pages/DecisionRegistry";
 import InterventionLibrary from "@/pages/InterventionLibrary";
+import ExecutionIndex from "@/pages/ExecutionIndex";
 
 const queryClient = new QueryClient();
 
@@ -54,6 +55,7 @@ function Router() {
       <Route path="/playbook-engine" component={PlaybookEngine} />
       <Route path="/decision-registry" component={DecisionRegistry} />
       <Route path="/intervention-library" component={InterventionLibrary} />
+      <Route path="/execution-index" component={ExecutionIndex} />
       <Route path="/compare" component={CompareMode} />
       <Route path="/command-mode" component={CommandMode} />
       <Route component={NotFound} />
