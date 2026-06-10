@@ -16,6 +16,7 @@ const navItems = [
   { label: "Behavioural Genome", path: "/behavioural-genome", sub: "PROFILES" },
   { label: "Playbook Engine", path: "/playbook-engine", sub: "EXECUTION" },
   { label: "Decision Registry", path: "/decision-registry", sub: "INTELLIGENCE" },
+  { label: "Outcome Registry", path: "/outcome-registry", sub: "FULL CHAIN" },
   { label: "Intervention Library", path: "/intervention-library", sub: "RESPONSE CATALOGUE" },
   { label: "Communications", path: "/communications", sub: "ORCHESTRATION" },
   { label: "Communication Registry", path: "/communication-registry", sub: "MESSAGE LOG" },
