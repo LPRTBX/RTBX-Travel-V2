@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 import {
   AreaChart, Area, XAxis, YAxis, Tooltip,
@@ -130,6 +131,16 @@ const PROPERTY_PERFORMANCE = [
   { name: "Hotel du Lac, Geneva",      signals: 241, resolution: "93%", avgResponse: "4.1 min", actIndex: "73",  score: 86 },
   { name: "Meridian Palace, Singapore",signals: 198, resolution: "94%", avgResponse: "3.9 min", actIndex: "81",  score: 90 },
 ];
+
+/* ─── Decision Intelligence data ─────────────────────── */
+const DECISION_INTEL = {
+  totalToday:       11,
+  confidenceAvg:    82,
+  positiveOutcomes: 9,
+  positiveRate:     Math.round((9 / 11) * 100),
+  automated:        7,
+  human:            4,
+};
 
 /* ─── Trend data (6 months) ──────────────────────────── */
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
@@ -276,6 +287,7 @@ function ScoreBar({ score }: { score: number }) {
 export default function ExecutiveDashboard() {
   const [property, setProperty] = useState(0);
   const [period, setPeriod] = useState("30d");
+  const [, navigate] = useLocation();
 
   return (
     <div className="pl-56 min-h-screen" style={{ background: C.bg }}>
@@ -509,6 +521,147 @@ export default function ExecutiveDashboard() {
                 <TrendCard t={t} />
               </div>
             ))}
+          </div>
+        </motion.div>
+
+        {/* ── Decision Intelligence panel ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.44, duration: 0.38 }}
+          style={{ marginTop: 32 }}
+        >
+          {/* Panel header */}
+          <div style={{
+            padding: "12px 20px",
+            background: C.card,
+            border: `1px solid ${C.border}`,
+            borderBottom: "none",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <span style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.18em", color: "hsl(215 16% 30%)", textTransform: "uppercase" }}>
+                Decision Intelligence
+              </span>
+              <span style={{ fontSize: 7.5, letterSpacing: "0.1em", color: C.dimmed, textTransform: "uppercase" }}>
+                BXOS · Today
+              </span>
+            </div>
+            <button
+              onClick={() => navigate("/decision-registry")}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 5,
+                padding: "5px 12px",
+                background: "transparent",
+                border: `1px solid ${C.amber}35`,
+                cursor: "pointer",
+                transition: "all 0.15s",
+              }}
+              onMouseEnter={e => {
+                (e.currentTarget as HTMLButtonElement).style.background = `${C.amber}0d`;
+                (e.currentTarget as HTMLButtonElement).style.borderColor = `${C.amber}66`;
+              }}
+              onMouseLeave={e => {
+                (e.currentTarget as HTMLButtonElement).style.background = "transparent";
+                (e.currentTarget as HTMLButtonElement).style.borderColor = `${C.amber}35`;
+              }}
+            >
+              <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: C.amber, textTransform: "uppercase" }}>
+                View Decision Registry
+              </span>
+              <span style={{ fontSize: 10, color: C.amber, lineHeight: 1 }}>→</span>
+            </button>
+          </div>
+
+          {/* Metric tiles */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 1, border: `1px solid ${C.border}` }}>
+
+            {/* Total decisions today */}
+            <div style={{ padding: "22px 24px", background: C.card, borderTop: `2px solid ${C.amber}` }}>
+              <div style={{ fontSize: 32, fontWeight: 800, color: "#fff", letterSpacing: "-0.03em", lineHeight: 1, marginBottom: 8 }}>
+                {DECISION_INTEL.totalToday}
+              </div>
+              <div style={{ fontSize: 11, fontWeight: 600, color: "hsl(215 16% 48%)", marginBottom: 5 }}>
+                Decisions Made Today
+              </div>
+              <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: C.dimmed, textTransform: "uppercase" }}>
+                All categories · BXOS governed
+              </div>
+            </div>
+
+            {/* Confidence score average */}
+            <div style={{ padding: "22px 24px", background: C.card, borderTop: `2px solid ${C.violet}` }}>
+              <div style={{ fontSize: 32, fontWeight: 800, color: "#fff", letterSpacing: "-0.03em", lineHeight: 1, marginBottom: 8 }}>
+                {DECISION_INTEL.confidenceAvg}<span style={{ fontSize: 16, fontWeight: 700, color: "hsl(215 16% 40%)" }}>%</span>
+              </div>
+              <div style={{ fontSize: 11, fontWeight: 600, color: "hsl(215 16% 48%)", marginBottom: 5 }}>
+                Avg Confidence Score
+              </div>
+              <div style={{ marginTop: 2 }}>
+                <div style={{ height: 3, background: "hsl(220 13% 11%)", position: "relative" }}>
+                  <div style={{
+                    position: "absolute", top: 0, left: 0, height: "100%",
+                    width: `${DECISION_INTEL.confidenceAvg}%`,
+                    background: DECISION_INTEL.confidenceAvg >= 85 ? C.green : C.amber,
+                    transition: "width 0.4s",
+                  }} />
+                </div>
+                <div style={{ marginTop: 5, fontSize: 8, letterSpacing: "0.1em", color: C.dimmed, textTransform: "uppercase" }}>
+                  Threshold · green ≥ 85%
+                </div>
+              </div>
+            </div>
+
+            {/* Positive outcome rate */}
+            <div style={{ padding: "22px 24px", background: C.card, borderTop: `2px solid ${C.green}` }}>
+              <div style={{ display: "flex", alignItems: "baseline", gap: 6, marginBottom: 8 }}>
+                <div style={{ fontSize: 32, fontWeight: 800, color: "#fff", letterSpacing: "-0.03em", lineHeight: 1 }}>
+                  {DECISION_INTEL.positiveRate}<span style={{ fontSize: 16, fontWeight: 700, color: "hsl(215 16% 40%)" }}>%</span>
+                </div>
+              </div>
+              <div style={{ fontSize: 11, fontWeight: 600, color: "hsl(215 16% 48%)", marginBottom: 5 }}>
+                Positive Outcome Rate
+              </div>
+              <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: C.dimmed, textTransform: "uppercase" }}>
+                {DECISION_INTEL.positiveOutcomes} of {DECISION_INTEL.totalToday} decisions · Positive
+              </div>
+            </div>
+
+            {/* Automated vs human split */}
+            <div style={{ padding: "22px 24px", background: C.card, borderTop: `2px solid ${C.blue}` }}>
+              <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 8 }}>
+                <div style={{ fontSize: 32, fontWeight: 800, color: "#fff", letterSpacing: "-0.03em", lineHeight: 1 }}>
+                  {DECISION_INTEL.automated}
+                </div>
+                <div style={{ fontSize: 11, color: C.dimmed }}>auto</div>
+                <div style={{ fontSize: 20, fontWeight: 300, color: "hsl(220 13% 18%)" }}>/</div>
+                <div style={{ fontSize: 32, fontWeight: 800, color: "hsl(215 16% 52%)", letterSpacing: "-0.03em", lineHeight: 1 }}>
+                  {DECISION_INTEL.human}
+                </div>
+                <div style={{ fontSize: 11, color: C.dimmed }}>human</div>
+              </div>
+              <div style={{ fontSize: 11, fontWeight: 600, color: "hsl(215 16% 48%)", marginBottom: 6 }}>
+                Automated vs Human Split
+              </div>
+              <div style={{ height: 3, background: "hsl(220 13% 11%)", position: "relative" }}>
+                <div style={{
+                  position: "absolute", top: 0, left: 0, height: "100%",
+                  width: `${Math.round((DECISION_INTEL.automated / DECISION_INTEL.totalToday) * 100)}%`,
+                  background: C.violet,
+                }} />
+              </div>
+              <div style={{ marginTop: 5, display: "flex", justifyContent: "space-between" }}>
+                <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.1em", color: C.violet, textTransform: "uppercase" }}>
+                  {Math.round((DECISION_INTEL.automated / DECISION_INTEL.totalToday) * 100)}% automated
+                </span>
+                <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.1em", color: C.blue, textTransform: "uppercase" }}>
+                  {Math.round((DECISION_INTEL.human / DECISION_INTEL.totalToday) * 100)}% human
+                </span>
+              </div>
+            </div>
+
           </div>
         </motion.div>
 
