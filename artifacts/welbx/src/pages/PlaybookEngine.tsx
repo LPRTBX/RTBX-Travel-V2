@@ -317,7 +317,7 @@ function ExecutionTimeline({ executions }: { executions: PlaybookExecution[] }) 
                         ·
                       </span>
                       <button
-                        onClick={() => navigate(`/command-centre#${ex.momentId}`)}
+                        onClick={() => navigate(`/live-moments#${ex.momentId}`)}
                         style={{
                           background: "transparent",
                           border: "none",

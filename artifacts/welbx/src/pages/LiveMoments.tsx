@@ -131,6 +131,19 @@ type ViewKey = 'operator' | 'system' | 'executive';
 export default function LiveMoments() {
   const { flowStep, vectorExecuting, resolveVIP, momentCount, vipResolved } = useApp();
   const [activeView, setActiveView] = useState<ViewKey>('operator');
+  const [highlightedId, setHighlightedId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const hash = window.location.hash.slice(1);
+    if (!hash) return;
+    setHighlightedId(hash);
+    const el = document.getElementById(hash);
+    if (el) {
+      setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'center' }), 120);
+    }
+    const t = setTimeout(() => setHighlightedId(null), 2200);
+    return () => clearTimeout(t);
+  }, []);
 
   const viewContent = getViewContent(flowStep, vipResolved);
   const criticalCount = vipResolved ? 0 : 1;
@@ -630,14 +643,28 @@ export default function LiveMoments() {
 
         {/* Moment cards */}
         <div className="space-y-3">
-          {SEEDED_MOMENTS.map((moment, i) => (
-            <MomentCard
-              key={moment.id}
-              moment={moment}
-              index={i}
-              onVipAccept={moment.id === 'm2' ? resolveVIP : undefined}
-            />
-          ))}
+          {SEEDED_MOMENTS.map((moment, i) => {
+            const isHighlighted = highlightedId === moment.id;
+            return (
+              <div
+                key={moment.id}
+                id={moment.id}
+                style={{
+                  borderRadius: 0,
+                  outline: isHighlighted ? '2px solid #c9a84c' : '2px solid transparent',
+                  outlineOffset: 2,
+                  boxShadow: isHighlighted ? '0 0 18px rgba(201,168,76,0.28)' : 'none',
+                  transition: 'outline 0.25s ease, box-shadow 0.8s ease',
+                }}
+              >
+                <MomentCard
+                  moment={moment}
+                  index={i}
+                  onVipAccept={moment.id === 'm2' ? resolveVIP : undefined}
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
