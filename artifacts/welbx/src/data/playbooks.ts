@@ -1,3 +1,18 @@
+export interface PlaybookExecution {
+  id: string;
+  timestamp: string;
+  trigger: string;
+  owner: string;
+  outcome: "Resolved" | "Escalated" | "Partial";
+  resolutionMinutes: number;
+}
+
+export interface PlaybookStats {
+  firesLast30Days: number;
+  avgResolutionMinutes: number;
+  successRate: number;
+}
+
 export interface Playbook {
   id: string;
   name: string;
@@ -8,6 +23,8 @@ export interface Playbook {
   owners: string[];
   escalationRules: string[];
   successCriteria: string[];
+  executions: PlaybookExecution[];
+  stats: PlaybookStats;
 }
 
 export function getPlaybookById(id: string): Playbook | undefined {
@@ -45,6 +62,53 @@ export const PLAYBOOKS: Playbook[] = [
       "Incident report completed and filed within 1 hour",
       "Follow-up contact made with guest before next shift handover",
     ],
+    stats: {
+      firesLast30Days: 7,
+      avgResolutionMinutes: 8,
+      successRate: 86,
+    },
+    executions: [
+      {
+        id: "EX-001-07",
+        timestamp: "2026-06-09T22:14:00Z",
+        trigger: "Room safety system unresponsive — Room 412",
+        owner: "A. Marsh (Duty Manager)",
+        outcome: "Resolved",
+        resolutionMinutes: 6,
+      },
+      {
+        id: "EX-001-06",
+        timestamp: "2026-06-07T14:38:00Z",
+        trigger: "Guest welfare flag raised by housekeeping",
+        owner: "D. Osei (Security Lead)",
+        outcome: "Resolved",
+        resolutionMinutes: 9,
+      },
+      {
+        id: "EX-001-05",
+        timestamp: "2026-06-04T03:22:00Z",
+        trigger: "Medical alert logged — lobby area",
+        owner: "P. Nguyen (First Aid Officer)",
+        outcome: "Escalated",
+        resolutionMinutes: 14,
+      },
+      {
+        id: "EX-001-04",
+        timestamp: "2026-06-01T19:55:00Z",
+        trigger: "Verbal distress signal — F&B floor",
+        owner: "A. Marsh (Duty Manager)",
+        outcome: "Resolved",
+        resolutionMinutes: 7,
+      },
+      {
+        id: "EX-001-03",
+        timestamp: "2026-05-28T11:10:00Z",
+        trigger: "Guest welfare flag — Room 208",
+        owner: "D. Osei (Security Lead)",
+        outcome: "Resolved",
+        resolutionMinutes: 5,
+      },
+    ],
   },
   {
     id: "PB-002",
@@ -75,6 +139,53 @@ export const PLAYBOOKS: Playbook[] = [
       "Room ready prior to or at check-in with zero waiting time",
       "Welcome amenity delivered within 15 minutes of check-in",
       "No unresolved issues within first 2 hours of stay",
+    ],
+    stats: {
+      firesLast30Days: 19,
+      avgResolutionMinutes: 18,
+      successRate: 95,
+    },
+    executions: [
+      {
+        id: "EX-002-19",
+        timestamp: "2026-06-10T09:05:00Z",
+        trigger: "Diamond tier arrival — Mr. K. Ashworth (Platinum Corp)",
+        owner: "C. Adeyemi (GM)",
+        outcome: "Resolved",
+        resolutionMinutes: 15,
+      },
+      {
+        id: "EX-002-18",
+        timestamp: "2026-06-08T16:42:00Z",
+        trigger: "VIP flag — Reservation #RES-3917",
+        owner: "L. Ferreira (Guest Relations)",
+        outcome: "Resolved",
+        resolutionMinutes: 20,
+      },
+      {
+        id: "EX-002-17",
+        timestamp: "2026-06-06T12:18:00Z",
+        trigger: "Repeat high-value guest — 5th stay this quarter",
+        owner: "L. Ferreira (Guest Relations)",
+        outcome: "Resolved",
+        resolutionMinutes: 17,
+      },
+      {
+        id: "EX-002-16",
+        timestamp: "2026-06-04T14:00:00Z",
+        trigger: "Corporate first-arrival — Nexus Group executive",
+        owner: "C. Adeyemi (GM)",
+        outcome: "Partial",
+        resolutionMinutes: 28,
+      },
+      {
+        id: "EX-002-15",
+        timestamp: "2026-06-02T10:30:00Z",
+        trigger: "Platinum tier arrival — Ms. R. Yuen",
+        owner: "T. Blaine (Concierge Lead)",
+        outcome: "Resolved",
+        resolutionMinutes: 13,
+      },
     ],
   },
   {
@@ -107,6 +218,45 @@ export const PLAYBOOKS: Playbook[] = [
       "Root cause documented and operationally addressed within 48 hours",
       "Guest offered to return with loyalty gesture or benefit",
     ],
+    stats: {
+      firesLast30Days: 12,
+      avgResolutionMinutes: 34,
+      successRate: 83,
+    },
+    executions: [
+      {
+        id: "EX-003-12",
+        timestamp: "2026-06-09T17:22:00Z",
+        trigger: "Sentiment flag — dining experience (confidence 88%)",
+        owner: "B. Okello (Front Desk Lead)",
+        outcome: "Resolved",
+        resolutionMinutes: 28,
+      },
+      {
+        id: "EX-003-11",
+        timestamp: "2026-06-08T09:45:00Z",
+        trigger: "Formal written complaint — room cleanliness",
+        owner: "A. Marsh (Duty Manager)",
+        outcome: "Resolved",
+        resolutionMinutes: 42,
+      },
+      {
+        id: "EX-003-10",
+        timestamp: "2026-06-05T21:08:00Z",
+        trigger: "Guest requested manager — check-in delay",
+        owner: "B. Okello (Front Desk Lead)",
+        outcome: "Escalated",
+        resolutionMinutes: 55,
+      },
+      {
+        id: "EX-003-09",
+        timestamp: "2026-06-03T13:50:00Z",
+        trigger: "Review window open — service failure logged",
+        owner: "L. Ferreira (Guest Relations)",
+        outcome: "Resolved",
+        resolutionMinutes: 30,
+      },
+    ],
   },
   {
     id: "PB-004",
@@ -138,6 +288,37 @@ export const PLAYBOOKS: Playbook[] = [
       "No guest-facing impact resulting from the fatigue event",
       "Follow-up review scheduled within 5 working days",
     ],
+    stats: {
+      firesLast30Days: 3,
+      avgResolutionMinutes: 22,
+      successRate: 100,
+    },
+    executions: [
+      {
+        id: "EX-004-03",
+        timestamp: "2026-06-06T07:15:00Z",
+        trigger: "Workforce Genome fatigue signature — F&B team member",
+        owner: "R. Patel (HR Manager)",
+        outcome: "Resolved",
+        resolutionMinutes: 20,
+      },
+      {
+        id: "EX-004-02",
+        timestamp: "2026-05-29T22:40:00Z",
+        trigger: "Shift >10 hrs without documented break — Housekeeping",
+        owner: "J. Torres (Department Head)",
+        outcome: "Resolved",
+        resolutionMinutes: 18,
+      },
+      {
+        id: "EX-004-01",
+        timestamp: "2026-05-21T15:30:00Z",
+        trigger: "Supervisor welfare concern flag — Front Desk",
+        owner: "R. Patel (HR Manager)",
+        outcome: "Resolved",
+        resolutionMinutes: 27,
+      },
+    ],
   },
   {
     id: "PB-005",
@@ -168,6 +349,53 @@ export const PLAYBOOKS: Playbook[] = [
       "No secondary failures arising from the original fault within 24 hours",
       "Full incident report filed in property management system within 2 hours of resolution",
       "Preventive action plan documented to avoid recurrence",
+    ],
+    stats: {
+      firesLast30Days: 9,
+      avgResolutionMinutes: 67,
+      successRate: 78,
+    },
+    executions: [
+      {
+        id: "EX-005-09",
+        timestamp: "2026-06-10T06:50:00Z",
+        trigger: "HVAC failure — Floors 3–5 (guest-impacting)",
+        owner: "M. Okonkwo (Engineering Lead)",
+        outcome: "Partial",
+        resolutionMinutes: 95,
+      },
+      {
+        id: "EX-005-08",
+        timestamp: "2026-06-07T13:20:00Z",
+        trigger: "Room 318 — plumbing fault unresolved >2 hrs",
+        owner: "M. Okonkwo (Engineering Lead)",
+        outcome: "Resolved",
+        resolutionMinutes: 58,
+      },
+      {
+        id: "EX-005-07",
+        timestamp: "2026-06-05T09:10:00Z",
+        trigger: "Maintenance backlog at capacity — AM shift",
+        owner: "S. Lindqvist (Facilities Manager)",
+        outcome: "Resolved",
+        resolutionMinutes: 45,
+      },
+      {
+        id: "EX-005-06",
+        timestamp: "2026-06-02T20:35:00Z",
+        trigger: "Power fault — conference wing Zone B",
+        owner: "M. Okonkwo (Engineering Lead)",
+        outcome: "Escalated",
+        resolutionMinutes: 120,
+      },
+      {
+        id: "EX-005-05",
+        timestamp: "2026-05-30T11:00:00Z",
+        trigger: "Guest-impacting defect — Pool area surface",
+        owner: "S. Lindqvist (Facilities Manager)",
+        outcome: "Resolved",
+        resolutionMinutes: 75,
+      },
     ],
   },
 ];

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { PLAYBOOKS, type Playbook } from "@/data/playbooks";
+import { PLAYBOOKS, type Playbook, type PlaybookExecution } from "@/data/playbooks";
 
 /* ─── Palette ─────────────────────────────────────────── */
 const C = {
@@ -101,6 +101,12 @@ const STATUS_COLOR: Record<Playbook["status"], string> = {
   ESCALATED: C.red,
 };
 
+const OUTCOME_COLOR: Record<PlaybookExecution["outcome"], string> = {
+  Resolved:  C.green,
+  Escalated: C.red,
+  Partial:   C.amber,
+};
+
 /* ─── Tab types ────────────────────────────────────────── */
 type Tab = "trigger" | "actions" | "owners" | "escalation" | "success";
 
@@ -112,9 +118,194 @@ const TABS: { key: Tab; label: string }[] = [
   { key: "success",    label: "Success Criteria"     },
 ];
 
+/* ─── Helpers ─────────────────────────────────────────── */
+function formatTimestamp(iso: string): string {
+  const d = new Date(iso);
+  return d.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" }) +
+    " · " +
+    d.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", hour12: false });
+}
+
+function formatResolution(mins: number): string {
+  if (mins < 60) return `${mins}m`;
+  const h = Math.floor(mins / 60);
+  const m = mins % 60;
+  return m > 0 ? `${h}h ${m}m` : `${h}h`;
+}
+
+/* ─── Execution timeline ──────────────────────────────── */
+function ExecutionTimeline({ executions }: { executions: PlaybookExecution[] }) {
+  return (
+    <div
+      style={{
+        borderTop: `1px solid ${C.border}`,
+        background: "hsl(220 13% 5%)",
+        padding: "16px 22px 20px",
+        maxHeight: 300,
+        overflowY: "auto",
+      }}
+    >
+      <div style={{
+        fontSize: 8, fontWeight: 700, letterSpacing: "0.18em",
+        color: C.dimmed, textTransform: "uppercase", marginBottom: 14,
+      }}>
+        Run History
+      </div>
+      <div style={{ position: "relative" }}>
+        {/* vertical line */}
+        <div style={{
+          position: "absolute", left: 6, top: 0, bottom: 0,
+          width: 1, background: "hsl(220 13% 10%)",
+        }} />
+        {executions.map((ex, i) => {
+          const outcomeColor = OUTCOME_COLOR[ex.outcome];
+          return (
+            <div
+              key={ex.id}
+              style={{
+                display: "flex", gap: 16, alignItems: "flex-start",
+                paddingLeft: 22,
+                paddingBottom: i < executions.length - 1 ? 16 : 0,
+                marginBottom: i < executions.length - 1 ? 0 : 0,
+                position: "relative",
+              }}
+            >
+              {/* dot */}
+              <div style={{
+                position: "absolute", left: 2, top: 5,
+                width: 9, height: 9, borderRadius: "50%",
+                background: outcomeColor,
+                boxShadow: `0 0 0 2px hsl(220 13% 5%), 0 0 6px ${outcomeColor}55`,
+                flexShrink: 0,
+              }} />
+
+              <div style={{ flex: 1, minWidth: 0 }}>
+                {/* top row: id + timestamp */}
+                <div style={{
+                  display: "flex", justifyContent: "space-between",
+                  alignItems: "baseline", marginBottom: 4, gap: 8,
+                }}>
+                  <span style={{
+                    fontSize: 8, fontWeight: 700, letterSpacing: "0.1em",
+                    color: C.dimmed, fontFamily: "var(--app-font-mono)",
+                    flexShrink: 0,
+                  }}>
+                    {ex.id}
+                  </span>
+                  <span style={{
+                    fontSize: 8.5, color: "hsl(215 16% 28%)",
+                    letterSpacing: "0.02em", textAlign: "right",
+                  }}>
+                    {formatTimestamp(ex.timestamp)}
+                  </span>
+                </div>
+
+                {/* trigger */}
+                <div style={{
+                  fontSize: 11, fontWeight: 600, color: "#bcc8d8",
+                  lineHeight: 1.4, marginBottom: 6, letterSpacing: "0.01em",
+                }}>
+                  {ex.trigger}
+                </div>
+
+                {/* meta row */}
+                <div style={{
+                  display: "flex", gap: 14, alignItems: "center", flexWrap: "wrap",
+                }}>
+                  <span style={{ fontSize: 9.5, color: C.muted, letterSpacing: "0.01em" }}>
+                    {ex.owner}
+                  </span>
+                  <span style={{
+                    fontSize: 8, color: "hsl(215 16% 24%)",
+                    letterSpacing: "0.06em",
+                  }}>
+                    ·
+                  </span>
+                  <span style={{
+                    fontSize: 8, fontWeight: 700, letterSpacing: "0.1em",
+                    color: outcomeColor, textTransform: "uppercase",
+                    border: `1px solid ${outcomeColor}33`,
+                    background: `${outcomeColor}0d`,
+                    padding: "2px 7px",
+                  }}>
+                    {ex.outcome}
+                  </span>
+                  <span style={{
+                    fontSize: 8, color: "hsl(215 16% 26%)",
+                    letterSpacing: "0.06em",
+                  }}>
+                    ·
+                  </span>
+                  <span style={{ fontSize: 9, color: "hsl(215 16% 34%)", letterSpacing: "0.04em" }}>
+                    {formatResolution(ex.resolutionMinutes)} resolution
+                  </span>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/* ─── Stats strip ─────────────────────────────────────── */
+function PlaybookStatsStrip({ playbook }: { playbook: Playbook }) {
+  const { stats } = playbook;
+  const successColor = stats.successRate >= 90 ? C.green : stats.successRate >= 75 ? C.amber : C.red;
+  return (
+    <div style={{
+      display: "flex",
+      borderBottom: `1px solid ${C.border}`,
+      background: "hsl(220 13% 6%)",
+    }}>
+      {[
+        {
+          label: "Fires (30 days)",
+          value: String(stats.firesLast30Days),
+          color: C.blue,
+        },
+        {
+          label: "Avg Resolution",
+          value: formatResolution(stats.avgResolutionMinutes),
+          color: C.violet,
+        },
+        {
+          label: "Success Rate",
+          value: `${stats.successRate}%`,
+          color: successColor,
+        },
+      ].map((s, i, arr) => (
+        <div
+          key={s.label}
+          style={{
+            flex: 1,
+            padding: "10px 18px",
+            borderRight: i < arr.length - 1 ? `1px solid ${C.border}` : "none",
+          }}
+        >
+          <div style={{
+            fontSize: 15, fontWeight: 800, color: s.color,
+            letterSpacing: "-0.01em", lineHeight: 1, marginBottom: 4,
+          }}>
+            {s.value}
+          </div>
+          <div style={{
+            fontSize: 8, fontWeight: 700, letterSpacing: "0.12em",
+            color: C.dimmed, textTransform: "uppercase",
+          }}>
+            {s.label}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 /* ─── Playbook card ─────────────────────────────────── */
 function PlaybookCard({ playbook, index }: { playbook: Playbook; index: number }) {
   const [activeTab, setActiveTab] = useState<Tab>("trigger");
+  const [historyOpen, setHistoryOpen] = useState(false);
   const catColor = CAT_COLOR[playbook.category];
   const statusColor = STATUS_COLOR[playbook.status];
 
@@ -182,6 +373,9 @@ function PlaybookCard({ playbook, index }: { playbook: Playbook; index: number }
         </span>
       </div>
 
+      {/* Stats strip */}
+      <PlaybookStatsStrip playbook={playbook} />
+
       {/* Tabs */}
       <div style={{
         display: "flex", borderBottom: `1px solid ${C.border}`,
@@ -246,6 +440,62 @@ function PlaybookCard({ playbook, index }: { playbook: Playbook; index: number }
             </div>
           ))}
         </motion.div>
+      </AnimatePresence>
+
+      {/* Run History toggle */}
+      <button
+        onClick={() => setHistoryOpen((v) => !v)}
+        style={{
+          width: "100%",
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          padding: "10px 22px",
+          background: historyOpen ? "hsl(220 13% 6%)" : "transparent",
+          border: "none",
+          borderTop: `1px solid ${C.border}`,
+          cursor: "pointer",
+          transition: "background 0.14s",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <span style={{
+            fontSize: 8, fontWeight: 700, letterSpacing: "0.16em",
+            color: C.dimmed, textTransform: "uppercase",
+          }}>
+            Run History
+          </span>
+          <span style={{
+            fontSize: 8, fontWeight: 700, letterSpacing: "0.1em",
+            color: C.blue, background: `${C.blue}18`,
+            border: `1px solid ${C.blue}33`,
+            padding: "1px 6px",
+          }}>
+            {playbook.executions.length} runs
+          </span>
+        </div>
+        <span style={{
+          fontSize: 10, color: C.dimmed,
+          transform: historyOpen ? "rotate(180deg)" : "rotate(0deg)",
+          transition: "transform 0.2s",
+          display: "inline-block",
+        }}>
+          ▾
+        </span>
+      </button>
+
+      {/* Execution timeline */}
+      <AnimatePresence initial={false}>
+        {historyOpen && (
+          <motion.div
+            key="history"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+            style={{ overflow: "hidden" }}
+          >
+            <ExecutionTimeline executions={playbook.executions} />
+          </motion.div>
+        )}
       </AnimatePresence>
     </motion.div>
   );
