@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 const navItems = [
   { label: "Strategic Visibility", path: "/strategic-visibility", sub: "INTELLIGENCE" },
   { label: "Execution Index", path: "/execution-index", sub: "EXECUTION QUALITY" },
+  { label: "Consistency Engine", path: "/consistency-engine", sub: "VARIABILITY" },
   { label: "Executive Dashboard", path: "/executive-dashboard", sub: "PORTFOLIO" },
   { label: "Moment Registry", path: "/moment-registry", sub: "20 MOMENTS" },
   { label: "Moment Intelligence", path: "/moment-intelligence", sub: "BXOS ANALYSIS" },

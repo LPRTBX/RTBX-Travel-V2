@@ -29,6 +29,7 @@ import PlaybookEngine from "@/pages/PlaybookEngine";
 import DecisionRegistry from "@/pages/DecisionRegistry";
 import InterventionLibrary from "@/pages/InterventionLibrary";
 import ExecutionIndex from "@/pages/ExecutionIndex";
+import ConsistencyEngine from "@/pages/ConsistencyEngine";
 
 const queryClient = new QueryClient();
 
@@ -56,6 +57,7 @@ function Router() {
       <Route path="/decision-registry" component={DecisionRegistry} />
       <Route path="/intervention-library" component={InterventionLibrary} />
       <Route path="/execution-index" component={ExecutionIndex} />
+      <Route path="/consistency-engine" component={ConsistencyEngine} />
       <Route path="/compare" component={CompareMode} />
       <Route path="/command-mode" component={CommandMode} />
       <Route component={NotFound} />
