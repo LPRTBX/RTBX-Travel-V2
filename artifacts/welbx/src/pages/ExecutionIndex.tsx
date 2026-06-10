@@ -1,8 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { useLocation } from "wouter";
 import { SEEDED_MOMENTS } from "@/data/moments";
 import { PLAYBOOKS } from "@/data/playbooks";
+import { SIGNAL_CATEGORIES } from "@/data/signals";
+import { CC_ROWS } from "@/data/command-centre";
 import {
   AreaChart, Area, XAxis, YAxis, Tooltip,
   ResponsiveContainer, RadarChart, Radar,
@@ -31,125 +33,24 @@ function scoreColor(s: number) {
   return C.crimson;
 }
 
-/* ─── Live source derivations ────────────────────────────── */
-const _ALL_FIRES = PLAYBOOKS.reduce((s, pb) => s + pb.stats.firesLast30Days, 0);
+/* ─── Metric types ───────────────────────────────────────── */
+interface MetricSource {
+  label: string;
+  link: string;
+  summary: string;
+}
 
-const LIVE_CONSISTENCY_SCORE = Math.round(
-  PLAYBOOKS.reduce((s, pb) => s + pb.stats.successRate * pb.stats.firesLast30Days, 0) / _ALL_FIRES
-);
-const LIVE_CONSISTENCY_RUNS = PLAYBOOKS.reduce((s, pb) => s + pb.executions.length, 0);
+interface Metric {
+  id: string;
+  label: string;
+  score: number;
+  trend: number[];
+  trendDir: "up" | "down";
+  delta: string;
+  description: string;
+  source: MetricSource;
+}
 
-const _RECOVERY_PBS = PLAYBOOKS.filter(pb => pb.category === "Recovery" || pb.category === "Guest");
-const _RECOVERY_FIRES = _RECOVERY_PBS.reduce((s, pb) => s + pb.stats.firesLast30Days, 0);
-const LIVE_RECOVERY_SCORE = Math.round(
-  _RECOVERY_PBS.reduce((s, pb) => s + pb.stats.successRate * pb.stats.firesLast30Days, 0) / _RECOVERY_FIRES
-);
-const LIVE_RECOVERY_RUNS = _RECOVERY_PBS.reduce((s, pb) => s + pb.executions.length, 0);
-
-const _ACT_PBS = PLAYBOOKS.filter(pb =>
-  (["VIP", "Workforce", "Operational"] as const).includes(pb.category as "VIP" | "Workforce" | "Operational")
-);
-const _ACT_FIRES = _ACT_PBS.reduce((s, pb) => s + pb.stats.firesLast30Days, 0);
-const LIVE_ACTIVATION_SCORE = Math.round(
-  _ACT_PBS.reduce((s, pb) => s + pb.stats.successRate * pb.stats.firesLast30Days, 0) / _ACT_FIRES
-);
-const LIVE_ACTIVATION_RUNS = _ACT_PBS.reduce((s, pb) => s + pb.executions.length, 0);
-
-const LIVE_DECISION_SCORE = Math.round(
-  SEEDED_MOMENTS.reduce((s, m) => s + m.confidence, 0) / SEEDED_MOMENTS.length
-);
-
-const _SIG_TOTAL = 247;
-const _SIG_CONF  = 91;
-const LIVE_VISIBILITY_SCORE = Math.round(_SIG_CONF * 0.97);
-
-/* ─── Metric data ────────────────────────────────────────── */
-const METRICS = [
-  {
-    id: "visibility",
-    label: "Visibility Score",
-    score: 88,
-    trend: [72, 76, 79, 82, 85, 88],
-    trendDir: "up" as const,
-    delta: "+16 pts",
-    description: "Breadth and depth of real-time behavioural sensing across all guest and operational touchpoints.",
-    source: {
-      label: "Signal Registry",
-      link: "/signal-registry",
-      summary: `${_SIG_TOTAL} monitored signals · ${_SIG_CONF}% avg confidence · 5 active categories`,
-      liveScore: LIVE_VISIBILITY_SCORE,
-      recordCount: _SIG_TOTAL,
-    },
-  },
-  {
-    id: "decision",
-    label: "Decision Quality",
-    score: 82,
-    trend: [65, 68, 72, 76, 79, 82],
-    trendDir: "up" as const,
-    delta: "+17 pts",
-    description: "Accuracy and confidence of automated routing decisions against subsequent outcome data.",
-    source: {
-      label: "Live Moments",
-      link: "/live-moments",
-      summary: `${SEEDED_MOMENTS.length} active moments · ${LIVE_DECISION_SCORE}% avg routing confidence`,
-      liveScore: LIVE_DECISION_SCORE,
-      recordCount: SEEDED_MOMENTS.length,
-    },
-  },
-  {
-    id: "consistency",
-    label: "Response Consistency",
-    score: 91,
-    trend: [71, 74, 79, 83, 89, 91],
-    trendDir: "up" as const,
-    delta: "+20 pts",
-    description: "Percentage of moments resolved using the correct playbook action within the response window.",
-    source: {
-      label: "Playbook Engine",
-      link: "/playbook-engine",
-      summary: `${LIVE_CONSISTENCY_RUNS} executions · ${_ALL_FIRES} fires (30d) · ${LIVE_CONSISTENCY_SCORE}% weighted success`,
-      liveScore: LIVE_CONSISTENCY_SCORE,
-      recordCount: LIVE_CONSISTENCY_RUNS,
-    },
-  },
-  {
-    id: "recovery",
-    label: "Recovery Performance",
-    score: 76,
-    trend: [58, 62, 66, 70, 73, 76],
-    trendDir: "up" as const,
-    delta: "+18 pts",
-    description: "Success rate of service recovery interventions measured against guest sentiment shift post-action.",
-    source: {
-      label: "Command Centre",
-      link: "/command-centre",
-      summary: `${LIVE_RECOVERY_RUNS} recovery & guest runs · ${_RECOVERY_FIRES} fires (30d) · ${LIVE_RECOVERY_SCORE}% success`,
-      liveScore: LIVE_RECOVERY_SCORE,
-      recordCount: LIVE_RECOVERY_RUNS,
-    },
-  },
-  {
-    id: "activation",
-    label: "Activation Success",
-    score: 84,
-    trend: [64, 68, 72, 77, 81, 84],
-    trendDir: "up" as const,
-    delta: "+20 pts",
-    description: "Rate of staff-activation moments completed within the prescribed execution window.",
-    source: {
-      label: "Command Centre",
-      link: "/command-centre",
-      summary: `${LIVE_ACTIVATION_RUNS} VIP & operational runs · ${_ACT_FIRES} fires (30d) · ${LIVE_ACTIVATION_SCORE}% success`,
-      liveScore: LIVE_ACTIVATION_SCORE,
-      recordCount: LIVE_ACTIVATION_RUNS,
-    },
-  },
-];
-
-const OVERALL_SCORE = 84;
-const OVERALL_DELTA = "+3";
-const OVERALL_DIR = "up";
 const PERIODS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
 
 /* ─── 12-week history data ───────────────────────────────── */
@@ -177,25 +78,14 @@ const HISTORY_DATA = [
   { week: "10 Jun", overall: 84, visibility: 88, decision: 82, consistency: 91, recovery: 76, activation: 84 },
 ];
 
-/* ─── Improvement areas (lowest 2) ──────────────────────── */
-const IMPROVEMENTS = [...METRICS]
-  .sort((a, b) => a.score - b.score)
-  .slice(0, 2)
-  .map((m) => ({
-    ...m,
-    action: m.id === "recovery"
-      ? "Expand service-recovery playbook coverage for rooms 4–6. Current resolution pathway lacks fallback escalation branch."
-      : m.id === "decision"
-      ? "Increase training signal volume for mid-tier loyalty moments. Decision confidence sits below threshold for edge-case routing."
-      : "Review activation cadence for weekend arrival surges. Staffing alignment with moment triggers needs recalibration.",
-  }));
-
-/* ─── Radar data ─────────────────────────────────────────── */
-const RADAR_DATA = METRICS.map((m) => ({
-  subject: m.label.split(" ")[0],
-  score: m.score,
-  fullMark: 100,
-}));
+/* ─── Improvement action copy ────────────────────────────── */
+const IMPROVEMENT_ACTION: Record<string, string> = {
+  activation: "Review Command Centre handoff cadence. ROUTED signals need faster escalation to increase activation completion rate.",
+  recovery:   "Expand service-recovery playbook coverage for rooms 4–6. Current resolution pathway lacks fallback escalation branch.",
+  decision:   "Increase training signal volume for mid-tier loyalty moments. Decision confidence sits below threshold for edge-case routing.",
+  visibility: "Resolve EMERGING signals across strategic and commercial categories to improve active sensing breadth.",
+  consistency:"Review activation cadence for weekend arrival surges. Staffing alignment with moment triggers needs recalibration.",
+};
 
 /* ─── Animated count-up ──────────────────────────────────── */
 function CountUp({ target, duration = 1200 }: { target: number; duration?: number }) {
@@ -277,8 +167,7 @@ function HistoryTooltip({ active, payload, label }: any) {
 }
 
 /* ─── Metric score card ──────────────────────────────────── */
-function MetricCard({ m, delay }: { m: typeof METRICS[0]; delay: number }) {
-  const [, navigate] = useLocation();
+function MetricCard({ m, delay, onNavigate }: { m: Metric; delay: number; onNavigate: (link: string) => void }) {
   const color = scoreColor(m.score);
   const chartData = m.trend.map((v, i) => ({ p: PERIODS[i], v }));
 
@@ -385,7 +274,7 @@ function MetricCard({ m, delay }: { m: typeof METRICS[0]; delay: number }) {
             </span>
           </div>
           <button
-            onClick={() => navigate(m.source.link)}
+            onClick={() => onNavigate(m.source.link)}
             style={{
               background: "transparent",
               border: `1px solid ${C.amber}30`,
@@ -407,23 +296,6 @@ function MetricCard({ m, delay }: { m: typeof METRICS[0]; delay: number }) {
         }}>
           {m.source.label} · {m.source.summary}
         </div>
-
-        {/* Row 3: current snapshot value */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 1 }}>
-          <span style={{
-            fontSize: 7.5, fontWeight: 700, letterSpacing: "0.1em",
-            textTransform: "uppercase", color: "hsl(215 16% 22%)",
-          }}>
-            Current snapshot
-          </span>
-          <span style={{
-            fontSize: 13, fontWeight: 800, letterSpacing: "-0.01em",
-            color: scoreColor(m.source.liveScore),
-          }}>
-            {m.source.liveScore}
-            <span style={{ fontSize: 8, fontWeight: 600, color: C.dimmed, marginLeft: 1 }}>/100</span>
-          </span>
-        </div>
       </div>
     </motion.div>
   );
@@ -431,6 +303,107 @@ function MetricCard({ m, delay }: { m: typeof METRICS[0]; delay: number }) {
 
 /* ─── Page ───────────────────────────────────────────────── */
 export default function ExecutionIndex() {
+  const [, navigate] = useLocation();
+
+  const { metrics, overallScore, overallDelta, improvements, radarData, leader, laggard } = useMemo(() => {
+    const SWEIGHT = { ACTIVE: 1.0, ALERT: 1.0, MONITORING: 0.8, EMERGING: 0.3 } as const;
+    const allSignals     = SIGNAL_CATEGORIES.flatMap(c => c.signals);
+    const sigWSum        = allSignals.reduce((s, sig) => s + sig.confidence * SWEIGHT[sig.status], 0);
+    const sigWTotal      = allSignals.reduce((s, sig) => s + SWEIGHT[sig.status], 0);
+    const visScore       = Math.round(sigWSum / sigWTotal);
+    const activeSigCount = allSignals.filter(s => s.status === "ACTIVE" || s.status === "ALERT").length;
+
+    const decScore = Math.round(
+      SEEDED_MOMENTS.reduce((s, m) => s + m.confidence, 0) / SEEDED_MOMENTS.length
+    );
+
+    const totalFires = PLAYBOOKS.reduce((s, pb) => s + pb.stats.firesLast30Days, 0);
+    const totalExecs = PLAYBOOKS.reduce((s, pb) => s + pb.executions.length, 0);
+    const conScore   = Math.round(
+      PLAYBOOKS.reduce((s, pb) => s + pb.stats.successRate * pb.stats.firesLast30Days, 0) / totalFires
+    );
+
+    const recPBs   = PLAYBOOKS.filter(pb => pb.category === "Recovery" || pb.category === "Guest");
+    const recFires = recPBs.reduce((s, pb) => s + pb.stats.firesLast30Days, 0);
+    const recExecs = recPBs.reduce((s, pb) => s + pb.executions.length, 0);
+    const recScore = Math.round(
+      recPBs.reduce((s, pb) => s + pb.stats.successRate * pb.stats.firesLast30Days, 0) / recFires
+    );
+
+    const ccCompleted = CC_ROWS.filter(r => r.status === "RESOLVED" || r.status === "MONITORING").length;
+    const ccRate      = (ccCompleted / CC_ROWS.length) * 100;
+    const actPBs      = PLAYBOOKS.filter(pb => pb.category === "VIP" || pb.category === "Workforce" || pb.category === "Operational");
+    const actFires    = actPBs.reduce((s, pb) => s + pb.stats.firesLast30Days, 0);
+    const actExecs    = actPBs.reduce((s, pb) => s + pb.executions.length, 0);
+    const pbActRate   = actPBs.reduce((s, pb) => s + pb.stats.successRate * pb.stats.firesLast30Days, 0) / actFires;
+    const actScore    = Math.round(ccRate * 0.4 + pbActRate * 0.6);
+
+    const m: Metric[] = [
+      {
+        id: "visibility", label: "Visibility Score", score: visScore,
+        trend: [72, 76, 79, 82, 85, visScore], trendDir: "up",
+        delta: `+${visScore - 72} pts`,
+        description: "Breadth and depth of real-time behavioural sensing across all guest and operational touchpoints.",
+        source: {
+          label: "Signal Registry", link: "/signal-registry",
+          summary: `${allSignals.length} signals · ${activeSigCount} active/alerting · ${SIGNAL_CATEGORIES.length} categories`,
+        },
+      },
+      {
+        id: "decision", label: "Decision Quality", score: decScore,
+        trend: [65, 68, 72, 76, 79, decScore], trendDir: "up",
+        delta: `+${decScore - 65} pts`,
+        description: "Accuracy and confidence of automated routing decisions against subsequent outcome data.",
+        source: {
+          label: "Live Moments", link: "/live-moments",
+          summary: `${SEEDED_MOMENTS.length} active moments · ${decScore}% avg routing confidence`,
+        },
+      },
+      {
+        id: "consistency", label: "Response Consistency", score: conScore,
+        trend: [71, 74, 79, 83, 89, conScore], trendDir: "up",
+        delta: `+${conScore - 71} pts`,
+        description: "Percentage of moments resolved using the correct playbook action within the response window.",
+        source: {
+          label: "Playbook Engine", link: "/playbook-engine",
+          summary: `${totalExecs} executions · ${totalFires} fires (30d) · ${conScore}% fire-weighted success`,
+        },
+      },
+      {
+        id: "recovery", label: "Recovery Performance", score: recScore,
+        trend: [58, 62, 66, 70, 73, recScore], trendDir: "up",
+        delta: `+${recScore - 58} pts`,
+        description: "Success rate of service recovery interventions measured against guest sentiment shift post-action.",
+        source: {
+          label: "Command Centre · Recovery Playbooks", link: "/command-centre",
+          summary: `${recExecs} recovery & guest runs · ${recFires} fires (30d) · ${recScore}% success`,
+        },
+      },
+      {
+        id: "activation", label: "Activation Success", score: actScore,
+        trend: [64, 68, 72, 77, 81, actScore], trendDir: "up",
+        delta: `+${actScore - 64} pts`,
+        description: "Rate of staff-activation moments completed within the prescribed execution window.",
+        source: {
+          label: "Command Centre · Activation Records", link: "/command-centre",
+          summary: `${ccCompleted}/${CC_ROWS.length} CC activations resolved · ${actExecs} activation runs · ${Math.round(pbActRate)}% PB success`,
+        },
+      },
+    ];
+
+    const overallScore  = Math.round(m.reduce((s, x) => s + x.score, 0) / m.length);
+    const prevScore     = HISTORY_DATA[HISTORY_DATA.length - 2].overall;
+    const overallDelta  = overallScore - prevScore;
+    const improvements  = [...m].sort((a, b) => a.score - b.score).slice(0, 2)
+      .map(x => ({ ...x, action: IMPROVEMENT_ACTION[x.id] ?? IMPROVEMENT_ACTION.consistency }));
+    const radarData     = m.map(x => ({ subject: x.label.split(" ")[0], score: x.score, fullMark: 100 }));
+    const sortedByScore = [...m].sort((a, b) => b.score - a.score);
+    const leader        = sortedByScore[0];
+    const laggard       = sortedByScore[sortedByScore.length - 1];
+
+    return { metrics: m, overallScore, overallDelta, improvements, radarData, leader, laggard };
+  }, []);
+
   return (
     <div className="pl-56 min-h-screen" style={{ background: C.bg }}>
       <div style={{ maxWidth: 1300, margin: "0 auto", padding: "36px 40px 80px" }}>
@@ -477,7 +450,7 @@ export default function ExecutionIndex() {
             </div>
             <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
               <span style={{ fontSize: 88, fontWeight: 900, color: "#fff", letterSpacing: "-0.04em", lineHeight: 1 }}>
-                <CountUp target={OVERALL_SCORE} duration={1400} />
+                <CountUp target={overallScore} duration={1400} />
               </span>
               <span style={{ fontSize: 22, fontWeight: 600, color: C.muted }}>/100</span>
             </div>
@@ -488,7 +461,7 @@ export default function ExecutionIndex() {
                 border: `1px solid ${C.emerald}35`,
                 fontSize: 11, fontWeight: 800, color: C.emerald, letterSpacing: "0.06em",
               }}>
-                ↑ +{OVERALL_DELTA} this period
+                ↑ +{overallDelta} this period
               </div>
               <span style={{ fontSize: 10, color: C.muted }}>Strong execution. Improving across 5/5 dimensions.</span>
             </div>
@@ -499,7 +472,7 @@ export default function ExecutionIndex() {
 
           {/* Per-dimension summary bars */}
           <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 8 }}>
-            {METRICS.map((m) => {
+            {metrics.map((m) => {
               const color = scoreColor(m.score);
               return (
                 <div key={m.id} style={{ display: "grid", gridTemplateColumns: "180px 1fr 40px", alignItems: "center", gap: 12 }}>
@@ -553,8 +526,8 @@ export default function ExecutionIndex() {
 
         {/* ── Five metric cards ── */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 1, marginBottom: 32 }}>
-          {METRICS.map((m, i) => (
-            <MetricCard key={m.id} m={m} delay={0.2 + i * 0.07} />
+          {metrics.map((m, i) => (
+            <MetricCard key={m.id} m={m} delay={0.2 + i * 0.07} onNavigate={navigate} />
           ))}
         </div>
 
@@ -575,7 +548,7 @@ export default function ExecutionIndex() {
             </div>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1 }}>
-            {IMPROVEMENTS.map((imp, i) => {
+            {improvements.map((imp, i) => {
               const color = scoreColor(imp.score);
               return (
                 <motion.div
@@ -721,15 +694,15 @@ export default function ExecutionIndex() {
               <div style={{ display: "flex", gap: 16 }}>
                 <div style={{ textAlign: "center" }}>
                   <div style={{ fontSize: 8, color: C.dimmed, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 2 }}>Start</div>
-                  <div style={{ fontSize: 13, fontWeight: 800, color: "#fff" }}>68</div>
+                  <div style={{ fontSize: 13, fontWeight: 800, color: "#fff" }}>{HISTORY_DATA[0].overall}</div>
                 </div>
                 <div style={{ textAlign: "center" }}>
                   <div style={{ fontSize: 8, color: C.dimmed, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 2 }}>Current</div>
-                  <div style={{ fontSize: 13, fontWeight: 800, color: C.amber }}>84</div>
+                  <div style={{ fontSize: 13, fontWeight: 800, color: C.amber }}>{overallScore}</div>
                 </div>
                 <div style={{ textAlign: "center" }}>
                   <div style={{ fontSize: 8, color: C.dimmed, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 2 }}>12-Wk Δ</div>
-                  <div style={{ fontSize: 13, fontWeight: 800, color: C.emerald }}>+16</div>
+                  <div style={{ fontSize: 13, fontWeight: 800, color: C.emerald }}>+{overallScore - HISTORY_DATA[0].overall}</div>
                 </div>
               </div>
             </div>
@@ -764,15 +737,15 @@ export default function ExecutionIndex() {
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               <p style={{ margin: 0, fontSize: 12, color: C.muted, lineHeight: 1.7, maxWidth: 580 }}>
-                With an overall Execution Index of <strong style={{ color: "#fff" }}>{OVERALL_SCORE}/100</strong> — 
-                up {OVERALL_DELTA} points this period — The Grand Meridian is operating in the upper performance tier 
-                across all five dimensions. Response Consistency leads at <strong style={{ color: C.emerald }}>91</strong>, 
-                reflecting near-uniform playbook adherence across every active moment.
+                With an overall Execution Index of <strong style={{ color: "#fff" }}>{overallScore}/100</strong> — 
+                up {overallDelta} points this period — The Grand Meridian is operating in the upper performance tier 
+                across all five dimensions. {leader.label} leads at <strong style={{ color: scoreColor(leader.score) }}>{leader.score}</strong>, 
+                reflecting high-confidence execution across the most active data sources.
               </p>
               <p style={{ margin: 0, fontSize: 12, color: C.muted, lineHeight: 1.7, maxWidth: 580 }}>
-                Recovery Performance at <strong style={{ color: C.amber }}>76</strong> remains the primary lever for 
+                {laggard.label} at <strong style={{ color: scoreColor(laggard.score) }}>{laggard.score}</strong> remains the primary lever for 
                 score improvement. Targeted playbook expansion in this dimension represents the highest-yield 
-                opportunity to advance the overall index above 87 within the next operating quarter.
+                opportunity to advance the overall index within the next operating quarter.
               </p>
               <p style={{ margin: 0, fontSize: 12, color: C.muted, lineHeight: 1.7, maxWidth: 580 }}>
                 Every point on this index represents a closed loop: a signal sensed, a decision made, an action 
@@ -781,8 +754,8 @@ export default function ExecutionIndex() {
             </div>
             <div style={{ marginTop: 20, display: "flex", gap: 20 }}>
               {[
-                { label: "Leading Dimension", value: "Response Consistency", score: 91, color: C.emerald },
-                { label: "Improvement Lever", value: "Recovery Performance", score: 76, color: C.amber },
+                { label: "Leading Dimension", value: leader.label, score: leader.score, color: scoreColor(leader.score) },
+                { label: "Improvement Lever", value: laggard.label, score: laggard.score, color: scoreColor(laggard.score) },
               ].map((stat) => (
                 <div key={stat.label} style={{
                   padding: "12px 16px",
@@ -807,7 +780,7 @@ export default function ExecutionIndex() {
               Dimension Radar
             </div>
             <ResponsiveContainer width={240} height={220}>
-              <RadarChart data={RADAR_DATA} margin={{ top: 8, right: 24, bottom: 8, left: 24 }}>
+              <RadarChart data={radarData} margin={{ top: 8, right: 24, bottom: 8, left: 24 }}>
                 <PolarGrid stroke="hsl(220 13% 13%)" />
                 <PolarAngleAxis
                   dataKey="subject"
