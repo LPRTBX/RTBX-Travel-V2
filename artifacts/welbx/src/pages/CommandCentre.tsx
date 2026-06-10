@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useLocation } from "wouter";
 import { PLAYBOOKS } from "@/data/playbooks";
+import { DECISIONS } from "@/data/decisions";
 
 const SUMMARY = [
   { label: "Total Signals", value: "12", sub: "BXOS MONITORING", color: "hsl(215 16% 38%)" },
@@ -26,6 +27,7 @@ interface Row {
   status: Status;
   outcome: string;
   playbookId: string;
+  relatedMoment?: string;
 }
 
 const PRIORITY_COLOR: Record<Priority, string> = {
@@ -73,6 +75,7 @@ const ROWS: Row[] = [
     status: "ROUTED",
     outcome: "—",
     playbookId: "PB-005",
+    relatedMoment: "Staff Capacity Gap",
   },
   {
     id: "SIG-4461",
@@ -88,6 +91,7 @@ const ROWS: Row[] = [
     status: "RESOLVED",
     outcome: "Guest engagement confirmed. Satisfaction signal positive.",
     playbookId: "PB-003",
+    relatedMoment: "Loyalty Activation Window",
   },
   {
     id: "SIG-4449",
@@ -103,6 +107,7 @@ const ROWS: Row[] = [
     status: "RESOLVED",
     outcome: "Arrival handled. Zero friction. Revenue protected.",
     playbookId: "PB-002",
+    relatedMoment: "VIP Arrival",
   },
   {
     id: "SIG-4437",
@@ -118,6 +123,7 @@ const ROWS: Row[] = [
     status: "MONITORING",
     outcome: "Offer accepted. Revenue uplift $420. NPS impact positive.",
     playbookId: "PB-002",
+    relatedMoment: "Suite Upgrade Window",
   },
 ];
 
@@ -317,6 +323,65 @@ export default function CommandCentre() {
                       <span style={{ fontSize: 7.5, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "hsl(215 16% 52%)" }}>
                         {pb.name}
                       </span>
+                    </button>
+                  );
+                })()}
+                {(() => {
+                  if (!row.relatedMoment) return null;
+                  const dr = DECISIONS.find(d => d.relatedMoment === row.relatedMoment);
+                  if (!dr) return null;
+                  const confColor = dr.confidence >= 85 ? "#10b981" : dr.confidence >= 70 ? "#c9a84c" : "#ef4444";
+                  const outcomeColor: Record<string, string> = {
+                    Positive: "#10b981", Pending: "#c9a84c", Negative: "#ef4444", Inconclusive: "hsl(215 16% 32%)",
+                  };
+                  return (
+                    <button
+                      onClick={() => navigate(`/decision-registry?moment=${encodeURIComponent(row.relatedMoment!)}`)}
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: 6,
+                        padding: "4px 9px",
+                        marginTop: 5,
+                        background: "rgba(59,130,246,0.05)",
+                        border: "1px solid rgba(59,130,246,0.2)",
+                        cursor: "pointer",
+                        transition: "background 0.15s, border-color 0.15s",
+                        width: "100%",
+                        maxWidth: 188,
+                        boxSizing: "border-box",
+                      }}
+                      onMouseEnter={e => {
+                        (e.currentTarget as HTMLButtonElement).style.background = "rgba(59,130,246,0.1)";
+                        (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(59,130,246,0.38)";
+                      }}
+                      onMouseLeave={e => {
+                        (e.currentTarget as HTMLButtonElement).style.background = "rgba(59,130,246,0.05)";
+                        (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(59,130,246,0.2)";
+                      }}
+                    >
+                      <div style={{ display: "flex", flexDirection: "column", gap: 2, flex: 1, minWidth: 0, textAlign: "left" }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                          <div style={{ width: 3, height: 3, borderRadius: "50%", background: "#3b82f6", flexShrink: 0 }} />
+                          <span style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#3b82f6" }}>
+                            Decision:
+                          </span>
+                          <span style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "hsl(215 16% 28%)", fontFamily: "var(--app-font-mono)" }}>
+                            {dr.id}
+                          </span>
+                        </div>
+                        <div style={{ display: "flex", alignItems: "center", gap: 5, paddingLeft: 8 }}>
+                          <span style={{ fontSize: 7.5, color: "hsl(215 16% 44%)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                            {dr.name}
+                          </span>
+                          <span style={{ fontSize: 7, fontWeight: 700, letterSpacing: "0.1em", color: confColor, flexShrink: 0 }}>
+                            {dr.confidence}%
+                          </span>
+                          <span style={{ fontSize: 7, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: outcomeColor[dr.outcome] ?? "hsl(215 16% 32%)", flexShrink: 0 }}>
+                            {dr.outcome}
+                          </span>
+                        </div>
+                      </div>
                     </button>
                   );
                 })()}
