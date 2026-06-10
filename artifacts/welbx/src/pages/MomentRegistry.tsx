@@ -1,5 +1,7 @@
 import { useState } from "react";
+import { useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
+import { getPlaybookById } from "../data/playbooks";
 
 /* ─── Palette ─────────────────────────────────────────── */
 const C = {
@@ -55,6 +57,7 @@ interface Moment {
   activation: Activation;
   owner: string;
   status: Status;
+  playbookId?: string;
 }
 
 /* ─── Registry data ───────────────────────────────────── */
@@ -65,30 +68,35 @@ const MOMENTS: Moment[] = [
     category: "Guest", impact: "Safety + Loyalty",
     frequency: "3–4× weekly", visibility: 28, consistency: 94,
     activation: "CRITICAL", owner: "Duty Manager", status: "CRITICAL",
+    playbookId: "PB-001",
   },
   {
     id: "GM-002", name: "VIP Arrival Misalignment",
     category: "Guest", impact: "Activation · High value",
     frequency: "2–3× weekly", visibility: 44, consistency: 97,
     activation: "HIGH", owner: "General Manager", status: "ACTIVE",
+    playbookId: "PB-002",
   },
   {
     id: "GM-003", name: "First-Stay Anxiety Pattern",
     category: "Guest", impact: "Loyalty · NPS +1.2 avg",
     frequency: "8–12× daily", visibility: 19, consistency: 82,
     activation: "HIGH", owner: "Concierge", status: "ACTIVE",
+    playbookId: "PB-003",
   },
   {
     id: "GM-004", name: "Service Recovery Window",
     category: "Guest", impact: "Retention · Protected value",
     frequency: "5–8× weekly", visibility: 61, consistency: 89,
     activation: "HIGH", owner: "Front Desk Lead", status: "ACTIVE",
+    playbookId: "PB-003",
   },
   {
     id: "GM-005", name: "Loyalty Activation Window",
     category: "Guest", impact: "Activation · Loyalty uplift",
     frequency: "4–6× daily", visibility: 38, consistency: 76,
     activation: "MEDIUM", owner: "Guest Relations", status: "EMERGING",
+    playbookId: "PB-002",
   },
 
   /* ── Workforce ── */
@@ -97,24 +105,28 @@ const MOMENTS: Moment[] = [
     category: "Workforce", impact: "Service continuity",
     frequency: "3–4× weekly", visibility: 52, consistency: 88,
     activation: "HIGH", owner: "Duty Manager", status: "ACTIVE",
+    playbookId: "PB-004",
   },
   {
     id: "WF-002", name: "Shift Handover Risk",
     category: "Workforce", impact: "Operational continuity",
     frequency: "2× daily", visibility: 34, consistency: 71,
     activation: "MEDIUM", owner: "Department Head", status: "EMERGING",
+    playbookId: "PB-004",
   },
   {
     id: "WF-003", name: "Welfare Check Trigger",
     category: "Workforce", impact: "HR + Legal risk",
     frequency: "2–3× weekly", visibility: 22, consistency: 91,
     activation: "HIGH", owner: "HR Manager", status: "ACTIVE",
+    playbookId: "PB-004",
   },
   {
     id: "WF-004", name: "Team Performance Deviation",
     category: "Workforce", impact: "Quality assurance",
     frequency: "Weekly", visibility: 41, consistency: 64,
     activation: "MEDIUM", owner: "Operations Director", status: "EMERGING",
+    playbookId: "PB-004",
   },
 
   /* ── Operational ── */
@@ -123,24 +135,28 @@ const MOMENTS: Moment[] = [
     category: "Operational", impact: "Guest flow · Operational risk",
     frequency: "2–3× weekly", visibility: 67, consistency: 94,
     activation: "HIGH", owner: "Front Desk Lead", status: "ACTIVE",
+    playbookId: "PB-003",
   },
   {
     id: "OP-002", name: "Housekeeping Bottleneck",
     category: "Operational", impact: "Room activation · High value",
     frequency: "Daily", visibility: 58, consistency: 81,
     activation: "MEDIUM", owner: "Housekeeping Manager", status: "ACTIVE",
+    playbookId: "PB-005",
   },
   {
     id: "OP-003", name: "Maintenance Escalation Risk",
     category: "Operational", impact: "Asset + disruption",
     frequency: "Weekly", visibility: 44, consistency: 74,
     activation: "MEDIUM", owner: "Engineering Lead", status: "EMERGING",
+    playbookId: "PB-005",
   },
   {
     id: "OP-004", name: "Supply Threshold Alert",
     category: "Operational", impact: "F&B service continuity",
     frequency: "2–3× weekly", visibility: 71, consistency: 68,
     activation: "LOW", owner: "F&B Manager", status: "EMERGING",
+    playbookId: "PB-005",
   },
 
   /* ── Commercial ── */
@@ -149,24 +165,28 @@ const MOMENTS: Moment[] = [
     category: "Commercial", impact: "Activation · High value",
     frequency: "2–3× daily", visibility: 48, consistency: 79,
     activation: "HIGH", owner: "Guest Relations", status: "ACTIVE",
+    playbookId: "PB-002",
   },
   {
     id: "CM-002", name: "F&B Activation Opportunity",
     category: "Commercial", impact: "Activation · Value uplift",
     frequency: "4–6× daily", visibility: 54, consistency: 72,
     activation: "MEDIUM", owner: "F&B Manager", status: "ACTIVE",
+    playbookId: "PB-002",
   },
   {
     id: "CM-003", name: "Repeat Guest Recognition",
     category: "Commercial", impact: "Loyalty · Lifetime value",
     frequency: "6–10× daily", visibility: 62, consistency: 83,
     activation: "HIGH", owner: "Concierge", status: "ACTIVE",
+    playbookId: "PB-002",
   },
   {
     id: "CM-004", name: "Late Checkout Conversion",
     category: "Commercial", impact: "Activation · Per room uplift",
     frequency: "8–12× daily", visibility: 76, consistency: 91,
     activation: "MEDIUM", owner: "Front Desk Lead", status: "ACTIVE",
+    playbookId: "PB-003",
   },
 
   /* ── Strategic ── */
@@ -175,6 +195,7 @@ const MOMENTS: Moment[] = [
     category: "Strategic", impact: "Investment governance",
     frequency: "Weekly", visibility: 29, consistency: 58,
     activation: "HIGH", owner: "COO", status: "EMERGING",
+    playbookId: "PB-001",
   },
   {
     id: "ST-002", name: "Cross-Property Learning Signal",
@@ -226,6 +247,7 @@ function Badge({ text, color }: { text: string; color: string }) {
 /* ─── Page ─────────────────────────────────────────── */
 export default function MomentRegistry() {
   const [activeCategory, setActiveCategory] = useState<Category | "All">("All");
+  const [, navigate] = useLocation();
 
   const filtered = activeCategory === "All"
     ? MOMENTS
@@ -399,8 +421,30 @@ export default function MomentRegistry() {
                     <div style={{ fontSize: 12.5, fontWeight: 700, color: "#fff", lineHeight: 1.35, marginBottom: 3 }}>
                       {m.name}
                     </div>
-                    <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.1em", color: catColor, textTransform: "uppercase", opacity: 0.7 }}>
-                      {m.category}
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                      <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.1em", color: catColor, textTransform: "uppercase", opacity: 0.7 }}>
+                        {m.category}
+                      </div>
+                      {m.playbookId && (() => {
+                        const pb = getPlaybookById(m.playbookId);
+                        if (!pb) return null;
+                        return (
+                          <button
+                            onClick={(e) => { e.stopPropagation(); navigate(`/playbook-engine#${pb.id}`); }}
+                            style={{
+                              fontSize: 8, fontWeight: 700, letterSpacing: "0.1em",
+                              color: C.violet, textTransform: "uppercase",
+                              background: `${C.violet}10`, border: `1px solid ${C.violet}33`,
+                              padding: "2px 6px", cursor: "pointer",
+                              display: "flex", alignItems: "center", gap: 4,
+                              lineHeight: 1.5,
+                            }}
+                          >
+                            <span style={{ opacity: 0.6 }}>▶</span>
+                            {pb.name}
+                          </button>
+                        );
+                      })()}
                     </div>
                   </div>
 
