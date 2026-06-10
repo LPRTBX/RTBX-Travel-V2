@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useLocation } from "wouter";
+import { useLocation, useSearch } from "wouter";
 import { PLAYBOOKS, type Playbook, type PlaybookExecution } from "@/data/playbooks";
 
 /* ─── Filter types ────────────────────────────────────── */
@@ -735,11 +735,41 @@ const ALL_STATUSES:   Playbook["status"][]   = ["ACTIVE", "STANDBY", "ESCALATED"
 
 /* ─── Page ─────────────────────────────────────────── */
 export default function PlaybookEngine() {
-  const [activeCategory, setActiveCategory] = useState<CategoryFilter>("All");
-  const [activeStatus,   setActiveStatus]   = useState<StatusFilter>("All");
-  const [searchQuery,    setSearchQuery]    = useState("");
+  const search = useSearch();
+  const [, navigate] = useLocation();
+  const [searchQuery, setSearchQuery] = useState("");
 
   const normalizedQuery = searchQuery.trim().toLowerCase();
+
+  const params = new URLSearchParams(search);
+  const rawCategory = params.get("category") ?? "All";
+  const rawStatus   = params.get("status")   ?? "All";
+
+  const activeCategory: CategoryFilter = (
+    rawCategory === "All" || (ALL_CATEGORIES as string[]).includes(rawCategory)
+      ? rawCategory
+      : "All"
+  ) as CategoryFilter;
+
+  const activeStatus: StatusFilter = (
+    rawStatus === "All" || (ALL_STATUSES as string[]).includes(rawStatus)
+      ? rawStatus
+      : "All"
+  ) as StatusFilter;
+
+  const setActiveCategory = useCallback((cat: CategoryFilter) => {
+    const next = new URLSearchParams(search);
+    if (cat === "All") next.delete("category"); else next.set("category", cat);
+    const qs = next.toString();
+    navigate(qs ? `?${qs}` : "?", { replace: true });
+  }, [search, navigate]);
+
+  const setActiveStatus = useCallback((sts: StatusFilter) => {
+    const next = new URLSearchParams(search);
+    if (sts === "All") next.delete("status"); else next.set("status", sts);
+    const qs = next.toString();
+    navigate(qs ? `?${qs}` : "?", { replace: true });
+  }, [search, navigate]);
 
   const filtered = PLAYBOOKS.filter((pb) => {
     const catMatch = activeCategory === "All" || pb.category === activeCategory;
