@@ -1,5 +1,9 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import {
+  RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis,
+  Tooltip, ResponsiveContainer,
+} from "recharts";
 
 /* ─── Palette ─────────────────────────────────────────── */
 const C = {
@@ -416,11 +420,126 @@ function SummaryPanels({ entities }: { entities: Entity[] }) {
   );
 }
 
+/* ─── Radar Chart View ───────────────────────────────────── */
+const ENTITY_COLORS = [
+  "#10b981", "#3b82f6", "#c9a84c", "#a78bfa",
+  "#ef4444", "#06b6d4", "#f97316",
+];
+
+function RadarChartView({ entities }: { entities: Entity[] }) {
+  const radarData = METRICS.map((m) => {
+    const point: Record<string, string | number> = { metric: m.label };
+    entities.forEach((e) => { point[e.id] = e.scores[m.key]; });
+    return point;
+  });
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35 }}
+      style={{
+        background: C.card, border: `1px solid ${C.border}`,
+        padding: "32px 24px 24px", marginBottom: 28,
+      }}
+    >
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 24 }}>
+        <div>
+          <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.18em", color: C.amber, textTransform: "uppercase", marginBottom: 6 }}>
+            Shape Overview
+          </div>
+          <div style={{ fontSize: 12, fontWeight: 600, color: "hsl(215 16% 48%)", letterSpacing: "0.02em" }}>
+            All five consistency dimensions overlaid per entity — wider coverage = stronger execution shape.
+          </div>
+        </div>
+        <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: C.dimmed, textTransform: "uppercase", textAlign: "right" }}>
+          {entities.length} entities · 5 dimensions
+        </div>
+      </div>
+
+      <ResponsiveContainer width="100%" height={460}>
+        <RadarChart cx="50%" cy="50%" outerRadius={160} data={radarData}>
+          <PolarGrid stroke="hsl(220 13% 12%)" />
+          <PolarAngleAxis
+            dataKey="metric"
+            tick={{ fill: "hsl(215 16% 52%)", fontSize: 10, fontWeight: 700, letterSpacing: "0.04em" }}
+          />
+          <PolarRadiusAxis
+            domain={[50, 100]}
+            tickCount={4}
+            tick={{ fill: "hsl(215 16% 28%)", fontSize: 8 }}
+            stroke="hsl(220 13% 12%)"
+            axisLine={false}
+          />
+          {entities.map((e, i) => (
+            <Radar
+              key={e.id}
+              name={e.name}
+              dataKey={e.id}
+              stroke={ENTITY_COLORS[i % ENTITY_COLORS.length]}
+              fill={ENTITY_COLORS[i % ENTITY_COLORS.length]}
+              fillOpacity={0.07}
+              strokeWidth={2}
+              dot={{ r: 3, fill: ENTITY_COLORS[i % ENTITY_COLORS.length], strokeWidth: 0 }}
+            />
+          ))}
+          <Tooltip
+            contentStyle={{
+              background: "hsl(220 13% 8%)",
+              border: `1px solid hsl(220 13% 14%)`,
+              borderRadius: 0,
+              fontSize: 11,
+              color: "#fff",
+              padding: "10px 14px",
+            }}
+            labelStyle={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.1em", color: C.amber, textTransform: "uppercase", marginBottom: 6 }}
+            formatter={(value: number, name: string) => {
+              const entity = entities.find(e => e.id === name);
+              return [
+                <span style={{ color: scoreColor(value), fontWeight: 700 }}>{value}</span>,
+                entity?.name ?? name,
+              ];
+            }}
+          />
+        </RadarChart>
+      </ResponsiveContainer>
+
+      {/* Legend */}
+      <div style={{
+        display: "flex", flexWrap: "wrap", gap: "10px 20px",
+        marginTop: 20, paddingTop: 16, borderTop: `1px solid ${C.border}`,
+      }}>
+        {entities.map((e, i) => {
+          const color = ENTITY_COLORS[i % ENTITY_COLORS.length];
+          const overall = avg(e.scores);
+          return (
+            <div key={e.id} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <div style={{ width: 10, height: 10, borderRadius: "50%", background: color, flexShrink: 0 }} />
+              <span style={{ fontSize: 10, fontWeight: 700, color: "#fff", letterSpacing: "0.01em" }}>
+                {e.name}
+              </span>
+              <span style={{
+                fontSize: 9, fontWeight: 800, color: scoreColor(overall),
+                border: `1px solid ${scoreColor(overall)}33`,
+                padding: "1px 5px",
+                background: `${scoreColor(overall)}0a`,
+              }}>
+                {overall}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    </motion.div>
+  );
+}
+
 /* ─── Page ─────────────────────────────────────────────── */
 const DIMENSIONS: Dimension[] = ["Properties", "Departments", "Teams", "Regions"];
 
 export default function ConsistencyEngine() {
   const [activeDimension, setActiveDimension] = useState<Dimension>("Properties");
+  const [viewMode, setViewMode] = useState<"table" | "chart">("table");
   const entities = DATA[activeDimension];
 
   const overallAvg = Math.round(
@@ -497,44 +616,71 @@ export default function ConsistencyEngine() {
           })}
         </motion.div>
 
-        {/* ── Dimension selector ── */}
+        {/* ── Dimension selector + View toggle ── */}
         <motion.div
           initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.18, duration: 0.32 }}
-          style={{ display: "flex", gap: 1, marginBottom: 0 }}
+          style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 0 }}
         >
-          {DIMENSIONS.map((dim) => {
-            const isActive = activeDimension === dim;
-            return (
-              <button
-                key={dim}
-                onClick={() => setActiveDimension(dim)}
-                style={{
-                  padding: "10px 20px",
-                  background: isActive ? "hsl(220 13% 9%)" : "transparent",
-                  border: `1px solid ${isActive ? C.amber + "44" : "hsl(220 13% 10%)"}`,
-                  borderBottom: isActive ? "1px solid hsl(220 13% 9%)" : "1px solid hsl(220 13% 10%)",
-                  borderTop: isActive ? `2px solid ${C.amber}` : "2px solid transparent",
-                  cursor: "pointer", transition: "all 0.15s",
-                  display: "flex", alignItems: "center", gap: 8,
-                }}
-              >
-                <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.08em", color: isActive ? "#fff" : "hsl(215 16% 36%)" }}>
-                  {dim}
-                </span>
-                <span style={{
-                  fontSize: 8, fontWeight: 700, letterSpacing: "0.1em",
-                  color: isActive ? C.amber : C.dimmed,
-                  border: `1px solid ${isActive ? C.amber + "33" : "transparent"}`,
-                  padding: "1px 5px",
-                  background: isActive ? `${C.amber}0d` : "transparent",
-                }}>
-                  {DATA[dim].length}
-                </span>
-              </button>
-            );
-          })}
+          <div style={{ display: "flex", gap: 1 }}>
+            {DIMENSIONS.map((dim) => {
+              const isActive = activeDimension === dim;
+              return (
+                <button
+                  key={dim}
+                  onClick={() => setActiveDimension(dim)}
+                  style={{
+                    padding: "10px 20px",
+                    background: isActive ? "hsl(220 13% 9%)" : "transparent",
+                    border: `1px solid ${isActive ? C.amber + "44" : "hsl(220 13% 10%)"}`,
+                    borderBottom: isActive ? "1px solid hsl(220 13% 9%)" : "1px solid hsl(220 13% 10%)",
+                    borderTop: isActive ? `2px solid ${C.amber}` : "2px solid transparent",
+                    cursor: "pointer", transition: "all 0.15s",
+                    display: "flex", alignItems: "center", gap: 8,
+                  }}
+                >
+                  <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.08em", color: isActive ? "#fff" : "hsl(215 16% 36%)" }}>
+                    {dim}
+                  </span>
+                  <span style={{
+                    fontSize: 8, fontWeight: 700, letterSpacing: "0.1em",
+                    color: isActive ? C.amber : C.dimmed,
+                    border: `1px solid ${isActive ? C.amber + "33" : "transparent"}`,
+                    padding: "1px 5px",
+                    background: isActive ? `${C.amber}0d` : "transparent",
+                  }}>
+                    {DATA[dim].length}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* View mode toggle */}
+          <div style={{ display: "flex", gap: 1, marginBottom: 1 }}>
+            {(["table", "chart"] as const).map((mode) => {
+              const isActive = viewMode === mode;
+              return (
+                <button
+                  key={mode}
+                  onClick={() => setViewMode(mode)}
+                  style={{
+                    padding: "8px 16px",
+                    background: isActive ? "hsl(220 13% 9%)" : "transparent",
+                    border: `1px solid ${isActive ? "hsl(220 13% 16%)" : "hsl(220 13% 10%)"}`,
+                    borderTop: isActive ? `2px solid ${C.amber}` : "2px solid transparent",
+                    cursor: "pointer", transition: "all 0.15s",
+                    display: "flex", alignItems: "center", gap: 6,
+                  }}
+                >
+                  <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: isActive ? "#fff" : "hsl(215 16% 36%)" }}>
+                    {mode === "table" ? "⊞ Table" : "◎ Chart"}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </motion.div>
 
         {/* ── Divider ── */}
@@ -544,17 +690,23 @@ export default function ConsistencyEngine() {
           border: `1px solid ${C.border}`,
         }} />
 
-        {/* ── Metrics grid ── */}
+        {/* ── Metrics grid / Radar chart ── */}
         <AnimatePresence mode="wait">
           <motion.div
-            key={activeDimension}
+            key={`${activeDimension}-${viewMode}`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
-            <MetricsGrid entities={entities} />
-            <SummaryPanels entities={entities} />
+            {viewMode === "chart" ? (
+              <RadarChartView entities={entities} />
+            ) : (
+              <>
+                <MetricsGrid entities={entities} />
+                <SummaryPanels entities={entities} />
+              </>
+            )}
           </motion.div>
         </AnimatePresence>
 
