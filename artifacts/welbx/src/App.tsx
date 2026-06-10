@@ -25,6 +25,7 @@ import StrategicVisibility from "@/pages/StrategicVisibility";
 import GHSOL from "@/pages/GHSOL";
 import SignalRegistry from "@/pages/SignalRegistry";
 import BehaviouralGenome from "@/pages/BehaviouralGenome";
+import PlaybookEngine from "@/pages/PlaybookEngine";
 
 const queryClient = new QueryClient();
 
@@ -48,6 +49,7 @@ function Router() {
       <Route path="/ghsol" component={GHSOL} />
       <Route path="/signal-registry" component={SignalRegistry} />
       <Route path="/behavioural-genome" component={BehaviouralGenome} />
+      <Route path="/playbook-engine" component={PlaybookEngine} />
       <Route path="/compare" component={CompareMode} />
       <Route path="/command-mode" component={CommandMode} />
       <Route component={NotFound} />
