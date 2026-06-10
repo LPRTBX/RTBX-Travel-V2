@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 
 const navItems = [
   { label: "Executive Dashboard", path: "/executive-dashboard", sub: "PORTFOLIO" },
+  { label: "Moment Registry", path: "/moment-registry", sub: "20 MOMENTS" },
   { label: "Command Centre", path: "/command-centre", sub: "LIVE" },
   { label: "Execution Timeline", path: "/execution-timeline", sub: "REPLAY" },
   { label: "Signal Registry", path: "/signal-registry", sub: "SENSING LAYER" },
