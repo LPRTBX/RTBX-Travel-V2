@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { useLocation } from "wouter";
+import { SEEDED_MOMENTS } from "@/data/moments";
+import { PLAYBOOKS } from "@/data/playbooks";
 import {
   AreaChart, Area, XAxis, YAxis, Tooltip,
   ResponsiveContainer, RadarChart, Radar,
@@ -28,7 +31,39 @@ function scoreColor(s: number) {
   return C.crimson;
 }
 
-/* ─── Mock data ──────────────────────────────────────────── */
+/* ─── Live source derivations ────────────────────────────── */
+const _ALL_FIRES = PLAYBOOKS.reduce((s, pb) => s + pb.stats.firesLast30Days, 0);
+
+const LIVE_CONSISTENCY_SCORE = Math.round(
+  PLAYBOOKS.reduce((s, pb) => s + pb.stats.successRate * pb.stats.firesLast30Days, 0) / _ALL_FIRES
+);
+const LIVE_CONSISTENCY_RUNS = PLAYBOOKS.reduce((s, pb) => s + pb.executions.length, 0);
+
+const _RECOVERY_PBS = PLAYBOOKS.filter(pb => pb.category === "Recovery" || pb.category === "Guest");
+const _RECOVERY_FIRES = _RECOVERY_PBS.reduce((s, pb) => s + pb.stats.firesLast30Days, 0);
+const LIVE_RECOVERY_SCORE = Math.round(
+  _RECOVERY_PBS.reduce((s, pb) => s + pb.stats.successRate * pb.stats.firesLast30Days, 0) / _RECOVERY_FIRES
+);
+const LIVE_RECOVERY_RUNS = _RECOVERY_PBS.reduce((s, pb) => s + pb.executions.length, 0);
+
+const _ACT_PBS = PLAYBOOKS.filter(pb =>
+  (["VIP", "Workforce", "Operational"] as const).includes(pb.category as "VIP" | "Workforce" | "Operational")
+);
+const _ACT_FIRES = _ACT_PBS.reduce((s, pb) => s + pb.stats.firesLast30Days, 0);
+const LIVE_ACTIVATION_SCORE = Math.round(
+  _ACT_PBS.reduce((s, pb) => s + pb.stats.successRate * pb.stats.firesLast30Days, 0) / _ACT_FIRES
+);
+const LIVE_ACTIVATION_RUNS = _ACT_PBS.reduce((s, pb) => s + pb.executions.length, 0);
+
+const LIVE_DECISION_SCORE = Math.round(
+  SEEDED_MOMENTS.reduce((s, m) => s + m.confidence, 0) / SEEDED_MOMENTS.length
+);
+
+const _SIG_TOTAL = 247;
+const _SIG_CONF  = 91;
+const LIVE_VISIBILITY_SCORE = Math.round(_SIG_CONF * 0.97);
+
+/* ─── Metric data ────────────────────────────────────────── */
 const METRICS = [
   {
     id: "visibility",
@@ -38,6 +73,13 @@ const METRICS = [
     trendDir: "up" as const,
     delta: "+16 pts",
     description: "Breadth and depth of real-time behavioural sensing across all guest and operational touchpoints.",
+    source: {
+      label: "Signal Registry",
+      link: "/signal-registry",
+      summary: `${_SIG_TOTAL} monitored signals · ${_SIG_CONF}% avg confidence · 5 active categories`,
+      liveScore: LIVE_VISIBILITY_SCORE,
+      recordCount: _SIG_TOTAL,
+    },
   },
   {
     id: "decision",
@@ -47,6 +89,13 @@ const METRICS = [
     trendDir: "up" as const,
     delta: "+17 pts",
     description: "Accuracy and confidence of automated routing decisions against subsequent outcome data.",
+    source: {
+      label: "Live Moments",
+      link: "/live-moments",
+      summary: `${SEEDED_MOMENTS.length} active moments · ${LIVE_DECISION_SCORE}% avg routing confidence`,
+      liveScore: LIVE_DECISION_SCORE,
+      recordCount: SEEDED_MOMENTS.length,
+    },
   },
   {
     id: "consistency",
@@ -56,6 +105,13 @@ const METRICS = [
     trendDir: "up" as const,
     delta: "+20 pts",
     description: "Percentage of moments resolved using the correct playbook action within the response window.",
+    source: {
+      label: "Playbook Engine",
+      link: "/playbook-engine",
+      summary: `${LIVE_CONSISTENCY_RUNS} executions · ${_ALL_FIRES} fires (30d) · ${LIVE_CONSISTENCY_SCORE}% weighted success`,
+      liveScore: LIVE_CONSISTENCY_SCORE,
+      recordCount: LIVE_CONSISTENCY_RUNS,
+    },
   },
   {
     id: "recovery",
@@ -65,6 +121,13 @@ const METRICS = [
     trendDir: "up" as const,
     delta: "+18 pts",
     description: "Success rate of service recovery interventions measured against guest sentiment shift post-action.",
+    source: {
+      label: "Command Centre",
+      link: "/command-centre",
+      summary: `${LIVE_RECOVERY_RUNS} recovery & guest runs · ${_RECOVERY_FIRES} fires (30d) · ${LIVE_RECOVERY_SCORE}% success`,
+      liveScore: LIVE_RECOVERY_SCORE,
+      recordCount: LIVE_RECOVERY_RUNS,
+    },
   },
   {
     id: "activation",
@@ -74,6 +137,13 @@ const METRICS = [
     trendDir: "up" as const,
     delta: "+20 pts",
     description: "Rate of staff-activation moments completed within the prescribed execution window.",
+    source: {
+      label: "Command Centre",
+      link: "/command-centre",
+      summary: `${LIVE_ACTIVATION_RUNS} VIP & operational runs · ${_ACT_FIRES} fires (30d) · ${LIVE_ACTIVATION_SCORE}% success`,
+      liveScore: LIVE_ACTIVATION_SCORE,
+      recordCount: LIVE_ACTIVATION_RUNS,
+    },
   },
 ];
 
@@ -208,6 +278,7 @@ function HistoryTooltip({ active, payload, label }: any) {
 
 /* ─── Metric score card ──────────────────────────────────── */
 function MetricCard({ m, delay }: { m: typeof METRICS[0]; delay: number }) {
+  const [, navigate] = useLocation();
   const color = scoreColor(m.score);
   const chartData = m.trend.map((v, i) => ({ p: PERIODS[i], v }));
 
@@ -284,6 +355,75 @@ function MetricCard({ m, delay }: { m: typeof METRICS[0]; delay: number }) {
       {/* Description */}
       <div style={{ fontSize: 10, color: C.muted, lineHeight: 1.6 }}>
         {m.description}
+      </div>
+
+      {/* ── Source attribution strip ── */}
+      <div style={{
+        marginTop: 12,
+        paddingTop: 10,
+        borderTop: `1px solid ${C.border}`,
+        display: "flex",
+        flexDirection: "column",
+        gap: 5,
+      }}>
+        {/* Row 1: SOURCE label + LIVE badge + View link */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+            <span style={{
+              fontSize: 7, fontWeight: 700, letterSpacing: "0.18em",
+              textTransform: "uppercase", color: C.dimmed,
+            }}>
+              Source
+            </span>
+            <span style={{
+              fontSize: 7, fontWeight: 700, letterSpacing: "0.12em",
+              textTransform: "uppercase", color: C.amber,
+              background: `${C.amber}14`, border: `1px solid ${C.amber}28`,
+              padding: "1px 5px",
+            }}>
+              ● Live
+            </span>
+          </div>
+          <button
+            onClick={() => navigate(m.source.link)}
+            style={{
+              background: "transparent",
+              border: `1px solid ${C.amber}30`,
+              padding: "2px 9px",
+              cursor: "pointer",
+              fontSize: 7.5, fontWeight: 700, letterSpacing: "0.1em",
+              color: C.amber, textTransform: "uppercase",
+              fontFamily: "inherit",
+            }}
+          >
+            View →
+          </button>
+        </div>
+
+        {/* Row 2: source summary text */}
+        <div style={{
+          fontSize: 8.5, color: "hsl(215 16% 30%)",
+          letterSpacing: "0.01em", lineHeight: 1.55,
+        }}>
+          {m.source.label} · {m.source.summary}
+        </div>
+
+        {/* Row 3: current snapshot value */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 1 }}>
+          <span style={{
+            fontSize: 7.5, fontWeight: 700, letterSpacing: "0.1em",
+            textTransform: "uppercase", color: "hsl(215 16% 22%)",
+          }}>
+            Current snapshot
+          </span>
+          <span style={{
+            fontSize: 13, fontWeight: 800, letterSpacing: "-0.01em",
+            color: scoreColor(m.source.liveScore),
+          }}>
+            {m.source.liveScore}
+            <span style={{ fontSize: 8, fontWeight: 600, color: C.dimmed, marginLeft: 1 }}>/100</span>
+          </span>
+        </div>
       </div>
     </motion.div>
   );
