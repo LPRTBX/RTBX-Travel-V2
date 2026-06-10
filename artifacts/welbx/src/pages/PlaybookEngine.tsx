@@ -737,11 +737,17 @@ const ALL_STATUSES:   Playbook["status"][]   = ["ACTIVE", "STANDBY", "ESCALATED"
 export default function PlaybookEngine() {
   const [activeCategory, setActiveCategory] = useState<CategoryFilter>("All");
   const [activeStatus,   setActiveStatus]   = useState<StatusFilter>("All");
+  const [searchQuery,    setSearchQuery]    = useState("");
+
+  const normalizedQuery = searchQuery.trim().toLowerCase();
 
   const filtered = PLAYBOOKS.filter((pb) => {
     const catMatch = activeCategory === "All" || pb.category === activeCategory;
     const stsMatch = activeStatus   === "All" || pb.status   === activeStatus;
-    return catMatch && stsMatch;
+    const txtMatch = normalizedQuery === ""
+      || pb.name.toLowerCase().includes(normalizedQuery)
+      || pb.triggerConditions.some((tc) => tc.toLowerCase().includes(normalizedQuery));
+    return catMatch && stsMatch && txtMatch;
   });
 
   const catCounts = ALL_CATEGORIES.reduce<Record<string, number>>((acc, c) => {
@@ -961,6 +967,47 @@ export default function PlaybookEngine() {
             })}
 
             <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 8 }}>
+              {/* Search input */}
+              <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+                <span style={{
+                  position: "absolute", left: 8, pointerEvents: "none",
+                  fontSize: 10, color: "hsl(215 16% 28%)",
+                }}>
+                  ⌕
+                </span>
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search playbooks…"
+                  style={{
+                    paddingLeft: 22, paddingRight: searchQuery ? 22 : 10,
+                    paddingTop: 4, paddingBottom: 4,
+                    width: 170,
+                    background: "hsl(220 13% 6%)",
+                    border: `1px solid ${searchQuery ? C.amber + "44" : "hsl(220 13% 13%)"}`,
+                    color: "#bcc8d8",
+                    fontSize: 10,
+                    letterSpacing: "0.01em",
+                    outline: "none",
+                    transition: "border-color 0.15s",
+                  }}
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery("")}
+                    style={{
+                      position: "absolute", right: 6,
+                      background: "transparent", border: "none",
+                      cursor: "pointer", padding: 0, lineHeight: 1,
+                      fontSize: 10, color: "hsl(215 16% 32%)",
+                    }}
+                  >
+                    ×
+                  </button>
+                )}
+              </div>
+
               <span style={{
                 fontSize: 8, fontWeight: 700, letterSpacing: "0.14em",
                 color: filtered.length > 0 ? C.amber : C.dimmed,
@@ -968,9 +1015,9 @@ export default function PlaybookEngine() {
               }}>
                 {filtered.length} playbook{filtered.length !== 1 ? "s" : ""}
               </span>
-              {(activeCategory !== "All" || activeStatus !== "All") && (
+              {(activeCategory !== "All" || activeStatus !== "All" || searchQuery !== "") && (
                 <button
-                  onClick={() => { setActiveCategory("All"); setActiveStatus("All"); }}
+                  onClick={() => { setActiveCategory("All"); setActiveStatus("All"); setSearchQuery(""); }}
                   style={{
                     padding: "3px 9px", background: "transparent",
                     border: `1px solid hsl(220 13% 13%)`, cursor: "pointer",
