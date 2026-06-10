@@ -10,6 +10,10 @@ export interface Playbook {
   successCriteria: string[];
 }
 
+export function getPlaybookById(id: string): Playbook | undefined {
+  return PLAYBOOKS.find((p) => p.id === id);
+}
+
 export const PLAYBOOKS: Playbook[] = [
   {
     id: "PB-001",

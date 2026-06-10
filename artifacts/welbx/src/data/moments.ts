@@ -12,6 +12,7 @@ export interface Moment {
   commercialExposure: string;
   recommendedAction: string;
   status: MomentStatus;
+  playbookId?: string;
   executionFeedback?: {
     whatHappened: string;
     whoNotified: string;
@@ -34,6 +35,7 @@ export const SEEDED_MOMENTS: Moment[] = [
     commercialExposure: 'Est. $2,400 revenue at risk',
     recommendedAction: 'Open secondary check-in lane, reallocate host',
     status: 'DETECTED',
+    playbookId: 'PB-003',
     executionFeedback: {
       whatHappened: 'Secondary check-in opened, host reallocated',
       whoNotified: 'Front Desk Lead',
@@ -54,6 +56,7 @@ export const SEEDED_MOMENTS: Moment[] = [
     commercialExposure: 'Est. $8,000 lifetime value at risk',
     recommendedAction: 'Prioritise housekeeping release, activate welcome protocol',
     status: 'DETECTED',
+    playbookId: 'PB-002',
     executionFeedback: {
       whatHappened: 'Housekeeping prioritised, welcome protocol activated',
       whoNotified: 'Housekeeping Manager, Duty Manager',
@@ -74,6 +77,7 @@ export const SEEDED_MOMENTS: Moment[] = [
     commercialExposure: 'Est. $5,200 cost exposure',
     recommendedAction: 'Reallocate 2 staff from AM tasks, prioritise by arrival sequence',
     status: 'ACTIONED',
+    playbookId: 'PB-005',
     executionFeedback: {
       whatHappened: '2 staff reallocated, sequence reprioritised',
       whoNotified: 'Housekeeping Lead',
@@ -94,6 +98,7 @@ export const SEEDED_MOMENTS: Moment[] = [
     commercialExposure: 'Est. $1,800 recovery cost if unaddressed',
     recommendedAction: 'Deploy lobby ambassador, activate service recovery gesture',
     status: 'IN_PROGRESS',
+    playbookId: 'PB-003',
     executionFeedback: {
       whatHappened: 'Lobby ambassador deployed, drinks offered',
       whoNotified: 'Lobby Manager',
@@ -114,6 +119,7 @@ export const SEEDED_MOMENTS: Moment[] = [
     commercialExposure: 'Recovery gesture cost ~$120 vs est. $3,400 review impact',
     recommendedAction: 'Personal call from duty manager, complimentary dinner offer',
     status: 'DETECTED',
+    playbookId: 'PB-003',
     executionFeedback: {
       whatHappened: 'Duty manager called guest, dinner offered',
       whoNotified: 'Duty Manager, F&B Team',
@@ -135,6 +141,7 @@ export const SEEDED_MOMENTS: Moment[] = [
     commercialExposure: 'Est. $960 revenue opportunity', // mapped for UI consistency
     recommendedAction: 'Personalised dining recommendations via concierge touchpoint',
     status: 'DETECTED',
+    playbookId: 'PB-002',
     executionFeedback: {
       whatHappened: 'Concierge reached out to 8 guests',
       whoNotified: 'Concierge Team',

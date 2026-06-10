@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { Moment, MomentStatus } from "@/data/moments";
+import { getPlaybookById } from "@/data/playbooks";
 import { ChevronDown, ArrowRight } from "lucide-react";
 
 interface MomentCardProps {
@@ -35,6 +37,9 @@ const URGENCY_COLOR: Record<string, string> = {
 export function MomentCard({ moment: initialMoment, index, onVipAccept }: MomentCardProps) {
   const [moment, setMoment] = useState<Moment>(initialMoment);
   const [showFeedback, setShowFeedback] = useState(false);
+  const [, navigate] = useLocation();
+
+  const playbook = moment.playbookId ? getPlaybookById(moment.playbookId) : undefined;
 
   const handleAction = (action: string) => {
     let nextStatus: MomentStatus = moment.status;
@@ -168,13 +173,45 @@ export function MomentCard({ moment: initialMoment, index, onVipAccept }: Moment
             </div>
           </div>
 
-          {/* Recommended Action */}
+          {/* Recommended Action + Playbook */}
           <div className="col-span-12 flex items-start gap-3" style={{ marginTop: 16, paddingTop: 14, borderTop: '1px solid hsl(220 13% 10%)' }}>
             <ArrowRight size={12} style={{ color: 'hsl(43 68% 55%)', flexShrink: 0, marginTop: 2 }} />
             <div className="flex-1">
               <div className="label-caps mb-1" style={{ color: 'hsl(43 68% 55%)' }}>Recommended Action</div>
               <div style={{ fontSize: 12, color: '#fff', fontWeight: 500 }}>{moment.recommendedAction}</div>
             </div>
+            {playbook && (
+              <button
+                onClick={() => navigate(`/playbook-engine#${playbook.id}`)}
+                style={{
+                  flexShrink: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  padding: '4px 10px',
+                  background: 'rgba(201,168,76,0.07)',
+                  border: '1px solid rgba(201,168,76,0.25)',
+                  cursor: 'pointer',
+                  transition: 'background 0.15s, border-color 0.15s',
+                }}
+                onMouseEnter={e => {
+                  (e.currentTarget as HTMLButtonElement).style.background = 'rgba(201,168,76,0.13)';
+                  (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(201,168,76,0.45)';
+                }}
+                onMouseLeave={e => {
+                  (e.currentTarget as HTMLButtonElement).style.background = 'rgba(201,168,76,0.07)';
+                  (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(201,168,76,0.25)';
+                }}
+              >
+                <div style={{ width: 4, height: 4, borderRadius: '50%', background: '#c9a84c', flexShrink: 0 }} />
+                <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#c9a84c' }}>
+                  Playbook:
+                </span>
+                <span style={{ fontSize: 8, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'hsl(215 16% 60%)' }}>
+                  {playbook.name}
+                </span>
+              </button>
+            )}
           </div>
         </div>
       </div>

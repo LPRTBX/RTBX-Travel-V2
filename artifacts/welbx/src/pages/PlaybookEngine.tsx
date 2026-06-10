@@ -136,6 +136,7 @@ function PlaybookCard({ playbook, index }: { playbook: Playbook; index: number }
 
   return (
     <motion.div
+      id={playbook.id}
       initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.25 + index * 0.08, duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
@@ -144,6 +145,7 @@ function PlaybookCard({ playbook, index }: { playbook: Playbook; index: number }
         borderLeft: `2px solid ${catColor}`,
         background: C.card,
         overflow: "hidden",
+        scrollMarginTop: 24,
       }}
     >
       {/* Card header */}

@@ -1,4 +1,6 @@
 import { motion } from "framer-motion";
+import { useLocation } from "wouter";
+import { PLAYBOOKS } from "@/data/playbooks";
 
 const SUMMARY = [
   { label: "Total Signals", value: "12", sub: "BXOS MONITORING", color: "hsl(215 16% 38%)" },
@@ -23,6 +25,7 @@ interface Row {
   ownerRole: string;
   status: Status;
   outcome: string;
+  playbookId: string;
 }
 
 const PRIORITY_COLOR: Record<Priority, string> = {
@@ -54,6 +57,7 @@ const ROWS: Row[] = [
     ownerRole: "Duty Manager",
     status: "EXECUTING",
     outcome: "—",
+    playbookId: "PB-001",
   },
   {
     id: "SIG-4468",
@@ -68,6 +72,7 @@ const ROWS: Row[] = [
     ownerRole: "Front Desk Lead",
     status: "ROUTED",
     outcome: "—",
+    playbookId: "PB-005",
   },
   {
     id: "SIG-4461",
@@ -82,6 +87,7 @@ const ROWS: Row[] = [
     ownerRole: "Concierge",
     status: "RESOLVED",
     outcome: "Guest engagement confirmed. Satisfaction signal positive.",
+    playbookId: "PB-003",
   },
   {
     id: "SIG-4449",
@@ -96,6 +102,7 @@ const ROWS: Row[] = [
     ownerRole: "General Manager",
     status: "RESOLVED",
     outcome: "Arrival handled. Zero friction. Revenue protected.",
+    playbookId: "PB-002",
   },
   {
     id: "SIG-4437",
@@ -110,6 +117,7 @@ const ROWS: Row[] = [
     ownerRole: "Guest Relations",
     status: "MONITORING",
     outcome: "Offer accepted. Revenue uplift $420. NPS impact positive.",
+    playbookId: "PB-002",
   },
 ];
 
@@ -142,6 +150,8 @@ function StatusBadge({ s }: { s: Status }) {
 }
 
 export default function CommandCentre() {
+  const [, navigate] = useLocation();
+
   return (
     <div className="pl-56 min-h-screen" style={{ background: "hsl(220 13% 5%)" }}>
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "36px 40px 60px" }}>
@@ -272,9 +282,44 @@ export default function CommandCentre() {
                 <div style={{ fontSize: 11.5, fontWeight: 700, color: "#fff", lineHeight: 1.4, marginBottom: 4 }}>
                   {row.signal}
                 </div>
-                <div style={{ fontSize: 10, color: "hsl(215 16% 36%)", lineHeight: 1.45 }}>
+                <div style={{ fontSize: 10, color: "hsl(215 16% 36%)", lineHeight: 1.45, marginBottom: 6 }}>
                   {row.source}
                 </div>
+                {(() => {
+                  const pb = PLAYBOOKS.find(p => p.id === row.playbookId);
+                  if (!pb) return null;
+                  return (
+                    <button
+                      onClick={() => navigate(`/playbook-engine#${pb.id}`)}
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: 5,
+                        padding: "3px 8px",
+                        background: "rgba(201,168,76,0.06)",
+                        border: "1px solid rgba(201,168,76,0.22)",
+                        cursor: "pointer",
+                        transition: "background 0.15s, border-color 0.15s",
+                      }}
+                      onMouseEnter={e => {
+                        (e.currentTarget as HTMLButtonElement).style.background = "rgba(201,168,76,0.12)";
+                        (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(201,168,76,0.4)";
+                      }}
+                      onMouseLeave={e => {
+                        (e.currentTarget as HTMLButtonElement).style.background = "rgba(201,168,76,0.06)";
+                        (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(201,168,76,0.22)";
+                      }}
+                    >
+                      <div style={{ width: 3, height: 3, borderRadius: "50%", background: "#c9a84c", flexShrink: 0 }} />
+                      <span style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c" }}>
+                        Playbook:
+                      </span>
+                      <span style={{ fontSize: 7.5, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "hsl(215 16% 52%)" }}>
+                        {pb.name}
+                      </span>
+                    </button>
+                  );
+                })()}
               </div>
 
               {/* Priority */}
