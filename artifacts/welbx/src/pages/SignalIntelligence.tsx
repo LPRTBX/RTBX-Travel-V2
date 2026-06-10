@@ -1,386 +1,370 @@
 import { motion } from "framer-motion";
 
-const ACCENT = '#c9a84c';
+const ACCENT = "#c9a84c";
 
-const signalSources = [
-  {
-    name: 'Property Management System',
-    abbr: 'PMS',
-    description: 'Room status, reservation data, guest profiles, check-in/out times, and occupancy state.',
-    status: 'CONNECTED',
-  },
-  {
-    name: 'Point of Sale',
-    abbr: 'POS',
-    description: 'F&B transactions, restaurant capacity, spend patterns, and service velocity.',
-    status: 'CONNECTED',
-  },
-  {
-    name: 'Housekeeping Software',
-    abbr: 'HKP',
-    description: 'Room readiness pipeline, staff assignment, task queue depth, and completion times.',
-    status: 'CONNECTED',
-  },
-  {
-    name: 'Lobby Sensor Array',
-    abbr: 'SENSOR',
-    description: 'Footfall counts, dwell time, crowd density, and queue depth at key touchpoints.',
-    status: 'CONNECTED',
-  },
-  {
-    name: 'Staff Input Layer',
-    abbr: 'STAFF',
-    description: 'Verbal cues, incident logs, shift handover notes, and manual complaint entries.',
-    status: 'CONNECTED',
-  },
-  {
-    name: 'Guest App & Messaging',
-    abbr: 'GUEST',
-    description: 'In-app requests, sentiment signals, chat transcripts, and service feedback.',
-    status: 'CONNECTED',
-  },
-  {
-    name: 'CRM & Loyalty Engine',
-    abbr: 'CRM',
-    description: 'Guest tier, lifetime value, stay history, preference flags, and loyalty risk scores.',
-    status: 'CONNECTED',
-  },
-  {
-    name: 'Revenue Management System',
-    abbr: 'RMS',
-    description: 'Dynamic rate data, demand forecasts, channel performance, and revenue exposure.',
-    status: 'LIVE',
-  },
+// Mini bar chart component
+function Bar({ value, max, color }: { value: number; max: number; color: string }) {
+  return (
+    <div style={{ flex: 1, height: 2, background: "hsl(220 13% 12%)" }}>
+      <div style={{ height: "100%", width: `${(value / max) * 100}%`, background: color, transition: "width 0.6s ease" }} />
+    </div>
+  );
+}
+
+// Sparkline using inline divs
+function Sparkline({ data, color }: { data: number[]; color: string }) {
+  const max = Math.max(...data);
+  const min = Math.min(...data);
+  const range = max - min || 1;
+  const h = 32;
+  const w = 6;
+  const gap = 2;
+  return (
+    <div style={{ display: "flex", alignItems: "flex-end", gap, height: h }}>
+      {data.map((v, i) => (
+        <div
+          key={i}
+          style={{
+            width: w,
+            height: Math.max(2, ((v - min) / range) * h),
+            background: i === data.length - 1 ? color : `${color}55`,
+            flexShrink: 0,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+const DENSITY_METRICS = [
+  { label: "Guest Signals", value: 52, total: 80, rate: "+8%", trend: [28, 30, 34, 36, 38, 44, 48, 52], color: ACCENT },
+  { label: "Workforce Signals", value: 44, total: 80, rate: "+3%", trend: [36, 37, 38, 40, 40, 42, 43, 44], color: "#a78bfa" },
+  { label: "Operational Signals", value: 61, total: 80, rate: "+14%", trend: [30, 35, 40, 44, 50, 54, 58, 61], color: "#10b981" },
+  { label: "Commercial Signals", value: 48, total: 80, rate: "+6%", trend: [38, 39, 41, 42, 44, 45, 47, 48], color: "#f59e0b" },
+  { label: "Strategic Signals", value: 42, total: 80, rate: "+2%", trend: [38, 38, 39, 40, 40, 41, 41, 42], color: "#60a5fa" },
 ];
 
-const signalCatalog = [
-  {
-    name: 'Queue Depth',
-    measures: 'Number of guests waiting at a service touchpoint',
-    threshold: '> 8 guests triggers monitoring; > 12 triggers alert',
-  },
-  {
-    name: 'Wait Time',
-    measures: 'Average time a guest has been waiting without service contact',
-    threshold: '> 5 min monitoring; > 8 min operational alert',
-  },
-  {
-    name: 'Room Status',
-    measures: 'Current readiness state of a guest room (Occupied / Dirty / Inspecting / Ready)',
-    threshold: 'Not Ready within 15 min of arrival window triggers risk flag',
-  },
-  {
-    name: 'Guest Tier',
-    measures: 'Loyalty programme classification (Standard / Gold / Platinum / Diamond)',
-    threshold: 'Diamond tier amplifies urgency weighting by ×3',
-  },
-  {
-    name: 'Staff Capacity',
-    measures: 'Percentage of available staff currently deployed on active tasks',
-    threshold: '> 85% capacity triggers reallocation assessment',
-  },
-  {
-    name: 'Sentiment Cues',
-    measures: 'Verbal, behavioural, and in-app signals indicating guest dissatisfaction',
-    threshold: '2 or more concurrent cues triggers sentiment alert',
-  },
-  {
-    name: 'Housekeeping ETA',
-    measures: 'Projected time to room readiness based on current pipeline velocity',
-    threshold: 'ETA > arrival window by 10 min triggers escalation',
-  },
-  {
-    name: 'F&B Propensity',
-    measures: 'Likelihood of a guest making a food & beverage purchase based on behaviour signals',
-    threshold: 'Score > 0.72 triggers personalised outreach recommendation',
-  },
-  {
-    name: 'Complaint Lag',
-    measures: 'Time elapsed between a complaint being logged and a recovery action being taken',
-    threshold: '> 30 min without response triggers recovery window alert',
-  },
-  {
-    name: 'Revenue Exposure',
-    measures: 'Estimated commercial value at risk from an unresolved operational moment',
-    threshold: 'Any moment > $1,000 exposure is escalated for management visibility',
-  },
+const INCREASING_SIGNALS = [
+  { name: "Operational Signals", velocity: 94, delta: "+14% WoW", color: "#10b981", reason: "Room readiness and queue depth events rising" },
+  { name: "Guest Sentiment Signals", velocity: 87, delta: "+11% WoW", color: ACCENT, reason: "Arrival and departure mood signals compounding" },
+  { name: "Commercial Signals", velocity: 73, delta: "+6% WoW", color: "#f59e0b", reason: "Upsell windows and F&B propensity events increasing" },
+  { name: "Workforce Engagement", velocity: 58, delta: "+4% WoW", color: "#a78bfa", reason: "Response latency and handover signals rising" },
+  { name: "Strategic Signals", velocity: 31, delta: "+2% WoW", color: "#60a5fa", reason: "Brand sentiment and competitive position events" },
 ];
 
-const flowSteps = [
-  {
-    step: '01',
-    label: 'Raw Signals',
-    detail: 'BXOS ingests live data streams from all connected sources — PMS, sensors, staff input, and the guest layer — in real time.',
-    color: 'hsl(215 16% 36%)',
-  },
-  {
-    step: '02',
-    label: 'Pattern Detection',
-    detail: 'The BXOS intelligence layer correlates signals across systems, identifying compounding patterns that no single source reveals alone.',
-    color: 'hsl(215 16% 50%)',
-  },
-  {
-    step: '03',
-    label: 'Confidence Scoring',
-    detail: 'Each detected pattern is scored for operational confidence (0–100%) based on signal strength, data recency, and historical match rate.',
-    color: ACCENT,
-  },
-  {
-    step: '04',
-    label: 'Moment Surfaced',
-    detail: 'When confidence exceeds the threshold for a given signal type, BXOS surfaces the moment to the Live Moments layer with urgency, risk, and commercial context.',
-    color: '#fff',
-  },
-  {
-    step: '05',
-    label: 'Action Recommended',
-    detail: 'BXOS generates a specific, executable recommendation — calibrated to the moment type, guest tier, and available staff capacity — ready for one-tap Vector execution.',
-    color: '#10b981',
-  },
+const HIGH_VALUE_SIGNALS = [
+  { name: "Revenue Exposure Index", contribution: 96, moments: 42, value: "$18,400 avg exposure", color: ACCENT },
+  { name: "Loyalty Recognition Gap", contribution: 91, moments: 38, value: "×3 urgency multiplier", color: ACCENT },
+  { name: "Wait Anxiety", contribution: 88, moments: 67, value: "$2,400 avg risk", color: "#f59e0b" },
+  { name: "F&B Propensity Score", contribution: 82, moments: 31, value: "$480 avg opportunity", color: "#10b981" },
+  { name: "Upsell Conversion Window", contribution: 76, moments: 28, value: "$340 avg uplift", color: "#10b981" },
+  { name: "Guest Lifetime Value Shift", contribution: 71, moments: 19, value: "Portfolio-level impact", color: "#60a5fa" },
 ];
 
-const workedExample = {
-  title: 'Queue Pressure Building',
-  signals: [
-    { source: 'SENSOR', value: 'Queue depth 14 guests' },
-    { source: 'PMS', value: 'Average wait 9.2 min' },
-    { source: 'STAFF', value: '3 agents active' },
-  ],
-  pattern: 'Linear queue growth with no relief pathway',
-  confidence: 94,
-  moment: 'Queue Pressure Building — HIGH urgency — $2,400 exposure',
-  action: 'Open secondary check-in lane, reallocate host',
+const RISK_SIGNALS = [
+  { name: "Queue Depth", risk: 94, incidents: 23, category: "Operational", trend: [4, 5, 7, 6, 8, 9, 12, 14], alert: "CRITICAL" },
+  { name: "Staff Capacity Ratio", risk: 88, incidents: 18, category: "Workforce", trend: [6, 6, 7, 8, 9, 10, 11, 13], alert: "HIGH" },
+  { name: "Complaint Lag", risk: 79, incidents: 14, category: "Guest", trend: [2, 3, 3, 4, 5, 6, 8, 9], alert: "HIGH" },
+  { name: "Brand Sentiment Drift", risk: 66, incidents: 9, category: "Strategic", trend: [1, 1, 2, 2, 3, 4, 5, 6], alert: "ELEVATED" },
+  { name: "Cancellation Risk Score", risk: 58, incidents: 7, category: "Commercial", trend: [2, 2, 3, 3, 4, 4, 5, 5], alert: "ELEVATED" },
+];
+
+const CONFIDENCE_BANDS = [
+  { band: "90–100%", count: 94, pct: 38, color: "#10b981" },
+  { band: "75–89%", count: 82, pct: 33, color: ACCENT },
+  { band: "60–74%", count: 46, pct: 19, color: "#f59e0b" },
+  { band: "Below 60%", count: 25, pct: 10, color: "hsl(215 16% 30%)" },
+];
+
+const TOP_SIGNALS = [
+  { rank: "01", name: "Wait Anxiety", category: "Guest", activations: 67, confidence: 94, value: "HIGH" },
+  { rank: "02", name: "Room Readiness Pipeline", category: "Operational", activations: 61, confidence: 99, value: "CRITICAL" },
+  { rank: "03", name: "Staff Capacity Ratio", category: "Workforce", activations: 58, confidence: 98, value: "CRITICAL" },
+  { rank: "04", name: "Revenue Exposure Index", category: "Commercial", activations: 42, confidence: 93, value: "CRITICAL" },
+  { rank: "05", name: "Loyalty Recognition Gap", category: "Guest", activations: 38, confidence: 97, value: "CRITICAL" },
+  { rank: "06", name: "Response Latency", category: "Workforce", activations: 34, confidence: 95, value: "HIGH" },
+  { rank: "07", name: "F&B Propensity Score", category: "Commercial", activations: 31, confidence: 77, value: "HIGH" },
+  { rank: "08", name: "Brand Sentiment Drift", category: "Strategic", activations: 19, confidence: 74, value: "HIGH" },
+];
+
+const VALUE_COLOR: Record<string, string> = {
+  CRITICAL: "#ef4444",
+  HIGH: ACCENT,
+  MEDIUM: "hsl(215 16% 46%)",
 };
 
 export default function SignalIntelligence() {
   return (
     <div className="min-h-screen bg-background pl-56 text-foreground">
-      <div className="px-10 pt-8 pb-16 max-w-5xl">
+      <div className="px-10 pt-8 pb-16 max-w-6xl">
 
         {/* Header */}
-        <header className="mb-10">
-          <div className="label-caps mb-2" style={{ color: ACCENT }}>BXOS · Intelligence Layer</div>
-          <h1 className="text-2xl font-bold text-white tracking-wide mb-2">Signal Intelligence</h1>
-          <p className="text-xs" style={{ color: 'hsl(215 16% 45%)', letterSpacing: '0.01em', maxWidth: 640, lineHeight: 1.7 }}>
-            BXOS listens to every system in your hotel simultaneously. This page shows where signals come from, what each signal type means, and how BXOS correlates them into the operational moments your team acts on.
-          </p>
-        </header>
-
-        {/* Section 1: Signal Sources */}
-        <section className="mb-12">
-          <div className="flex items-center gap-4 mb-5">
-            <div className="label-caps" style={{ color: ACCENT }}>01 — Signal Sources</div>
-            <div style={{ flex: 1, height: 1, background: 'hsl(220 13% 10%)' }} />
+        <motion.header
+          initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}
+          className="mb-10"
+        >
+          <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.26em", color: ACCENT, textTransform: "uppercase", marginBottom: 10 }}>
+            WELBX · Behavioural Analytics
           </div>
-          <p className="text-xs mb-6" style={{ color: 'hsl(215 16% 42%)', lineHeight: 1.7 }}>
-            BXOS connects to the operational systems your hotel already runs. Each integration feeds a live signal stream that the intelligence layer processes continuously.
+          <h1 style={{ fontSize: 22, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", margin: 0, marginBottom: 10 }}>
+            Signal Intelligence
+          </h1>
+          <p style={{ fontSize: 12, color: "hsl(215 16% 44%)", lineHeight: 1.75, maxWidth: 620, margin: 0 }}>
+            Behavioural sensing analytics. Not what happened — what the pattern of signals is telling you about what is about to happen.
           </p>
-          <div className="grid grid-cols-2 gap-3">
-            {signalSources.map((src, i) => (
+        </motion.header>
+
+        {/* ── 01 Signal Density ── */}
+        <section style={{ marginBottom: 48 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 20 }}>
+            <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.22em", color: ACCENT, textTransform: "uppercase" }}>01 — Signal Density</div>
+            <div style={{ flex: 1, height: 1, background: "hsl(220 13% 10%)" }} />
+          </div>
+          <p style={{ fontSize: 11.5, color: "hsl(215 16% 42%)", lineHeight: 1.75, marginBottom: 20, maxWidth: 560 }}>
+            How many signals are active in each category. Density is a proxy for operational complexity — more active signals means more behavioural information to act on.
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 1 }}>
+            {DENSITY_METRICS.map((m, i) => (
               <motion.div
-                key={src.abbr}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.04 }}
+                key={m.label}
+                initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.06 }}
                 style={{
-                  background: 'hsl(220 13% 7%)',
-                  border: '1px solid hsl(220 13% 10%)',
-                  padding: '16px 20px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: 6,
+                  display: "grid", gridTemplateColumns: "180px 1fr 60px 90px 80px",
+                  alignItems: "center", gap: 20,
+                  padding: "14px 20px",
+                  background: "hsl(220 13% 6%)", border: "1px solid hsl(220 13% 9%)",
                 }}
               >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <span style={{
-                      fontSize: 8, fontWeight: 700, letterSpacing: '0.14em',
-                      color: ACCENT, background: 'rgba(201,168,76,0.08)',
-                      border: '1px solid rgba(201,168,76,0.18)',
-                      padding: '2px 7px',
-                    }}>
-                      {src.abbr}
-                    </span>
-                    <span className="text-xs font-semibold text-white tracking-wide">{src.name}</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <div style={{
-                      width: 5, height: 5, borderRadius: '50%',
-                      background: src.status === 'LIVE' ? '#c9a84c' : '#10b981',
-                    }} />
-                    <span style={{
-                      fontSize: 8, fontWeight: 700, letterSpacing: '0.12em',
-                      color: src.status === 'LIVE' ? ACCENT : '#10b981',
-                    }}>
-                      {src.status}
-                    </span>
+                <div style={{ fontSize: 11, fontWeight: 600, color: "#fff" }}>{m.label}</div>
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <Bar value={m.value} max={m.total} color={m.color} />
+                </div>
+                <div style={{ fontSize: 13, fontWeight: 800, color: m.color, textAlign: "right" }}>{m.value}</div>
+                <div style={{ fontSize: 10, color: "hsl(215 16% 36%)" }}>of {m.total} capacity</div>
+                <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                  <Sparkline data={m.trend} color={m.color} />
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── 02 Signal Trends: Increasing Signals ── */}
+        <section style={{ marginBottom: 48 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 20 }}>
+            <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.22em", color: ACCENT, textTransform: "uppercase" }}>02 — Signals Increasing</div>
+            <div style={{ flex: 1, height: 1, background: "hsl(220 13% 10%)" }} />
+          </div>
+          <p style={{ fontSize: 11.5, color: "hsl(215 16% 42%)", lineHeight: 1.75, marginBottom: 20, maxWidth: 560 }}>
+            Signal categories with accelerating activation rates week-on-week. Increasing velocity means more moments will form — and more action will be required.
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 1 }}>
+            {INCREASING_SIGNALS.map((s, i) => (
+              <motion.div
+                key={s.name}
+                initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.1 + i * 0.06 }}
+                style={{
+                  padding: "16px 20px",
+                  background: "hsl(220 13% 6%)", border: "1px solid hsl(220 13% 9%)",
+                  display: "grid", gridTemplateColumns: "200px 1fr 80px 48px",
+                  alignItems: "center", gap: 20,
+                }}
+              >
+                <div>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: "#fff", marginBottom: 3 }}>{s.name}</div>
+                  <div style={{ fontSize: 10, color: "hsl(215 16% 38%)", lineHeight: 1.5 }}>{s.reason}</div>
+                </div>
+                <div>
+                  <div style={{ height: 6, background: "hsl(220 13% 10%)", marginBottom: 4 }}>
+                    <motion.div
+                      initial={{ width: 0 }} animate={{ width: `${s.velocity}%` }}
+                      transition={{ delay: 0.2 + i * 0.06, duration: 0.7, ease: "easeOut" }}
+                      style={{ height: "100%", background: s.color }}
+                    />
                   </div>
                 </div>
-                <p style={{ fontSize: 11, color: 'hsl(215 16% 44%)', lineHeight: 1.6 }}>{src.description}</p>
+                <div style={{ fontSize: 11, fontWeight: 700, color: s.color, textAlign: "right" }}>{s.delta}</div>
+                <div style={{ fontSize: 12, fontWeight: 800, color: "#fff", textAlign: "right" }}>{s.velocity}%</div>
               </motion.div>
             ))}
           </div>
         </section>
 
-        {/* Section 2: Signal Catalog */}
-        <section className="mb-12">
-          <div className="flex items-center gap-4 mb-5">
-            <div className="label-caps" style={{ color: ACCENT }}>02 — Signal Catalog</div>
-            <div style={{ flex: 1, height: 1, background: 'hsl(220 13% 10%)' }} />
-          </div>
-          <p className="text-xs mb-6" style={{ color: 'hsl(215 16% 42%)', lineHeight: 1.7 }}>
-            Each signal type has a defined meaning and an operational threshold — the point at which a value becomes significant enough to influence a moment.
-          </p>
-          <div style={{ background: 'hsl(220 13% 7%)', border: '1px solid hsl(220 13% 10%)' }}>
-            <div
-              className="grid px-6 py-3"
-              style={{
-                gridTemplateColumns: '1fr 2fr 2fr',
-                borderBottom: '1px solid hsl(220 13% 10%)',
-              }}
-            >
-              <span className="label-caps">Signal</span>
-              <span className="label-caps">What It Measures</span>
-              <span className="label-caps">Operational Threshold</span>
+        {/* ── Two column: High-Value + Risk ── */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, marginBottom: 48 }}>
+
+          {/* 03 — High-Value Moment Contributors */}
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+              <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.22em", color: ACCENT, textTransform: "uppercase" }}>03 — High-Value Contributors</div>
             </div>
-            {signalCatalog.map((sig, i) => (
-              <motion.div
-                key={sig.name}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.1 + i * 0.03 }}
-                className="grid px-6 py-4"
-                style={{
-                  gridTemplateColumns: '1fr 2fr 2fr',
-                  borderBottom: i < signalCatalog.length - 1 ? '1px solid hsl(220 13% 9%)' : 'none',
-                  alignItems: 'start',
-                  gap: 0,
-                }}
-              >
-                <span className="text-xs font-semibold text-white pr-4">{sig.name}</span>
-                <span style={{ fontSize: 11, color: 'hsl(215 16% 50%)', lineHeight: 1.6, paddingRight: 24 }}>{sig.measures}</span>
-                <span style={{ fontSize: 11, color: 'hsl(215 16% 40%)', lineHeight: 1.6 }}>{sig.threshold}</span>
-              </motion.div>
-            ))}
-          </div>
-        </section>
-
-        {/* Section 3: How Signals Become Moments */}
-        <section>
-          <div className="flex items-center gap-4 mb-5">
-            <div className="label-caps" style={{ color: ACCENT }}>03 — How Signals Become Moments</div>
-            <div style={{ flex: 1, height: 1, background: 'hsl(220 13% 10%)' }} />
-          </div>
-          <p className="text-xs mb-8" style={{ color: 'hsl(215 16% 42%)', lineHeight: 1.7 }}>
-            BXOS does not alert on individual signals. It waits for patterns — combinations of signals that, together, indicate an emerging operational moment. Below is the five-step correlation pipeline, followed by a worked example using a live moment.
-          </p>
-
-          {/* Flow steps */}
-          <div className="flex flex-col gap-0 mb-10" style={{ borderLeft: '1px solid hsl(220 13% 12%)', paddingLeft: 28, marginLeft: 8 }}>
-            {flowSteps.map((step, i) => (
-              <motion.div
-                key={step.step}
-                initial={{ opacity: 0, x: -8 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.07 }}
-                style={{
-                  position: 'relative',
-                  paddingBottom: i < flowSteps.length - 1 ? 28 : 0,
-                }}
-              >
-                <div
+            <p style={{ fontSize: 11, color: "hsl(215 16% 40%)", lineHeight: 1.7, marginBottom: 16 }}>
+              Signals most likely to generate moments with significant commercial or loyalty value.
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 1 }}>
+              {HIGH_VALUE_SIGNALS.map((s, i) => (
+                <motion.div
+                  key={s.name}
+                  initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.15 + i * 0.05 }}
                   style={{
-                    position: 'absolute',
-                    left: -35,
-                    top: 3,
-                    width: 14,
-                    height: 14,
-                    borderRadius: '50%',
-                    background: 'hsl(220 13% 4%)',
-                    border: `1px solid ${step.color}`,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
+                    padding: "12px 16px",
+                    background: "hsl(220 13% 6%)", border: "1px solid hsl(220 13% 9%)",
                   }}
                 >
-                  <div style={{ width: 5, height: 5, borderRadius: '50%', background: step.color }} />
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: "#fff" }}>{s.name}</div>
+                    <div style={{ fontSize: 9, color: "hsl(215 16% 36%)" }}>{s.moments} moments</div>
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 5 }}>
+                    <div style={{ flex: 1, height: 3, background: "hsl(220 13% 12%)" }}>
+                      <motion.div
+                        initial={{ width: 0 }} animate={{ width: `${s.contribution}%` }}
+                        transition={{ delay: 0.3 + i * 0.05, duration: 0.6, ease: "easeOut" }}
+                        style={{ height: "100%", background: s.color }}
+                      />
+                    </div>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: s.color, flexShrink: 0 }}>{s.contribution}%</span>
+                  </div>
+                  <div style={{ fontSize: 9.5, color: "hsl(215 16% 34%)" }}>{s.value}</div>
+                </motion.div>
+              ))}
+            </div>
+          </section>
+
+          {/* 04 — Risk-Creating Signals */}
+          <section>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+              <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.22em", color: "#ef4444", textTransform: "uppercase" }}>04 — Risk Signals</div>
+            </div>
+            <p style={{ fontSize: 11, color: "hsl(215 16% 40%)", lineHeight: 1.7, marginBottom: 16 }}>
+              Signals most frequently creating adverse moments. High risk score means compounding exposure without intervention.
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 1 }}>
+              {RISK_SIGNALS.map((s, i) => (
+                <motion.div
+                  key={s.name}
+                  initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.15 + i * 0.05 }}
+                  style={{
+                    padding: "12px 16px",
+                    background: "hsl(220 13% 6%)",
+                    border: "1px solid hsl(220 13% 9%)",
+                    borderLeft: `2px solid ${s.alert === "CRITICAL" ? "#ef4444" : s.alert === "HIGH" ? ACCENT : "hsl(215 16% 22%)"}`,
+                  }}
+                >
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: "#fff" }}>{s.name}</div>
+                    <span style={{
+                      fontSize: 7.5, fontWeight: 700, letterSpacing: "0.14em",
+                      color: s.alert === "CRITICAL" ? "#ef4444" : ACCENT,
+                      textTransform: "uppercase",
+                    }}>
+                      {s.alert}
+                    </span>
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+                    <div style={{ flex: 1, height: 3, background: "hsl(220 13% 12%)" }}>
+                      <motion.div
+                        initial={{ width: 0 }} animate={{ width: `${s.risk}%` }}
+                        transition={{ delay: 0.3 + i * 0.05, duration: 0.6, ease: "easeOut" }}
+                        style={{
+                          height: "100%",
+                          background: s.alert === "CRITICAL" ? "#ef4444" : s.alert === "HIGH" ? ACCENT : "#f59e0b",
+                        }}
+                      />
+                    </div>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: "#fff", flexShrink: 0 }}>{s.risk}</span>
+                  </div>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+                    <div style={{ fontSize: 9.5, color: "hsl(215 16% 36%)" }}>{s.category} · {s.incidents} incidents this week</div>
+                    <Sparkline data={s.trend} color={s.alert === "CRITICAL" ? "#ef4444" : ACCENT} />
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </section>
+        </div>
+
+        {/* ── 05 Signal Confidence Distribution ── */}
+        <section style={{ marginBottom: 48 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 20 }}>
+            <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.22em", color: ACCENT, textTransform: "uppercase" }}>05 — Signal Confidence Distribution</div>
+            <div style={{ flex: 1, height: 1, background: "hsl(220 13% 10%)" }} />
+          </div>
+          <p style={{ fontSize: 11.5, color: "hsl(215 16% 42%)", lineHeight: 1.75, marginBottom: 20, maxWidth: 560 }}>
+            How well-evidenced the signal registry is. High-confidence signals produce reliable moments. Low-confidence signals are early indicators — emerging, not yet actionable.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 1 }}>
+            {CONFIDENCE_BANDS.map((b, i) => (
+              <motion.div
+                key={b.band}
+                initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 + i * 0.08 }}
+                style={{
+                  padding: "20px",
+                  background: "hsl(220 13% 6%)", border: "1px solid hsl(220 13% 9%)",
+                  borderTop: `2px solid ${b.color}`,
+                }}
+              >
+                <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.16em", color: "hsl(215 16% 30%)", textTransform: "uppercase", marginBottom: 10 }}>{b.band}</div>
+                <div style={{ fontSize: 28, fontWeight: 800, color: b.color, letterSpacing: "-0.02em", lineHeight: 1, marginBottom: 6 }}>{b.count}</div>
+                <div style={{ fontSize: 10, color: "hsl(215 16% 36%)", marginBottom: 12 }}>{b.pct}% of registry</div>
+                <div style={{ height: 3, background: "hsl(220 13% 12%)" }}>
+                  <motion.div
+                    initial={{ width: 0 }} animate={{ width: `${b.pct * 2.5}%` }}
+                    transition={{ delay: 0.3 + i * 0.08, duration: 0.6, ease: "easeOut" }}
+                    style={{ height: "100%", background: b.color }}
+                  />
                 </div>
-                <div className="flex items-baseline gap-3 mb-1.5">
-                  <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.18em', color: 'hsl(215 16% 30%)' }}>{step.step}</span>
-                  <span style={{ fontSize: 13, fontWeight: 700, color: step.color, letterSpacing: '0.01em' }}>{step.label}</span>
-                </div>
-                <p style={{ fontSize: 12, color: 'hsl(215 16% 46%)', lineHeight: 1.7, maxWidth: 700 }}>{step.detail}</p>
               </motion.div>
             ))}
           </div>
+        </section>
 
-          {/* Worked example */}
-          <div style={{ background: 'rgba(201,168,76,0.04)', border: '1px solid rgba(201,168,76,0.15)' }}>
-            <div
-              className="px-6 py-4 flex items-center justify-between"
-              style={{ borderBottom: '1px solid rgba(201,168,76,0.12)' }}
-            >
-              <div className="label-caps" style={{ color: ACCENT }}>Worked Example — Queue Pressure Building</div>
-              <span style={{ fontSize: 8, letterSpacing: '0.14em', color: 'hsl(215 16% 32%)', fontWeight: 600, textTransform: 'uppercase' }}>Live Moment Reference</span>
+        {/* ── 06 Top Contributing Signals ── */}
+        <section>
+          <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 20 }}>
+            <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.22em", color: ACCENT, textTransform: "uppercase" }}>06 — Top Contributing Signals</div>
+            <div style={{ flex: 1, height: 1, background: "hsl(220 13% 10%)" }} />
+          </div>
+          <p style={{ fontSize: 11.5, color: "hsl(215 16% 42%)", lineHeight: 1.75, marginBottom: 20, maxWidth: 560 }}>
+            Ranked by moment activation frequency. These are the signals driving the most operational response — the core behavioural vocabulary of the deployment.
+          </p>
+          <div style={{ background: "hsl(220 13% 6%)", border: "1px solid hsl(220 13% 10%)" }}>
+            <div style={{
+              display: "grid", gridTemplateColumns: "40px 2fr 1fr 1fr 1fr 0.8fr",
+              padding: "10px 20px", borderBottom: "1px solid hsl(220 13% 10%)", gap: 16,
+            }}>
+              {["#", "Signal", "Category", "Activations", "Confidence", "Weighting"].map((h) => (
+                <div key={h} style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.18em", color: "hsl(215 16% 28%)", textTransform: "uppercase" }}>{h}</div>
+              ))}
             </div>
-            <div className="px-6 py-6">
-              <div className="grid grid-cols-5 gap-0" style={{ alignItems: 'start' }}>
-
-                {/* Raw signals */}
-                <div style={{ paddingRight: 20 }}>
-                  <div className="label-caps mb-3" style={{ color: 'hsl(215 16% 36%)' }}>Raw Signals</div>
-                  <div className="flex flex-col gap-2">
-                    {workedExample.signals.map(sig => (
-                      <div
-                        key={sig.source}
-                        style={{
-                          background: 'hsl(220 13% 8%)',
-                          border: '1px solid hsl(220 13% 13%)',
-                          padding: '6px 10px',
-                        }}
-                      >
-                        <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.12em', color: 'hsl(215 16% 36%)', marginBottom: 3 }}>{sig.source}</div>
-                        <div style={{ fontSize: 10, color: 'hsl(215 16% 60%)' }}>{sig.value}</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Arrow */}
-                <div className="flex items-center justify-center pt-6" style={{ color: 'hsl(220 13% 22%)', fontSize: 18 }}>→</div>
-
-                {/* Pattern + Confidence */}
-                <div style={{ paddingRight: 20 }}>
-                  <div className="label-caps mb-3" style={{ color: 'hsl(215 16% 36%)' }}>Pattern + Confidence</div>
-                  <div style={{ background: 'hsl(220 13% 8%)', border: '1px solid hsl(220 13% 13%)', padding: '10px 12px' }}>
-                    <div style={{ fontSize: 11, color: 'hsl(215 16% 55%)', lineHeight: 1.6, marginBottom: 10 }}>
-                      {workedExample.pattern}
-                    </div>
-                    <div className="flex items-baseline gap-2">
-                      <span style={{ fontSize: 28, fontWeight: 800, color: ACCENT, letterSpacing: '-0.02em' }}>{workedExample.confidence}</span>
-                      <span style={{ fontSize: 10, color: 'hsl(215 16% 40%)', fontWeight: 600 }}>% confidence</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Arrow */}
-                <div className="flex items-center justify-center pt-6" style={{ color: 'hsl(220 13% 22%)', fontSize: 18 }}>→</div>
-
-                {/* Moment + Action */}
+            {TOP_SIGNALS.map((s, i) => (
+              <motion.div
+                key={s.name}
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 + i * 0.04 }}
+                style={{
+                  display: "grid", gridTemplateColumns: "40px 2fr 1fr 1fr 1fr 0.8fr",
+                  padding: "14px 20px", borderBottom: i < TOP_SIGNALS.length - 1 ? "1px solid hsl(220 13% 9%)" : "none",
+                  alignItems: "center", gap: 16,
+                }}
+                onMouseEnter={e => (e.currentTarget.style.background = "hsl(220 13% 7%)")}
+                onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
+              >
+                <div style={{ fontSize: 10, fontWeight: 700, color: "hsl(215 16% 28%)", letterSpacing: "0.06em" }}>{s.rank}</div>
+                <div style={{ fontSize: 12, fontWeight: 700, color: "#fff" }}>{s.name}</div>
+                <div style={{ fontSize: 10, color: "hsl(215 16% 42%)" }}>{s.category}</div>
                 <div>
-                  <div className="label-caps mb-3" style={{ color: 'hsl(215 16% 36%)' }}>Moment + Action</div>
-                  <div style={{ background: 'hsl(220 13% 8%)', border: '1px solid rgba(201,168,76,0.2)', padding: '10px 12px', marginBottom: 8 }}>
-                    <div style={{ fontSize: 10, fontWeight: 700, color: '#fff', marginBottom: 4 }}>{workedExample.title}</div>
-                    <div style={{ fontSize: 9, letterSpacing: '0.1em', color: '#ef4444', fontWeight: 700 }}>HIGH URGENCY</div>
-                  </div>
-                  <div style={{ background: 'rgba(16,185,129,0.06)', border: '1px solid rgba(16,185,129,0.18)', padding: '10px 12px' }}>
-                    <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.1em', color: '#10b981', marginBottom: 4 }}>RECOMMENDED ACTION</div>
-                    <div style={{ fontSize: 10, color: 'hsl(215 16% 60%)', lineHeight: 1.5 }}>{workedExample.action}</div>
+                  <div style={{ fontSize: 13, fontWeight: 800, color: "#fff", marginBottom: 3 }}>{s.activations}</div>
+                  <div style={{ height: 2, background: "hsl(220 13% 12%)", width: "80%" }}>
+                    <div style={{ height: "100%", width: `${(s.activations / 70) * 100}%`, background: ACCENT }} />
                   </div>
                 </div>
-
-              </div>
-            </div>
+                <div style={{ fontSize: 12, fontWeight: 700, color: s.confidence >= 90 ? "#10b981" : ACCENT }}>{s.confidence}%</div>
+                <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.12em", color: VALUE_COLOR[s.value], textTransform: "uppercase" }}>{s.value}</div>
+              </motion.div>
+            ))}
           </div>
         </section>
 

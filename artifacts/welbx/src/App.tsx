@@ -19,6 +19,9 @@ import SignalIntelligence from "@/pages/SignalIntelligence";
 import CommandCentre from "@/pages/CommandCentre";
 import ExecutionTimeline from "@/pages/ExecutionTimeline";
 import ExecutiveDashboard from "@/pages/ExecutiveDashboard";
+import GHSOL from "@/pages/GHSOL";
+import SignalRegistry from "@/pages/SignalRegistry";
+import BehaviouralGenome from "@/pages/BehaviouralGenome";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +39,9 @@ function Router() {
       <Route path="/command-centre" component={CommandCentre} />
       <Route path="/execution-timeline" component={ExecutionTimeline} />
       <Route path="/executive-dashboard" component={ExecutiveDashboard} />
+      <Route path="/ghsol" component={GHSOL} />
+      <Route path="/signal-registry" component={SignalRegistry} />
+      <Route path="/behavioural-genome" component={BehaviouralGenome} />
       <Route path="/compare" component={CompareMode} />
       <Route path="/command-mode" component={CommandMode} />
       <Route component={NotFound} />

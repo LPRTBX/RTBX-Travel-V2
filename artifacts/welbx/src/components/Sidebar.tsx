@@ -5,7 +5,9 @@ const navItems = [
   { label: "Executive Dashboard", path: "/executive-dashboard", sub: "PORTFOLIO" },
   { label: "Command Centre", path: "/command-centre", sub: "LIVE" },
   { label: "Execution Timeline", path: "/execution-timeline", sub: "REPLAY" },
-  { label: "Signal Intelligence", path: "/signal-intelligence", sub: "SOURCES" },
+  { label: "Signal Registry", path: "/signal-registry", sub: "SENSING LAYER" },
+  { label: "Signal Intelligence", path: "/signal-intelligence", sub: "ANALYTICS" },
+  { label: "Behavioural Genome", path: "/behavioural-genome", sub: "PROFILES" },
   { label: "Live Moments", path: "/live-moments", sub: "6 ACTIVE" },
   { label: "System State", path: "/system-state", sub: "ELEVATED" },
   { label: "Outcome Intelligence", path: "/outcome-intelligence", sub: "TODAY" },
@@ -14,6 +16,7 @@ const navItems = [
 ];
 
 const heroNavItems = [
+  { label: "GHSOL", path: "/ghsol", sub: "FRAMEWORK", accent: "#c9a84c" },
   { label: "Live Demo", path: "/demo", sub: "GUIDED", accent: "#c9a84c" },
   { label: "Comparison", path: "/compare", sub: "PROOF", accent: undefined },
   { label: "Command Mode", path: "/command-mode", sub: "CRITICAL", accent: "#ef4444" },
