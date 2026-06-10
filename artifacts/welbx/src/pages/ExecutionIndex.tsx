@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import { SEEDED_MOMENTS } from "@/data/moments";
 import { PLAYBOOKS } from "@/data/playbooks";
@@ -26,6 +26,87 @@ const C = {
   dimmed:  "hsl(215 16% 22%)",
 };
 
+/* ─── Period config ──────────────────────────────────────── */
+type PeriodKey = "7d" | "30d" | "90d";
+
+const PERIOD_CONFIG: Record<PeriodKey, {
+  label: string;
+  window: string;
+  xLabels: string[];
+}> = {
+  "7d": {
+    label: "7 Days",
+    window: "4 Jun – 10 Jun 2026 · 7-day trailing window",
+    xLabels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+  },
+  "30d": {
+    label: "30 Days",
+    window: "11 May – 10 Jun 2026 · 30-day trailing window",
+    xLabels: ["W1", "W2", "W3", "W4", "W5", "W6"],
+  },
+  "90d": {
+    label: "90 Days",
+    window: "Jan – Jun 2026 · 90-day trailing window",
+    xLabels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+  },
+};
+
+/* ─── Static mock data for 7d / 30d ─────────────────────── */
+interface MetricData {
+  id: string;
+  label: string;
+  score: number;
+  trend: number[];
+  delta: string;
+  description: string;
+}
+
+const METRIC_DESCRIPTIONS: Record<string, string> = {
+  visibility:   "Breadth and depth of real-time behavioural sensing across all guest and operational touchpoints.",
+  decision:     "Accuracy and confidence of automated routing decisions against subsequent outcome data.",
+  consistency:  "Percentage of moments resolved using the correct playbook action within the response window.",
+  recovery:     "Success rate of service recovery interventions measured against guest sentiment shift post-action.",
+  activation:   "Rate of staff-activation moments completed within the prescribed execution window.",
+};
+
+const PERIOD_DATA: Record<"7d" | "30d", {
+  metrics: MetricData[];
+  overall: number;
+  overallDelta: string;
+  insight: { leading: { name: string; score: number }; lever: { name: string; score: number } };
+}> = {
+  "7d": {
+    overall: 79,
+    overallDelta: "+2",
+    insight: {
+      leading: { name: "Response Consistency", score: 86 },
+      lever:   { name: "Recovery Performance", score: 66 },
+    },
+    metrics: [
+      { id: "visibility",  label: "Visibility Score",     score: 83, trend: [79, 80, 80, 82, 81, 83, 83], delta: "+4 pts", description: METRIC_DESCRIPTIONS.visibility },
+      { id: "decision",    label: "Decision Quality",     score: 77, trend: [74, 75, 74, 76, 76, 77, 77], delta: "+3 pts", description: METRIC_DESCRIPTIONS.decision },
+      { id: "consistency", label: "Response Consistency", score: 86, trend: [82, 83, 83, 84, 85, 85, 86], delta: "+4 pts", description: METRIC_DESCRIPTIONS.consistency },
+      { id: "recovery",    label: "Recovery Performance", score: 66, trend: [62, 63, 64, 63, 65, 65, 66], delta: "+4 pts", description: METRIC_DESCRIPTIONS.recovery },
+      { id: "activation",  label: "Activation Success",  score: 80, trend: [76, 77, 77, 78, 79, 79, 80], delta: "+4 pts", description: METRIC_DESCRIPTIONS.activation },
+    ],
+  },
+  "30d": {
+    overall: 82,
+    overallDelta: "+2",
+    insight: {
+      leading: { name: "Response Consistency", score: 89 },
+      lever:   { name: "Recovery Performance", score: 71 },
+    },
+    metrics: [
+      { id: "visibility",  label: "Visibility Score",     score: 86, trend: [81, 82, 83, 84, 85, 86], delta: "+5 pts", description: METRIC_DESCRIPTIONS.visibility },
+      { id: "decision",    label: "Decision Quality",     score: 80, trend: [75, 76, 77, 78, 79, 80], delta: "+5 pts", description: METRIC_DESCRIPTIONS.decision },
+      { id: "consistency", label: "Response Consistency", score: 89, trend: [84, 85, 86, 87, 88, 89], delta: "+5 pts", description: METRIC_DESCRIPTIONS.consistency },
+      { id: "recovery",    label: "Recovery Performance", score: 71, trend: [66, 67, 68, 69, 70, 71], delta: "+5 pts", description: METRIC_DESCRIPTIONS.recovery },
+      { id: "activation",  label: "Activation Success",  score: 82, trend: [77, 78, 79, 80, 81, 82], delta: "+5 pts", description: METRIC_DESCRIPTIONS.activation },
+    ],
+  },
+};
+
 /* ─── Score colour helper ────────────────────────────────── */
 function scoreColor(s: number) {
   if (s >= 80) return C.emerald;
@@ -33,22 +114,16 @@ function scoreColor(s: number) {
   return C.crimson;
 }
 
-/* ─── Metric types ───────────────────────────────────────── */
+/* ─── Live metric types (90d) ────────────────────────────── */
 interface MetricSource {
   label: string;
   link: string;
   summary: string;
 }
 
-interface Metric {
-  id: string;
-  label: string;
-  score: number;
-  trend: number[];
-  trendDir: "up" | "down";
-  delta: string;
-  description: string;
-  source: MetricSource;
+interface Metric extends MetricData {
+  trendDir?: "up" | "down";
+  source?: MetricSource;
 }
 
 const PERIODS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
@@ -93,6 +168,7 @@ function CountUp({ target, duration = 1200 }: { target: number; duration?: numbe
   const frame = useRef<number>(0);
 
   useEffect(() => {
+    setVal(0);
     const start = performance.now();
     const step = (now: number) => {
       const t = Math.min((now - start) / duration, 1);
@@ -167,15 +243,23 @@ function HistoryTooltip({ active, payload, label }: any) {
 }
 
 /* ─── Metric score card ──────────────────────────────────── */
-function MetricCard({ m, delay, onNavigate }: { m: Metric; delay: number; onNavigate: (link: string) => void }) {
+function MetricCard({
+  m, xLabels, delay, onNavigate,
+}: {
+  m: Metric;
+  xLabels: string[];
+  delay: number;
+  onNavigate?: (link: string) => void;
+}) {
   const color = scoreColor(m.score);
-  const chartData = m.trend.map((v, i) => ({ p: PERIODS[i], v }));
+  const chartData = m.trend.map((v, i) => ({ p: xLabels[i] ?? i, v }));
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12 }}
+      key={m.id + m.score}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay, duration: 0.4 }}
+      transition={{ delay, duration: 0.32 }}
       style={{
         background: C.card,
         border: `1px solid ${C.border}`,
@@ -186,12 +270,10 @@ function MetricCard({ m, delay, onNavigate }: { m: Metric; delay: number; onNavi
         gap: 0,
       }}
     >
-      {/* Label */}
       <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.16em", color: C.dimmed, textTransform: "uppercase", marginBottom: 10 }}>
         {m.label}
       </div>
 
-      {/* Score + delta */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 14 }}>
         <div style={{ fontSize: 42, fontWeight: 900, color, letterSpacing: "-0.03em", lineHeight: 1 }}>
           {m.score}
@@ -209,17 +291,15 @@ function MetricCard({ m, delay, onNavigate }: { m: Metric; delay: number; onNavi
         </div>
       </div>
 
-      {/* Score bar */}
       <div style={{ height: 3, background: "hsl(220 13% 11%)", marginBottom: 14 }}>
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: `${m.score}%` }}
-          transition={{ delay: delay + 0.2, duration: 0.7, ease: "easeOut" }}
+          transition={{ delay: delay + 0.15, duration: 0.6, ease: "easeOut" }}
           style={{ height: "100%", background: color }}
         />
       </div>
 
-      {/* Sparkline */}
       <div style={{ height: 56, marginBottom: 12 }}>
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={chartData} margin={{ top: 2, right: 0, bottom: 0, left: 0 }}>
@@ -241,98 +321,136 @@ function MetricCard({ m, delay, onNavigate }: { m: Metric; delay: number; onNavi
         </ResponsiveContainer>
       </div>
 
-      {/* Description */}
       <div style={{ fontSize: 10, color: C.muted, lineHeight: 1.6 }}>
         {m.description}
       </div>
 
-      {/* ── Source attribution strip ── */}
-      <div style={{
-        marginTop: 12,
-        paddingTop: 10,
-        borderTop: `1px solid ${C.border}`,
-        display: "flex",
-        flexDirection: "column",
-        gap: 5,
-      }}>
-        {/* Row 1: SOURCE label + LIVE badge + View link */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <span style={{
-              fontSize: 7, fontWeight: 700, letterSpacing: "0.18em",
-              textTransform: "uppercase", color: C.dimmed,
-            }}>
-              Source
-            </span>
-            <span style={{
-              fontSize: 7, fontWeight: 700, letterSpacing: "0.12em",
-              textTransform: "uppercase", color: C.amber,
-              background: `${C.amber}14`, border: `1px solid ${C.amber}28`,
-              padding: "1px 5px",
-            }}>
-              ● Live
-            </span>
+      {/* ── Source attribution strip (live 90d view only) ── */}
+      {m.source && onNavigate && (
+        <div style={{
+          marginTop: 12,
+          paddingTop: 10,
+          borderTop: `1px solid ${C.border}`,
+          display: "flex",
+          flexDirection: "column",
+          gap: 5,
+        }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <span style={{
+                fontSize: 7, fontWeight: 700, letterSpacing: "0.18em",
+                textTransform: "uppercase", color: C.dimmed,
+              }}>
+                Source
+              </span>
+              <span style={{
+                fontSize: 7, fontWeight: 700, letterSpacing: "0.12em",
+                textTransform: "uppercase", color: C.amber,
+                background: `${C.amber}14`, border: `1px solid ${C.amber}28`,
+                padding: "1px 5px",
+              }}>
+                ● Live
+              </span>
+            </div>
+            <button
+              onClick={() => onNavigate(m.source!.link)}
+              style={{
+                background: "transparent",
+                border: `1px solid ${C.amber}30`,
+                padding: "2px 9px",
+                cursor: "pointer",
+                fontSize: 7.5, fontWeight: 700, letterSpacing: "0.1em",
+                color: C.amber, textTransform: "uppercase",
+                fontFamily: "inherit",
+              }}
+            >
+              View →
+            </button>
           </div>
+          <div style={{
+            fontSize: 8.5, color: "hsl(215 16% 30%)",
+            letterSpacing: "0.01em", lineHeight: 1.55,
+          }}>
+            {m.source.label} · {m.source.summary}
+          </div>
+        </div>
+      )}
+    </motion.div>
+  );
+}
+
+/* ─── Period toggle ──────────────────────────────────────── */
+const PERIOD_KEYS: PeriodKey[] = ["7d", "30d", "90d"];
+
+function PeriodToggle({ active, onChange }: { active: PeriodKey; onChange: (p: PeriodKey) => void }) {
+  return (
+    <div style={{
+      display: "flex",
+      background: "hsl(220 13% 8%)",
+      border: `1px solid ${C.border}`,
+      overflow: "hidden",
+    }}>
+      {PERIOD_KEYS.map((p) => {
+        const isActive = p === active;
+        return (
           <button
-            onClick={() => onNavigate(m.source.link)}
+            key={p}
+            onClick={() => onChange(p)}
             style={{
-              background: "transparent",
-              border: `1px solid ${C.amber}30`,
-              padding: "2px 9px",
+              padding: "7px 16px",
+              fontSize: 10,
+              fontWeight: 700,
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              color: isActive ? "#fff" : C.muted,
+              background: isActive ? C.amber : "transparent",
+              border: "none",
               cursor: "pointer",
-              fontSize: 7.5, fontWeight: 700, letterSpacing: "0.1em",
-              color: C.amber, textTransform: "uppercase",
+              transition: "background 0.18s, color 0.18s",
               fontFamily: "inherit",
+              borderRight: p !== "90d" ? `1px solid ${C.border}` : "none",
             }}
           >
-            View →
+            {p}
           </button>
-        </div>
-
-        {/* Row 2: source summary text */}
-        <div style={{
-          fontSize: 8.5, color: "hsl(215 16% 30%)",
-          letterSpacing: "0.01em", lineHeight: 1.55,
-        }}>
-          {m.source.label} · {m.source.summary}
-        </div>
-      </div>
-    </motion.div>
+        );
+      })}
+    </div>
   );
 }
 
 /* ─── Page ───────────────────────────────────────────────── */
 export default function ExecutionIndex() {
   const [, navigate] = useLocation();
-
+  const [period, setPeriod] = useState<PeriodKey>("90d");
   const { ccRows } = useCc();
+  const config = PERIOD_CONFIG[period];
 
-  const { metrics, overallScore, overallDelta, improvements, radarData, leader, laggard } = useMemo(() => {
-    // ── Visibility: avg confidence of actively-sensing signals (ACTIVE + ALERT) ──
-    const allSignals      = SIGNAL_CATEGORIES.flatMap(c => c.signals);
-    const liveSignals     = allSignals.filter(s => s.status === "ACTIVE" || s.status === "ALERT");
-    const activeSigCount  = liveSignals.length;
-    const visScore        = liveSignals.length > 0
+  /* ── Live 90d calculations ── */
+  const liveData = useMemo(() => {
+    // Visibility: avg confidence of actively-sensing signals (ACTIVE + ALERT)
+    const allSignals     = SIGNAL_CATEGORIES.flatMap(c => c.signals);
+    const liveSignals    = allSignals.filter(s => s.status === "ACTIVE" || s.status === "ALERT");
+    const activeSigCount = liveSignals.length;
+    const visScore       = liveSignals.length > 0
       ? Math.round(liveSignals.reduce((s, sig) => s + sig.confidence, 0) / liveSignals.length)
       : 0;
 
-    // ── Decision Quality: avg routing-decision confidence across CC rows ──
+    // Decision Quality: avg routing-decision confidence across CC rows
     const decScore = ccRows.length > 0
       ? Math.round(ccRows.reduce((s, r) => s + r.conf, 0) / ccRows.length)
       : 0;
 
-    // ── Response Consistency: fire-weighted playbook success rate (Playbook Engine) ──
+    // Response Consistency: fire-weighted playbook success rate
     const totalFires = PLAYBOOKS.reduce((s, pb) => s + pb.stats.firesLast30Days, 0);
-    const totalExecs = PLAYBOOKS.reduce((s, pb) => s + pb.executions.length, 0);
     const conScore   = totalFires > 0
       ? Math.round(PLAYBOOKS.reduce((s, pb) => s + pb.stats.successRate * pb.stats.firesLast30Days, 0) / totalFires)
       : 0;
 
-    // ── Recovery Performance: avg conf of CC rows with confirmed outcomes + recovery PB success ──
-    const recPBs      = PLAYBOOKS.filter(pb => pb.category === "Recovery" || pb.category === "Guest");
-    const recFires    = recPBs.reduce((s, pb) => s + pb.stats.firesLast30Days, 0);
-    const recExecs    = recPBs.reduce((s, pb) => s + pb.executions.length, 0);
-    const recPbRate   = recFires > 0
+    // Recovery Performance: avg conf of resolved CC rows + recovery PB success
+    const recPBs   = PLAYBOOKS.filter(pb => pb.category === "Recovery" || pb.category === "Guest");
+    const recFires = recPBs.reduce((s, pb) => s + pb.stats.firesLast30Days, 0);
+    const recPbRate = recFires > 0
       ? recPBs.reduce((s, pb) => s + pb.stats.successRate * pb.stats.firesLast30Days, 0) / recFires
       : 0;
     const resolvedRows    = ccRows.filter(r => r.status === "RESOLVED" && r.outcome !== "—");
@@ -341,18 +459,17 @@ export default function ExecutionIndex() {
       : recPbRate;
     const recScore = Math.round(resolvedAvgConf * 0.4 + recPbRate * 0.6);
 
-    // ── Activation Success: CC completion rate (resolved/monitoring) + VIP/Workforce/Ops PB rate ──
+    // Activation Success: CC completion rate + VIP/Workforce/Ops PB rate
     const completedRows = ccRows.filter(r => r.status === "RESOLVED" || r.status === "MONITORING");
     const ccRate        = ccRows.length > 0 ? (completedRows.length / ccRows.length) * 100 : 0;
     const actPBs        = PLAYBOOKS.filter(pb => pb.category === "VIP" || pb.category === "Workforce" || pb.category === "Operational");
     const actFires      = actPBs.reduce((s, pb) => s + pb.stats.firesLast30Days, 0);
-    const actExecs      = actPBs.reduce((s, pb) => s + pb.executions.length, 0);
     const pbActRate     = actFires > 0
       ? actPBs.reduce((s, pb) => s + pb.stats.successRate * pb.stats.firesLast30Days, 0) / actFires
       : 0;
-    const actScore      = Math.round(ccRate * 0.4 + pbActRate * 0.6);
+    const actScore = Math.round(ccRate * 0.4 + pbActRate * 0.6);
 
-    const m: Metric[] = [
+    const metrics: Metric[] = [
       {
         id: "visibility", label: "Visibility Score", score: visScore,
         trend: [72, 76, 79, 82, 85, visScore], trendDir: "up",
@@ -380,43 +497,62 @@ export default function ExecutionIndex() {
         description: "Percentage of moments resolved using the correct playbook action within the response window.",
         source: {
           label: "Playbook Engine", link: "/playbook-engine",
-          summary: `${totalExecs} executions · ${totalFires} fires (30d) · ${conScore}% fire-weighted success`,
+          summary: `${PLAYBOOKS.length} playbooks · ${totalFires} fires (30d) · ${conScore}% weighted success rate`,
         },
       },
       {
         id: "recovery", label: "Recovery Performance", score: recScore,
         trend: [58, 62, 66, 70, 73, recScore], trendDir: "up",
         delta: `+${Math.max(0, recScore - 58)} pts`,
-        description: "Blended score from confirmed CC outcome confidence and fire-weighted recovery playbook success rate.",
+        description: "Success rate of service recovery interventions measured against guest sentiment shift post-action.",
         source: {
-          label: "Command Centre · Recovery Playbooks", link: "/command-centre",
-          summary: `${resolvedRows.length} resolved outcomes confirmed · ${recExecs} recovery & guest PB runs · ${Math.round(resolvedAvgConf)}% confirmed conf`,
+          label: "Command Centre + Playbook Engine", link: "/command-centre",
+          summary: `${resolvedRows.length} resolved CC rows · ${recPBs.length} recovery playbooks · ${recScore}% blended score`,
         },
       },
       {
         id: "activation", label: "Activation Success", score: actScore,
         trend: [64, 68, 72, 77, 81, actScore], trendDir: "up",
         delta: `+${Math.max(0, actScore - 64)} pts`,
-        description: "Rate of Command Centre activations reaching resolved or monitored outcome status, blended with activation playbook success.",
+        description: "Rate of staff-activation moments completed within the prescribed execution window.",
         source: {
-          label: "Command Centre · Activation Records", link: "/command-centre",
-          summary: `${completedRows.length}/${ccRows.length} CC activations completed · ${actExecs} activation PB runs · ${Math.round(pbActRate)}% PB success`,
+          label: "Command Centre + Playbook Engine", link: "/command-centre",
+          summary: `${completedRows.length}/${ccRows.length} CC rows completed · ${actPBs.length} activation playbooks · ${actScore}% blended`,
         },
       },
     ];
 
-    const overallScore  = Math.round(m.reduce((s, x) => s + x.score, 0) / m.length);
-    const prevScore     = HISTORY_DATA[HISTORY_DATA.length - 2].overall;
-    const overallDelta  = overallScore - prevScore;
-    const improvements  = [...m].sort((a, b) => a.score - b.score).slice(0, 2)
-      .map(x => ({ ...x, action: IMPROVEMENT_ACTION[x.id] ?? IMPROVEMENT_ACTION.consistency }));
-    const radarData     = m.map(x => ({ subject: x.label.split(" ")[0], score: x.score, fullMark: 100 }));
-    const sortedByScore = [...m].sort((a, b) => b.score - a.score);
-    const leader        = sortedByScore[0];
-    const laggard       = sortedByScore[sortedByScore.length - 1];
+    const overallScore = Math.round(metrics.reduce((s, m) => s + m.score, 0) / metrics.length);
+    const prevScore    = 81;
+    const overallDelta = overallScore - prevScore;
+    const sorted       = [...metrics].sort((a, b) => b.score - a.score);
 
-    return { metrics: m, overallScore, overallDelta, improvements, radarData, leader, laggard };
+    return { metrics, overallScore, overallDelta, leader: sorted[0], laggard: sorted[sorted.length - 1] };
   }, [ccRows]);
+
+  /* ── Active data (switches by period) ── */
+  const activeMetrics: Metric[] = period === "90d"
+    ? liveData.metrics
+    : PERIOD_DATA[period].metrics as Metric[];
+
+  const activeOverallScore = period === "90d" ? liveData.overallScore : PERIOD_DATA[period].overall;
+  const activeOverallDelta = period === "90d"
+    ? (liveData.overallDelta >= 0 ? `+${liveData.overallDelta}` : `${liveData.overallDelta}`)
+    : PERIOD_DATA[period].overallDelta;
+
+  const activeLeader = period === "90d"
+    ? { label: liveData.leader.label, score: liveData.leader.score, color: scoreColor(liveData.leader.score) }
+    : { label: PERIOD_DATA[period].insight.leading.name, score: PERIOD_DATA[period].insight.leading.score, color: C.emerald };
+  const activeLaygard = period === "90d"
+    ? { label: liveData.laggard.label, score: liveData.laggard.score, color: scoreColor(liveData.laggard.score) }
+    : { label: PERIOD_DATA[period].insight.lever.name,    score: PERIOD_DATA[period].insight.lever.score,    color: C.amber  };
+
+  const improvements = [...activeMetrics]
+    .sort((a, b) => a.score - b.score)
+    .slice(0, 2)
+    .map(x => ({ ...x, action: IMPROVEMENT_ACTION[x.id] ?? IMPROVEMENT_ACTION.consistency }));
+
+  const radarData = activeMetrics.map(x => ({ subject: x.label.split(" ")[0], score: x.score, fullMark: 100 }));
 
   return (
     <div className="pl-56 min-h-screen" style={{ background: C.bg }}>
@@ -427,90 +563,103 @@ export default function ExecutionIndex() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          style={{ marginBottom: 36 }}
+          style={{ marginBottom: 36, display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}
         >
-          <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.26em", color: C.amber, textTransform: "uppercase", marginBottom: 10 }}>
-            WELBX · Execution Intelligence
+          <div>
+            <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.26em", color: C.amber, textTransform: "uppercase", marginBottom: 10 }}>
+              WELBX · Execution Intelligence
+            </div>
+            <h1 style={{ fontSize: 28, fontWeight: 900, color: "#fff", letterSpacing: "-0.02em", margin: 0, marginBottom: 8 }}>
+              EXECUTION INDEX
+            </h1>
+            <p style={{ fontSize: 12, color: C.muted, margin: 0, letterSpacing: "0.04em", maxWidth: 560 }}>
+              A composite measurement of operational execution quality across five scored dimensions.
+              Not activity volume — execution precision.
+            </p>
           </div>
-          <h1 style={{ fontSize: 28, fontWeight: 900, color: "#fff", letterSpacing: "-0.02em", margin: 0, marginBottom: 8 }}>
-            EXECUTION INDEX
-          </h1>
-          <p style={{ fontSize: 12, color: C.muted, margin: 0, letterSpacing: "0.04em", maxWidth: 560 }}>
-            A composite measurement of operational execution quality across five scored dimensions.
-            Not activity volume — execution precision.
-          </p>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8, paddingTop: 4 }}>
+            <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: C.dimmed, textTransform: "uppercase" }}>
+              Time Window
+            </div>
+            <PeriodToggle active={period} onChange={setPeriod} />
+          </div>
         </motion.div>
 
         {/* ── Overall Score Hero ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.08, duration: 0.45 }}
-          style={{
-            background: "hsl(220 13% 7%)",
-            border: `1px solid ${C.border}`,
-            borderTop: `3px solid ${C.amber}`,
-            padding: "32px 40px",
-            marginBottom: 2,
-            display: "flex",
-            alignItems: "center",
-            gap: 48,
-          }}
-        >
-          {/* Big score */}
-          <div style={{ flexShrink: 0 }}>
-            <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.22em", color: C.amber, textTransform: "uppercase", marginBottom: 10 }}>
-              Overall Execution Score
-            </div>
-            <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
-              <span style={{ fontSize: 88, fontWeight: 900, color: "#fff", letterSpacing: "-0.04em", lineHeight: 1 }}>
-                <CountUp target={overallScore} duration={1400} />
-              </span>
-              <span style={{ fontSize: 22, fontWeight: 600, color: C.muted }}>/100</span>
-            </div>
-            <div style={{ marginTop: 10, display: "flex", alignItems: "center", gap: 10 }}>
-              <div style={{
-                padding: "5px 12px",
-                background: `${C.emerald}14`,
-                border: `1px solid ${C.emerald}35`,
-                fontSize: 11, fontWeight: 800, color: C.emerald, letterSpacing: "0.06em",
-              }}>
-                ↑ +{overallDelta} this period
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={`hero-${period}`}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.3 }}
+            style={{
+              background: "hsl(220 13% 7%)",
+              border: `1px solid ${C.border}`,
+              borderTop: `3px solid ${C.amber}`,
+              padding: "32px 40px",
+              marginBottom: 2,
+              display: "flex",
+              alignItems: "center",
+              gap: 48,
+            }}
+          >
+            {/* Big score */}
+            <div style={{ flexShrink: 0 }}>
+              <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.22em", color: C.amber, textTransform: "uppercase", marginBottom: 10 }}>
+                Overall Execution Score
               </div>
-              <span style={{ fontSize: 10, color: C.muted }}>Strong execution. Improving across 5/5 dimensions.</span>
-            </div>
-          </div>
-
-          {/* Divider */}
-          <div style={{ width: 1, alignSelf: "stretch", background: C.border, flexShrink: 0 }} />
-
-          {/* Per-dimension summary bars */}
-          <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 8 }}>
-            {metrics.map((m) => {
-              const color = scoreColor(m.score);
-              return (
-                <div key={m.id} style={{ display: "grid", gridTemplateColumns: "180px 1fr 40px", alignItems: "center", gap: 12 }}>
-                  <div style={{ fontSize: 10, color: C.muted, letterSpacing: "0.04em" }}>{m.label}</div>
-                  <div style={{ height: 4, background: "hsl(220 13% 11%)" }}>
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: `${m.score}%` }}
-                      transition={{ delay: 0.5, duration: 0.8, ease: "easeOut" }}
-                      style={{ height: "100%", background: color }}
-                    />
-                  </div>
-                  <div style={{ fontSize: 11, fontWeight: 700, color, textAlign: "right" }}>{m.score}</div>
+              <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
+                <span style={{ fontSize: 88, fontWeight: 900, color: "#fff", letterSpacing: "-0.04em", lineHeight: 1 }}>
+                  <CountUp target={activeOverallScore} duration={1000} />
+                </span>
+                <span style={{ fontSize: 22, fontWeight: 600, color: C.muted }}>/100</span>
+              </div>
+              <div style={{ marginTop: 10, display: "flex", alignItems: "center", gap: 10 }}>
+                <div style={{
+                  padding: "5px 12px",
+                  background: `${C.emerald}14`,
+                  border: `1px solid ${C.emerald}35`,
+                  fontSize: 11, fontWeight: 800, color: C.emerald, letterSpacing: "0.06em",
+                }}>
+                  ↑ {activeOverallDelta} this period
                 </div>
-              );
-            })}
-          </div>
-        </motion.div>
+                <span style={{ fontSize: 10, color: C.muted }}>Strong execution. Improving across 5/5 dimensions.</span>
+              </div>
+            </div>
+
+            {/* Divider */}
+            <div style={{ width: 1, alignSelf: "stretch", background: C.border, flexShrink: 0 }} />
+
+            {/* Per-dimension summary bars */}
+            <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 8 }}>
+              {activeMetrics.map((m) => {
+                const color = scoreColor(m.score);
+                return (
+                  <div key={m.id} style={{ display: "grid", gridTemplateColumns: "180px 1fr 40px", alignItems: "center", gap: 12 }}>
+                    <div style={{ fontSize: 10, color: C.muted, letterSpacing: "0.04em" }}>{m.label}</div>
+                    <div style={{ height: 4, background: "hsl(220 13% 11%)" }}>
+                      <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: `${m.score}%` }}
+                        transition={{ delay: 0.15, duration: 0.7, ease: "easeOut" }}
+                        style={{ height: "100%", background: color }}
+                      />
+                    </div>
+                    <div style={{ fontSize: 11, fontWeight: 700, color, textAlign: "right" }}>{m.score}</div>
+                  </div>
+                );
+              })}
+            </div>
+          </motion.div>
+        </AnimatePresence>
 
         {/* Period label strip */}
         <motion.div
+          key={`strip-${period}`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.18 }}
+          transition={{ delay: 0.1 }}
           style={{
             padding: "8px 40px",
             background: "hsl(220 13% 6%)",
@@ -523,7 +672,7 @@ export default function ExecutionIndex() {
           }}
         >
           <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.16em", color: C.dimmed, textTransform: "uppercase" }}>Period</span>
-          <span style={{ fontSize: 8.5, color: "hsl(215 16% 30%)", letterSpacing: "0.08em" }}>Jan – Jun 2026 &nbsp;·&nbsp; 6-month trailing window</span>
+          <span style={{ fontSize: 8.5, color: "hsl(215 16% 30%)", letterSpacing: "0.08em" }}>{config.window}</span>
           <div style={{ marginLeft: "auto", display: "flex", gap: 12 }}>
             {[
               { label: "≥ 80", color: C.emerald },
@@ -539,73 +688,82 @@ export default function ExecutionIndex() {
         </motion.div>
 
         {/* ── Five metric cards ── */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 1, marginBottom: 32 }}>
-          {metrics.map((m, i) => (
-            <MetricCard key={m.id} m={m} delay={0.2 + i * 0.07} onNavigate={navigate} />
-          ))}
-        </div>
+        <AnimatePresence mode="wait">
+          <div key={`cards-${period}`} style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 1, marginBottom: 32 }}>
+            {activeMetrics.map((m, i) => (
+              <MetricCard
+                key={m.id}
+                m={m}
+                xLabels={config.xLabels}
+                delay={i * 0.06}
+                onNavigate={period === "90d" ? navigate : undefined}
+              />
+            ))}
+          </div>
+        </AnimatePresence>
 
         {/* ── Improvement Areas ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.58, duration: 0.4 }}
-          style={{ marginBottom: 32 }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 12 }}>
-            <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.22em", color: C.amber, textTransform: "uppercase" }}>
-              Improvement Areas
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={`improvements-${period}`}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            style={{ marginBottom: 32 }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 12 }}>
+              <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.22em", color: C.amber, textTransform: "uppercase" }}>
+                Improvement Areas
+              </div>
+              <div style={{ flex: 1, height: 1, background: C.border }} />
+              <div style={{ fontSize: 8, color: C.dimmed, letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                2 Prioritised Dimensions
+              </div>
             </div>
-            <div style={{ flex: 1, height: 1, background: C.border }} />
-            <div style={{ fontSize: 8, color: C.dimmed, letterSpacing: "0.1em", textTransform: "uppercase" }}>
-              2 Prioritised Dimensions
-            </div>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1 }}>
-            {improvements.map((imp, i) => {
-              const color = scoreColor(imp.score);
-              return (
-                <motion.div
-                  key={imp.id}
-                  initial={{ opacity: 0, x: -8 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.62 + i * 0.08, duration: 0.38 }}
-                  style={{
-                    padding: "20px 22px",
-                    background: C.card,
-                    border: `1px solid ${C.border}`,
-                    borderLeft: `3px solid ${C.amber}`,
-                  }}
-                >
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
-                    <div>
-                      <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.14em", color: C.amber, textTransform: "uppercase", marginBottom: 5 }}>
-                        Priority {i + 1} · Improvement
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1 }}>
+              {improvements.map((imp, i) => {
+                const color = scoreColor(imp.score);
+                return (
+                  <motion.div
+                    key={imp.id}
+                    initial={{ opacity: 0, x: -8 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.08, duration: 0.32 }}
+                    style={{
+                      padding: "20px 22px",
+                      background: C.card,
+                      border: `1px solid ${C.border}`,
+                      borderLeft: `3px solid ${C.amber}`,
+                    }}
+                  >
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
+                      <div>
+                        <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.14em", color: C.amber, textTransform: "uppercase", marginBottom: 5 }}>
+                          Priority {i + 1} · Improvement
+                        </div>
+                        <div style={{ fontSize: 14, fontWeight: 800, color: "#fff" }}>{imp.label}</div>
                       </div>
-                      <div style={{ fontSize: 14, fontWeight: 800, color: "#fff" }}>{imp.label}</div>
+                      <div style={{ fontSize: 28, fontWeight: 900, color, letterSpacing: "-0.03em", lineHeight: 1 }}>
+                        {imp.score}
+                        <span style={{ fontSize: 10, fontWeight: 600, color: C.muted }}>/100</span>
+                      </div>
                     </div>
-                    <div style={{
-                      fontSize: 28, fontWeight: 900, color,
-                      letterSpacing: "-0.03em", lineHeight: 1,
-                    }}>
-                      {imp.score}
-                      <span style={{ fontSize: 10, fontWeight: 600, color: C.muted }}>/100</span>
+                    <div style={{ height: 3, background: "hsl(220 13% 11%)", marginBottom: 14 }}>
+                      <div style={{ width: `${imp.score}%`, height: "100%", background: color }} />
                     </div>
-                  </div>
-                  <div style={{ height: 3, background: "hsl(220 13% 11%)", marginBottom: 14 }}>
-                    <div style={{ width: `${imp.score}%`, height: "100%", background: color }} />
-                  </div>
-                  <div style={{ fontSize: 10.5, color: C.muted, lineHeight: 1.65, marginBottom: 10 }}>
-                    {imp.action}
-                  </div>
-                  <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.12em", color: C.amber, textTransform: "uppercase" }}>
-                    → Recommended Action
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
-        </motion.div>
+                    <div style={{ fontSize: 10.5, color: C.muted, lineHeight: 1.65, marginBottom: 10 }}>
+                      {imp.action}
+                    </div>
+                    <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.12em", color: C.amber, textTransform: "uppercase" }}>
+                      → Recommended Action
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </motion.div>
+        </AnimatePresence>
 
         {/* ── Index History ── */}
         <motion.div
@@ -614,7 +772,6 @@ export default function ExecutionIndex() {
           transition={{ delay: 0.65, duration: 0.42 }}
           style={{ marginBottom: 32 }}
         >
-          {/* Section header */}
           <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 12 }}>
             <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.22em", color: C.amber, textTransform: "uppercase" }}>
               Index History
@@ -625,13 +782,11 @@ export default function ExecutionIndex() {
             </div>
           </div>
 
-          {/* Chart card */}
           <div style={{
             background: C.card,
             border: `1px solid ${C.border}`,
             padding: "24px 28px 20px",
           }}>
-            {/* Inline legend */}
             <div style={{ display: "flex", gap: 20, marginBottom: 18, flexWrap: "wrap" }}>
               {(Object.entries(HISTORY_LINE_COLORS) as [keyof typeof HISTORY_LINE_COLORS, string][]).map(([key, color]) => (
                 <div key={key} style={{ display: "flex", alignItems: "center", gap: 6 }}>
@@ -662,46 +817,22 @@ export default function ExecutionIndex() {
               ))}
             </div>
 
-            {/* Multi-line chart */}
             <ResponsiveContainer width="100%" height={220}>
               <LineChart data={HISTORY_DATA} margin={{ top: 4, right: 8, bottom: 0, left: 0 }}>
-                <CartesianGrid
-                  strokeDasharray="3 3"
-                  stroke="hsl(220 13% 10%)"
-                  vertical={false}
-                />
-                <XAxis
-                  dataKey="week"
-                  tick={{ fontSize: 7.5, fill: "hsl(215 16% 28%)", fontFamily: "inherit" }}
-                  axisLine={false}
-                  tickLine={false}
-                />
-                <YAxis
-                  domain={[50, 100]}
-                  ticks={[50, 60, 70, 80, 90, 100]}
-                  tick={{ fontSize: 7.5, fill: "hsl(215 16% 28%)", fontFamily: "inherit" }}
-                  axisLine={false}
-                  tickLine={false}
-                  width={26}
-                />
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(220 13% 10%)" vertical={false} />
+                <XAxis dataKey="week" tick={{ fontSize: 7.5, fill: "hsl(215 16% 28%)", fontFamily: "inherit" }} axisLine={false} tickLine={false} />
+                <YAxis domain={[50, 100]} ticks={[50, 60, 70, 80, 90, 100]} tick={{ fontSize: 7.5, fill: "hsl(215 16% 28%)", fontFamily: "inherit" }} axisLine={false} tickLine={false} width={26} />
                 <Tooltip content={<HistoryTooltip />} />
-
-                {/* Dimension lines */}
                 <Line type="monotone" dataKey="consistency" stroke={HISTORY_LINE_COLORS.consistency} strokeWidth={1.5} dot={false} activeDot={{ r: 3, fill: HISTORY_LINE_COLORS.consistency }} />
                 <Line type="monotone" dataKey="visibility"  stroke={HISTORY_LINE_COLORS.visibility}  strokeWidth={1.5} dot={false} activeDot={{ r: 3, fill: HISTORY_LINE_COLORS.visibility }} />
                 <Line type="monotone" dataKey="activation"  stroke={HISTORY_LINE_COLORS.activation}  strokeWidth={1.5} dot={false} activeDot={{ r: 3, fill: HISTORY_LINE_COLORS.activation }} />
                 <Line type="monotone" dataKey="decision"    stroke={HISTORY_LINE_COLORS.decision}    strokeWidth={1.5} dot={false} activeDot={{ r: 3, fill: HISTORY_LINE_COLORS.decision }} />
                 <Line type="monotone" dataKey="recovery"    stroke={HISTORY_LINE_COLORS.recovery}    strokeWidth={1.5} dot={false} strokeDasharray="4 2" activeDot={{ r: 3, fill: HISTORY_LINE_COLORS.recovery }} />
-
-                {/* Overall composite — bold amber, rendered last so it sits on top */}
                 <Line type="monotone" dataKey="overall" stroke={HISTORY_LINE_COLORS.overall} strokeWidth={3} dot={false} activeDot={{ r: 4, fill: HISTORY_LINE_COLORS.overall }} />
               </LineChart>
             </ResponsiveContainer>
 
-            {/* Footer annotation */}
-            <div style={{
-              marginTop: 12, display: "flex", justifyContent: "space-between", alignItems: "center",
-            }}>
+            <div style={{ marginTop: 12, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <span style={{ fontSize: 8, color: "hsl(215 16% 20%)", letterSpacing: "0.06em" }}>
                 25 Mar 2026 — 10 Jun 2026
               </span>
@@ -712,11 +843,11 @@ export default function ExecutionIndex() {
                 </div>
                 <div style={{ textAlign: "center" }}>
                   <div style={{ fontSize: 8, color: C.dimmed, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 2 }}>Current</div>
-                  <div style={{ fontSize: 13, fontWeight: 800, color: C.amber }}>{overallScore}</div>
+                  <div style={{ fontSize: 13, fontWeight: 800, color: C.amber }}>{activeOverallScore}</div>
                 </div>
                 <div style={{ textAlign: "center" }}>
                   <div style={{ fontSize: 8, color: C.dimmed, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 2 }}>12-Wk Δ</div>
-                  <div style={{ fontSize: 13, fontWeight: 800, color: C.emerald }}>+{overallScore - HISTORY_DATA[0].overall}</div>
+                  <div style={{ fontSize: 13, fontWeight: 800, color: C.emerald }}>+{activeOverallScore - HISTORY_DATA[0].overall}</div>
                 </div>
               </div>
             </div>
@@ -724,98 +855,103 @@ export default function ExecutionIndex() {
         </motion.div>
 
         {/* ── Executive Insight Panel ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.72, duration: 0.45 }}
-          style={{
-            background: "hsl(220 13% 6%)",
-            border: `1px solid ${C.amber}25`,
-            padding: "36px 40px",
-            display: "grid",
-            gridTemplateColumns: "1fr 260px",
-            gap: 40,
-            alignItems: "center",
-          }}
-        >
-          {/* Left: insight copy */}
-          <div>
-            <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.22em", color: C.amber, textTransform: "uppercase", marginBottom: 14 }}>
-              Executive Insight Panel
-            </div>
-            <div style={{
-              fontSize: 20, fontWeight: 900, color: "#fff",
-              letterSpacing: "-0.01em", lineHeight: 1.35, marginBottom: 20,
-            }}>
-              "WELBX Measures Execution, Not Activity."
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              <p style={{ margin: 0, fontSize: 12, color: C.muted, lineHeight: 1.7, maxWidth: 580 }}>
-                With an overall Execution Index of <strong style={{ color: "#fff" }}>{overallScore}/100</strong> — 
-                up {overallDelta} points this period — The Grand Meridian is operating in the upper performance tier 
-                across all five dimensions. {leader.label} leads at <strong style={{ color: scoreColor(leader.score) }}>{leader.score}</strong>, 
-                reflecting high-confidence execution across the most active data sources.
-              </p>
-              <p style={{ margin: 0, fontSize: 12, color: C.muted, lineHeight: 1.7, maxWidth: 580 }}>
-                {laggard.label} at <strong style={{ color: scoreColor(laggard.score) }}>{laggard.score}</strong> remains the primary lever for 
-                score improvement. Targeted playbook expansion in this dimension represents the highest-yield 
-                opportunity to advance the overall index within the next operating quarter.
-              </p>
-              <p style={{ margin: 0, fontSize: 12, color: C.muted, lineHeight: 1.7, maxWidth: 580 }}>
-                Every point on this index represents a closed loop: a signal sensed, a decision made, an action 
-                executed, and an outcome confirmed. This is what separates execution measurement from activity reporting.
-              </p>
-            </div>
-            <div style={{ marginTop: 20, display: "flex", gap: 20 }}>
-              {[
-                { label: "Leading Dimension", value: leader.label, score: leader.score, color: scoreColor(leader.score) },
-                { label: "Improvement Lever", value: laggard.label, score: laggard.score, color: scoreColor(laggard.score) },
-              ].map((stat) => (
-                <div key={stat.label} style={{
-                  padding: "12px 16px",
-                  background: "hsl(220 13% 8%)",
-                  border: `1px solid ${C.border}`,
-                  borderTop: `2px solid ${stat.color}`,
-                  minWidth: 160,
-                }}>
-                  <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: C.dimmed, textTransform: "uppercase", marginBottom: 6 }}>
-                    {stat.label}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={`insight-${period}`}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.35 }}
+            style={{
+              background: "hsl(220 13% 6%)",
+              border: `1px solid ${C.amber}25`,
+              padding: "36px 40px",
+              display: "grid",
+              gridTemplateColumns: "1fr 260px",
+              gap: 40,
+              alignItems: "center",
+            }}
+          >
+            {/* Left: insight copy */}
+            <div>
+              <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.22em", color: C.amber, textTransform: "uppercase", marginBottom: 14 }}>
+                Executive Insight Panel
+              </div>
+              <div style={{
+                fontSize: 20, fontWeight: 900, color: "#fff",
+                letterSpacing: "-0.01em", lineHeight: 1.35, marginBottom: 20,
+              }}>
+                "WELBX Measures Execution, Not Activity."
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <p style={{ margin: 0, fontSize: 12, color: C.muted, lineHeight: 1.7, maxWidth: 580 }}>
+                  With an overall Execution Index of <strong style={{ color: "#fff" }}>{activeOverallScore}/100</strong> — 
+                  up {activeOverallDelta} points this period — The Grand Meridian is operating in the upper performance tier 
+                  across all five dimensions. {activeLeader.label} leads at{" "}
+                  <strong style={{ color: activeLeader.color }}>{activeLeader.score}</strong>,{" "}
+                  reflecting high-confidence execution across the most active data sources.
+                </p>
+                <p style={{ margin: 0, fontSize: 12, color: C.muted, lineHeight: 1.7, maxWidth: 580 }}>
+                  {activeLaygard.label} at <strong style={{ color: activeLaygard.color }}>{activeLaygard.score}</strong> remains the primary lever for 
+                  score improvement. Targeted playbook expansion in this dimension represents the highest-yield 
+                  opportunity to advance the overall index within the next operating quarter.
+                </p>
+                <p style={{ margin: 0, fontSize: 12, color: C.muted, lineHeight: 1.7, maxWidth: 580 }}>
+                  Every point on this index represents a closed loop: a signal sensed, a decision made, an action 
+                  executed, and an outcome confirmed. This is what separates execution measurement from activity reporting.
+                </p>
+              </div>
+              <div style={{ marginTop: 20, display: "flex", gap: 20 }}>
+                {[
+                  { label: "Leading Dimension", value: activeLeader.label,  score: activeLeader.score,  color: activeLeader.color },
+                  { label: "Improvement Lever", value: activeLaygard.label, score: activeLaygard.score, color: activeLaygard.color },
+                ].map((stat) => (
+                  <div key={stat.label} style={{
+                    padding: "12px 16px",
+                    background: "hsl(220 13% 8%)",
+                    border: `1px solid ${C.border}`,
+                    borderTop: `2px solid ${stat.color}`,
+                    minWidth: 160,
+                  }}>
+                    <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: C.dimmed, textTransform: "uppercase", marginBottom: 6 }}>
+                      {stat.label}
+                    </div>
+                    <div style={{ fontSize: 13, fontWeight: 800, color: "#fff", marginBottom: 2 }}>{stat.value}</div>
+                    <div style={{ fontSize: 18, fontWeight: 900, color: stat.color }}>{stat.score}<span style={{ fontSize: 9, fontWeight: 600, color: C.muted }}>/100</span></div>
                   </div>
-                  <div style={{ fontSize: 13, fontWeight: 800, color: "#fff", marginBottom: 2 }}>{stat.value}</div>
-                  <div style={{ fontSize: 18, fontWeight: 900, color: stat.color }}>{stat.score}<span style={{ fontSize: 9, fontWeight: 600, color: C.muted }}>/100</span></div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
 
-          {/* Right: Radar chart */}
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
-            <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.16em", color: C.dimmed, textTransform: "uppercase", marginBottom: 4 }}>
-              Dimension Radar
+            {/* Right: Radar chart */}
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
+              <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.16em", color: C.dimmed, textTransform: "uppercase", marginBottom: 4 }}>
+                Dimension Radar
+              </div>
+              <ResponsiveContainer width={240} height={220}>
+                <RadarChart data={radarData} margin={{ top: 8, right: 24, bottom: 8, left: 24 }}>
+                  <PolarGrid stroke="hsl(220 13% 13%)" />
+                  <PolarAngleAxis
+                    dataKey="subject"
+                    tick={{ fontSize: 8.5, fill: "hsl(215 16% 38%)", fontFamily: "inherit" }}
+                  />
+                  <Radar
+                    name="score"
+                    dataKey="score"
+                    stroke={C.amber}
+                    fill={C.amber}
+                    fillOpacity={0.12}
+                    strokeWidth={1.5}
+                    dot={{ fill: C.amber, r: 2.5 }}
+                  />
+                </RadarChart>
+              </ResponsiveContainer>
+              <div style={{ fontSize: 8, color: C.dimmed, letterSpacing: "0.08em", textAlign: "center" }}>
+                All five dimensions · {PERIOD_CONFIG[period].label} window
+              </div>
             </div>
-            <ResponsiveContainer width={240} height={220}>
-              <RadarChart data={radarData} margin={{ top: 8, right: 24, bottom: 8, left: 24 }}>
-                <PolarGrid stroke="hsl(220 13% 13%)" />
-                <PolarAngleAxis
-                  dataKey="subject"
-                  tick={{ fontSize: 8.5, fill: "hsl(215 16% 38%)", fontFamily: "inherit" }}
-                />
-                <Radar
-                  name="score"
-                  dataKey="score"
-                  stroke={C.amber}
-                  fill={C.amber}
-                  fillOpacity={0.12}
-                  strokeWidth={1.5}
-                  dot={{ fill: C.amber, r: 2.5 }}
-                />
-              </RadarChart>
-            </ResponsiveContainer>
-            <div style={{ fontSize: 8, color: C.dimmed, letterSpacing: "0.08em", textAlign: "center" }}>
-              All five dimensions · Current period
-            </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </AnimatePresence>
 
       </div>
     </div>
