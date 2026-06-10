@@ -31,6 +31,7 @@ interface Entity {
   id: string;
   name: string;
   scores: MetricScore;
+  weekHistory: number[];
 }
 
 const METRICS: { key: keyof MetricScore; label: string; short: string }[] = [
@@ -44,39 +45,72 @@ const METRICS: { key: keyof MetricScore; label: string; short: string }[] = [
 /* ─── Mock Data ───────────────────────────────────────── */
 const DATA: Record<Dimension, Entity[]> = {
   Properties: [
-    { id: "P01", name: "The Grand Meridian London",  scores: { responseTime: 94, recoverySuccess: 91, communicationQuality: 89, escalationPerformance: 88, executionReliability: 96 } },
-    { id: "P02", name: "Meridian Edinburgh Castle",   scores: { responseTime: 87, recoverySuccess: 84, communicationQuality: 82, escalationPerformance: 79, executionReliability: 88 } },
-    { id: "P03", name: "Meridian Bath Spa",           scores: { responseTime: 91, recoverySuccess: 88, communicationQuality: 93, escalationPerformance: 85, executionReliability: 90 } },
-    { id: "P04", name: "Meridian Oxford Quad",        scores: { responseTime: 72, recoverySuccess: 68, communicationQuality: 75, escalationPerformance: 64, executionReliability: 70 } },
-    { id: "P05", name: "Meridian Bristol Harbourside",scores: { responseTime: 78, recoverySuccess: 82, communicationQuality: 80, escalationPerformance: 77, executionReliability: 81 } },
-    { id: "P06", name: "Meridian Manchester Central", scores: { responseTime: 83, recoverySuccess: 79, communicationQuality: 77, escalationPerformance: 81, executionReliability: 85 } },
+    { id: "P01", name: "The Grand Meridian London",   weekHistory: [86, 88, 89, 91, 92], scores: { responseTime: 94, recoverySuccess: 91, communicationQuality: 89, escalationPerformance: 88, executionReliability: 96 } },
+    { id: "P02", name: "Meridian Edinburgh Castle",   weekHistory: [87, 86, 86, 85, 84], scores: { responseTime: 87, recoverySuccess: 84, communicationQuality: 82, escalationPerformance: 79, executionReliability: 88 } },
+    { id: "P03", name: "Meridian Bath Spa",           weekHistory: [85, 86, 87, 88, 89], scores: { responseTime: 91, recoverySuccess: 88, communicationQuality: 93, escalationPerformance: 85, executionReliability: 90 } },
+    { id: "P04", name: "Meridian Oxford Quad",        weekHistory: [74, 73, 71, 71, 70], scores: { responseTime: 72, recoverySuccess: 68, communicationQuality: 75, escalationPerformance: 64, executionReliability: 70 } },
+    { id: "P05", name: "Meridian Bristol Harbourside",weekHistory: [77, 78, 79, 79, 80], scores: { responseTime: 78, recoverySuccess: 82, communicationQuality: 80, escalationPerformance: 77, executionReliability: 81 } },
+    { id: "P06", name: "Meridian Manchester Central", weekHistory: [81, 80, 80, 81, 81], scores: { responseTime: 83, recoverySuccess: 79, communicationQuality: 77, escalationPerformance: 81, executionReliability: 85 } },
   ],
   Departments: [
-    { id: "D01", name: "Front of House",     scores: { responseTime: 92, recoverySuccess: 88, communicationQuality: 91, escalationPerformance: 86, executionReliability: 93 } },
-    { id: "D02", name: "Housekeeping",       scores: { responseTime: 76, recoverySuccess: 83, communicationQuality: 79, escalationPerformance: 72, executionReliability: 80 } },
-    { id: "D03", name: "Food & Beverage",    scores: { responseTime: 88, recoverySuccess: 85, communicationQuality: 87, escalationPerformance: 83, executionReliability: 89 } },
-    { id: "D04", name: "Engineering",        scores: { responseTime: 69, recoverySuccess: 74, communicationQuality: 65, escalationPerformance: 70, executionReliability: 77 } },
-    { id: "D05", name: "Concierge",          scores: { responseTime: 96, recoverySuccess: 94, communicationQuality: 97, escalationPerformance: 91, executionReliability: 95 } },
-    { id: "D06", name: "Wellness & Spa",     scores: { responseTime: 90, recoverySuccess: 87, communicationQuality: 92, escalationPerformance: 84, executionReliability: 88 } },
-    { id: "D07", name: "Security",           scores: { responseTime: 82, recoverySuccess: 78, communicationQuality: 71, escalationPerformance: 88, executionReliability: 84 } },
+    { id: "D01", name: "Front of House",     weekHistory: [84, 86, 87, 89, 90], scores: { responseTime: 92, recoverySuccess: 88, communicationQuality: 91, escalationPerformance: 86, executionReliability: 93 } },
+    { id: "D02", name: "Housekeeping",       weekHistory: [82, 81, 80, 79, 78], scores: { responseTime: 76, recoverySuccess: 83, communicationQuality: 79, escalationPerformance: 72, executionReliability: 80 } },
+    { id: "D03", name: "Food & Beverage",    weekHistory: [83, 84, 84, 85, 86], scores: { responseTime: 88, recoverySuccess: 85, communicationQuality: 87, escalationPerformance: 83, executionReliability: 89 } },
+    { id: "D04", name: "Engineering",        weekHistory: [72, 73, 72, 71, 71], scores: { responseTime: 69, recoverySuccess: 74, communicationQuality: 65, escalationPerformance: 70, executionReliability: 77 } },
+    { id: "D05", name: "Concierge",          weekHistory: [92, 93, 93, 94, 95], scores: { responseTime: 96, recoverySuccess: 94, communicationQuality: 97, escalationPerformance: 91, executionReliability: 95 } },
+    { id: "D06", name: "Wellness & Spa",     weekHistory: [87, 87, 88, 88, 88], scores: { responseTime: 90, recoverySuccess: 87, communicationQuality: 92, escalationPerformance: 84, executionReliability: 88 } },
+    { id: "D07", name: "Security",           weekHistory: [83, 83, 82, 81, 81], scores: { responseTime: 82, recoverySuccess: 78, communicationQuality: 71, escalationPerformance: 88, executionReliability: 84 } },
   ],
   Teams: [
-    { id: "T01", name: "AM Shift · FOH",          scores: { responseTime: 95, recoverySuccess: 92, communicationQuality: 94, escalationPerformance: 90, executionReliability: 96 } },
-    { id: "T02", name: "PM Shift · FOH",           scores: { responseTime: 88, recoverySuccess: 85, communicationQuality: 89, escalationPerformance: 83, executionReliability: 90 } },
-    { id: "T03", name: "Night Shift · FOH",        scores: { responseTime: 74, recoverySuccess: 71, communicationQuality: 68, escalationPerformance: 76, executionReliability: 79 } },
-    { id: "T04", name: "AM Shift · Housekeeping",  scores: { responseTime: 80, recoverySuccess: 86, communicationQuality: 82, escalationPerformance: 74, executionReliability: 83 } },
-    { id: "T05", name: "PM Shift · Housekeeping",  scores: { responseTime: 71, recoverySuccess: 78, communicationQuality: 73, escalationPerformance: 67, executionReliability: 75 } },
-    { id: "T06", name: "Banqueting Team",          scores: { responseTime: 84, recoverySuccess: 81, communicationQuality: 86, escalationPerformance: 79, executionReliability: 88 } },
-    { id: "T07", name: "VIP Services Team",        scores: { responseTime: 97, recoverySuccess: 95, communicationQuality: 96, escalationPerformance: 93, executionReliability: 97 } },
+    { id: "T01", name: "AM Shift · FOH",          weekHistory: [90, 91, 91, 92, 93], scores: { responseTime: 95, recoverySuccess: 92, communicationQuality: 94, escalationPerformance: 90, executionReliability: 96 } },
+    { id: "T02", name: "PM Shift · FOH",           weekHistory: [85, 85, 86, 87, 87], scores: { responseTime: 88, recoverySuccess: 85, communicationQuality: 89, escalationPerformance: 83, executionReliability: 90 } },
+    { id: "T03", name: "Night Shift · FOH",        weekHistory: [78, 77, 76, 75, 74], scores: { responseTime: 74, recoverySuccess: 71, communicationQuality: 68, escalationPerformance: 76, executionReliability: 79 } },
+    { id: "T04", name: "AM Shift · Housekeeping",  weekHistory: [79, 80, 80, 81, 81], scores: { responseTime: 80, recoverySuccess: 86, communicationQuality: 82, escalationPerformance: 74, executionReliability: 83 } },
+    { id: "T05", name: "PM Shift · Housekeeping",  weekHistory: [75, 75, 74, 73, 73], scores: { responseTime: 71, recoverySuccess: 78, communicationQuality: 73, escalationPerformance: 67, executionReliability: 75 } },
+    { id: "T06", name: "Banqueting Team",          weekHistory: [81, 82, 82, 83, 84], scores: { responseTime: 84, recoverySuccess: 81, communicationQuality: 86, escalationPerformance: 79, executionReliability: 88 } },
+    { id: "T07", name: "VIP Services Team",        weekHistory: [93, 94, 94, 95, 96], scores: { responseTime: 97, recoverySuccess: 95, communicationQuality: 96, escalationPerformance: 93, executionReliability: 97 } },
   ],
   Regions: [
-    { id: "R01", name: "London & South East", scores: { responseTime: 93, recoverySuccess: 90, communicationQuality: 91, escalationPerformance: 87, executionReliability: 94 } },
-    { id: "R02", name: "Scotland & North",    scores: { responseTime: 85, recoverySuccess: 82, communicationQuality: 80, escalationPerformance: 78, executionReliability: 86 } },
-    { id: "R03", name: "Midlands",            scores: { responseTime: 80, recoverySuccess: 76, communicationQuality: 79, escalationPerformance: 74, executionReliability: 82 } },
-    { id: "R04", name: "West of England",     scores: { responseTime: 88, recoverySuccess: 86, communicationQuality: 89, escalationPerformance: 82, executionReliability: 87 } },
-    { id: "R05", name: "North West",          scores: { responseTime: 82, recoverySuccess: 79, communicationQuality: 77, escalationPerformance: 80, executionReliability: 84 } },
+    { id: "R01", name: "London & South East", weekHistory: [87, 88, 89, 90, 91], scores: { responseTime: 93, recoverySuccess: 90, communicationQuality: 91, escalationPerformance: 87, executionReliability: 94 } },
+    { id: "R02", name: "Scotland & North",    weekHistory: [84, 84, 83, 82, 82], scores: { responseTime: 85, recoverySuccess: 82, communicationQuality: 80, escalationPerformance: 78, executionReliability: 86 } },
+    { id: "R03", name: "Midlands",            weekHistory: [79, 79, 78, 78, 78], scores: { responseTime: 80, recoverySuccess: 76, communicationQuality: 79, escalationPerformance: 74, executionReliability: 82 } },
+    { id: "R04", name: "West of England",     weekHistory: [83, 84, 84, 85, 86], scores: { responseTime: 88, recoverySuccess: 86, communicationQuality: 89, escalationPerformance: 82, executionReliability: 87 } },
+    { id: "R05", name: "North West",          weekHistory: [79, 79, 80, 80, 80], scores: { responseTime: 82, recoverySuccess: 79, communicationQuality: 77, escalationPerformance: 80, executionReliability: 84 } },
   ],
 };
+
+/* ─── Mini Sparkline ─────────────────────────────────── */
+function MiniSparkline({ data, color }: { data: number[]; color: string }) {
+  const W = 54, H = 18;
+  const min = Math.min(...data), max = Math.max(...data);
+  const range = max - min || 1;
+  const pts = data
+    .map((v, i) => {
+      const x = (i / (data.length - 1)) * W;
+      const y = H - 2 - ((v - min) / range) * (H - 4);
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    })
+    .join(" ");
+  return (
+    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} style={{ display: "block", overflow: "visible" }}>
+      <polyline
+        points={pts}
+        fill="none"
+        stroke={color}
+        strokeWidth={1.5}
+        strokeLinejoin="round"
+        strokeLinecap="round"
+        opacity={0.85}
+      />
+      <circle
+        cx={(data.length - 1) / (data.length - 1) * W}
+        cy={H - 2 - ((data[data.length - 1] - min) / range) * (H - 4)}
+        r={2}
+        fill={color}
+      />
+    </svg>
+  );
+}
 
 /* ─── Helpers ─────────────────────────────────────────── */
 function avg(scores: MetricScore): number {
@@ -139,7 +173,7 @@ function MetricsGrid({ entities }: { entities: Entity[] }) {
         {/* Header row */}
         <div style={{
           display: "grid",
-          gridTemplateColumns: "240px repeat(5, 1fr) 80px",
+          gridTemplateColumns: "240px repeat(5, 1fr) 80px 100px",
           borderBottom: `1px solid ${C.border}`,
           background: "hsl(220 13% 6%)",
         }}>
@@ -160,6 +194,11 @@ function MetricsGrid({ entities }: { entities: Entity[] }) {
               OVERALL
             </span>
           </div>
+          <div style={{ padding: "12px 14px", borderLeft: `1px solid ${C.border}`, textAlign: "center" }}>
+            <span style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.14em", color: C.dimmed, textTransform: "uppercase" }}>
+              W·O·W
+            </span>
+          </div>
         </div>
 
         {/* Entity rows */}
@@ -168,6 +207,10 @@ function MetricsGrid({ entities }: { entities: Entity[] }) {
           const overallColor = scoreColor(overall);
           const isTop = i === 0;
           const isBottom = i === sorted.length - 1;
+          const wowDelta = entity.weekHistory[entity.weekHistory.length - 1] - entity.weekHistory[entity.weekHistory.length - 2];
+          const wowColor = wowDelta > 0 ? C.green : wowDelta < 0 ? C.red : C.muted;
+          const wowArrow = wowDelta > 0 ? "▲" : wowDelta < 0 ? "▼" : "─";
+          const wowLabel = wowDelta > 0 ? `+${wowDelta}` : wowDelta < 0 ? `${wowDelta}` : "0";
           return (
             <motion.div
               key={entity.id}
@@ -176,7 +219,7 @@ function MetricsGrid({ entities }: { entities: Entity[] }) {
               transition={{ delay: i * 0.04, duration: 0.28 }}
               style={{
                 display: "grid",
-                gridTemplateColumns: "240px repeat(5, 1fr) 80px",
+                gridTemplateColumns: "240px repeat(5, 1fr) 80px 100px",
                 borderBottom: i < sorted.length - 1 ? `1px solid ${C.border}` : "none",
                 background: isTop ? `${C.green}08` : isBottom ? `${C.red}06` : "transparent",
                 borderLeft: isTop ? `2px solid ${C.green}` : isBottom ? `2px solid ${C.red}` : `2px solid transparent`,
@@ -203,6 +246,21 @@ function MetricsGrid({ entities }: { entities: Entity[] }) {
                 <span style={{ fontSize: 17, fontWeight: 800, color: overallColor, letterSpacing: "-0.02em" }}>
                   {overall}
                 </span>
+              </div>
+              <div style={{
+                borderLeft: `1px solid ${C.border}`,
+                display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+                gap: 5, padding: "8px 10px",
+              }}>
+                <MiniSparkline data={entity.weekHistory} color={wowColor} />
+                <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                  <span style={{ fontSize: 8, fontWeight: 800, color: wowColor, letterSpacing: "0.01em" }}>
+                    {wowArrow}
+                  </span>
+                  <span style={{ fontSize: 9, fontWeight: 700, color: wowColor, letterSpacing: "0.02em", fontFamily: "var(--app-font-mono)" }}>
+                    {wowLabel}
+                  </span>
+                </div>
               </div>
             </motion.div>
           );
