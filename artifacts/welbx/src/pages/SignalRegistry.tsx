@@ -43,7 +43,7 @@ const CATEGORIES: Category[] = [
       { name: "Departure Mood", type: "Behavioural", source: "Guest App / Checkout", frequency: "Per Event", confidence: 79, weighting: "High", moments: ["Review Risk", "Loyalty Decision"], status: "ACTIVE" },
       { name: "Loyalty Recognition Gap", type: "Contextual", source: "CRM / PMS", frequency: "Per Arrival", confidence: 97, weighting: "Critical", moments: ["VIP Acknowledgement", "Tier Downgrade Risk"], status: "ACTIVE" },
       { name: "Service Request Pattern", type: "Behavioural", source: "Guest App", frequency: "Continuous", confidence: 83, weighting: "Medium", moments: ["Unmet Expectation", "Personalisation Opportunity"], status: "MONITORING" },
-      { name: "Dining Intent Signal", type: "Propensity", source: "CRM / Behaviour Model", frequency: "Hourly", confidence: 76, weighting: "Medium", moments: ["F&B Revenue Moment", "Upsell Window"], status: "EMERGING" },
+      { name: "Dining Intent Signal", type: "Propensity", source: "CRM / Behaviour Model", frequency: "Hourly", confidence: 76, weighting: "Medium", moments: ["F&B Activation Moment", "Upsell Window"], status: "EMERGING" },
     ],
   },
   {
@@ -77,12 +77,12 @@ const CATEGORIES: Category[] = [
     label: "Commercial Signals",
     count: 48,
     signals: [
-      { name: "Revenue Exposure Index", type: "Commercial", source: "RMS / Moment Value Model", frequency: "Real-time", confidence: 93, weighting: "Critical", moments: ["High-Value Moment", "Commercial Recovery"], status: "ACTIVE" },
-      { name: "F&B Propensity Score", type: "Propensity", source: "CRM / Behaviour Model", frequency: "Hourly", confidence: 77, weighting: "High", moments: ["F&B Revenue Moment", "Personalisation Window"], status: "ACTIVE" },
-      { name: "Upsell Conversion Window", type: "Behavioural", source: "PMS / Front Office", frequency: "Per Interaction", confidence: 82, weighting: "High", moments: ["Upgrade Moment", "Revenue Opportunity"], status: "EMERGING" },
+      { name: "Activation Exposure Index", type: "Commercial", source: "RMS / Moment Value Model", frequency: "Real-time", confidence: 93, weighting: "Critical", moments: ["High-Value Moment", "Commercial Recovery"], status: "ACTIVE" },
+      { name: "F&B Propensity Score", type: "Propensity", source: "CRM / Behaviour Model", frequency: "Hourly", confidence: 77, weighting: "High", moments: ["F&B Activation Moment", "Personalisation Window"], status: "ACTIVE" },
+      { name: "Upsell Conversion Window", type: "Behavioural", source: "PMS / Front Office", frequency: "Per Interaction", confidence: 82, weighting: "High", moments: ["Upgrade Moment", "Activation Opportunity"], status: "EMERGING" },
       { name: "Cancellation Risk Score", type: "Predictive", source: "PMS / CRM", frequency: "Daily", confidence: 71, weighting: "High", moments: ["Retention Moment", "Loyalty Recovery"], status: "MONITORING" },
       { name: "Rate Sensitivity Signal", type: "Commercial", source: "RMS / Booking Patterns", frequency: "Hourly", confidence: 85, weighting: "Medium", moments: ["Pricing Moment", "Channel Shift Risk"], status: "ACTIVE" },
-      { name: "Group Spend Velocity", type: "Commercial", source: "POS / PMS", frequency: "Daily", confidence: 88, weighting: "Medium", moments: ["Group Revenue Moment", "Event Activation"], status: "MONITORING" },
+      { name: "Group Spend Velocity", type: "Commercial", source: "POS / PMS", frequency: "Daily", confidence: 88, weighting: "Medium", moments: ["Group Activation Moment", "Event Activation"], status: "MONITORING" },
     ],
   },
   {

@@ -25,7 +25,7 @@ const KPIS = [
   { label: "Escalations",         value: "3",        delta: "↓ 67%",  note: "vs last 30 days", positive: true,  color: C.amber  },
   { label: "Recovery Success",    value: "94%",      delta: "↑ 12pts",note: "vs last 30 days", positive: true,  color: C.green  },
   { label: "Staff Activations",   value: "28",       delta: "↑ 8%",   note: "vs last 30 days", positive: true,  color: C.blue   },
-  { label: "Revenue Captured",    value: "$124,200", delta: "↑ 31%",  note: "vs last 30 days", positive: true,  color: C.green  },
+  { label: "Value Activated",      value: "Score 94", delta: "↑ 31%",  note: "vs last 30 days", positive: true,  color: C.green  },
 ];
 
 /* ─── Properties ─────────────────────────────────────── */
@@ -81,12 +81,12 @@ const RISKS = [
 /* ─── Emerging Opportunities ─────────────────────────── */
 const OPPORTUNITIES = [
   {
-    type: "REVENUE",
+    type: "ACTIVATION",
     color: C.green,
     property: "Grand Meridian, London",
     headline: "Suite upgrade window · 3 high-value returning guests",
     detail: "Suite 501 and 503 available. Three M1-tier guests arriving this week with prior upgrade acceptance on record.",
-    value: "Est. $2,400",
+    value: "Est. Score 82",
     engine: "BXOS · CRM Engine",
     window: "72 hours",
   },
@@ -106,8 +106,8 @@ const OPPORTUNITIES = [
     property: "The Cartwright, Edinburgh",
     headline: "Spa occupancy 34% Friday AM · VIP access opportunity",
     detail: "Low utilisation Friday 08:00–12:00. Three VIP-tier guests on property with no spa booking. Targeted offer window available.",
-    value: "Est. $960",
-    engine: "BXOS · Revenue Engine",
+    value: "Est. Score 71",
+    engine: "BXOS · Activation Engine",
     window: "36 hours",
   },
   {
@@ -124,11 +124,11 @@ const OPPORTUNITIES = [
 
 /* ─── Property performance table ─────────────────────── */
 const PROPERTY_PERFORMANCE = [
-  { name: "Grand Meridian, London",    signals: 312, resolution: "96%", avgResponse: "3.8 min", revenue: "$42,100",  score: 94 },
-  { name: "Grand Meridian, Dubai",     signals: 274, resolution: "91%", avgResponse: "4.4 min", revenue: "$31,400",  score: 88 },
-  { name: "The Cartwright, Edinburgh", signals: 188, resolution: "89%", avgResponse: "5.1 min", revenue: "$18,200",  score: 82 },
-  { name: "Hotel du Lac, Geneva",      signals: 241, resolution: "93%", avgResponse: "4.1 min", revenue: "$22,300",  score: 86 },
-  { name: "Meridian Palace, Singapore",signals: 198, resolution: "94%", avgResponse: "3.9 min", revenue: "$10,200",  score: 90 },
+  { name: "Grand Meridian, London",    signals: 312, resolution: "96%", avgResponse: "3.8 min", actIndex: "84",  score: 94 },
+  { name: "Grand Meridian, Dubai",     signals: 274, resolution: "91%", avgResponse: "4.4 min", actIndex: "78",  score: 88 },
+  { name: "The Cartwright, Edinburgh", signals: 188, resolution: "89%", avgResponse: "5.1 min", actIndex: "69",  score: 82 },
+  { name: "Hotel du Lac, Geneva",      signals: 241, resolution: "93%", avgResponse: "4.1 min", actIndex: "73",  score: 86 },
+  { name: "Meridian Palace, Singapore",signals: 198, resolution: "94%", avgResponse: "3.9 min", actIndex: "81",  score: 90 },
 ];
 
 /* ─── Trend data (6 months) ──────────────────────────── */
@@ -178,14 +178,13 @@ const TRENDS = [
   {
     id: "commercial",
     label: "Commercial Activation",
-    unit: "k",
-    prefix: "$",
+    unit: "",
     color: C.violet,
     data: [
       { m: "Jan", v: 28 }, { m: "Feb", v: 41 }, { m: "Mar", v: 55 },
       { m: "Apr", v: 72 }, { m: "May", v: 98 }, { m: "Jun", v: 124 },
     ],
-    current: "$124k",
+    current: "Score 124",
     delta: "↑ 343%",
     positive: true,
   },
@@ -236,7 +235,7 @@ function TrendCard({ t }: { t: typeof TRENDS[0] }) {
               </linearGradient>
             </defs>
             <XAxis dataKey="m" tick={{ fontSize: 8, fill: C.dimmed, fontFamily: "inherit" }} axisLine={false} tickLine={false} />
-            <Tooltip content={<ChartTooltip prefix={t.prefix ?? ""} unit={t.unit} />} />
+            <Tooltip content={<ChartTooltip prefix="" unit={t.unit} />} />
             <Area
               type="monotone" dataKey="v"
               stroke={t.color} strokeWidth={1.5}
@@ -467,7 +466,7 @@ export default function ExecutiveDashboard() {
             padding: "9px 20px", background: "hsl(220 13% 7%)",
             border: `1px solid ${C.border}`, borderBottom: "none",
           }}>
-            {["Property", "Signals", "Resolution", "Avg Response", "Rev Captured", "WELBX Score"].map(h => (
+            {["Property", "Signals", "Resolution", "Avg Response", "Act. Index", "WELBX Score"].map(h => (
               <div key={h} style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: C.dimmed, textTransform: "uppercase" }}>{h}</div>
             ))}
           </div>
@@ -485,7 +484,7 @@ export default function ExecutiveDashboard() {
               <div style={{ fontSize: 12, color: "hsl(215 16% 55%)", fontFamily: "var(--app-font-mono)" }}>{p.signals}</div>
               <div style={{ fontSize: 12, fontWeight: 700, color: C.green }}>{p.resolution}</div>
               <div style={{ fontSize: 12, color: "hsl(215 16% 55%)" }}>{p.avgResponse}</div>
-              <div style={{ fontSize: 12, fontWeight: 700, color: C.amber }}>{p.revenue}</div>
+              <div style={{ fontSize: 12, fontWeight: 700, color: C.amber }}>{p.actIndex}</div>
               <ScoreBar score={p.score} />
             </div>
           ))}

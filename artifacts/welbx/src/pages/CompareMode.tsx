@@ -73,7 +73,7 @@ const STEPS: Array<{ without: SideData; with: SideData }> = [
         { label: 'VIP ETA',       value: '14 min',           status: 'warning' },
         { label: 'Moment M2',     value: 'VIP Arrival Risk', status: 'active' },
         { label: 'Confidence',    value: '91%',              status: 'active' },
-        { label: 'Exposure',      value: '$8,000 at risk',   status: 'warning' },
+        { label: 'Exposure',      value: 'High-value at risk', status: 'warning' },
       ],
       note: 'BXOS surfaces M2. Action recommended: prioritise Room 847, activate check-in relief, route host.',
     },
@@ -140,11 +140,11 @@ const STEPS: Array<{ without: SideData; with: SideData }> = [
       tag: 'RECOVERY MODE',
       tagType: 'critical',
       metrics: [
-        { label: 'Comp Cost',      value: '$1,200 issued',    status: 'critical' },
+        { label: 'Comp Cost',      value: 'Issued · elevated', status: 'critical' },
         { label: 'VIP Complaint',  value: 'Logged',           status: 'critical' },
         { label: 'Review Risk',    value: '2 likely negative', status: 'critical' },
         { label: 'NPS Impact',     value: '−14 pts',          status: 'critical' },
-        { label: 'Revenue',        value: '$8,000 LTV at risk', status: 'critical' },
+        { label: 'Value',          value: 'LTV at risk',         status: 'critical' },
       ],
       note: 'Cascade continued through afternoon. 3 incidents unresolved at end of shift. No outcome data captured.',
     },
@@ -157,7 +157,7 @@ const STEPS: Array<{ without: SideData; with: SideData }> = [
         { label: 'VIP Satisfaction', value: 'Maintained',   status: 'resolved' },
         { label: 'Review Risk',      value: 'Contained',    status: 'resolved' },
         { label: 'NPS Impact',       value: '+2 pts',       status: 'resolved' },
-        { label: 'Revenue Protected', value: '$8,000',      status: 'resolved' },
+        { label: 'Value Protected',   value: 'Secured',     status: 'resolved' },
       ],
       note: 'BXOS captured execution record and outcome delta. Response time 45 seconds. System returned to nominal.',
     },
@@ -168,8 +168,8 @@ const COMPARISON = [
   { metric: 'Queue wait time at peak',  without: '18.4 min',   with: '3.2 min' },
   { metric: 'Room 847 release',         without: '22 min late', with: 'On time' },
   { metric: 'VIP lobby wait',           without: '14 min',      with: '0 min' },
-  { metric: 'Recovery comps issued',    without: '$1,200',      with: '$0' },
-  { metric: 'Revenue protected',        without: '—',           with: '$8,000' },
+  { metric: 'Recovery comps issued',    without: 'Issued',      with: 'None' },
+  { metric: 'Value protected',          without: '—',           with: 'Secured' },
   { metric: 'Guest NPS impact',         without: '−14 pts',     with: '+2 pts' },
   { metric: 'Service pressure peak',    without: '89 / 100',    with: '58 / 100' },
   { metric: 'Incidents unresolved',     without: '3',           with: '0' },
@@ -359,7 +359,7 @@ export default function CompareMode() {
               >
                 <div className="label-caps mb-2" style={{ color: '#c9a84c' }}>The difference</div>
                 <p style={{ fontSize: 12, color: 'hsl(215 16% 56%)', lineHeight: 1.75, maxWidth: 820 }}>
-                  Most systems report the problem after it has happened. WELBX detected the compounding pattern 18 minutes before impact, routed a coordinated response in 45 seconds, and protected $8,000 in guest lifetime value — with zero recovery cost and zero visible service failure. The question is not whether these moments happen. They happen in every hotel, every day. The question is what your operating layer does when they do.
+                  Most systems report the problem after it has happened. WELBX detected the compounding pattern 18 minutes before impact, routed a coordinated response in 45 seconds, and protected guest lifetime value — with zero recovery cost and zero visible service failure. The question is not whether these moments happen. They happen in every hotel, every day. The question is what your operating layer does when they do.
                 </p>
               </motion.div>
 

@@ -18,7 +18,7 @@ const DATA_BY_PERIOD: Record<string, {
   monthlyTrend: { m: string; protected: number; created: number }[];
 }> = {
   "7d": {
-    protected: "$52,400", created: "$18,800", avoided: "$9,200", successRate: "93%", moments: "94", roi: "8.2×",
+    protected: "52,400", created: "18,800", avoided: "9,200", successRate: "93%", moments: "94", roi: "8.2×",
     categories: [
       { label: "Guest",        protected: 24400, created: 4200,  avoided: 3100, color: C.amber },
       { label: "Workforce",    protected: 8200,  created: 1800,  avoided: 2400, color: C.blue  },
@@ -44,7 +44,7 @@ const DATA_BY_PERIOD: Record<string, {
     ],
   },
   "30d": {
-    protected: "$284,400", created: "$68,200", avoided: "$31,800", successRate: "94%", moments: "412", roi: "9.4×",
+    protected: "284,400", created: "68,200", avoided: "31,800", successRate: "94%", moments: "412", roi: "9.4×",
     categories: [
       { label: "Guest",        protected: 124400, created: 18200, avoided: 12100, color: C.amber },
       { label: "Workforce",    protected: 48200,  created: 8800,  avoided: 9400,  color: C.blue  },
@@ -67,7 +67,7 @@ const DATA_BY_PERIOD: Record<string, {
     ],
   },
   "90d": {
-    protected: "$814,200", created: "$196,400", avoided: "$88,600", successRate: "93%", moments: "1,247", roi: "10.1×",
+    protected: "814,200", created: "196,400", avoided: "88,600", successRate: "93%", moments: "1,247", roi: "10.1×",
     categories: [
       { label: "Guest",        protected: 342400, created: 52200, avoided: 34100, color: C.amber },
       { label: "Workforce",    protected: 148200, created: 24800, avoided: 22400, color: C.blue  },
@@ -91,7 +91,7 @@ const DATA_BY_PERIOD: Record<string, {
 };
 
 const WITHOUT_DATA = [
-  { label: "Revenue Visibility",      without: "End-of-day summary",    with: "Real-time + predictive",   delta: "Decisions 4+ hours earlier" },
+  { label: "Activation Visibility",   without: "End-of-day summary",    with: "Real-time + predictive",   delta: "Decisions 4+ hours earlier" },
   { label: "Incident Detection",      without: "Guest/staff report",     with: "BXOS pattern detection",   delta: "3–10 min faster" },
   { label: "Response Coordination",   without: "Phone/radio + verbal",   with: "NEXUS routed in 8–45s",    delta: "7–94× faster routing" },
   { label: "Outcome Tracking",        without: "End-of-shift log",       with: "VECTOR real-time capture", delta: "100% moment attribution" },
@@ -115,7 +115,7 @@ function ChartTooltip({ active, payload, label }: any) {
       <div style={{ color: C.muted, fontSize: 8, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 3 }}>{label}</div>
       {payload.map((p: any) => (
         <div key={p.dataKey} style={{ color: p.fill, fontWeight: 700 }}>
-          ${p.value.toLocaleString()}
+          {p.value.toLocaleString()}
         </div>
       ))}
     </div>
@@ -135,13 +135,13 @@ export default function ValueProof() {
         <motion.div {...fade(0)} style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 28 }}>
           <div>
             <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.22em", color: C.amber, textTransform: "uppercase", marginBottom: 10 }}>
-              WELBX · Commercial Proof
+              WELBX · Value Intelligence
             </div>
             <h1 style={{ fontSize: 26, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", margin: 0, marginBottom: 6 }}>
               Value Proof
             </h1>
             <p style={{ fontSize: 12, color: C.muted, margin: 0 }}>
-              Board-ready ROI · What WELBX is worth, in numbers
+              Board-ready impact · What WELBX activates and protects
             </p>
           </div>
           {/* Period selector */}
@@ -164,8 +164,8 @@ export default function ValueProof() {
         {/* Hero KPIs */}
         <motion.div {...fade(0.06)} style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 1, marginBottom: 36 }}>
           {[
-            { label: "Protected Value",  value: d.protected, color: C.amber, note: "Revenue risk neutralised" },
-            { label: "Revenue Created",  value: d.created,   color: C.green, note: "Net new revenue captured" },
+            { label: "Protected Value",  value: d.protected, color: C.amber, note: "Value risk neutralised" },
+            { label: "Value Activated",  value: d.created,   color: C.green, note: "Net new value captured" },
             { label: "Cost Avoided",     value: d.avoided,   color: C.blue,  note: "Service failure cost" },
             { label: "Outcome Success",  value: d.successRate, color: C.green, note: "Moment success rate" },
             { label: "Moments Handled",  value: d.moments,   color: "#fff",  note: "Across portfolio" },
@@ -253,7 +253,7 @@ export default function ValueProof() {
           </div>
           <div style={{ background: C.card, border: `1px solid ${C.border}`, borderTopWidth: 0 }}>
             <div style={{ display: "grid", gridTemplateColumns: "1.6fr 0.9fr 0.9fr 0.9fr 0.7fr 0.9fr", padding: "8px 20px", borderBottom: `1px solid ${C.border}`, gap: 12 }}>
-              {["Property", "Protected Value", "Revenue Created", "Cost Avoided", "Moments", "Success Rate"].map(h => (
+              {["Property", "Protected Value", "Value Activated", "Cost Avoided", "Moments", "Success Rate"].map(h => (
                 <div key={h} style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.14em", color: C.dimmed, textTransform: "uppercase" }}>{h}</div>
               ))}
             </div>
@@ -267,9 +267,9 @@ export default function ValueProof() {
                   <div style={{ fontSize: 12, fontWeight: 700, color: "#fff" }}>{p.name}</div>
                   <div style={{ fontSize: 9, color: C.dimmed, textTransform: "uppercase", letterSpacing: "0.08em" }}>{p.city}</div>
                 </div>
-                <div style={{ fontSize: 12, fontWeight: 700, color: C.amber }}>${p.protected.toLocaleString()}</div>
-                <div style={{ fontSize: 12, fontWeight: 700, color: C.green }}>${p.created.toLocaleString()}</div>
-                <div style={{ fontSize: 12, fontWeight: 700, color: C.blue }}>${p.avoided.toLocaleString()}</div>
+                <div style={{ fontSize: 12, fontWeight: 700, color: C.amber }}>{p.protected.toLocaleString()}</div>
+                <div style={{ fontSize: 12, fontWeight: 700, color: C.green }}>{p.created.toLocaleString()}</div>
+                <div style={{ fontSize: 12, fontWeight: 700, color: C.blue }}>{p.avoided.toLocaleString()}</div>
                 <div style={{ fontSize: 12, fontWeight: 600, color: "hsl(215 16% 55%)" }}>{p.moments}</div>
                 <div>
                   <div style={{ fontSize: 10.5, fontWeight: 700, color: p.successRate >= 95 ? C.green : p.successRate >= 90 ? C.amber : C.muted, marginBottom: 3 }}>{p.successRate}%</div>

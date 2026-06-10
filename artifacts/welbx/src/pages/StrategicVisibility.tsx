@@ -187,11 +187,11 @@ const RISKS: RiskItem[] = [
 const OPPORTUNITIES: OpportunityItem[] = [
   {
     id: "OPP-01",
-    type: "REVENUE",
+    type: "ACTIVATION",
     typeColor: C.green,
     headline: "Upgrade pipeline · 14 M1/M2 guests arriving",
     detail: "14 loyalty-tier guests are arriving across the portfolio in the next 72 hours. Suite availability is confirmed at three properties. Prior upgrade acceptance rates for this cohort: 67%. This is the highest-value upgrade window of the month.",
-    value: "Est. $18,400",
+    value: "Est. Score 92",
     window: "72 hours",
     properties: ["London", "Dubai", "Singapore"],
   },
@@ -201,7 +201,7 @@ const OPPORTUNITIES: OpportunityItem[] = [
     typeColor: C.amber,
     headline: "Spa low utilisation · VIP access opportunity",
     detail: "The Cartwright Edinburgh spa is running at 34% capacity on Friday morning. Three VIP-tier guests are on property with no spa booking on record. A targeted morning offer has a historical conversion rate of 58% for this guest profile.",
-    value: "Est. $960",
+    value: "Est. Score 71",
     window: "36 hours",
     properties: ["The Cartwright, Edinburgh"],
   },
@@ -210,8 +210,8 @@ const OPPORTUNITIES: OpportunityItem[] = [
     type: "PERSONALISATION",
     typeColor: C.violet,
     headline: "F&B preference gap · 14 returning guests",
-    detail: "Meridian Palace Singapore has 14 returning guests arriving this week whose F&B preferences are on file but no targeted offer has been issued. This is a low-effort, high-conversion activation — each personalised contact has historically generated $150 in incremental F&B revenue.",
-    value: "Est. $2,100",
+    detail: "Meridian Palace Singapore has 14 returning guests arriving this week whose F&B preferences are on file but no targeted offer has been issued. This is a low-effort, high-conversion activation — each personalised contact historically achieves high F&B activation.",
+    value: "Est. Score 68",
     window: "This week",
     properties: ["Meridian Palace, Singapore"],
   },
@@ -220,8 +220,8 @@ const OPPORTUNITIES: OpportunityItem[] = [
     type: "RECOVERY",
     typeColor: C.blue,
     headline: "Late checkout conversion below target",
-    detail: "Grand Meridian London has 22 departing rooms today. Late checkout conversion this week is running at 31% against a 68% target — a $4,800 revenue gap. The shortfall is not demand-driven: occupancy tonight is 72%. The gap is operational: no proactive offer has been issued before 10:00.",
-    value: "Est. $4,800",
+    detail: "Grand Meridian London has 22 departing rooms today. Late checkout conversion this week is running at 31% against a 68% target — an activation gap. The shortfall is not demand-driven: occupancy tonight is 72%. The gap is operational: no proactive offer has been issued before 10:00.",
+    value: "Est. Score 79",
     window: "Today",
     properties: ["Grand Meridian, London"],
   },
@@ -248,7 +248,7 @@ const ACTIONS: ActionItem[] = [
     id: "ACT-03",
     timing: "THIS WEEK",
     headline: "Issue upgrade offers · 14 arriving M1/M2 guests",
-    detail: "Assign Guest Relations at London, Dubai, and Singapore to issue personalised upgrade offers to the 14 arriving M1/M2-tier guests. Use prior preference data. Historical conversion for this cohort is 67%. Estimated revenue pipeline: $18,400.",
+    detail: "Assign Guest Relations at London, Dubai, and Singapore to issue personalised upgrade offers to the 14 arriving M1/M2-tier guests. Use prior preference data. Historical conversion for this cohort is 67%. Estimated activation pipeline: Score 92.",
     owner: "Guest Relations · Portfolio",
     properties: "London · Dubai · Singapore · 72-hour window",
   },
@@ -377,7 +377,7 @@ export default function StrategicVisibility() {
           {[
             { label: "Emerging Patterns", value: PATTERNS.length, color: C.violet, note: "Require leadership attention" },
             { label: "Operational Risks",  value: RISKS.length,    color: C.red,    note: "Active risk window open" },
-            { label: "Revenue Opportunities", value: OPPORTUNITIES.length, color: C.green, note: "Pipeline identifiable" },
+            { label: "Activation Opportunities", value: OPPORTUNITIES.length, color: C.green, note: "Pipeline identifiable" },
             { label: "Recommended Actions",   value: ACTIONS.length,       color: C.amber, note: "Across portfolio" },
           ].map(s => (
             <div key={s.label} style={{
@@ -501,7 +501,7 @@ export default function StrategicVisibility() {
         {/* ══════════ REVENUE OPPORTUNITIES ══════════ */}
         <motion.div {...fade(0.26)} style={{ marginBottom: 40 }}>
           <SectionHeader
-            label="Revenue Opportunities"
+            label="Activation Opportunities"
             color={C.green}
             count={OPPORTUNITIES.length}
             note="Identified pipeline · Action required within stated window"

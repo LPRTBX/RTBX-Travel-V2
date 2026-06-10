@@ -69,9 +69,9 @@ const MOMENTS: MomentData[] = [
       { name: "Repeat Contact",      source: "Front Desk System (3+ touches)", weight: 91 },
     ],
     impact: { guest: 92, revenue: 78, operational: 64, strategic: 71 },
-    impactNote: "Unresolved complaints convert at 31% to public review. Each formal complaint carries an estimated $3,400 retention cost and NPS impact of −2.1 points.",
+    impactNote: "Unresolved complaints convert at 31% to public review. Each formal complaint carries a significant retention cost and NPS impact of −2.1 points.",
     riskScore: 84,
-    riskNote: "If missed: 74% probability of escalation to formal complaint. Average recovery cost $3,400. Public review risk: HIGH. Repeat booking probability falls by 61%.",
+    riskNote: "If missed: 74% probability of escalation to formal complaint. Recovery cost significant. Public review risk: HIGH. Repeat booking probability falls by 61%.",
     trendData: [
       { m: "Jan", v: 7 }, { m: "Feb", v: 8 }, { m: "Mar", v: 6 },
       { m: "Apr", v: 5 }, { m: "May", v: 4 }, { m: "Jun", v: 4 },
@@ -93,14 +93,14 @@ const MOMENTS: MomentData[] = [
       { name: "Suite Readiness Gap",      source: "Housekeeping Status Feed",     weight: 97 },
     ],
     impact: { guest: 98, revenue: 96, operational: 72, strategic: 88 },
-    impactNote: "VIP misalignment carries a $8,000+ direct booking risk. Each unresolved VIP event correlates with −0.8 loyalty tier retention. Portfolio-level, this affects referral and group booking pipelines.",
+    impactNote: "VIP misalignment carries a high direct booking risk. Each unresolved VIP event correlates with −0.8 loyalty tier retention. Portfolio-level, this affects referral and group booking pipelines.",
     riskScore: 97,
-    riskNote: "If missed: VIP receives a degraded arrival. 88% probability of loyalty tier review. Estimated booking pipeline risk: $8,000–$24,000 across future stays and referrals.",
+    riskNote: "If missed: VIP receives a degraded arrival. 88% probability of loyalty tier review. Booking pipeline risk spans future stays and referrals at portfolio scale.",
     trendData: [
       { m: "Jan", v: 5 }, { m: "Feb", v: 4 }, { m: "Mar", v: 3 },
       { m: "Apr", v: 3 }, { m: "May", v: 2 }, { m: "Jun", v: 2 },
     ],
-    relationships: ["Suite Readiness", "Loyalty Activation", "Revenue Protection"],
+    relationships: ["Suite Readiness", "Loyalty Activation", "Value Protection"],
     whyItMatters: "The arrival moment is the most consequential minute of a VIP stay. WELBX ensures the property is always ahead of it.",
   },
   {
@@ -119,7 +119,7 @@ const MOMENTS: MomentData[] = [
     impact: { guest: 74, revenue: 88, operational: 96, strategic: 62 },
     impactNote: "12-minute wait times at check-in correlate with −1.4 NPS points. At 87% capacity, service failure risk compounds every 90 seconds without intervention.",
     riskScore: 81,
-    riskNote: "If missed: projected queue 12+ min, 18% complaint rate, 3 lost mobile check-in opportunities, estimated $4,800 service disruption cost.",
+    riskNote: "If missed: projected queue 12+ min, 18% complaint rate, 3 lost mobile check-in opportunities, significant service disruption impact.",
     trendData: [
       { m: "Jan", v: 9 }, { m: "Feb", v: 11 }, { m: "Mar", v: 10 },
       { m: "Apr", v: 8 }, { m: "May", v: 7  }, { m: "Jun", v: 6  },
@@ -149,11 +149,11 @@ const MOMENTS: MomentData[] = [
       { m: "Apr", v: 4 }, { m: "May", v: 3 }, { m: "Jun", v: 3 },
     ],
     relationships: ["Guest Distress Protocol", "Duty Manager Dispatch", "Legal Risk Register"],
-    whyItMatters: "Some moments are not about revenue. This is one of them. WELBX detects what no human can reliably monitor across a full property.",
+    whyItMatters: "Some moments are not about commercial metrics. This is one of them. WELBX detects what no human can reliably monitor across a full property.",
   },
   {
     id: "MI-005",
-    name: "Revenue Opportunity Window",
+    name: "Activation Opportunity Window",
     category: "Commercial",
     confidence: 78,
     priority: "MEDIUM",
@@ -165,15 +165,15 @@ const MOMENTS: MomentData[] = [
       { name: "Prior Upgrade Acceptance",   source: "Stay History · 2 of 3 accepted",  weight: 78 },
     ],
     impact: { guest: 68, revenue: 94, operational: 44, strategic: 76 },
-    impactNote: "Each captured upgrade represents $2,400 average revenue uplift. Across a portfolio of 5 properties, uncaptured upgrade windows represent $180,000–$240,000 in annual missed revenue.",
+    impactNote: "Each captured upgrade represents high activation value. Across a portfolio of 5 properties, uncaptured upgrade windows represent significant annual missed value at scale.",
     riskScore: 52,
-    riskNote: "If missed: revenue opportunity expires at check-in closure. No guest harm. Financial cost is opportunity cost only. Low urgency but high cumulative value across volume.",
+    riskNote: "If missed: activation opportunity expires at check-in closure. No guest harm. Cost is opportunity cost only. Low urgency but high cumulative value across volume.",
     trendData: [
       { m: "Jan", v: 38 }, { m: "Feb", v: 44 }, { m: "Mar", v: 51 },
       { m: "Apr", v: 58 }, { m: "May", v: 71 }, { m: "Jun", v: 82 },
     ],
     relationships: ["Loyalty Activation", "F&B Opportunity", "Repeat Guest Recognition"],
-    whyItMatters: "Revenue moments are quiet. No alarm sounds when an upgrade window expires. WELBX makes invisible opportunity visible.",
+    whyItMatters: "Activation moments are quiet. No alarm sounds when an upgrade window expires. WELBX makes invisible opportunity visible.",
   },
   {
     id: "MI-006",
@@ -191,7 +191,7 @@ const MOMENTS: MomentData[] = [
     impact: { guest: 82, revenue: 74, operational: 96, strategic: 58 },
     impactNote: "Unattended service points create a 3.8× increase in complaint probability. Each service gap costs an average 4.2 minutes of guest recovery time and degrades perceived service quality across the full stay.",
     riskScore: 78,
-    riskNote: "If missed: guest-facing service gap within 4 minutes. Complaint probability: 38%. Service perception impact: −1.7 NPS equivalent. Cost of recovery: $1,800 average.",
+    riskNote: "If missed: guest-facing service gap within 4 minutes. Complaint probability: 38%. Service perception impact: −1.7 NPS equivalent. Recovery cost operationally significant.",
     trendData: [
       { m: "Jan", v: 14 }, { m: "Feb", v: 12 }, { m: "Mar", v: 11 },
       { m: "Apr", v: 9  }, { m: "May", v: 8  }, { m: "Jun", v: 7  },
@@ -228,7 +228,7 @@ function WeightBar({ weight, color = C.amber }: { weight: number; color?: string
 function ImpactRadar({ data, color }: { data: MomentData["impact"]; color: string }) {
   const chartData = [
     { subject: "Guest",       value: data.guest       },
-    { subject: "Revenue",     value: data.revenue     },
+    { subject: "Value Impact", value: data.revenue     },
     { subject: "Operational", value: data.operational },
     { subject: "Strategic",   value: data.strategic   },
   ];
@@ -462,9 +462,10 @@ export default function MomentIntelligence() {
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px 16px", marginTop: 4 }}>
                     {(["guest", "revenue", "operational", "strategic"] as const).map(k => {
                       const colors = { guest: C.amber, revenue: C.green, operational: C.blue, strategic: C.violet };
+                      const labels: Record<string, string> = { guest: "Guest", revenue: "Value Impact", operational: "Operational", strategic: "Strategic" };
                       return (
                         <div key={k}>
-                          <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.1em", color: C.dimmed, textTransform: "uppercase", marginBottom: 2 }}>{k}</div>
+                          <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.1em", color: C.dimmed, textTransform: "uppercase", marginBottom: 2 }}>{labels[k] ?? k}</div>
                           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                             <div style={{ flex: 1, height: 2, background: "hsl(220 13% 12%)" }}>
                               <div style={{ width: `${m.impact[k]}%`, height: "100%", background: colors[k] }} />

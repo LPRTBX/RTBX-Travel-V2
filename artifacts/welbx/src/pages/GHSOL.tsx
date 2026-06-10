@@ -39,7 +39,7 @@ const VERTICALS = [
     label: "Travel",
     signal: "Guest behaviour deviates from expectation",
     action: "Staff deploy targeted service intervention",
-    outcome: "Revenue per stay and satisfaction improve",
+    outcome: "Value per stay and satisfaction improve",
   },
   {
     label: "Workplace",

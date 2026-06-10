@@ -68,7 +68,7 @@ const MOMENTS: Moment[] = [
   },
   {
     id: "GM-002", name: "VIP Arrival Misalignment",
-    category: "Guest", impact: "Revenue · $8,000+ avg",
+    category: "Guest", impact: "Activation · High value",
     frequency: "2–3× weekly", visibility: 44, consistency: 97,
     activation: "HIGH", owner: "General Manager", status: "ACTIVE",
   },
@@ -80,13 +80,13 @@ const MOMENTS: Moment[] = [
   },
   {
     id: "GM-004", name: "Service Recovery Window",
-    category: "Guest", impact: "Retention · $3,400 avg",
+    category: "Guest", impact: "Retention · Protected value",
     frequency: "5–8× weekly", visibility: 61, consistency: 89,
     activation: "HIGH", owner: "Front Desk Lead", status: "ACTIVE",
   },
   {
     id: "GM-005", name: "Loyalty Activation Window",
-    category: "Guest", impact: "Revenue · $2,100 avg",
+    category: "Guest", impact: "Activation · Loyalty uplift",
     frequency: "4–6× daily", visibility: 38, consistency: 76,
     activation: "MEDIUM", owner: "Guest Relations", status: "EMERGING",
   },
@@ -120,13 +120,13 @@ const MOMENTS: Moment[] = [
   /* ── Operational ── */
   {
     id: "OP-001", name: "Foyer Congestion Threshold",
-    category: "Operational", impact: "Guest flow · $4,800 risk",
+    category: "Operational", impact: "Guest flow · Operational risk",
     frequency: "2–3× weekly", visibility: 67, consistency: 94,
     activation: "HIGH", owner: "Front Desk Lead", status: "ACTIVE",
   },
   {
     id: "OP-002", name: "Housekeeping Bottleneck",
-    category: "Operational", impact: "Room revenue · $5,200 avg",
+    category: "Operational", impact: "Room activation · High value",
     frequency: "Daily", visibility: 58, consistency: 81,
     activation: "MEDIUM", owner: "Housekeeping Manager", status: "ACTIVE",
   },
@@ -146,25 +146,25 @@ const MOMENTS: Moment[] = [
   /* ── Commercial ── */
   {
     id: "CM-001", name: "Suite Upgrade Window",
-    category: "Commercial", impact: "Revenue · $2,400 avg",
+    category: "Commercial", impact: "Activation · High value",
     frequency: "2–3× daily", visibility: 48, consistency: 79,
     activation: "HIGH", owner: "Guest Relations", status: "ACTIVE",
   },
   {
-    id: "CM-002", name: "F&B Revenue Opportunity",
-    category: "Commercial", impact: "Revenue · $1,600 avg",
+    id: "CM-002", name: "F&B Activation Opportunity",
+    category: "Commercial", impact: "Activation · Value uplift",
     frequency: "4–6× daily", visibility: 54, consistency: 72,
     activation: "MEDIUM", owner: "F&B Manager", status: "ACTIVE",
   },
   {
     id: "CM-003", name: "Repeat Guest Recognition",
-    category: "Commercial", impact: "Loyalty · $3,100 lifetime",
+    category: "Commercial", impact: "Loyalty · Lifetime value",
     frequency: "6–10× daily", visibility: 62, consistency: 83,
     activation: "HIGH", owner: "Concierge", status: "ACTIVE",
   },
   {
     id: "CM-004", name: "Late Checkout Conversion",
-    category: "Commercial", impact: "Revenue · $480 per room",
+    category: "Commercial", impact: "Activation · Per room uplift",
     frequency: "8–12× daily", visibility: 76, consistency: 91,
     activation: "MEDIUM", owner: "Front Desk Lead", status: "ACTIVE",
   },
@@ -197,8 +197,8 @@ const SUMMARY = [
   { label: "Active Moments",   value: "13", sub: "BXOS MONITORING",    color: C.green  },
   { label: "Emerging Moments", value: "7",  sub: "SIGNAL DETECTED",    color: C.blue   },
   { label: "Critical Moments", value: "3",  sub: "REQUIRES ACTION",    color: C.red    },
-  { label: "Protected Value",  value: "$284,400", sub: "ROLLING 30 DAYS", color: C.amber },
-  { label: "Opportunity Value",value: "$68,200",  sub: "PIPELINE OPEN",   color: C.violet},
+  { label: "Protected Value",  value: "94",  sub: "VALUE SCORE · 30 DAYS",  color: C.amber },
+  { label: "Opportunity Score",value: "71",  sub: "ACTIVATION PIPELINE",    color: C.violet},
 ];
 
 /* ─── Score bar ─────────────────────────────────────── */

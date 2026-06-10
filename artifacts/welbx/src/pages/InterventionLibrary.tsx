@@ -71,7 +71,7 @@ const LIBRARY: CategoryData[] = [
       {
         id: "GM-002",
         name: "VIP Arrival Misalignment",
-        expectedOutcomes: ["Loyalty Protection", "Revenue Recovery", "Reputation"],
+        expectedOutcomes: ["Loyalty Protection", "Loyalty Recovery", "Reputation"],
         interventions: [
           { name: "GM Personal Greeting — Immediate Reacquisition", successRate: 97, usageFrequency: "High", outcomeQuality: 9.6 },
           { name: "Suite Upgrade with Complimentary Amenity Set", successRate: 91, usageFrequency: "Medium", outcomeQuality: 9.1 },
@@ -102,7 +102,7 @@ const LIBRARY: CategoryData[] = [
       {
         id: "GM-005",
         name: "Loyalty Activation Window",
-        expectedOutcomes: ["Revenue Uplift", "Loyalty", "Engagement"],
+        expectedOutcomes: ["Value Uplift", "Loyalty", "Engagement"],
         interventions: [
           { name: "Exclusive Tier Offer — Limited Time", successRate: 76, usageFrequency: "Medium", outcomeQuality: 7.5 },
           { name: "Points Multiplier Event Notification", successRate: 68, usageFrequency: "High", outcomeQuality: 6.9 },
@@ -164,7 +164,7 @@ const LIBRARY: CategoryData[] = [
       {
         id: "OP-001",
         name: "Foyer Congestion Threshold",
-        expectedOutcomes: ["Guest Flow", "Experience Protection", "Revenue"],
+        expectedOutcomes: ["Guest Flow", "Experience Protection", "Activation"],
         interventions: [
           { name: "Mobile Check-In Activation — Queue Diversion", successRate: 94, usageFrequency: "High", outcomeQuality: 9.3 },
           { name: "Express Lane Deployment — Dedicated Agent", successRate: 87, usageFrequency: "High", outcomeQuality: 8.6 },
@@ -175,9 +175,9 @@ const LIBRARY: CategoryData[] = [
       {
         id: "OP-002",
         name: "Housekeeping Bottleneck",
-        expectedOutcomes: ["Room Revenue", "Occupancy Optimisation", "Guest Satisfaction"],
+        expectedOutcomes: ["Room Activation", "Occupancy Optimisation", "Guest Satisfaction"],
         interventions: [
-          { name: "Priority Room Release — Revenue-Ranked Queue", successRate: 88, usageFrequency: "High", outcomeQuality: 8.7 },
+          { name: "Priority Room Release — Value-Ranked Queue", successRate: 88, usageFrequency: "High", outcomeQuality: 8.7 },
           { name: "Cross-Team Deployment — F&B to HK Support", successRate: 76, usageFrequency: "Medium", outcomeQuality: 7.5 },
           { name: "Guest Communication — Proactive Delay Notice", successRate: 83, usageFrequency: "High", outcomeQuality: 8.2 },
         ],
@@ -195,7 +195,7 @@ const LIBRARY: CategoryData[] = [
       {
         id: "OP-004",
         name: "Supply Threshold Alert",
-        expectedOutcomes: ["Service Continuity", "F&B Quality", "Revenue Protection"],
+        expectedOutcomes: ["Service Continuity", "F&B Quality", "Value Protection"],
         interventions: [
           { name: "Emergency Re-Order — Priority Supplier", successRate: 86, usageFrequency: "Medium", outcomeQuality: 8.5 },
           { name: "Menu Adaptation — Availability-Led Substitution", successRate: 78, usageFrequency: "High", outcomeQuality: 7.7 },
@@ -210,7 +210,7 @@ const LIBRARY: CategoryData[] = [
       {
         id: "CM-001",
         name: "Suite Upgrade Window",
-        expectedOutcomes: ["Revenue Uplift", "Loyalty", "Satisfaction"],
+        expectedOutcomes: ["Value Uplift", "Loyalty", "Satisfaction"],
         interventions: [
           { name: "Pre-Arrival Upgrade Offer — Personalised Pricing", successRate: 79, usageFrequency: "High", outcomeQuality: 7.8 },
           { name: "Check-In Upgrade Conversation — Trained Upsell", successRate: 83, usageFrequency: "High", outcomeQuality: 8.2 },
@@ -220,8 +220,8 @@ const LIBRARY: CategoryData[] = [
       },
       {
         id: "CM-002",
-        name: "F&B Revenue Opportunity",
-        expectedOutcomes: ["Revenue", "Guest Experience", "Engagement"],
+        name: "F&B Activation Opportunity",
+        expectedOutcomes: ["Activation", "Guest Experience", "Engagement"],
         interventions: [
           { name: "In-Room Dining Push — Behaviour-Triggered", successRate: 72, usageFrequency: "High", outcomeQuality: 7.1 },
           { name: "Restaurant Reservation Prompt — Preferred Time", successRate: 68, usageFrequency: "High", outcomeQuality: 6.7 },
@@ -232,7 +232,7 @@ const LIBRARY: CategoryData[] = [
       {
         id: "CM-003",
         name: "Repeat Guest Recognition",
-        expectedOutcomes: ["Loyalty Protection", "Revenue", "Lifetime Value"],
+        expectedOutcomes: ["Loyalty Protection", "Activation", "Lifetime Value"],
         interventions: [
           { name: "Named Recognition at Arrival — GM or Concierge", successRate: 93, usageFrequency: "High", outcomeQuality: 9.2 },
           { name: "Preferences Pre-loaded — Room + Service Config", successRate: 89, usageFrequency: "High", outcomeQuality: 8.8 },
@@ -243,7 +243,7 @@ const LIBRARY: CategoryData[] = [
       {
         id: "CM-004",
         name: "Late Checkout Conversion",
-        expectedOutcomes: ["Revenue", "Occupancy", "Guest Satisfaction"],
+        expectedOutcomes: ["Activation", "Occupancy", "Guest Satisfaction"],
         interventions: [
           { name: "Late Checkout Offer — Dynamic Pricing Window", successRate: 91, usageFrequency: "High", outcomeQuality: 9.0 },
           { name: "Complimentary Extension — Loyalty Reward", successRate: 84, usageFrequency: "Medium", outcomeQuality: 8.3 },

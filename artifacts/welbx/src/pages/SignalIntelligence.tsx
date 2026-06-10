@@ -53,11 +53,11 @@ const INCREASING_SIGNALS = [
 ];
 
 const HIGH_VALUE_SIGNALS = [
-  { name: "Revenue Exposure Index", contribution: 96, moments: 42, value: "$18,400 avg exposure", color: ACCENT },
+  { name: "Activation Exposure Index", contribution: 96, moments: 42, value: "High exposure index", color: ACCENT },
   { name: "Loyalty Recognition Gap", contribution: 91, moments: 38, value: "×3 urgency multiplier", color: ACCENT },
-  { name: "Wait Anxiety", contribution: 88, moments: 67, value: "$2,400 avg risk", color: "#f59e0b" },
-  { name: "F&B Propensity Score", contribution: 82, moments: 31, value: "$480 avg opportunity", color: "#10b981" },
-  { name: "Upsell Conversion Window", contribution: 76, moments: 28, value: "$340 avg uplift", color: "#10b981" },
+  { name: "Wait Anxiety", contribution: 88, moments: 67, value: "Avg risk: high", color: "#f59e0b" },
+  { name: "F&B Propensity Score", contribution: 82, moments: 31, value: "Activation opportunity", color: "#10b981" },
+  { name: "Upsell Conversion Window", contribution: 76, moments: 28, value: "Avg uplift score", color: "#10b981" },
   { name: "Guest Lifetime Value Shift", contribution: 71, moments: 19, value: "Portfolio-level impact", color: "#60a5fa" },
 ];
 
@@ -80,7 +80,7 @@ const TOP_SIGNALS = [
   { rank: "01", name: "Wait Anxiety", category: "Guest", activations: 67, confidence: 94, value: "HIGH" },
   { rank: "02", name: "Room Readiness Pipeline", category: "Operational", activations: 61, confidence: 99, value: "CRITICAL" },
   { rank: "03", name: "Staff Capacity Ratio", category: "Workforce", activations: 58, confidence: 98, value: "CRITICAL" },
-  { rank: "04", name: "Revenue Exposure Index", category: "Commercial", activations: 42, confidence: 93, value: "CRITICAL" },
+  { rank: "04", name: "Activation Exposure Index", category: "Commercial", activations: 42, confidence: 93, value: "CRITICAL" },
   { rank: "05", name: "Loyalty Recognition Gap", category: "Guest", activations: 38, confidence: 97, value: "CRITICAL" },
   { rank: "06", name: "Response Latency", category: "Workforce", activations: 34, confidence: 95, value: "HIGH" },
   { rank: "07", name: "F&B Propensity Score", category: "Commercial", activations: 31, confidence: 77, value: "HIGH" },

@@ -49,7 +49,7 @@ const GUEST_PROFILES: Profile[] = [
     response: { speed: "Deliberate", pattern: "Validates before acting — seeks proof of distinction", trigger: "Perceived parity with other guests", level: 3 },
     engagement: { mode: "Selective", depth: "Moderate — high quality, low frequency", frequency: "Curated interactions only", level: 3 },
     activation: { channel: "Concierge-direct, private channel", tone: "Exclusive, elevated, specific to tier", timing: "Anticipatory — before they need to ask", level: 4 },
-    tags: ["Prestige-driven", "Tier-sensitive", "Exclusivity-led", "High-revenue"],
+    tags: ["Prestige-driven", "Tier-sensitive", "Exclusivity-led", "High-value"],
   },
 ];
 
@@ -110,7 +110,7 @@ const EXEC_PROFILES: Profile[] = [
     archetype: "The Outcome Owner",
     descriptor: "Reputation and result-driven. Acts when outcomes are at risk or when strategic advantage is available.",
     communication: { style: "Telegraphic", preferred: "Three-line summary, risk + action + implication", avoid: "Operational detail without commercial frame", level: 5 },
-    response: { speed: "Fast on risk, slow on strategy", pattern: "Delegates execution, owns narrative", trigger: "Reputational exposure or revenue shortfall", level: 4 },
+    response: { speed: "Fast on risk, slow on strategy", pattern: "Delegates execution, owns narrative", trigger: "Reputational exposure or performance shortfall", level: 4 },
     engagement: { mode: "Outcome-focused", depth: "Shallow operationally, deep strategically", frequency: "Exception-only", level: 2 },
     activation: { channel: "Executive digest, critical alert", tone: "Outcome-framed, commercially anchored", timing: "Morning brief + exception escalation", level: 4 },
     tags: ["Outcome-led", "Exception-driven", "Reputation-aware", "Strategic"],
@@ -118,13 +118,13 @@ const EXEC_PROFILES: Profile[] = [
   {
     id: "exec-b",
     name: "Executive — Commercial Director",
-    archetype: "The Revenue Architect",
-    descriptor: "Value-maximising, opportunity-oriented. Activates on revenue signals and commercial pattern breaks.",
-    communication: { style: "Commercial", preferred: "Value quantification, comparative benchmarks", avoid: "Service narrative without revenue frame", level: 4 },
-    response: { speed: "Fast on opportunity", pattern: "Seeks upside before addressing downside", trigger: "Missed revenue signal, competitor advantage", level: 4 },
+    archetype: "The Activation Architect",
+    descriptor: "Value-maximising, opportunity-oriented. Activates on activation signals and commercial pattern breaks.",
+    communication: { style: "Commercial", preferred: "Value quantification, comparative benchmarks", avoid: "Service narrative without commercial frame", level: 4 },
+    response: { speed: "Fast on opportunity", pattern: "Seeks upside before addressing downside", trigger: "Missed activation signal, competitor advantage", level: 4 },
     engagement: { mode: "Opportunity-seeking", depth: "Deep on commercial, surface on operations", frequency: "Daily commercial pulse", level: 4 },
-    activation: { channel: "Commercial dashboard, revenue alert", tone: "Value-framed, comparative, opportunity-led", timing: "Daily commercial briefing", level: 5 },
-    tags: ["Revenue-first", "Commercial-lens", "Opportunity-led", "Benchmark-driven"],
+    activation: { channel: "Commercial dashboard, activation alert", tone: "Value-framed, comparative, opportunity-led", timing: "Daily commercial briefing", level: 5 },
+    tags: ["Value-first", "Commercial-lens", "Opportunity-led", "Benchmark-driven"],
   },
 ];
 

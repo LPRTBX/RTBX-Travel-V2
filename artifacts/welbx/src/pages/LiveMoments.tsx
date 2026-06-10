@@ -69,7 +69,7 @@ function getViewContent(flowStep: number, vipResolved: boolean) {
         },
         {
           label: 'Exposure',
-          value: vipResolved ? '$0 — protected' : '$8,000 VIP booking revenue',
+          value: vipResolved ? 'Protected · zero loss' : 'High-value VIP booking',
         },
       ],
       note: vipResolved
@@ -102,17 +102,17 @@ function getViewContent(flowStep: number, vipResolved: boolean) {
     },
     executive: {
       headline: vipResolved
-        ? 'Revenue protected — $8,000 secured'
-        : 'Revenue at risk — $8,000 VIP booking',
+        ? 'Value protected — VIP guest secured'
+        : 'Value at risk — VIP booking',
       items: [
         {
           label: 'Risk tier',
           value: vipResolved ? 'RESOLVED · Guest retained' : 'HIGH · VIP guest lifetime value',
         },
-        { label: 'Intervention cost', value: '$0 — automated' },
+        { label: 'Intervention cost', value: 'Zero · automated' },
         {
-          label: vipResolved ? 'Revenue secured' : 'Revenue at risk',
-          value: vipResolved ? '$8,000 (confirmed)' : '$8,000 (at risk)',
+          label: vipResolved ? 'Value secured' : 'Value at risk',
+          value: vipResolved ? 'Secured (confirmed)' : 'At risk',
         },
         {
           label: 'Protocol',
@@ -120,7 +120,7 @@ function getViewContent(flowStep: number, vipResolved: boolean) {
         },
       ],
       note: vipResolved
-        ? 'WELBX resolved the VIP arrival risk automatically. $8,000 booking secured. Zero staff escalation required.'
+        ? 'WELBX resolved the VIP arrival risk automatically. Value protected. Zero staff escalation required.'
         : 'WELBX has detected a VIP arrival coordination gap. Automated resolution in progress — no action required.',
     },
   };
@@ -138,7 +138,7 @@ export default function LiveMoments() {
     { label: "Active Moments", value: String(momentCount) },
     { label: "Critical", value: String(criticalCount), color: criticalCount > 0 ? "#ef4444" : "#10b981" },
     { label: "High Priority", value: "3", color: "#c9a84c" },
-    { label: "Total Exposure", value: vipResolved ? "$9,160" : "$17,160", color: "#c9a84c" },
+    { label: "Active Score", value: vipResolved ? "42" : "84", color: "#c9a84c" },
   ];
 
   return (
@@ -581,8 +581,8 @@ export default function LiveMoments() {
                 { label: 'Staff awareness', value: 'Zero' },
                 { label: 'Intervention', value: 'Not triggered' },
                 { label: 'Guest outcome', value: 'Complaint or silent churn' },
-                { label: 'Revenue impact', value: '$1,400 at risk, unprotected' },
-                { label: 'Recovery cost', value: '$800+ in comps (post-failure)' },
+                { label: 'Value impact', value: 'At risk · unprotected' },
+                { label: 'Recovery cost', value: 'Elevated · post-failure comps' },
               ].map((row, i) => (
                 <div key={i} style={{
                   display: 'flex', justifyContent: 'space-between', alignItems: 'baseline',
@@ -610,8 +610,8 @@ export default function LiveMoments() {
                 { label: 'Staff awareness', value: 'Guest Relations alerted' },
                 { label: 'Intervention', value: 'Recovery action dispatched' },
                 { label: 'Guest outcome', value: 'Friction resolved before escalation' },
-                { label: 'Revenue impact', value: '$1,400 protected' },
-                { label: 'Recovery cost', value: '$0 — proactive resolution' },
+                { label: 'Value impact', value: 'Protected' },
+                { label: 'Recovery cost', value: 'Zero · proactive resolution' },
               ].map((row, i) => (
                 <div key={i} style={{
                   display: 'flex', justifyContent: 'space-between', alignItems: 'baseline',
