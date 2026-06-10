@@ -12,6 +12,7 @@ const navItems = [
   { label: "Signal Intelligence", path: "/signal-intelligence", sub: "ANALYTICS" },
   { label: "Behavioural Genome", path: "/behavioural-genome", sub: "PROFILES" },
   { label: "Playbook Engine", path: "/playbook-engine", sub: "EXECUTION" },
+  { label: "Decision Registry", path: "/decision-registry", sub: "INTELLIGENCE" },
   { label: "Live Moments", path: "/live-moments", sub: "6 ACTIVE" },
   { label: "System State", path: "/system-state", sub: "ELEVATED" },
   { label: "Outcome Intelligence", path: "/outcome-intelligence", sub: "TODAY" },
