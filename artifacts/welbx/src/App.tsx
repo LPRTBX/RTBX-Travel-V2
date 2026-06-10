@@ -31,6 +31,7 @@ import InterventionLibrary from "@/pages/InterventionLibrary";
 import ExecutionIndex from "@/pages/ExecutionIndex";
 import ConsistencyEngine from "@/pages/ConsistencyEngine";
 import EnvironmentHealthIndex from "@/pages/EnvironmentHealthIndex";
+import CentralCommunicationsSystem from "@/pages/CentralCommunicationsSystem";
 
 const queryClient = new QueryClient();
 
@@ -60,6 +61,7 @@ function Router() {
       <Route path="/execution-index" component={ExecutionIndex} />
       <Route path="/consistency-engine" component={ConsistencyEngine} />
       <Route path="/environment-health" component={EnvironmentHealthIndex} />
+      <Route path="/communications" component={CentralCommunicationsSystem} />
       <Route path="/compare" component={CompareMode} />
       <Route path="/command-mode" component={CommandMode} />
       <Route component={NotFound} />
