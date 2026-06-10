@@ -1,5 +1,9 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import {
+  LineChart, Line, XAxis, YAxis, Tooltip,
+  ResponsiveContainer, CartesianGrid,
+} from "recharts";
 import { DECISIONS } from "@/data/decisions";
 import type { Category, OutcomeStatus, Decision } from "@/data/decisions";
 
@@ -35,6 +39,120 @@ const OUTCOME_COLOR: Record<OutcomeStatus, string> = {
 
 
 const ALL_CATEGORIES: Category[] = ["Guest", "Workforce", "Operational", "Commercial", "Strategic"];
+
+/* ─── Confidence trend data (hourly, current day) ─────── */
+const CONFIDENCE_TREND = [
+  { time: "06:00", Guest: 72, Workforce: 68, Operational: 75, Commercial: 70, Strategic: 65 },
+  { time: "07:00", Guest: 74, Workforce: 71, Operational: 76, Commercial: 72, Strategic: 68 },
+  { time: "08:00", Guest: 78, Workforce: 74, Operational: 79, Commercial: 75, Strategic: 71 },
+  { time: "09:00", Guest: 80, Workforce: 77, Operational: 81, Commercial: 78, Strategic: 74 },
+  { time: "10:00", Guest: 83, Workforce: 79, Operational: 84, Commercial: 81, Strategic: 77 },
+  { time: "11:00", Guest: 85, Workforce: 82, Operational: 86, Commercial: 83, Strategic: 80 },
+  { time: "12:00", Guest: 84, Workforce: 80, Operational: 85, Commercial: 82, Strategic: 79 },
+  { time: "13:00", Guest: 87, Workforce: 83, Operational: 88, Commercial: 86, Strategic: 82 },
+  { time: "14:00", Guest: 89, Workforce: 85, Operational: 90, Commercial: 88, Strategic: 84 },
+  { time: "15:00", Guest: 88, Workforce: 84, Operational: 89, Commercial: 87, Strategic: 83 },
+  { time: "16:00", Guest: 91, Workforce: 87, Operational: 91, Commercial: 90, Strategic: 86 },
+];
+
+/* ─── Confidence Trend Chart ──────────────────────────── */
+function ConfidenceTrendChart() {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.18, duration: 0.38 }}
+      style={{
+        background: C.card,
+        border: `1px solid ${C.border}`,
+        padding: "20px 24px 16px",
+        marginBottom: 28,
+      }}
+    >
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 18 }}>
+        <div>
+          <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.18em", color: C.dimmed, textTransform: "uppercase", marginBottom: 5 }}>
+            BXOS · Decision Intelligence
+          </div>
+          <div style={{ fontSize: 13, fontWeight: 700, color: "#fff", letterSpacing: "-0.01em" }}>
+            Confidence Trend by Category
+          </div>
+        </div>
+        <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
+          {ALL_CATEGORIES.map(cat => (
+            <div key={cat} style={{ display: "flex", alignItems: "center", gap: 5 }}>
+              <div style={{ width: 20, height: 2, background: CAT_COLOR[cat], flexShrink: 0 }} />
+              <span style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.08em", color: C.muted, textTransform: "uppercase" }}>
+                {cat}
+              </span>
+            </div>
+          ))}
+          <div style={{ fontSize: 8, letterSpacing: "0.1em", color: "hsl(215 16% 22%)", textTransform: "uppercase", marginLeft: 8 }}>
+            06:00 — 16:00
+          </div>
+        </div>
+      </div>
+
+      <div style={{ height: 200 }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={CONFIDENCE_TREND} margin={{ top: 4, right: 8, left: 0, bottom: 0 }}>
+            <CartesianGrid
+              strokeDasharray="2 4"
+              stroke="hsl(220 13% 10%)"
+              vertical={false}
+            />
+            <XAxis
+              dataKey="time"
+              tick={{ fill: "hsl(215 16% 34%)", fontSize: 9.5, fontFamily: "var(--app-font-mono)", letterSpacing: "0.04em" }}
+              tickLine={false}
+              axisLine={false}
+            />
+            <YAxis
+              domain={[60, 95]}
+              ticks={[65, 70, 75, 80, 85, 90, 95]}
+              tick={{ fill: "hsl(215 16% 34%)", fontSize: 9.5, fontFamily: "var(--app-font-mono)" }}
+              tickLine={false}
+              axisLine={false}
+              width={28}
+              tickFormatter={(v: number) => `${v}%`}
+            />
+            <Tooltip
+              cursor={{ stroke: "hsl(220 13% 16%)", strokeWidth: 1 }}
+              contentStyle={{
+                backgroundColor: "hsl(220 13% 8%)",
+                border: "1px solid hsl(220 13% 14%)",
+                borderRadius: 0,
+                fontSize: 11,
+                fontFamily: "var(--app-font-mono)",
+                color: "#fff",
+                padding: "8px 12px",
+              }}
+              labelStyle={{ color: "hsl(215 16% 50%)", marginBottom: 6, letterSpacing: "0.08em", textTransform: "uppercase" }}
+              formatter={(value: number, name: string) => [`${value}%`, name]}
+            />
+            {ALL_CATEGORIES.map(cat => (
+              <Line
+                key={cat}
+                type="monotone"
+                dataKey={cat}
+                stroke={CAT_COLOR[cat]}
+                strokeWidth={1.5}
+                dot={false}
+                activeDot={{ r: 3, strokeWidth: 0, fill: CAT_COLOR[cat] }}
+              />
+            ))}
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+
+      <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 10 }}>
+        <span style={{ fontSize: 8, color: "hsl(215 16% 18%)", letterSpacing: "0.06em", textTransform: "uppercase" }}>
+          Confidence threshold · green ≥ 85% · amber ≥ 70% · red &lt; 70%
+        </span>
+      </div>
+    </motion.div>
+  );
+}
 
 /* ─── KPI Metrics ─────────────────────────────────────── */
 const METRICS = [
@@ -340,6 +458,9 @@ export default function DecisionRegistry() {
             </motion.div>
           ))}
         </motion.div>
+
+        {/* ── Confidence trend chart ── */}
+        <ConfidenceTrendChart />
 
         {/* ── Category filter tabs ── */}
         <motion.div
