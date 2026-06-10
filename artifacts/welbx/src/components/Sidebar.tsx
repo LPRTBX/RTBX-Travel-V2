@@ -19,6 +19,7 @@ const navItems = [
   { label: "Intervention Library", path: "/intervention-library", sub: "RESPONSE CATALOGUE" },
   { label: "Communications", path: "/communications", sub: "ORCHESTRATION" },
   { label: "Communication Registry", path: "/communication-registry", sub: "MESSAGE LOG" },
+  { label: "Communication Intelligence", path: "/communication-intelligence", sub: "INFLUENCE LAYER" },
   { label: "Live Moments", path: "/live-moments", sub: "6 ACTIVE" },
   { label: "System State", path: "/system-state", sub: "ELEVATED" },
   { label: "Outcome Intelligence", path: "/outcome-intelligence", sub: "TODAY" },

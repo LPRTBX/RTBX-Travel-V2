@@ -33,6 +33,7 @@ import ConsistencyEngine from "@/pages/ConsistencyEngine";
 import EnvironmentHealthIndex from "@/pages/EnvironmentHealthIndex";
 import CentralCommunicationsSystem from "@/pages/CentralCommunicationsSystem";
 import CommunicationRegistry from "@/pages/CommunicationRegistry";
+import CommunicationIntelligence from "@/pages/CommunicationIntelligence";
 
 const queryClient = new QueryClient();
 
@@ -64,6 +65,7 @@ function Router() {
       <Route path="/environment-health" component={EnvironmentHealthIndex} />
       <Route path="/communications" component={CentralCommunicationsSystem} />
       <Route path="/communication-registry" component={CommunicationRegistry} />
+      <Route path="/communication-intelligence" component={CommunicationIntelligence} />
       <Route path="/compare" component={CompareMode} />
       <Route path="/command-mode" component={CommandMode} />
       <Route component={NotFound} />
