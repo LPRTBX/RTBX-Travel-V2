@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useApp } from "@/context/AppContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation, useSearch } from "wouter";
-import { PLAYBOOKS, type Playbook, type PlaybookExecution } from "@/data/playbooks";
+import { PLAYBOOKS, computeDailyFires, type Playbook, type PlaybookExecution } from "@/data/playbooks";
 
 /* ─── Filter types ────────────────────────────────────── */
 type CategoryFilter = Playbook["category"] | "All";
@@ -610,8 +610,10 @@ function Sparkline({ data, width = 72, height = 28 }: { data: number[]; width?: 
 /* ─── Stats strip ─────────────────────────────────────── */
 function PlaybookStatsStrip({ playbook }: { playbook: Playbook }) {
   const { stats } = playbook;
+  const dailyFires   = computeDailyFires(playbook.executions);
+  const firesCount   = dailyFires.reduce((a, b) => a + b, 0);
   const successColor = stats.successRate >= 90 ? C.green : stats.successRate >= 75 ? C.amber : C.red;
-  const sparkColor   = sparklineTrendColor(stats.dailyFires ?? []);
+  const sparkColor   = sparklineTrendColor(dailyFires);
 
   return (
     <div style={{
@@ -634,7 +636,7 @@ function PlaybookStatsStrip({ playbook }: { playbook: Playbook }) {
             fontSize: 15, fontWeight: 800, color: C.blue,
             letterSpacing: "-0.01em", lineHeight: 1, marginBottom: 4,
           }}>
-            {stats.firesLast30Days}
+            {firesCount}
           </div>
           <div style={{
             fontSize: 8, fontWeight: 700, letterSpacing: "0.12em",
@@ -644,7 +646,7 @@ function PlaybookStatsStrip({ playbook }: { playbook: Playbook }) {
           </div>
         </div>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 2 }}>
-          <Sparkline data={stats.dailyFires ?? []} />
+          <Sparkline data={dailyFires} />
           <div style={{
             fontSize: 7, fontWeight: 700, letterSpacing: "0.1em",
             color: sparkColor, textTransform: "uppercase",
@@ -779,7 +781,7 @@ function PlaybookCard({ playbook, index }: { playbook: Playbook; index: number }
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 2, flexShrink: 0 }}>
           {(() => {
-            const trendColor = sparklineTrendColor(playbook.stats.dailyFires ?? []);
+            const trendColor = sparklineTrendColor(computeDailyFires(playbook.executions));
             const trendLabel = trendColor === C.amber ? "↑ Rising" : trendColor === C.green ? "↓ Falling" : "→ Steady";
             return (
               <span style={{

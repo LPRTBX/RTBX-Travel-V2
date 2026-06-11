@@ -46,7 +46,7 @@ const makePlaybook = (successRate: number, fires: number, avgResolutionMinutes =
   escalationRules: [],
   successCriteria: [],
   executions: [],
-  stats: { firesLast30Days: fires, avgResolutionMinutes, successRate, dailyFires: [] },
+  stats: { firesLast30Days: fires, avgResolutionMinutes, successRate },
 });
 
 /* ── Signal Health ── */

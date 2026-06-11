@@ -12,8 +12,42 @@ export interface PlaybookStats {
   firesLast30Days: number;
   avgResolutionMinutes: number;
   successRate: number;
-  /** Daily fire counts for the last 30 days, index 0 = oldest, 29 = today */
-  dailyFires: number[];
+}
+
+/**
+ * Buckets execution timestamps into a daily fire-count array spanning the
+ * last `days` calendar days using UTC calendar-day boundaries.
+ * Index 0 = oldest day, index (days-1) = today (UTC).
+ */
+export function computeDailyFires(
+  executions: PlaybookExecution[],
+  days = 30,
+): number[] {
+  const counts = new Array<number>(days).fill(0);
+  const msPerDay = 24 * 60 * 60 * 1000;
+
+  const now = new Date();
+  const todayUtcMidnight = Date.UTC(
+    now.getUTCFullYear(),
+    now.getUTCMonth(),
+    now.getUTCDate(),
+  );
+
+  for (const ex of executions) {
+    const d = new Date(ex.timestamp);
+    const exUtcMidnight = Date.UTC(
+      d.getUTCFullYear(),
+      d.getUTCMonth(),
+      d.getUTCDate(),
+    );
+    const daysAgo = Math.round((todayUtcMidnight - exUtcMidnight) / msPerDay);
+    const idx = days - 1 - daysAgo;
+    if (idx >= 0 && idx < days) {
+      counts[idx]++;
+    }
+  }
+
+  return counts;
 }
 
 export interface Playbook {
@@ -99,7 +133,6 @@ export const PLAYBOOKS: Playbook[] = [
       firesLast30Days: 7,
       avgResolutionMinutes: 8,
       successRate: 86,
-      dailyFires: [1,0,1,0,0,1,0,1,0,0,1,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0],
     },
     executions: [
       {
@@ -178,7 +211,6 @@ export const PLAYBOOKS: Playbook[] = [
       firesLast30Days: 19,
       avgResolutionMinutes: 18,
       successRate: 95,
-      dailyFires: [0,0,1,0,1,0,0,1,0,0,1,0,1,0,0,1,0,1,0,1,1,0,1,1,0,1,1,1,2,3],
     },
     executions: [
       {
@@ -259,7 +291,6 @@ export const PLAYBOOKS: Playbook[] = [
       firesLast30Days: 12,
       avgResolutionMinutes: 34,
       successRate: 83,
-      dailyFires: [0,0,0,1,0,1,0,0,1,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,1,1,0,0,2],
     },
     executions: [
       {
@@ -333,7 +364,6 @@ export const PLAYBOOKS: Playbook[] = [
       firesLast30Days: 3,
       avgResolutionMinutes: 22,
       successRate: 100,
-      dailyFires: [0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0],
     },
     executions: [
       {
@@ -396,7 +426,6 @@ export const PLAYBOOKS: Playbook[] = [
       firesLast30Days: 9,
       avgResolutionMinutes: 67,
       successRate: 78,
-      dailyFires: [0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,1,0,1,1,0,1,1,0,1],
     },
     executions: [
       {
