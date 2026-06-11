@@ -1,6 +1,8 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
+import { useApp } from "@/context/AppContext";
+import { type LiveHealthStats } from "@/lib/envHealthScores";
 import {
   AreaChart, Area, XAxis, Tooltip,
   ResponsiveContainer,
@@ -56,13 +58,26 @@ function spark(base: number, variance: number, days = 30) {
   return result;
 }
 
-/* ─── Dimension data ─────────────────────────────────── */
-const DIMENSIONS = [
+/* ─── Dimension type ─────────────────────────────────── */
+type Dimension = {
+  id: string;
+  label: string;
+  sub: string;
+  score: number;
+  live: boolean;
+  color: string;
+  description: string;
+  data: { d: number; v: number }[];
+};
+
+/* ─── Dimension data (static blueprint — live scores computed in component) ── */
+const DIMENSIONS: Dimension[] = [
   {
     id: "signal",
     label: "Signal Health",
     sub: "SENSING LAYER",
     score: 82,
+    live: true,
     color: C.amber,
     description: "Quality and completeness of incoming behavioural signals",
     data: spark(82, 8),
@@ -72,6 +87,7 @@ const DIMENSIONS = [
     label: "Moment Health",
     sub: "DETECTION LAYER",
     score: 76,
+    live: false,
     color: C.blue,
     description: "Accuracy and timeliness of moment detection and classification",
     data: spark(76, 10),
@@ -81,6 +97,7 @@ const DIMENSIONS = [
     label: "Decision Health",
     sub: "INTELLIGENCE LAYER",
     score: 88,
+    live: true,
     color: C.violet,
     description: "Confidence and outcome quality of automated and human decisions",
     data: spark(88, 6),
@@ -90,6 +107,7 @@ const DIMENSIONS = [
     label: "Execution Health",
     sub: "RESPONSE LAYER",
     score: 91,
+    live: true,
     color: C.green,
     description: "Playbook execution fidelity and staff response consistency",
     data: spark(91, 5),
@@ -99,6 +117,7 @@ const DIMENSIONS = [
     label: "Communication Health",
     sub: "DELIVERY LAYER",
     score: 71,
+    live: false,
     color: "#f97316",
     description: "Message delivery speed, clarity, and acknowledgement rates",
     data: spark(71, 12),
@@ -108,6 +127,7 @@ const DIMENSIONS = [
     label: "Activation Health",
     sub: "OUTCOME LAYER",
     score: 84,
+    live: false,
     color: C.amber,
     description: "Staff activation rates and commercial trigger conversion",
     data: spark(84, 7),
@@ -136,48 +156,64 @@ function loadWeights(): Record<string, number> {
   }
 }
 
-function computeWeightedScore(weights: Record<string, number>): number {
-  const totalWeight = DIMENSIONS.reduce((s, d) => s + weights[d.id], 0);
+function computeWeightedScore(weights: Record<string, number>, dims: Dimension[] = DIMENSIONS): number {
+  const totalWeight = dims.reduce((s, d) => s + weights[d.id], 0);
   if (totalWeight === 0) return 0;
-  const weighted = DIMENSIONS.reduce((s, d) => s + d.score * weights[d.id], 0);
+  const weighted = dims.reduce((s, d) => s + d.score * weights[d.id], 0);
   return Math.round(weighted / totalWeight);
 }
 
-/* ─── Risk Areas ─────────────────────────────────────── */
-const RISK_AREAS = [
-  {
-    severity: "HIGH",
-    color: C.red,
-    dimension: "Communication Health",
-    factor: "Message acknowledgement rate",
-    detail: "Only 61% of dispatched communications are confirmed as read within the expected window. Staff channel reliability is below threshold.",
-    impact: "−9 pts on Communication Health",
-  },
-  {
-    severity: "MEDIUM",
-    color: "#f97316",
-    dimension: "Moment Health",
-    factor: "Late-shift detection lag",
-    detail: "Moment classification latency increases by an average of 38% between 22:00 and 06:00, reducing the intervention window for overnight events.",
-    impact: "−7 pts on Moment Health",
-  },
-  {
-    severity: "MEDIUM",
-    color: "#f97316",
-    dimension: "Signal Health",
-    factor: "F&B signal gap",
-    detail: "Dining-area behavioural signal coverage is incomplete for the lounge and bar zones. Three sensing nodes offline for 6+ days.",
-    impact: "−6 pts on Signal Health",
-  },
-  {
-    severity: "LOW",
-    color: C.blue,
-    dimension: "Decision Health",
-    factor: "Low-confidence escalation rate",
-    detail: "12% of automated decisions are being escalated due to confidence scores below 70%, slightly above the 8% target threshold.",
-    impact: "−4 pts on Decision Health",
-  },
-];
+/* ─── Risk Areas builder (called reactively inside component) ─── */
+type RiskArea = {
+  severity: string;
+  color: string;
+  dimension: string;
+  factor: string;
+  detail: string;
+  impact: string;
+  live: boolean;
+};
+
+function buildRiskAreas(stats: LiveHealthStats): RiskArea[] {
+  return [
+    {
+      severity: "HIGH",
+      color: C.red,
+      dimension: "Communication Health",
+      factor: "Message acknowledgement rate",
+      detail: "Only 61% of dispatched communications are confirmed as read within the expected window. Staff channel reliability is below threshold.",
+      impact: "−9 pts on Communication Health",
+      live: false,
+    },
+    {
+      severity: "MEDIUM",
+      color: "#f97316",
+      dimension: "Moment Health",
+      factor: "Late-shift detection lag",
+      detail: "Moment classification latency increases by an average of 38% between 22:00 and 06:00, reducing the intervention window for overnight events.",
+      impact: "−7 pts on Moment Health",
+      live: false,
+    },
+    {
+      severity: "MEDIUM",
+      color: "#f97316",
+      dimension: "Signal Health",
+      factor: "F&B signal gap",
+      detail: `Dining-area behavioural signal coverage is incomplete for the lounge and bar zones. ${stats.signal.alertCount} signal${stats.signal.alertCount !== 1 ? "s" : ""} currently in ALERT state across ${stats.signal.totalSignals} monitored signals (avg confidence ${stats.signal.avgConfidence}%).`,
+      impact: `−${Math.max(1, Math.round(stats.signal.alertCount * 3))} pts on Signal Health`,
+      live: true,
+    },
+    {
+      severity: "LOW",
+      color: C.blue,
+      dimension: "Decision Health",
+      factor: "Low-confidence escalation rate",
+      detail: `${stats.decision.negativeCount} of ${stats.decision.totalDecisions} recent decisions recorded a negative outcome. Average decision confidence is ${stats.decision.avgConfidence}% with a ${stats.decision.positiveRate}% positive outcome rate — ${stats.decision.positiveRate >= 60 ? "within" : "below"} the target band.`,
+      impact: `Decision confidence avg: ${stats.decision.avgConfidence}%`,
+      live: true,
+    },
+  ];
+}
 
 /* ─── Improvement Opportunities ─────────────────────── */
 const IMPROVEMENTS = [
@@ -260,7 +296,7 @@ function Sparkline({ data, color, id }: { data: { d: number; v: number }[]; colo
 }
 
 /* ─── Trend area chart (larger) ───────────────────────── */
-function TrendArea({ d }: { d: typeof DIMENSIONS[0] }) {
+function TrendArea({ d }: { d: Dimension }) {
   const cat = scoreCategory(d.score);
   const col = scoreColor(d.score);
   return (
@@ -274,8 +310,21 @@ function TrendArea({ d }: { d: typeof DIMENSIONS[0] }) {
           <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.16em", color: C.dimmed, textTransform: "uppercase", marginBottom: 5 }}>
             {d.sub}
           </div>
-          <div style={{ fontSize: 13, fontWeight: 700, color: "#fff", marginBottom: 2 }}>
-            {d.label}
+          <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 2 }}>
+            <div style={{ fontSize: 13, fontWeight: 700, color: "#fff" }}>
+              {d.label}
+            </div>
+            {d.live && (
+              <div style={{
+                fontSize: 6.5, fontWeight: 800, letterSpacing: "0.14em",
+                color: C.green, textTransform: "uppercase",
+                border: `1px solid ${C.green}44`,
+                padding: "1px 5px",
+                background: `${C.green}0d`,
+              }}>
+                LIVE
+              </div>
+            )}
           </div>
         </div>
         <div style={{ textAlign: "right" }}>
@@ -307,7 +356,7 @@ function TrendArea({ d }: { d: typeof DIMENSIONS[0] }) {
 }
 
 /* ─── Dimension card ─────────────────────────────────── */
-function DimensionCard({ d, i }: { d: typeof DIMENSIONS[0]; i: number }) {
+function DimensionCard({ d, i }: { d: Dimension; i: number }) {
   const cat = scoreCategory(d.score);
   const col = scoreColor(d.score);
   const [, navigate] = useLocation();
@@ -342,8 +391,22 @@ function DimensionCard({ d, i }: { d: typeof DIMENSIONS[0]; i: number }) {
           <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.18em", color: C.dimmed, textTransform: "uppercase", marginBottom: 5 }}>
             {d.sub}
           </div>
-          <div style={{ fontSize: 13, fontWeight: 700, color: "#fff", marginBottom: 3 }}>
-            {d.label}
+          <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 3 }}>
+            <div style={{ fontSize: 13, fontWeight: 700, color: "#fff" }}>
+              {d.label}
+            </div>
+            {d.live && (
+              <div style={{
+                fontSize: 6.5, fontWeight: 800, letterSpacing: "0.14em",
+                color: C.green, textTransform: "uppercase",
+                border: `1px solid ${C.green}44`,
+                padding: "1px 5px",
+                background: `${C.green}0d`,
+                flexShrink: 0,
+              }}>
+                LIVE
+              </div>
+            )}
           </div>
           <div style={{ fontSize: 10, color: C.muted, lineHeight: 1.5 }}>
             {d.description}
@@ -388,10 +451,12 @@ function DimensionCard({ d, i }: { d: typeof DIMENSIONS[0]; i: number }) {
 function OverallScoreDisplay({
   score,
   weights,
+  dimensions,
   onConfigureWeights,
 }: {
   score: number;
   weights: Record<string, number>;
+  dimensions: Dimension[];
   onConfigureWeights: () => void;
 }) {
   const cat = scoreCategory(score);
@@ -399,8 +464,8 @@ function OverallScoreDisplay({
   const circumference = 2 * Math.PI * 56;
   const dashOffset = circumference * (1 - score / 100);
 
-  const totalWeight = DIMENSIONS.reduce((s, d) => s + weights[d.id], 0);
-  const isCustom = DIMENSIONS.some(d => weights[d.id] !== 100);
+  const totalWeight = dimensions.reduce((s, d) => s + weights[d.id], 0);
+  const isCustom = dimensions.some(d => weights[d.id] !== 100);
 
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 32 }}>
@@ -477,7 +542,7 @@ function OverallScoreDisplay({
 
         {/* Mini breakdown bars */}
         <div style={{ marginTop: 14, display: "flex", flexDirection: "column", gap: 5 }}>
-          {DIMENSIONS.map(dim => {
+          {dimensions.map(dim => {
             const dc = scoreColor(dim.score);
             const wPct = totalWeight > 0 ? Math.round((weights[dim.id] / totalWeight) * 100) : 0;
             return (
@@ -545,17 +610,19 @@ function OverallScoreDisplay({
 /* ─── Weight Configuration Panel ─────────────────────── */
 function WeightsPanel({
   weights,
+  dimensions,
   onWeightsChange,
   onClose,
 }: {
   weights: Record<string, number>;
+  dimensions: Dimension[];
   onWeightsChange: (w: Record<string, number>) => void;
   onClose: () => void;
 }) {
   const [local, setLocal] = useState<Record<string, number>>({ ...weights });
 
-  const totalWeight = DIMENSIONS.reduce((s, d) => s + local[d.id], 0);
-  const previewScore = computeWeightedScore(local);
+  const totalWeight = dimensions.reduce((s, d) => s + local[d.id], 0);
+  const previewScore = computeWeightedScore(local, dimensions);
   const previewCat = scoreCategory(previewScore);
   const previewCol = categoryColor(previewCat);
 
@@ -681,9 +748,9 @@ function WeightsPanel({
 
       {/* Sliders */}
       <div style={{ flex: 1, overflowY: "auto", padding: "8px 0" }}>
-        {DIMENSIONS.map((dim, i) => {
+        {dimensions.map((dim, i) => {
           const w = local[dim.id];
-          const totalW = DIMENSIONS.reduce((s, d) => s + local[d.id], 0);
+          const totalW = dimensions.reduce((s, d) => s + local[d.id], 0);
           const effectivePct = totalW > 0 ? Math.round((w / totalW) * 100) : 0;
           const dc = scoreColor(dim.score);
 
@@ -828,7 +895,22 @@ export default function EnvironmentHealthIndex() {
   const [weights, setWeights] = useState<Record<string, number>>(loadWeights);
   const [panelOpen, setPanelOpen] = useState(false);
 
-  const overallScore = computeWeightedScore(weights);
+  // ── Live scores from shared AppContext — recompute whenever refreshHealthScores() is called ──
+  const { healthScores, liveHealthStats, refreshHealthScores } = useApp();
+
+  const liveDimensions = useMemo((): Dimension[] => {
+    return DIMENSIONS.map(d => {
+      if (d.id === "signal")    return { ...d, score: healthScores.signal,    data: spark(healthScores.signal,    8) };
+      if (d.id === "decision")  return { ...d, score: healthScores.decision,  data: spark(healthScores.decision,  6) };
+      if (d.id === "execution") return { ...d, score: healthScores.execution, data: spark(healthScores.execution, 5) };
+      return d;
+    });
+  }, [healthScores]);
+
+  const liveStats = liveHealthStats;
+  const riskAreas = useMemo(() => buildRiskAreas(liveHealthStats), [liveHealthStats]);
+
+  const overallScore = computeWeightedScore(weights, liveDimensions);
 
   const handleWeightsChange = useCallback((w: Record<string, number>) => {
     setWeights(w);
@@ -889,6 +971,7 @@ export default function EnvironmentHealthIndex() {
           <OverallScoreDisplay
             score={overallScore}
             weights={weights}
+            dimensions={liveDimensions}
             onConfigureWeights={() => setPanelOpen(true)}
           />
         </motion.div>
@@ -922,7 +1005,7 @@ export default function EnvironmentHealthIndex() {
           gap: 1,
           marginBottom: 32,
         }}>
-          {DIMENSIONS.map((d, i) => (
+          {liveDimensions.map((d, i) => (
             <DimensionCard key={d.id} d={d} i={i} />
           ))}
         </div>
@@ -953,9 +1036,133 @@ export default function EnvironmentHealthIndex() {
             gridTemplateColumns: "repeat(3, 1fr)",
             gap: 1,
           }}>
-            {DIMENSIONS.map(d => (
+            {liveDimensions.map(d => (
               <TrendArea key={d.id} d={d} />
             ))}
+          </div>
+        </motion.div>
+
+        {/* ── Live Data Sources ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.35, duration: 0.38 }}
+          style={{ marginBottom: 32 }}
+        >
+          <div style={{
+            padding: "10px 20px",
+            background: C.card,
+            border: `1px solid ${C.border}`,
+            borderBottom: "none",
+            display: "flex", justifyContent: "space-between", alignItems: "center",
+          }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <span style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.18em", color: "hsl(215 16% 30%)", textTransform: "uppercase" }}>
+                Live Score Sources
+              </span>
+              <div style={{
+                fontSize: 6.5, fontWeight: 800, letterSpacing: "0.14em",
+                color: C.green, textTransform: "uppercase",
+                border: `1px solid ${C.green}44`,
+                padding: "1px 5px",
+                background: `${C.green}0d`,
+              }}>
+                LIVE
+              </div>
+            </div>
+            <span style={{ fontSize: 8, color: C.dimmed, letterSpacing: "0.1em", textTransform: "uppercase" }}>
+              Derived from Signal Registry · Decision Registry · Playbook Engine
+            </span>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 1 }}>
+            {/* Signal Health source */}
+            <div style={{
+              background: "hsl(220 13% 6%)",
+              border: `1px solid ${C.border}`,
+              borderLeft: `2px solid ${C.amber}`,
+              padding: "16px 20px",
+            }}>
+              <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.18em", color: C.dimmed, textTransform: "uppercase", marginBottom: 8 }}>
+                Signal Health · Sensing Layer
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                {[
+                  { label: "Signals monitored", value: String(liveStats.signal.totalSignals) },
+                  { label: "Avg confidence", value: `${liveStats.signal.avgConfidence}%` },
+                  { label: "ALERT signals", value: String(liveStats.signal.alertCount), highlight: liveStats.signal.alertCount > 0 },
+                  { label: "Computed score", value: String(liveStats.signal.score), bold: true },
+                ].map(row => (
+                  <div key={row.label} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <span style={{ fontSize: 9, color: C.muted }}>{row.label}</span>
+                    <span style={{
+                      fontSize: 10, fontWeight: row.bold ? 800 : 600,
+                      color: row.highlight ? C.red : row.bold ? scoreColor(liveStats.signal.score) : "#fff",
+                    }}>
+                      {row.value}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            {/* Decision Health source */}
+            <div style={{
+              background: "hsl(220 13% 6%)",
+              border: `1px solid ${C.border}`,
+              borderLeft: `2px solid ${C.violet}`,
+              padding: "16px 20px",
+            }}>
+              <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.18em", color: C.dimmed, textTransform: "uppercase", marginBottom: 8 }}>
+                Decision Health · Intelligence Layer
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                {[
+                  { label: "Decisions analysed", value: String(liveStats.decision.totalDecisions) },
+                  { label: "Avg confidence", value: `${liveStats.decision.avgConfidence}%` },
+                  { label: "Positive outcome rate", value: `${liveStats.decision.positiveRate}%` },
+                  { label: "Negative outcomes", value: String(liveStats.decision.negativeCount), highlight: liveStats.decision.negativeCount > 0 },
+                  { label: "Computed score", value: String(liveStats.decision.score), bold: true },
+                ].map(row => (
+                  <div key={row.label} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <span style={{ fontSize: 9, color: C.muted }}>{row.label}</span>
+                    <span style={{
+                      fontSize: 10, fontWeight: row.bold ? 800 : 600,
+                      color: row.highlight ? "#f97316" : row.bold ? scoreColor(liveStats.decision.score) : "#fff",
+                    }}>
+                      {row.value}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            {/* Execution Health source */}
+            <div style={{
+              background: "hsl(220 13% 6%)",
+              border: `1px solid ${C.border}`,
+              borderLeft: `2px solid ${C.green}`,
+              padding: "16px 20px",
+            }}>
+              <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.18em", color: C.dimmed, textTransform: "uppercase", marginBottom: 8 }}>
+                Execution Health · Response Layer
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                {[
+                  { label: "Playbook fires (30d)", value: String(liveStats.execution.totalFires) },
+                  { label: "Avg success rate", value: `${liveStats.execution.avgSuccessRate}%` },
+                  { label: "Avg resolution time", value: `${liveStats.execution.avgResolutionMinutes} min` },
+                  { label: "Computed score", value: String(liveStats.execution.score), bold: true },
+                ].map(row => (
+                  <div key={row.label} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <span style={{ fontSize: 9, color: C.muted }}>{row.label}</span>
+                    <span style={{
+                      fontSize: 10, fontWeight: row.bold ? 800 : 600,
+                      color: row.bold ? scoreColor(liveStats.execution.score) : "#fff",
+                    }}>
+                      {row.value}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </motion.div>
 
@@ -979,10 +1186,10 @@ export default function EnvironmentHealthIndex() {
                 Risk Areas
               </span>
               <span style={{ fontSize: 8, color: C.dimmed, letterSpacing: "0.1em", textTransform: "uppercase" }}>
-                {RISK_AREAS.length} active
+                {riskAreas.length} active
               </span>
             </div>
-            {RISK_AREAS.map((r, i) => (
+            {riskAreas.map((r, i) => (
               <div key={i} style={{
                 padding: "16px 20px",
                 background: i % 2 === 0 ? "hsl(220 13% 6%)" : "hsl(220 13% 7%)",
@@ -1000,6 +1207,17 @@ export default function EnvironmentHealthIndex() {
                     {r.severity}
                   </span>
                   <span style={{ fontSize: 9, fontWeight: 600, color: C.muted }}>{r.dimension}</span>
+                  {r.live && (
+                    <span style={{
+                      fontSize: 6.5, fontWeight: 800, letterSpacing: "0.14em",
+                      color: C.green, textTransform: "uppercase",
+                      border: `1px solid ${C.green}44`,
+                      padding: "1px 5px",
+                      background: `${C.green}0d`,
+                    }}>
+                      LIVE
+                    </span>
+                  )}
                 </div>
                 <div style={{ fontSize: 11.5, fontWeight: 700, color: "#fff", marginBottom: 5, lineHeight: 1.4 }}>
                   {r.factor}
@@ -1100,6 +1318,7 @@ export default function EnvironmentHealthIndex() {
             <WeightsPanel
               key="panel"
               weights={weights}
+              dimensions={liveDimensions}
               onWeightsChange={handleWeightsChange}
               onClose={() => setPanelOpen(false)}
             />

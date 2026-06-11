@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { SIGNAL_CATEGORIES, SIGNAL_SUMMARY } from "@/data/signals";
+import { useApp } from "@/context/AppContext";
 import type { SignalStatus, SignalWeight } from "@/data/signals";
 
 const ACCENT = "#c9a84c";
@@ -33,6 +34,8 @@ const WEIGHT_COLOR: Record<Weight, string> = {
 };
 
 export default function SignalRegistry() {
+  const { refreshHealthScores } = useApp();
+  useEffect(() => { refreshHealthScores(); }, [refreshHealthScores]);
   const [activeCategory, setActiveCategory] = useState("guest");
 
   const active = CATEGORIES.find((c) => c.id === activeCategory)!;

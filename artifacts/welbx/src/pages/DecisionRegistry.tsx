@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useApp } from "@/context/AppContext";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   LineChart, Line, XAxis, YAxis, Tooltip,
@@ -306,6 +307,8 @@ function DecisionCard({ d, i }: { d: Decision; i: number }) {
 
 /* ─── Page ─────────────────────────────────────────────── */
 export default function DecisionRegistry() {
+  const { refreshHealthScores } = useApp();
+  useEffect(() => { refreshHealthScores(); }, [refreshHealthScores]);
   const [activeCategory, setActiveCategory] = useState<Category | "All">("All");
   const [momentFilter, setMomentFilter] = useState<string | null>(null);
 

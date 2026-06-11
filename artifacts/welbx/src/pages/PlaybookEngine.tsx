@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { useApp } from "@/context/AppContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation, useSearch } from "wouter";
 import { PLAYBOOKS, type Playbook, type PlaybookExecution } from "@/data/playbooks";
@@ -735,6 +736,8 @@ const ALL_STATUSES:   Playbook["status"][]   = ["ACTIVE", "STANDBY", "ESCALATED"
 
 /* ─── Page ─────────────────────────────────────────── */
 export default function PlaybookEngine() {
+  const { refreshHealthScores } = useApp();
+  useEffect(() => { refreshHealthScores(); }, [refreshHealthScores]);
   const search = useSearch();
   const [, navigate] = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
