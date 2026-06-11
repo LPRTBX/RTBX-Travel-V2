@@ -18,15 +18,23 @@ const C = {
 };
 
 /* ─── Types ───────────────────────────────────────────── */
-type Category = "Guest" | "Workforce" | "Operational" | "Commercial" | "Strategic";
+type Category = "Guest" | "Workforce" | "Operational" | "Executive" | "Partner";
 type SuccessLevel = "Exceptional" | "Strong" | "Adequate" | "Partial" | "Failed";
+type ResolutionStatus = "Confirmed" | "In Progress" | "Escalated" | "Unresolved";
 
 const CAT_COLOR: Record<Category, string> = {
   Guest:       C.amber,
   Workforce:   C.blue,
   Operational: C.slate,
-  Commercial:  C.green,
-  Strategic:   C.violet,
+  Executive:   "#f43f5e",
+  Partner:     C.green,
+};
+
+const RESOLUTION_COLOR: Record<ResolutionStatus, string> = {
+  "Confirmed":   C.green,
+  "In Progress": C.amber,
+  "Escalated":   "#f43f5e",
+  "Unresolved":  C.red,
 };
 
 const SUCCESS_COLOR: Record<SuccessLevel, string> = {
@@ -46,9 +54,13 @@ interface Outcome {
   decision: string;
   action: string;
   outcome: string;
+  outcomeType: string;
   successLevel: SuccessLevel;
+  resolutionStatus: ResolutionStatus;
+  timeToResolution: string;
   valueProtected: string;
   valueCreated: string;
+  revenueAttributed: string;
   learning: string;
 }
 
@@ -64,9 +76,13 @@ const OUTCOMES: Outcome[] = [
     decision: "Upgrade Approved — Meridian Suite",
     action: "Room upgraded · Personalised welcome note delivered",
     outcome: "Guest expressed delight at check-in · 5-star review posted same evening",
+    outcomeType: "Loyalty Protected",
     successLevel: "Exceptional",
+    resolutionStatus: "Confirmed",
+    timeToResolution: "6 min",
     valueProtected: "£8,400 lifetime value",
     valueCreated: "£340 incremental revenue + 5-star review",
+    revenueAttributed: "£340",
     learning: "Loyalty-tier upgrades on repeat stays produce 3× more positive reviews. Automate for all 6th+ stays with available suite inventory.",
   },
   {
@@ -78,9 +94,13 @@ const OUTCOMES: Outcome[] = [
     decision: "Proactive Recovery Initiated — F&B credit + Duty Manager contact",
     action: "£30 F&B credit issued · Duty Manager contacted guest within 8 min",
     outcome: "Guest satisfaction retained · No complaint logged · Revisit intent confirmed",
+    outcomeType: "Experience Recovery",
     successLevel: "Strong",
+    resolutionStatus: "Confirmed",
+    timeToResolution: "18 min",
     valueProtected: "£3,400 avg retention value",
     valueCreated: "£30 F&B spend triggered · Positive debrief captured",
+    revenueAttributed: "£0",
     learning: "Recovery before complaint is 4× more effective. Pre-emptive contact within 10 min is the key timing threshold.",
   },
   {
@@ -92,9 +112,13 @@ const OUTCOMES: Outcome[] = [
     decision: "Late Checkout Approved — 14:00",
     action: "Checkout extended to 14:00 · Logged as loyalty service event",
     outcome: "Guest departed relaxed · Revisit booking made before departure",
+    outcomeType: "Revenue Generated",
     successLevel: "Exceptional",
+    resolutionStatus: "Confirmed",
+    timeToResolution: "3 min",
     valueProtected: "£2,100 loyalty segment value",
     valueCreated: "Forward booking confirmed — £1,240 revenue",
+    revenueAttributed: "£1,240",
     learning: "Late checkout granted proactively converts 68% of departing guests into repeat intent within 90 days.",
   },
   {
@@ -106,9 +130,13 @@ const OUTCOMES: Outcome[] = [
     decision: "Personalised Welcome Amenity Dispatched",
     action: "Handwritten note + seasonal amenity sent to room",
     outcome: "Guest visited restaurant for dinner — first-stay engagement unlocked",
+    outcomeType: "Revenue Generated",
     successLevel: "Strong",
+    resolutionStatus: "Confirmed",
+    timeToResolution: "4 min",
     valueProtected: "£1,800 first-stay conversion value",
     valueCreated: "£94 dinner spend · Brand affinity signal positive",
+    revenueAttributed: "£94",
     learning: "Personal touches in the first 6 hours increase in-stay F&B conversion by 41% for first-time guests.",
   },
 
@@ -122,9 +150,13 @@ const OUTCOMES: Outcome[] = [
     decision: "Cross-Department Redeployment — 2× F&B to front desk",
     action: "2 F&B staff redeployed · Front desk throughput restored within 6 min",
     outcome: "Queue cleared in 9 min · No guest complaints recorded · Service continuity maintained",
+    outcomeType: "Service Continuity",
     successLevel: "Exceptional",
+    resolutionStatus: "Confirmed",
+    timeToResolution: "9 min",
     valueProtected: "£4,800 service continuity risk avoided",
     valueCreated: "Cross-training data captured for future redeployment mapping",
+    revenueAttributed: "£0",
     learning: "Cross-department redeployment under 5 min prevents queue abandonment in 81% of cases. Build redeployment protocol into shift briefs.",
   },
   {
@@ -136,9 +168,13 @@ const OUTCOMES: Outcome[] = [
     decision: "Welfare Check Escalated — 1:1 scheduled",
     action: "HR Manager 1:1 held within 24 hours · Workload adjustment made",
     outcome: "Staff member returned to full engagement within 2 weeks · Absence risk averted",
+    outcomeType: "Retention Signal",
     successLevel: "Strong",
+    resolutionStatus: "In Progress",
+    timeToResolution: "48 min (open)",
     valueProtected: "£6,200 estimated unplanned absence cost avoided",
     valueCreated: "Retention secured · Team morale maintained",
+    revenueAttributed: "£0",
     learning: "Early welfare intervention reduces unplanned absence by 44% when actioned within 48 hours of signal detection.",
   },
   {
@@ -150,9 +186,13 @@ const OUTCOMES: Outcome[] = [
     decision: "Duty Manager Briefing Supplemented — BXOS summary sent",
     action: "Automated handover digest delivered to incoming manager",
     outcome: "Incoming manager fully briefed · No service gaps in first hour of shift",
+    outcomeType: "Service Continuity",
     successLevel: "Adequate",
+    resolutionStatus: "Confirmed",
+    timeToResolution: "7 min",
     valueProtected: "Operational continuity maintained",
     valueCreated: "Handover protocol improvement identified for next iteration",
+    revenueAttributed: "£0",
     learning: "Automated briefing digests reduce post-handover service errors by 61%. Make mandatory for all AM/PM transitions.",
   },
 
@@ -166,9 +206,13 @@ const OUTCOMES: Outcome[] = [
     decision: "Housekeeping Priority Reset — VIP rooms to top of queue",
     action: "Queue reprioritised · Supervisor notified · Team reallocated",
     outcome: "All 6 VIP rooms ready by 13:48 · Zero VIP check-in delays",
+    outcomeType: "Operational Fix",
     successLevel: "Exceptional",
+    resolutionStatus: "Confirmed",
+    timeToResolution: "11 min",
     valueProtected: "£48,000+ VIP revenue relationship protected",
     valueCreated: "Housekeeping efficiency benchmark updated for future scheduling",
+    revenueAttributed: "£0",
     learning: "Automated sequencing adjustments reduce VIP room delays by 94% vs manual scheduling. Integrate VIP arrival data into room priority algorithm by default.",
   },
   {
@@ -180,147 +224,183 @@ const OUTCOMES: Outcome[] = [
     decision: "Maintenance Deferred — post-15:00 window",
     action: "Work order scheduled for 15:30 · Monitoring continued",
     outcome: "No guest-facing disruption · Fault resolved at 15:45",
+    outcomeType: "Risk Mitigated",
     successLevel: "Adequate",
+    resolutionStatus: "Confirmed",
+    timeToResolution: "27 min",
     valueProtected: "Guest experience continuity during peak window",
     valueCreated: "Deferral decision framework documented for similar cases",
+    revenueAttributed: "£0",
     learning: "Deferral during peak windows acceptable for non-guest-facing systems. Review escalation thresholds — some faults deferred caused downstream issues.",
   },
 
-  /* ── Commercial ── */
+  /* ── Executive ── */
   {
     id: "OR-010",
-    category: "Commercial",
+    category: "Executive",
     timestamp: "15:22",
     signal: "Standard room guest · Anniversary stay · Junior Suite available · Propensity 87",
     moment: "Suite Upgrade Window",
     decision: "Suite Upsell Offered — £85 supplement · Anniversary framing",
     action: "Personalised offer delivered at check-in · Accepted immediately",
     outcome: "Suite upgrade accepted · Guest spent additional £220 in F&B over stay",
+    outcomeType: "Revenue Generated",
     successLevel: "Exceptional",
+    resolutionStatus: "Confirmed",
+    timeToResolution: "2 min",
     valueProtected: "£2,400 avg suite revenue protected",
     valueCreated: "£85 upsell + £220 F&B uplift · Review score 9.8/10",
+    revenueAttributed: "£305",
     learning: "Anniversary-framed upsells convert at 54% vs 22% for generic offers. Occasion-based framing must be standard for all upsell triggers.",
   },
   {
     id: "OR-011",
-    category: "Commercial",
-    timestamp: "18:44",
-    signal: "Guest in bar · No F&B spend logged · 3-night stay · High lifetime value",
-    moment: "F&B Revenue Opportunity",
-    decision: "Complimentary Amuse-Bouche Offered — 20-min window",
-    action: "Staff prompted · Amuse-bouche delivered with personal recommendation",
-    outcome: "Guest ordered full dinner for two — £178 cover",
-    successLevel: "Exceptional",
-    valueProtected: "£1,600 F&B revenue opportunity activated",
-    valueCreated: "£178 incremental dinner cover · Guest noted exceptional attentiveness in review",
-    learning: "Complimentary touch at consideration point increases F&B spend per head by avg £34. ROI consistently exceeds 8:1 on complimentary cost.",
-  },
-  {
-    id: "OR-012",
-    category: "Commercial",
-    timestamp: "08:20",
-    signal: "8 rooms with late checkout eligibility · Low demand forecast afternoon",
-    moment: "Late Checkout Conversion",
-    decision: "Late Checkout Offer Batch — proactive outreach to eligible guests",
-    action: "Automated offer sent to 8 guests at 08:00 · £35 per room",
-    outcome: "5 of 8 guests accepted · Revenue secured before standard checkout pressure",
-    successLevel: "Strong",
-    valueProtected: "£280 incremental revenue",
-    valueCreated: "Guest satisfaction uplift · No room conflict on low-demand day",
-    learning: "Proactive late checkout offers on low-demand days convert at 62%. Batch outreach at 08:00 outperforms reactive desk offers by 3×.",
-  },
-
-  /* ── Strategic ── */
-  {
-    id: "OR-013",
-    category: "Strategic",
-    timestamp: "08:00",
-    signal: "Same housekeeping bottleneck pattern across 3 portfolio properties on Fridays",
-    moment: "Cross-Property Learning Signal",
-    decision: "Portfolio Pattern Flagged — COO briefing initiated",
-    action: "COO briefed · Friday staffing model review scheduled across 3 properties",
-    outcome: "Staffing model adjusted at 2 of 3 properties · Bottleneck frequency reduced 60%",
-    successLevel: "Strong",
-    valueProtected: "£14,400/month service continuity risk reduced",
-    valueCreated: "Portfolio-wide operational improvement · Systemic playbook updated",
-    learning: "Portfolio-level pattern recognition requires minimum 3 properties + 4 weeks of signal alignment before actioning. Governance threshold validated.",
-  },
-  {
-    id: "OR-014",
-    category: "Strategic",
+    category: "Executive",
     timestamp: "08:00",
     signal: "NPS decline 2.1 pts over 30 days · Competitor review uptick in same category",
     moment: "Portfolio Performance Deviation",
     decision: "Brand Experience Audit Initiated — BXOS signal review scheduled",
     action: "Audit team assembled · 3 priority areas identified · Response plan in draft",
     outcome: "Audit completed · Root cause identified in F&B service consistency · Remediation underway",
+    outcomeType: "Executive Insight",
     successLevel: "Partial",
+    resolutionStatus: "Escalated",
+    timeToResolution: "72 min (escalated)",
     valueProtected: "Market share risk flagged — intervention started before threshold breach",
     valueCreated: "Root cause intelligence captured · Playbook updated for F&B consistency",
+    revenueAttributed: "£0",
     learning: "NPS declines of >2 pts over 30 days with competing signal uplift are leading indicators of market share risk. 45-day response window is critical.",
   },
   {
-    id: "OR-015",
-    category: "Strategic",
+    id: "OR-012",
+    category: "Executive",
     timestamp: "09:30",
     signal: "Outcome pattern recognition — upsell conversion correlates with staff tenure >18 months",
     moment: "Outcome Pattern Recognition",
     decision: "Strategic Insight Surfaced — Talent Retention Link Identified",
     action: "Insight delivered to GM · Staff retention metric added to operational scorecard",
     outcome: "Retention strategy elevated to board agenda · Incentive programme initiated",
+    outcomeType: "Executive Insight",
     successLevel: "Strong",
+    resolutionStatus: "Confirmed",
+    timeToResolution: "5 min",
     valueProtected: "Revenue conversion quality protected through talent stability",
     valueCreated: "Strategic competitive advantage — insight not previously visible without WELBX",
+    revenueAttributed: "£0",
     learning: "Upsell and recovery performance correlates strongly with staff tenure. Human capital investment is a direct commercial driver — quantify and report monthly.",
+  },
+
+  /* ── Partner ── */
+  {
+    id: "OR-013",
+    category: "Partner",
+    timestamp: "08:00",
+    signal: "Same housekeeping bottleneck pattern across 3 portfolio properties on Fridays",
+    moment: "Cross-Property Learning Signal",
+    decision: "Portfolio Pattern Flagged — COO briefing initiated",
+    action: "COO briefed · Friday staffing model review scheduled across 3 properties",
+    outcome: "Staffing model adjusted at 2 of 3 properties · Bottleneck frequency reduced 60%",
+    outcomeType: "Risk Mitigated",
+    successLevel: "Strong",
+    resolutionStatus: "Confirmed",
+    timeToResolution: "22 min",
+    valueProtected: "£14,400/month service continuity risk reduced",
+    valueCreated: "Portfolio-wide operational improvement · Systemic playbook updated",
+    revenueAttributed: "£0",
+    learning: "Portfolio-level pattern recognition requires minimum 3 properties + 4 weeks of signal alignment before actioning. Governance threshold validated.",
+  },
+  {
+    id: "OR-014",
+    category: "Partner",
+    timestamp: "08:20",
+    signal: "8 rooms with late checkout eligibility · Low demand forecast afternoon",
+    moment: "Late Checkout Conversion",
+    decision: "Late Checkout Offer Batch — proactive outreach to eligible guests",
+    action: "Automated offer sent to 8 guests at 08:00 · £35 per room",
+    outcome: "5 of 8 guests accepted · Revenue secured before standard checkout pressure",
+    outcomeType: "Revenue Generated",
+    successLevel: "Strong",
+    resolutionStatus: "Confirmed",
+    timeToResolution: "8 min",
+    valueProtected: "£280 incremental revenue",
+    valueCreated: "Guest satisfaction uplift · No room conflict on low-demand day",
+    revenueAttributed: "£175",
+    learning: "Proactive late checkout offers on low-demand days convert at 62%. Batch outreach at 08:00 outperforms reactive desk offers by 3×.",
+  },
+  {
+    id: "OR-015",
+    category: "Partner",
+    timestamp: "04:12",
+    signal: "Linen supply delay — Laundry partner API timeout",
+    moment: "Supply Chain Alert",
+    decision: "Backup Stock Activated — partner SLA breach logged",
+    action: "Reserve linen deployed · Partner escalation raised via webhook",
+    outcome: "Checkout delay avoided for 14 rooms · SLA breach documented for review",
+    outcomeType: "Service Continuity",
+    successLevel: "Adequate",
+    resolutionStatus: "Confirmed",
+    timeToResolution: "27 min",
+    valueProtected: "Checkout disruption for 14 rooms avoided",
+    valueCreated: "Partner SLA accountability data captured",
+    revenueAttributed: "£0",
+    learning: "Partner API timeouts require local fallback stock buffer of ≥20%. SLA review recommended quarterly.",
   },
 ];
 
-const ALL_CATEGORIES: Category[] = ["Guest", "Workforce", "Operational", "Commercial", "Strategic"];
+const ALL_CATEGORIES: Category[] = ["Guest", "Workforce", "Operational", "Executive", "Partner"];
 
-/* ─── Executive metrics (derived from OUTCOMES) ─────── */
-const SUCCESS_SCORE: Record<SuccessLevel, number> = {
-  Exceptional: 100,
-  Strong:       80,
-  Adequate:     60,
-  Partial:      40,
-  Failed:        0,
-};
+/* ─── Summary metrics (derived from OUTCOMES) ─────────── */
+const confirmedCount = OUTCOMES.filter(o => o.resolutionStatus === "Confirmed").length;
+const resolutionRate = Math.round((confirmedCount / OUTCOMES.length) * 100);
 
-const avgSuccessLevel = Math.round(
-  OUTCOMES.reduce((sum, o) => sum + SUCCESS_SCORE[o.successLevel], 0) / OUTCOMES.length
-);
+const TTR_MINS: Record<string, number> = {};
+OUTCOMES.forEach(o => {
+  const match = o.timeToResolution.match(/^(\d+)/);
+  TTR_MINS[o.id] = match ? parseInt(match[1], 10) : 0;
+});
+const resolvedOutcomes = OUTCOMES.filter(o => o.resolutionStatus === "Confirmed");
+const avgTTR = resolvedOutcomes.length > 0
+  ? Math.round(resolvedOutcomes.reduce((sum, o) => sum + (TTR_MINS[o.id] ?? 0), 0) / resolvedOutcomes.length)
+  : 0;
+
+const revenueTotal = OUTCOMES.reduce((sum, o) => {
+  const match = o.revenueAttributed.match(/£([\d,]+)/);
+  return sum + (match ? parseInt(match[1].replace(",", ""), 10) : 0);
+}, 0);
 
 const METRICS = [
   {
-    label: "Total Outcomes",
+    label: "Outcomes Today",
     value: OUTCOMES.length,
-    unit: "LOGGED TODAY",
+    unit: "LOGGED",
     color: C.amber,
   },
   {
-    label: "Total Value Protected",
-    value: OUTCOMES.filter(o => o.valueProtected.length > 0).length,
-    unit: "OUTCOMES WITH VALUE",
-    color: C.violet,
+    label: "Resolution Rate",
+    value: resolutionRate,
+    unit: "CONFIRMED",
+    color: C.green,
+    suffix: "%",
   },
   {
-    label: "Total Value Created",
-    value: OUTCOMES.filter(o => o.valueCreated.length > 0).length,
-    unit: "OUTCOMES WITH UPLIFT",
-    color: C.green,
+    label: "Avg Time-to-Resolution",
+    value: avgTTR,
+    unit: "MINUTES · CONFIRMED",
+    color: C.blue,
+    suffix: " min",
+  },
+  {
+    label: "Revenue Attributed",
+    value: revenueTotal,
+    unit: "DIRECT VALUE",
+    color: C.violet,
+    prefix: "£",
   },
   {
     label: "Exceptional Outcomes",
     value: OUTCOMES.filter(o => o.successLevel === "Exceptional").length,
     unit: "HIGHEST GRADE",
     color: C.teal,
-  },
-  {
-    label: "Avg Success Level",
-    value: avgSuccessLevel,
-    unit: "PORTFOLIO SCORE",
-    color: C.blue,
-    suffix: "%",
   },
 ];
 
@@ -399,7 +479,7 @@ function OutcomeCard({ o, i }: { o: Outcome; i: number }) {
       {/* Top row */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 14 }}>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 5 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 5, flexWrap: "wrap" }}>
             <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.1em", color: C.dimmed, fontFamily: "var(--app-font-mono)", textTransform: "uppercase" }}>
               {o.id}
             </span>
@@ -407,9 +487,30 @@ function OutcomeCard({ o, i }: { o: Outcome; i: number }) {
               {o.timestamp}
             </span>
             <Badge text={o.category} color={catColor} />
+            <Badge text={o.outcomeType} color={catColor + "cc"} />
           </div>
-          <div style={{ fontSize: 14, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", lineHeight: 1.35, marginBottom: 2 }}>
+          <div style={{ fontSize: 14, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", lineHeight: 1.35, marginBottom: 8 }}>
             {o.outcome}
+          </div>
+          <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
+            <div style={{ display: "flex", gap: 5, alignItems: "center" }}>
+              <span style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.12em", color: C.dimmed, textTransform: "uppercase" }}>Status</span>
+              <span style={{
+                fontSize: 7.5, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase",
+                padding: "2px 7px", border: `1px solid ${RESOLUTION_COLOR[o.resolutionStatus]}40`,
+                background: `${RESOLUTION_COLOR[o.resolutionStatus]}14`, color: RESOLUTION_COLOR[o.resolutionStatus],
+              }}>{o.resolutionStatus}</span>
+            </div>
+            <div style={{ display: "flex", gap: 5, alignItems: "center" }}>
+              <span style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.12em", color: C.dimmed, textTransform: "uppercase" }}>TTR</span>
+              <span style={{ fontSize: 8.5, color: "hsl(215 16% 50%)", fontWeight: 600 }}>{o.timeToResolution}</span>
+            </div>
+            {o.revenueAttributed !== "£0" && (
+              <div style={{ display: "flex", gap: 5, alignItems: "center" }}>
+                <span style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.12em", color: C.dimmed, textTransform: "uppercase" }}>Revenue</span>
+                <span style={{ fontSize: 8.5, color: C.green, fontWeight: 700 }}>{o.revenueAttributed}</span>
+              </div>
+            )}
           </div>
         </div>
         <div style={{ flexShrink: 0, marginLeft: 20 }}>

@@ -60,7 +60,7 @@ const SECTIONS = [
     label: "OUTCOMES",
     color: "#10b981",
     items: [
-      { label: "Outcome Registry",    path: "/outcome-registry",    sub: "FULL CHAIN" },
+      { label: "Outcome Registry",    path: "/outcome-registry",    sub: "RESULTS" },
       { label: "Outcome Intelligence",path: "/outcome-intelligence",sub: "PATTERN VIEW" },
       { label: "Learning Layer",      path: "/learning-layer",      sub: "GHSOL STEP 6" },
     ],
