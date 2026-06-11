@@ -170,6 +170,10 @@ function ExecutionTimeline({ executions }: { executions: PlaybookExecution[] }) 
     }
   });
 
+  const outcomeCounts = (["Resolved", "Escalated", "Partial"] as PlaybookExecution["outcome"][]).map(
+    (o) => ({ outcome: o, count: executions.filter((ex) => ex.outcome === o).length }),
+  );
+
   return (
     <div
       style={{
@@ -180,6 +184,43 @@ function ExecutionTimeline({ executions }: { executions: PlaybookExecution[] }) 
         overflowY: "auto",
       }}
     >
+      {/* Outcome breakdown summary */}
+      <div style={{
+        display: "flex", alignItems: "center", gap: 8, marginBottom: 12,
+      }}>
+        {outcomeCounts.map(({ outcome, count }) => {
+          const color = OUTCOME_COLOR[outcome];
+          const isActive = outcomeFilter === outcome;
+          return (
+            <button
+              key={outcome}
+              onClick={() => setOutcomeFilter(isActive ? "All" : outcome)}
+              title={`Filter by ${outcome}`}
+              style={{
+                display: "flex", alignItems: "center", gap: 6,
+                padding: "5px 11px",
+                background: isActive ? `${color}20` : `${color}0d`,
+                border: `1px solid ${isActive ? color + "60" : color + "30"}`,
+                cursor: "pointer",
+                transition: "all 0.14s",
+              }}
+            >
+              <span style={{
+                display: "inline-block", width: 6, height: 6,
+                borderRadius: "50%", background: color, flexShrink: 0,
+              }} />
+              <span style={{
+                fontSize: 9, fontWeight: 700, letterSpacing: "0.11em",
+                color: isActive ? color : `${color}bb`,
+                textTransform: "uppercase", transition: "color 0.14s",
+              }}>
+                {count} {outcome}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
       {/* Filter + sort bar */}
       <div style={{
         display: "flex", alignItems: "center", gap: 6, marginBottom: 14, flexWrap: "wrap",
