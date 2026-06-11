@@ -898,17 +898,28 @@ function CausalChainSection({ chain }: { chain: CausalStep[] }) {
         <div className="label-caps" style={{ color: 'hsl(215 16% 28%)' }}>How This Happened</div>
         <div style={{ fontSize: 8, color: 'hsl(215 16% 20%)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Behavioural Infrastructure · Causal Chain</div>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)' }}>
+      <div style={{ padding: '14px 20px', display: 'flex', flexDirection: 'column' }}>
         {chain.map((cs, i) => {
           const color = CAUSAL_STEP_COLORS[i];
           return (
-            <div key={i} style={{ padding: '14px 16px', borderRight: i < chain.length - 1 ? '1px solid hsl(220 13% 10%)' : 'none', position: 'relative' }}>
-              {i < chain.length - 1 && (
-                <div style={{ position: 'absolute', right: -8, top: 18, zIndex: 1, fontSize: 10, color: 'hsl(215 16% 20%)' }}>›</div>
-              )}
-              <div style={{ fontSize: 7, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color, marginBottom: 5 }}>{cs.step}</div>
-              <div style={{ fontSize: 11, fontWeight: 600, color: '#fff', marginBottom: 5, lineHeight: 1.35 }}>{cs.label}</div>
-              <div style={{ fontSize: 9.5, color: 'hsl(215 16% 36%)', lineHeight: 1.6 }}>{cs.detail}</div>
+            <div key={i} style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
+                <div style={{ width: 22, height: 22, borderRadius: '50%', background: `${color}14`, border: `1px solid ${color}38`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <span style={{ fontSize: 8, fontWeight: 700, color, fontFamily: 'var(--app-font-mono)' }}>{i + 1}</span>
+                </div>
+                {i < chain.length - 1 && (
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '2px 0' }}>
+                    <div style={{ width: 1, height: 16, background: 'hsl(220 13% 12%)' }} />
+                    <span style={{ fontSize: 8, color: 'hsl(215 16% 20%)', lineHeight: 1 }}>↓</span>
+                    <div style={{ width: 1, height: 4, background: 'hsl(220 13% 12%)' }} />
+                  </div>
+                )}
+              </div>
+              <div style={{ flex: 1, paddingBottom: i < chain.length - 1 ? 4 : 0, paddingTop: 1 }}>
+                <div style={{ fontSize: 7, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color, marginBottom: 3 }}>{cs.step}</div>
+                <div style={{ fontSize: 11, fontWeight: 600, color: '#fff', marginBottom: 3, lineHeight: 1.35 }}>{cs.label}</div>
+                <div style={{ fontSize: 9.5, color: 'hsl(215 16% 36%)', lineHeight: 1.6, paddingBottom: i < chain.length - 1 ? 8 : 0 }}>{cs.detail}</div>
+              </div>
             </div>
           );
         })}
@@ -920,8 +931,6 @@ function CausalChainSection({ chain }: { chain: CausalStep[] }) {
 // ─── ESCALATION VIEW ──────────────────────────────────────────────────────────
 
 function EscalationView({ scenario, guestType, perspectiveView }: { scenario: EscalationScenario; guestType: 'welfare' | 'crisis'; perspectiveView: PerspectiveView }) {
-  const [tab, setTab] = useState<'signals' | 'guest'>('signals');
-  const [expandedSignal, setExpandedSignal] = useState<number | null>(null);
   const isCrisis = guestType === 'crisis';
   const color = scenario.protocolColor;
 
@@ -946,110 +955,116 @@ function EscalationView({ scenario, guestType, perspectiveView }: { scenario: Es
         </div>
       </motion.div>
 
-      {/* Tab toggle */}
-      <div style={{ display: 'flex', border: '1px solid hsl(220 13% 14%)', marginBottom: 14, width: 'fit-content' }}>
-        {[{ id: 'signals', label: 'Signal Matrix · Response Protocol' }, { id: 'guest', label: 'Guest View' }].map(t => (
-          <button key={t.id} onClick={() => setTab(t.id as any)}
-            style={{ padding: '7px 18px', fontSize: 8.5, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', background: tab === t.id ? `${color}12` : 'transparent', color: tab === t.id ? color : 'hsl(215 16% 36%)', border: 'none', borderRight: t.id === 'signals' ? '1px solid hsl(220 13% 14%)' : 'none', cursor: 'pointer' }}>
-            {t.label}
-          </button>
-        ))}
-      </div>
-
       <AnimatePresence mode="wait">
 
-        {/* SIGNAL MATRIX + RESPONSE */}
-        {tab === 'signals' && (
-          <motion.div key="signals" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.2 }}
-            style={{ display: 'grid', gridTemplateColumns: '5fr 6fr', gap: 16 }}>
+        {/* OPERATING VIEW — Signal Matrix + Response Cascade + Team Coordination */}
+        {perspectiveView === 'operating' && (
+          <motion.div key="operating" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.2 }}
+            style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '5fr 6fr', gap: 16 }}>
 
-            {/* Left: signal matrix */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              {/* Profile */}
-              <div style={{ background: 'hsl(220 13% 7%)', border: `1px solid ${color}1a`, padding: '16px 18px' }}>
-                <div className="label-caps mb-3">Guest Profile</div>
-                {[
-                  { label: 'Name', value: scenario.guest.name },
-                  { label: 'Tier', value: scenario.guest.tier, color: scenario.guest.tierColor },
-                  { label: 'Stays', value: scenario.guest.stayCount },
-                  { label: 'Origin', value: scenario.guest.origin },
-                  { label: 'Room', value: `${scenario.guest.room} — ${scenario.guest.roomType}` },
-                  { label: 'Stay Status', value: `Day ${isCrisis ? '4 of 6' : '3 of 4'}`, color },
-                ].map((f, i, arr) => (
-                  <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '5px 0', borderBottom: i < arr.length - 1 ? '1px solid hsl(220 13% 9%)' : 'none', gap: 10 }}>
-                    <span style={{ fontSize: 8.5, color: 'hsl(215 16% 30%)', letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600, flexShrink: 0 }}>{f.label}</span>
-                    <span style={{ fontSize: 11, fontWeight: 600, color: f.color || 'hsl(215 16% 60%)', textAlign: 'right' }}>{f.value}</span>
+              {/* Left: signal matrix */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                {/* Profile */}
+                <div style={{ background: 'hsl(220 13% 7%)', border: `1px solid ${color}1a`, padding: '16px 18px' }}>
+                  <div className="label-caps mb-3">Guest Profile</div>
+                  {[
+                    { label: 'Name', value: scenario.guest.name },
+                    { label: 'Tier', value: scenario.guest.tier, color: scenario.guest.tierColor },
+                    { label: 'Stays', value: scenario.guest.stayCount },
+                    { label: 'Origin', value: scenario.guest.origin },
+                    { label: 'Room', value: `${scenario.guest.room} — ${scenario.guest.roomType}` },
+                    { label: 'Stay Status', value: `Day ${isCrisis ? '4 of 6' : '3 of 4'}`, color },
+                  ].map((f, i, arr) => (
+                    <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '5px 0', borderBottom: i < arr.length - 1 ? '1px solid hsl(220 13% 9%)' : 'none', gap: 10 }}>
+                      <span style={{ fontSize: 8.5, color: 'hsl(215 16% 30%)', letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600, flexShrink: 0 }}>{f.label}</span>
+                      <span style={{ fontSize: 11, fontWeight: 600, color: f.color || 'hsl(215 16% 60%)', textAlign: 'right' }}>{f.value}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Signal indicators */}
+                <div style={{ border: `1px solid ${color}1a`, background: 'hsl(220 13% 7%)' }}>
+                  <div style={{ padding: '10px 16px', borderBottom: `1px solid ${color}14`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div className="label-caps" style={{ color }}>BXOS Signal Matrix</div>
+                    <span style={{ fontSize: 8, color: 'hsl(215 16% 28%)', letterSpacing: '0.08em' }}>{scenario.signals.length} signals monitored</span>
                   </div>
-                ))}
+                  {scenario.signals.map((sig, i) => {
+                    const sev = SEVERITY[sig.severity];
+                    return (
+                      <div key={i} style={{ padding: '9px 16px', borderBottom: i < scenario.signals.length - 1 ? `1px solid hsl(220 13% 9%)` : 'none', display: 'flex', alignItems: 'center', gap: 10 }}>
+                        <div style={{ width: 6, height: 6, borderRadius: '50%', background: sev.dot, flexShrink: 0 }} />
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ fontSize: 11, fontWeight: 600, color: sig.severity === 'critical' ? '#ef4444' : sig.severity === 'high' ? '#f59e0b' : 'hsl(215 16% 62%)' }}>{sig.label}</div>
+                          <div style={{ fontSize: 8.5, color: 'hsl(215 16% 32%)', marginTop: 1 }}>{sig.time}</div>
+                        </div>
+                        <div style={{ padding: '1px 7px', background: sev.bg, border: `1px solid ${sev.border}`, flexShrink: 0 }}>
+                          <span style={{ fontSize: 8, fontWeight: 700, color: sev.color, letterSpacing: '0.06em' }}>{sig.detail}</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
 
-              {/* Signal indicators */}
-              <div style={{ border: `1px solid ${color}1a`, background: 'hsl(220 13% 7%)' }}>
-                <div style={{ padding: '10px 16px', borderBottom: `1px solid ${color}14`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <div className="label-caps" style={{ color }}>BXOS Signal Matrix</div>
-                  <span style={{ fontSize: 8, color: 'hsl(215 16% 28%)', letterSpacing: '0.08em' }}>{scenario.signals.length} signals monitored</span>
-                </div>
-                {scenario.signals.map((sig, i) => {
-                  const sev = SEVERITY[sig.severity];
-                  return (
-                    <div key={i} style={{ padding: '9px 16px', borderBottom: i < scenario.signals.length - 1 ? `1px solid hsl(220 13% 9%)` : 'none', display: 'flex', alignItems: 'center', gap: 10 }}>
-                      <div style={{ width: 6, height: 6, borderRadius: '50%', background: sev.dot, flexShrink: 0 }} />
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ fontSize: 11, fontWeight: 600, color: sig.severity === 'critical' ? '#ef4444' : sig.severity === 'high' ? '#f59e0b' : 'hsl(215 16% 62%)' }}>{sig.label}</div>
-                        <div style={{ fontSize: 8.5, color: 'hsl(215 16% 32%)', marginTop: 1 }}>{sig.time}</div>
-                      </div>
-                      <div style={{ padding: '1px 7px', background: sev.bg, border: `1px solid ${sev.border}`, flexShrink: 0 }}>
-                        <span style={{ fontSize: 8, fontWeight: 700, color: sev.color, letterSpacing: '0.06em' }}>{sig.detail}</span>
-                      </div>
+              {/* Right: response cascade */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                <div style={{ border: `1px solid ${color}1a`, background: 'hsl(220 13% 7%)' }}>
+                  <div style={{ padding: '10px 16px', borderBottom: `1px solid ${color}14`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div className="label-caps" style={{ color }}>Response Cascade</div>
+                    <div style={{ padding: '2px 8px', background: `${color}12`, border: `1px solid ${color}25` }}>
+                      <span style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: '0.12em', color, textTransform: 'uppercase' }}>Active</span>
                     </div>
-                  );
-                })}
+                  </div>
+                  {scenario.response.map((r, i) => {
+                    const statusColor = r.status === 'done' ? '#10b981' : r.status === 'active' ? color : 'hsl(215 16% 30%)';
+                    return (
+                      <div key={i} style={{ display: 'flex', gap: 12, padding: '10px 16px', borderBottom: i < scenario.response.length - 1 ? '1px solid hsl(220 13% 9%)' : 'none', background: r.status === 'active' ? `${color}05` : 'transparent', borderLeft: r.critical ? `2px solid ${color}` : '2px solid transparent' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3, flexShrink: 0 }}>
+                          <div style={{ fontFamily: 'var(--app-font-mono)', fontSize: 8.5, color: 'hsl(215 16% 28%)', letterSpacing: '0.04em', whiteSpace: 'nowrap' }}>{r.time}</div>
+                          {i < scenario.response.length - 1 && <div style={{ width: 1, flex: 1, minHeight: 8, background: 'hsl(220 13% 11%)' }} />}
+                        </div>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}>
+                            <div style={{ width: 5, height: 5, borderRadius: '50%', background: statusColor, flexShrink: 0 }} className={r.status === 'active' ? 'animate-pulse' : ''} />
+                            <span style={{ fontSize: 11, fontWeight: 600, color: r.status === 'active' ? '#fff' : 'hsl(215 16% 58%)' }}>{r.action}</span>
+                          </div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 6, paddingLeft: 11 }}>
+                            <span style={{ fontSize: 8.5, color: 'hsl(215 16% 32%)', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600 }}>{r.actor}</span>
+                            <span style={{ fontSize: 7.5, fontWeight: 700, color: statusColor, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{r.status}</span>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Mandate */}
+                <div style={{ padding: '14px 18px', border: '1px solid hsl(220 13% 10%)', background: 'hsl(220 13% 7%)' }}>
+                  <div className="label-caps mb-2" style={{ color: 'hsl(215 16% 26%)' }}>Duty of Care — WELBX Protocol</div>
+                  <p style={{ fontSize: 11, color: 'hsl(215 16% 42%)', lineHeight: 1.75 }}>{scenario.mandateText}</p>
+                </div>
               </div>
             </div>
 
-            {/* Right: response cascade */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              <div style={{ border: `1px solid ${color}1a`, background: 'hsl(220 13% 7%)' }}>
-                <div style={{ padding: '10px 16px', borderBottom: `1px solid ${color}14`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <div className="label-caps" style={{ color }}>Response Cascade</div>
-                  <div style={{ padding: '2px 8px', background: `${color}12`, border: `1px solid ${color}25` }}>
-                    <span style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: '0.12em', color, textTransform: 'uppercase' }}>Active</span>
-                  </div>
+            {/* Team Coordination — operatingView */}
+            <div style={{ border: '1px solid hsl(220 13% 10%)', background: 'hsl(220 13% 7%)', padding: '16px 18px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+                <div className="label-caps">Team Coordination</div>
+                <span style={{ fontSize: 7, fontWeight: 700, letterSpacing: '0.12em', padding: '1px 5px', color: 'hsl(215 16% 38%)', background: 'hsl(220 13% 10%)', border: '1px solid hsl(220 13% 14%)', textTransform: 'uppercase' }}>Operating View</span>
+              </div>
+              {scenario.operatingView.map((s, i) => (
+                <div key={i} style={{ display: 'flex', gap: 8, fontSize: 11, alignItems: 'flex-start', marginBottom: 8 }}>
+                  <span style={{ color: 'hsl(215 16% 36%)', marginTop: 2, flexShrink: 0 }}>—</span>
+                  <span style={{ color: 'hsl(215 16% 52%)', lineHeight: 1.4 }}>{s}</span>
                 </div>
-                {scenario.response.map((r, i) => {
-                  const statusColor = r.status === 'done' ? '#10b981' : r.status === 'active' ? color : 'hsl(215 16% 30%)';
-                  return (
-                    <div key={i} style={{ display: 'flex', gap: 12, padding: '10px 16px', borderBottom: i < scenario.response.length - 1 ? '1px solid hsl(220 13% 9%)' : 'none', background: r.status === 'active' ? `${color}05` : 'transparent', borderLeft: r.critical ? `2px solid ${color}` : '2px solid transparent' }}>
-                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3, flexShrink: 0 }}>
-                        <div style={{ fontFamily: 'var(--app-font-mono)', fontSize: 8.5, color: 'hsl(215 16% 28%)', letterSpacing: '0.04em', whiteSpace: 'nowrap' }}>{r.time}</div>
-                        {i < scenario.response.length - 1 && <div style={{ width: 1, flex: 1, minHeight: 8, background: 'hsl(220 13% 11%)' }} />}
-                      </div>
-                      <div style={{ flex: 1 }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}>
-                          <div style={{ width: 5, height: 5, borderRadius: '50%', background: statusColor, flexShrink: 0 }} className={r.status === 'active' ? 'animate-pulse' : ''} />
-                          <span style={{ fontSize: 11, fontWeight: 600, color: r.status === 'active' ? '#fff' : 'hsl(215 16% 58%)' }}>{r.action}</span>
-                        </div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 6, paddingLeft: 11 }}>
-                          <span style={{ fontSize: 8.5, color: 'hsl(215 16% 32%)', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600 }}>{r.actor}</span>
-                          <span style={{ fontSize: 7.5, fontWeight: 700, color: statusColor, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{r.status}</span>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-
-              {/* Mandate */}
-              <div style={{ padding: '14px 18px', border: '1px solid hsl(220 13% 10%)', background: 'hsl(220 13% 7%)' }}>
-                <div className="label-caps mb-2" style={{ color: 'hsl(215 16% 26%)' }}>Duty of Care — WELBX Protocol</div>
-                <p style={{ fontSize: 11, color: 'hsl(215 16% 42%)', lineHeight: 1.75 }}>{scenario.mandateText}</p>
-              </div>
+              ))}
             </div>
           </motion.div>
         )}
 
         {/* GUEST VIEW */}
-        {tab === 'guest' && (
+        {perspectiveView === 'guest' && (
           <motion.div key="guest" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.2 }}
             style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 36, alignItems: 'start' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -1092,27 +1107,28 @@ function EscalationView({ scenario, guestType, perspectiveView }: { scenario: Es
             />
           </motion.div>
         )}
-      </AnimatePresence>
 
-      {perspectiveView === 'infrastructure' && (
-        <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }} style={{ marginTop: 14 }}>
-          <div style={{ border: '1px solid rgba(201,168,76,0.15)', background: 'rgba(201,168,76,0.03)' }}>
-            <div style={{ padding: '10px 16px', borderBottom: '1px solid rgba(201,168,76,0.12)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div className="label-caps" style={{ color: '#c9a84c' }}>BXOS · Infrastructure Intelligence</div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span style={{ fontSize: 8, color: 'hsl(215 16% 28%)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Confidence</span>
-                <span style={{ fontSize: 13, fontWeight: 800, color, fontFamily: 'var(--app-font-mono)' }}>{scenario.bxosConfidence}%</span>
+        {/* INFRASTRUCTURE VIEW */}
+        {perspectiveView === 'infrastructure' && (
+          <motion.div key="infra" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.2 }}>
+            <div style={{ border: '1px solid rgba(201,168,76,0.15)', background: 'rgba(201,168,76,0.03)' }}>
+              <div style={{ padding: '10px 16px', borderBottom: '1px solid rgba(201,168,76,0.12)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div className="label-caps" style={{ color: '#c9a84c' }}>BXOS · Infrastructure Intelligence</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span style={{ fontSize: 8, color: 'hsl(215 16% 28%)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Confidence</span>
+                  <span style={{ fontSize: 13, fontWeight: 800, color, fontFamily: 'var(--app-font-mono)' }}>{scenario.bxosConfidence}%</span>
+                </div>
               </div>
+              {scenario.infrastructureView.map((item, i) => (
+                <div key={i} style={{ display: 'flex', gap: 10, padding: '9px 16px', borderBottom: i < scenario.infrastructureView.length - 1 ? '1px solid hsl(220 13% 9%)' : 'none', alignItems: 'flex-start' }}>
+                  <div style={{ width: 4, height: 4, borderRadius: '50%', background: '#c9a84c', flexShrink: 0, marginTop: 4 }} />
+                  <span style={{ fontSize: 11, color: 'hsl(215 16% 52%)', lineHeight: 1.55 }}>{item}</span>
+                </div>
+              ))}
             </div>
-            {scenario.infrastructureView.map((item, i) => (
-              <div key={i} style={{ display: 'flex', gap: 10, padding: '9px 16px', borderBottom: i < scenario.infrastructureView.length - 1 ? '1px solid hsl(220 13% 9%)' : 'none', alignItems: 'flex-start' }}>
-                <div style={{ width: 4, height: 4, borderRadius: '50%', background: '#c9a84c', flexShrink: 0, marginTop: 4 }} />
-                <span style={{ fontSize: 11, color: 'hsl(215 16% 52%)', lineHeight: 1.55 }}>{item}</span>
-              </div>
-            ))}
-          </div>
-        </motion.div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <CausalChainSection chain={scenario.causalChain} />
     </div>
