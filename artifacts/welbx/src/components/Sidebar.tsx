@@ -52,7 +52,7 @@ const SECTIONS = [
     items: [
       { label: "Communications",         path: "/communications",             sub: "ORCHESTRATION" },
       { label: "Communication Registry", path: "/communication-registry",     sub: "LOG" },
-      { label: "Comm Intelligence",      path: "/communication-intelligence", sub: "INFLUENCE LAYER" },
+      { label: "Comm Intelligence",      path: "/communication-intelligence", sub: "ANALYTICS" },
     ],
   },
   {

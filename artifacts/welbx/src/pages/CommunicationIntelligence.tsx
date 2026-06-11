@@ -98,6 +98,183 @@ const TREND_DATA = [
 
 const WEEKS = ["W1", "W2", "W3", "W4", "W5", "W6", "W7", "W8"];
 
+const LANES_PERF = [
+  {
+    lane: "Guest",
+    color: "#c9a84c",
+    successRate: 97.4,
+    deliveries: 312,
+    avgLatency: "3.8m",
+    latencyTrend: [5.1, 4.8, 4.4, 4.2, 4.0, 3.9, 3.8, 3.8],
+    successTrend: [91.2, 92.8, 93.6, 94.5, 95.1, 96.0, 96.8, 97.4],
+    priority: "CRITICAL",
+    priorityColor: "#ef4444",
+    topChannel: "In-App Push",
+  },
+  {
+    lane: "Workforce",
+    color: "#3b82f6",
+    successRate: 94.1,
+    deliveries: 187,
+    avgLatency: "6.2m",
+    latencyTrend: [8.4, 8.0, 7.7, 7.4, 7.0, 6.8, 6.4, 6.2],
+    successTrend: [88.4, 89.6, 90.8, 91.5, 92.2, 93.0, 93.6, 94.1],
+    priority: "ELEVATED",
+    priorityColor: "#c9a84c",
+    topChannel: "Ops Dashboard Alert",
+  },
+  {
+    lane: "Operational",
+    color: "#a78bfa",
+    successRate: 98.7,
+    deliveries: 241,
+    avgLatency: "2.6m",
+    latencyTrend: [3.8, 3.6, 3.3, 3.1, 2.9, 2.8, 2.7, 2.6],
+    successTrend: [93.0, 94.4, 95.2, 96.0, 96.8, 97.4, 98.1, 98.7],
+    priority: "HIGH",
+    priorityColor: "#a78bfa",
+    topChannel: "Command Centre",
+  },
+  {
+    lane: "Executive",
+    color: "#f43f5e",
+    successRate: 99.2,
+    deliveries: 64,
+    avgLatency: "11.4m",
+    latencyTrend: [16.2, 15.4, 14.6, 13.8, 13.0, 12.4, 11.8, 11.4],
+    successTrend: [95.4, 96.0, 96.8, 97.4, 98.0, 98.4, 98.8, 99.2],
+    priority: "STRATEGIC",
+    priorityColor: "#f43f5e",
+    topChannel: "Executive Digest",
+  },
+  {
+    lane: "Partner",
+    color: "#10b981",
+    successRate: 91.6,
+    deliveries: 98,
+    avgLatency: "16.8m",
+    latencyTrend: [22.0, 20.8, 19.6, 18.8, 18.0, 17.4, 17.0, 16.8],
+    successTrend: [84.2, 86.0, 87.4, 88.6, 89.4, 90.2, 91.0, 91.6],
+    priority: "STANDARD",
+    priorityColor: "#10b981",
+    topChannel: "Partner Portal",
+  },
+];
+
+const TOP_RULES = [
+  {
+    rank: 1,
+    rule: "Guest tier ≥ M1 AND complaint signal",
+    fires: 214,
+    successRate: 98.6,
+    avgOutcomeShift: "+14.2 NPS pts",
+    color: "#ef4444",
+    lane: "Guest",
+  },
+  {
+    rank: 2,
+    rule: "Foyer occupancy > 85% for 8 min",
+    fires: 178,
+    successRate: 97.9,
+    avgOutcomeShift: "–34% congestion",
+    color: "#a78bfa",
+    lane: "Operational",
+  },
+  {
+    rank: 3,
+    rule: "Revenue gap > £2,000 in window",
+    fires: 142,
+    successRate: 96.5,
+    avgOutcomeShift: "+£1,840 recovered",
+    color: "#10b981",
+    lane: "Guest",
+  },
+  {
+    rank: 4,
+    rule: "Workforce welfare score < 3.5",
+    fires: 116,
+    successRate: 94.8,
+    avgOutcomeShift: "+0.6 welfare score",
+    color: "#c9a84c",
+    lane: "Workforce",
+  },
+  {
+    rank: 5,
+    rule: "Executive NPS delta > −2.0 pts",
+    fires: 84,
+    successRate: 99.1,
+    avgOutcomeShift: "+2.8 pts recovery",
+    color: "#f43f5e",
+    lane: "Executive",
+  },
+  {
+    rank: 6,
+    rule: "Partner SLA breach detected",
+    fires: 61,
+    successRate: 92.3,
+    avgOutcomeShift: "93% SLA restored",
+    color: "#3b82f6",
+    lane: "Partner",
+  },
+];
+
+const OUTCOME_TYPES = [
+  {
+    type: "Experience Recovery",
+    color: "#c9a84c",
+    correlation: 0.87,
+    topChannel: "Front-Desk Verbal",
+    avgDelay: "4.2m",
+    trend: [0.71, 0.74, 0.76, 0.79, 0.81, 0.84, 0.86, 0.87],
+    volume: 138,
+  },
+  {
+    type: "Revenue Activation",
+    color: "#10b981",
+    correlation: 0.74,
+    topChannel: "In-App Push",
+    avgDelay: "3.1m",
+    trend: [0.58, 0.60, 0.63, 0.66, 0.68, 0.71, 0.73, 0.74],
+    volume: 96,
+  },
+  {
+    type: "Operational Continuity",
+    color: "#a78bfa",
+    correlation: 0.81,
+    topChannel: "Command Centre",
+    avgDelay: "2.4m",
+    trend: [0.64, 0.67, 0.70, 0.72, 0.75, 0.77, 0.79, 0.81],
+    volume: 112,
+  },
+  {
+    type: "Staff Wellbeing",
+    color: "#3b82f6",
+    correlation: 0.68,
+    topChannel: "Ops Dashboard Alert",
+    avgDelay: "6.8m",
+    trend: [0.52, 0.54, 0.57, 0.59, 0.61, 0.63, 0.66, 0.68],
+    volume: 74,
+  },
+  {
+    type: "Governance Visibility",
+    color: "#f43f5e",
+    correlation: 0.92,
+    topChannel: "Executive Digest",
+    avgDelay: "12.6m",
+    trend: [0.78, 0.81, 0.83, 0.85, 0.87, 0.89, 0.91, 0.92],
+    volume: 48,
+  },
+  {
+    type: "Partner SLA Compliance",
+    color: "#06b6d4",
+    correlation: 0.63,
+    topChannel: "Partner Portal",
+    avgDelay: "17.2m",
+    trend: [0.48, 0.50, 0.53, 0.55, 0.57, 0.59, 0.61, 0.63],
+    volume: 52,
+  },
+];
+
 function heatColor(value: number): { bg: string; fg: string } {
   if (value >= 85) return { bg: "rgba(201,168,76,0.22)", fg: "#c9a84c" };
   if (value >= 70) return { bg: "rgba(201,168,76,0.12)", fg: "#c9a84c" };
@@ -404,10 +581,240 @@ export default function CommunicationIntelligence() {
           </div>
         </motion.div>
 
-        {/* ── Behavioural Response Trends ── */}
-        <motion.div {...fadeUp(0.3)}>
+        {/* ── Channel Success Rate by Lane ── */}
+        <motion.div {...fadeUp(0.3)} style={{ marginBottom: 40 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 12 }}>
-            <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.22em", color: ACCENT, textTransform: "uppercase" }}>04 — Behavioural Response Trends</div>
+            <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.22em", color: ACCENT, textTransform: "uppercase" }}>05 — Channel Success Rate by Lane</div>
+            <div style={{ flex: 1, height: 1, background: "hsl(220 13% 10%)" }} />
+            <div style={{ fontSize: 8, color: "hsl(215 16% 30%)", letterSpacing: "0.1em", textTransform: "uppercase" }}>Delivery confirmation rate · 8-week rolling</div>
+          </div>
+          <p style={{ fontSize: 11, color: "hsl(215 16% 40%)", lineHeight: 1.7, marginBottom: 18, maxWidth: 640 }}>
+            Success rate per communication lane — the percentage of routed messages confirmed delivered and acknowledged within the lane's defined latency window.
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 1 }}>
+            {LANES_PERF.map((lane, i) => {
+              const barW = Math.round(lane.successRate);
+              const barColor = lane.successRate >= 97 ? ACCENT : lane.successRate >= 93 ? "#10b981" : "#60a5fa";
+              return (
+                <motion.div
+                  key={lane.lane}
+                  initial={{ opacity: 0, x: -8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.34 + i * 0.06 }}
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "130px 1fr 90px 80px 110px 120px",
+                    alignItems: "center",
+                    gap: 0,
+                    background: i % 2 === 0 ? "hsl(220 13% 7%)" : "hsl(220 13% 8%)",
+                    border: "1px solid hsl(220 13% 10%)",
+                    borderLeft: `3px solid ${lane.color}`,
+                  }}
+                >
+                  {/* Lane name */}
+                  <div style={{ padding: "16px 18px", borderRight: "1px solid hsl(220 13% 10%)" }}>
+                    <div style={{ fontSize: 12, fontWeight: 800, color: lane.color, letterSpacing: "0.04em" }}>
+                      {lane.lane.toUpperCase()}
+                    </div>
+                    <div style={{
+                      display: "inline-block", marginTop: 5,
+                      fontSize: 7.5, fontWeight: 700, letterSpacing: "0.1em",
+                      color: lane.priorityColor, border: `1px solid ${lane.priorityColor}40`,
+                      background: `${lane.priorityColor}10`, padding: "2px 6px",
+                    }}>
+                      {lane.priority}
+                    </div>
+                  </div>
+                  {/* Bar */}
+                  <div style={{ padding: "16px 20px", borderRight: "1px solid hsl(220 13% 10%)" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                      <div style={{ flex: 1, height: 5, background: "hsl(220 13% 12%)" }}>
+                        <motion.div
+                          initial={{ width: 0 }}
+                          animate={{ width: `${barW}%` }}
+                          transition={{ delay: 0.5 + i * 0.05, duration: 0.7, ease: "easeOut" }}
+                          style={{ height: "100%", background: barColor }}
+                        />
+                      </div>
+                      <span style={{ fontSize: 15, fontWeight: 800, color: barColor, minWidth: 44, textAlign: "right", fontFamily: "var(--app-font-mono)" }}>
+                        {lane.successRate}%
+                      </span>
+                    </div>
+                    <div style={{ fontSize: 7.5, color: "hsl(215 16% 30%)", letterSpacing: "0.1em", textTransform: "uppercase", marginTop: 4 }}>
+                      Success Rate
+                    </div>
+                  </div>
+                  {/* Deliveries */}
+                  <div style={{ padding: "16px 16px", borderRight: "1px solid hsl(220 13% 10%)", textAlign: "center" }}>
+                    <div style={{ fontSize: 15, fontWeight: 800, color: "#fff", fontFamily: "var(--app-font-mono)" }}>{lane.deliveries}</div>
+                    <div style={{ fontSize: 7.5, color: "hsl(215 16% 30%)", letterSpacing: "0.1em", textTransform: "uppercase", marginTop: 3 }}>Deliveries</div>
+                  </div>
+                  {/* Latency */}
+                  <div style={{ padding: "16px 16px", borderRight: "1px solid hsl(220 13% 10%)", textAlign: "center" }}>
+                    <div style={{ fontSize: 15, fontWeight: 800, color: "hsl(215 16% 60%)", fontFamily: "var(--app-font-mono)" }}>{lane.avgLatency}</div>
+                    <div style={{ fontSize: 7.5, color: "hsl(215 16% 30%)", letterSpacing: "0.1em", textTransform: "uppercase", marginTop: 3 }}>Avg Latency</div>
+                  </div>
+                  {/* Latency sparkline */}
+                  <div style={{ padding: "16px 16px", borderRight: "1px solid hsl(220 13% 10%)", display: "flex", flexDirection: "column", gap: 4 }}>
+                    <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.1em", color: "hsl(215 16% 28%)", textTransform: "uppercase" }}>Latency Trend</div>
+                    <LineSparkline data={lane.latencyTrend} color={lane.color} />
+                  </div>
+                  {/* Top channel */}
+                  <div style={{ padding: "16px 16px" }}>
+                    <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.1em", color: "hsl(215 16% 28%)", textTransform: "uppercase", marginBottom: 4 }}>Top Channel</div>
+                    <div style={{ fontSize: 10.5, fontWeight: 700, color: lane.color }}>{lane.topChannel}</div>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        </motion.div>
+
+        {/* ── Top-Performing Routing Rules ── */}
+        <motion.div {...fadeUp(0.36)} style={{ marginBottom: 40 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 12 }}>
+            <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.22em", color: ACCENT, textTransform: "uppercase" }}>06 — Top-Performing Routing Rules</div>
+            <div style={{ flex: 1, height: 1, background: "hsl(220 13% 10%)" }} />
+            <div style={{ fontSize: 8, color: "hsl(215 16% 30%)", letterSpacing: "0.1em", textTransform: "uppercase" }}>Ranked by fires × outcome shift</div>
+          </div>
+          <p style={{ fontSize: 11, color: "hsl(215 16% 40%)", lineHeight: 1.7, marginBottom: 18, maxWidth: 640 }}>
+            The routing rules with the highest combined fire count and measured outcome shift. High-firing rules with strong outcome shifts indicate well-tuned thresholds; low-firing rules with high shifts may benefit from broader triggers.
+          </p>
+          <div style={{ background: "hsl(220 13% 7%)", border: "1px solid hsl(220 13% 10%)" }}>
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: "36px 1fr 80px 80px 90px 150px",
+              padding: "10px 20px",
+              borderBottom: "1px solid hsl(220 13% 10%)",
+              gap: 16,
+            }}>
+              {["#", "Condition Rule", "Lane", "Fires (8w)", "Success", "Avg Outcome Shift"].map(h => (
+                <div key={h} style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.14em", color: "hsl(215 16% 26%)", textTransform: "uppercase" }}>{h}</div>
+              ))}
+            </div>
+            {TOP_RULES.map((r, i) => (
+              <motion.div
+                key={r.rank}
+                initial={{ opacity: 0, x: -6 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.40 + i * 0.05 }}
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "36px 1fr 80px 80px 90px 150px",
+                  padding: "14px 20px",
+                  borderBottom: i < TOP_RULES.length - 1 ? "1px solid hsl(220 13% 9%)" : "none",
+                  alignItems: "center",
+                  gap: 16,
+                  borderLeft: `2px solid ${r.color}`,
+                }}
+                onMouseEnter={e => (e.currentTarget.style.background = "hsl(220 13% 8%)")}
+                onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
+              >
+                <div style={{ fontSize: 12, fontWeight: 800, color: "hsl(215 16% 28%)", fontFamily: "var(--app-font-mono)" }}>
+                  {String(r.rank).padStart(2, "0")}
+                </div>
+                <div style={{ fontSize: 11.5, fontWeight: 600, color: "hsl(215 16% 62%)", lineHeight: 1.5 }}>{r.rule}</div>
+                <div style={{
+                  fontSize: 8, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase",
+                  color: r.color, border: `1px solid ${r.color}40`, background: `${r.color}0d`,
+                  padding: "3px 7px", textAlign: "center",
+                }}>
+                  {r.lane}
+                </div>
+                <div style={{ fontSize: 15, fontWeight: 800, color: "#fff", fontFamily: "var(--app-font-mono)" }}>{r.fires}</div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: r.successRate >= 98 ? ACCENT : "#10b981", fontFamily: "var(--app-font-mono)" }}>
+                  {r.successRate}%
+                </div>
+                <div style={{ fontSize: 11, fontWeight: 700, color: r.color }}>{r.avgOutcomeShift}</div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* ── Outcome Correlation by Communication Type ── */}
+        <motion.div {...fadeUp(0.42)} style={{ marginBottom: 40 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 12 }}>
+            <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.22em", color: ACCENT, textTransform: "uppercase" }}>07 — Outcome Correlation by Communication Type</div>
+            <div style={{ flex: 1, height: 1, background: "hsl(220 13% 10%)" }} />
+          </div>
+          <p style={{ fontSize: 11, color: "hsl(215 16% 40%)", lineHeight: 1.7, marginBottom: 18, maxWidth: 640 }}>
+            Statistical correlation (0–1) between communication delivery and measurable outcome change — not volume, not impressions. A score of 0.8 means 80% of measured outcomes followed a routed communication within the defined attribution window.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 1 }}>
+            {OUTCOME_TYPES.map((o, i) => {
+              const barW = Math.round(o.correlation * 100);
+              return (
+                <motion.div
+                  key={o.type}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.46 + i * 0.06 }}
+                  style={{
+                    background: "hsl(220 13% 7%)",
+                    border: "1px solid hsl(220 13% 10%)",
+                    borderTop: `2px solid ${o.color}`,
+                    padding: "22px 22px",
+                  }}
+                >
+                  <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: "hsl(215 16% 30%)", textTransform: "uppercase", marginBottom: 12 }}>
+                    {o.type}
+                  </div>
+                  {/* Correlation score */}
+                  <div style={{ display: "flex", alignItems: "flex-end", gap: 8, marginBottom: 12 }}>
+                    <div style={{ fontSize: 38, fontWeight: 800, color: o.color, fontFamily: "var(--app-font-mono)", letterSpacing: "-0.03em", lineHeight: 1 }}>
+                      {o.correlation.toFixed(2)}
+                    </div>
+                    <div style={{ paddingBottom: 4 }}>
+                      <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.12em", color: "hsl(215 16% 30%)", textTransform: "uppercase" }}>
+                        Correlation
+                      </div>
+                    </div>
+                  </div>
+                  {/* Bar */}
+                  <div style={{ marginBottom: 14 }}>
+                    <div style={{ height: 4, background: "hsl(220 13% 12%)", marginBottom: 6 }}>
+                      <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: `${barW}%` }}
+                        transition={{ delay: 0.6 + i * 0.05, duration: 0.7, ease: "easeOut" }}
+                        style={{ height: "100%", background: o.color }}
+                      />
+                    </div>
+                  </div>
+                  {/* Trend sparkline */}
+                  <div style={{ marginBottom: 14 }}>
+                    <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.12em", color: "hsl(215 16% 26%)", textTransform: "uppercase", marginBottom: 6 }}>8-Week Trend</div>
+                    <LineSparkline data={o.trend.map(v => Math.round(v * 100))} color={o.color} />
+                  </div>
+                  {/* Meta */}
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                    <div>
+                      <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.1em", color: "hsl(215 16% 26%)", textTransform: "uppercase", marginBottom: 3 }}>Top Channel</div>
+                      <div style={{ fontSize: 10, fontWeight: 700, color: o.color }}>{o.topChannel}</div>
+                    </div>
+                    <div>
+                      <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.1em", color: "hsl(215 16% 26%)", textTransform: "uppercase", marginBottom: 3 }}>Avg Attribution Delay</div>
+                      <div style={{ fontSize: 10, fontWeight: 700, color: "hsl(215 16% 52%)", fontFamily: "var(--app-font-mono)" }}>{o.avgDelay}</div>
+                    </div>
+                    <div>
+                      <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.1em", color: "hsl(215 16% 26%)", textTransform: "uppercase", marginBottom: 3 }}>8-Week Volume</div>
+                      <div style={{ fontSize: 10, fontWeight: 700, color: "hsl(215 16% 52%)", fontFamily: "var(--app-font-mono)" }}>{o.volume}</div>
+                    </div>
+                    <div>
+                      <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.1em", color: "hsl(215 16% 26%)", textTransform: "uppercase", marginBottom: 3 }}>Direction</div>
+                      <div style={{ fontSize: 8, fontWeight: 700, color: "#10b981", letterSpacing: "0.08em" }}>▲ RISING</div>
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        </motion.div>
+
+        {/* ── Behavioural Response Trends ── */}
+        <motion.div {...fadeUp(0.5)}>
+          <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 12 }}>
+            <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.22em", color: ACCENT, textTransform: "uppercase" }}>08 — Behavioural Response Trends</div>
             <div style={{ flex: 1, height: 1, background: "hsl(220 13% 10%)" }} />
           </div>
           <p style={{ fontSize: 11, color: "hsl(215 16% 40%)", lineHeight: 1.7, marginBottom: 20, maxWidth: 620 }}>
