@@ -143,14 +143,32 @@ function formatResolution(mins: number): string {
 type OutcomeFilter = PlaybookExecution["outcome"] | "All";
 const OUTCOME_FILTERS: OutcomeFilter[] = ["All", "Resolved", "Escalated", "Partial"];
 
+/* ─── Sort types ──────────────────────────────────────── */
+type SortOrder = "newest" | "oldest" | "fastest" | "slowest";
+const SORT_OPTIONS: { key: SortOrder; label: string }[] = [
+  { key: "newest",  label: "Newest"  },
+  { key: "oldest",  label: "Oldest"  },
+  { key: "fastest", label: "Fastest" },
+  { key: "slowest", label: "Slowest" },
+];
+
 /* ─── Execution timeline ──────────────────────────────── */
 function ExecutionTimeline({ executions }: { executions: PlaybookExecution[] }) {
   const [outcomeFilter, setOutcomeFilter] = useState<OutcomeFilter>("All");
+  const [sortOrder, setSortOrder] = useState<SortOrder>("newest");
   const [, navigate] = useLocation();
 
-  const filtered = outcomeFilter === "All"
+  const filtered = (outcomeFilter === "All"
     ? executions
-    : executions.filter((ex) => ex.outcome === outcomeFilter);
+    : executions.filter((ex) => ex.outcome === outcomeFilter)
+  ).slice().sort((a, b) => {
+    switch (sortOrder) {
+      case "newest":  return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
+      case "oldest":  return new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime();
+      case "fastest": return a.resolutionMinutes - b.resolutionMinutes;
+      case "slowest": return b.resolutionMinutes - a.resolutionMinutes;
+    }
+  });
 
   return (
     <div
@@ -162,10 +180,11 @@ function ExecutionTimeline({ executions }: { executions: PlaybookExecution[] }) 
         overflowY: "auto",
       }}
     >
-      {/* Filter bar */}
+      {/* Filter + sort bar */}
       <div style={{
         display: "flex", alignItems: "center", gap: 6, marginBottom: 14, flexWrap: "wrap",
       }}>
+        {/* Outcome filter pills */}
         {OUTCOME_FILTERS.map((f) => {
           const isActive = outcomeFilter === f;
           const count = f === "All"
@@ -204,6 +223,46 @@ function ExecutionTimeline({ executions }: { executions: PlaybookExecution[] }) 
             </button>
           );
         })}
+
+        {/* Divider */}
+        <div style={{
+          width: 1, height: 14, background: "hsl(220 13% 13%)", flexShrink: 0, margin: "0 4px",
+        }} />
+
+        {/* Sort label */}
+        <span style={{
+          fontSize: 7.5, fontWeight: 700, letterSpacing: "0.14em",
+          color: "hsl(215 16% 22%)", textTransform: "uppercase", flexShrink: 0,
+        }}>
+          Sort
+        </span>
+
+        {/* Sort buttons */}
+        {SORT_OPTIONS.map(({ key, label }) => {
+          const isActive = sortOrder === key;
+          return (
+            <button
+              key={key}
+              onClick={() => setSortOrder(key)}
+              style={{
+                padding: "3px 9px",
+                background: isActive ? "hsl(220 13% 11%)" : "transparent",
+                border: `1px solid ${isActive ? "hsl(220 13% 18%)" : "hsl(220 13% 11%)"}`,
+                cursor: "pointer",
+                transition: "all 0.14s",
+              }}
+            >
+              <span style={{
+                fontSize: 8, fontWeight: 700, letterSpacing: "0.1em",
+                color: isActive ? "#bcc8d8" : "hsl(215 16% 28%)",
+                textTransform: "uppercase", transition: "color 0.14s",
+              }}>
+                {label}
+              </span>
+            </button>
+          );
+        })}
+
         {outcomeFilter !== "All" && (
           <span style={{
             fontSize: 8, color: "hsl(215 16% 24%)", letterSpacing: "0.04em", marginLeft: 2,
