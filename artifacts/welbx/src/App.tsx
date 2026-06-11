@@ -34,6 +34,7 @@ import InterventionLibrary from "@/pages/InterventionLibrary";
 import ExecutionIndex from "@/pages/ExecutionIndex";
 import ConsistencyEngine from "@/pages/ConsistencyEngine";
 import EnvironmentHealthIndex from "@/pages/EnvironmentHealthIndex";
+import EnvironmentHealthDetail from "@/pages/EnvironmentHealthDetail";
 import CentralCommunicationsSystem from "@/pages/CentralCommunicationsSystem";
 import CommunicationRegistry from "@/pages/CommunicationRegistry";
 import CommunicationIntelligence from "@/pages/CommunicationIntelligence";
@@ -70,6 +71,7 @@ function Router() {
       <Route path="/execution-index" component={ExecutionIndex} />
       <Route path="/consistency-engine" component={ConsistencyEngine} />
       <Route path="/environment-health" component={EnvironmentHealthIndex} />
+      <Route path="/environment-health/:dimensionId" component={EnvironmentHealthDetail} />
       <Route path="/communications" component={CentralCommunicationsSystem} />
       <Route path="/communication-registry" component={CommunicationRegistry} />
       <Route path="/communication-intelligence" component={CommunicationIntelligence} />

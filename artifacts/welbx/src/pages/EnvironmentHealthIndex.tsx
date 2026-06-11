@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useLocation } from "wouter";
 import {
   AreaChart, Area, XAxis, Tooltip,
   ResponsiveContainer,
@@ -284,19 +285,34 @@ function TrendArea({ d }: { d: typeof DIMENSIONS[0] }) {
 function DimensionCard({ d, i }: { d: typeof DIMENSIONS[0]; i: number }) {
   const cat = scoreCategory(d.score);
   const col = scoreColor(d.score);
+  const [, navigate] = useLocation();
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.18 + i * 0.06, duration: 0.35 }}
+      onClick={() => navigate(`/environment-health/${d.id}`)}
+      whileHover={{ scale: 1.005 }}
       style={{
         background: C.card,
         border: `1px solid ${C.border}`,
         borderTop: `2px solid ${col}`,
         padding: "20px 22px",
+        cursor: "pointer",
+        position: "relative",
       }}
     >
+      {/* Drill-in hint */}
+      <div style={{
+        position: "absolute", top: 10, right: 14,
+        fontSize: 7.5, fontWeight: 700, letterSpacing: "0.12em",
+        color: C.dimmed, textTransform: "uppercase",
+        display: "flex", alignItems: "center", gap: 4,
+      }}>
+        Details →
+      </div>
+
       {/* Header */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 14 }}>
         <div>
@@ -310,7 +326,7 @@ function DimensionCard({ d, i }: { d: typeof DIMENSIONS[0]; i: number }) {
             {d.description}
           </div>
         </div>
-        <div style={{ flexShrink: 0, marginLeft: 16, textAlign: "right" }}>
+        <div style={{ flexShrink: 0, marginLeft: 16, textAlign: "right", marginTop: 16 }}>
           <div style={{ fontSize: 32, fontWeight: 800, color: col, letterSpacing: "-0.025em", lineHeight: 1 }}>
             {d.score}
           </div>
