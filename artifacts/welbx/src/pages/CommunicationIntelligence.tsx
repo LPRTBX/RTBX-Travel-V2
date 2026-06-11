@@ -306,12 +306,12 @@ function MiniSparkline({ data, color }: { data: number[]; color: string }) {
   );
 }
 
-function LineSparkline({ data, color }: { data: number[]; color: string }) {
+function LineSparkline({ data, color, width = 160, height = 40 }: { data: number[]; color: string; width?: number; height?: number }) {
   const max = Math.max(...data);
   const min = Math.min(...data);
   const range = max - min || 1;
-  const W = 160;
-  const H = 40;
+  const W = width;
+  const H = height;
   const stepX = W / (data.length - 1);
   const points = data.map((v, i) => `${i * stepX},${H - ((v - min) / range) * (H - 4) - 2}`).join(" ");
   return (
@@ -328,6 +328,33 @@ function LineSparkline({ data, color }: { data: number[]; color: string }) {
       ))}
     </svg>
   );
+}
+
+function WoWTrendBadge({ first, last }: { first: number; last: number }) {
+  const delta = last - first;
+  const improving = delta > 1.5;
+  const declining = delta < -1.5;
+  const label = improving ? "↑ Improving" : declining ? "↓ Declining" : "→ Steady";
+  const color = improving ? "#10b981" : declining ? "#ef4444" : ACCENT;
+  return (
+    <div style={{
+      display: "inline-flex", alignItems: "center", gap: 4,
+      fontSize: 8, fontWeight: 700, letterSpacing: "0.12em",
+      color, border: `1px solid ${color}44`,
+      background: `${color}12`, padding: "3px 8px",
+      textTransform: "uppercase",
+    }}>
+      {label}
+    </div>
+  );
+}
+
+function computeActionRates(sent: number[], action: number[]) {
+  return sent.map((s, i) => parseFloat(((action[i] / s) * 100).toFixed(1)));
+}
+
+function computeResponseRates(sent: number[], response: number[]) {
+  return sent.map((s, i) => parseFloat(((response[i] / s) * 100).toFixed(1)));
 }
 
 const fadeUp = (delay: number) => ({
@@ -966,7 +993,15 @@ export default function CommunicationIntelligence() {
           </p>
 
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1 }}>
-            {TREND_DATA.map((ch, i) => (
+            {TREND_DATA.map((ch, i) => {
+              const actionRates = computeActionRates(ch.sent, ch.action);
+              const responseRates = computeResponseRates(ch.sent, ch.response);
+              const firstActionRate = actionRates[0];
+              const lastActionRate = actionRates[actionRates.length - 1];
+              const firstResponseRate = responseRates[0];
+              const lastResponseRate = responseRates[responseRates.length - 1];
+              const actionDelta = lastActionRate - firstActionRate;
+              return (
               <motion.div
                 key={ch.channel}
                 initial={{ opacity: 0, y: 10 }}
@@ -1034,8 +1069,101 @@ export default function CommunicationIntelligence() {
                     </div>
                   );
                 })}
+
+                {/* ── WoW Conversion Rate Trend ── */}
+                <div style={{
+                  marginTop: 18,
+                  paddingTop: 16,
+                  borderTop: "1px solid hsl(220 13% 11%)",
+                  background: "hsl(220 13% 6%)",
+                  margin: "18px -22px -20px",
+                  padding: "14px 22px 18px",
+                }}>
+                  {/* Header row */}
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+                    <div>
+                      <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.14em", color: "hsl(215 16% 30%)", textTransform: "uppercase", marginBottom: 3 }}>
+                        Conversion Rate · Week over Week
+                      </div>
+                      <div style={{ fontSize: 8.5, color: "hsl(215 16% 36%)" }}>
+                        Action rate % across 8 weeks
+                      </div>
+                    </div>
+                    <WoWTrendBadge first={firstActionRate} last={lastActionRate} />
+                  </div>
+
+                  {/* Dual sparkline: action rate + response rate */}
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+                    {/* Action rate sparkline */}
+                    <div>
+                      <div style={{ fontSize: 7, fontWeight: 700, letterSpacing: "0.12em", color: "#10b981", textTransform: "uppercase", marginBottom: 6 }}>
+                        Action Rate %
+                      </div>
+                      <LineSparkline data={actionRates} color="#10b981" width={140} height={34} />
+                      <div style={{ display: "flex", justifyContent: "space-between", marginTop: 4 }}>
+                        {WEEKS.map((w, wi) => (
+                          <div key={w} style={{ fontSize: 6.5, color: wi === WEEKS.length - 1 ? "hsl(215 16% 38%)" : "hsl(215 16% 20%)", letterSpacing: "0.04em" }}>{w}</div>
+                        ))}
+                      </div>
+                      {/* W1 → W8 callout */}
+                      <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 8 }}>
+                        <div>
+                          <div style={{ fontSize: 6.5, color: "hsl(215 16% 28%)", letterSpacing: "0.1em", textTransform: "uppercase" }}>W1</div>
+                          <div style={{ fontSize: 11, fontWeight: 700, color: "hsl(215 16% 42%)", fontFamily: "var(--app-font-mono)" }}>{firstActionRate.toFixed(1)}%</div>
+                        </div>
+                        <div style={{ fontSize: 9, color: "hsl(215 16% 24%)" }}>→</div>
+                        <div>
+                          <div style={{ fontSize: 6.5, color: "#10b981", letterSpacing: "0.1em", textTransform: "uppercase" }}>W8</div>
+                          <div style={{ fontSize: 11, fontWeight: 700, color: "#10b981", fontFamily: "var(--app-font-mono)" }}>{lastActionRate.toFixed(1)}%</div>
+                        </div>
+                        <div style={{
+                          marginLeft: "auto",
+                          fontSize: 9, fontWeight: 700,
+                          color: actionDelta >= 0 ? "#10b981" : "#ef4444",
+                          fontFamily: "var(--app-font-mono)",
+                        }}>
+                          {actionDelta >= 0 ? "+" : ""}{actionDelta.toFixed(1)}pp
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Response rate sparkline */}
+                    <div>
+                      <div style={{ fontSize: 7, fontWeight: 700, letterSpacing: "0.12em", color: ch.color, textTransform: "uppercase", marginBottom: 6 }}>
+                        Response Rate %
+                      </div>
+                      <LineSparkline data={responseRates} color={ch.color} width={140} height={34} />
+                      <div style={{ display: "flex", justifyContent: "space-between", marginTop: 4 }}>
+                        {WEEKS.map((w, wi) => (
+                          <div key={w} style={{ fontSize: 6.5, color: wi === WEEKS.length - 1 ? "hsl(215 16% 38%)" : "hsl(215 16% 20%)", letterSpacing: "0.04em" }}>{w}</div>
+                        ))}
+                      </div>
+                      {/* W1 → W8 callout */}
+                      <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 8 }}>
+                        <div>
+                          <div style={{ fontSize: 6.5, color: "hsl(215 16% 28%)", letterSpacing: "0.1em", textTransform: "uppercase" }}>W1</div>
+                          <div style={{ fontSize: 11, fontWeight: 700, color: "hsl(215 16% 42%)", fontFamily: "var(--app-font-mono)" }}>{firstResponseRate.toFixed(1)}%</div>
+                        </div>
+                        <div style={{ fontSize: 9, color: "hsl(215 16% 24%)" }}>→</div>
+                        <div>
+                          <div style={{ fontSize: 6.5, color: ch.color, letterSpacing: "0.1em", textTransform: "uppercase" }}>W8</div>
+                          <div style={{ fontSize: 11, fontWeight: 700, color: ch.color, fontFamily: "var(--app-font-mono)" }}>{lastResponseRate.toFixed(1)}%</div>
+                        </div>
+                        <div style={{
+                          marginLeft: "auto",
+                          fontSize: 9, fontWeight: 700,
+                          color: (lastResponseRate - firstResponseRate) >= 0 ? "#10b981" : "#ef4444",
+                          fontFamily: "var(--app-font-mono)",
+                        }}>
+                          {(lastResponseRate - firstResponseRate) >= 0 ? "+" : ""}{(lastResponseRate - firstResponseRate).toFixed(1)}pp
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </motion.div>
-            ))}
+              );
+            })}
           </div>
         </motion.div>
 
