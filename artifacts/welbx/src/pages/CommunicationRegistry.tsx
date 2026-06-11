@@ -821,42 +821,53 @@ export default function CommunicationRegistry() {
           <TrendChart />
         </motion.div>
 
-        {/* ── Controls: search + lane filter + status filter ── */}
+        {/* ── Controls: search row ── */}
         <motion.div
           initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.28, duration: 0.35 }}
-          style={{ display: "flex", gap: 1, alignItems: "stretch", marginBottom: 0 }}
+          style={{ marginBottom: 1 }}
         >
-          {/* Search */}
           <div style={{
             display: "flex", alignItems: "center", gap: 8,
-            padding: "0 14px",
+            padding: "0 16px",
+            height: 42,
             background: "hsl(220 13% 7%)",
             border: `1px solid ${C.border}`,
-            minWidth: 240,
-            flex: "0 0 auto",
           }}>
             <SearchIcon />
             <input
               type="text"
               value={search}
               onChange={e => setSearch(e.target.value)}
-              placeholder="Search by name, trigger, audience…"
+              placeholder="Search by name, trigger, audience, or outcome…"
               style={{
                 background: "transparent", border: "none", outline: "none",
-                fontSize: 10.5, color: "hsl(215 16% 60%)", width: "100%",
+                fontSize: 11, color: "hsl(215 16% 65%)", width: "100%",
                 fontFamily: "inherit",
               }}
             />
-            {search && (
+            {search ? (
               <button
                 onClick={() => setSearch("")}
-                style={{ background: "none", border: "none", cursor: "pointer", color: C.dimmed, padding: 0, fontSize: 13, lineHeight: 1 }}
+                title="Clear search"
+                style={{ background: "none", border: "none", cursor: "pointer", color: C.dimmed, padding: "0 2px", fontSize: 14, lineHeight: 1, flexShrink: 0 }}
               >×</button>
+            ) : (
+              <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.12em", color: "hsl(215 16% 18%)", textTransform: "uppercase", whiteSpace: "nowrap", flexShrink: 0 }}>
+                {filtered.length} results
+              </span>
             )}
           </div>
+        </motion.div>
 
+        {/* ── Controls: lane filter + status filter ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.32, duration: 0.35 }}
+          style={{ display: "flex", gap: 1, alignItems: "stretch", marginBottom: 0 }}
+        >
           {/* Lane tabs */}
           <div style={{ display: "flex", gap: 1, flex: 1 }}>
             {(["All", ...ALL_LANES] as Array<"All" | LaneType>).map((lane) => {
