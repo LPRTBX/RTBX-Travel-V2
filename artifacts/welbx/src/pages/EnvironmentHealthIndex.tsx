@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { useState, useEffect, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import {
   AreaChart, Area, XAxis, Tooltip,
@@ -32,7 +33,7 @@ function scoreCategory(s: number): ScoreCategory {
 function scoreColor(s: number): string {
   if (s >= 90) return C.green;
   if (s >= 75) return C.amber;
-  if (s >= 60) return "#f97316"; // orange
+  if (s >= 60) return "#f97316";
   return C.red;
 }
 
@@ -51,7 +52,6 @@ function spark(base: number, variance: number, days = 30) {
     current = Math.min(100, Math.max(0, current + (Math.random() - 0.42) * variance));
     result.push({ d: i + 1, v: Math.round(current) });
   }
-  // nudge last point to be the target score
   result[days - 1].v = base;
   return result;
 }
@@ -114,9 +114,34 @@ const DIMENSIONS = [
   },
 ];
 
-const OVERALL_SCORE = Math.round(
-  DIMENSIONS.reduce((sum, d) => sum + d.score, 0) / DIMENSIONS.length
+const DEFAULT_WEIGHTS: Record<string, number> = Object.fromEntries(
+  DIMENSIONS.map(d => [d.id, 100])
 );
+
+const LS_KEY = "welbx_env_weights";
+
+function loadWeights(): Record<string, number> {
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    if (!raw) return { ...DEFAULT_WEIGHTS };
+    const parsed = JSON.parse(raw) as Record<string, number>;
+    // ensure all dimension ids present
+    const merged = { ...DEFAULT_WEIGHTS };
+    for (const id of Object.keys(DEFAULT_WEIGHTS)) {
+      if (typeof parsed[id] === "number") merged[id] = Math.max(0, Math.min(100, parsed[id]));
+    }
+    return merged;
+  } catch {
+    return { ...DEFAULT_WEIGHTS };
+  }
+}
+
+function computeWeightedScore(weights: Record<string, number>): number {
+  const totalWeight = DIMENSIONS.reduce((s, d) => s + weights[d.id], 0);
+  if (totalWeight === 0) return 0;
+  const weighted = DIMENSIONS.reduce((s, d) => s + d.score * weights[d.id], 0);
+  return Math.round(weighted / totalWeight);
+}
 
 /* ─── Risk Areas ─────────────────────────────────────── */
 const RISK_AREAS = [
@@ -303,7 +328,6 @@ function DimensionCard({ d, i }: { d: typeof DIMENSIONS[0]; i: number }) {
         position: "relative",
       }}
     >
-      {/* Drill-in hint */}
       <div style={{
         position: "absolute", top: 10, right: 14,
         fontSize: 7.5, fontWeight: 700, letterSpacing: "0.12em",
@@ -313,7 +337,6 @@ function DimensionCard({ d, i }: { d: typeof DIMENSIONS[0]; i: number }) {
         Details →
       </div>
 
-      {/* Header */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 14 }}>
         <div>
           <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.18em", color: C.dimmed, textTransform: "uppercase", marginBottom: 5 }}>
@@ -343,7 +366,6 @@ function DimensionCard({ d, i }: { d: typeof DIMENSIONS[0]; i: number }) {
         </div>
       </div>
 
-      {/* Score bar */}
       <div style={{ marginBottom: 14 }}>
         <div style={{ height: 3, background: "hsl(220 13% 11%)", position: "relative", overflow: "hidden" }}>
           <motion.div
@@ -355,7 +377,6 @@ function DimensionCard({ d, i }: { d: typeof DIMENSIONS[0]; i: number }) {
         </div>
       </div>
 
-      {/* Sparkline */}
       <div style={{ height: 48 }}>
         <Sparkline data={d.data} color={d.color} id={d.id} />
       </div>
@@ -364,11 +385,22 @@ function DimensionCard({ d, i }: { d: typeof DIMENSIONS[0]; i: number }) {
 }
 
 /* ─── Overall score dial ─────────────────────────────── */
-function OverallScoreDisplay({ score }: { score: number }) {
+function OverallScoreDisplay({
+  score,
+  weights,
+  onConfigureWeights,
+}: {
+  score: number;
+  weights: Record<string, number>;
+  onConfigureWeights: () => void;
+}) {
   const cat = scoreCategory(score);
   const col = categoryColor(cat);
   const circumference = 2 * Math.PI * 56;
   const dashOffset = circumference * (1 - score / 100);
+
+  const totalWeight = DIMENSIONS.reduce((s, d) => s + weights[d.id], 0);
+  const isCustom = DIMENSIONS.some(d => weights[d.id] !== 100);
 
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 32 }}>
@@ -387,18 +419,22 @@ function OverallScoreDisplay({ score }: { score: number }) {
             strokeWidth="8"
             strokeLinecap="round"
             strokeDasharray={circumference}
-            initial={{ strokeDashoffset: circumference }}
             animate={{ strokeDashoffset: dashOffset }}
-            transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
           />
         </svg>
         <div style={{
           position: "absolute", inset: 0,
           display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
         }}>
-          <div style={{ fontSize: 36, fontWeight: 900, color: col, letterSpacing: "-0.04em", lineHeight: 1 }}>
+          <motion.div
+            key={score}
+            animate={{ opacity: [0.4, 1] }}
+            transition={{ duration: 0.3 }}
+            style={{ fontSize: 36, fontWeight: 900, color: col, letterSpacing: "-0.04em", lineHeight: 1 }}
+          >
             {score}
-          </div>
+          </motion.div>
           <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.12em", color: C.dimmed, textTransform: "uppercase", marginTop: 3 }}>
             / 100
           </div>
@@ -406,29 +442,44 @@ function OverallScoreDisplay({ score }: { score: number }) {
       </div>
 
       {/* Category + breakdown */}
-      <div>
-        <div style={{
-          fontSize: 10, fontWeight: 700, letterSpacing: "0.18em",
-          color: col, textTransform: "uppercase",
-          border: `1px solid ${col}44`,
-          padding: "4px 12px",
-          background: `${col}10`,
-          display: "inline-block",
-          marginBottom: 10,
-        }}>
-          {cat}
+      <div style={{ flex: 1 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+          <div style={{
+            fontSize: 10, fontWeight: 700, letterSpacing: "0.18em",
+            color: col, textTransform: "uppercase",
+            border: `1px solid ${col}44`,
+            padding: "4px 12px",
+            background: `${col}10`,
+            display: "inline-block",
+          }}>
+            {cat}
+          </div>
+          {isCustom && (
+            <div style={{
+              fontSize: 7.5, fontWeight: 700, letterSpacing: "0.14em",
+              color: C.amber, textTransform: "uppercase",
+              border: `1px solid ${C.amber}33`,
+              padding: "3px 8px",
+              background: `${C.amber}0d`,
+            }}>
+              Custom Weights
+            </div>
+          )}
         </div>
         <div style={{ fontSize: 22, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", marginBottom: 6 }}>
           Overall Environment Score
         </div>
         <div style={{ fontSize: 11, color: C.muted, lineHeight: 1.6, maxWidth: 340 }}>
-          Composite of six operational health dimensions. Updated continuously as signals, decisions, and outcomes are logged by BXOS.
+          {isCustom
+            ? "Weighted composite of six operational health dimensions based on your configured priorities."
+            : "Composite of six operational health dimensions. Updated continuously as signals, decisions, and outcomes are logged by BXOS."}
         </div>
 
         {/* Mini breakdown bars */}
         <div style={{ marginTop: 14, display: "flex", flexDirection: "column", gap: 5 }}>
           {DIMENSIONS.map(dim => {
             const dc = scoreColor(dim.score);
+            const wPct = totalWeight > 0 ? Math.round((weights[dim.id] / totalWeight) * 100) : 0;
             return (
               <div key={dim.id} style={{ display: "flex", alignItems: "center", gap: 10 }}>
                 <div style={{ width: 120, fontSize: 9, color: C.dimmed, textTransform: "uppercase", letterSpacing: "0.08em", flexShrink: 0 }}>
@@ -436,26 +487,370 @@ function OverallScoreDisplay({ score }: { score: number }) {
                 </div>
                 <div style={{ flex: 1, height: 3, background: "hsl(220 13% 10%)" }}>
                   <motion.div
-                    initial={{ width: 0 }}
                     animate={{ width: `${dim.score}%` }}
-                    transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
                     style={{ height: "100%", background: dc }}
                   />
                 </div>
                 <span style={{ fontSize: 10, fontWeight: 700, color: dc, minWidth: 24, textAlign: "right" }}>
                   {dim.score}
                 </span>
+                {isCustom && (
+                  <span style={{ fontSize: 8, color: C.dimmed, minWidth: 28, textAlign: "right" }}>
+                    {wPct}%
+                  </span>
+                )}
               </div>
             );
           })}
         </div>
       </div>
+
+      {/* Configure weights button */}
+      <div style={{ flexShrink: 0, alignSelf: "flex-start" }}>
+        <button
+          onClick={onConfigureWeights}
+          style={{
+            background: "hsl(220 13% 10%)",
+            border: `1px solid ${C.border}`,
+            color: C.muted,
+            fontSize: 8.5,
+            fontWeight: 700,
+            letterSpacing: "0.16em",
+            textTransform: "uppercase",
+            padding: "8px 14px",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+            transition: "border-color 0.15s, color 0.15s",
+          }}
+          onMouseEnter={e => {
+            (e.currentTarget as HTMLButtonElement).style.borderColor = C.amber;
+            (e.currentTarget as HTMLButtonElement).style.color = C.amber;
+          }}
+          onMouseLeave={e => {
+            (e.currentTarget as HTMLButtonElement).style.borderColor = C.border;
+            (e.currentTarget as HTMLButtonElement).style.color = C.muted;
+          }}
+        >
+          <span style={{ fontSize: 10 }}>⚖</span>
+          Configure Weights
+        </button>
+      </div>
     </div>
+  );
+}
+
+/* ─── Weight Configuration Panel ─────────────────────── */
+function WeightsPanel({
+  weights,
+  onWeightsChange,
+  onClose,
+}: {
+  weights: Record<string, number>;
+  onWeightsChange: (w: Record<string, number>) => void;
+  onClose: () => void;
+}) {
+  const [local, setLocal] = useState<Record<string, number>>({ ...weights });
+
+  const totalWeight = DIMENSIONS.reduce((s, d) => s + local[d.id], 0);
+  const previewScore = computeWeightedScore(local);
+  const previewCat = scoreCategory(previewScore);
+  const previewCol = categoryColor(previewCat);
+
+  const handleSlider = useCallback((id: string, val: number) => {
+    setLocal(prev => {
+      const next = { ...prev, [id]: val };
+      onWeightsChange(next);
+      return next;
+    });
+  }, [onWeightsChange]);
+
+  const handleReset = () => {
+    setLocal({ ...DEFAULT_WEIGHTS });
+    onWeightsChange({ ...DEFAULT_WEIGHTS });
+  };
+
+  return (
+    <motion.div
+      initial={{ x: "100%" }}
+      animate={{ x: 0 }}
+      exit={{ x: "100%" }}
+      transition={{ type: "tween", duration: 0.22, ease: "easeOut" }}
+      style={{
+        position: "fixed",
+        top: 0,
+        right: 0,
+        bottom: 0,
+        width: 360,
+        background: "hsl(220 13% 6%)",
+        borderLeft: `1px solid ${C.border}`,
+        zIndex: 70,
+        display: "flex",
+        flexDirection: "column",
+        overflow: "hidden",
+      }}
+    >
+      {/* Header */}
+      <div style={{
+        padding: "20px 24px 16px",
+        borderBottom: `1px solid ${C.border}`,
+        flexShrink: 0,
+      }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
+          <div>
+            <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.2em", color: C.amber, textTransform: "uppercase", marginBottom: 5 }}>
+              Score Configuration
+            </div>
+            <div style={{ fontSize: 14, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em" }}>
+              Dimension Weights
+            </div>
+          </div>
+          <button
+            onClick={onClose}
+            style={{
+              background: "transparent",
+              border: `1px solid ${C.border}`,
+              color: C.muted,
+              fontSize: 12,
+              fontWeight: 700,
+              width: 28,
+              height: 28,
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexShrink: 0,
+            }}
+          >
+            ✕
+          </button>
+        </div>
+        <div style={{ fontSize: 10, color: C.muted, lineHeight: 1.6 }}>
+          Adjust how much each dimension contributes to the overall Environment Score. Weights are relative — higher values increase a dimension's influence.
+        </div>
+      </div>
+
+      {/* Live score preview */}
+      <div style={{
+        padding: "14px 24px",
+        borderBottom: `1px solid ${C.border}`,
+        background: "hsl(220 13% 5%)",
+        flexShrink: 0,
+        display: "flex",
+        alignItems: "center",
+        gap: 16,
+      }}>
+        <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
+          <motion.span
+            key={previewScore}
+            animate={{ opacity: [0.3, 1], scale: [0.95, 1] }}
+            transition={{ duration: 0.2 }}
+            style={{ fontSize: 32, fontWeight: 900, color: previewCol, letterSpacing: "-0.04em", lineHeight: 1 }}
+          >
+            {previewScore}
+          </motion.span>
+          <span style={{ fontSize: 10, color: C.dimmed, fontWeight: 600 }}>/100</span>
+        </div>
+        <div>
+          <div style={{
+            fontSize: 8, fontWeight: 700, letterSpacing: "0.14em",
+            color: previewCol, textTransform: "uppercase",
+            border: `1px solid ${previewCol}44`,
+            padding: "2px 8px",
+            background: `${previewCol}10`,
+            display: "inline-block",
+            marginBottom: 4,
+          }}>
+            {previewCat}
+          </div>
+          <div style={{ fontSize: 9, color: C.muted }}>
+            Live preview · updates as you adjust
+          </div>
+        </div>
+        <div style={{ marginLeft: "auto" }}>
+          <div style={{ fontSize: 8.5, color: C.dimmed, textAlign: "right", marginBottom: 2 }}>
+            Total weight
+          </div>
+          <div style={{ fontSize: 14, fontWeight: 800, color: totalWeight === 0 ? C.red : C.muted }}>
+            {totalWeight}
+          </div>
+        </div>
+      </div>
+
+      {/* Sliders */}
+      <div style={{ flex: 1, overflowY: "auto", padding: "8px 0" }}>
+        {DIMENSIONS.map((dim, i) => {
+          const w = local[dim.id];
+          const totalW = DIMENSIONS.reduce((s, d) => s + local[d.id], 0);
+          const effectivePct = totalW > 0 ? Math.round((w / totalW) * 100) : 0;
+          const dc = scoreColor(dim.score);
+
+          return (
+            <div
+              key={dim.id}
+              style={{
+                padding: "14px 24px",
+                borderBottom: `1px solid ${C.border}`,
+                background: i % 2 === 0 ? "transparent" : "hsl(220 13% 5%)",
+              }}
+            >
+              {/* Dimension header */}
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
+                <div>
+                  <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.14em", color: C.dimmed, textTransform: "uppercase", marginBottom: 3 }}>
+                    {dim.sub}
+                  </div>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: "#fff" }}>
+                    {dim.label}
+                  </div>
+                </div>
+                <div style={{ textAlign: "right" }}>
+                  <div style={{ fontSize: 18, fontWeight: 800, color: dc, lineHeight: 1 }}>
+                    {dim.score}
+                  </div>
+                  <div style={{ fontSize: 8, color: C.dimmed, marginTop: 2 }}>
+                    score
+                  </div>
+                </div>
+              </div>
+
+              {/* Slider */}
+              <div style={{ marginBottom: 8 }}>
+                <input
+                  type="range"
+                  min={0}
+                  max={100}
+                  value={w}
+                  onChange={e => handleSlider(dim.id, Number(e.target.value))}
+                  style={{
+                    width: "100%",
+                    appearance: "none",
+                    height: 3,
+                    background: `linear-gradient(to right, ${dim.color} ${w}%, hsl(220 13% 14%) ${w}%)`,
+                    outline: "none",
+                    cursor: "pointer",
+                  }}
+                />
+              </div>
+
+              {/* Readout row */}
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <div style={{ display: "flex", gap: 12 }}>
+                  <div>
+                    <div style={{ fontSize: 7.5, color: C.dimmed, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 2 }}>
+                      Weight
+                    </div>
+                    <div style={{ fontSize: 13, fontWeight: 800, color: w === 0 ? C.dimmed : "#fff" }}>
+                      {w}
+                    </div>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 7.5, color: C.dimmed, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 2 }}>
+                      Influence
+                    </div>
+                    <div style={{
+                      fontSize: 13, fontWeight: 800,
+                      color: w === 0 ? C.dimmed : dim.color,
+                    }}>
+                      {effectivePct}%
+                    </div>
+                  </div>
+                </div>
+                {w === 0 && (
+                  <div style={{
+                    fontSize: 7.5, fontWeight: 700, letterSpacing: "0.1em",
+                    color: C.dimmed, textTransform: "uppercase",
+                    border: `1px solid ${C.border}`,
+                    padding: "2px 7px",
+                  }}>
+                    Excluded
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Footer actions */}
+      <div style={{
+        padding: "14px 24px",
+        borderTop: `1px solid ${C.border}`,
+        flexShrink: 0,
+        display: "flex",
+        gap: 8,
+      }}>
+        <button
+          onClick={handleReset}
+          style={{
+            flex: 1,
+            background: "transparent",
+            border: `1px solid ${C.border}`,
+            color: C.muted,
+            fontSize: 8.5,
+            fontWeight: 700,
+            letterSpacing: "0.16em",
+            textTransform: "uppercase",
+            padding: "9px 0",
+            cursor: "pointer",
+          }}
+          onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = C.muted; }}
+          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = C.border; }}
+        >
+          Reset to Equal
+        </button>
+        <button
+          onClick={onClose}
+          style={{
+            flex: 1,
+            background: `${C.amber}18`,
+            border: `1px solid ${C.amber}55`,
+            color: C.amber,
+            fontSize: 8.5,
+            fontWeight: 700,
+            letterSpacing: "0.16em",
+            textTransform: "uppercase",
+            padding: "9px 0",
+            cursor: "pointer",
+          }}
+        >
+          Done
+        </button>
+      </div>
+    </motion.div>
   );
 }
 
 /* ─── Page ───────────────────────────────────────────── */
 export default function EnvironmentHealthIndex() {
+  const [weights, setWeights] = useState<Record<string, number>>(loadWeights);
+  const [panelOpen, setPanelOpen] = useState(false);
+
+  const overallScore = computeWeightedScore(weights);
+
+  const handleWeightsChange = useCallback((w: Record<string, number>) => {
+    setWeights(w);
+    try {
+      localStorage.setItem(LS_KEY, JSON.stringify(w));
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  // close panel on Escape
+  useEffect(() => {
+    if (!panelOpen) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setPanelOpen(false);
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [panelOpen]);
+
+  const heroColor = categoryColor(scoreCategory(overallScore));
+
   return (
     <div className="pl-56 min-h-screen" style={{ background: C.bg }}>
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "36px 40px 80px" }}>
@@ -486,12 +881,16 @@ export default function EnvironmentHealthIndex() {
           style={{
             background: C.card,
             border: `1px solid ${C.border}`,
-            borderTop: `2px solid ${categoryColor(scoreCategory(OVERALL_SCORE))}`,
+            borderTop: `2px solid ${heroColor}`,
             padding: "28px 32px",
             marginBottom: 32,
           }}
         >
-          <OverallScoreDisplay score={OVERALL_SCORE} />
+          <OverallScoreDisplay
+            score={overallScore}
+            weights={weights}
+            onConfigureWeights={() => setPanelOpen(true)}
+          />
         </motion.div>
 
         {/* ── Six dimension cards ── */}
@@ -679,6 +1078,34 @@ export default function EnvironmentHealthIndex() {
         </motion.div>
 
       </div>
+
+      {/* ── Backdrop + Weights Panel ── */}
+      <AnimatePresence>
+        {panelOpen && (
+          <>
+            <motion.div
+              key="backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.18 }}
+              onClick={() => setPanelOpen(false)}
+              style={{
+                position: "fixed",
+                inset: 0,
+                background: "rgba(0,0,0,0.5)",
+                zIndex: 65,
+              }}
+            />
+            <WeightsPanel
+              key="panel"
+              weights={weights}
+              onWeightsChange={handleWeightsChange}
+              onClose={() => setPanelOpen(false)}
+            />
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
