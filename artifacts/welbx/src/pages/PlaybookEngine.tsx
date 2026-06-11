@@ -3,7 +3,7 @@ import { useApp } from "@/context/AppContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation, useSearch } from "wouter";
 import { PLAYBOOKS, computeDailyFires, type Playbook, type PlaybookExecution } from "@/data/playbooks";
-import { SEEDED_MOMENTS } from "@/data/moments";
+import { SEEDED_MOMENTS, type MomentStatus } from "@/data/moments";
 
 /* ─── Filter types ────────────────────────────────────── */
 type CategoryFilter = Playbook["category"] | "All";
@@ -106,6 +106,15 @@ const STATUS_COLOR: Record<Playbook["status"], string> = {
   ACTIVE:    C.green,
   STANDBY:   C.amber,
   ESCALATED: C.red,
+};
+
+const MOMENT_STATUS_COLOR: Record<MomentStatus, string> = {
+  DETECTED:    C.amber,
+  ACTIONED:    C.blue,
+  IN_PROGRESS: "#06b6d4",
+  STABILISED:  C.green,
+  RESOLVED:    C.green,
+  ESCALATED:   C.red,
 };
 
 const OUTCOME_COLOR: Record<PlaybookExecution["outcome"], string> = {
@@ -410,43 +419,66 @@ function ExecutionTimeline({ executions }: { executions: PlaybookExecution[] }) 
                   <span style={{ fontSize: 9, color: "hsl(215 16% 34%)", letterSpacing: "0.04em" }}>
                     {formatResolution(ex.resolutionMinutes)} resolution
                   </span>
-                  {ex.momentId && (
-                    <>
-                      <span style={{
-                        fontSize: 8, color: "hsl(215 16% 26%)",
-                        letterSpacing: "0.06em",
-                      }}>
-                        ·
-                      </span>
-                      <button
-                        onClick={() => {
-                          const moment = SEEDED_MOMENTS.find(m => m.id === ex.momentId);
-                          const isArchived = moment?.status === "RESOLVED" || moment?.status === "STABILISED";
-                          navigate(isArchived ? `/moment-registry#${ex.momentId}` : `/live-moments#${ex.momentId}`);
-                        }}
-                        style={{
-                          background: "transparent",
-                          border: "none",
-                          padding: 0,
-                          cursor: "pointer",
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 3,
-                          fontSize: 8,
-                          fontWeight: 700,
-                          letterSpacing: "0.08em",
-                          color: C.amber,
-                          textTransform: "uppercase",
-                          opacity: 0.85,
-                          transition: "opacity 0.14s",
-                        }}
-                        onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
-                        onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.85")}
-                      >
-                        View Moment →
-                      </button>
-                    </>
-                  )}
+                  {ex.momentId && (() => {
+                    const linkedMoment = SEEDED_MOMENTS.find(m => m.id === ex.momentId);
+                    const isArchived = linkedMoment?.status === "RESOLVED" || linkedMoment?.status === "STABILISED";
+                    const statusColor = linkedMoment ? MOMENT_STATUS_COLOR[linkedMoment.status] : C.amber;
+                    return (
+                      <>
+                        <span style={{ fontSize: 8, color: "hsl(215 16% 26%)", letterSpacing: "0.06em" }}>
+                          ·
+                        </span>
+                        {linkedMoment && (
+                          <>
+                            <span style={{
+                              fontSize: 8,
+                              color: "hsl(215 16% 58%)",
+                              letterSpacing: "0.02em",
+                              fontStyle: "italic",
+                            }}>
+                              {linkedMoment.title}
+                            </span>
+                            <span style={{
+                              fontSize: 7,
+                              fontWeight: 700,
+                              letterSpacing: "0.10em",
+                              textTransform: "uppercase",
+                              color: statusColor,
+                              border: `1px solid ${statusColor}44`,
+                              background: `${statusColor}14`,
+                              padding: "1px 5px",
+                              flexShrink: 0,
+                            }}>
+                              {linkedMoment.status.replace("_", " ")}
+                            </span>
+                          </>
+                        )}
+                        <button
+                          onClick={() => navigate(isArchived ? `/moment-registry#${ex.momentId}` : `/live-moments#${ex.momentId}`)}
+                          style={{
+                            background: "transparent",
+                            border: "none",
+                            padding: 0,
+                            cursor: "pointer",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 3,
+                            fontSize: 8,
+                            fontWeight: 700,
+                            letterSpacing: "0.08em",
+                            color: C.amber,
+                            textTransform: "uppercase",
+                            opacity: 0.85,
+                            transition: "opacity 0.14s",
+                          }}
+                          onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
+                          onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.85")}
+                        >
+                          View Moment →
+                        </button>
+                      </>
+                    );
+                  })()}
                 </div>
               </div>
             </div>
