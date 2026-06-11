@@ -1,5 +1,6 @@
 export type CcPriority = "CRITICAL" | "HIGH" | "ELEVATED" | "STANDARD";
 export type CcStatus  = "EXECUTING" | "ROUTED" | "RESOLVED" | "MONITORING" | "ACTIVE";
+export type CommResponseStatus = "responded" | "no-response" | "actioned";
 
 export interface CcRow {
   id: string;
@@ -17,6 +18,8 @@ export interface CcRow {
   playbookId: string;
   relatedMoment?: string;
   momentId: string;
+  commChannel?: string;
+  commResponseStatus?: CommResponseStatus;
 }
 
 export const INITIAL_CC_ROWS: CcRow[] = [
@@ -35,6 +38,8 @@ export const INITIAL_CC_ROWS: CcRow[] = [
     outcome: "—",
     playbookId: "PB-001",
     momentId: "GM-001",
+    commChannel: "Front-Desk Verbal",
+    commResponseStatus: "responded",
   },
   {
     id: "SIG-4468",
@@ -52,6 +57,8 @@ export const INITIAL_CC_ROWS: CcRow[] = [
     playbookId: "PB-005",
     relatedMoment: "Staff Capacity Gap",
     momentId: "OP-001",
+    commChannel: "Digital Signage",
+    commResponseStatus: "no-response",
   },
   {
     id: "SIG-4461",
@@ -69,6 +76,8 @@ export const INITIAL_CC_ROWS: CcRow[] = [
     playbookId: "PB-003",
     relatedMoment: "Loyalty Activation Window",
     momentId: "GM-003",
+    commChannel: "Front-Desk Verbal",
+    commResponseStatus: "actioned",
   },
   {
     id: "SIG-4449",
@@ -86,6 +95,8 @@ export const INITIAL_CC_ROWS: CcRow[] = [
     playbookId: "PB-002",
     relatedMoment: "VIP Arrival",
     momentId: "GM-002",
+    commChannel: "SMS",
+    commResponseStatus: "actioned",
   },
   {
     id: "SIG-4437",
@@ -103,5 +114,7 @@ export const INITIAL_CC_ROWS: CcRow[] = [
     playbookId: "PB-002",
     relatedMoment: "Suite Upgrade Window",
     momentId: "CM-001",
+    commChannel: "In-App Push",
+    commResponseStatus: "responded",
   },
 ];

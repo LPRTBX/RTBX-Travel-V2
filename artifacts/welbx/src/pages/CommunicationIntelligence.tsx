@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useLocation } from "wouter";
 
 const ACCENT = "#c9a84c";
 
@@ -380,21 +381,57 @@ const BEST_CHANNEL = getBestChannelPerMoment();
 
 export default function CommunicationIntelligence() {
   const [matrixMode, setMatrixMode] = useState<"full" | "best">("full");
+  const [, navigate] = useLocation();
   return (
     <div className="min-h-screen pl-56" style={{ background: "hsl(220 13% 5%)" }}>
       <div style={{ maxWidth: 1200, padding: "36px 40px 80px" }}>
 
         {/* ── Header ── */}
         <motion.div {...fadeUp(0)} style={{ marginBottom: 32 }}>
-          <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.26em", color: ACCENT, textTransform: "uppercase", marginBottom: 10 }}>
-            WELBX · Influence Layer
+          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 24, flexWrap: "wrap" }}>
+            <div>
+              <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.26em", color: ACCENT, textTransform: "uppercase", marginBottom: 10 }}>
+                WELBX · Influence Layer
+              </div>
+              <h1 style={{ fontSize: 24, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", margin: 0, marginBottom: 8 }}>
+                Communication Intelligence
+              </h1>
+              <p style={{ fontSize: 12, color: "hsl(215 16% 44%)", lineHeight: 1.75, maxWidth: 560, margin: 0 }}>
+                Causal communication analytics — not what was sent, but what actually changed behaviour.
+              </p>
+            </div>
+            <button
+              onClick={() => navigate("/command-centre?filter=comm")}
+              style={{
+                display: "inline-flex", alignItems: "center", gap: 8,
+                padding: "10px 18px", flexShrink: 0,
+                background: "rgba(201,168,76,0.06)",
+                border: "1px solid rgba(201,168,76,0.28)",
+                cursor: "pointer",
+                transition: "background 0.15s, border-color 0.15s",
+              }}
+              onMouseEnter={e => {
+                (e.currentTarget as HTMLButtonElement).style.background = "rgba(201,168,76,0.12)";
+                (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(201,168,76,0.5)";
+              }}
+              onMouseLeave={e => {
+                (e.currentTarget as HTMLButtonElement).style.background = "rgba(201,168,76,0.06)";
+                (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(201,168,76,0.28)";
+              }}
+            >
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 2 }}>
+                <span style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: ACCENT }}>
+                  View in Command Centre
+                </span>
+                <span style={{ fontSize: 9, color: "hsl(215 16% 40%)", letterSpacing: "0.04em" }}>
+                  Live moments · communication vector
+                </span>
+              </div>
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style={{ flexShrink: 0 }}>
+                <path d="M2 5h6M5.5 2.5L8 5l-2.5 2.5" stroke={ACCENT} strokeWidth="1.4" strokeLinecap="square"/>
+              </svg>
+            </button>
           </div>
-          <h1 style={{ fontSize: 24, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", margin: 0, marginBottom: 8 }}>
-            Communication Intelligence
-          </h1>
-          <p style={{ fontSize: 12, color: "hsl(215 16% 44%)", lineHeight: 1.75, maxWidth: 560, margin: 0 }}>
-            Causal communication analytics — not what was sent, but what actually changed behaviour.
-          </p>
         </motion.div>
 
         {/* ── Headline Banner ── */}

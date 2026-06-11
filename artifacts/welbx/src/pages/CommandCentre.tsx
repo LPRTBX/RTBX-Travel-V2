@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useLocation } from "wouter";
+import { useLocation, useSearch } from "wouter";
 import { PLAYBOOKS } from "@/data/playbooks";
 import { DECISIONS } from "@/data/decisions";
 import { getMomentById } from "@/data/interventions";
@@ -310,12 +310,18 @@ function InterventionsPanel({ row, actioned, onAction, onCloseMoment }: Interven
 
 export default function CommandCentre() {
   const [, navigate] = useLocation();
+  const search = useSearch();
+  const commFilterActive = new URLSearchParams(search).get("filter") === "comm";
   const [expandedRow, setExpandedRow] = useState<string | null>(null);
   const [actioned, setActioned] = useState<Set<string>>(new Set());
   const [closedRows, setClosedRows] = useState<Set<string>>(new Set());
   const [closureOutcome, setClosureOutcome] = useState<Record<string, "Resolved" | "Partial" | "Escalated">>({});
   const { logUsage } = useInterventionUsage();
   const { ccRows, updateRowStatus } = useCc();
+
+  const visibleRows = commFilterActive
+    ? ccRows.filter(r => !!r.commChannel)
+    : ccRows;
 
   function handleToggleInterventions(rowId: string) {
     if (closedRows.has(rowId)) return;
@@ -416,6 +422,47 @@ export default function CommandCentre() {
           ))}
         </motion.div>
 
+        {/* Communication filter banner */}
+        {commFilterActive && (
+          <motion.div
+            initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}
+            style={{
+              display: "flex", alignItems: "center", justifyContent: "space-between",
+              padding: "12px 20px",
+              marginBottom: 20,
+              background: "rgba(201,168,76,0.06)",
+              border: "1px solid rgba(201,168,76,0.28)",
+              borderLeft: "3px solid #c9a84c",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#c9a84c", flexShrink: 0 }} />
+              <div>
+                <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.18em", color: "#c9a84c", textTransform: "uppercase" }}>
+                  Communication Filter Active
+                </span>
+                <span style={{ fontSize: 8, color: "hsl(215 16% 40%)", letterSpacing: "0.08em", marginLeft: 10 }}>
+                  Showing only moments where communication was the intervention vector
+                </span>
+              </div>
+            </div>
+            <button
+              onClick={() => navigate("/command-centre")}
+              style={{
+                padding: "4px 10px",
+                fontSize: 7.5, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase",
+                color: "hsl(215 16% 40%)",
+                border: "1px solid hsl(220 13% 14%)",
+                background: "hsl(220 13% 8%)",
+                cursor: "pointer",
+                flexShrink: 0,
+              }}
+            >
+              Clear Filter
+            </button>
+          </motion.div>
+        )}
+
         {/* Table section header */}
         <motion.div
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2, duration: 0.35 }}
@@ -455,7 +502,7 @@ export default function CommandCentre() {
 
         {/* Rows */}
         <div>
-          {ccRows.map((row, i) => {
+          {visibleRows.map((row, i) => {
             const isExpanded = expandedRow === row.id;
             const moment = getMomentById(row.momentId);
             const actionedCount = moment
@@ -492,6 +539,37 @@ export default function CommandCentre() {
                     <div style={{ fontSize: 10, color: "hsl(215 16% 36%)", lineHeight: 1.45, marginBottom: 6 }}>
                       {row.source}
                     </div>
+
+                    {/* Communication channel chip */}
+                    {row.commChannel && (() => {
+                      const statusColor =
+                        row.commResponseStatus === "actioned" ? "#10b981"
+                        : row.commResponseStatus === "responded" ? "#c9a84c"
+                        : "hsl(215 16% 38%)";
+                      const statusLabel =
+                        row.commResponseStatus === "actioned" ? "Actioned"
+                        : row.commResponseStatus === "responded" ? "Responded"
+                        : "No Response";
+                      return (
+                        <div style={{
+                          display: "inline-flex", alignItems: "center", gap: 5,
+                          padding: "3px 8px", marginBottom: 5,
+                          background: `${statusColor}0d`,
+                          border: `1px solid ${statusColor}33`,
+                        }}>
+                          <svg width="7" height="7" viewBox="0 0 7 7" fill="none">
+                            <path d="M1 1h5v4H4L2.5 6.5V5H1V1z" stroke={statusColor} strokeWidth="1" fill="none"/>
+                          </svg>
+                          <span style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: statusColor }}>
+                            {row.commChannel}
+                          </span>
+                          <span style={{ width: 1, height: 8, background: `${statusColor}33`, flexShrink: 0 }} />
+                          <span style={{ fontSize: 7, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: statusColor }}>
+                            {statusLabel}
+                          </span>
+                        </div>
+                      );
+                    })()}
 
                     {/* Playbook badge */}
                     {(() => {
