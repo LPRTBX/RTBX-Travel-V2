@@ -51,7 +51,7 @@ const SECTIONS = [
     color: "#22d3ee",
     items: [
       { label: "Communications",         path: "/communications",             sub: "ORCHESTRATION" },
-      { label: "Communication Registry", path: "/communication-registry",     sub: "MESSAGE LOG" },
+      { label: "Communication Registry", path: "/communication-registry",     sub: "LOG" },
       { label: "Comm Intelligence",      path: "/communication-intelligence", sub: "INFLUENCE LAYER" },
     ],
   },

@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useMemo } from "react";
+import { motion } from "framer-motion";
 
 /* ─── Palette ─────────────────────────────────────────── */
 const C = {
@@ -8,6 +8,7 @@ const C = {
   green:  "#10b981",
   red:    "#ef4444",
   violet: "#a78bfa",
+  cyan:   "#22d3ee",
   slate:  "hsl(215 16% 44%)",
   border: "hsl(220 13% 9%)",
   card:   "hsl(220 13% 7%)",
@@ -17,22 +18,22 @@ const C = {
 };
 
 /* ─── Types ───────────────────────────────────────────── */
-type Category = "Guest" | "Workforce" | "Operations" | "Executive";
-type Channel = "App" | "SMS" | "Email" | "Radio" | "Dashboard" | "PMS";
-type CommStatus = "Sent" | "Delivered" | "Opened" | "Actioned";
+type LaneType  = "Guest" | "Workforce" | "Operations" | "Executive" | "Partner";
+type Channel   = "App" | "SMS" | "Email" | "Radio" | "Dashboard" | "PMS" | "Webhook";
+type CommStatus = "Delivered" | "Pending" | "Failed";
 
-const CAT_COLOR: Record<Category, string> = {
-  Guest:     C.amber,
-  Workforce: C.blue,
-  Operations: C.slate,
-  Executive: C.violet,
+const LANE_COLOR: Record<LaneType, string> = {
+  Guest:      C.amber,
+  Workforce:  C.blue,
+  Operations: C.violet,
+  Executive:  "#f43f5e",
+  Partner:    C.green,
 };
 
 const STATUS_COLOR: Record<CommStatus, string> = {
-  Sent:      "hsl(215 16% 40%)",
-  Delivered: C.blue,
-  Opened:    C.amber,
-  Actioned:  C.green,
+  Delivered: C.green,
+  Pending:   C.amber,
+  Failed:    C.red,
 };
 
 const CHANNEL_COLOR: Record<Channel, string> = {
@@ -42,355 +43,387 @@ const CHANNEL_COLOR: Record<Channel, string> = {
   Radio:     C.amber,
   Dashboard: C.slate,
   PMS:       "hsl(215 16% 40%)",
+  Webhook:   C.cyan,
 };
 
 interface CommRecord {
-  id: string;
-  name: string;
-  trigger: string;
-  audience: string;
-  channel: Channel;
-  category: Category;
-  status: CommStatus;
-  outcome: string;
+  id:        string;
   timestamp: string;
+  lane:      LaneType;
+  trigger:   string;
+  audience:  string;
+  channel:   Channel;
+  status:    CommStatus;
+  outcome:   string;
+  latencyMs: number;
 }
 
-/* ─── Mock data ───────────────────────────────────────── */
-const COMMS: CommRecord[] = [
-  /* ── Guest ── */
+/* ─── Sample data ─────────────────────────────────────── */
+const RECORDS: CommRecord[] = [
+  /* Guest */
   {
-    id: "CR-001",
-    name: "VIP Welcome",
+    id: "CR-001", timestamp: "09:14", lane: "Guest",
     trigger: "VIP Arrival · Loyalty Tier Gold+",
     audience: "Arriving VIP Guest",
-    channel: "App",
-    category: "Guest",
-    status: "Actioned",
+    channel: "App", status: "Delivered",
     outcome: "Guest upgraded · Welcome gift acknowledged · NPS +1 logged",
-    timestamp: "09:14",
+    latencyMs: 210,
   },
   {
-    id: "CR-002",
-    name: "Complaint Recovery",
+    id: "CR-002", timestamp: "11:32", lane: "Guest",
     trigger: "Service Recovery Window · Sentiment decline detected",
     audience: "Affected Guest",
-    channel: "SMS",
-    category: "Guest",
-    status: "Actioned",
+    channel: "SMS", status: "Delivered",
     outcome: "Duty Manager contact initiated · F&B credit redeemed within 18 min",
-    timestamp: "11:32",
+    latencyMs: 185,
   },
   {
-    id: "CR-003",
-    name: "First-Stay Welcome",
+    id: "CR-003", timestamp: "12:05", lane: "Guest",
     trigger: "First-Stay Anxiety Pattern · Check-in complete",
     audience: "First-time Guest",
-    channel: "App",
-    category: "Guest",
-    status: "Opened",
+    channel: "App", status: "Delivered",
     outcome: "Concierge introduction viewed · Room preferences confirmed",
-    timestamp: "12:05",
+    latencyMs: 320,
   },
   {
-    id: "CR-004",
-    name: "Late Checkout Offer",
+    id: "CR-004", timestamp: "07:48", lane: "Guest",
     trigger: "Loyalty Activation Window · Departure day detected",
     audience: "Gold Tier Member",
-    channel: "App",
-    category: "Guest",
-    status: "Actioned",
-    outcome: "14:00 checkout accepted · Revenue £0 · Loyalty value preserved",
-    timestamp: "07:48",
+    channel: "App", status: "Delivered",
+    outcome: "14:00 checkout accepted · Loyalty value preserved",
+    latencyMs: 290,
   },
   {
-    id: "CR-005",
-    name: "Suite Upsell Prompt",
+    id: "CR-005", timestamp: "15:22", lane: "Guest",
     trigger: "Suite Upgrade Window · Anniversary stay · Propensity 87",
     audience: "Standard Room Guest",
-    channel: "App",
-    category: "Guest",
-    status: "Actioned",
+    channel: "App", status: "Delivered",
     outcome: "Junior Suite accepted · £85 supplement captured",
-    timestamp: "15:22",
+    latencyMs: 175,
+  },
+  {
+    id: "CR-006", timestamp: "16:44", lane: "Guest",
+    trigger: "Departure Feedback Loop · Stay concluded",
+    audience: "Departing Guest",
+    channel: "Email", status: "Pending",
+    outcome: "Awaiting open — review link not yet clicked",
+    latencyMs: 0,
+  },
+  {
+    id: "CR-007", timestamp: "13:59", lane: "Guest",
+    trigger: "Dining Reservation Prompt · F&B Upsell Window open",
+    audience: "In-house Guest (2-night stay)",
+    channel: "App", status: "Failed",
+    outcome: "App session inactive — guest did not open notification",
+    latencyMs: 0,
   },
 
-  /* ── Workforce ── */
+  /* Workforce */
   {
-    id: "CR-006",
-    name: "Staff Alert",
+    id: "CR-008", timestamp: "14:08", lane: "Workforce",
     trigger: "Staff Capacity Gap · Foyer queue > threshold",
     audience: "F&B Team Lead",
-    channel: "Radio",
-    category: "Workforce",
-    status: "Actioned",
+    channel: "Radio", status: "Delivered",
     outcome: "2 staff redeployed · Queue resolved in 8 min",
-    timestamp: "14:08",
+    latencyMs: 95,
   },
   {
-    id: "CR-007",
-    name: "Welfare Check Request",
+    id: "CR-009", timestamp: "10:55", lane: "Workforce",
     trigger: "Welfare Check Trigger · 3 consecutive low-engagement shifts",
     audience: "HR Manager",
-    channel: "Dashboard",
-    category: "Workforce",
-    status: "Delivered",
+    channel: "Dashboard", status: "Delivered",
     outcome: "1:1 scheduled for 16:00 · Workload review pending",
-    timestamp: "10:55",
+    latencyMs: 520,
   },
   {
-    id: "CR-008",
-    name: "Shift Handover Brief",
+    id: "CR-010", timestamp: "14:58", lane: "Workforce",
     trigger: "Shift Handover Risk · Automated at shift boundary",
     audience: "Incoming Shift Lead",
-    channel: "App",
-    category: "Workforce",
-    status: "Opened",
+    channel: "App", status: "Delivered",
     outcome: "3 open moments acknowledged · Escalations flagged",
-    timestamp: "14:58",
+    latencyMs: 310,
+  },
+  {
+    id: "CR-011", timestamp: "09:02", lane: "Workforce",
+    trigger: "Performance Deviation Alert · Housekeeping productivity -18%",
+    audience: "Head Housekeeper",
+    channel: "Dashboard", status: "Pending",
+    outcome: "Alert visible — no acknowledgement recorded yet",
+    latencyMs: 0,
   },
 
-  /* ── Operations ── */
+  /* Operations */
   {
-    id: "CR-009",
-    name: "Housekeeping Priority Alert",
-    trigger: "Housekeeping Bottleneck · 6 VIP rooms pending at 12:41",
+    id: "CR-012", timestamp: "12:41", lane: "Operations",
+    trigger: "Housekeeping Bottleneck · 6 VIP rooms pending",
     audience: "Housekeeping Supervisor",
-    channel: "PMS",
-    category: "Operations",
-    status: "Actioned",
+    channel: "PMS", status: "Delivered",
     outcome: "VIP rooms prioritised · 0 VIP delays at 14:00 arrival",
-    timestamp: "12:41",
+    latencyMs: 140,
   },
   {
-    id: "CR-010",
-    name: "Maintenance Deferral Notice",
+    id: "CR-013", timestamp: "13:17", lane: "Operations",
     trigger: "Maintenance Escalation Risk · Non-critical HVAC fault",
     audience: "Engineering Lead",
-    channel: "Dashboard",
-    category: "Operations",
-    status: "Delivered",
+    channel: "Dashboard", status: "Delivered",
     outcome: "Post-15:00 maintenance slot confirmed · Monitoring active",
-    timestamp: "13:17",
+    latencyMs: 460,
   },
   {
-    id: "CR-011",
-    name: "Supply Threshold Warning",
+    id: "CR-014", timestamp: "11:48", lane: "Operations",
     trigger: "Supply Threshold Alert · F&B stock below 20%",
     audience: "F&B Manager",
-    channel: "App",
-    category: "Operations",
-    status: "Actioned",
+    channel: "App", status: "Delivered",
     outcome: "Emergency order placed · ETA 16:30 confirmed",
-    timestamp: "11:48",
+    latencyMs: 225,
+  },
+  {
+    id: "CR-015", timestamp: "17:03", lane: "Operations",
+    trigger: "Energy Anomaly · Ballroom HVAC overconsumption",
+    audience: "Facilities Controller",
+    channel: "Dashboard", status: "Failed",
+    outcome: "Routing error — recipient offline at time of dispatch",
+    latencyMs: 0,
   },
 
-  /* ── Executive ── */
+  /* Executive */
   {
-    id: "CR-012",
-    name: "Executive Notification",
+    id: "CR-016", timestamp: "08:00", lane: "Executive",
     trigger: "Portfolio Performance Deviation · NPS -2.1 pts over 30 days",
     audience: "COO",
-    channel: "Email",
-    category: "Executive",
-    status: "Opened",
+    channel: "Email", status: "Delivered",
     outcome: "Brand experience audit initiated · BXOS review scheduled",
-    timestamp: "08:00",
+    latencyMs: 615,
   },
   {
-    id: "CR-013",
-    name: "Cross-Property Pattern Brief",
+    id: "CR-017", timestamp: "08:00", lane: "Executive",
     trigger: "Cross-Property Learning Signal · 3 properties · 4-week alignment",
     audience: "General Manager + COO",
-    channel: "Dashboard",
-    category: "Executive",
-    status: "Delivered",
+    channel: "Dashboard", status: "Delivered",
     outcome: "Friday staffing model review added to board agenda",
-    timestamp: "08:00",
+    latencyMs: 580,
   },
   {
-    id: "CR-014",
-    name: "Daily Execution Summary",
+    id: "CR-018", timestamp: "22:00", lane: "Executive",
     trigger: "Automated · End of operational day",
     audience: "Executive Team",
-    channel: "Email",
-    category: "Executive",
-    status: "Actioned",
-    outcome: "11 decisions reviewed · 4 follow-ups assigned",
-    timestamp: "22:00",
+    channel: "Email", status: "Pending",
+    outcome: "Digest scheduled for 22:00 send — not yet dispatched",
+    latencyMs: 0,
+  },
+
+  /* Partner */
+  {
+    id: "CR-019", timestamp: "10:22", lane: "Partner",
+    trigger: "Supplier SLA Breach · Linen delivery 47 min late",
+    audience: "Supply Account Manager",
+    channel: "Webhook", status: "Delivered",
+    outcome: "SLA breach logged · Credit note request initiated",
+    latencyMs: 88,
+  },
+  {
+    id: "CR-020", timestamp: "15:44", lane: "Partner",
+    trigger: "Co-Activation Revenue Window · Spa capacity open",
+    audience: "Wellness Partner",
+    channel: "Email", status: "Delivered",
+    outcome: "3 referral bookings placed · £240 revenue activated",
+    latencyMs: 395,
   },
 ];
 
-const ALL_CATEGORIES: Category[] = ["Guest", "Workforce", "Operations", "Executive"];
+const ALL_LANES: LaneType[] = ["Guest", "Workforce", "Operations", "Executive", "Partner"];
 
-/* ─── KPI Metrics ─────────────────────────────────────── */
-const METRICS = [
-  { label: "Messages Sent",       value: 14, unit: "TODAY",           color: C.amber },
-  { label: "Messages Opened",     value: 11, unit: "79% OPEN RATE",   color: C.blue  },
-  { label: "Actions Triggered",   value: 8,  unit: "57% ACTION RATE", color: C.green },
-  { label: "Outcomes Influenced", value: 12, unit: "TRACKED",         color: C.violet },
-];
+/* ─── Derived stats ───────────────────────────────────── */
+function useStats(records: CommRecord[]) {
+  return useMemo(() => {
+    const total     = records.length;
+    const delivered = records.filter(r => r.status === "Delivered").length;
+    const rate      = total > 0 ? Math.round((delivered / total) * 100) : 0;
+    const avgMs     = delivered > 0
+      ? Math.round(records.filter(r => r.status === "Delivered").reduce((s, r) => s + r.latencyMs, 0) / delivered)
+      : 0;
+    const chCount: Record<Channel, number> = {} as Record<Channel, number>;
+    records.filter(r => r.status === "Delivered").forEach(r => { chCount[r.channel] = (chCount[r.channel] ?? 0) + 1; });
+    const topChannel = (Object.entries(chCount) as [Channel, number][]).sort((a, b) => b[1] - a[1])[0]?.[0] ?? "—";
+    return { total, delivered, rate, avgMs, topChannel };
+  }, [records]);
+}
 
 /* ─── Animated count-up ───────────────────────────────── */
-function CountUp({ target, duration = 1.2 }: { target: number; duration?: number }) {
+function CountUp({ target, suffix = "", duration = 1.1 }: { target: number; suffix?: string; duration?: number }) {
   const [count, setCount] = useState(0);
   useEffect(() => {
     let start: number | null = null;
-    const step = (timestamp: number) => {
-      if (!start) start = timestamp;
-      const progress = Math.min((timestamp - start) / (duration * 1000), 1);
-      setCount(Math.floor(progress * target));
-      if (progress < 1) requestAnimationFrame(step);
+    const step = (ts: number) => {
+      if (!start) start = ts;
+      const p = Math.min((ts - start) / (duration * 1000), 1);
+      setCount(Math.floor(p * target));
+      if (p < 1) requestAnimationFrame(step);
     };
-    const raf = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(raf);
+    const id = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(id);
   }, [target, duration]);
-  return <>{count}</>;
+  return <>{count}{suffix}</>;
 }
 
-/* ─── Badge ───────────────────────────────────────────── */
+/* ─── Small badge ─────────────────────────────────────── */
 function Badge({ text, color }: { text: string; color: string }) {
   return (
     <span style={{
       fontSize: 7.5, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase",
       color, border: `1px solid ${color}33`, padding: "2px 7px", background: `${color}0d`,
-      flexShrink: 0, whiteSpace: "nowrap",
+      whiteSpace: "nowrap", flexShrink: 0,
     }}>{text}</span>
   );
 }
 
-/* ─── Status pipeline ─────────────────────────────────── */
-const STATUS_STEPS: CommStatus[] = ["Sent", "Delivered", "Opened", "Actioned"];
-
-function StatusPipeline({ status }: { status: CommStatus }) {
-  const currentIdx = STATUS_STEPS.indexOf(status);
+/* ─── Status dot badge ────────────────────────────────── */
+function StatusBadge({ status }: { status: CommStatus }) {
+  const color = STATUS_COLOR[status];
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-      {STATUS_STEPS.map((step, i) => {
-        const reached = i <= currentIdx;
-        const color = reached ? STATUS_COLOR[status] : "hsl(220 13% 12%)";
-        const textColor = reached ? STATUS_COLOR[status] : "hsl(215 16% 28%)";
-        return (
-          <div key={step} style={{ display: "flex", alignItems: "center", gap: 4 }}>
-            <div style={{
-              width: 6, height: 6, borderRadius: "50%",
-              background: reached ? color : "transparent",
-              border: `1px solid ${reached ? color : "hsl(220 13% 18%)"}`,
-              flexShrink: 0,
-            }} />
-            <span style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.1em", color: textColor, textTransform: "uppercase" }}>
-              {step}
-            </span>
-            {i < STATUS_STEPS.length - 1 && (
-              <div style={{ width: 8, height: 1, background: reached && i < currentIdx ? color : "hsl(220 13% 14%)" }} />
-            )}
-          </div>
-        );
-      })}
-    </div>
+    <span style={{
+      display: "inline-flex", alignItems: "center", gap: 5,
+      fontSize: 7.5, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase",
+      color, border: `1px solid ${color}33`, padding: "2px 8px", background: `${color}0d`,
+      whiteSpace: "nowrap",
+    }}>
+      <span style={{ width: 5, height: 5, borderRadius: "50%", background: color, display: "inline-block", flexShrink: 0 }} />
+      {status}
+    </span>
   );
 }
 
-/* ─── Comm Card ───────────────────────────────────────── */
-function CommCard({ c, i }: { c: CommRecord; i: number }) {
-  const catColor = CAT_COLOR[c.category];
-  const statusColor = STATUS_COLOR[c.status];
-  const channelColor = CHANNEL_COLOR[c.channel];
+/* ─── Search icon ─────────────────────────────────────── */
+function SearchIcon() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" style={{ flexShrink: 0 }}>
+      <circle cx="5.5" cy="5.5" r="4.25" stroke="hsl(215 16% 32%)" strokeWidth="1.2" />
+      <line x1="8.7" y1="8.7" x2="12" y2="12" stroke="hsl(215 16% 32%)" strokeWidth="1.2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+/* ─── Table row ───────────────────────────────────────── */
+function TableRow({ r, i }: { r: CommRecord; i: number }) {
+  const laneColor = LANE_COLOR[r.lane];
+  const chColor   = CHANNEL_COLOR[r.channel];
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
+    <motion.tr
+      initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: i * 0.04, duration: 0.32 }}
+      transition={{ delay: i * 0.03, duration: 0.28 }}
       style={{
-        background: C.card,
-        border: `1px solid ${C.border}`,
-        borderLeft: `3px solid ${catColor}`,
-        padding: "20px 22px",
-        marginBottom: 1,
+        borderBottom: `1px solid ${C.border}`,
+        borderLeft: `3px solid ${laneColor}`,
       }}
     >
-      {/* Top row */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 14 }}>
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
-            <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.1em", color: C.dimmed, fontFamily: "var(--app-font-mono)", textTransform: "uppercase" }}>
-              {c.id}
-            </span>
-            <span style={{ fontSize: 8, letterSpacing: "0.1em", color: "hsl(215 16% 26%)", textTransform: "uppercase" }}>
-              {c.timestamp}
-            </span>
-            <Badge text={c.channel} color={channelColor} />
-            <Badge text={c.category} color={catColor} />
-          </div>
-          <div style={{ fontSize: 15, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", marginBottom: 4 }}>
-            {c.name}
-          </div>
-          <div style={{ fontSize: 10.5, color: C.muted, lineHeight: 1.5 }}>
-            {c.trigger}
-          </div>
+      {/* Timestamp + ID */}
+      <td style={{ padding: "13px 16px", verticalAlign: "top", whiteSpace: "nowrap" }}>
+        <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.1em", color: "hsl(215 16% 50%)", fontFamily: "monospace" }}>
+          {r.timestamp}
         </div>
-        <div style={{ flexShrink: 0, marginLeft: 20 }}>
-          <Badge text={c.status} color={statusColor} />
+        <div style={{ fontSize: 7.5, letterSpacing: "0.08em", color: C.dimmed, marginTop: 3, fontFamily: "monospace" }}>
+          {r.id}
         </div>
-      </div>
+      </td>
 
-      {/* Detail grid */}
-      <div style={{
-        display: "grid",
-        gridTemplateColumns: "1fr 1fr",
-        gap: 1,
-        background: C.border,
-        border: `1px solid ${C.border}`,
-        marginBottom: 12,
-      }}>
-        {[
-          { label: "Audience", value: c.audience },
-          { label: "Outcome", value: c.outcome },
-        ].map((item) => (
-          <div key={item.label} style={{ background: "hsl(220 13% 6%)", padding: "11px 14px" }}>
-            <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.14em", color: C.dimmed, textTransform: "uppercase", marginBottom: 5 }}>
-              {item.label}
-            </div>
-            <div style={{ fontSize: 11, color: "hsl(215 16% 52%)", lineHeight: 1.55 }}>
-              {item.value}
-            </div>
+      {/* Lane */}
+      <td style={{ padding: "13px 14px", verticalAlign: "top" }}>
+        <Badge text={r.lane} color={laneColor} />
+      </td>
+
+      {/* Trigger */}
+      <td style={{ padding: "13px 16px", verticalAlign: "top", maxWidth: 240 }}>
+        <div style={{ fontSize: 10.5, color: "hsl(215 16% 52%)", lineHeight: 1.55 }}>
+          {r.trigger}
+        </div>
+      </td>
+
+      {/* Audience */}
+      <td style={{ padding: "13px 16px", verticalAlign: "top", maxWidth: 180 }}>
+        <div style={{ fontSize: 10.5, color: "hsl(215 16% 44%)", lineHeight: 1.55 }}>
+          {r.audience}
+        </div>
+      </td>
+
+      {/* Channel */}
+      <td style={{ padding: "13px 14px", verticalAlign: "top" }}>
+        <Badge text={r.channel} color={chColor} />
+      </td>
+
+      {/* Status */}
+      <td style={{ padding: "13px 14px", verticalAlign: "top" }}>
+        <StatusBadge status={r.status} />
+        {r.status === "Delivered" && (
+          <div style={{ fontSize: 7.5, color: C.dimmed, marginTop: 4, letterSpacing: "0.06em" }}>
+            {r.latencyMs < 1000
+              ? `${r.latencyMs}ms`
+              : `${(r.latencyMs / 1000).toFixed(1)}s`}
           </div>
-        ))}
-      </div>
+        )}
+      </td>
 
-      {/* Status pipeline */}
-      <div style={{
-        display: "flex", alignItems: "center", gap: 12,
-        padding: "9px 12px",
-        background: `${catColor}06`,
-        border: `1px solid ${catColor}14`,
-      }}>
-        <span style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.14em", color: catColor, textTransform: "uppercase", flexShrink: 0 }}>
-          DELIVERY
-        </span>
-        <StatusPipeline status={c.status} />
-      </div>
-    </motion.div>
+      {/* Outcome */}
+      <td style={{ padding: "13px 16px", verticalAlign: "top" }}>
+        <div style={{ fontSize: 10.5, color: "hsl(215 16% 44%)", lineHeight: 1.55 }}>
+          {r.outcome}
+        </div>
+      </td>
+    </motion.tr>
   );
 }
 
 /* ─── Page ─────────────────────────────────────────────── */
 export default function CommunicationRegistry() {
-  const [activeCategory, setActiveCategory] = useState<Category | "All">("All");
+  const [activeLane, setActiveLane]   = useState<LaneType | "All">("All");
+  const [activeStatus, setActiveStatus] = useState<CommStatus | "All">("All");
+  const [search, setSearch]           = useState("");
 
-  const filtered = activeCategory === "All"
-    ? COMMS
-    : COMMS.filter(c => c.category === activeCategory);
+  const filtered = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    return RECORDS.filter(r => {
+      if (activeLane !== "All" && r.lane !== activeLane) return false;
+      if (activeStatus !== "All" && r.status !== activeStatus) return false;
+      if (q) {
+        return (
+          r.trigger.toLowerCase().includes(q) ||
+          r.audience.toLowerCase().includes(q) ||
+          r.channel.toLowerCase().includes(q) ||
+          r.lane.toLowerCase().includes(q) ||
+          r.outcome.toLowerCase().includes(q) ||
+          r.id.toLowerCase().includes(q)
+        );
+      }
+      return true;
+    });
+  }, [activeLane, activeStatus, search]);
 
-  const catCounts = ALL_CATEGORIES.reduce<Record<string, number>>((acc, cat) => {
-    acc[cat] = COMMS.filter(c => c.category === cat).length;
-    return acc;
-  }, {});
+  const stats = useStats(RECORDS);
+
+  const laneCounts = useMemo(() =>
+    ALL_LANES.reduce<Record<string, number>>((a, l) => {
+      a[l] = RECORDS.filter(r => r.lane === l).length;
+      return a;
+    }, {}),
+  []);
+
+  const COL_HDR: React.CSSProperties = {
+    padding: "10px 16px",
+    fontSize: 7.5,
+    fontWeight: 700,
+    letterSpacing: "0.14em",
+    textTransform: "uppercase",
+    color: C.dimmed,
+    textAlign: "left",
+    borderBottom: `1px solid ${C.border}`,
+    whiteSpace: "nowrap",
+    background: "hsl(220 13% 6%)",
+  };
 
   return (
     <div className="pl-56 min-h-screen" style={{ background: C.bg }}>
-      <div style={{ maxWidth: 1240, margin: "0 auto", padding: "36px 40px 80px" }}>
+      <div style={{ maxWidth: 1340, margin: "0 auto", padding: "36px 40px 80px" }}>
 
         {/* ── Header ── */}
         <motion.div
@@ -400,34 +433,39 @@ export default function CommunicationRegistry() {
           style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 28 }}
         >
           <div>
-            <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.22em", color: C.amber, textTransform: "uppercase", marginBottom: 10 }}>
-              WELBX · Communication Layer
+            <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.22em", color: C.cyan, textTransform: "uppercase", marginBottom: 10 }}>
+              WELBX · Communications Layer
             </div>
             <h1 style={{ fontSize: 26, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", margin: 0, marginBottom: 6 }}>
               Communication Registry
             </h1>
             <p style={{ fontSize: 12, color: C.muted, margin: 0, letterSpacing: "0.04em" }}>
-              Every outbound communication — tracked from trigger to outcome.
+              Every routed communication — logged from trigger to outcome.
             </p>
           </div>
           <div style={{ textAlign: "right" }}>
             <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.12em", color: C.dimmed, textTransform: "uppercase", marginBottom: 4 }}>
-              {COMMS.length} communications logged today
+              {RECORDS.length} communications logged today
             </div>
-            <div style={{ fontSize: 8, letterSpacing: "0.1em", color: "hsl(215 16% 18%)", textTransform: "uppercase" }}>
-              4 categories · NEXUS routed
+            <div style={{ fontSize: 8, letterSpacing: "0.1em", color: "hsl(215 16% 16%)", textTransform: "uppercase" }}>
+              5 lanes · NEXUS routed
             </div>
           </div>
         </motion.div>
 
-        {/* ── KPI strip ── */}
+        {/* ── Stat strip ── */}
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.38 }}
           style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 1, marginBottom: 28 }}
         >
-          {METRICS.map((m, i) => (
+          {[
+            { label: "Total Routed",     value: stats.total,    unit: "TODAY",          color: C.cyan,  isCount: true,   suffix: ""   },
+            { label: "Delivery Rate",    value: stats.rate,     unit: "OF ALL SENDS",   color: C.green, isCount: true,   suffix: "%"  },
+            { label: "Avg Latency",      value: Math.round(stats.avgMs / 10) * 10, unit: "DELIVERED MSGS", color: C.amber, isCount: true, suffix: "ms" },
+            { label: "Top Channel",      value: stats.topChannel, unit: "MOST DELIVERED", color: C.violet, isCount: false, suffix: "" },
+          ].map((m, i) => (
             <motion.div
               key={m.label}
               initial={{ opacity: 0, y: 8 }}
@@ -440,8 +478,11 @@ export default function CommunicationRegistry() {
                 borderTop: `2px solid ${m.color}`,
               }}
             >
-              <div style={{ fontSize: 32, fontWeight: 800, color: "#fff", letterSpacing: "-0.025em", lineHeight: 1, marginBottom: 7 }}>
-                <CountUp target={m.value} />
+              <div style={{ fontSize: 30, fontWeight: 800, color: "#fff", letterSpacing: "-0.025em", lineHeight: 1, marginBottom: 7 }}>
+                {m.isCount
+                  ? <CountUp target={m.value as number} suffix={m.suffix} />
+                  : <span>{m.value}</span>
+                }
               </div>
               <div style={{ fontSize: 11, fontWeight: 600, color: "hsl(215 16% 48%)", marginBottom: 5 }}>
                 {m.label}
@@ -453,120 +494,175 @@ export default function CommunicationRegistry() {
           ))}
         </motion.div>
 
-        {/* ── Category filter tabs ── */}
+        {/* ── Controls: search + lane filter + status filter ── */}
         <motion.div
           initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.35 }}
-          style={{ display: "flex", gap: 1, marginBottom: 0 }}
+          style={{ display: "flex", gap: 1, alignItems: "stretch", marginBottom: 0 }}
         >
-          {(["All", ...ALL_CATEGORIES] as Array<"All" | Category>).map((cat) => {
-            const isActive = activeCategory === cat;
-            const color = cat === "All" ? C.amber : CAT_COLOR[cat];
-            const count = cat === "All" ? COMMS.length : catCounts[cat];
-            return (
+          {/* Search */}
+          <div style={{
+            display: "flex", alignItems: "center", gap: 8,
+            padding: "0 14px",
+            background: "hsl(220 13% 7%)",
+            border: `1px solid ${C.border}`,
+            minWidth: 240,
+            flex: "0 0 auto",
+          }}>
+            <SearchIcon />
+            <input
+              type="text"
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              placeholder="Search by name, trigger, audience…"
+              style={{
+                background: "transparent", border: "none", outline: "none",
+                fontSize: 10.5, color: "hsl(215 16% 60%)", width: "100%",
+                fontFamily: "inherit",
+              }}
+            />
+            {search && (
               <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                style={{
-                  padding: "10px 18px",
-                  background: isActive ? "hsl(220 13% 9%)" : "transparent",
-                  border: `1px solid ${isActive ? color + "44" : "hsl(220 13% 10%)"}`,
-                  borderBottom: isActive ? `1px solid hsl(220 13% 9%)` : `1px solid hsl(220 13% 10%)`,
-                  borderTop: isActive ? `2px solid ${color}` : "2px solid transparent",
-                  cursor: "pointer", transition: "all 0.15s",
-                  display: "flex", alignItems: "center", gap: 8,
-                }}
-              >
-                <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.08em", color: isActive ? "#fff" : "hsl(215 16% 36%)" }}>
-                  {cat === "All" ? "All Communications" : `${cat}`}
-                </span>
-                <span style={{
-                  fontSize: 8, fontWeight: 700, letterSpacing: "0.1em",
-                  color: isActive ? color : C.dimmed,
-                  border: `1px solid ${isActive ? color + "33" : "transparent"}`,
-                  padding: "1px 5px",
-                  background: isActive ? `${color}0d` : "transparent",
-                }}>
-                  {count}
-                </span>
-              </button>
-            );
-          })}
+                onClick={() => setSearch("")}
+                style={{ background: "none", border: "none", cursor: "pointer", color: C.dimmed, padding: 0, fontSize: 13, lineHeight: 1 }}
+              >×</button>
+            )}
+          </div>
+
+          {/* Lane tabs */}
+          <div style={{ display: "flex", gap: 1, flex: 1 }}>
+            {(["All", ...ALL_LANES] as Array<"All" | LaneType>).map((lane) => {
+              const isActive = activeLane === lane;
+              const color    = lane === "All" ? C.cyan : LANE_COLOR[lane];
+              const count    = lane === "All" ? RECORDS.length : laneCounts[lane];
+              return (
+                <button
+                  key={lane}
+                  onClick={() => setActiveLane(lane)}
+                  style={{
+                    flex: 1, padding: "10px 10px",
+                    background: isActive ? "hsl(220 13% 9%)" : "transparent",
+                    border: `1px solid ${isActive ? color + "44" : "hsl(220 13% 10%)"}`,
+                    borderTop: isActive ? `2px solid ${color}` : "2px solid transparent",
+                    cursor: "pointer", transition: "all 0.15s",
+                    display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+                  }}
+                >
+                  <span style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: "0.06em", color: isActive ? "#fff" : "hsl(215 16% 36%)" }}>
+                    {lane === "All" ? "All" : lane}
+                  </span>
+                  <span style={{
+                    fontSize: 7.5, fontWeight: 700, color: isActive ? color : C.dimmed,
+                    border: `1px solid ${isActive ? color + "33" : "transparent"}`,
+                    padding: "1px 4px",
+                    background: isActive ? `${color}0d` : "transparent",
+                  }}>{count}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Status filter */}
+          <div style={{ display: "flex", gap: 1 }}>
+            {(["All", "Delivered", "Pending", "Failed"] as Array<"All" | CommStatus>).map((s) => {
+              const isActive = activeStatus === s;
+              const color    = s === "All" ? C.slate : STATUS_COLOR[s];
+              return (
+                <button
+                  key={s}
+                  onClick={() => setActiveStatus(s)}
+                  style={{
+                    padding: "10px 14px",
+                    background: isActive ? "hsl(220 13% 9%)" : "transparent",
+                    border: `1px solid ${isActive ? color + "44" : "hsl(220 13% 10%)"}`,
+                    borderTop: isActive ? `2px solid ${color}` : "2px solid transparent",
+                    cursor: "pointer", transition: "all 0.15s",
+                    display: "flex", alignItems: "center", gap: 5,
+                  }}
+                >
+                  {s !== "All" && (
+                    <span style={{ width: 5, height: 5, borderRadius: "50%", background: isActive ? color : "hsl(215 16% 24%)", display: "inline-block", flexShrink: 0 }} />
+                  )}
+                  <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.08em", color: isActive ? "#fff" : "hsl(215 16% 32%)", whiteSpace: "nowrap" }}>
+                    {s}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </motion.div>
 
-        {/* ── Comm feed ── */}
-        <div style={{
-          border: `1px solid ${C.border}`,
-          borderTop: "none",
-          background: "hsl(220 13% 6%)",
-          padding: "1px 0 0",
-          marginBottom: 24,
-        }}>
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeCategory}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.18 }}
-              style={{ padding: "1px" }}
-            >
-              {filtered.map((c, i) => (
-                <CommCard key={c.id} c={c} i={i} />
-              ))}
-            </motion.div>
-          </AnimatePresence>
-        </div>
-
-        {/* ── Channel legend ── */}
+        {/* ── Table ── */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.4 }}
+          transition={{ delay: 0.28, duration: 0.35 }}
           style={{
-            marginTop: 8, padding: "14px 20px",
+            border: `1px solid ${C.border}`,
+            borderTop: "none",
+            background: "hsl(220 13% 6%)",
+            marginBottom: 24,
+            overflowX: "auto",
+          }}
+        >
+          <table style={{ width: "100%", borderCollapse: "collapse", tableLayout: "fixed" }}>
+            <colgroup>
+              <col style={{ width: 88  }} />
+              <col style={{ width: 108 }} />
+              <col style={{ width: "24%" }} />
+              <col style={{ width: "18%" }} />
+              <col style={{ width: 96  }} />
+              <col style={{ width: 116 }} />
+              <col />
+            </colgroup>
+            <thead>
+              <tr>
+                {["Time / ID", "Lane", "Trigger", "Audience", "Channel", "Status", "Outcome"].map(h => (
+                  <th key={h} style={COL_HDR}>{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.length > 0 ? (
+                filtered.map((r, i) => <TableRow key={r.id} r={r} i={i} />)
+              ) : (
+                <tr>
+                  <td colSpan={7} style={{ padding: "36px 24px", textAlign: "center" }}>
+                    <div style={{ fontSize: 11, color: C.dimmed, letterSpacing: "0.08em" }}>
+                      No communications match the current filters.
+                    </div>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </motion.div>
+
+        {/* ── Result count + legend ── */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.46, duration: 0.35 }}
+          style={{
+            padding: "12px 20px",
             border: `1px solid ${C.border}`,
             background: C.card,
-            display: "flex", alignItems: "center", gap: 28, flexWrap: "wrap",
+            display: "flex", alignItems: "center", gap: 24, flexWrap: "wrap",
           }}
         >
-          <span style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.14em", color: C.dimmed, textTransform: "uppercase", flexShrink: 0 }}>Channels</span>
-          {(Object.entries(CHANNEL_COLOR) as [Channel, string][]).map(([ch, col]) => (
-            <div key={ch} style={{ display: "flex", gap: 6, alignItems: "center" }}>
-              <div style={{ width: 6, height: 6, borderRadius: "50%", background: col }} />
-              <span style={{ fontSize: 8.5, color: C.dimmed, letterSpacing: "0.06em" }}>{ch}</span>
+          <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.12em", color: C.dimmed, textTransform: "uppercase" }}>
+            {filtered.length} of {RECORDS.length} records
+          </span>
+          <div style={{ width: 1, height: 12, background: C.border }} />
+          {(["Delivered", "Pending", "Failed"] as CommStatus[]).map(s => (
+            <div key={s} style={{ display: "flex", gap: 5, alignItems: "center" }}>
+              <div style={{ width: 5, height: 5, borderRadius: "50%", background: STATUS_COLOR[s] }} />
+              <span style={{ fontSize: 8.5, color: C.dimmed, letterSpacing: "0.06em" }}>{s}</span>
             </div>
           ))}
-          <div style={{ marginLeft: "auto", fontSize: 8, letterSpacing: "0.08em", color: "hsl(215 16% 16%)" }}>
-            Status: Sent → Delivered → Opened → Actioned
-          </div>
-        </motion.div>
-
-        {/* ── Engine footer ── */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.55, duration: 0.4 }}
-          style={{
-            marginTop: 16, paddingTop: 16,
-            borderTop: `1px solid ${C.border}`,
-            display: "flex", justifyContent: "space-between", alignItems: "center",
-          }}
-        >
-          <div style={{ display: "flex", gap: 28 }}>
-            {[
-              { name: "NEXUS",  desc: "Trigger routing · Audience selection · Channel assignment" },
-              { name: "VECTOR", desc: "Delivery execution · Status tracking · Outcome attribution" },
-            ].map(e => (
-              <div key={e.name} style={{ display: "flex", gap: 8, alignItems: "baseline" }}>
-                <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.16em", color: C.dimmed, textTransform: "uppercase" }}>{e.name}</span>
-                <span style={{ fontSize: 8, color: "hsl(215 16% 16%)", letterSpacing: "0.04em" }}>· {e.desc}</span>
-              </div>
-            ))}
-          </div>
-          <div style={{ fontSize: 8, letterSpacing: "0.08em", color: "hsl(215 16% 14%)", textTransform: "uppercase" }}>
-            WELBX Communication Registry · {COMMS.length} records
+          <div style={{ marginLeft: "auto", fontSize: 8, letterSpacing: "0.08em", color: "hsl(215 16% 14%)", textTransform: "uppercase" }}>
+            NEXUS · VECTOR · WELBX Communication Registry
           </div>
         </motion.div>
 
