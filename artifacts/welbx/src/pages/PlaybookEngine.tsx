@@ -465,7 +465,15 @@ function sparklineTrendColor(data: number[]): string {
   return C.blue;
 }
 
+function formatSparklineDate(daysAgo: number): string {
+  const d = new Date();
+  d.setDate(d.getDate() - daysAgo);
+  return d.toLocaleDateString("en-GB", { day: "2-digit", month: "short" });
+}
+
 function Sparkline({ data, width = 72, height = 28 }: { data: number[]; width?: number; height?: number }) {
+  const [hoverIdx, setHoverIdx] = useState<number | null>(null);
+
   if (data.length === 0) return null;
 
   const color = sparklineTrendColor(data);
@@ -481,35 +489,121 @@ function Sparkline({ data, width = 72, height = 28 }: { data: number[]; width?: 
   });
 
   const pathD = `M ${pts.join(" L ")}`;
-
   const areaD = `M ${pts[0]} L ${pts.join(" L ")} L ${(pad + w).toFixed(2)},${(pad + h).toFixed(2)} L ${pad},${(pad + h).toFixed(2)} Z`;
-
   const gradId = `sg-${data.length}-${data[0]}-${data[data.length - 1]}`;
 
+  function handleMouseMove(e: React.MouseEvent<SVGSVGElement>) {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const relX = e.clientX - rect.left;
+    const svgX  = (relX / rect.width) * width;
+    let closest = 0;
+    let minDist = Infinity;
+    pts.forEach((pt, i) => {
+      const px = parseFloat(pt.split(",")[0]);
+      const dist = Math.abs(svgX - px);
+      if (dist < minDist) { minDist = dist; closest = i; }
+    });
+    setHoverIdx(closest);
+  }
+
+  const hoverPt = hoverIdx !== null ? pts[hoverIdx] : null;
+  const hoverX  = hoverPt ? parseFloat(hoverPt.split(",")[0]) : 0;
+  const hoverY  = hoverPt ? parseFloat(hoverPt.split(",")[1]) : 0;
+
+  const daysAgo = hoverIdx !== null ? (data.length - 1 - hoverIdx) : 0;
+  const hoverDate  = hoverIdx !== null ? formatSparklineDate(daysAgo) : "";
+  const hoverCount = hoverIdx !== null ? data[hoverIdx] : 0;
+
+  const tooltipWidth = 72;
+  let tooltipLeft = hoverX - tooltipWidth / 2;
+  if (tooltipLeft < 0) tooltipLeft = 0;
+  if (tooltipLeft + tooltipWidth > width) tooltipLeft = width - tooltipWidth;
+
   return (
-    <svg
-      width={width}
-      height={height}
-      viewBox={`0 0 ${width} ${height}`}
-      style={{ display: "block", flexShrink: 0 }}
-      aria-hidden="true"
-    >
-      <defs>
-        <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%"   stopColor={color} stopOpacity={0.25} />
-          <stop offset="100%" stopColor={color} stopOpacity={0}    />
-        </linearGradient>
-      </defs>
-      <path d={areaD} fill={`url(#${gradId})`} />
-      <path d={pathD} fill="none" stroke={color} strokeWidth={1.5} strokeLinejoin="round" strokeLinecap="round" />
-      {/* terminal dot */}
-      <circle
-        cx={parseFloat(pts[pts.length - 1].split(",")[0])}
-        cy={parseFloat(pts[pts.length - 1].split(",")[1])}
-        r={2}
-        fill={color}
-      />
-    </svg>
+    <div style={{ position: "relative", display: "inline-block", lineHeight: 0 }}>
+      <svg
+        width={width}
+        height={height}
+        viewBox={`0 0 ${width} ${height}`}
+        style={{ display: "block", flexShrink: 0, cursor: "crosshair" }}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={() => setHoverIdx(null)}
+      >
+        <defs>
+          <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stopColor={color} stopOpacity={0.25} />
+            <stop offset="100%" stopColor={color} stopOpacity={0}    />
+          </linearGradient>
+        </defs>
+        <path d={areaD} fill={`url(#${gradId})`} />
+        <path d={pathD} fill="none" stroke={color} strokeWidth={1.5} strokeLinejoin="round" strokeLinecap="round" />
+        {/* terminal dot */}
+        <circle
+          cx={parseFloat(pts[pts.length - 1].split(",")[0])}
+          cy={parseFloat(pts[pts.length - 1].split(",")[1])}
+          r={2}
+          fill={color}
+        />
+        {/* hover cursor line */}
+        {hoverIdx !== null && (
+          <line
+            x1={hoverX} y1={pad}
+            x2={hoverX} y2={pad + h}
+            stroke={color}
+            strokeWidth={1}
+            strokeDasharray="2 2"
+            opacity={0.6}
+          />
+        )}
+        {/* hover dot */}
+        {hoverIdx !== null && (
+          <circle
+            cx={hoverX}
+            cy={hoverY}
+            r={2.5}
+            fill={color}
+            stroke={C.card}
+            strokeWidth={1}
+          />
+        )}
+      </svg>
+
+      {/* Floating tooltip */}
+      {hoverIdx !== null && (
+        <div
+          style={{
+            position: "absolute",
+            bottom: height + 4,
+            left: tooltipLeft,
+            width: tooltipWidth,
+            background: "hsl(220 13% 9%)",
+            border: `1px solid ${color}55`,
+            padding: "4px 7px",
+            pointerEvents: "none",
+            zIndex: 50,
+            whiteSpace: "nowrap",
+          }}
+        >
+          <div style={{
+            fontSize: 8,
+            fontWeight: 700,
+            letterSpacing: "0.08em",
+            color: color,
+            textTransform: "uppercase",
+            marginBottom: 1,
+          }}>
+            {hoverCount} fire{hoverCount !== 1 ? "s" : ""}
+          </div>
+          <div style={{
+            fontSize: 7.5,
+            color: C.muted,
+            letterSpacing: "0.04em",
+          }}>
+            {hoverDate}
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 
