@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 
 const ACCENT = "#c9a84c";
@@ -335,7 +336,23 @@ const fadeUp = (delay: number) => ({
   transition: { duration: 0.4, delay },
 });
 
+function getBestChannelPerMoment(): Record<string, { channel: string; value: number }> {
+  const result: Record<string, { channel: string; value: number }> = {};
+  for (const mt of MOMENT_TYPES) {
+    let best = { channel: "", value: -1 };
+    for (const ch of CHANNELS) {
+      const v = MATRIX[ch.name]?.[mt] ?? 0;
+      if (v > best.value) best = { channel: ch.name, value: v };
+    }
+    result[mt] = best;
+  }
+  return result;
+}
+
+const BEST_CHANNEL = getBestChannelPerMoment();
+
 export default function CommunicationIntelligence() {
+  const [matrixMode, setMatrixMode] = useState<"full" | "best">("full");
   return (
     <div className="min-h-screen pl-56" style={{ background: "hsl(220 13% 5%)" }}>
       <div style={{ maxWidth: 1200, padding: "36px 40px 80px" }}>
@@ -492,93 +509,220 @@ export default function CommunicationIntelligence() {
           <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 12 }}>
             <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.22em", color: ACCENT, textTransform: "uppercase" }}>03 — Communication Effectiveness Matrix</div>
             <div style={{ flex: 1, height: 1, background: "hsl(220 13% 10%)" }} />
-          </div>
-          <p style={{ fontSize: 11, color: "hsl(215 16% 40%)", lineHeight: 1.7, marginBottom: 18, maxWidth: 620 }}>
-            Action rate by channel × moment type. High-amber cells represent combinations where communication reliably changes behaviour. Use this to select the right channel for each moment class.
-          </p>
-
-          <div style={{ background: "hsl(220 13% 7%)", border: "1px solid hsl(220 13% 10%)", overflowX: "auto" }}>
-            {/* Column headers */}
-            <div style={{
-              display: "grid",
-              gridTemplateColumns: `160px repeat(${MOMENT_TYPES.length}, 1fr)`,
-              borderBottom: "1px solid hsl(220 13% 10%)",
-              background: "hsl(220 13% 6%)",
-            }}>
-              <div style={{ padding: "10px 14px" }} />
-              {MOMENT_TYPES.map(mt => (
-                <div key={mt} style={{
-                  padding: "10px 8px",
-                  fontSize: 7.5, fontWeight: 700, letterSpacing: "0.12em",
-                  color: "hsl(215 16% 30%)", textTransform: "uppercase",
-                  textAlign: "center", lineHeight: 1.4,
-                  borderLeft: "1px solid hsl(220 13% 10%)",
-                }}>
-                  {mt}
-                </div>
+            {/* View Toggle */}
+            <div style={{ display: "flex", border: "1px solid hsl(220 13% 14%)", overflow: "hidden" }}>
+              {(["full", "best"] as const).map(mode => (
+                <button
+                  key={mode}
+                  onClick={() => setMatrixMode(mode)}
+                  style={{
+                    padding: "6px 14px",
+                    fontSize: 8, fontWeight: 700, letterSpacing: "0.14em",
+                    textTransform: "uppercase", cursor: "pointer", border: "none",
+                    borderRight: mode === "full" ? "1px solid hsl(220 13% 14%)" : "none",
+                    background: matrixMode === mode ? ACCENT : "hsl(220 13% 7%)",
+                    color: matrixMode === mode ? "hsl(220 13% 5%)" : "hsl(215 16% 40%)",
+                    transition: "background 0.15s, color 0.15s",
+                  }}
+                >
+                  {mode === "full" ? "Full Matrix" : "Best Channel"}
+                </button>
               ))}
             </div>
-            {/* Rows */}
-            {CHANNELS.map((ch, ci) => (
-              <div
-                key={ch.name}
-                style={{
+          </div>
+          <p style={{ fontSize: 11, color: "hsl(215 16% 40%)", lineHeight: 1.7, marginBottom: 18, maxWidth: 620 }}>
+            {matrixMode === "full"
+              ? "Action rate by channel × moment type. High-amber cells represent combinations where communication reliably changes behaviour. Use this to select the right channel for each moment class."
+              : "Quick-reference guide — the single best-performing channel for each moment type, ranked by action rate. Use this to make the right call the moment a situation fires."}
+          </p>
+
+          {matrixMode === "full" ? (
+            <>
+              <div style={{ background: "hsl(220 13% 7%)", border: "1px solid hsl(220 13% 10%)", overflowX: "auto" }}>
+                {/* Column headers */}
+                <div style={{
                   display: "grid",
                   gridTemplateColumns: `160px repeat(${MOMENT_TYPES.length}, 1fr)`,
-                  borderBottom: ci < CHANNELS.length - 1 ? "1px solid hsl(220 13% 9%)" : "none",
-                }}
-              >
-                <div style={{
-                  padding: "14px 14px",
-                  fontSize: 11, fontWeight: 700, color: "hsl(215 16% 55%)",
-                  display: "flex", alignItems: "center",
-                  borderRight: "1px solid hsl(220 13% 10%)",
+                  borderBottom: "1px solid hsl(220 13% 10%)",
+                  background: "hsl(220 13% 6%)",
                 }}>
-                  {ch.name}
-                </div>
-                {MOMENT_TYPES.map((mt) => {
-                  const val = MATRIX[ch.name]?.[mt] ?? 0;
-                  const { bg, fg } = heatColor(val);
-                  return (
-                    <div
-                      key={mt}
-                      style={{
-                        padding: "12px 6px",
-                        textAlign: "center",
-                        background: bg,
-                        borderLeft: "1px solid hsl(220 13% 9%)",
-                        cursor: "default",
-                        transition: "background 0.15s",
-                      }}
-                      onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.outline = "1px solid rgba(201,168,76,0.3)"; }}
-                      onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.outline = "none"; }}
-                    >
-                      <div style={{ fontSize: 14, fontWeight: 800, color: fg, fontFamily: "var(--app-font-mono)", lineHeight: 1 }}>
-                        {val}
-                      </div>
-                      <div style={{ fontSize: 7, color: "hsl(215 16% 28%)", marginTop: 2, letterSpacing: "0.08em" }}>ACTION %</div>
+                  <div style={{ padding: "10px 14px" }} />
+                  {MOMENT_TYPES.map(mt => (
+                    <div key={mt} style={{
+                      padding: "10px 8px",
+                      fontSize: 7.5, fontWeight: 700, letterSpacing: "0.12em",
+                      color: "hsl(215 16% 30%)", textTransform: "uppercase",
+                      textAlign: "center", lineHeight: 1.4,
+                      borderLeft: "1px solid hsl(220 13% 10%)",
+                    }}>
+                      {mt}
                     </div>
-                  );
-                })}
+                  ))}
+                </div>
+                {/* Rows */}
+                {CHANNELS.map((ch, ci) => (
+                  <div
+                    key={ch.name}
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: `160px repeat(${MOMENT_TYPES.length}, 1fr)`,
+                      borderBottom: ci < CHANNELS.length - 1 ? "1px solid hsl(220 13% 9%)" : "none",
+                    }}
+                  >
+                    <div style={{
+                      padding: "14px 14px",
+                      fontSize: 11, fontWeight: 700, color: "hsl(215 16% 55%)",
+                      display: "flex", alignItems: "center",
+                      borderRight: "1px solid hsl(220 13% 10%)",
+                    }}>
+                      {ch.name}
+                    </div>
+                    {MOMENT_TYPES.map((mt) => {
+                      const val = MATRIX[ch.name]?.[mt] ?? 0;
+                      const isBest = BEST_CHANNEL[mt]?.channel === ch.name;
+                      const { bg, fg } = heatColor(val);
+                      return (
+                        <div
+                          key={mt}
+                          style={{
+                            padding: "12px 6px",
+                            textAlign: "center",
+                            background: bg,
+                            borderLeft: "1px solid hsl(220 13% 9%)",
+                            cursor: "default",
+                            transition: "background 0.15s",
+                            position: "relative",
+                          }}
+                          onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.outline = "1px solid rgba(201,168,76,0.3)"; }}
+                          onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.outline = "none"; }}
+                        >
+                          {isBest && (
+                            <div style={{
+                              position: "absolute", top: 3, right: 4,
+                              fontSize: 6.5, fontWeight: 700, letterSpacing: "0.1em",
+                              color: ACCENT, opacity: 0.7,
+                            }}>★</div>
+                          )}
+                          <div style={{ fontSize: 14, fontWeight: 800, color: fg, fontFamily: "var(--app-font-mono)", lineHeight: 1 }}>
+                            {val}
+                          </div>
+                          <div style={{ fontSize: 7, color: "hsl(215 16% 28%)", marginTop: 2, letterSpacing: "0.08em" }}>ACTION %</div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-          {/* Legend */}
-          <div style={{ display: "flex", gap: 20, marginTop: 12, alignItems: "center" }}>
-            <div style={{ fontSize: 8, letterSpacing: "0.12em", color: "hsl(215 16% 28%)", textTransform: "uppercase" }}>Legend:</div>
-            {[
-              { label: "85–100 High Behavioural Impact", bg: "rgba(201,168,76,0.22)", fg: ACCENT },
-              { label: "70–84 Strong", bg: "rgba(201,168,76,0.12)", fg: ACCENT },
-              { label: "55–69 Moderate", bg: "rgba(96,165,250,0.12)", fg: "#60a5fa" },
-              { label: "35–54 Weak", bg: "rgba(96,165,250,0.06)", fg: "hsl(215 16% 50%)" },
-              { label: "< 35 Negligible", bg: "transparent", fg: "hsl(215 16% 30%)" },
-            ].map(l => (
-              <div key={l.label} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                <div style={{ width: 10, height: 10, background: l.bg, border: "1px solid hsl(220 13% 14%)" }} />
-                <span style={{ fontSize: 8, color: l.fg, letterSpacing: "0.06em" }}>{l.label}</span>
+              {/* Legend */}
+              <div style={{ display: "flex", gap: 20, marginTop: 12, alignItems: "center" }}>
+                <div style={{ fontSize: 8, letterSpacing: "0.12em", color: "hsl(215 16% 28%)", textTransform: "uppercase" }}>Legend:</div>
+                {[
+                  { label: "85–100 High Behavioural Impact", bg: "rgba(201,168,76,0.22)", fg: ACCENT },
+                  { label: "70–84 Strong", bg: "rgba(201,168,76,0.12)", fg: ACCENT },
+                  { label: "55–69 Moderate", bg: "rgba(96,165,250,0.12)", fg: "#60a5fa" },
+                  { label: "35–54 Weak", bg: "rgba(96,165,250,0.06)", fg: "hsl(215 16% 50%)" },
+                  { label: "< 35 Negligible", bg: "transparent", fg: "hsl(215 16% 30%)" },
+                ].map(l => (
+                  <div key={l.label} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    <div style={{ width: 10, height: 10, background: l.bg, border: "1px solid hsl(220 13% 14%)" }} />
+                    <span style={{ fontSize: 8, color: l.fg, letterSpacing: "0.06em" }}>{l.label}</span>
+                  </div>
+                ))}
+                <div style={{ display: "flex", alignItems: "center", gap: 6, marginLeft: 8 }}>
+                  <span style={{ fontSize: 10, color: ACCENT, opacity: 0.7 }}>★</span>
+                  <span style={{ fontSize: 8, color: "hsl(215 16% 40%)", letterSpacing: "0.06em" }}>Best channel for this moment type</span>
+                </div>
               </div>
-            ))}
-          </div>
+            </>
+          ) : (
+            /* ── Best Channel View ── */
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 1 }}>
+              {MOMENT_TYPES.map((mt, i) => {
+                const best = BEST_CHANNEL[mt];
+                const { bg, fg } = heatColor(best.value);
+                const channelData = CHANNELS.find(c => c.name === best.channel);
+                return (
+                  <motion.div
+                    key={mt}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.06 }}
+                    style={{
+                      background: "hsl(220 13% 7%)",
+                      border: "1px solid hsl(220 13% 10%)",
+                      borderTop: `2px solid ${ACCENT}`,
+                      padding: "22px 22px",
+                    }}
+                  >
+                    {/* Moment type label */}
+                    <div style={{
+                      fontSize: 7.5, fontWeight: 700, letterSpacing: "0.16em",
+                      color: "hsl(215 16% 32%)", textTransform: "uppercase", marginBottom: 14,
+                    }}>
+                      {mt}
+                    </div>
+
+                    {/* Directive line */}
+                    <div style={{ fontSize: 9.5, color: "hsl(215 16% 36%)", marginBottom: 10, lineHeight: 1.5 }}>
+                      Use when this moment fires:
+                    </div>
+
+                    {/* Best channel name */}
+                    <div style={{ fontSize: 16, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", marginBottom: 10, lineHeight: 1.2 }}>
+                      {best.channel}
+                    </div>
+
+                    {/* Channel type badge */}
+                    {channelData && (
+                      <div style={{
+                        display: "inline-block", marginBottom: 16,
+                        fontSize: 7.5, fontWeight: 700, letterSpacing: "0.12em",
+                        color: "hsl(215 16% 44%)", textTransform: "uppercase",
+                        border: "1px solid hsl(220 13% 16%)", padding: "2px 8px",
+                      }}>
+                        {channelData.type}
+                      </div>
+                    )}
+
+                    {/* Action rate */}
+                    <div style={{
+                      display: "flex", alignItems: "center", gap: 10,
+                      padding: "12px 14px",
+                      background: bg,
+                      border: `1px solid ${fg}22`,
+                    }}>
+                      <div style={{ fontSize: 32, fontWeight: 800, color: fg, fontFamily: "var(--app-font-mono)", letterSpacing: "-0.03em", lineHeight: 1 }}>
+                        {best.value}%
+                      </div>
+                      <div>
+                        <div style={{ fontSize: 8.5, fontWeight: 700, color: fg, letterSpacing: "0.08em", textTransform: "uppercase" }}>
+                          Action Rate
+                        </div>
+                        <div style={{ fontSize: 8, color: "hsl(215 16% 36%)", marginTop: 2 }}>
+                          for this moment type
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Runner-up hint */}
+                    {(() => {
+                      const sorted = CHANNELS
+                        .map(c => ({ name: c.name, val: MATRIX[c.name]?.[mt] ?? 0 }))
+                        .sort((a, b) => b.val - a.val);
+                      const runnerUp = sorted[1];
+                      return runnerUp ? (
+                        <div style={{ marginTop: 10, fontSize: 9, color: "hsl(215 16% 30%)" }}>
+                          Runner-up: <span style={{ color: "hsl(215 16% 44%)", fontWeight: 600 }}>{runnerUp.name}</span>
+                          {" "}
+                          <span style={{ fontFamily: "var(--app-font-mono)" }}>({runnerUp.val}%)</span>
+                        </div>
+                      ) : null;
+                    })()}
+                  </motion.div>
+                );
+              })}
+            </div>
+          )}
         </motion.div>
 
         {/* ── Channel Success Rate by Lane ── */}
