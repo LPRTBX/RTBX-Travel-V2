@@ -142,6 +142,7 @@ export const PLAYBOOKS: Playbook[] = [
         owner: "A. Marsh (Duty Manager)",
         outcome: "Resolved",
         resolutionMinutes: 6,
+        momentId: "m8",
       },
       {
         id: "EX-001-06",
@@ -150,6 +151,7 @@ export const PLAYBOOKS: Playbook[] = [
         owner: "D. Osei (Security Lead)",
         outcome: "Resolved",
         resolutionMinutes: 9,
+        momentId: "m7",
       },
       {
         id: "EX-001-05",
@@ -158,6 +160,7 @@ export const PLAYBOOKS: Playbook[] = [
         owner: "P. Nguyen (First Aid Officer)",
         outcome: "Escalated",
         resolutionMinutes: 14,
+        momentId: "m8",
       },
       {
         id: "EX-001-04",
@@ -166,6 +169,7 @@ export const PLAYBOOKS: Playbook[] = [
         owner: "A. Marsh (Duty Manager)",
         outcome: "Resolved",
         resolutionMinutes: 7,
+        momentId: "m8",
       },
       {
         id: "EX-001-03",
@@ -174,6 +178,7 @@ export const PLAYBOOKS: Playbook[] = [
         owner: "D. Osei (Security Lead)",
         outcome: "Resolved",
         resolutionMinutes: 5,
+        momentId: "m7",
       },
     ],
   },
@@ -229,6 +234,7 @@ export const PLAYBOOKS: Playbook[] = [
         owner: "L. Ferreira (Guest Relations)",
         outcome: "Resolved",
         resolutionMinutes: 20,
+        momentId: "m9",
       },
       {
         id: "EX-002-17",
@@ -237,6 +243,7 @@ export const PLAYBOOKS: Playbook[] = [
         owner: "L. Ferreira (Guest Relations)",
         outcome: "Resolved",
         resolutionMinutes: 17,
+        momentId: "m10",
       },
       {
         id: "EX-002-16",
@@ -254,6 +261,7 @@ export const PLAYBOOKS: Playbook[] = [
         owner: "T. Blaine (Concierge Lead)",
         outcome: "Resolved",
         resolutionMinutes: 13,
+        momentId: "m9",
       },
     ],
   },
@@ -309,6 +317,7 @@ export const PLAYBOOKS: Playbook[] = [
         owner: "A. Marsh (Duty Manager)",
         outcome: "Resolved",
         resolutionMinutes: 42,
+        momentId: "m11",
       },
       {
         id: "EX-003-10",
@@ -373,6 +382,7 @@ export const PLAYBOOKS: Playbook[] = [
         owner: "R. Patel (HR Manager)",
         outcome: "Resolved",
         resolutionMinutes: 20,
+        momentId: "m12",
       },
       {
         id: "EX-004-02",
@@ -381,6 +391,7 @@ export const PLAYBOOKS: Playbook[] = [
         owner: "J. Torres (Department Head)",
         outcome: "Resolved",
         resolutionMinutes: 18,
+        momentId: "m12",
       },
       {
         id: "EX-004-01",
@@ -389,6 +400,7 @@ export const PLAYBOOKS: Playbook[] = [
         owner: "R. Patel (HR Manager)",
         outcome: "Resolved",
         resolutionMinutes: 27,
+        momentId: "m12",
       },
     ],
   },
@@ -435,6 +447,7 @@ export const PLAYBOOKS: Playbook[] = [
         owner: "M. Okonkwo (Engineering Lead)",
         outcome: "Partial",
         resolutionMinutes: 95,
+        momentId: "m13",
       },
       {
         id: "EX-005-08",
@@ -443,6 +456,7 @@ export const PLAYBOOKS: Playbook[] = [
         owner: "M. Okonkwo (Engineering Lead)",
         outcome: "Resolved",
         resolutionMinutes: 58,
+        momentId: "m14",
       },
       {
         id: "EX-005-07",
@@ -460,6 +474,7 @@ export const PLAYBOOKS: Playbook[] = [
         owner: "M. Okonkwo (Engineering Lead)",
         outcome: "Escalated",
         resolutionMinutes: 120,
+        momentId: "m13",
       },
       {
         id: "EX-005-05",
@@ -468,6 +483,7 @@ export const PLAYBOOKS: Playbook[] = [
         owner: "S. Lindqvist (Facilities Manager)",
         outcome: "Resolved",
         resolutionMinutes: 75,
+        momentId: "m15",
       },
     ],
   },
