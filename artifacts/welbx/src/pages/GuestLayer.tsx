@@ -5,12 +5,15 @@ import { motion, AnimatePresence } from "framer-motion";
 
 type GuestType = 'returning' | 'first-time' | 'welfare' | 'crisis';
 type TouchpointStatus = 'delivered' | 'active' | 'pending';
+type PerspectiveView = 'guest' | 'operating' | 'infrastructure';
+
+interface CausalStep { step: string; label: string; detail: string; }
 
 interface GuestData {
   name: string; firstName: string; tier: string; tierColor: string;
   stayCount: string; origin: string; room: string; roomType: string;
-  floor: string; ltv: string; ltvLabel: string; arrival: string;
-  departure: string; preferences: string[];
+  floor: string; relationshipValue: string; relationshipValueLabel: string;
+  arrival: string; departure: string; preferences: string[];
   bxosMode: string; bxosModeDetail: string;
 }
 
@@ -42,6 +45,9 @@ interface GuestScenario {
   outcome: { label: string; value: string; color?: string }[];
   mandateText: string; welcomeLine: string;
   notificationLabel: string; notificationBody: string;
+  causalChain: CausalStep[];
+  operatingView: string[];
+  infrastructureView: string[];
 }
 
 interface EscalationScenario {
@@ -51,6 +57,9 @@ interface EscalationScenario {
   messages: AppMessage[];
   guestSees: string[]; hotelDoing: string[];
   mandateText: string;
+  causalChain: CausalStep[];
+  operatingView: string[];
+  infrastructureView: string[];
 }
 
 // ─── NORMAL SCENARIOS ─────────────────────────────────────────────────────────
@@ -59,7 +68,8 @@ const RETURNING: GuestScenario = {
   guest: {
     name: "Mr. J. Hartley", firstName: "James", tier: "DIAMOND", tierColor: "#c9a84c",
     stayCount: "14 stays", origin: "New York, USA", room: "847", roomType: "Superior Suite",
-    floor: "14th Floor", ltv: "$42,000", ltvLabel: "Confirmed LTV", arrival: "Today, 14:42",
+    floor: "14th Floor", relationshipValue: "14 stays · 7 years", relationshipValueLabel: "Guest Tenure",
+    arrival: "Today, 14:42",
     departure: "Tomorrow, 11:00", preferences: ["High floor", "Champagne on arrival", "Late checkout", "No housekeeping during stay"],
     bxosMode: "HISTORY MODE", bxosModeDetail: "14-stay preference record active",
   },
@@ -82,18 +92,48 @@ const RETURNING: GuestScenario = {
   ],
   guestSees: ['A hotel that knows their name and their preferences', 'Messages that arrive at exactly the right moment', 'A room ready before they need to ask', 'A checkout extension without raising it', 'A champagne flute, already poured'],
   welbxDoing: ['14-stay preference pattern applied', 'Sentiment and timing intelligence', 'Operational routing and room release', 'Loyalty tier and occupancy data trigger', 'DIAMOND protocol execution'],
-  outcome: [{ label: 'NPS Score', value: '9 / 10', color: '#10b981' }, { label: 'Return Intent', value: 'HIGH', color: '#10b981' }, { label: 'LTV Delta', value: '+$3,200', color: '#10b981' }, { label: 'Complaint Filed', value: 'None', color: '#10b981' }, { label: 'Recovery Cost', value: '$0', color: '#10b981' }, { label: 'Loyalty Action', value: 'Ambassador upgrade', color: '#c9a84c' }],
-  mandateText: "Mr. Hartley never saw the pressure building at 14:32. He experienced a flawless arrival, a glass of champagne, and a hotel that knew his name. The same intelligence that protected $8,000 in operational value created a guest who will return, review, and refer.",
+  outcome: [
+    { label: 'NPS Score', value: '9 / 10', color: '#10b981' },
+    { label: 'Return Intent', value: 'HIGH', color: '#10b981' },
+    { label: 'Experience Impact', value: 'Exceptional', color: '#10b981' },
+    { label: 'Operational Impact', value: 'Seamless delivery', color: '#10b981' },
+    { label: 'Recovery Requirement', value: 'None', color: '#10b981' },
+    { label: 'Loyalty Impact', value: 'DIAMOND reinforced', color: '#c9a84c' },
+  ],
+  mandateText: "Mr. Hartley never saw the pressure building at 14:32. He experienced a flawless arrival, a glass of champagne, and a hotel that knew his name. The intelligence that absorbed an operational risk in 45 seconds created a guest who will return, review, and refer.",
   welcomeLine: "Good evening, James.",
   notificationLabel: 'New from Stay Services',
   notificationBody: "Mr. Hartley — enjoy a 13:00 checkout tomorrow. No need to rush.",
+  causalChain: [
+    { step: 'Signal', label: 'Operational risk detected', detail: 'Room 847 still occupied. Housekeeping queue at 11. DIAMOND guest arriving in 18 minutes. BXOS confidence: 91%.' },
+    { step: 'Moment', label: 'VIP Arrival Risk', detail: 'Returning DIAMOND guest — 14 stays on record — at risk of delayed room access on arrival.' },
+    { step: 'Decision', label: 'Priority routing activated', detail: 'Secondary FOH lane staffed. Room 847 escalated to housekeeping priority. Host pre-positioned at entrance.' },
+    { step: 'Action', label: 'Protocol deployed', detail: 'Secondary lane opened. Room 847 released 2 minutes early. VIP welcome protocol active. Champagne pre-poured.' },
+    { step: 'Outcome', label: 'Seamless arrival', detail: 'Mr. Hartley arrived to a ready room, his name called before he reached the desk. No service failure visible.' },
+  ],
+  operatingView: [
+    'Front desk pre-briefed 18 minutes before arrival via NEXUS alert',
+    'Secondary FOH lane staffed and host physically positioned at entrance',
+    'Housekeeping queue restructured — Room 847 elevated to priority release',
+    'VIP welcome protocol coordinated across front-of-house and F&B',
+    'Late checkout offer triggered by duty manager at occupancy threshold',
+    'DIAMOND preference record cascaded to all guest-facing staff',
+  ],
+  infrastructureView: [
+    'BXOS pulled 14-stay preference record — full pattern match, confidence 91%',
+    'M2 surfaced convergence risk: Room 847 occupied + housekeeping overload + VIP arrival window',
+    'NEXUS routed operational response in 45 seconds — secondary lane + priority release',
+    'DIAMOND loyalty protocol auto-triggered late checkout eligibility from occupancy data',
+    'Billecart-Salmon preference matched from stay 8 — in-room gesture engineered without staff instruction',
+    'All touchpoints logged — preference record updated for stay 15 at departure',
+  ],
 };
 
 const FIRST_TIME: GuestScenario = {
   guest: {
     name: "Ms. P. Chen", firstName: "Priya", tier: "FIRST STAY", tierColor: "#60a5fa",
     stayCount: "1st stay", origin: "Singapore", room: "312", roomType: "Deluxe Double",
-    floor: "8th Floor", ltv: "$18,000+", ltvLabel: "Estimated LTV Potential",
+    floor: "8th Floor", relationshipValue: "First Stay · Conversion Target", relationshipValueLabel: "Relationship Stage",
     arrival: "Today, 16:15", departure: "Day after tomorrow, 11:00",
     preferences: ["No prior history — BXOS inference mode active"],
     bxosMode: "INFERENCE MODE", bxosModeDetail: "Booking signal + arrival pattern + archetype matching",
@@ -117,11 +157,41 @@ const FIRST_TIME: GuestScenario = {
   ],
   guestSees: ['A hotel that anticipated their needs without any history', 'A welcome that felt personal despite being a first visit', 'Recommendations that matched their taste precisely', 'A spa discovered at exactly the right moment', 'A loyalty invitation that actually felt worth accepting'],
   welbxDoing: ['Booking channel inference (Virtuoso = high-value signal)', 'Long-haul arrival pattern → fatigue protocol applied', 'Market archetype matching (Singapore business-leisure)', 'Optimal conversion window timing (loyalty invite)', 'First impression engineering — no history, full intelligence'],
-  outcome: [{ label: 'NPS Score', value: '8 / 10', color: '#10b981' }, { label: 'Return Intent', value: 'HIGH', color: '#10b981' }, { label: 'Loyalty', value: 'ENROLLED', color: '#60a5fa' }, { label: 'Complaint Filed', value: 'None', color: '#10b981' }, { label: 'Recovery Cost', value: '$0', color: '#10b981' }, { label: 'LTV Potential', value: '$18,000+', color: '#c9a84c' }],
-  mandateText: "Ms. Chen had no preference history. BXOS had four data points. From those, it inferred: business-leisure traveler, long-haul fatigue, high F&B propensity, spa candidate. The first stay is the most commercially important moment. It either converts a one-time booker into a lifetime relationship — or loses them forever.",
+  outcome: [
+    { label: 'NPS Score', value: '8 / 10', color: '#10b981' },
+    { label: 'Return Intent', value: 'HIGH', color: '#10b981' },
+    { label: 'Experience Impact', value: 'Outstanding', color: '#10b981' },
+    { label: 'Loyalty Impact', value: 'Enrolled', color: '#60a5fa' },
+    { label: 'Operational Impact', value: 'First impression engineered', color: '#10b981' },
+    { label: 'Recovery Requirement', value: 'None', color: '#10b981' },
+  ],
+  mandateText: "Ms. Chen had no preference history. BXOS had four data points. From those, it inferred: business-leisure traveler, long-haul fatigue, high F&B propensity, spa candidate. The first stay is the highest-stakes moment. It either converts a one-time booker into a lifetime relationship — or loses them forever.",
   welcomeLine: "Welcome to The Grand Meridian, Priya.",
   notificationLabel: 'Loyalty Programme',
   notificationBody: "We'd love to have you back. Join our programme — your next stay is already waiting.",
+  causalChain: [
+    { step: 'Signal', label: 'Inference signals acquired', detail: 'Booking via Virtuoso. SQ321 tracked — 10h flight, Singapore origin. Zero preference history. BXOS enters inference mode.' },
+    { step: 'Moment', label: 'First Impression Engineering', detail: 'No prior data. Operating entirely from: booking channel · arrival pattern · long-haul fatigue · market archetype.' },
+    { step: 'Decision', label: 'Fatigue + archetype protocol', detail: 'Low-demand arrival content. Room pre-conditioned to 19°C. Discovery framing — orient, don\'t assume. F&B surfaced at 5h mark.' },
+    { step: 'Action', label: 'Full inference stack deployed', detail: 'Curated 3-item introduction. Spa discovery trigger at 22h. Loyalty conversion invite timed for 72h departure window.' },
+    { step: 'Outcome', label: 'Loyalty enrolled · Return confirmed', detail: 'Ms. Chen signed up for the programme at the airport. NPS 8/10 on first stay. Return intent HIGH.' },
+  ],
+  operatingView: [
+    'Host briefed: Singapore origin, 10h long-haul flight, discovery welcome protocol — no assumptions',
+    'Room pre-conditioned by engineering: temperature 19°C, blackout curtains lowered pre-arrival',
+    'F&B notified of high-propensity archetype — Meridian Room table quietly held for 19:00',
+    'Spa team alerted to first-stay guest as low-pressure discovery candidate',
+    'Concierge briefed to deliver curated 3-option introduction — no upsell framing',
+    'Loyalty team queued conversion invite for optimal 72h departure window',
+  ],
+  infrastructureView: [
+    'BXOS inference from 4 data points: Virtuoso booking, SQ321 flight tracking, Singapore business-leisure archetype, zero prior history',
+    'Long-haul fatigue protocol applied — low-demand content only, 3 curated options, no upsell pressure',
+    'Market archetype match 84% — Singapore business-leisure, high F&B propensity, spa candidate',
+    'Optimal conversion window computed: loyalty invite timed for 72h post-arrival based on departure pattern',
+    'Preference seeding active — all inferred signals logged as first-stay data for return visit pattern-building',
+    'First impression engineering complete — BXOS running fully blind, no historical anchor required',
+  ],
 };
 
 // ─── WELFARE ALERT SCENARIO ───────────────────────────────────────────────────
@@ -130,7 +200,7 @@ const WELFARE: EscalationScenario = {
   guest: {
     name: "Dr. A. Morrison", firstName: "Alex", tier: "GOLD", tierColor: "#f59e0b",
     stayCount: "3 stays", origin: "Edinburgh, UK", room: "624", roomType: "Business Double",
-    floor: "8th Floor", ltv: "$8,400", ltvLabel: "Confirmed LTV",
+    floor: "8th Floor", relationshipValue: "3 stays · GOLD tier", relationshipValueLabel: "Guest Standing",
     arrival: "3 days ago", departure: "Tomorrow, 11:00",
     preferences: ["Corner room", "Quiet floor", "No turn-down service"],
     bxosMode: "WELFARE MODE", bxosModeDetail: "Stress and withdrawal signals — Level 1 Protocol",
@@ -179,7 +249,30 @@ const WELFARE: EscalationScenario = {
     'Monitoring door sensor and app activity passively',
     'Escalation to Level 2 if no engagement within 4 hours',
   ],
-  mandateText: "Dr. Morrison did not signal distress directly. BXOS detected it through behavioral absence — no food ordered, no calls made, no services engaged, temperature set to cold, curtains closed. The hotel's role is not to intrude but to be present. A note under the door. A complimentary meal with no strings. A quiet knock scheduled at 15:00. If the guest is simply resting and prefers privacy, nothing changes. If they are struggling, they know the hotel has noticed — and is there.",
+  mandateText: "Dr. Morrison did not signal distress directly. BXOS detected it through behavioral absence — no food ordered, no calls made, no services engaged, temperature set to cold, curtains closed. The hotel's role is not to intrude but to be present. A note under the door. A complimentary meal with no strings. A quiet knock scheduled at 15:00. If the guest is simply resting, nothing changes. If they are struggling, they know the hotel has noticed — and is there.",
+  causalChain: [
+    { step: 'Signal', label: '7 behavioral absence signals', detail: 'Room service declined × 3. App inactive 31h. Zero restaurant visits since Day 1. Housekeeping declined 3 days running. Room climate: 15°C, blackout curtains.' },
+    { step: 'Moment', label: 'Stress & Withdrawal Pattern', detail: 'Level 1 threshold exceeded — 5 of 7 monitored dimensions in elevated or high state over 18h 43m. BXOS confidence: 73%.' },
+    { step: 'Decision', label: 'Non-intrusive welfare protocol', detail: 'Concern confirmed, not crisis. Discreet outreach only. No direct intervention. Guest privacy maintained at every step.' },
+    { step: 'Action', label: 'Layered discreet response', detail: 'Welfare note under door. Complimentary meal offered — no charge. In-app wellness check sent. Night manager on standby. Quiet knock at 15:00.' },
+    { step: 'Outcome', label: 'Guest aware support is available', detail: 'Safety maintained. Escalation to Level 2 queued if no engagement within 4 hours. Hotel has acted — and is still watching.' },
+  ],
+  operatingView: [
+    'General Manager notified and monitoring remotely — no direct approach yet',
+    'Night manager briefed — welfare note hand-delivered to Room 624',
+    'F&B arranged complimentary meal offer with no charge attached — available on request',
+    'Front desk briefed to apply welfare framing on all Dr. Morrison calls',
+    'Duty manager scheduled quiet knock at 15:00 — trained protocol, not security-led',
+    'All communications to Dr. Morrison framed as care-first — no alarm language',
+  ],
+  infrastructureView: [
+    'BXOS behavioral absence pattern — 7 dimensions monitored over 18h 43m continuously',
+    'Level 1 threshold: 5 of 7 signals in elevated or high state — welfare concern flagged',
+    'Confidence 73% — concern level, not confirmed crisis; Level 2 queued at 4h no-engagement',
+    'NEXUS routed notification to GM and VECTOR sent in-app wellness check simultaneously',
+    'Door sensor and app activity both under passive continuous monitoring',
+    'Escalation logic active: any engagement resets clock; no engagement in 4h triggers Level 2',
+  ],
 };
 
 // ─── CRISIS PROTOCOL SCENARIO ─────────────────────────────────────────────────
@@ -188,7 +281,7 @@ const CRISIS: EscalationScenario = {
   guest: {
     name: "Mr. R. Nakamura", firstName: "Ryo", tier: "PLATINUM", tierColor: "#e2e8f0",
     stayCount: "7 stays", origin: "Tokyo, Japan", room: "1247", roomType: "Executive Suite",
-    floor: "12th Floor", ltv: "$31,000", ltvLabel: "Confirmed LTV",
+    floor: "12th Floor", relationshipValue: "7 stays · PLATINUM tier", relationshipValueLabel: "Guest Standing",
     arrival: "4 days ago", departure: "In 2 days, 11:00",
     preferences: ["High floor", "Pillow menu on file", "Japanese green tea"],
     bxosMode: "CRISIS MODE", bxosModeDetail: "Multiple critical welfare signals — immediate intervention",
@@ -242,6 +335,29 @@ const CRISIS: EscalationScenario = {
     'Post-intervention: medical evaluation, family contact, care plan',
   ],
   mandateText: "Mr. Nakamura had been a guest seven times. BXOS detected a critical pattern shift across all monitored dimensions — and what made it a crisis was not any single signal but their convergence. The hotel's role in this moment is not operational. It is human. Level 4 protocol exists because great hospitality includes duty of care — and WELBX is the system that ensures that duty is never missed.",
+  causalChain: [
+    { step: 'Signal', label: '7 critical signals — full convergence', detail: 'DND active 22h. Baggage storage inquiry. 8 missed welfare calls. App inactive 96h. Room service declined × 5. Elevated minibar. No emergency contact.' },
+    { step: 'Moment', label: 'Crisis Threshold Reached', detail: 'All 7 monitored dimensions in critical state. Not one signal — but their convergence. BXOS confidence: 94%. Immediate Level 4 trigger.' },
+    { step: 'Decision', label: 'Full deployment cascade — 5 minutes', detail: 'GM notified for immediate attendance. Duty Manager to Floor 12. Security positioned outside 1247. Medical on-call. Welfare Liaison contacted.' },
+    { step: 'Action', label: 'Physical welfare knock initiated', detail: 'GM + Security outside Room 1247 at 20:19. Trained welfare knock — not security-first. Mental health liaison active. Tokyo consulate being contacted.' },
+    { step: 'Outcome', label: 'Duty of care activated', detail: 'Hotel has acted on every available channel. Physical presence established. Post-intervention care plan and family notification queued.' },
+  ],
+  operatingView: [
+    'GM attending immediately — all Mr. Nakamura calls redirected to GM direct line',
+    'Duty Manager physically deployed to Floor 12 — positioned outside Room 1247',
+    'Security on standby outside Room 1247 — welfare approach, not enforcement',
+    'Medical team placed on immediate call — not yet deployed, on 5-minute standby',
+    'Mental health liaison contacted: Samaritans partnership active',
+    'Front desk locating emergency contact via Tokyo consulate — no contact on file',
+  ],
+  infrastructureView: [
+    'BXOS 7-signal convergence — all monitored dimensions in critical state over 4-day pattern',
+    'Confidence 94% — highest threshold: immediate Level 4 trigger, no escalation ladder skipped',
+    'DND 22h + "permanent baggage storage" inquiry — convergence pattern unique to intent signal',
+    'Full deployment cascade completed in 5 minutes: signal to GM + Security + Medical all active',
+    'Post-intervention care plan pre-queued: medical evaluation, family notification, safe-room protocol',
+    'BXOS continuous monitoring active — any door sensor or app event surfaced to GM immediately',
+  ],
 };
 
 // ─── SEVERITY CONFIG ──────────────────────────────────────────────────────────
@@ -771,9 +887,39 @@ function PhoneMockup({ scenario, guestType, messages, welcomeLine, notifLabel, n
   );
 }
 
+// ─── CAUSAL CHAIN SECTION ────────────────────────────────────────────────────
+
+const CAUSAL_STEP_COLORS = ['#c9a84c', '#60a5fa', '#a78bfa', '#10b981', '#f87171'];
+
+function CausalChainSection({ chain }: { chain: CausalStep[] }) {
+  return (
+    <div style={{ marginTop: 16, border: '1px solid hsl(220 13% 10%)', background: 'hsl(220 13% 6%)' }}>
+      <div style={{ padding: '11px 18px', borderBottom: '1px solid hsl(220 13% 10%)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div className="label-caps" style={{ color: 'hsl(215 16% 28%)' }}>How This Happened</div>
+        <div style={{ fontSize: 8, color: 'hsl(215 16% 20%)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Behavioural Infrastructure · Causal Chain</div>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)' }}>
+        {chain.map((cs, i) => {
+          const color = CAUSAL_STEP_COLORS[i];
+          return (
+            <div key={i} style={{ padding: '14px 16px', borderRight: i < chain.length - 1 ? '1px solid hsl(220 13% 10%)' : 'none', position: 'relative' }}>
+              {i < chain.length - 1 && (
+                <div style={{ position: 'absolute', right: -8, top: 18, zIndex: 1, fontSize: 10, color: 'hsl(215 16% 20%)' }}>›</div>
+              )}
+              <div style={{ fontSize: 7, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color, marginBottom: 5 }}>{cs.step}</div>
+              <div style={{ fontSize: 11, fontWeight: 600, color: '#fff', marginBottom: 5, lineHeight: 1.35 }}>{cs.label}</div>
+              <div style={{ fontSize: 9.5, color: 'hsl(215 16% 36%)', lineHeight: 1.6 }}>{cs.detail}</div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 // ─── ESCALATION VIEW ──────────────────────────────────────────────────────────
 
-function EscalationView({ scenario, guestType }: { scenario: EscalationScenario; guestType: 'welfare' | 'crisis' }) {
+function EscalationView({ scenario, guestType, perspectiveView }: { scenario: EscalationScenario; guestType: 'welfare' | 'crisis'; perspectiveView: PerspectiveView }) {
   const [tab, setTab] = useState<'signals' | 'guest'>('signals');
   const [expandedSignal, setExpandedSignal] = useState<number | null>(null);
   const isCrisis = guestType === 'crisis';
@@ -947,6 +1093,28 @@ function EscalationView({ scenario, guestType }: { scenario: EscalationScenario;
           </motion.div>
         )}
       </AnimatePresence>
+
+      {perspectiveView === 'infrastructure' && (
+        <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }} style={{ marginTop: 14 }}>
+          <div style={{ border: '1px solid rgba(201,168,76,0.15)', background: 'rgba(201,168,76,0.03)' }}>
+            <div style={{ padding: '10px 16px', borderBottom: '1px solid rgba(201,168,76,0.12)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div className="label-caps" style={{ color: '#c9a84c' }}>BXOS · Infrastructure Intelligence</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <span style={{ fontSize: 8, color: 'hsl(215 16% 28%)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Confidence</span>
+                <span style={{ fontSize: 13, fontWeight: 800, color, fontFamily: 'var(--app-font-mono)' }}>{scenario.bxosConfidence}%</span>
+              </div>
+            </div>
+            {scenario.infrastructureView.map((item, i) => (
+              <div key={i} style={{ display: 'flex', gap: 10, padding: '9px 16px', borderBottom: i < scenario.infrastructureView.length - 1 ? '1px solid hsl(220 13% 9%)' : 'none', alignItems: 'flex-start' }}>
+                <div style={{ width: 4, height: 4, borderRadius: '50%', background: '#c9a84c', flexShrink: 0, marginTop: 4 }} />
+                <span style={{ fontSize: 11, color: 'hsl(215 16% 52%)', lineHeight: 1.55 }}>{item}</span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      )}
+
+      <CausalChainSection chain={scenario.causalChain} />
     </div>
   );
 }
@@ -957,6 +1125,7 @@ export default function GuestLayer() {
   const [guestType, setGuestType] = useState<GuestType>('returning');
   const [tab, setTab] = useState<'timeline' | 'app'>('app');
   const [selected, setSelected] = useState<number | null>(null);
+  const [perspectiveView, setPerspectiveView] = useState<PerspectiveView>('guest');
 
   const isEscalation = guestType === 'welfare' || guestType === 'crisis';
   const scenario = guestType === 'returning' ? RETURNING : FIRST_TIME;
@@ -985,6 +1154,20 @@ export default function GuestLayer() {
                 <div className="label-caps mb-1" style={{ color: 'hsl(215 16% 26%)' }}>Active Stay</div>
                 <div style={{ fontSize: 13, fontWeight: 700, color: '#fff' }}>{activeGuest.name}</div>
                 <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.12em', color: activeGuest.tierColor, textTransform: 'uppercase', marginTop: 2 }}>{activeGuest.tier} · {activeGuest.stayCount}</div>
+              </div>
+
+              {/* Perspective toggle */}
+              <div style={{ display: 'flex', border: '1px solid hsl(220 13% 14%)', marginBottom: 2 }}>
+                {([
+                  { id: 'guest', label: 'Guest' },
+                  { id: 'operating', label: 'Operating' },
+                  { id: 'infrastructure', label: 'Infrastructure' },
+                ] as const).map((p, i, arr) => (
+                  <button key={p.id} onClick={() => setPerspectiveView(p.id)}
+                    style={{ padding: '6px 13px', fontSize: 8.5, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', background: perspectiveView === p.id ? 'rgba(201,168,76,0.1)' : 'transparent', color: perspectiveView === p.id ? '#c9a84c' : 'hsl(215 16% 32%)', border: 'none', borderRight: i < arr.length - 1 ? '1px solid hsl(220 13% 14%)' : 'none', cursor: 'pointer' }}>
+                    {p.label}
+                  </button>
+                ))}
               </div>
 
               {/* Scenario toggles */}
@@ -1062,35 +1245,65 @@ export default function GuestLayer() {
             transition={{ duration: 0.22 }}
           >
             {/* ESCALATION VIEWS */}
-            {isEscalation && <EscalationView scenario={escScenario} guestType={guestType as 'welfare' | 'crisis'} />}
+            {isEscalation && <EscalationView scenario={escScenario} guestType={guestType as 'welfare' | 'crisis'} perspectiveView={perspectiveView} />}
 
             {/* GUEST APP VIEW */}
             {!isEscalation && tab === 'app' && (
               <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 36, alignItems: 'start' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                    <div style={{ padding: '16px 18px', border: '1px solid hsl(220 13% 10%)', background: 'hsl(220 13% 7%)' }}>
-                      <div className="label-caps mb-3">The guest sees</div>
-                      {scenario.guestSees.map((s, i) => (
+                  {perspectiveView === 'guest' && (
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                      <div style={{ padding: '16px 18px', border: '1px solid hsl(220 13% 10%)', background: 'hsl(220 13% 7%)' }}>
+                        <div className="label-caps mb-3">The guest sees</div>
+                        {scenario.guestSees.map((s, i) => (
+                          <div key={i} style={{ display: 'flex', gap: 8, fontSize: 11, alignItems: 'flex-start', marginBottom: 8 }}>
+                            <span style={{ color: '#10b981', marginTop: 2, flexShrink: 0 }}>—</span>
+                            <span style={{ color: 'hsl(215 16% 56%)', lineHeight: 1.4 }}>{s}</span>
+                          </div>
+                        ))}
+                      </div>
+                      <div style={{ padding: '16px 18px', border: 'rgba(201,168,76,0.14) 1px solid', background: 'rgba(201,168,76,0.03)' }}>
+                        <div className="flex items-center gap-2 mb-3">
+                          <div className="label-caps" style={{ color: '#c9a84c' }}>WELBX is doing</div>
+                          <span style={{ fontSize: 7, fontWeight: 700, letterSpacing: '0.12em', padding: '1px 5px', color: '#c9a84c', background: 'rgba(201,168,76,0.1)', border: '1px solid rgba(201,168,76,0.2)', textTransform: 'uppercase' }}>{activeGuest.bxosMode}</span>
+                        </div>
+                        {scenario.welbxDoing.map((s, i) => (
+                          <div key={i} style={{ display: 'flex', gap: 8, fontSize: 11, alignItems: 'flex-start', marginBottom: 8 }}>
+                            <span style={{ color: '#c9a84c', marginTop: 2, flexShrink: 0 }}>—</span>
+                            <span style={{ color: 'hsl(215 16% 46%)', lineHeight: 1.4 }}>{s}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {perspectiveView === 'operating' && (
+                    <div style={{ border: '1px solid hsl(220 13% 10%)', background: 'hsl(220 13% 7%)', padding: '16px 18px' }}>
+                      <div className="flex items-center gap-2 mb-3">
+                        <div className="label-caps">Team Coordination</div>
+                        <span style={{ fontSize: 7, fontWeight: 700, letterSpacing: '0.12em', padding: '1px 5px', color: 'hsl(215 16% 38%)', background: 'hsl(220 13% 10%)', border: '1px solid hsl(220 13% 14%)', textTransform: 'uppercase' }}>Operating View</span>
+                      </div>
+                      {scenario.operatingView.map((s, i) => (
                         <div key={i} style={{ display: 'flex', gap: 8, fontSize: 11, alignItems: 'flex-start', marginBottom: 8 }}>
-                          <span style={{ color: '#10b981', marginTop: 2, flexShrink: 0 }}>—</span>
-                          <span style={{ color: 'hsl(215 16% 56%)', lineHeight: 1.4 }}>{s}</span>
+                          <span style={{ color: 'hsl(215 16% 36%)', marginTop: 2, flexShrink: 0 }}>—</span>
+                          <span style={{ color: 'hsl(215 16% 54%)', lineHeight: 1.4 }}>{s}</span>
                         </div>
                       ))}
                     </div>
-                    <div style={{ padding: '16px 18px', border: 'rgba(201,168,76,0.14) 1px solid', background: 'rgba(201,168,76,0.03)' }}>
+                  )}
+                  {perspectiveView === 'infrastructure' && (
+                    <div style={{ border: '1px solid rgba(201,168,76,0.14)', background: 'rgba(201,168,76,0.03)', padding: '16px 18px' }}>
                       <div className="flex items-center gap-2 mb-3">
-                        <div className="label-caps" style={{ color: '#c9a84c' }}>WELBX is doing</div>
+                        <div className="label-caps" style={{ color: '#c9a84c' }}>BXOS Infrastructure</div>
                         <span style={{ fontSize: 7, fontWeight: 700, letterSpacing: '0.12em', padding: '1px 5px', color: '#c9a84c', background: 'rgba(201,168,76,0.1)', border: '1px solid rgba(201,168,76,0.2)', textTransform: 'uppercase' }}>{activeGuest.bxosMode}</span>
                       </div>
-                      {scenario.welbxDoing.map((s, i) => (
+                      {scenario.infrastructureView.map((s, i) => (
                         <div key={i} style={{ display: 'flex', gap: 8, fontSize: 11, alignItems: 'flex-start', marginBottom: 8 }}>
                           <span style={{ color: '#c9a84c', marginTop: 2, flexShrink: 0 }}>—</span>
                           <span style={{ color: 'hsl(215 16% 46%)', lineHeight: 1.4 }}>{s}</span>
                         </div>
                       ))}
                     </div>
-                  </div>
+                  )}
                   <div style={{ background: 'rgba(16,185,129,0.04)', border: '1px solid rgba(16,185,129,0.13)', padding: '16px 18px' }}>
                     <div className="label-caps mb-3" style={{ color: '#10b981' }}>Stay Outcome</div>
                     <div className="grid grid-cols-3 gap-x-6 gap-y-3">
@@ -1103,6 +1316,7 @@ export default function GuestLayer() {
                     <div className="label-caps mb-2" style={{ color: 'hsl(215 16% 26%)' }}>{isFirst ? 'First Stay — The Highest-Stakes Moment' : 'The Dual Mandate'}</div>
                     <p style={{ fontSize: 11, color: 'hsl(215 16% 42%)', lineHeight: 1.75 }}>{scenario.mandateText}</p>
                   </div>
+                  <CausalChainSection chain={scenario.causalChain} />
                 </div>
                 <PhoneMockup
                   scenario={scenario}
@@ -1127,7 +1341,7 @@ export default function GuestLayer() {
                       { label: 'Stays', value: activeGuest.stayCount },
                       { label: 'Origin', value: activeGuest.origin },
                       { label: 'Room', value: `${activeGuest.room} — ${activeGuest.roomType}` },
-                      { label: activeGuest.ltvLabel, value: activeGuest.ltv, color: '#10b981' },
+                      { label: activeGuest.relationshipValueLabel, value: activeGuest.relationshipValue, color: '#10b981' },
                     ].map((f, i, arr) => (
                       <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '5px 0', borderBottom: i < arr.length - 1 ? '1px solid hsl(220 13% 9%)' : 'none', gap: 10 }}>
                         <span style={{ fontSize: 8.5, color: 'hsl(215 16% 30%)', letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600, flexShrink: 0 }}>{f.label}</span>
