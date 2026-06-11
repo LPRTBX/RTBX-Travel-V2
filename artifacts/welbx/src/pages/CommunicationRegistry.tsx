@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
+import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 
 /* ─── Palette ─────────────────────────────────────────── */
@@ -56,6 +57,7 @@ interface CommRecord {
   status:    CommStatus;
   outcome:   string;
   latencyMs: number;
+  momentId?: string;
 }
 
 /* ─── Sample data ─────────────────────────────────────── */
@@ -68,6 +70,7 @@ const RECORDS: CommRecord[] = [
     channel: "App", status: "Delivered",
     outcome: "Guest upgraded · Welcome gift acknowledged · NPS +1 logged",
     latencyMs: 210,
+    momentId: "GM-002",
   },
   {
     id: "CR-002", timestamp: "11:32", lane: "Guest",
@@ -76,6 +79,7 @@ const RECORDS: CommRecord[] = [
     channel: "SMS", status: "Delivered",
     outcome: "Duty Manager contact initiated · F&B credit redeemed within 18 min",
     latencyMs: 185,
+    momentId: "GM-004",
   },
   {
     id: "CR-003", timestamp: "12:05", lane: "Guest",
@@ -84,6 +88,7 @@ const RECORDS: CommRecord[] = [
     channel: "App", status: "Delivered",
     outcome: "Concierge introduction viewed · Room preferences confirmed",
     latencyMs: 320,
+    momentId: "GM-003",
   },
   {
     id: "CR-004", timestamp: "07:48", lane: "Guest",
@@ -92,6 +97,7 @@ const RECORDS: CommRecord[] = [
     channel: "App", status: "Delivered",
     outcome: "14:00 checkout accepted · Loyalty value preserved",
     latencyMs: 290,
+    momentId: "GM-005",
   },
   {
     id: "CR-005", timestamp: "15:22", lane: "Guest",
@@ -100,6 +106,7 @@ const RECORDS: CommRecord[] = [
     channel: "App", status: "Delivered",
     outcome: "Junior Suite accepted · £85 supplement captured",
     latencyMs: 175,
+    momentId: "CM-001",
   },
   {
     id: "CR-006", timestamp: "16:44", lane: "Guest",
@@ -108,6 +115,7 @@ const RECORDS: CommRecord[] = [
     channel: "Email", status: "Pending",
     outcome: "Awaiting open — review link not yet clicked",
     latencyMs: 0,
+    momentId: "CM-004",
   },
   {
     id: "CR-007", timestamp: "13:59", lane: "Guest",
@@ -116,6 +124,7 @@ const RECORDS: CommRecord[] = [
     channel: "App", status: "Failed",
     outcome: "App session inactive — guest did not open notification",
     latencyMs: 0,
+    momentId: "CM-002",
   },
 
   /* Workforce */
@@ -126,6 +135,7 @@ const RECORDS: CommRecord[] = [
     channel: "Radio", status: "Delivered",
     outcome: "2 staff redeployed · Queue resolved in 8 min",
     latencyMs: 95,
+    momentId: "WF-001",
   },
   {
     id: "CR-009", timestamp: "10:55", lane: "Workforce",
@@ -134,6 +144,7 @@ const RECORDS: CommRecord[] = [
     channel: "Dashboard", status: "Delivered",
     outcome: "1:1 scheduled for 16:00 · Workload review pending",
     latencyMs: 520,
+    momentId: "WF-003",
   },
   {
     id: "CR-010", timestamp: "14:58", lane: "Workforce",
@@ -142,6 +153,7 @@ const RECORDS: CommRecord[] = [
     channel: "App", status: "Delivered",
     outcome: "3 open moments acknowledged · Escalations flagged",
     latencyMs: 310,
+    momentId: "WF-002",
   },
   {
     id: "CR-011", timestamp: "09:02", lane: "Workforce",
@@ -150,6 +162,7 @@ const RECORDS: CommRecord[] = [
     channel: "Dashboard", status: "Pending",
     outcome: "Alert visible — no acknowledgement recorded yet",
     latencyMs: 0,
+    momentId: "WF-004",
   },
 
   /* Operations */
@@ -160,6 +173,7 @@ const RECORDS: CommRecord[] = [
     channel: "PMS", status: "Delivered",
     outcome: "VIP rooms prioritised · 0 VIP delays at 14:00 arrival",
     latencyMs: 140,
+    momentId: "OP-002",
   },
   {
     id: "CR-013", timestamp: "13:17", lane: "Operations",
@@ -168,6 +182,7 @@ const RECORDS: CommRecord[] = [
     channel: "Dashboard", status: "Delivered",
     outcome: "Post-15:00 maintenance slot confirmed · Monitoring active",
     latencyMs: 460,
+    momentId: "OP-003",
   },
   {
     id: "CR-014", timestamp: "11:48", lane: "Operations",
@@ -176,6 +191,7 @@ const RECORDS: CommRecord[] = [
     channel: "App", status: "Delivered",
     outcome: "Emergency order placed · ETA 16:30 confirmed",
     latencyMs: 225,
+    momentId: "OP-004",
   },
   {
     id: "CR-015", timestamp: "17:03", lane: "Operations",
@@ -184,6 +200,7 @@ const RECORDS: CommRecord[] = [
     channel: "Dashboard", status: "Failed",
     outcome: "Routing error — recipient offline at time of dispatch",
     latencyMs: 0,
+    momentId: "OP-003",
   },
 
   /* Executive */
@@ -194,6 +211,7 @@ const RECORDS: CommRecord[] = [
     channel: "Email", status: "Delivered",
     outcome: "Brand experience audit initiated · BXOS review scheduled",
     latencyMs: 615,
+    momentId: "ST-001",
   },
   {
     id: "CR-017", timestamp: "08:00", lane: "Executive",
@@ -202,6 +220,7 @@ const RECORDS: CommRecord[] = [
     channel: "Dashboard", status: "Delivered",
     outcome: "Friday staffing model review added to board agenda",
     latencyMs: 580,
+    momentId: "ST-002",
   },
   {
     id: "CR-018", timestamp: "22:00", lane: "Executive",
@@ -210,6 +229,7 @@ const RECORDS: CommRecord[] = [
     channel: "Email", status: "Pending",
     outcome: "Digest scheduled for 22:00 send — not yet dispatched",
     latencyMs: 0,
+    momentId: "ST-003",
   },
 
   /* Partner */
@@ -228,6 +248,7 @@ const RECORDS: CommRecord[] = [
     channel: "Email", status: "Delivered",
     outcome: "3 referral bookings placed · £240 revenue activated",
     latencyMs: 395,
+    momentId: "CM-002",
   },
 ];
 
@@ -303,6 +324,32 @@ function SearchIcon() {
   );
 }
 
+/* ─── View Moment link ────────────────────────────────── */
+function ViewMomentLink({ momentId }: { momentId: string }) {
+  const [, navigate] = useLocation();
+  return (
+    <button
+      onClick={() => navigate(`/moment-registry#${momentId}`)}
+      title={`View moment ${momentId} in the Moment Registry`}
+      style={{
+        display: "inline-flex", alignItems: "center", gap: 4,
+        fontSize: 7.5, fontWeight: 700, letterSpacing: "0.1em",
+        textTransform: "uppercase",
+        color: C.cyan,
+        background: `${C.cyan}0d`,
+        border: `1px solid ${C.cyan}33`,
+        padding: "3px 7px",
+        cursor: "pointer",
+        whiteSpace: "nowrap",
+        lineHeight: 1.5,
+      }}
+    >
+      <span style={{ opacity: 0.7, fontSize: 8 }}>↗</span>
+      {momentId}
+    </button>
+  );
+}
+
 /* ─── Table row ───────────────────────────────────────── */
 function TableRow({ r, i }: { r: CommRecord; i: number }) {
   const laneColor = LANE_COLOR[r.lane];
@@ -369,6 +416,14 @@ function TableRow({ r, i }: { r: CommRecord; i: number }) {
         <div style={{ fontSize: 10.5, color: "hsl(215 16% 44%)", lineHeight: 1.55 }}>
           {r.outcome}
         </div>
+      </td>
+
+      {/* View Moment */}
+      <td style={{ padding: "13px 14px", verticalAlign: "top" }}>
+        {r.momentId
+          ? <ViewMomentLink momentId={r.momentId} />
+          : <span style={{ fontSize: 8, color: C.dimmed, letterSpacing: "0.06em" }}>—</span>
+        }
       </td>
     </motion.tr>
   );
@@ -610,15 +665,16 @@ export default function CommunicationRegistry() {
             <colgroup>
               <col style={{ width: 88  }} />
               <col style={{ width: 108 }} />
-              <col style={{ width: "24%" }} />
-              <col style={{ width: "18%" }} />
+              <col style={{ width: "22%" }} />
+              <col style={{ width: "16%" }} />
               <col style={{ width: 96  }} />
               <col style={{ width: 116 }} />
               <col />
+              <col style={{ width: 100 }} />
             </colgroup>
             <thead>
               <tr>
-                {["Time / ID", "Lane", "Trigger", "Audience", "Channel", "Status", "Outcome"].map(h => (
+                {["Time / ID", "Lane", "Trigger", "Audience", "Channel", "Status", "Outcome", "Moment"].map(h => (
                   <th key={h} style={COL_HDR}>{h}</th>
                 ))}
               </tr>
@@ -628,7 +684,7 @@ export default function CommunicationRegistry() {
                 filtered.map((r, i) => <TableRow key={r.id} r={r} i={i} />)
               ) : (
                 <tr>
-                  <td colSpan={7} style={{ padding: "36px 24px", textAlign: "center" }}>
+                  <td colSpan={8} style={{ padding: "36px 24px", textAlign: "center" }}>
                     <div style={{ fontSize: 11, color: C.dimmed, letterSpacing: "0.08em" }}>
                       No communications match the current filters.
                     </div>

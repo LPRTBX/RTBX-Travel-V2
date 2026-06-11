@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { getPlaybookById } from "../data/playbooks";
@@ -10,6 +10,7 @@ const C = {
   green:  "#10b981",
   red:    "#ef4444",
   violet: "#a78bfa",
+  cyan:   "#22d3ee",
   slate:  "hsl(215 16% 44%)",
   border: "hsl(220 13% 9%)",
   card:   "hsl(220 13% 7%)",
@@ -248,6 +249,33 @@ function Badge({ text, color }: { text: string; color: string }) {
 export default function MomentRegistry() {
   const [activeCategory, setActiveCategory] = useState<Category | "All">("All");
   const [, navigate] = useLocation();
+  const [highlightId, setHighlightId] = useState<string | null>(null);
+  const highlightTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    const id = window.location.hash.replace("#", "");
+    if (!id) return;
+
+    const moment = MOMENTS.find(m => m.id === id);
+    if (!moment) return;
+
+    setHighlightId(id);
+    setActiveCategory(moment.category);
+
+    const scrollAndClear = () => {
+      const el = document.getElementById(`moment-${id}`);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+      highlightTimerRef.current = setTimeout(() => setHighlightId(null), 3500);
+    };
+
+    const delay = setTimeout(scrollAndClear, 180);
+    return () => {
+      clearTimeout(delay);
+      if (highlightTimerRef.current) clearTimeout(highlightTimerRef.current);
+    };
+  }, []);
 
   const filtered = activeCategory === "All"
     ? MOMENTS
@@ -390,13 +418,15 @@ export default function MomentRegistry() {
             transition={{ duration: 0.2 }}
           >
             {filtered.map((m, i) => {
-              const catColor = CAT_COLOR[m.category];
-              const visColor = m.visibility < 40 ? C.red : m.visibility < 65 ? C.amber : C.green;
-              const conColor = m.consistency < 60 ? C.red : m.consistency < 80 ? C.amber : C.green;
+              const catColor  = CAT_COLOR[m.category];
+              const visColor  = m.visibility < 40 ? C.red : m.visibility < 65 ? C.amber : C.green;
+              const conColor  = m.consistency < 60 ? C.red : m.consistency < 80 ? C.amber : C.green;
+              const isHighlit = highlightId === m.id;
 
               return (
                 <motion.div
                   key={m.id}
+                  id={`moment-${m.id}`}
                   initial={{ opacity: 0, x: -6 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.03, duration: 0.3 }}
@@ -405,12 +435,17 @@ export default function MomentRegistry() {
                     gridTemplateColumns: "260px 1fr 110px 130px 130px 110px 120px 80px",
                     padding: "13px 20px 13px 0",
                     paddingLeft: 0,
-                    background: i % 2 === 0 ? "hsl(220 13% 6%)" : "hsl(220 13% 7%)",
-                    border: `1px solid ${C.border}`,
+                    background: isHighlit
+                      ? `${C.cyan}12`
+                      : i % 2 === 0 ? "hsl(220 13% 6%)" : "hsl(220 13% 7%)",
+                    border: isHighlit
+                      ? `1px solid ${C.cyan}55`
+                      : `1px solid ${C.border}`,
                     borderTopWidth: 0,
-                    borderLeft: `2px solid ${catColor}`,
+                    borderLeft: isHighlit ? `3px solid ${C.cyan}` : `2px solid ${catColor}`,
                     alignItems: "center",
                     gap: 0,
+                    transition: "background 0.4s, border-color 0.4s",
                   }}
                 >
                   {/* Name + ID */}
