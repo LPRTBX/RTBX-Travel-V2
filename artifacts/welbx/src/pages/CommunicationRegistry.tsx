@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 
@@ -58,6 +58,35 @@ interface CommRecord {
   outcome:   string;
   latencyMs: number;
   momentId?: string;
+}
+
+/* ─── Trend data generation ───────────────────────────── */
+function seededRnd(seed: number): number {
+  const x = Math.sin(seed + 1) * 10000;
+  return x - Math.floor(x);
+}
+
+function makeTrend(seed: number, base: number, vol: number, drift: number): number[] {
+  return Array.from({ length: 30 }, (_, i) => {
+    const noise = (seededRnd(seed + i * 6.1) - 0.5) * vol;
+    const trend = drift * (i / 29);
+    return Math.min(99, Math.max(30, base + trend + noise));
+  });
+}
+
+/* Delivery rate % by lane over last 30 days */
+const LANE_TREND: Record<LaneType, number[]> = {
+  Guest:      makeTrend(11, 84, 14, +5),
+  Workforce:  makeTrend(22, 78, 12, +2),
+  Operations: makeTrend(33, 72, 18, -4),
+  Executive:  makeTrend(44, 91, 8,  +3),
+  Partner:    makeTrend(55, 69, 20, +8),
+};
+
+/* Per-record sparkline: 30 days of delivery-rate-like values keyed by id seed */
+function recordTrend(idSeed: number, lane: LaneType): number[] {
+  const base = LANE_TREND[lane][29];
+  return makeTrend(idSeed * 17.3, base, 22, (seededRnd(idSeed * 3.7) - 0.5) * 12);
 }
 
 /* ─── Sample data ─────────────────────────────────────── */
@@ -350,10 +379,243 @@ function ViewMomentLink({ momentId }: { momentId: string }) {
   );
 }
 
+/* ─── Inline sparkline ────────────────────────────────── */
+function Sparkline({ data, color, w = 52, h = 18 }: { data: number[]; color: string; w?: number; h?: number }) {
+  const min = Math.min(...data);
+  const max = Math.max(...data);
+  const range = max - min || 1;
+  const pts = data.map((v, i) => {
+    const x = (i / (data.length - 1)) * w;
+    const y = h - ((v - min) / range) * (h - 2) - 1;
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(" ");
+
+  const last  = data[data.length - 1];
+  const first = data[0];
+  const rising = last > first + 1;
+  const falling = last < first - 1;
+  const trendColor = rising ? C.green : falling ? C.red : C.amber;
+  const arrow = rising ? "↑" : falling ? "↓" : "→";
+
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 4, marginTop: 5 }}>
+      <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} style={{ overflow: "visible", flexShrink: 0 }}>
+        <defs>
+          <linearGradient id={`sg-${color.replace("#", "")}`} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor={color} stopOpacity="0.18" />
+            <stop offset="100%" stopColor={color} stopOpacity="0" />
+          </linearGradient>
+        </defs>
+        <polyline
+          points={pts}
+          fill="none"
+          stroke={color}
+          strokeWidth="1.1"
+          strokeLinejoin="round"
+          strokeLinecap="round"
+          opacity="0.7"
+        />
+        {/* end dot */}
+        {(() => {
+          const lastPt = pts.split(" ").pop()!.split(",");
+          return (
+            <circle
+              cx={parseFloat(lastPt[0])}
+              cy={parseFloat(lastPt[1])}
+              r="1.8"
+              fill={color}
+              opacity="0.9"
+            />
+          );
+        })()}
+      </svg>
+      <span style={{ fontSize: 7, fontWeight: 700, color: trendColor, letterSpacing: "0.04em", lineHeight: 1 }}>
+        {arrow}{Math.abs(Math.round(last - first))}%
+      </span>
+    </div>
+  );
+}
+
+/* ─── Summary trend chart ─────────────────────────────── */
+function TrendChart() {
+  const W = 860, H = 130, PAD_L = 36, PAD_R = 12, PAD_T = 12, PAD_B = 28;
+  const chartW = W - PAD_L - PAD_R;
+  const chartH = H - PAD_T - PAD_B;
+  const days   = 30;
+
+  /* y-grid lines */
+  const yTicks = [40, 60, 80, 100];
+
+  function toXY(day: number, val: number) {
+    const x = PAD_L + (day / (days - 1)) * chartW;
+    const y = PAD_T + chartH - ((val - 30) / 70) * chartH;
+    return { x, y };
+  }
+
+  function makePath(trend: number[]) {
+    return trend
+      .map((v, i) => {
+        const { x, y } = toXY(i, v);
+        return `${i === 0 ? "M" : "L"} ${x.toFixed(1)} ${y.toFixed(1)}`;
+      })
+      .join(" ");
+  }
+
+  /* x-axis labels: every 7 days */
+  const today = new Date(2026, 5, 11); // June 11 2026
+  const xLabels: { day: number; label: string }[] = [];
+  for (let i = 0; i < days; i += 7) {
+    const d = new Date(today);
+    d.setDate(d.getDate() - (days - 1 - i));
+    xLabels.push({ day: i, label: `${d.toLocaleString("en", { month: "short" })} ${d.getDate()}` });
+  }
+  xLabels.push({
+    day: days - 1,
+    label: "Today",
+  });
+
+  const [hovered, setHovered] = useState<LaneType | null>(null);
+
+  return (
+    <div style={{ background: C.card, border: `1px solid ${C.border}`, padding: "20px 24px 16px", marginBottom: 20 }}>
+      {/* header */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
+        <div>
+          <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.2em", color: C.cyan, textTransform: "uppercase", marginBottom: 4 }}>
+            Delivery Performance · 30-Day Trend
+          </div>
+          <div style={{ fontSize: 11, color: C.muted, letterSpacing: "0.03em" }}>
+            Aggregate delivery rate (%) by communication lane
+          </div>
+        </div>
+        {/* legend */}
+        <div style={{ display: "flex", gap: 16, flexWrap: "wrap", justifyContent: "flex-end" }}>
+          {ALL_LANES.map(lane => {
+            const color = LANE_COLOR[lane];
+            const trend = LANE_TREND[lane];
+            const delta = Math.round(trend[trend.length - 1] - trend[0]);
+            const isHov = hovered === lane;
+            return (
+              <button
+                key={lane}
+                onMouseEnter={() => setHovered(lane)}
+                onMouseLeave={() => setHovered(null)}
+                style={{
+                  display: "flex", alignItems: "center", gap: 6, background: "none", border: "none",
+                  cursor: "pointer", opacity: hovered && !isHov ? 0.3 : 1, transition: "opacity 0.15s",
+                }}
+              >
+                <span style={{ width: 20, height: 2, background: color, display: "inline-block", borderRadius: 1 }} />
+                <span style={{ fontSize: 9, fontWeight: 700, color: isHov ? "#fff" : "hsl(215 16% 48%)", letterSpacing: "0.06em" }}>
+                  {lane}
+                </span>
+                <span style={{
+                  fontSize: 7.5, fontWeight: 700, color: delta >= 0 ? C.green : C.red,
+                  background: delta >= 0 ? `${C.green}12` : `${C.red}12`,
+                  border: `1px solid ${delta >= 0 ? C.green : C.red}33`,
+                  padding: "1px 5px",
+                }}>
+                  {delta >= 0 ? "+" : ""}{delta}%
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* chart */}
+      <svg
+        width="100%"
+        viewBox={`0 0 ${W} ${H}`}
+        preserveAspectRatio="none"
+        style={{ display: "block", overflow: "visible" }}
+      >
+        {/* y grid */}
+        {yTicks.map(tick => {
+          const y = PAD_T + chartH - ((tick - 30) / 70) * chartH;
+          return (
+            <g key={tick}>
+              <line
+                x1={PAD_L} y1={y} x2={W - PAD_R} y2={y}
+                stroke="hsl(220 13% 10%)" strokeWidth="1"
+              />
+              <text x={PAD_L - 5} y={y + 3.5} textAnchor="end"
+                fill="hsl(215 16% 24%)" fontSize="7" fontFamily="monospace">
+                {tick}%
+              </text>
+            </g>
+          );
+        })}
+
+        {/* x labels */}
+        {xLabels.map(({ day, label }) => {
+          const x = PAD_L + (day / (days - 1)) * chartW;
+          return (
+            <text key={day} x={x} y={H - 5} textAnchor="middle"
+              fill="hsl(215 16% 22%)" fontSize="7" fontFamily="monospace">
+              {label}
+            </text>
+          );
+        })}
+
+        {/* lines — dimmed ones first, then hovered on top */}
+        {ALL_LANES.filter(l => l !== hovered).map(lane => {
+          const color = LANE_COLOR[lane];
+          const trend = LANE_TREND[lane];
+          const dim   = hovered !== null;
+          return (
+            <path
+              key={lane}
+              d={makePath(trend)}
+              fill="none"
+              stroke={color}
+              strokeWidth="1.4"
+              strokeLinejoin="round"
+              strokeLinecap="round"
+              opacity={dim ? 0.12 : 0.55}
+            />
+          );
+        })}
+        {hovered && (() => {
+          const lane  = hovered;
+          const color = LANE_COLOR[lane];
+          const trend = LANE_TREND[lane];
+          const endPt = toXY(days - 1, trend[days - 1]);
+          return (
+            <g>
+              <path
+                d={makePath(trend)}
+                fill="none"
+                stroke={color}
+                strokeWidth="2.2"
+                strokeLinejoin="round"
+                strokeLinecap="round"
+                opacity="0.9"
+              />
+              <circle cx={endPt.x} cy={endPt.y} r="3.5" fill={color} opacity="0.9" />
+              <rect
+                x={endPt.x + 6} y={endPt.y - 9}
+                width="42" height="14" rx="2"
+                fill="hsl(220 13% 10%)" stroke={`${color}44`} strokeWidth="1"
+              />
+              <text x={endPt.x + 10} y={endPt.y + 1}
+                fill={color} fontSize="8" fontWeight="700" fontFamily="monospace">
+                {Math.round(trend[days - 1])}%
+              </text>
+            </g>
+          );
+        })()}
+      </svg>
+    </div>
+  );
+}
+
 /* ─── Table row ───────────────────────────────────────── */
 function TableRow({ r, i }: { r: CommRecord; i: number }) {
   const laneColor = LANE_COLOR[r.lane];
   const chColor   = CHANNEL_COLOR[r.channel];
+  const idNum     = parseInt(r.id.replace("CR-", ""), 10);
+  const spark     = useMemo(() => recordTrend(idNum, r.lane), [idNum, r.lane]);
 
   return (
     <motion.tr
@@ -399,7 +661,7 @@ function TableRow({ r, i }: { r: CommRecord; i: number }) {
         <Badge text={r.channel} color={chColor} />
       </td>
 
-      {/* Status */}
+      {/* Status + sparkline trend */}
       <td style={{ padding: "13px 14px", verticalAlign: "top" }}>
         <StatusBadge status={r.status} />
         {r.status === "Delivered" && (
@@ -409,6 +671,7 @@ function TableRow({ r, i }: { r: CommRecord; i: number }) {
               : `${(r.latencyMs / 1000).toFixed(1)}s`}
           </div>
         )}
+        <Sparkline data={spark} color={laneColor} />
       </td>
 
       {/* Outcome */}
@@ -513,7 +776,7 @@ export default function CommunicationRegistry() {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.38 }}
-          style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 1, marginBottom: 28 }}
+          style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 1, marginBottom: 20 }}
         >
           {[
             { label: "Total Routed",     value: stats.total,    unit: "TODAY",          color: C.cyan,  isCount: true,   suffix: ""   },
@@ -549,11 +812,20 @@ export default function CommunicationRegistry() {
           ))}
         </motion.div>
 
+        {/* ── Summary trend chart ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.22, duration: 0.38 }}
+        >
+          <TrendChart />
+        </motion.div>
+
         {/* ── Controls: search + lane filter + status filter ── */}
         <motion.div
           initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.35 }}
+          transition={{ delay: 0.28, duration: 0.35 }}
           style={{ display: "flex", gap: 1, alignItems: "stretch", marginBottom: 0 }}
         >
           {/* Search */}
@@ -652,7 +924,7 @@ export default function CommunicationRegistry() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.28, duration: 0.35 }}
+          transition={{ delay: 0.36, duration: 0.35 }}
           style={{
             border: `1px solid ${C.border}`,
             borderTop: "none",
@@ -668,13 +940,13 @@ export default function CommunicationRegistry() {
               <col style={{ width: "22%" }} />
               <col style={{ width: "16%" }} />
               <col style={{ width: 96  }} />
-              <col style={{ width: 116 }} />
+              <col style={{ width: 130 }} />
               <col />
               <col style={{ width: 100 }} />
             </colgroup>
             <thead>
               <tr>
-                {["Time / ID", "Lane", "Trigger", "Audience", "Channel", "Status", "Outcome", "Moment"].map(h => (
+                {["Time / ID", "Lane", "Trigger", "Audience", "Channel", "Status · 30d Trend", "Outcome", "Moment"].map(h => (
                   <th key={h} style={COL_HDR}>{h}</th>
                 ))}
               </tr>
@@ -699,7 +971,7 @@ export default function CommunicationRegistry() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.46, duration: 0.35 }}
+          transition={{ delay: 0.52, duration: 0.35 }}
           style={{
             padding: "12px 20px",
             border: `1px solid ${C.border}`,
