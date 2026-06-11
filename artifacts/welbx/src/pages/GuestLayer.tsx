@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 
 // ─── TYPES ────────────────────────────────────────────────────────────────────
@@ -7,7 +8,7 @@ type GuestType = 'returning' | 'first-time' | 'welfare' | 'crisis';
 type TouchpointStatus = 'delivered' | 'active' | 'pending';
 type PerspectiveView = 'guest' | 'operating' | 'infrastructure';
 
-interface CausalStep { step: string; label: string; detail: string; }
+interface CausalStep { step: string; label: string; detail: string; momentId?: string; protocolLevel?: string; }
 
 interface GuestData {
   name: string; firstName: string; tier: string; tierColor: string;
@@ -106,7 +107,7 @@ const RETURNING: GuestScenario = {
   notificationBody: "Mr. Hartley — enjoy a 13:00 checkout tomorrow. No need to rush.",
   causalChain: [
     { step: 'Signal', label: 'Operational risk detected', detail: 'Room 847 still occupied. Housekeeping queue at 11. DIAMOND guest arriving in 18 minutes. BXOS confidence: 91%.' },
-    { step: 'Moment', label: 'VIP Arrival Risk', detail: 'Returning DIAMOND guest — 14 stays on record — at risk of delayed room access on arrival.' },
+    { step: 'Moment', label: 'VIP Arrival Risk', detail: 'Returning DIAMOND guest — 14 stays on record — at risk of delayed room access on arrival.', momentId: 'GM-002' },
     { step: 'Decision', label: 'Priority routing activated', detail: 'Secondary FOH lane staffed. Room 847 escalated to housekeeping priority. Host pre-positioned at entrance.' },
     { step: 'Action', label: 'Protocol deployed', detail: 'Secondary lane opened. Room 847 released 2 minutes early. VIP welcome protocol active. Champagne pre-poured.' },
     { step: 'Outcome', label: 'Seamless arrival', detail: 'Mr. Hartley arrived to a ready room, his name called before he reached the desk. No service failure visible.' },
@@ -171,7 +172,7 @@ const FIRST_TIME: GuestScenario = {
   notificationBody: "We'd love to have you back. Join our programme — your next stay is already waiting.",
   causalChain: [
     { step: 'Signal', label: 'Inference signals acquired', detail: 'Booking via Virtuoso. SQ321 tracked — 10h flight, Singapore origin. Zero preference history. BXOS enters inference mode.' },
-    { step: 'Moment', label: 'First Impression Engineering', detail: 'No prior data. Operating entirely from: booking channel · arrival pattern · long-haul fatigue · market archetype.' },
+    { step: 'Moment', label: 'First Impression Engineering', detail: 'No prior data. Operating entirely from: booking channel · arrival pattern · long-haul fatigue · market archetype.', momentId: 'GM-003' },
     { step: 'Decision', label: 'Fatigue + archetype protocol', detail: 'Low-demand arrival content. Room pre-conditioned to 19°C. Discovery framing — orient, don\'t assume. F&B surfaced at 5h mark.' },
     { step: 'Action', label: 'Full inference stack deployed', detail: 'Curated 3-item introduction. Spa discovery trigger at 22h. Loyalty conversion invite timed for 72h departure window.' },
     { step: 'Outcome', label: 'Loyalty enrolled · Return confirmed', detail: 'Ms. Chen signed up for the programme at the airport. NPS 8/10 on first stay. Return intent HIGH.' },
@@ -252,7 +253,7 @@ const WELFARE: EscalationScenario = {
   mandateText: "Dr. Morrison did not signal distress directly. BXOS detected it through behavioral absence — no food ordered, no calls made, no services engaged, temperature set to cold, curtains closed. The hotel's role is not to intrude but to be present. A note under the door. A complimentary meal with no strings. A quiet knock scheduled at 15:00. If the guest is simply resting, nothing changes. If they are struggling, they know the hotel has noticed — and is there.",
   causalChain: [
     { step: 'Signal', label: '7 behavioral absence signals', detail: 'Room service declined × 3. App inactive 31h. Zero restaurant visits since Day 1. Housekeeping declined 3 days running. Room climate: 15°C, blackout curtains.' },
-    { step: 'Moment', label: 'Stress & Withdrawal Pattern', detail: 'Level 1 threshold exceeded — 5 of 7 monitored dimensions in elevated or high state over 18h 43m. BXOS confidence: 73%.' },
+    { step: 'Moment', label: 'Stress & Withdrawal Pattern', detail: 'Level 1 threshold exceeded — 5 of 7 monitored dimensions in elevated or high state over 18h 43m. BXOS confidence: 73%.', protocolLevel: 'LEVEL 1 · WELFARE ALERT' },
     { step: 'Decision', label: 'Non-intrusive welfare protocol', detail: 'Concern confirmed, not crisis. Discreet outreach only. No direct intervention. Guest privacy maintained at every step.' },
     { step: 'Action', label: 'Layered discreet response', detail: 'Welfare note under door. Complimentary meal offered — no charge. In-app wellness check sent. Night manager on standby. Quiet knock at 15:00.' },
     { step: 'Outcome', label: 'Guest aware support is available', detail: 'Safety maintained. Escalation to Level 2 queued if no engagement within 4 hours. Hotel has acted — and is still watching.' },
@@ -337,7 +338,7 @@ const CRISIS: EscalationScenario = {
   mandateText: "Mr. Nakamura had been a guest seven times. BXOS detected a critical pattern shift across all monitored dimensions — and what made it a crisis was not any single signal but their convergence. The hotel's role in this moment is not operational. It is human. Level 4 protocol exists because great hospitality includes duty of care — and WELBX is the system that ensures that duty is never missed.",
   causalChain: [
     { step: 'Signal', label: '7 critical signals — full convergence', detail: 'DND active 22h. Baggage storage inquiry. 8 missed welfare calls. App inactive 96h. Room service declined × 5. Elevated minibar. No emergency contact.' },
-    { step: 'Moment', label: 'Crisis Threshold Reached', detail: 'All 7 monitored dimensions in critical state. Not one signal — but their convergence. BXOS confidence: 94%. Immediate Level 4 trigger.' },
+    { step: 'Moment', label: 'Crisis Threshold Reached', detail: 'All 7 monitored dimensions in critical state. Not one signal — but their convergence. BXOS confidence: 94%. Immediate Level 4 trigger.', protocolLevel: 'LEVEL 4 · CRISIS PROTOCOL' },
     { step: 'Decision', label: 'Full deployment cascade — 5 minutes', detail: 'GM notified for immediate attendance. Duty Manager to Floor 12. Security positioned outside 1247. Medical on-call. Welfare Liaison contacted.' },
     { step: 'Action', label: 'Physical welfare knock initiated', detail: 'GM + Security outside Room 1247 at 20:19. Trained welfare knock — not security-first. Mental health liaison active. Tokyo consulate being contacted.' },
     { step: 'Outcome', label: 'Duty of care activated', detail: 'Hotel has acted on every available channel. Physical presence established. Post-intervention care plan and family notification queued.' },
@@ -892,6 +893,7 @@ function PhoneMockup({ scenario, guestType, messages, welcomeLine, notifLabel, n
 const CAUSAL_STEP_COLORS = ['#c9a84c', '#60a5fa', '#a78bfa', '#10b981', '#f87171'];
 
 function CausalChainSection({ chain }: { chain: CausalStep[] }) {
+  const [, navigate] = useLocation();
   return (
     <div style={{ marginTop: 16, border: '1px solid hsl(220 13% 10%)', background: 'hsl(220 13% 6%)' }}>
       <div style={{ padding: '11px 18px', borderBottom: '1px solid hsl(220 13% 10%)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -901,6 +903,7 @@ function CausalChainSection({ chain }: { chain: CausalStep[] }) {
       <div style={{ padding: '14px 20px', display: 'flex', flexDirection: 'column' }}>
         {chain.map((cs, i) => {
           const color = CAUSAL_STEP_COLORS[i];
+          const isMoment = cs.step === 'Moment';
           return (
             <div key={i} style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
@@ -918,7 +921,37 @@ function CausalChainSection({ chain }: { chain: CausalStep[] }) {
               <div style={{ flex: 1, paddingBottom: i < chain.length - 1 ? 4 : 0, paddingTop: 1 }}>
                 <div style={{ fontSize: 7, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color, marginBottom: 3 }}>{cs.step}</div>
                 <div style={{ fontSize: 11, fontWeight: 600, color: '#fff', marginBottom: 3, lineHeight: 1.35 }}>{cs.label}</div>
-                <div style={{ fontSize: 9.5, color: 'hsl(215 16% 36%)', lineHeight: 1.6, paddingBottom: i < chain.length - 1 ? 8 : 0 }}>{cs.detail}</div>
+                <div style={{ fontSize: 9.5, color: 'hsl(215 16% 36%)', lineHeight: 1.6 }}>{cs.detail}</div>
+                {isMoment && cs.momentId && (
+                  <button
+                    onClick={() => navigate(`/moment-registry#${cs.momentId}`)}
+                    style={{
+                      marginTop: 7,
+                      display: 'inline-flex', alignItems: 'center', gap: 5,
+                      fontSize: 9, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
+                      color: '#60a5fa', background: 'rgba(96,165,250,0.07)',
+                      border: '1px solid rgba(96,165,250,0.22)',
+                      padding: '3px 9px', cursor: 'pointer',
+                      paddingBottom: i < chain.length - 1 ? 3 : 3,
+                    }}
+                  >
+                    View in Registry
+                    <span style={{ fontSize: 9, opacity: 0.8 }}>→</span>
+                  </button>
+                )}
+                {isMoment && cs.protocolLevel && (
+                  <div style={{
+                    marginTop: 7,
+                    display: 'inline-flex', alignItems: 'center',
+                    fontSize: 8.5, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase',
+                    color: '#f59e0b', background: 'rgba(245,158,11,0.07)',
+                    border: '1px solid rgba(245,158,11,0.2)',
+                    padding: '3px 9px',
+                  }}>
+                    {cs.protocolLevel}
+                  </div>
+                )}
+                {i < chain.length - 1 && <div style={{ paddingBottom: 8 }} />}
               </div>
             </div>
           );
