@@ -1,0 +1,238 @@
+Create a new section in the WELBX platform called PRESENTATION MODE.
+
+Purpose:
+Extract the current WELBX platform into a clean, exportable presentation document using the existing app content, page visuals and Behavioural Infrastructure narrative.
+
+Do not create new product functionality.
+
+Create two presentation flows:
+
+1. 5 Minute Presentation
+2. 15 Minute Presentation
+
+Use existing pages, existing visuals, screenshots, components and platform content wherever possible.
+
+The presentation should feel like an executive briefing, not a website export.
+
+Brand:
+Use existing WELBX navy, white and gold styling.
+Use premium spacing.
+Use clean screenshot cards.
+Use executive-level language.
+Avoid clutter.
+Avoid app-heavy language.
+Avoid dollar symbols and direct revenue figures.
+
+---
+
+## 5 MINUTE PRESENTATION
+
+Create a 6-page presentation:
+
+### Page 1 — Why WELBX Exists
+
+Content:
+Hotels Have Solved Information.
+They Have Not Solved Execution.
+
+WELBX is Behavioural Infrastructure — the operating layer between signal and action.
+
+Visual:
+Signals → Moments → Decisions → Actions → Outcomes
+
+### Page 2 — The Execution Gap
+
+Content:
+Traditional environments collect information but execution varies.
+
+Visual:
+Traditional Environment vs WELBX Environment
+
+### Page 3 — Signals Become Moments
+
+Content:
+WELBX detects signals and converts them into high-value moments.
+
+Visual:
+Signal Registry + Moment Registry screenshot/visual.
+
+### Page 4 — Guest Layer In Action
+
+Content:
+Show one guest scenario demonstrating:
+Signal → Moment → Decision → Communication → Action → Outcome → Value
+
+Visual:
+Use the Guest Layer screen with mobile guest app view and operating/infrastructure explanation.
+
+### Page 5 — Executive Command
+
+Content:
+Show how leaders view:
+Environment Health
+Execution Index
+Active Moments
+Strategic Visibility
+Outcome Success
+Value Score
+
+Visual:
+Use Executive Command / dashboard screenshots.
+
+### Page 6 — Why It Matters
+
+Content:
+WELBX improves execution during the moments that matter most.
+
+Show impact categories:
+Experience Impact
+Operational Impact
+Workforce Impact
+Strategic Impact
+Value Impact
+
+Closing line:
+Better visibility. Better decisions. Better execution. Better outcomes.
+
+---
+
+## 15 MINUTE PRESENTATION
+
+Create a 12-page presentation:
+
+### Page 1 — Why WELBX Exists
+
+Hotels Have Solved Information.
+They Have Not Solved Execution.
+
+### Page 2 — GHSOL
+
+Show the universal framework:
+Signal → Moment → Decision → Action → Outcome → Learning
+
+### Page 3 — Signal Registry
+
+What are we seeing?
+
+### Page 4 — Moment Registry
+
+What does it mean?
+
+### Page 5 — Strategic Visibility
+
+What patterns are emerging?
+
+### Page 6 — Decision Registry
+
+What should happen?
+
+### Page 7 — Execution Index
+
+How consistently are we performing?
+
+### Page 8 — Central Communications System
+
+Who needs to know?
+The right message. The right person. The right time. The right channel.
+
+### Page 9 — Guest Layer Scenario
+
+Show the full guest layer scenario:
+Guest View
+Operating View
+Infrastructure View
+
+Include:
+Signal → Moment → Decision → Communication → Action → Outcome → Learning → Value
+
+### Page 10 — Outcome + Value Layer
+
+Show:
+Outcome Registry
+Organisational Memory
+Value Per Moment
+Opportunity Loss
+Value Engine
+
+### Page 11 — Executive Command
+
+Show how leadership sees the full operating environment:
+Signals
+Moments
+Decisions
+Execution
+Communication
+Outcomes
+Value
+
+### Page 12 — Future Vision
+
+Show:
+Signal → Moment → Action → Outcome → Activation → Value
+
+Position:
+Behavioural Infrastructure today.
+Behavioural Economy tomorrow.
+Behavioural Exchange over time.
+
+---
+
+## EXPORT REQUIREMENTS
+
+Add buttons:
+
+* Export 5 Minute Presentation as PDF
+* Export 15 Minute Presentation as PDF
+* Download All Presentation Screens as Images
+
+If PDF export is technically difficult, create a printable route using browser print styles.
+
+Create clean print styles:
+
+* Landscape 16:9
+* No navigation in exported version
+* Full-width slides
+* High contrast
+* WELBX branding on each page
+* Page numbers
+* Consistent footer line
+
+Footer line:
+WELBX Behavioural Infrastructure | The Operating Layer Between Signal And Action
+
+---
+
+## TECHNICAL REQUIREMENTS
+
+Create reusable presentation components:
+
+* PresentationSlide
+* SlideHeader
+* SlideFooter
+* ScreenshotCard
+* FrameworkFlow
+* ImpactCard
+* ExecutiveMetricCard
+
+Do not duplicate large blocks of code unnecessarily.
+
+Use existing app data where possible.
+If screenshots cannot be generated automatically, use existing components visually embedded into each presentation slide.
+
+Add route:
+/presentation-mode
+/presentation-mode/5-minute
+/presentation-mode/15-minute
+
+Add navigation entry:
+Presentation Mode
+
+Before implementing, inspect current page/component structure and reuse existing visuals/components wherever possible.
+
+After implementation, provide a summary of:
+
+* Routes created
+* Components created
+* Existing pages reused
+* Export method used
+* Any limitations

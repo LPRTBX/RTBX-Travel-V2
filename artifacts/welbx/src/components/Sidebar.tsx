@@ -92,10 +92,11 @@ const SECTIONS = [
 ];
 
 const HERO_ITEMS = [
-  { label: "GHSOL",        path: "/ghsol",        sub: "FRAMEWORK",  accent: "#c9a84c" },
-  { label: "Live Demo",    path: "/demo",         sub: "GUIDED",     accent: "#c9a84c" },
-  { label: "Comparison",  path: "/compare",      sub: "PROOF",      accent: undefined },
-  { label: "Command Mode", path: "/command-mode", sub: "CRITICAL",   accent: "#ef4444" },
+  { label: "GHSOL",              path: "/ghsol",              sub: "FRAMEWORK",     accent: "#c9a84c" },
+  { label: "Live Demo",          path: "/demo",               sub: "GUIDED",        accent: "#c9a84c" },
+  { label: "Comparison",         path: "/compare",            sub: "PROOF",         accent: undefined },
+  { label: "Command Mode",       path: "/command-mode",       sub: "CRITICAL",      accent: "#ef4444" },
+  { label: "Presentation Mode",  path: "/presentation-mode",  sub: "BRIEFING",      accent: "#c9a84c" },
 ];
 
 interface NavItemProps {

@@ -1,4 +1,4 @@
-import { Switch, Route, Router as WouterRouter } from "wouter";
+import { Switch, Route, Router as WouterRouter, useLocation } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -9,6 +9,9 @@ import { InterventionUsageProvider } from "@/context/InterventionUsageContext";
 import { CcProvider } from "@/context/CcContext";
 import { Sidebar } from "@/components/Sidebar";
 import { GlobalSearch } from "@/components/GlobalSearch";
+import PresentationMode from "@/pages/PresentationMode";
+import Presentation5Min from "@/pages/Presentation5Min";
+import Presentation15Min from "@/pages/Presentation15Min";
 import Landing from "@/pages/Landing";
 import LiveDemo from "@/pages/LiveDemo";
 import LiveMoments from "@/pages/LiveMoments";
@@ -48,6 +51,9 @@ const queryClient = new QueryClient();
 function Router() {
   return (
     <Switch>
+      <Route path="/presentation-mode" component={PresentationMode} />
+      <Route path="/presentation-mode/5-minute" component={Presentation5Min} />
+      <Route path="/presentation-mode/15-minute" component={Presentation15Min} />
       <Route path="/" component={Landing} />
       <Route path="/demo" component={LiveDemo} />
       <Route path="/live-moments" component={LiveMoments} />
@@ -86,6 +92,18 @@ function Router() {
   );
 }
 
+function AppShell() {
+  const [location] = useLocation();
+  const isPresentation = location.startsWith("/presentation-mode");
+  return (
+    <div className="min-h-[100dvh] bg-background">
+      {!isPresentation && <Sidebar />}
+      {!isPresentation && <GlobalSearch />}
+      <Router />
+    </div>
+  );
+}
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
@@ -94,11 +112,7 @@ function App() {
           <CcProvider>
           <InterventionUsageProvider>
             <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-              <div className="min-h-[100dvh] bg-background">
-                <Sidebar />
-                <GlobalSearch />
-                <Router />
-              </div>
+              <AppShell />
             </WouterRouter>
             <Toaster />
           </InterventionUsageProvider>
