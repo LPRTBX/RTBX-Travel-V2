@@ -777,14 +777,28 @@ function PlaybookCard({ playbook, index }: { playbook: Playbook; index: number }
             {playbook.category}
           </div>
         </div>
-        <span style={{
-          fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase",
-          color: statusColor, border: `1px solid ${statusColor}33`,
-          padding: "3px 9px", background: `${statusColor}0d`, flexShrink: 0,
-          marginTop: 2,
-        }}>
-          {playbook.status}
-        </span>
+        <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 2, flexShrink: 0 }}>
+          {(() => {
+            const trendColor = sparklineTrendColor(playbook.stats.dailyFires ?? []);
+            const trendLabel = trendColor === C.amber ? "↑ Rising" : trendColor === C.green ? "↓ Falling" : "→ Steady";
+            return (
+              <span style={{
+                fontSize: 8, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase",
+                color: trendColor, border: `1px solid ${trendColor}33`,
+                padding: "3px 9px", background: `${trendColor}0d`,
+              }}>
+                {trendLabel}
+              </span>
+            );
+          })()}
+          <span style={{
+            fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase",
+            color: statusColor, border: `1px solid ${statusColor}33`,
+            padding: "3px 9px", background: `${statusColor}0d`,
+          }}>
+            {playbook.status}
+          </span>
+        </div>
       </div>
 
       {/* Stats strip */}
