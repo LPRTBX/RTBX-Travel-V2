@@ -3,6 +3,7 @@ import { useApp } from "@/context/AppContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation, useSearch } from "wouter";
 import { PLAYBOOKS, computeDailyFires, type Playbook, type PlaybookExecution } from "@/data/playbooks";
+import { SEEDED_MOMENTS } from "@/data/moments";
 
 /* ─── Filter types ────────────────────────────────────── */
 type CategoryFilter = Playbook["category"] | "All";
@@ -418,7 +419,11 @@ function ExecutionTimeline({ executions }: { executions: PlaybookExecution[] }) 
                         ·
                       </span>
                       <button
-                        onClick={() => navigate(`/live-moments#${ex.momentId}`)}
+                        onClick={() => {
+                          const moment = SEEDED_MOMENTS.find(m => m.id === ex.momentId);
+                          const isArchived = moment?.status === "RESOLVED" || moment?.status === "STABILISED";
+                          navigate(isArchived ? `/moment-registry#${ex.momentId}` : `/live-moments#${ex.momentId}`);
+                        }}
                         style={{
                           background: "transparent",
                           border: "none",
