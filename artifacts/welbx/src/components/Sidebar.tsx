@@ -91,10 +91,11 @@ const SECTIONS = [
   },
   {
     id: "lab",
-    label: "SCENARIO REPLAY LAB",
+    label: "VALIDATION",
     color: "#10b981",
     items: [
       { label: "Scenario Replay Lab", path: "/scenario-replay-lab", sub: "10 SCENARIOS" },
+      { label: "Shadow Pilot Mode",   path: "/shadow-pilot-mode",   sub: "SIMULATION" },
     ],
   },
 ];
