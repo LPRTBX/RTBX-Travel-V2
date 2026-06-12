@@ -96,6 +96,7 @@ const SECTIONS = [
     items: [
       { label: "Scenario Replay Lab",        path: "/scenario-replay-lab",          sub: "10 SCENARIOS" },
       { label: "Validation Dashboard",       path: "/scenario-validation-dashboard",sub: "RESULTS" },
+      { label: "Validation Summary",         path: "/validation-summary",           sub: "READINESS" },
       { label: "Shadow Pilot Mode",          path: "/shadow-pilot-mode",            sub: "SIMULATION" },
     ],
   },
