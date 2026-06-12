@@ -5,6 +5,7 @@ import { Play, RefreshCw, CheckCircle2, XCircle, Clock, ChevronRight, Loader2 } 
 import { SCENARIOS } from "@/data/scenarios";
 import type { Urgency } from "@/data/scenarios";
 import { loadScorecard } from "@/pages/ScenarioScorecard";
+import { COMPARISONS, DIMENSIONS } from "@/data/comparisons";
 
 /* ─── Types ──────────────────────────────────────────────────────── */
 type Status = 'idle' | 'running' | 'complete' | 'failed';
@@ -77,6 +78,7 @@ export default function ScenarioReplayLab() {
   const [stepProgress, setStepProgress] = useState<Record<string, number>>({});
   const [runStatus, setRunStatus] = useState<Record<string, Status>>({});
   const [runningAll, setRunningAll] = useState(false);
+  const [detailTab, setDetailTab] = useState<'chain' | 'comparison'>('chain');
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const scenario = SCENARIOS.find(s => s.id === selectedId)!;
@@ -308,7 +310,27 @@ export default function ScenarioReplayLab() {
             )}
           </div>
 
+          {/* Tab switcher */}
+          <div style={{ display: "flex", borderBottom: `1px solid ${P.border}`, marginBottom: 18, marginTop: 4 }}>
+            {(["chain", "comparison"] as const).map(tab => (
+              <button
+                key={tab}
+                onClick={() => setDetailTab(tab)}
+                style={{
+                  padding: "8px 16px", background: "transparent", border: "none",
+                  borderBottom: detailTab === tab ? `2px solid ${P.amber}` : "2px solid transparent",
+                  color: detailTab === tab ? P.white : P.dimmed,
+                  fontSize: 9, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase",
+                  cursor: "pointer", marginBottom: -1, transition: "all 0.15s",
+                }}
+              >
+                {tab === "chain" ? "BEHAVIOURAL CHAIN" : "VS TRADITIONAL"}
+              </button>
+            ))}
+          </div>
+
           {/* Chain steps */}
+          {detailTab === "chain" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
             <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.18em", color: P.dimmed, textTransform: "uppercase", marginBottom: 12 }}>
               Behavioural Chain · {scenario.chain.length} steps
@@ -370,6 +392,97 @@ export default function ScenarioReplayLab() {
               );
             })}
           </div>
+          )} {/* end chain tab */}
+
+          {/* Comparison tab */}
+          {detailTab === "comparison" && (() => {
+            const comp = COMPARISONS[scenario.id];
+            if (!comp) return (
+              <div style={{ padding: "32px 0", textAlign: "center", color: P.dimmed, fontSize: 11 }}>
+                No comparison data available for this scenario.
+              </div>
+            );
+            const majorCount = DIMENSIONS.filter(d => comp[d.key].delta === "major").length;
+            const modCount   = DIMENSIONS.filter(d => comp[d.key].delta === "moderate").length;
+            return (
+              <div>
+                {/* Column headers */}
+                <div style={{
+                  display: "grid", gridTemplateColumns: "148px 1fr 1fr",
+                  gap: 1, background: P.border,
+                  borderRadius: "6px 6px 0 0", overflow: "hidden", marginBottom: 1,
+                }}>
+                  <div style={{ background: P.panel, padding: "10px 14px" }}>
+                    <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.14em", color: P.dimmed, textTransform: "uppercase" }}>DIMENSION</div>
+                  </div>
+                  <div style={{ background: "rgba(239,68,68,0.09)", padding: "10px 14px" }}>
+                    <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.14em", color: "#f87171", textTransform: "uppercase" }}>Traditional Hotel Response</div>
+                    <div style={{ fontSize: 9.5, color: P.dimmed, marginTop: 2 }}>Without WELBX operating layer</div>
+                  </div>
+                  <div style={{ background: "rgba(201,168,76,0.09)", padding: "10px 14px" }}>
+                    <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.14em", color: P.amber, textTransform: "uppercase" }}>WELBX Response</div>
+                    <div style={{ fontSize: 9.5, color: P.dimmed, marginTop: 2 }}>With WELBX operating layer active</div>
+                  </div>
+                </div>
+
+                {DIMENSIONS.map((dim, idx) => {
+                  const row = comp[dim.key];
+                  const isLast = idx === DIMENSIONS.length - 1;
+                  const deltaColor = row.delta === "major" ? P.green : row.delta === "moderate" ? P.amber : P.muted;
+                  return (
+                    <div
+                      key={dim.key}
+                      style={{
+                        display: "grid", gridTemplateColumns: "148px 1fr 1fr",
+                        gap: 1, background: P.border, marginBottom: 1,
+                        ...(isLast ? { borderRadius: "0 0 6px 6px", overflow: "hidden" } : {}),
+                      }}
+                    >
+                      <div style={{ background: P.panel, padding: "12px 14px", display: "flex", flexDirection: "column", gap: 4 }}>
+                        <div style={{ fontSize: 12 }}>{dim.icon}</div>
+                        <div style={{ fontSize: 10, fontWeight: 600, color: P.white, lineHeight: 1.3 }}>{dim.label}</div>
+                        <div style={{
+                          display: "inline-block", fontSize: 7, fontWeight: 700, letterSpacing: "0.1em",
+                          color: deltaColor, border: `1px solid ${deltaColor}35`,
+                          padding: "1px 5px", borderRadius: 2, textTransform: "uppercase",
+                          background: `${deltaColor}12`, alignSelf: "flex-start",
+                        }}>
+                          {row.delta}
+                        </div>
+                      </div>
+                      <div style={{ background: "rgba(239,68,68,0.04)", padding: "12px 14px" }}>
+                        <div style={{ fontSize: 10.5, color: "#f87171", lineHeight: 1.6, opacity: 0.85 }}>{row.traditional}</div>
+                      </div>
+                      <div style={{ background: "rgba(201,168,76,0.04)", padding: "12px 14px" }}>
+                        <div style={{ fontSize: 10.5, color: P.white, lineHeight: 1.6 }}>{row.welbx}</div>
+                      </div>
+                    </div>
+                  );
+                })}
+
+                {/* Summary bar */}
+                <div style={{
+                  marginTop: 14, padding: "14px 20px",
+                  background: P.panel, border: `1px solid ${P.border}`, borderRadius: 6,
+                  display: "flex", alignItems: "center", gap: 24,
+                }}>
+                  <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
+                    <span style={{ fontSize: 26, fontWeight: 800, color: P.green }}>{majorCount}</span>
+                    <span style={{ fontSize: 9, color: P.muted }}>of 8 dimensions — major improvement</span>
+                  </div>
+                  {modCount > 0 && (
+                    <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
+                      <span style={{ fontSize: 22, fontWeight: 700, color: P.amber }}>{modCount}</span>
+                      <span style={{ fontSize: 9, color: P.muted }}>moderate</span>
+                    </div>
+                  )}
+                  <div style={{ marginLeft: "auto", fontSize: 8, fontWeight: 700, letterSpacing: "0.12em", color: P.dimmed, textTransform: "uppercase" }}>
+                    WELBX vs. Traditional · {scenario.id}
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
 
           {/* Score reveal */}
           <AnimatePresence>
