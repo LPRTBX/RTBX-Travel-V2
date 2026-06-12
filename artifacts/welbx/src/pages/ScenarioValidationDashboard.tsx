@@ -1,5 +1,7 @@
 import { useMemo } from "react";
 import { Link } from "wouter";
+import { FileDown, Package } from "lucide-react";
+import { exportScenarioReport, exportFullValidationPack } from "@/utils/exportReport";
 import {
   RadarChart, Radar, PolarGrid, PolarAngleAxis,
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell,
@@ -229,16 +231,33 @@ export default function ScenarioValidationDashboard() {
             Aggregated results across all {scenarioData.length} scenario tests. Use this dashboard to determine whether WELBX logic is ready for live pilot integration.
           </p>
         </div>
-        <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
-          <Link
-            href="/scenario-replay-lab"
-            style={{
-              fontSize: 9, fontWeight: 700, letterSpacing: "0.1em",
-              color: P.amber, border: `1px solid ${P.amber}35`,
-              background: P.amberDim, padding: "7px 16px", borderRadius: 4,
-              textDecoration: "none", display: "inline-block",
-            }}
-          >RUN SCENARIOS →</Link>
+        <div style={{ display: "flex", flexDirection: "column", gap: 8, flexShrink: 0, alignItems: "flex-end" }}>
+          <div style={{ display: "flex", gap: 8 }}>
+            <Link
+              href="/scenario-replay-lab"
+              style={{
+                fontSize: 9, fontWeight: 700, letterSpacing: "0.1em",
+                color: P.amber, border: `1px solid ${P.amber}35`,
+                background: P.amberDim, padding: "7px 16px", borderRadius: 4,
+                textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 5,
+              }}
+            >RUN SCENARIOS →</Link>
+          </div>
+          <div style={{ display: "flex", gap: 8 }}>
+            <button
+              onClick={() => exportFullValidationPack()}
+              style={{
+                display: "flex", alignItems: "center", gap: 6,
+                fontSize: 9, fontWeight: 700, letterSpacing: "0.1em",
+                color: P.white, border: `1px solid ${P.border}`,
+                background: "rgba(255,255,255,0.05)", padding: "7px 14px", borderRadius: 4,
+                cursor: "pointer",
+              }}
+            >
+              <Package size={11} />
+              Export Full Validation Pack
+            </button>
+          </div>
         </div>
       </div>
 

@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
-import { Play, RefreshCw, CheckCircle2, XCircle, Clock, ChevronRight, Loader2 } from "lucide-react";
+import { Play, RefreshCw, CheckCircle2, XCircle, Clock, ChevronRight, Loader2, FileDown } from "lucide-react";
+import { exportScenarioReport } from "@/utils/exportReport";
 import { SCENARIOS } from "@/data/scenarios";
 import type { Urgency } from "@/data/scenarios";
 import { loadScorecard } from "@/pages/ScenarioScorecard";
@@ -301,6 +302,15 @@ export default function ScenarioReplayLab() {
                     </button>
                   )}
                 </div>
+                <button
+                  onClick={() => exportScenarioReport(scenario.id)}
+                  style={{ display: "flex", alignItems: "center", gap: 6, padding: "7px 14px", background: "transparent", border: `1px solid ${P.border}`, cursor: "pointer", color: P.muted, fontSize: 9, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", transition: "all 0.15s" }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = P.white; (e.currentTarget as HTMLButtonElement).style.borderColor = P.dimmed; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = P.muted; (e.currentTarget as HTMLButtonElement).style.borderColor = P.border; }}
+                >
+                  <FileDown size={10} />
+                  Export Scenario Validation Report
+                </button>
               </div>
             </div>
             {status === 'complete' && (
