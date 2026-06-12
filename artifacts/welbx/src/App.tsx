@@ -16,6 +16,7 @@ import StoryHub from "@/pages/StoryHub";
 import StoryOperator from "@/pages/StoryOperator";
 import StoryGuestStory from "@/pages/StoryGuestStory";
 import ScenarioReplayLab from "@/pages/ScenarioReplayLab";
+import ScenarioStepRunner from "@/pages/ScenarioStepRunner";
 import Landing from "@/pages/Landing";
 import LiveDemo from "@/pages/LiveDemo";
 import LiveMoments from "@/pages/LiveMoments";
@@ -62,6 +63,7 @@ function Router() {
       <Route path="/story/executive-briefing" component={Presentation5Min} />
       <Route path="/story/operator-deep-dive" component={StoryOperator} />
       <Route path="/story/live-guest-story" component={StoryGuestStory} />
+      <Route path="/scenario-replay-lab/:id" component={ScenarioStepRunner} />
       <Route path="/scenario-replay-lab" component={ScenarioReplayLab} />
       <Route path="/" component={Landing} />
       <Route path="/demo" component={LiveDemo} />
