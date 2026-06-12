@@ -1,0 +1,535 @@
+Create a new top-level navigation section called:
+
+IHG PILOT STORY
+
+Purpose:
+
+This is not a product page.
+
+This is not a dashboard.
+
+This is a guided executive narrative demonstrating how WELBX operates inside a hotel environment.
+
+The experience should feel like an executive briefing and should be suitable for Hyatt, IHG, Marriott, Accor, Hilton and enterprise hospitality operators.
+
+Use existing WELBX pages, data, screenshots and components wherever possible.
+
+Do not duplicate functionality.
+
+Reuse existing registries, executive views and guest layer components.
+
+---
+
+CREATE THREE MODES
+
+1. Executive Briefing (5 Minutes)
+2. Operator Deep Dive (15 Minutes)
+3. Live Guest Story
+
+---
+
+# MODE 1
+
+# EXECUTIVE BRIEFING
+
+Create a guided six-page presentation.
+
+Navigation:
+Previous
+Next
+Presentation Progress
+
+---
+
+PAGE 1
+
+Title:
+Hotels Have Solved Information.
+They Have Not Solved Execution.
+
+Subheading:
+WELBX is Behavioural Infrastructure — the operating layer between signal and action.
+
+Visual:
+
+Signal
+↓
+Moment
+↓
+Decision
+↓
+Action
+↓
+Outcome
+
+Use premium executive design.
+
+---
+
+PAGE 2
+
+Title:
+The Execution Gap
+
+Compare:
+
+Traditional Hotel
+
+Information
+↓
+People
+↓
+Variable Outcome
+
+Versus
+
+WELBX Environment
+
+Signal
+↓
+Moment
+↓
+Decision
+↓
+Action
+↓
+Outcome
+
+Use existing Execution Gap content.
+
+---
+
+PAGE 3
+
+Title:
+Signals Become Moments
+
+Use Signal Registry and Moment Registry content.
+
+Show:
+
+Guest Signals
+Operational Signals
+Workforce Signals
+Commercial Signals
+
+↓
+
+High Value Moments
+
+Use existing screenshots/components.
+
+---
+
+PAGE 4
+
+Title:
+One Guest. One Moment.
+
+Use the Diamond Guest scenario.
+
+Guest Perspective
+
+Operating Perspective
+
+Infrastructure Perspective
+
+Visual flow:
+
+Signal
+↓
+Moment
+↓
+Decision
+↓
+Communication
+↓
+Action
+↓
+Outcome
+
+This should be the hero slide.
+
+---
+
+PAGE 5
+
+Title:
+Executive Command
+
+Use existing Executive Command components.
+
+Show:
+
+Environment Health
+
+Execution Index
+
+Active Moments
+
+Outcome Success
+
+Strategic Visibility
+
+Value Score
+
+---
+
+PAGE 6
+
+Title:
+Why It Matters
+
+Show:
+
+Experience Impact
+
+Operational Impact
+
+Workforce Impact
+
+Strategic Impact
+
+Value Impact
+
+Closing statement:
+
+Better Visibility.
+Better Decisions.
+Better Execution.
+Better Outcomes.
+
+---
+
+# MODE 2
+
+# OPERATOR DEEP DIVE
+
+Create a guided 15-minute presentation.
+
+Use the existing platform pages.
+
+Do not recreate content.
+
+Present them in sequence.
+
+---
+
+SECTION 1
+
+The Problem
+
+---
+
+SECTION 2
+
+GHSOL Framework
+
+Signal
+↓
+Moment
+↓
+Decision
+↓
+Action
+↓
+Outcome
+↓
+Learning
+
+---
+
+SECTION 3
+
+Signal Registry
+
+What are we seeing?
+
+---
+
+SECTION 4
+
+Moment Registry
+
+What does it mean?
+
+---
+
+SECTION 5
+
+Strategic Visibility
+
+What patterns are emerging?
+
+---
+
+SECTION 6
+
+Decision Registry
+
+What should happen?
+
+---
+
+SECTION 7
+
+Execution Index
+
+How consistently are we performing?
+
+---
+
+SECTION 8
+
+Central Communications System
+
+Who needs to know?
+
+---
+
+SECTION 9
+
+Guest Layer
+
+Use the Diamond Guest scenario.
+
+Walk through:
+
+Signal
+↓
+Moment
+↓
+Decision
+↓
+Communication
+↓
+Action
+↓
+Outcome
+↓
+Learning
+↓
+Value
+
+---
+
+SECTION 10
+
+Outcome Layer
+
+What happened?
+
+What improved?
+
+What was learned?
+
+---
+
+SECTION 11
+
+Value Layer
+
+Protected Value
+
+Created Value
+
+Opportunity Visibility
+
+---
+
+SECTION 12
+
+Executive Command
+
+Everything connected.
+
+---
+
+SECTION 13
+
+Future Vision
+
+Behavioural Infrastructure
+
+↓
+
+Behavioural Economy
+
+↓
+
+Behavioural Exchange
+
+---
+
+# MODE 3
+
+# LIVE GUEST STORY
+
+Create an immersive walkthrough called:
+
+"The Diamond Arrival"
+
+Guest:
+Mr V Hartmann
+
+14th Stay
+
+Diamond Member
+
+Arrival in 12 Minutes
+
+Assigned Room Not Ready
+
+---
+
+STEP 1
+
+Signal Detected
+
+Show:
+
+Diamond guest ETA
+
+Room occupied
+
+Housekeeping ETA
+
+Confidence
+
+---
+
+STEP 2
+
+Moment Created
+
+VIP Arrival Risk
+
+91% confidence
+
+---
+
+STEP 3
+
+Decision Made
+
+Playbook PB-002
+
+Housekeeping Priority Protocol
+
+---
+
+STEP 4
+
+Communication Routed
+
+Housekeeping Lead
+
+Duty Manager
+
+Guest Layer
+
+---
+
+STEP 5
+
+Action Executed
+
+Room prioritised
+
+Supervisor deployed
+
+Lounge access activated
+
+---
+
+STEP 6
+
+Outcome Achieved
+
+Room ready before arrival
+
+No disruption
+
+No escalation
+
+---
+
+STEP 7
+
+Learning Captured
+
+Pattern recorded
+
+Future arrivals pre-empted earlier
+
+---
+
+STEP 8
+
+Value Created
+
+Brand promise delivered
+
+Loyalty protected
+
+Experience maintained
+
+---
+
+Create toggle views:
+
+Guest View
+
+Operating View
+
+Infrastructure View
+
+---
+
+DESIGN REQUIREMENTS
+
+This entire section should feel like:
+
+Executive Briefing
+
+Not Software
+
+Not Dashboard
+
+Not Product Tour
+
+Use:
+
+Large typography
+
+Clean visual hierarchy
+
+Presentation-style layouts
+
+Minimal navigation
+
+Progress indicators
+
+Premium WELBX styling
+
+---
+
+FINAL DELIVERABLE
+
+Create routes:
+
+/story/executive-briefing
+
+/story/operator-deep-dive
+
+/story/live-guest-story
+
+Add navigation item:
+
+IHG Pilot Story
+
+Use existing WELBX content and components wherever possible.
+
+Do not create duplicate data structures.
+
+Build this as the presentation layer for the platform.

@@ -99,6 +99,13 @@ const HERO_ITEMS = [
   { label: "Presentation Mode",  path: "/presentation-mode",  sub: "BRIEFING",      accent: "#c9a84c" },
 ];
 
+const IHG_ITEMS = [
+  { label: "Pilot Story Hub",      path: "/story",                      sub: "3 MODES",    accent: "#c9a84c" },
+  { label: "Executive Briefing",   path: "/story/executive-briefing",   sub: "6 SLIDES",   accent: "#c9a84c" },
+  { label: "Operator Deep Dive",   path: "/story/operator-deep-dive",   sub: "13 SECTIONS",accent: "#10b981" },
+  { label: "Live Guest Story",     path: "/story/live-guest-story",     sub: "IMMERSIVE",  accent: "#a78bfa" },
+];
+
 interface NavItemProps {
   label: string;
   path: string;
@@ -240,6 +247,20 @@ export function Sidebar() {
             </div>
           );
         })}
+
+        {/* IHG Pilot Story section */}
+        <div style={{ margin: "10px 20px 4px", display: "flex", alignItems: "center", gap: 8 }}>
+          <div style={{ flex: 1, height: 1, background: "hsl(220 13% 9%)" }} />
+          <span style={{ fontSize: 7, letterSpacing: "0.18em", color: location.startsWith("/story") ? "#c9a84c" : "hsl(215 16% 18%)", textTransform: "uppercase", fontWeight: 700, flexShrink: 0 }}>IHG PILOT</span>
+          <div style={{ flex: 1, height: 1, background: "hsl(220 13% 9%)" }} />
+        </div>
+        {IHG_ITEMS.map(item => (
+          <NavItem
+            key={item.path}
+            {...item}
+            isActive={location === item.path || (item.path === "/story" && location.startsWith("/story/"))}
+          />
+        ))}
 
         {/* Hero section */}
         <div style={{ margin: "10px 20px 4px", display: "flex", alignItems: "center", gap: 8 }}>

@@ -12,6 +12,9 @@ import { GlobalSearch } from "@/components/GlobalSearch";
 import PresentationMode from "@/pages/PresentationMode";
 import Presentation5Min from "@/pages/Presentation5Min";
 import Presentation15Min from "@/pages/Presentation15Min";
+import StoryHub from "@/pages/StoryHub";
+import StoryOperator from "@/pages/StoryOperator";
+import StoryGuestStory from "@/pages/StoryGuestStory";
 import Landing from "@/pages/Landing";
 import LiveDemo from "@/pages/LiveDemo";
 import LiveMoments from "@/pages/LiveMoments";
@@ -54,6 +57,10 @@ function Router() {
       <Route path="/presentation-mode" component={PresentationMode} />
       <Route path="/presentation-mode/5-minute" component={Presentation5Min} />
       <Route path="/presentation-mode/15-minute" component={Presentation15Min} />
+      <Route path="/story" component={StoryHub} />
+      <Route path="/story/executive-briefing" component={Presentation5Min} />
+      <Route path="/story/operator-deep-dive" component={StoryOperator} />
+      <Route path="/story/live-guest-story" component={StoryGuestStory} />
       <Route path="/" component={Landing} />
       <Route path="/demo" component={LiveDemo} />
       <Route path="/live-moments" component={LiveMoments} />
@@ -94,7 +101,7 @@ function Router() {
 
 function AppShell() {
   const [location] = useLocation();
-  const isPresentation = location.startsWith("/presentation-mode");
+  const isPresentation = location.startsWith("/presentation-mode") || location.startsWith("/story");
   return (
     <div className="min-h-[100dvh] bg-background">
       {!isPresentation && <Sidebar />}

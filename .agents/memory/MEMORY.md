@@ -1,1 +1,2 @@
-- [WELBX architecture](welbx-architecture.md) — 32 routes, sectioned sidebar, AppContext with property/role/period/search state, 3 new pages (LearningLayer, CausalTrace, ValueProof)
+- [WELBX architecture](welbx-architecture.md) — 32+ routes, sectioned sidebar, AppContext with property/role/period/search state, 3 new pages (LearningLayer, CausalTrace, ValueProof)
+- [IHG Pilot Story structure](ihg-pilot-story.md) — 3 story routes under /story, sidebar IHG PILOT section, AppShell suppresses sidebar for /story/* same as /presentation-mode/*

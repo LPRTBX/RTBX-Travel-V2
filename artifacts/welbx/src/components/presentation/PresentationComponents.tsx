@@ -217,10 +217,11 @@ export function Pill({ label, color }: { label: string; color: string }) {
 }
 
 /* ─── Slide Navigation ────────────────────────────────────────────── */
-export function SlideNav({ current, total, onPrev, onNext, onClose, onPrint }: {
+export function SlideNav({ current, total, onPrev, onNext, onClose, onPrint, showExport = true, closeLabel }: {
   current: number; total: number;
   onPrev: () => void; onNext: () => void;
   onClose: () => void; onPrint: () => void;
+  showExport?: boolean; closeLabel?: string;
 }) {
   const btnBase: React.CSSProperties = {
     display: "flex", alignItems: "center", justifyContent: "center",
@@ -234,14 +235,16 @@ export function SlideNav({ current, total, onPrev, onNext, onClose, onPrint }: {
       className="no-print"
       style={{ position: "fixed", bottom: 28, right: 28, display: "flex", alignItems: "center", gap: 6, zIndex: 200 }}
     >
-      <button
-        onClick={onPrint}
-        style={{ ...btnBase, gap: 6, padding: "7px 14px", fontSize: 9, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase" }}
-        onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = C.amber; (e.currentTarget as HTMLButtonElement).style.color = C.amber; }}
-        onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = C.border; (e.currentTarget as HTMLButtonElement).style.color = C.muted; }}
-      >
-        <Printer size={10} /> Export PDF
-      </button>
+      {showExport && (
+        <button
+          onClick={onPrint}
+          style={{ ...btnBase, gap: 6, padding: "7px 14px", fontSize: 9, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase" }}
+          onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = C.amber; (e.currentTarget as HTMLButtonElement).style.color = C.amber; }}
+          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = C.border; (e.currentTarget as HTMLButtonElement).style.color = C.muted; }}
+        >
+          <Printer size={10} /> Export PDF
+        </button>
+      )}
       <button onClick={onClose} style={{ ...btnBase, width: 32, height: 32 }}>
         <X size={12} />
       </button>
