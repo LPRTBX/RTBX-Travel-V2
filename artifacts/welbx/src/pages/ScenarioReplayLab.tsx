@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Play, RefreshCw, CheckCircle2, XCircle, Clock, ChevronRight, Loader2 } from "lucide-react";
 import { SCENARIOS } from "@/data/scenarios";
 import type { Urgency } from "@/data/scenarios";
+import { loadScorecard } from "@/pages/ScenarioScorecard";
 
 /* ─── Types ──────────────────────────────────────────────────────── */
 type Status = 'idle' | 'running' | 'complete' | 'failed';
@@ -223,7 +224,7 @@ export default function ScenarioReplayLab() {
                     <span style={{ fontSize: 7.5, fontFamily: "monospace", color: P.dimmed }}>{sc.id}</span>
                   </div>
                 </div>
-                <div style={{ padding: "0 16px 8px", marginLeft: 17 }}>
+                <div style={{ padding: "0 16px 8px", marginLeft: 17, display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
                   <Link
                     href={`/scenario-replay-lab/${sc.id}`}
                     style={{
@@ -235,6 +236,27 @@ export default function ScenarioReplayLab() {
                   >
                     GUIDED TEST →
                   </Link>
+                  {(() => {
+                    const card = loadScorecard(sc.id);
+                    if (!card) return null;
+                    const statusColor = card.total >= 85 ? P.green : card.total >= 70 ? "#f59e0b" : P.red;
+                    return (
+                      <>
+                        <span style={{ color: P.border }}>·</span>
+                        <Link
+                          href={`/scenario-replay-lab/${sc.id}/scorecard`}
+                          style={{
+                            fontSize: 8, fontWeight: 700, letterSpacing: "0.1em",
+                            color: statusColor, textDecoration: "none",
+                            display: "inline-flex", alignItems: "center", gap: 4,
+                            opacity: 0.85,
+                          }}
+                        >
+                          SCORED: {card.total}/100 →
+                        </Link>
+                      </>
+                    );
+                  })()}
                 </div>
               </div>
             );

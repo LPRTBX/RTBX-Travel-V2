@@ -412,9 +412,9 @@ export default function ScenarioStepRunner() {
             </button>
           ) : (
             <Link
-              href="/scenario-replay-lab"
+              href={`/scenario-replay-lab/${scenario.id}/scorecard`}
               style={{
-                padding: "8px 20px", borderRadius: 5,
+                padding: "8px 24px", borderRadius: 5,
                 border: `1px solid ${P.green}`,
                 background: `${P.green}18`,
                 color: P.green,
@@ -423,7 +423,7 @@ export default function ScenarioStepRunner() {
                 display: "inline-block",
               }}
             >
-              ✓ COMPLETE
+              SCORE THIS SCENARIO →
             </Link>
           )}
         </div>
