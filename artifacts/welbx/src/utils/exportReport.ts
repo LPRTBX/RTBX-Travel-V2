@@ -270,6 +270,84 @@ function improvementsSection(scenarioId: string): string {
     </div>`;
 }
 
+/* ─── Red team section ───────────────────────────────────────── */
+const RT_QUESTIONS_EXPORT = [
+  { key: "wrong_signal",       text: "What if the signal is wrong?",                       detail: "Sensor misfire, stale data, or false positive triggers an incorrect moment classification." },
+  { key: "conflict",           text: "What if two moments conflict?",                      detail: "Two simultaneous moments compete for the same resource, staff member, or communication channel." },
+  { key: "staff_ignore",       text: "What if staff ignore the alert?",                    detail: "Notification received but no action taken within the expected response window." },
+  { key: "guest_no_respond",   text: "What if the guest does not respond?",                detail: "Communication sent to guest but no acknowledgement or engagement is returned." },
+  { key: "wrong_owner",        text: "What if the wrong owner is assigned?",               detail: "Action routed to incorrect department, role, or individual due to stale ownership data." },
+  { key: "delayed_escalation", text: "What if escalation is delayed?",                     detail: "Escalation trigger fires late due to network latency, system load, or manual override." },
+  { key: "privacy_limit",      text: "What if privacy constraints limit available data?",  detail: "GDPR or guest consent restrictions prevent key data points from being surfaced to the chain." },
+];
+
+const RT_STATUS_META: Record<string, { label: string; color: string; bg: string }> = {
+  risk:       { label: "Risk Identified",     color: "#dc2626", bg: "#fee2e2" },
+  mitigation: { label: "Mitigation Required", color: "#d97706", bg: "#fef3c7" },
+  resolved:   { label: "Resolved",            color: "#10b981", bg: "#d1fae5" },
+  na:         { label: "Not Applicable",      color: "#6b7280", bg: "#f3f4f6" },
+};
+
+function redTeamSection(scenarioId: string): string {
+  type RTEntry = { status: string | null; notes: string };
+  let rtData: Record<string, RTEntry> = {};
+  try {
+    const raw = localStorage.getItem(`welbx_redteam_${scenarioId}`);
+    if (raw) rtData = JSON.parse(raw) as Record<string, RTEntry>;
+  } catch { /* ignore */ }
+
+  const reviewed = RT_QUESTIONS_EXPORT.filter(q => rtData[q.key]?.status).length;
+  const riskCount = RT_QUESTIONS_EXPORT.filter(q => rtData[q.key]?.status === 'risk').length;
+  const hasAny = reviewed > 0;
+
+  const rows = RT_QUESTIONS_EXPORT.map((q, i) => {
+    const entry = rtData[q.key];
+    const sm = entry?.status ? RT_STATUS_META[entry.status] : null;
+    return `
+      <tr style="border-top:1px solid #e5e7eb">
+        <td style="width:22px;color:#9ca3af;font-size:9px;font-weight:700">Q${i + 1}</td>
+        <td>
+          <div style="font-weight:600;font-size:10px;margin-bottom:2px">${q.text}</div>
+          <div style="font-size:8.5px;color:#6b7280">${q.detail}</div>
+          ${entry?.notes ? `<div style="font-size:8.5px;color:#374151;margin-top:4px;padding:4px 6px;background:#f9fafb;border-left:2px solid #e5e7eb">${entry.notes.replace(/\n/g, "<br>")}</div>` : ""}
+        </td>
+        <td style="width:130px;text-align:right;vertical-align:top">
+          ${sm
+            ? `<span class="pill" style="color:${sm.color};background:${sm.bg}">${sm.label}</span>`
+            : `<span style="font-size:8px;color:#d1d5db">Not reviewed</span>`}
+        </td>
+      </tr>`;
+  }).join("");
+
+  const summaryItems = Object.entries(RT_STATUS_META).map(([k, m]) => {
+    const n = RT_QUESTIONS_EXPORT.filter(q => rtData[q.key]?.status === k).length;
+    return n > 0 ? `<span style="color:${m.color};font-weight:700">${n} ${m.label}</span>` : "";
+  }).filter(Boolean).join(" &nbsp;·&nbsp; ");
+
+  return `
+    <div class="section" style="page-break-before:always">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <h3 style="margin:0">Red Team Testing · Edge Case Review</h3>
+        <span style="font-size:8px;color:#6b7280">${hasAny ? `${reviewed}/7 reviewed · ${summaryItems || "No risks flagged"}` : "Not yet reviewed"}</span>
+      </div>
+      ${!hasAny ? `
+        <div class="card" style="color:#6b7280;text-align:center">
+          Red team testing not yet completed for this scenario. Open the RED TEAM tab in Scenario Replay Lab to review each edge case before pilot deployment.
+        </div>` : `
+        <table style="border:1px solid #e5e7eb;border-radius:6px;overflow:hidden">
+          <thead><tr><th>#</th><th>Edge Case Question</th><th style="text-align:right">Status</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+        ${riskCount > 0 ? `
+        <div style="margin-top:10px;padding:10px 14px;background:#fee2e2;border:1px solid #fecaca;border-radius:5px;color:#b91c1c;font-size:9.5px">
+          <strong>${riskCount} unresolved risk${riskCount > 1 ? "s" : ""} identified.</strong> These must be addressed before proceeding to live pilot deployment.
+        </div>` : `
+        <div style="margin-top:10px;padding:10px 14px;background:#d1fae5;border:1px solid #a7f3d0;border-radius:5px;color:#065f46;font-size:9.5px">
+          All red team findings reviewed. No unresolved risks remain for this scenario.
+        </div>`}`}
+    </div>`;
+}
+
 /* ─── Full single scenario HTML ──────────────────────────────── */
 function buildScenarioReport(sc: Scenario): string {
   const saved = loadScorecard(sc.id);
@@ -289,6 +367,7 @@ function buildScenarioReport(sc: Scenario): string {
       </div>
       ${scorecardSection(sc.id)}
       ${improvementsSection(sc.id)}
+      ${redTeamSection(sc.id)}
       <div style="margin-top:24px;padding-top:10px;border-top:1px solid #e5e7eb;display:flex;justify-content:space-between;color:#9ca3af;font-size:8px">
         <span>WELBX Travel Operating Layer · Scenario Validation Report</span>
         <span>${sc.id} · ${new Date().toLocaleDateString("en-GB")}</span>

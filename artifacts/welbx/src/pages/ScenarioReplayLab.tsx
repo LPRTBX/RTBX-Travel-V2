@@ -10,6 +10,26 @@ import { COMPARISONS, DIMENSIONS } from "@/data/comparisons";
 
 /* ─── Types ──────────────────────────────────────────────────────── */
 type Status = 'idle' | 'running' | 'complete' | 'failed';
+type RedTeamStatus = 'risk' | 'mitigation' | 'resolved' | 'na';
+type RedTeamEntry = { status: RedTeamStatus | null; notes: string };
+
+/* ─── Red team constants ─────────────────────────────────────────── */
+const RT_QUESTIONS: Array<{ key: string; text: string; detail: string }> = [
+  { key: "wrong_signal",      text: "What if the signal is wrong?",                       detail: "Sensor misfire, stale data, or false positive triggers an incorrect moment classification." },
+  { key: "conflict",          text: "What if two moments conflict?",                      detail: "Two simultaneous moments compete for the same resource, staff member, or communication channel." },
+  { key: "staff_ignore",      text: "What if staff ignore the alert?",                    detail: "Notification received but no action taken within the expected response window." },
+  { key: "guest_no_respond",  text: "What if the guest does not respond?",                detail: "Communication sent to guest but no acknowledgement or engagement is returned." },
+  { key: "wrong_owner",       text: "What if the wrong owner is assigned?",               detail: "Action routed to incorrect department, role, or individual due to stale ownership data." },
+  { key: "delayed_escalation",text: "What if escalation is delayed?",                    detail: "Escalation trigger fires late due to network latency, system load, or manual override." },
+  { key: "privacy_limit",     text: "What if privacy constraints limit available data?",  detail: "GDPR or guest consent restrictions prevent key data points from being surfaced to the chain." },
+];
+
+const RT_STATUSES: Array<{ key: RedTeamStatus; label: string; color: string; bg: string }> = [
+  { key: "risk",       label: "Risk Identified",     color: "#ef4444", bg: "rgba(239,68,68,0.12)" },
+  { key: "mitigation", label: "Mitigation Required", color: "#f59e0b", bg: "rgba(245,158,11,0.12)" },
+  { key: "resolved",   label: "Resolved",            color: "#10b981", bg: "rgba(16,185,129,0.12)" },
+  { key: "na",         label: "Not Applicable",      color: "#6b7280", bg: "rgba(107,114,128,0.12)" },
+];
 
 /* ─── Palette ─────────────────────────────────────────────────────── */
 const P = {
@@ -79,8 +99,29 @@ export default function ScenarioReplayLab() {
   const [stepProgress, setStepProgress] = useState<Record<string, number>>({});
   const [runStatus, setRunStatus] = useState<Record<string, Status>>({});
   const [runningAll, setRunningAll] = useState(false);
-  const [detailTab, setDetailTab] = useState<'chain' | 'comparison'>('chain');
+  const [detailTab, setDetailTab] = useState<'chain' | 'comparison' | 'redteam'>('chain');
+  const [redTeam, setRedTeam] = useState<Record<string, Record<string, RedTeamEntry>>>(() => {
+    const out: Record<string, Record<string, RedTeamEntry>> = {};
+    SCENARIOS.forEach(sc => {
+      try {
+        const raw = localStorage.getItem(`welbx_redteam_${sc.id}`);
+        if (raw) out[sc.id] = JSON.parse(raw) as Record<string, RedTeamEntry>;
+      } catch { /* ignore */ }
+    });
+    return out;
+  });
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function updateRedTeam(scenarioId: string, questionKey: string, update: Partial<RedTeamEntry>) {
+    setRedTeam(prev => {
+      const current = prev[scenarioId] ?? {};
+      const entry = current[questionKey] ?? { status: null, notes: "" };
+      const updated = { ...current, [questionKey]: { ...entry, ...update } };
+      const next = { ...prev, [scenarioId]: updated };
+      try { localStorage.setItem(`welbx_redteam_${scenarioId}`, JSON.stringify(updated)); } catch { /* ignore */ }
+      return next;
+    });
+  }
 
   const scenario = SCENARIOS.find(s => s.id === selectedId)!;
   const status = runStatus[selectedId] ?? 'idle';
@@ -322,21 +363,33 @@ export default function ScenarioReplayLab() {
 
           {/* Tab switcher */}
           <div style={{ display: "flex", borderBottom: `1px solid ${P.border}`, marginBottom: 18, marginTop: 4 }}>
-            {(["chain", "comparison"] as const).map(tab => (
-              <button
-                key={tab}
-                onClick={() => setDetailTab(tab)}
-                style={{
-                  padding: "8px 16px", background: "transparent", border: "none",
-                  borderBottom: detailTab === tab ? `2px solid ${P.amber}` : "2px solid transparent",
-                  color: detailTab === tab ? P.white : P.dimmed,
-                  fontSize: 9, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase",
-                  cursor: "pointer", marginBottom: -1, transition: "all 0.15s",
-                }}
-              >
-                {tab === "chain" ? "BEHAVIOURAL CHAIN" : "VS TRADITIONAL"}
-              </button>
-            ))}
+            {(["chain", "comparison", "redteam"] as const).map(tab => {
+              const rtData = redTeam[selectedId] ?? {};
+              const riskCount = Object.values(rtData).filter(e => e.status === 'risk').length;
+              const unreviewed = RT_QUESTIONS.filter(q => !rtData[q.key]?.status).length;
+              return (
+                <button
+                  key={tab}
+                  onClick={() => setDetailTab(tab)}
+                  style={{
+                    padding: "8px 16px", background: "transparent", border: "none",
+                    borderBottom: detailTab === tab ? `2px solid ${P.amber}` : "2px solid transparent",
+                    color: detailTab === tab ? P.white : P.dimmed,
+                    fontSize: 9, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase",
+                    cursor: "pointer", marginBottom: -1, transition: "all 0.15s",
+                    display: "flex", alignItems: "center", gap: 7,
+                  }}
+                >
+                  {tab === "chain" ? "BEHAVIOURAL CHAIN" : tab === "comparison" ? "VS TRADITIONAL" : "RED TEAM"}
+                  {tab === "redteam" && riskCount > 0 && (
+                    <span style={{ fontSize: 7, fontWeight: 800, background: P.red, color: "#fff", borderRadius: 3, padding: "1px 5px", letterSpacing: 0 }}>{riskCount}</span>
+                  )}
+                  {tab === "redteam" && riskCount === 0 && unreviewed > 0 && (
+                    <span style={{ fontSize: 7, fontWeight: 800, background: P.dimmed, color: "#fff", borderRadius: 3, padding: "1px 5px", letterSpacing: 0 }}>{unreviewed}</span>
+                  )}
+                </button>
+              );
+            })}
           </div>
 
           {/* Chain steps */}
@@ -488,6 +541,135 @@ export default function ScenarioReplayLab() {
                   )}
                   <div style={{ marginLeft: "auto", fontSize: 8, fontWeight: 700, letterSpacing: "0.12em", color: P.dimmed, textTransform: "uppercase" }}>
                     WELBX vs. Traditional · {scenario.id}
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
+
+          {/* Red Team tab */}
+          {detailTab === "redteam" && (() => {
+            const rtData = redTeam[selectedId] ?? {};
+            const counts = {
+              risk:       RT_QUESTIONS.filter(q => rtData[q.key]?.status === 'risk').length,
+              mitigation: RT_QUESTIONS.filter(q => rtData[q.key]?.status === 'mitigation').length,
+              resolved:   RT_QUESTIONS.filter(q => rtData[q.key]?.status === 'resolved').length,
+              na:         RT_QUESTIONS.filter(q => rtData[q.key]?.status === 'na').length,
+              unreviewed: RT_QUESTIONS.filter(q => !rtData[q.key]?.status).length,
+            };
+            const allDone = counts.unreviewed === 0;
+            return (
+              <div>
+                {/* Summary bar */}
+                <div style={{
+                  display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap",
+                  padding: "12px 16px", background: P.card, border: `1px solid ${P.border}`, borderRadius: 6,
+                  marginBottom: 16,
+                }}>
+                  <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: P.dimmed, textTransform: "uppercase", marginRight: 4 }}>Red Team Status · {scenario.id}</div>
+                  {RT_STATUSES.map(s => {
+                    const n = counts[s.key];
+                    return (
+                      <div key={s.key} style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                        <div style={{ width: 7, height: 7, borderRadius: "50%", background: s.color }} />
+                        <span style={{ fontSize: 9, fontWeight: 700, color: n > 0 ? s.color : P.dimmed }}>{n}</span>
+                        <span style={{ fontSize: 8, color: P.dimmed }}>{s.label}</span>
+                      </div>
+                    );
+                  })}
+                  <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                    <div style={{ width: 7, height: 7, borderRadius: "50%", background: P.border }} />
+                    <span style={{ fontSize: 9, fontWeight: 700, color: counts.unreviewed > 0 ? P.muted : P.dimmed }}>{counts.unreviewed}</span>
+                    <span style={{ fontSize: 8, color: P.dimmed }}>Unreviewed</span>
+                  </div>
+                  <div style={{ marginLeft: "auto" }}>
+                    <span style={{
+                      fontSize: 7.5, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase",
+                      color: allDone ? (counts.risk > 0 ? P.red : P.green) : P.dimmed,
+                      padding: "2px 8px", border: `1px solid ${allDone ? (counts.risk > 0 ? P.red : P.green) : P.border}30`,
+                      background: allDone ? (counts.risk > 0 ? `${P.red}10` : `${P.green}10`) : "transparent",
+                    }}>
+                      {allDone ? (counts.risk > 0 ? `${counts.risk} UNRESOLVED RISK${counts.risk > 1 ? "S" : ""}` : "ALL CLEAR") : `${counts.unreviewed} QUESTION${counts.unreviewed !== 1 ? "S" : ""} PENDING REVIEW`}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Question cards */}
+                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                  {RT_QUESTIONS.map((q, i) => {
+                    const entry = rtData[q.key] ?? { status: null, notes: "" };
+                    const activeStatus = RT_STATUSES.find(s => s.key === entry.status);
+                    const leftColor = activeStatus?.color ?? P.border;
+                    return (
+                      <div key={q.key} style={{
+                        background: P.card, border: `1px solid ${activeStatus ? leftColor + "25" : P.border}`,
+                        borderLeft: `3px solid ${leftColor}`, borderRadius: 5,
+                        padding: "14px 16px", transition: "border-color 0.2s",
+                      }}>
+                        {/* Question header */}
+                        <div style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 8 }}>
+                          <span style={{ fontSize: 8, fontWeight: 700, color: P.dimmed, minWidth: 16, marginTop: 1 }}>Q{i + 1}</span>
+                          <div style={{ flex: 1 }}>
+                            <div style={{ fontSize: 11, fontWeight: 700, color: P.white, marginBottom: 3, lineHeight: 1.4 }}>{q.text}</div>
+                            <div style={{ fontSize: 9, color: P.muted, lineHeight: 1.55 }}>{q.detail}</div>
+                          </div>
+                          {activeStatus && (
+                            <span style={{
+                              fontSize: 7.5, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase",
+                              color: activeStatus.color, background: activeStatus.bg,
+                              padding: "2px 8px", borderRadius: 3, flexShrink: 0,
+                            }}>{activeStatus.label}</span>
+                          )}
+                        </div>
+
+                        {/* Status buttons */}
+                        <div style={{ display: "flex", gap: 6, marginBottom: entry.status ? 10 : 0, flexWrap: "wrap" }}>
+                          {RT_STATUSES.map(s => {
+                            const isActive = entry.status === s.key;
+                            return (
+                              <button
+                                key={s.key}
+                                onClick={() => updateRedTeam(selectedId, q.key, { status: isActive ? null : s.key })}
+                                style={{
+                                  fontSize: 8, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase",
+                                  padding: "5px 11px", cursor: "pointer", transition: "all 0.15s",
+                                  border: `1px solid ${isActive ? s.color : P.border}`,
+                                  background: isActive ? s.bg : "transparent",
+                                  color: isActive ? s.color : P.dimmed,
+                                  borderRadius: 3,
+                                }}
+                              >{s.label}</button>
+                            );
+                          })}
+                        </div>
+
+                        {/* Notes — shown once a status is selected */}
+                        {entry.status && (
+                          <div style={{ marginTop: 8 }}>
+                            <textarea
+                              value={entry.notes}
+                              onChange={e => updateRedTeam(selectedId, q.key, { notes: e.target.value })}
+                              placeholder="Add tester notes, mitigation steps, or resolution detail…"
+                              rows={2}
+                              style={{
+                                width: "100%", background: "hsl(220 13% 4%)", border: `1px solid ${P.border}`,
+                                color: P.white, fontSize: 9.5, lineHeight: 1.6,
+                                padding: "7px 10px", resize: "vertical", outline: "none",
+                                fontFamily: "inherit", borderRadius: 3,
+                              }}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Footer guidance */}
+                <div style={{ marginTop: 14, padding: "12px 16px", background: `${P.amber}08`, border: `1px solid ${P.amber}20`, borderRadius: 5 }}>
+                  <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: P.amber, textTransform: "uppercase", marginBottom: 5 }}>Purpose · Operational Edge Case Review</div>
+                  <div style={{ fontSize: 9.5, color: P.muted, lineHeight: 1.65 }}>
+                    Red team testing exposes operational failure modes before live pilot deployment. Mark each question with the appropriate status and add resolution notes where required. All findings are included in the exported Scenario Validation Report.
                   </div>
                 </div>
               </div>
