@@ -91,13 +91,16 @@ const SECTIONS = [
   },
   {
     id: "lab",
-    label: "VALIDATION",
+    label: "VALIDATION LAYER",
     color: "#10b981",
     items: [
-      { label: "Scenario Replay Lab",        path: "/scenario-replay-lab",          sub: "10 SCENARIOS" },
-      { label: "Validation Dashboard",       path: "/scenario-validation-dashboard",sub: "RESULTS" },
-      { label: "Validation Summary",         path: "/validation-summary",           sub: "READINESS" },
-      { label: "Shadow Pilot Mode",          path: "/shadow-pilot-mode",            sub: "SIMULATION" },
+      { id: "scenario-lib", label: "Scenario Library",     path: "/scenario-replay-lab",           sub: "10 SCENARIOS" },
+      { id: "scenario-run", label: "Scenario Runner",      path: "/scenario-replay-lab/SCN-001",    sub: "GUIDED RUN" },
+      { id: "red-team",     label: "Red Team Testing",     path: "/scenario-replay-lab",            sub: "EDGE CASES" },
+      { id: "shadow-pilot", label: "Shadow Pilot Mode",    path: "/shadow-pilot-mode",              sub: "SIMULATION",  divider: true },
+      { id: "val-dash",     label: "Validation Dashboard", path: "/scenario-validation-dashboard",  sub: "DASHBOARD",   divider: true },
+      { id: "val-summary",  label: "Validation Summary",   path: "/validation-summary",             sub: "READINESS" },
+      { id: "export",       label: "Export Reports",       path: "/export-reports",                 sub: "EXPORT" },
     ],
   },
 ];
@@ -249,11 +252,15 @@ export function Sidebar() {
                 {section.label}
               </div>
               {section.items.map(item => (
-                <NavItem
-                  key={item.path}
-                  {...item}
-                  isActive={location === item.path}
-                />
+                <div key={(item as { id?: string }).id ?? item.path}>
+                  {(item as { divider?: boolean }).divider && (
+                    <div style={{ margin: "5px 16px", height: 1, background: "hsl(220 13% 11%)" }} />
+                  )}
+                  <NavItem
+                    {...item}
+                    isActive={location === item.path}
+                  />
+                </div>
               ))}
             </div>
           );
