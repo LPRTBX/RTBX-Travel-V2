@@ -52,6 +52,7 @@ import LearningLayer from "@/pages/LearningLayer";
 import CausalTrace from "@/pages/CausalTrace";
 import ValueProof from "@/pages/ValueProof";
 import ShadowPilotMode from "@/pages/ShadowPilotMode";
+import ScenarioValidationDashboard from "@/pages/ScenarioValidationDashboard";
 
 const queryClient = new QueryClient();
 
@@ -100,6 +101,7 @@ function Router() {
       <Route path="/causal-trace" component={CausalTrace} />
       <Route path="/value-proof" component={ValueProof} />
       <Route path="/shadow-pilot-mode" component={ShadowPilotMode} />
+      <Route path="/scenario-validation-dashboard" component={ScenarioValidationDashboard} />
       <Route path="/compare" component={CompareMode} />
       <Route path="/command-mode" component={CommandMode} />
       <Route component={NotFound} />

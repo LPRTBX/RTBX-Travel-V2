@@ -94,8 +94,9 @@ const SECTIONS = [
     label: "VALIDATION",
     color: "#10b981",
     items: [
-      { label: "Scenario Replay Lab", path: "/scenario-replay-lab", sub: "10 SCENARIOS" },
-      { label: "Shadow Pilot Mode",   path: "/shadow-pilot-mode",   sub: "SIMULATION" },
+      { label: "Scenario Replay Lab",        path: "/scenario-replay-lab",          sub: "10 SCENARIOS" },
+      { label: "Validation Dashboard",       path: "/scenario-validation-dashboard",sub: "RESULTS" },
+      { label: "Shadow Pilot Mode",          path: "/shadow-pilot-mode",            sub: "SIMULATION" },
     ],
   },
 ];
