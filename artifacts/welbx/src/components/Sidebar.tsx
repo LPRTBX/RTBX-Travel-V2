@@ -89,6 +89,14 @@ const SECTIONS = [
       { label: "Scenario Demo",       path: "/scenario-demo",       sub: "DEMO" },
     ],
   },
+  {
+    id: "lab",
+    label: "SCENARIO REPLAY LAB",
+    color: "#10b981",
+    items: [
+      { label: "Scenario Replay Lab", path: "/scenario-replay-lab", sub: "10 SCENARIOS" },
+    ],
+  },
 ];
 
 const HERO_ITEMS = [
