@@ -1,0 +1,314 @@
+Add a stronger UX/UI demo layer to the WELBX Partner Room.
+
+The Partner Room should not only contain briefing pages and documents. It must also include controlled live demo experiences that show what the guest sees and what the operator sees in a real moment.
+
+Do not expose the full platform complexity. These demos should feel like polished, guided, partner-facing simulations.
+
+Add these new routes:
+
+/partner-room/live-demos
+/partner-room/guest-demo
+/partner-room/operator-demo
+/partner-room/dual-view-demo
+
+Update the Partner Room top navigation to include:
+
+* Overview
+* Operator Brief
+* Integration
+* Moments Economy
+* Signals Engine
+* Pilot Model
+* Commercial Model
+* Live Demos
+
+Create a new Partner Room page:
+
+/partner-room/live-demos
+
+Title:
+Live UX Demos
+
+Intro copy:
+See how WELBX appears in the moment — first from the guest side, then from the operator side, then as a connected signal-to-action flow.
+
+Create four demo cards:
+
+1. Guest Experience Demo
+   Subtitle:
+   What the guest sees through QR, TV, tablet or mobile access.
+
+CTA:
+Open Guest Demo
+
+2. Operator Response Demo
+   Subtitle:
+   What the front desk, duty manager or operations team sees when a moment is detected.
+
+CTA:
+Open Operator Demo
+
+3. Dual View Demo
+   Subtitle:
+   See the same moment from both sides — guest experience and operator action.
+
+CTA:
+Open Dual View
+
+4. Moment-to-Value Demo
+   Subtitle:
+   Follow a signal from detection through decision, response, outcome and value.
+
+CTA:
+Open Moments Economy
+
+Create /partner-room/guest-demo
+
+This page should simulate the guest-facing WELBX experience.
+
+Design:
+
+* Show a premium mobile phone frame in the centre or left side of the page.
+* Keep the design clean, high-end and hotel-appropriate.
+* Use WELBX dark background with a white/light guest interface inside the phone.
+* No generic app-store style.
+* It should feel zero-download, calm and concierge-like.
+
+Guest UX should include:
+
+1. Welcome screen
+   Copy:
+   Welcome back, Sarah.
+   How can we make this stay easier?
+
+Actions:
+
+* I need help
+* Improve my stay
+* Dining & transport
+* Feeling unwell or overwhelmed
+* Room issue
+* Something else
+
+2. Smart check-in moment
+   Show:
+   Your room is nearly ready.
+   Would you like us to notify you, hold your bags or arrange a quiet space while you wait?
+
+Actions:
+
+* Notify me
+* Hold bags
+* Arrange quiet space
+* Speak to team
+
+3. Service recovery moment
+   Show:
+   We noticed your room issue has been logged.
+   Would you prefer a quick fix, room move request or manager follow-up?
+
+Actions:
+
+* Quick fix
+* Room move
+* Manager follow-up
+* Not urgent
+
+4. Concierge / commercial moment
+   Show:
+   You have a free window before dinner.
+   Would you like nearby dining, wellness, transport or local experience options?
+
+Actions:
+
+* Dining
+* Wellness
+* Transport
+* Experiences
+
+5. Support / wellbeing moment
+   Show:
+   Need a quieter option or extra support during your stay?
+   We can help discreetly.
+
+Actions:
+
+* Quiet space
+* Staff support
+* Later
+* Not needed
+
+Each guest screen should show:
+
+* Guest need
+* Suggested action
+* Confirmation state
+* “No app. No login. In the moment.” microcopy
+
+Create /partner-room/operator-demo
+
+This page should simulate the operator-facing WELBX experience.
+
+Design:
+
+* Show an operator console layout.
+* Use dark premium dashboard styling.
+* Do not make it look like a generic analytics dashboard.
+* Focus on action, priority and recommended response.
+
+Operator UX should include:
+
+1. Moment Queue
+   Show cards:
+
+* VIP Arrival Risk
+* Queue Pressure Building
+* Room Issue Recovery
+* Guest Sentiment Drop
+* Dining Activation Window
+* Staff Load Risk
+
+Each card should show:
+
+* Priority
+* Confidence
+* Time open
+* Guest / area
+* Recommended owner
+* Suggested action
+
+2. Moment Detail Panel
+   When a moment is selected, show:
+
+* What happened
+* Why it matters
+* Signals detected
+* Recommended action
+* SOP nudge
+* Assign to
+* Response timer
+* Outcome options
+
+Example selected moment:
+
+Moment:
+Room Issue Recovery
+
+Signals:
+
+* Guest submitted room issue
+* Maintenance not yet assigned
+* Guest is loyalty member
+* Sentiment risk rising
+* Stay length: 3 nights
+
+Recommended action:
+Assign duty manager to contact guest within 5 minutes and offer repair, room move or service recovery option.
+
+Operator actions:
+
+* Assign duty manager
+* Notify housekeeping
+* Offer recovery
+* Escalate
+* Mark resolved
+
+Outcome buttons:
+
+* Resolved
+* Guest satisfied
+* Escalated
+* Revenue protected
+* Follow-up required
+
+3. Operator KPI strip
+   Show:
+
+* Moments detected today
+* Average response time
+* Recovery success
+* Escalations prevented
+* Revenue opportunities surfaced
+
+Create /partner-room/dual-view-demo
+
+This page should show guest and operator side-by-side.
+
+Use a split-screen layout:
+
+Left side:
+Guest mobile experience
+
+Right side:
+Operator console
+
+Middle:
+Signal flow
+
+Scenario selector at the top:
+
+* Late check-in friction
+* Room issue recovery
+* VIP arrival risk
+* Dining activation
+* Guest overwhelm / support
+* Housekeeping delay
+
+For each scenario, create a guided stepper:
+
+Step 1: Signal appears
+Step 2: Moment detected
+Step 3: Guest sees support option
+Step 4: Operator receives recommended action
+Step 5: Action is assigned
+Step 6: Outcome is recorded
+Step 7: Value is created or protected
+
+For each scenario, show:
+
+Guest sees:
+The actual message, options and confirmation state shown to the guest.
+
+Operator sees:
+The moment card, signals, recommendation, SOP nudge and action buttons.
+
+System records:
+
+* Moment type
+* Response time
+* Owner
+* Action taken
+* Outcome
+* Value created/protected
+
+Create these reusable components if helpful:
+
+* PartnerPhoneFrame
+* OperatorConsoleFrame
+* MomentQueueCard
+* SignalFlowStepper
+* DualViewScenario
+* PartnerDemoHeader
+* DemoScenarioSelector
+
+Do not create backend functionality.
+Do not create real authentication.
+Do not collect real guest data.
+This is a partner-facing live simulation only.
+
+The demo must make clear:
+
+* The guest does not need to download an app.
+* The operator does not need another complex dashboard.
+* WELBX turns guest and operational signals into guided action.
+* The same moment can create guest value, operational value and partner value.
+
+Add a CTA footer to all live demo pages:
+
+Ready to map this to your environment?
+
+Buttons:
+
+* View Pilot Model
+* Open Integration Brief
+* View Moments Economy

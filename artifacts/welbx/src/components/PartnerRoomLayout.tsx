@@ -8,7 +8,7 @@ const NAV_LINKS = [
   { label: "Signals Engine",   path: "/partner-room/signals-engine" },
   { label: "Pilot Model",      path: "/partner-room/pilot-model" },
   { label: "Commercial Model", path: "/partner-room/commercial-model" },
-  { label: "Demo Paths",       path: "/partner-room/demo-paths" },
+  { label: "Live Demos",       path: "/partner-room/live-demos" },
 ];
 
 interface PartnerRoomLayoutProps {

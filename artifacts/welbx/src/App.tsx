@@ -64,6 +64,10 @@ import PartnerSignalsEngine from "@/pages/partner-room/PartnerSignalsEngine";
 import PartnerPilotModel from "@/pages/partner-room/PartnerPilotModel";
 import PartnerCommercialModel from "@/pages/partner-room/PartnerCommercialModel";
 import PartnerDemoPaths from "@/pages/partner-room/PartnerDemoPaths";
+import PartnerLiveDemos from "@/pages/partner-room/PartnerLiveDemos";
+import PartnerGuestDemo from "@/pages/partner-room/PartnerGuestDemo";
+import PartnerOperatorDemo from "@/pages/partner-room/PartnerOperatorDemo";
+import PartnerDualViewDemo from "@/pages/partner-room/PartnerDualViewDemo";
 
 const queryClient = new QueryClient();
 
@@ -126,6 +130,10 @@ function Router() {
       <Route path="/partner-room/pilot-model" component={PartnerPilotModel} />
       <Route path="/partner-room/commercial-model" component={PartnerCommercialModel} />
       <Route path="/partner-room/demo-paths" component={PartnerDemoPaths} />
+      <Route path="/partner-room/live-demos" component={PartnerLiveDemos} />
+      <Route path="/partner-room/guest-demo" component={PartnerGuestDemo} />
+      <Route path="/partner-room/operator-demo" component={PartnerOperatorDemo} />
+      <Route path="/partner-room/dual-view-demo" component={PartnerDualViewDemo} />
       <Route component={NotFound} />
     </Switch>
   );
