@@ -1,0 +1,324 @@
+Create a new private partner-facing section in the existing WELBX Travel Operations Portal called:
+
+WELBX Partner Room
+
+Do not rebuild the existing app. Do not remove existing routes, pages, data, navigation or styling. Build this as an offshoot partner-facing experience using the current WELBX design system, data, components and existing narrative assets.
+
+Create a new route:
+
+/partner-room
+
+Also create these sub-routes:
+
+/partner-room/overview
+/partner-room/operator-brief
+/partner-room/integration-brief
+/partner-room/moments-economy
+/partner-room/signals-engine
+/partner-room/pilot-model
+/partner-room/commercial-model
+/partner-room/demo-paths
+
+Purpose:
+
+The Partner Room is a controlled private briefing space for hotel operators, integration partners, commercial partners and platform collaborators.
+
+The current WELBX platform has a lot of depth. The Partner Room must simplify the experience into a curated partner journey. It should feel like a premium enterprise deal room, not a dashboard and not a public marketing site.
+
+Use the current dark, premium WELBX style:
+
+* navy / black background
+* white typography
+* gold highlight
+* signal blue where appropriate
+* no emojis
+* no generic SaaS graphics
+* zero clutter
+* executive-grade spacing
+* sharp rectangular cards
+* strong hierarchy
+
+App implementation requirements:
+
+1. Add PartnerRoom pages inside src/pages.
+2. Add routes to App.tsx.
+3. Suppress the standard Sidebar and GlobalSearch for /partner-room routes, the same way /story and /presentation-mode are treated.
+4. Create a simple top navigation inside Partner Room:
+
+   * Overview
+   * Operator Brief
+   * Integration
+   * Moments Economy
+   * Signals Engine
+   * Pilot Model
+   * Commercial Model
+   * Demo Paths
+5. Reuse existing data from:
+
+   * src/data/moments.ts
+   * src/data/signals.ts
+   * src/data/scenarios.ts
+   * existing story/presentation pages where helpful
+6. Do not add new packages.
+
+Create the Partner Room landing page with this structure:
+
+Header:
+WELBX Partner Room
+Private Strategic Briefing
+
+Hero headline:
+The execution layer hotels do not currently have.
+
+Subheading:
+WELBX sits between operational signals and real-world action — turning moments into governed responses, partner value and measurable outcomes.
+
+Primary CTA buttons:
+
+* View Partner Brief
+* Explore Demo Paths
+* See Moments Economy
+* See Signals Engine
+
+Section: Choose Your Partner Path
+
+Create three large cards:
+
+1. Hotel / Operator Partner
+   Text:
+   For hotel groups, ownership groups and operators who want to improve service recovery, guest experience, staff consistency, escalation visibility and measurable execution.
+
+CTA:
+Open Operator Brief
+
+2. Integration Partner
+   Text:
+   For PMS, POS, CRM, loyalty, workforce, concierge, comms and data partners who want to connect into the WELBX execution layer.
+
+CTA:
+Open Integration Brief
+
+3. Commercial / Marketplace Partner
+   Text:
+   For partners who want to activate high-value guest and operational moments through offers, services, loyalty, recovery and experience pathways.
+
+CTA:
+Open Moments Economy
+
+Section: What WELBX connects
+
+Create a clean flow visual:
+Signals → Moments → Decisions → Actions → Outcomes → Value
+
+Under each step include one sentence:
+Signals: Operational, behavioural, commercial and environment data surfaces.
+Moments: Signals combine into a point of consequence.
+Decisions: WELBX determines what should happen next.
+Actions: The right person, team or partner is routed.
+Outcomes: Execution is recorded and measured.
+Value: Revenue is created, risk is reduced and learning compounds.
+
+Create each subpage as a premium briefing page:
+
+/partner-room/overview
+
+Title:
+Partner Overview
+
+Sections:
+
+* What WELBX is
+* Why it exists
+* Why partners matter
+* Where partner value is created
+* What happens next
+
+Include this core copy:
+WELBX is not another guest app, dashboard or reporting layer. It is behavioural infrastructure for operational environments. It detects signals, identifies moments, guides decisions, routes action and records outcomes.
+
+/partner-room/operator-brief
+
+Title:
+Operator Brief
+
+Explain:
+Hotels have systems, staff, policies and data. The gap is what happens in the moment when conditions change and execution varies.
+
+Show operator value cards:
+
+* Faster response
+* Better service recovery
+* Lower escalation risk
+* More consistent staff action
+* Improved guest experience
+* Measurable pilot outcomes
+
+Include a pilot KPI panel:
+
+* Guest engagement
+* Staff adoption
+* Moments detected
+* Moments resolved
+* Recovery success
+* Revenue protected
+* Revenue created
+* Response time improvement
+
+/partner-room/integration-brief
+
+Title:
+Integration Brief
+
+Explain:
+WELBX is designed to sit across existing systems, not replace them.
+
+Create integration categories:
+
+* PMS / Reservation systems
+* CRM / guest profile
+* POS / F&B
+* Workforce / task management
+* Loyalty
+* Guest messaging
+* Review / sentiment
+* BI / reporting
+
+Show a flow:
+Existing Systems → WELBX Signal Layer → Moment Engine → Decision Spine → Routed Action → Outcome Record
+
+Include copy:
+The first deployment can operate push-first and workflow-first. Deep integration can follow once the pilot proves value.
+
+/partner-room/moments-economy
+
+Title:
+Moments Economy
+
+Explain:
+A moment is a point where action or inaction changes value.
+
+Create moment cards using existing seeded hotel moments:
+
+* Queue Pressure Building
+* VIP Arrival Risk
+* Housekeeping Bottleneck
+* Guest Sentiment Drop
+* Service Recovery Opportunity
+* Dining / Transport Activation
+* Loyalty Re-engagement
+* Staff Load Risk
+* Complaint Escalation
+* Upgrade / Ancillary Offer Window
+
+Each card should show:
+
+* Moment
+* Signals
+* Risk if missed
+* Action triggered
+* Value created or protected
+* Partner opportunity
+
+Include a summary panel:
+The commercial model is not built around more screens. It is built around better execution at the moments that already exist.
+
+/partner-room/signals-engine
+
+Title:
+Signals Engine
+
+Explain:
+The Signals Engine listens for weak, strong and combined signals across the operating environment.
+
+Create signal categories:
+
+* Guest signals
+* Staff signals
+* Operational signals
+* Commercial signals
+
+For each category show:
+
+* Example sources
+* Frequency
+* Confidence
+* What moments they can trigger
+
+Show a simple logic chain:
+Signal captured → Threshold crossed → Pattern detected → Moment classified → Response recommended → Action routed → Outcome recorded
+
+/partner-room/pilot-model
+
+Title:
+Pilot Model
+
+Explain:
+The pilot is not designed to prove whether hotels have problems. It is designed to prove whether WELBX can detect, route, execute and measure better responses in real operating conditions.
+
+Create pilot phases:
+
+1. Setup
+2. Signal mapping
+3. Moment library configuration
+4. Staff workflow alignment
+5. Live shadow pilot
+6. Controlled activation
+7. Measurement
+8. Partner review
+
+Show success criteria:
+
+* Staff adoption
+* Response time
+* Moment detection accuracy
+* Recovery success
+* Commercial opportunity visibility
+* Escalation reduction
+* Operator confidence
+
+/partner-room/commercial-model
+
+Title:
+Commercial Model
+
+Explain:
+WELBX creates partner value through platform capability, integration value, marketplace activation, loyalty engagement and operator improvement.
+
+Create value pathway cards:
+
+* Platform capability
+* Marketplace activation
+* Integration partnership
+* Loyalty / member value
+* Commercial recovery
+* Operational improvement
+
+Keep all examples high level and partner-focused. Do not include investor, funding, valuation, equity, strategic expansion or financial forecasting information.
+
+/partner-room/demo-paths
+
+Title:
+Demo Paths
+
+Create six guided demo cards:
+
+1. Executive Briefing
+   Links to /story/executive-briefing
+
+2. Operator Deep Dive
+   Links to /story/operator-deep-dive
+
+3. Live Guest Story
+   Links to /story/live-guest-story
+
+4. Moments Economy Demo
+   Links to /partner-room/moments-economy
+
+5. Signals Engine Demo
+   Links to /partner-room/signals-engine
+
+6. Pilot Walkthrough
+   Links to /partner-room/pilot-model
+
+Final design requirement:
+The Partner Room must feel calmer, cleaner and more commercial than the main platform. The main platform is the operating system. The Partner Room is the controlled partner narrative that helps someone understand where they fit and why they should engage.
