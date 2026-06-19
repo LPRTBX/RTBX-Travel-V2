@@ -55,6 +55,15 @@ import ShadowPilotMode from "@/pages/ShadowPilotMode";
 import ScenarioValidationDashboard from "@/pages/ScenarioValidationDashboard";
 import ValidationSummary from "@/pages/ValidationSummary";
 import ExportReports from "@/pages/ExportReports";
+import PartnerRoomLanding from "@/pages/partner-room/PartnerRoomLanding";
+import PartnerOverview from "@/pages/partner-room/PartnerOverview";
+import PartnerOperatorBrief from "@/pages/partner-room/PartnerOperatorBrief";
+import PartnerIntegrationBrief from "@/pages/partner-room/PartnerIntegrationBrief";
+import PartnerMomentsEconomy from "@/pages/partner-room/PartnerMomentsEconomy";
+import PartnerSignalsEngine from "@/pages/partner-room/PartnerSignalsEngine";
+import PartnerPilotModel from "@/pages/partner-room/PartnerPilotModel";
+import PartnerCommercialModel from "@/pages/partner-room/PartnerCommercialModel";
+import PartnerDemoPaths from "@/pages/partner-room/PartnerDemoPaths";
 
 const queryClient = new QueryClient();
 
@@ -108,6 +117,15 @@ function Router() {
       <Route path="/export-reports" component={ExportReports} />
       <Route path="/compare" component={CompareMode} />
       <Route path="/command-mode" component={CommandMode} />
+      <Route path="/partner-room" component={PartnerRoomLanding} />
+      <Route path="/partner-room/overview" component={PartnerOverview} />
+      <Route path="/partner-room/operator-brief" component={PartnerOperatorBrief} />
+      <Route path="/partner-room/integration-brief" component={PartnerIntegrationBrief} />
+      <Route path="/partner-room/moments-economy" component={PartnerMomentsEconomy} />
+      <Route path="/partner-room/signals-engine" component={PartnerSignalsEngine} />
+      <Route path="/partner-room/pilot-model" component={PartnerPilotModel} />
+      <Route path="/partner-room/commercial-model" component={PartnerCommercialModel} />
+      <Route path="/partner-room/demo-paths" component={PartnerDemoPaths} />
       <Route component={NotFound} />
     </Switch>
   );
@@ -115,7 +133,7 @@ function Router() {
 
 function AppShell() {
   const [location] = useLocation();
-  const isPresentation = location.startsWith("/presentation-mode") || location.startsWith("/story");
+  const isPresentation = location.startsWith("/presentation-mode") || location.startsWith("/story") || location.startsWith("/partner-room");
   return (
     <div className="min-h-[100dvh] bg-background">
       {!isPresentation && <Sidebar />}
