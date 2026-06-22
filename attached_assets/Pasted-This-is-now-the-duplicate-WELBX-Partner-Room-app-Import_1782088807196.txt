@@ -1,0 +1,110 @@
+This is now the duplicate WELBX Partner Room app.
+
+Important:
+This is not the main internal WELBX Travel Operations Portal. This app is for external partners only.
+
+Objective:
+Convert this duplicate app into a standalone Partner Room app. Partners should only be able to access the Partner Room and approved partner-facing demo pages. They must not be able to access the full platform, internal dashboards, command centre, signal registry, moment registry, validation tools, value proof, story routes or internal operating system pages.
+
+Keep only these routes:
+
+/partner-room
+/partner-room/overview
+/partner-room/operator-brief
+/partner-room/integration-brief
+/partner-room/moments-economy
+/partner-room/signals-engine
+/partner-room/pilot-model
+/partner-room/commercial-model
+/partner-room/demo-paths
+/partner-room/live-demos
+/partner-room/guest-demo
+/partner-room/operator-demo
+/partner-room/dual-view-demo
+
+Redirect all other routes to:
+
+/partner-room
+
+Remove or disable public access to all other routes, including:
+
+/
+/demo
+/live-moments
+/system-state
+/outcome-intelligence
+/scenario-demo
+/guest-layer
+/signal-intelligence
+/command-centre
+/execution-timeline
+/executive-dashboard
+/moment-registry
+/moment-intelligence
+/strategic-visibility
+/ghsol
+/signal-registry
+/behavioural-genome
+/playbook-engine
+/decision-registry
+/intervention-library
+/execution-index
+/consistency-engine
+/environment-health
+/communications
+/communication-registry
+/communication-intelligence
+/outcome-registry
+/learning-layer
+/causal-trace
+/value-proof
+/shadow-pilot-mode
+/scenario-validation-dashboard
+/validation-summary
+/export-reports
+/compare
+/command-mode
+/presentation-mode
+/story
+/scenario-replay-lab
+
+Also update any Partner Room demo buttons that currently link to /story routes. Replace those links with partner-safe routes under /partner-room.
+
+For example:
+
+* /story/executive-briefing should become a partner-safe page or section under /partner-room/demo-paths
+* /story/operator-deep-dive should become a partner-safe page or section under /partner-room/demo-paths
+* /story/live-guest-story should become a partner-safe page or section under /partner-room/demo-paths
+
+Do not expose /story routes in this app.
+
+Keep:
+
+* Partner Room design
+* Partner Room pages
+* Guest demo
+* Operator demo
+* Dual-view demo
+* Moments Economy
+* Signals Engine
+* Pilot Model
+* Commercial Model
+* shared brand styling
+* components required for Partner Room pages
+
+Remove, hide or disable:
+
+* full platform sidebar
+* global search
+* command centre
+* internal dashboards
+* internal navigation
+* admin-style routes
+* internal-only data views
+
+Create a simple fallback restricted page or redirect logic.
+
+If a user enters any route outside the approved Partner Room routes, redirect them to /partner-room.
+
+Final requirement:
+This app should feel like a clean private partner briefing room, not the full WELBX operating platform.
