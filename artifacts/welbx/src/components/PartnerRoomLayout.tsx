@@ -20,6 +20,9 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
   const [location] = useLocation();
   const { content } = usePartnerContent();
 
+  const contentVersion = content?.contentVersion ?? "1.0.0";
+  const lastUpdated = content?.lastUpdated ?? "22 June 2026";
+
   return (
     <div style={{ minHeight: "100dvh", background: "#080c14", color: "#fff", display: "flex", flexDirection: "column" }}>
       {/* Top Nav */}
@@ -81,7 +84,7 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
         {children}
       </div>
 
-      {/* Discreet footer */}
+      {/* Discreet version footer */}
       <footer style={{
         borderTop: "1px solid rgba(255,255,255,0.05)",
         padding: "14px 32px",
@@ -90,11 +93,15 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
         gap: 24,
       }}>
         <span style={{ fontSize: 9, letterSpacing: "0.12em", color: "rgba(255,255,255,0.18)", textTransform: "uppercase", fontWeight: 600 }}>
-          Content version: {content?.contentVersion ?? "—"}
+          Partner Room v1.0
         </span>
         <span style={{ fontSize: 9, color: "rgba(255,255,255,0.1)" }}>·</span>
         <span style={{ fontSize: 9, letterSpacing: "0.12em", color: "rgba(255,255,255,0.18)", textTransform: "uppercase", fontWeight: 600 }}>
-          Last updated: {content?.lastUpdated ?? "—"}
+          Content version: {contentVersion}
+        </span>
+        <span style={{ fontSize: 9, color: "rgba(255,255,255,0.1)" }}>·</span>
+        <span style={{ fontSize: 9, letterSpacing: "0.12em", color: "rgba(255,255,255,0.18)", textTransform: "uppercase", fontWeight: 600 }}>
+          Last updated: {lastUpdated}
         </span>
       </footer>
     </div>

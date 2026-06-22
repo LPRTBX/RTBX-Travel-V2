@@ -1,4 +1,6 @@
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
+import { PartnerCTAFooter } from "@/components/PartnerCTAFooter";
+import { PartnerProofBanner } from "@/components/PartnerProofBanner";
 import { usePartnerContent } from "@/context/PartnerContentContext";
 
 const DEFAULT_VALUE_PATHWAYS = [
@@ -59,7 +61,7 @@ export default function PartnerCommercialModel() {
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "72px 32px 120px" }}>
 
         {/* Header */}
-        <div style={{ marginBottom: 72 }}>
+        <div style={{ marginBottom: 48 }}>
           <div style={{ fontSize: 9, letterSpacing: "0.22em", color: "#a78bfa", textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>
             Commercial Model
           </div>
@@ -73,9 +75,12 @@ export default function PartnerCommercialModel() {
           </p>
         </div>
 
+        {/* Proof banner */}
+        <PartnerProofBanner />
+
         {/* Value pathway grid */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2, marginBottom: 80 }}>
-          {valuePathways.map(pathway => (
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2, marginBottom: 60 }}>
+          {valuePathways.map((pathway: typeof DEFAULT_VALUE_PATHWAYS[0]) => (
             <div key={pathway.title} style={{
               padding: "36px 32px",
               background: "rgba(255,255,255,0.02)",
@@ -108,6 +113,7 @@ export default function PartnerCommercialModel() {
           padding: "32px 36px",
           background: "rgba(201,168,76,0.04)",
           border: "1px solid rgba(201,168,76,0.15)",
+          marginBottom: 0,
         }}>
           <div style={{ fontSize: 9, letterSpacing: "0.18em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>
             First Step
@@ -116,6 +122,8 @@ export default function PartnerCommercialModel() {
             All partnership discussions begin with a direct briefing. The Partner Room is the pre-briefing environment. When you are ready to move forward, the next step is a conversation with the WELBX team — focused on your specific context, your existing systems, and the pathway that makes most sense for your organisation.
           </p>
         </div>
+
+        <PartnerCTAFooter />
       </div>
     </PartnerRoomLayout>
   );

@@ -1,4 +1,6 @@
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
+import { PartnerCTAFooter } from "@/components/PartnerCTAFooter";
+import { PartnerProofBanner } from "@/components/PartnerProofBanner";
 import { usePartnerContent } from "@/context/PartnerContentContext";
 
 const DEFAULT_PILOT_PHASES = [
@@ -48,7 +50,7 @@ const DEFAULT_PILOT_PHASES = [
     num: "07",
     title: "Performance Review",
     duration: "Week 7",
-    desc: "Mid-pilot review against the eight agreed KPI metrics. Playbook adjustments made based on live data. Moment library expanded if early performance justifies it.",
+    desc: "Mid-pilot review against agreed KPI metrics. Playbook adjustments made based on live data. Moment library expanded if early performance justifies it.",
     color: "#10b981",
   },
   {
@@ -61,13 +63,26 @@ const DEFAULT_PILOT_PHASES = [
 ];
 
 const DEFAULT_SUCCESS_CRITERIA = [
-  "Moment detection rate exceeds 90% across all configured moment categories",
-  "Median response time from signal to routed action is below 90 seconds",
-  "VIP arrival protocol executed without incident for 100% of flagged arrivals during the pilot period",
+  "Moment detection rate meets pilot target across all configured moment categories — validation metric",
+  "Median response time from signal to routed action meets operating benchmark — pilot target",
+  "VIP arrival protocol executed without incident for flagged arrivals during the pilot period",
   "At least three service recovery moments resolved before guest departure",
   "At least one commercial activation moment (dining, upsell, or ancillary) acted on per day",
   "All triggered playbooks generating a complete outcome record with learning entry",
   "Operations team satisfaction score above threshold at end-of-pilot review",
+];
+
+const READINESS_CHECKLIST = [
+  "Executive sponsor confirmed",
+  "Pilot property or property group identified",
+  "Operations lead nominated",
+  "Technology / integration lead nominated",
+  "Priority signal sources mapped",
+  "Priority moment categories selected",
+  "Staff workflow pathway confirmed",
+  "Baseline measures agreed",
+  "Review cadence agreed",
+  "Pilot decision date confirmed",
 ];
 
 export default function PartnerPilotModel() {
@@ -84,7 +99,7 @@ export default function PartnerPilotModel() {
       <div style={{ maxWidth: 1000, margin: "0 auto", padding: "72px 32px 120px" }}>
 
         {/* Header */}
-        <div style={{ marginBottom: 72 }}>
+        <div style={{ marginBottom: 48 }}>
           <div style={{ fontSize: 9, letterSpacing: "0.22em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>
             Pilot Model
           </div>
@@ -98,13 +113,16 @@ export default function PartnerPilotModel() {
           </p>
         </div>
 
+        {/* Proof banner */}
+        <PartnerProofBanner />
+
         {/* Phases */}
         <div style={{ marginBottom: 80 }}>
           <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 28 }}>
             Pilot Phases
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2 }}>
-            {phases.map(phase => (
+            {phases.map((phase: typeof DEFAULT_PILOT_PHASES[0]) => (
               <div key={phase.num} style={{
                 padding: "28px 28px",
                 background: "rgba(255,255,255,0.02)",
@@ -127,13 +145,45 @@ export default function PartnerPilotModel() {
           </div>
         </div>
 
-        {/* Success criteria */}
-        <div>
+        {/* Pilot Readiness Checklist */}
+        <div style={{ marginBottom: 80 }}>
           <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 28 }}>
-            Success Criteria
+            Pilot Readiness Checklist
           </div>
           <div style={{ border: "1px solid rgba(255,255,255,0.07)", overflow: "hidden" }}>
-            {successCriteria.map((criterion, i) => (
+            {READINESS_CHECKLIST.map((item, i) => (
+              <div key={i} style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 20,
+                padding: "16px 28px",
+                borderBottom: i < READINESS_CHECKLIST.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none",
+                background: i % 2 === 0 ? "transparent" : "rgba(255,255,255,0.01)",
+              }}>
+                <div style={{
+                  width: 18,
+                  height: 18,
+                  border: "1px solid rgba(201,168,76,0.35)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 0,
+                }}>
+                  <div style={{ width: 6, height: 6, background: "rgba(201,168,76,0.2)" }} />
+                </div>
+                <div style={{ fontSize: 13, color: "rgba(255,255,255,0.58)", lineHeight: 1.55 }}>{item}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Success criteria */}
+        <div style={{ marginBottom: 0 }}>
+          <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 28 }}>
+            Validation Metrics
+          </div>
+          <div style={{ border: "1px solid rgba(255,255,255,0.07)", overflow: "hidden" }}>
+            {successCriteria.map((criterion: string, i: number) => (
               <div key={i} style={{
                 display: "flex",
                 alignItems: "flex-start",
@@ -150,6 +200,8 @@ export default function PartnerPilotModel() {
             ))}
           </div>
         </div>
+
+        <PartnerCTAFooter />
       </div>
     </PartnerRoomLayout>
   );

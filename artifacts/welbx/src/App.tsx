@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { PartnerContentProvider } from "@/context/PartnerContentContext";
+import { PartnerAccessGate } from "@/components/PartnerAccessGate";
 
 import PartnerRoomLanding from "@/pages/partner-room/PartnerRoomLanding";
 import PartnerOverview from "@/pages/partner-room/PartnerOverview";
@@ -53,9 +54,11 @@ function App() {
       <TooltipProvider>
         <PartnerContentProvider>
           <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-            <div className="min-h-[100dvh] bg-background">
-              <Router />
-            </div>
+            <PartnerAccessGate>
+              <div className="min-h-[100dvh] bg-background">
+                <Router />
+              </div>
+            </PartnerAccessGate>
           </WouterRouter>
           <Toaster />
         </PartnerContentProvider>

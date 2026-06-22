@@ -1,4 +1,6 @@
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
+import { PartnerCTAFooter } from "@/components/PartnerCTAFooter";
+import { PartnerProofBanner } from "@/components/PartnerProofBanner";
 import { usePartnerContent } from "@/context/PartnerContentContext";
 import { SEEDED_MOMENTS } from "@/data/moments";
 
@@ -72,7 +74,7 @@ export default function PartnerMomentsEconomy() {
       <div style={{ maxWidth: 1360, margin: "0 auto", padding: "72px 32px 120px" }}>
 
         {/* Header */}
-        <div style={{ marginBottom: 72 }}>
+        <div style={{ marginBottom: 48 }}>
           <div style={{ fontSize: 9, letterSpacing: "0.22em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>
             Moments Economy
           </div>
@@ -85,6 +87,9 @@ export default function PartnerMomentsEconomy() {
             {subheadline}
           </p>
         </div>
+
+        {/* Proof banner */}
+        <PartnerProofBanner />
 
         {/* Column headers */}
         <div style={{ display: "grid", gridTemplateColumns: "1.1fr 1fr 1.1fr 1fr 1fr 1.1fr", gap: 0, marginBottom: 4 }}>
@@ -128,13 +133,13 @@ export default function PartnerMomentsEconomy() {
           ))}
         </div>
 
-        {/* Summary panel */}
+        {/* Summary panel — framed as pilot targets */}
         <div style={{ marginTop: 48, display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
           {[
-            { num: "10",   label: "Core moment types",    sub: "In the standard library" },
-            { num: "247",  label: "Signal inputs",         sub: "Across all categories" },
-            { num: "<90s", label: "Median response time",  sub: "Signal to routed action" },
-            { num: "100%", label: "Outcome records",       sub: "Every moment logged" },
+            { num: "10",    label: "Core moment types",       sub: "In the standard library" },
+            { num: "247+",  label: "Configured signal inputs", sub: "Pilot target — across all categories" },
+            { num: "<90s",  label: "Target response time",     sub: "Operating benchmark — signal to routed action" },
+            { num: "100%",  label: "Outcome records",          sub: "Pilot target — every moment logged" },
           ].map(stat => (
             <div key={stat.num} style={{
               padding: "28px 24px",
@@ -148,6 +153,8 @@ export default function PartnerMomentsEconomy() {
             </div>
           ))}
         </div>
+
+        <PartnerCTAFooter />
       </div>
     </PartnerRoomLayout>
   );
