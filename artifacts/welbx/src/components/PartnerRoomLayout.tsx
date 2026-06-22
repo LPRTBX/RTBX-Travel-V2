@@ -1,4 +1,5 @@
 import { Link, useLocation } from "wouter";
+import { usePartnerContent } from "@/context/PartnerContentContext";
 
 const NAV_LINKS = [
   { label: "Overview",         path: "/partner-room/overview" },
@@ -17,9 +18,10 @@ interface PartnerRoomLayoutProps {
 
 export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
   const [location] = useLocation();
+  const { content } = usePartnerContent();
 
   return (
-    <div style={{ minHeight: "100dvh", background: "#080c14", color: "#fff" }}>
+    <div style={{ minHeight: "100dvh", background: "#080c14", color: "#fff", display: "flex", flexDirection: "column" }}>
       {/* Top Nav */}
       <nav style={{
         position: "sticky",
@@ -75,9 +77,26 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
       </nav>
 
       {/* Page content */}
-      <div>
+      <div style={{ flex: 1 }}>
         {children}
       </div>
+
+      {/* Discreet footer */}
+      <footer style={{
+        borderTop: "1px solid rgba(255,255,255,0.05)",
+        padding: "14px 32px",
+        display: "flex",
+        alignItems: "center",
+        gap: 24,
+      }}>
+        <span style={{ fontSize: 9, letterSpacing: "0.12em", color: "rgba(255,255,255,0.18)", textTransform: "uppercase", fontWeight: 600 }}>
+          Content version: {content?.contentVersion ?? "—"}
+        </span>
+        <span style={{ fontSize: 9, color: "rgba(255,255,255,0.1)" }}>·</span>
+        <span style={{ fontSize: 9, letterSpacing: "0.12em", color: "rgba(255,255,255,0.18)", textTransform: "uppercase", fontWeight: 600 }}>
+          Last updated: {content?.lastUpdated ?? "—"}
+        </span>
+      </footer>
     </div>
   );
 }

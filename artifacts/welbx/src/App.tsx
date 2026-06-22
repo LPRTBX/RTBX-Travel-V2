@@ -2,6 +2,7 @@ import { Switch, Route, Router as WouterRouter, Redirect } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { PartnerContentProvider } from "@/context/PartnerContentContext";
 
 import PartnerRoomLanding from "@/pages/partner-room/PartnerRoomLanding";
 import PartnerOverview from "@/pages/partner-room/PartnerOverview";
@@ -50,12 +51,14 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-          <div className="min-h-[100dvh] bg-background">
-            <Router />
-          </div>
-        </WouterRouter>
-        <Toaster />
+        <PartnerContentProvider>
+          <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+            <div className="min-h-[100dvh] bg-background">
+              <Router />
+            </div>
+          </WouterRouter>
+          <Toaster />
+        </PartnerContentProvider>
       </TooltipProvider>
     </QueryClientProvider>
   );

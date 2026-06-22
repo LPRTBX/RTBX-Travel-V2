@@ -1,5 +1,6 @@
 import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
+import { usePartnerContent } from "@/context/PartnerContentContext";
 
 const DEMO_CARDS = [
   {
@@ -71,6 +72,10 @@ const DEMO_CARDS = [
 ];
 
 export default function PartnerDemoPaths() {
+  const { content } = usePartnerContent();
+  const headline = content?.demoPaths?.headline ?? "Choose the Right Entry Point";
+  const subheadline = content?.demoPaths?.subheadline ?? "Six paths through the WELBX platform — each calibrated to a different audience and intent. Start with the one that fits your current context, then navigate freely.";
+
   return (
     <PartnerRoomLayout>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "72px 32px 120px" }}>
@@ -81,10 +86,10 @@ export default function PartnerDemoPaths() {
             Demo Paths
           </div>
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 24, maxWidth: 680 }}>
-            Choose the Right Entry Point
+            {headline}
           </h1>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 640 }}>
-            Six paths through the WELBX platform — each calibrated to a different audience and intent. Start with the one that fits your current context, then navigate freely.
+            {subheadline}
           </p>
         </div>
 

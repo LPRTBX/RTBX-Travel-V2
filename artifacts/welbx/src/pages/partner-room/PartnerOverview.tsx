@@ -1,6 +1,7 @@
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
+import { usePartnerContent } from "@/context/PartnerContentContext";
 
-const SECTIONS = [
+const DEFAULT_SECTIONS = [
   {
     num: "01",
     heading: "What WELBX Is",
@@ -41,6 +42,10 @@ When you are ready, the next step is a direct briefing.`,
 ];
 
 export default function PartnerOverview() {
+  const { content } = usePartnerContent();
+  const sections = content?.overview?.sections ?? DEFAULT_SECTIONS;
+  const headline = content?.overview?.headline ?? "WELBX — Five Things Worth Knowing";
+
   return (
     <PartnerRoomLayout>
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "72px 32px 120px" }}>
@@ -50,12 +55,12 @@ export default function PartnerOverview() {
             Platform Overview
           </div>
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 0 }}>
-            WELBX — Five Things Worth Knowing
+            {headline}
           </h1>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
-          {SECTIONS.map((section, i) => (
+          {sections.map((section) => (
             <div key={section.num} style={{
               padding: "48px 0",
               borderTop: "1px solid rgba(255,255,255,0.06)",

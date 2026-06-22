@@ -1,7 +1,8 @@
 import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
+import { usePartnerContent } from "@/context/PartnerContentContext";
 
-const FLOW_STEPS = [
+const DEFAULT_FLOW_STEPS = [
   { label: "Signals",   desc: "247 live data streams from every operational layer" },
   { label: "Moments",   desc: "Pattern recognition surfaces what needs to happen now" },
   { label: "Decisions", desc: "Governed response logic selects the right action" },
@@ -10,7 +11,7 @@ const FLOW_STEPS = [
   { label: "Value",     desc: "Learning compounds — the system improves on every cycle" },
 ];
 
-const PARTNER_PATHS = [
+const DEFAULT_PARTNER_PATHS = [
   {
     title: "Hotel & Operator",
     sub: "FOR OPERATORS",
@@ -38,6 +39,14 @@ const PARTNER_PATHS = [
 ];
 
 export default function PartnerRoomLanding() {
+  const { content } = usePartnerContent();
+  const landing = content?.landing;
+
+  const flowSteps = landing?.flowSteps ?? DEFAULT_FLOW_STEPS;
+  const partnerPaths = landing?.partnerPaths ?? DEFAULT_PARTNER_PATHS;
+  const headline = landing?.headline ?? "The Operating Layer Hotels Have Been Missing";
+  const subheadline = landing?.subheadline ?? "WELBX is a real-time operating intelligence platform that converts raw operational signals into governed actions — protecting value at every guest moment, across every shift, at every property.";
+
   return (
     <PartnerRoomLayout>
     <div style={{ maxWidth: 1200, margin: "0 auto", padding: "80px 32px 120px" }}>
@@ -45,14 +54,20 @@ export default function PartnerRoomLanding() {
       {/* Header block */}
       <div style={{ marginBottom: 80 }}>
         <div style={{ fontSize: 9, letterSpacing: "0.22em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 20 }}>
-          WELBX Partner Room · Private Strategic Briefing
+          {landing?.tagline ?? "WELBX Partner Room · Private Strategic Briefing"}
         </div>
         <h1 style={{ fontSize: 52, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.08, marginBottom: 24, maxWidth: 760 }}>
-          The Operating Layer<br />
-          <span style={{ color: "#c9a84c" }}>Hotels Have Been Missing</span>
+          {headline.includes("\n") ? headline.split("\n").map((line, i) => (
+            <span key={i}>{i > 0 && <br />}{i === 1 ? <span style={{ color: "#c9a84c" }}>{line}</span> : line}</span>
+          )) : (
+            <>
+              {headline.split(" ").slice(0, Math.ceil(headline.split(" ").length / 2)).join(" ")}<br />
+              <span style={{ color: "#c9a84c" }}>{headline.split(" ").slice(Math.ceil(headline.split(" ").length / 2)).join(" ")}</span>
+            </>
+          )}
         </h1>
         <p style={{ fontSize: 16, color: "rgba(255,255,255,0.5)", lineHeight: 1.7, maxWidth: 580, marginBottom: 48 }}>
-          WELBX is a real-time operating intelligence platform that converts raw operational signals into governed actions — protecting value at every guest moment, across every shift, at every property.
+          {subheadline}
         </p>
 
         {/* CTA buttons */}
@@ -98,7 +113,7 @@ export default function PartnerRoomLanding() {
           The WELBX Operating Chain
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 2 }}>
-          {FLOW_STEPS.map((step, i) => (
+          {flowSteps.map((step, i) => (
             <div key={step.label} style={{
               padding: "24px 18px",
               background: "rgba(255,255,255,0.025)",
@@ -115,7 +130,7 @@ export default function PartnerRoomLanding() {
               <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.38)", lineHeight: 1.55 }}>
                 {step.desc}
               </div>
-              {i < 5 && (
+              {i < flowSteps.length - 1 && (
                 <div style={{ position: "absolute", right: -9, top: "50%", transform: "translateY(-50%)", width: 16, height: 1, background: "rgba(201,168,76,0.3)", zIndex: 1 }} />
               )}
             </div>
@@ -129,7 +144,7 @@ export default function PartnerRoomLanding() {
           Partnership Paths
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
-          {PARTNER_PATHS.map(card => (
+          {partnerPaths.map(card => (
             <div key={card.title} style={{
               padding: "36px 28px",
               background: "rgba(255,255,255,0.02)",

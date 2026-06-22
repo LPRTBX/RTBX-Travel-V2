@@ -1,6 +1,7 @@
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
+import { usePartnerContent } from "@/context/PartnerContentContext";
 
-const PILOT_PHASES = [
+const DEFAULT_PILOT_PHASES = [
   {
     num: "01",
     title: "Partner Alignment",
@@ -59,7 +60,7 @@ const PILOT_PHASES = [
   },
 ];
 
-const SUCCESS_CRITERIA = [
+const DEFAULT_SUCCESS_CRITERIA = [
   "Moment detection rate exceeds 90% across all configured moment categories",
   "Median response time from signal to routed action is below 90 seconds",
   "VIP arrival protocol executed without incident for 100% of flagged arrivals during the pilot period",
@@ -70,6 +71,14 @@ const SUCCESS_CRITERIA = [
 ];
 
 export default function PartnerPilotModel() {
+  const { content } = usePartnerContent();
+  const pilotModel = content?.pilotModel;
+
+  const phases = pilotModel?.phases ?? DEFAULT_PILOT_PHASES;
+  const successCriteria = pilotModel?.successCriteria ?? DEFAULT_SUCCESS_CRITERIA;
+  const headline = pilotModel?.headline ?? "Eight Weeks to a Proven\nOperating Layer";
+  const subheadline = pilotModel?.subheadline ?? "The WELBX pilot is structured as a compressed, high-evidence engagement. It is designed to prove the value of the operating layer in a live property environment — with measurable outcomes at every stage and a clear performance record at the end.";
+
   return (
     <PartnerRoomLayout>
       <div style={{ maxWidth: 1000, margin: "0 auto", padding: "72px 32px 120px" }}>
@@ -80,10 +89,12 @@ export default function PartnerPilotModel() {
             Pilot Model
           </div>
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 24, maxWidth: 680 }}>
-            Eight Weeks to a Proven<br />Operating Layer
+            {headline.split("\n").map((line, i) => (
+              <span key={i}>{i > 0 && <br />}{line}</span>
+            ))}
           </h1>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 660 }}>
-            The WELBX pilot is structured as a compressed, high-evidence engagement. It is designed to prove the value of the operating layer in a live property environment — with measurable outcomes at every stage and a clear performance record at the end.
+            {subheadline}
           </p>
         </div>
 
@@ -93,7 +104,7 @@ export default function PartnerPilotModel() {
             Pilot Phases
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2 }}>
-            {PILOT_PHASES.map(phase => (
+            {phases.map(phase => (
               <div key={phase.num} style={{
                 padding: "28px 28px",
                 background: "rgba(255,255,255,0.02)",
@@ -122,13 +133,13 @@ export default function PartnerPilotModel() {
             Success Criteria
           </div>
           <div style={{ border: "1px solid rgba(255,255,255,0.07)", overflow: "hidden" }}>
-            {SUCCESS_CRITERIA.map((criterion, i) => (
+            {successCriteria.map((criterion, i) => (
               <div key={i} style={{
                 display: "flex",
                 alignItems: "flex-start",
                 gap: 20,
                 padding: "18px 28px",
-                borderBottom: i < SUCCESS_CRITERIA.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none",
+                borderBottom: i < successCriteria.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none",
                 background: i % 2 === 0 ? "transparent" : "rgba(255,255,255,0.01)",
               }}>
                 <div style={{ width: 20, height: 20, border: "1px solid rgba(201,168,76,0.4)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>

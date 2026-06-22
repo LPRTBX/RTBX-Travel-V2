@@ -1,6 +1,7 @@
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
+import { usePartnerContent } from "@/context/PartnerContentContext";
 
-const VALUE_PATHWAYS = [
+const DEFAULT_VALUE_PATHWAYS = [
   {
     title: "Operator Deployment",
     sub: "DEPLOYMENT PATHWAY",
@@ -46,6 +47,13 @@ const VALUE_PATHWAYS = [
 ];
 
 export default function PartnerCommercialModel() {
+  const { content } = usePartnerContent();
+  const commercialModel = content?.commercialModel;
+
+  const valuePathways = commercialModel?.valuePathways ?? DEFAULT_VALUE_PATHWAYS;
+  const headline = commercialModel?.headline ?? "Value Created at the Point\nof Execution";
+  const subheadline = commercialModel?.subheadline ?? "WELBX partnership is structured around the point where value is actually created — the moment of execution. Every pathway below is built on that principle. Commercial success follows operational proof.";
+
   return (
     <PartnerRoomLayout>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "72px 32px 120px" }}>
@@ -56,38 +64,38 @@ export default function PartnerCommercialModel() {
             Commercial Model
           </div>
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 24, maxWidth: 720 }}>
-            Value Created at the Point<br />of Execution
+            {headline.split("\n").map((line, i) => (
+              <span key={i}>{i > 0 && <br />}{line}</span>
+            ))}
           </h1>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 680 }}>
-            WELBX creates value at the intersection of guest experience and operational performance — the moment of execution. Commercial partnerships are structured around that value: not in the pipeline, but in the proof. Each pathway below reflects a different way of participating in the operating layer and capturing its returns.
+            {subheadline}
           </p>
         </div>
 
-        {/* Value pathway cards */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-          {VALUE_PATHWAYS.map(pathway => (
+        {/* Value pathway grid */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2, marginBottom: 80 }}>
+          {valuePathways.map(pathway => (
             <div key={pathway.title} style={{
               padding: "36px 32px",
               background: "rgba(255,255,255,0.02)",
-              border: "1px solid rgba(255,255,255,0.07)",
+              border: "1px solid rgba(255,255,255,0.06)",
               borderTop: `2px solid ${pathway.color}`,
-              display: "flex",
-              flexDirection: "column",
             }}>
-              <div style={{ fontSize: 7.5, letterSpacing: "0.2em", color: pathway.color, textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>
+              <div style={{ fontSize: 7.5, letterSpacing: "0.2em", color: pathway.color, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>
                 {pathway.sub}
               </div>
               <div style={{ fontSize: 18, fontWeight: 700, color: "#fff", marginBottom: 16, letterSpacing: "-0.01em" }}>
                 {pathway.title}
               </div>
-              <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.45)", lineHeight: 1.75, marginBottom: 24, flex: 1 }}>
+              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.75, marginBottom: 24 }}>
                 {pathway.desc}
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 {pathway.points.map((point, i) => (
-                  <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
-                    <div style={{ width: 3, height: 3, borderRadius: "50%", background: pathway.color, flexShrink: 0, marginTop: 6 }} />
-                    <div style={{ fontSize: 11.5, color: "rgba(255,255,255,0.38)", lineHeight: 1.55 }}>{point}</div>
+                  <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
+                    <div style={{ width: 4, height: 4, borderRadius: "50%", background: pathway.color, flexShrink: 0, marginTop: 5, opacity: 0.7 }} />
+                    <span style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", lineHeight: 1.6 }}>{point}</span>
                   </div>
                 ))}
               </div>
@@ -95,10 +103,17 @@ export default function PartnerCommercialModel() {
           ))}
         </div>
 
-        {/* Note */}
-        <div style={{ marginTop: 56, padding: "28px 32px", background: "rgba(255,255,255,0.015)", border: "1px solid rgba(255,255,255,0.06)" }}>
-          <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.75, margin: 0 }}>
-            Commercial model details — including pricing structure, revenue share terms, and exclusivity provisions — are covered in a direct briefing. The Partner Room is a pre-qualification environment. If one of the pathways above matches your organisation's context, the next step is a conversation.
+        {/* Closing note */}
+        <div style={{
+          padding: "32px 36px",
+          background: "rgba(201,168,76,0.04)",
+          border: "1px solid rgba(201,168,76,0.15)",
+        }}>
+          <div style={{ fontSize: 9, letterSpacing: "0.18em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>
+            First Step
+          </div>
+          <p style={{ fontSize: 14, color: "rgba(255,255,255,0.6)", lineHeight: 1.75, maxWidth: 720, margin: 0 }}>
+            All partnership discussions begin with a direct briefing. The Partner Room is the pre-briefing environment. When you are ready to move forward, the next step is a conversation with the WELBX team — focused on your specific context, your existing systems, and the pathway that makes most sense for your organisation.
           </p>
         </div>
       </div>

@@ -1,7 +1,8 @@
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
+import { usePartnerContent } from "@/context/PartnerContentContext";
 import { SIGNAL_CATEGORIES } from "@/data/signals";
 
-const LOGIC_CHAIN = [
+const DEFAULT_LOGIC_CHAIN = [
   { step: "01", label: "Event Ingestion",      desc: "Signal arrives via push from source system in real time" },
   { step: "02", label: "Normalisation",         desc: "Event mapped to WELBX signal schema, type and source tagged" },
   { step: "03", label: "Confidence Scoring",    desc: "Historical accuracy and source reliability applied to weighting" },
@@ -20,6 +21,11 @@ const CATEGORY_COLORS: Record<string, string> = {
 };
 
 export default function PartnerSignalsEngine() {
+  const { content } = usePartnerContent();
+  const logicChain = content?.signalsEngine?.logicChain ?? DEFAULT_LOGIC_CHAIN;
+  const headline = content?.signalsEngine?.headline ?? "247 Signal Types.\nOne Operating Picture.";
+  const subheadline = content?.signalsEngine?.subheadline ?? "The WELBX signal layer reads from every operational source a property already generates data from. Signals are normalised, weighted, and pattern-matched in real time — creating a live operating picture that the moment engine acts on continuously.";
+
   return (
     <PartnerRoomLayout>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "72px 32px 120px" }}>
@@ -30,10 +36,12 @@ export default function PartnerSignalsEngine() {
             Signals Engine
           </div>
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 24, maxWidth: 720 }}>
-            247 Signal Types.<br />One Operating Picture.
+            {headline.split("\n").map((line, i) => (
+              <span key={i}>{i > 0 && <br />}{line}</span>
+            ))}
           </h1>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 680 }}>
-            The WELBX signal layer reads from every operational source a property already generates data from. Signals are normalised, weighted, and pattern-matched in real time — creating a live operating picture that the moment engine acts on continuously.
+            {subheadline}
           </p>
         </div>
 
@@ -103,7 +111,7 @@ export default function PartnerSignalsEngine() {
             Signal-to-Moment Logic Chain
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
-            {LOGIC_CHAIN.map((item, i) => (
+            {logicChain.map((item, i) => (
               <div key={item.step} style={{
                 display: "grid",
                 gridTemplateColumns: "56px 1fr",

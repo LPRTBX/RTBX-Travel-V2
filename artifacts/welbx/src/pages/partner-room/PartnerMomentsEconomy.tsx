@@ -1,4 +1,5 @@
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
+import { usePartnerContent } from "@/context/PartnerContentContext";
 import { SEEDED_MOMENTS } from "@/data/moments";
 
 const PARTNER_OPPORTUNITY: Record<string, string> = {
@@ -62,6 +63,10 @@ const MOMENT_ROWS: MomentRow[] = [
 ];
 
 export default function PartnerMomentsEconomy() {
+  const { content } = usePartnerContent();
+  const headline = content?.momentsEconomy?.headline ?? "Every Moment Has a Value.\nMost Are Left Unmanaged.";
+  const subheadline = content?.momentsEconomy?.subheadline ?? "A hotel shift generates dozens of moments where the right action, taken at the right time, changes the outcome for the guest and for the property. WELBX detects, classifies, and routes each one — converting the moment economy from a theoretical concept into an operational reality.";
+
   return (
     <PartnerRoomLayout>
       <div style={{ maxWidth: 1360, margin: "0 auto", padding: "72px 32px 120px" }}>
@@ -72,10 +77,12 @@ export default function PartnerMomentsEconomy() {
             Moments Economy
           </div>
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 24, maxWidth: 720 }}>
-            Every Moment Has a Value.<br />Most Are Left Unmanaged.
+            {headline.split("\n").map((line, i) => (
+              <span key={i}>{i > 0 && <br />}{line}</span>
+            ))}
           </h1>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 680 }}>
-            A hotel shift generates dozens of moments where the right action, taken at the right time, changes the outcome for the guest and for the property. WELBX detects, classifies, and routes each one — converting the moment economy from a theoretical concept into an operational reality.
+            {subheadline}
           </p>
         </div>
 
@@ -98,28 +105,22 @@ export default function PartnerMomentsEconomy() {
               borderBottom: i < MOMENT_ROWS.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none",
               background: i % 2 === 0 ? "transparent" : "rgba(255,255,255,0.01)",
             }}>
-              {/* Moment */}
               <div style={{ padding: "18px 14px", borderRight: "1px solid rgba(255,255,255,0.04)" }}>
                 <div style={{ fontSize: 11.5, fontWeight: 700, color: "#fff", marginBottom: 3 }}>{row.title}</div>
                 <div style={{ fontSize: 8.5, color: "rgba(201,168,76,0.45)", letterSpacing: "0.08em" }}>MOMENT #{String(i + 1).padStart(2, "0")}</div>
               </div>
-              {/* Signals */}
               <div style={{ padding: "18px 14px", fontSize: 10.5, color: "rgba(255,255,255,0.38)", lineHeight: 1.55, borderRight: "1px solid rgba(255,255,255,0.04)" }}>
                 {row.signals.join(" · ")}
               </div>
-              {/* Risk */}
               <div style={{ padding: "18px 14px", fontSize: 10.5, color: "rgba(255,100,100,0.65)", lineHeight: 1.55, borderRight: "1px solid rgba(255,255,255,0.04)" }}>
                 {row.risk}
               </div>
-              {/* Action */}
               <div style={{ padding: "18px 14px", fontSize: 10.5, color: "rgba(255,255,255,0.48)", lineHeight: 1.55, borderRight: "1px solid rgba(255,255,255,0.04)" }}>
                 {row.action}
               </div>
-              {/* Value created/protected */}
               <div style={{ padding: "18px 14px", fontSize: 10.5, color: "rgba(16,185,129,0.75)", lineHeight: 1.55, borderRight: "1px solid rgba(255,255,255,0.04)" }}>
                 {row.value}
               </div>
-              {/* Partner opportunity */}
               <div style={{ padding: "18px 14px", fontSize: 10.5, color: "rgba(201,168,76,0.65)", lineHeight: 1.55 }}>
                 {row.partner}
               </div>
