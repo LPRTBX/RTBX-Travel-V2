@@ -1,0 +1,90 @@
+This is the standalone WELBX Partner Room app.
+
+The main WELBX Travel Operating Layer app now has an approved partner-facing content file available at:
+
+https://travel-operating-layer.replit.app/partner-content.json
+
+I have added this environment variable in this Partner Room app:
+
+VITE_PARTNER_CONTENT_URL=https://travel-operating-layer.replit.app/partner-content.json
+
+Now connect this Partner Room app to that shared content source.
+
+Create or update:
+
+src/lib/partnerContent.ts
+
+The helper should:
+
+1. Fetch partner-facing content from import.meta.env.VITE_PARTNER_CONTENT_URL.
+2. If VITE_PARTNER_CONTENT_URL is not set, fall back to /partner-content.json.
+3. If the fetch fails, fall back to the existing hardcoded Partner Room content.
+4. Never fetch internal platform data.
+5. Only expose partner-facing content from the approved JSON source.
+
+Update the Partner Room pages so they can use the shared content where appropriate:
+
+* Partner Room landing page
+* Partner Overview
+* Partner Paths
+* Moments Economy
+* Signals Engine
+* Pilot Model
+* Commercial Model
+
+Keep the existing Partner Room design and layout.
+
+Do not break:
+
+* Guest Demo
+* Operator Demo
+* Dual View Demo
+* Live Demos
+* Partner Room navigation
+
+Important:
+This Partner Room app must remain standalone and safe for external partners.
+
+Only allow these routes:
+
+/partner-room
+/partner-room/overview
+/partner-room/operator-brief
+/partner-room/integration-brief
+/partner-room/moments-economy
+/partner-room/signals-engine
+/partner-room/pilot-model
+/partner-room/commercial-model
+/partner-room/demo-paths
+/partner-room/live-demos
+/partner-room/guest-demo
+/partner-room/operator-demo
+/partner-room/dual-view-demo
+
+Redirect all other routes back to:
+
+/partner-room
+
+Do not expose:
+
+* command centre
+* signal registry
+* moment registry
+* executive dashboard
+* value proof
+* shadow pilot
+* scenario replay lab
+* validation dashboard
+* story routes
+* presentation mode
+* internal platform navigation
+* full platform sidebar
+* global search
+
+Also add a small discreet footer to the Partner Room pages:
+
+Content version: [contentVersion]
+Last updated: [lastUpdated]
+
+Final result:
+The Partner Room app should remain separate from the full WELBX platform, but it should pull approved partner-facing content from the main app’s partner-content.json file.
