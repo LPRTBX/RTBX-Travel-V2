@@ -1,0 +1,66 @@
+You are working on the separated Travel / Hospitality Partner Room app.
+
+Clean up the brand hierarchy so this app becomes:
+
+RTBX Travel Partner Room
+
+Do not blindly replace every WELBX reference with RTBX.
+
+Use this architecture:
+
+RTBX Group = parent ecosystem
+RTBX Core = infrastructure / signal-to-action engine
+RTBX Travel = travel and hospitality vertical
+WELBX = guest-facing human experience layer inside RTBX Travel
+
+Required changes:
+
+1. Rename the overall external-facing app/site to:
+RTBX Travel Partner Room
+
+2. Rename broad vertical references from “WELBX Travel” or “WELBX Hospitality” to:
+RTBX Travel
+
+3. Rename infrastructure/platform/operator/dashboard references from WELBX to:
+RTBX Core
+or
+RTBX Travel Operator View
+
+4. Keep WELBX only where it clearly refers to the guest-facing human experience layer, including:
+- guest check-ins
+- guest support
+- in-stay nudges
+- wellbeing prompts
+- concierge-style support
+- human experience layer
+
+5. Add this line near the top:
+RTBX Travel is powered by RTBX Core. WELBX is the guest-facing experience layer.
+
+6. Add this line where the guest experience is explained:
+WELBX is the human layer guests interact with. RTBX Core is the infrastructure layer that classifies signals, guides action, escalates risk and creates the assurance trail.
+
+7. Update the main structure to:
+
+- Briefing Room
+- Travel Operating Environments
+- RTBX Core Demo Room
+- WELBX Guest Experience Layer
+- Commercial Model
+- Brief Library
+- Next Step
+
+8. Add Travel Operating Environment cards for:
+- Hotels & Resorts
+- Holiday Parks & Outdoor Experiences
+- Corporate Travel
+- Events & Venues
+- Destination & Tourism Operators
+
+9. Do not remove existing routes or working demo content.
+10. Keep the visual style premium and connected to RTBX Group.
+11. Use RTBX black, charcoal, gold and white as the main system colours.
+12. Use WELBX blue only when referencing the guest-facing WELBX experience layer.
+
+Final outcome:
+The app should no longer feel like WELBX is the parent brand. It should feel like RTBX Travel is the vertical partner room, powered by RTBX Core, with WELBX sitting inside it as the guest-facing experience layer.
