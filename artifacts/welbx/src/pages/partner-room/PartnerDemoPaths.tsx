@@ -69,6 +69,17 @@ const DEMO_CARDS = [
     color: "#10b981",
     cta: "View Pilot Model",
   },
+  {
+    title: "Holiday Parks Demo",
+    sub: "LIVE SCENARIO",
+    desc: "An interactive operating flow: a family arrives after a long drive, the cabin isn't ready, children are unsettled. Follow the full Signal → Classify → Decide → Execute → Assure cycle in real time.",
+    duration: "5 minutes",
+    audience: "Operators, park managers, commercial partners",
+    link: "/partner-room/holiday-park-demo",
+    external: false,
+    color: "#10b981",
+    cta: "Run Scenario",
+  },
 ];
 
 export default function PartnerDemoPaths() {

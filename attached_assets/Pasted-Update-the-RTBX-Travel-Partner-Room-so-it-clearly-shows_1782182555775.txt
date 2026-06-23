@@ -1,0 +1,69 @@
+Update the RTBX Travel Partner Room so it clearly shows Travel as a parent vertical with multiple sub-vertical deployment environments.
+
+Add a new section near the top called:
+
+Travel Deployment Environments
+
+Intro copy:
+RTBX Travel applies the same signal-to-action infrastructure across different guest and operator environments. The setting changes, but the execution logic remains the same.
+
+Create five deployment cards:
+
+1. Hotels & Resorts
+Focus:
+Guest recovery, staff nudges, in-stay support, service moments, loyalty and concierge.
+
+2. Holiday Parks & Outdoor Experiences
+Focus:
+Family stays, caravan parks, camping, cabins, maintenance, weather disruption, guest welfare, local experiences and service recovery.
+
+3. Corporate & Business Travel
+Focus:
+Business travellers, repeat stays, conference guests, loyalty pathways, duty-of-care and productivity support.
+
+4. Events & Venues
+Focus:
+Crowd flow, incident response, accessibility, welfare, service recovery and operational coordination.
+
+5. Destination & Tourism Operators
+Focus:
+Visitor pathways, local recommendations, partner marketplace, itinerary nudges and destination-level intelligence.
+
+For each card, show:
+- Signal examples
+- RTBX action pathway
+- Operator value
+- Guest value
+- Partner opportunity
+
+Add a dedicated demo scenario for Holiday Parks & Outdoor Experiences.
+
+Scenario:
+A family arrives at a holiday park after a long drive. Weather has changed, the cabin is not ready, children are unsettled, and the guest is at risk of frustration before the stay has properly begun.
+
+Demo flow:
+Signal → Classify → Decide → Execute → Assure
+
+Signal:
+Late arrival, weather disruption, cabin readiness delay, family profile, low patience moment.
+
+Classify:
+High-risk welcome moment. Service recovery opportunity. Family support pathway.
+
+Decide:
+Trigger proactive arrival support, notify front desk, offer activity alternative, provide food/beverage or local partner option, escalate if cabin delay exceeds threshold.
+
+Execute:
+Guest receives simple message with support options. Staff receive recommended response. Operator dashboard logs the moment.
+
+Assure:
+Action completed, recovery offer logged, guest sentiment checked, delay reason recorded, value protected.
+
+Proof of value:
+- Escalation prevented
+- Review risk reduced
+- Staff response made consistent
+- Guest experience recovered
+- Partner/local experience opportunity created
+
+Make this scenario feel like a live operating flow, not a static case study.

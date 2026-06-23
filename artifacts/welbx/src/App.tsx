@@ -18,6 +18,7 @@ import PartnerLiveDemos from "@/pages/partner-room/PartnerLiveDemos";
 import PartnerGuestDemo from "@/pages/partner-room/PartnerGuestDemo";
 import PartnerOperatorDemo from "@/pages/partner-room/PartnerOperatorDemo";
 import PartnerDualViewDemo from "@/pages/partner-room/PartnerDualViewDemo";
+import PartnerHolidayParkDemo from "@/pages/partner-room/PartnerHolidayParkDemo";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ const PARTNER_ROUTES = [
   { path: "/partner-room/guest-demo", component: PartnerGuestDemo },
   { path: "/partner-room/operator-demo", component: PartnerOperatorDemo },
   { path: "/partner-room/dual-view-demo", component: PartnerDualViewDemo },
+  { path: "/partner-room/holiday-park-demo", component: PartnerHolidayParkDemo },
 ];
 
 function Router() {

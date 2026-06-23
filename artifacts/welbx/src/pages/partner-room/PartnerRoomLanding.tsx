@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 import { usePartnerContent } from "@/context/PartnerContentContext";
@@ -74,6 +75,69 @@ const PARTNER_ASKS = [
   },
 ];
 
+const DEPLOYMENT_ENVS = [
+  {
+    id: "hotels",
+    title: "Hotels & Resorts",
+    color: "#c9a84c",
+    focus: "Guest recovery, staff nudges, in-stay support, service moments, loyalty and concierge.",
+    signals: ["Room readiness delay", "Service request spike", "Guest sentiment drop", "Loyalty profile trigger", "Staff response gap"],
+    pathway: "Signal → Classify → Route to right team → Action delivered → Outcome logged",
+    operatorValue: "Consistent service recovery without manual oversight. Every missed moment is caught.",
+    guestValue: "Support arrives before the complaint forms. The stay recovers invisibly.",
+    partnerOpportunity: "Loyalty activation, F&B moments, in-room upgrade offers, concierge experiences.",
+    demoLink: null,
+  },
+  {
+    id: "holiday-parks",
+    title: "Holiday Parks & Outdoor Experiences",
+    color: "#10b981",
+    focus: "Family stays, caravan parks, camping, cabins, maintenance, weather disruption, guest welfare, local experiences and service recovery.",
+    signals: ["Late arrival + weather change", "Cabin readiness delay", "Family profile + child welfare signal", "Maintenance alert", "Guest frustration threshold"],
+    pathway: "Signal → Classify → Proactive support → Staff brief → Partner offer → Assurance",
+    operatorValue: "Escalation prevented before the first complaint. Staff get the right instruction at the right moment.",
+    guestValue: "Acknowledged on arrival, supported through disruption, offered alternatives that actually help.",
+    partnerOpportunity: "Local experiences, weather-responsive activities, food & beverage, family-specific offers.",
+    demoLink: "/partner-room/holiday-park-demo",
+  },
+  {
+    id: "corporate",
+    title: "Corporate & Business Travel",
+    color: "#3b82f6",
+    focus: "Business travellers, repeat stays, conference guests, loyalty pathways, duty-of-care and productivity support.",
+    signals: ["Late checkout pattern", "Conference schedule conflict", "Loyalty tier trigger", "Repeat guest signal", "Duty-of-care flag"],
+    pathway: "Signal → Classify → Silent intervention → Loyalty action → Value logged",
+    operatorValue: "Repeat guests recognised and served without asking. Revenue per stay increases.",
+    guestValue: "The stay adapts to their schedule. Friction disappears before it appears.",
+    partnerOpportunity: "Corporate loyalty programmes, productivity tools, transport, premium service tiers.",
+    demoLink: null,
+  },
+  {
+    id: "events",
+    title: "Events & Venues",
+    color: "#a78bfa",
+    focus: "Crowd flow, incident response, accessibility, welfare, service recovery and operational coordination.",
+    signals: ["Crowd density alert", "Accessibility need flagged", "Incident proximity signal", "Service queue spike", "Welfare check trigger"],
+    pathway: "Signal → Classify → Coordinate response → Dispatch → Confirm resolution",
+    operatorValue: "Incidents caught early. Staff coordinated in real time. Liability reduced.",
+    guestValue: "Support is visible when it matters. Issues resolved before they escalate.",
+    partnerOpportunity: "Accessibility services, crowd management, F&B surge response, safety partners.",
+    demoLink: null,
+  },
+  {
+    id: "destination",
+    title: "Destination & Tourism Operators",
+    color: "#22d3ee",
+    focus: "Visitor pathways, local recommendations, partner marketplace, itinerary nudges and destination-level intelligence.",
+    signals: ["Visitor arrival pattern", "Itinerary gap detected", "Local partner availability", "Weather or transport change", "Return visitor signal"],
+    pathway: "Signal → Classify → Personalised nudge → Partner activation → Value captured",
+    operatorValue: "Visitor spend distributed across the destination. Partner ecosystem activated.",
+    guestValue: "The right experience surfaces at the right moment. The destination feels effortless.",
+    partnerOpportunity: "Entire local partner marketplace — experiences, transport, food, accommodation.",
+    demoLink: null,
+  },
+];
+
 const THIS_IS_NOT = [
   "A guest app",
   "A reporting dashboard",
@@ -89,6 +153,7 @@ const THIS_IS = [
 ];
 
 export default function PartnerRoomLanding() {
+  const [activeEnv, setActiveEnv] = useState(0);
   const { content } = usePartnerContent();
   const landing = content?.landing;
 
@@ -226,6 +291,144 @@ export default function PartnerRoomLanding() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Travel Deployment Environments */}
+      <div style={{ marginBottom: 96 }}>
+        <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
+          Travel Deployment Environments
+        </div>
+        <div style={{ fontSize: 22, fontWeight: 700, color: "#fff", letterSpacing: "-0.01em", marginBottom: 12, maxWidth: 680 }}>
+          Travel as a vertical. Multiple deployment environments.
+        </div>
+        <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.75, maxWidth: 620, marginBottom: 36 }}>
+          WELBX Travel applies the same signal-to-action infrastructure across different guest and operator environments. The setting changes, but the execution logic remains the same.
+        </p>
+
+        {/* Environment tab strip */}
+        <div style={{ display: "flex", gap: 2, marginBottom: 2 }}>
+          {DEPLOYMENT_ENVS.map((env, i) => (
+            <button
+              key={env.id}
+              onClick={() => setActiveEnv(i)}
+              style={{
+                flex: 1,
+                padding: "14px 10px",
+                background: i === activeEnv ? `${env.color}10` : "rgba(255,255,255,0.02)",
+                border: `1px solid ${i === activeEnv ? env.color + "40" : "rgba(255,255,255,0.06)"}`,
+                borderBottom: i === activeEnv ? `2px solid ${env.color}` : "1px solid rgba(255,255,255,0.06)",
+                cursor: "pointer",
+                textAlign: "center",
+                transition: "all 0.15s",
+              }}
+              onMouseEnter={e => { if (i !== activeEnv) { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(255,255,255,0.04)"; el.style.borderColor = "rgba(255,255,255,0.12)"; }}}
+              onMouseLeave={e => { if (i !== activeEnv) { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(255,255,255,0.02)"; el.style.borderColor = "rgba(255,255,255,0.06)"; }}}
+            >
+              <div style={{
+                fontSize: 9,
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                fontWeight: 700,
+                color: i === activeEnv ? DEPLOYMENT_ENVS[i].color : "rgba(255,255,255,0.35)",
+                lineHeight: 1.4,
+              }}>
+                {env.title}
+              </div>
+            </button>
+          ))}
+        </div>
+
+        {/* Active environment detail panel */}
+        {(() => {
+          const env = DEPLOYMENT_ENVS[activeEnv];
+          return (
+            <div style={{
+              padding: "36px 36px",
+              background: `${env.color}05`,
+              border: `1px solid ${env.color}20`,
+              borderTop: "none",
+            }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40, marginBottom: 32 }}>
+                <div>
+                  <div style={{ fontSize: 8, letterSpacing: "0.18em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
+                    Focus
+                  </div>
+                  <p style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", lineHeight: 1.7, marginBottom: 24 }}>
+                    {env.focus}
+                  </p>
+                  <div style={{ fontSize: 8, letterSpacing: "0.18em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
+                    Action Pathway
+                  </div>
+                  <div style={{ fontSize: 12, color: env.color, fontWeight: 600, letterSpacing: "0.03em" }}>
+                    {env.pathway}
+                  </div>
+                </div>
+                <div>
+                  <div style={{ fontSize: 8, letterSpacing: "0.18em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
+                    Signal Examples
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 7, marginBottom: 0 }}>
+                    {env.signals.map((sig, j) => (
+                      <div key={j} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                        <div style={{ width: 16, height: 1, background: `${env.color}50`, flexShrink: 0 }} />
+                        <span style={{ fontSize: 12, color: "rgba(255,255,255,0.5)" }}>{sig}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 2 }}>
+                {[
+                  { label: "Operator Value", value: env.operatorValue, color: "#c9a84c" },
+                  { label: "Guest Value", value: env.guestValue, color: "#10b981" },
+                  { label: "Partner Opportunity", value: env.partnerOpportunity, color: "#3b82f6" },
+                ].map(block => (
+                  <div key={block.label} style={{
+                    padding: "20px 20px",
+                    background: "rgba(255,255,255,0.02)",
+                    border: "1px solid rgba(255,255,255,0.06)",
+                    borderTop: `2px solid ${block.color}`,
+                  }}>
+                    <div style={{ fontSize: 8, letterSpacing: "0.16em", color: block.color, textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
+                      {block.label}
+                    </div>
+                    <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", lineHeight: 1.65 }}>
+                      {block.value}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {env.demoLink && (
+                <div style={{ marginTop: 24 }}>
+                  <Link href={env.demoLink}>
+                    <div style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 10,
+                      padding: "12px 24px",
+                      fontSize: 10,
+                      fontWeight: 700,
+                      letterSpacing: "0.12em",
+                      textTransform: "uppercase",
+                      cursor: "pointer",
+                      background: env.color,
+                      color: "#080c14",
+                      border: `1px solid ${env.color}`,
+                      transition: "all 0.15s",
+                    }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.opacity = "0.85"; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.opacity = "1"; }}
+                    >
+                      Run Live Scenario →
+                    </div>
+                  </Link>
+                </div>
+              )}
+            </div>
+          );
+        })()}
       </div>
 
       {/* Six-step flow visual */}
