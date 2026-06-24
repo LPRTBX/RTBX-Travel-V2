@@ -2,13 +2,13 @@ import { Link, useLocation } from "wouter";
 import { usePartnerContent } from "@/context/PartnerContentContext";
 
 const NAV_SECTIONS = [
-  { label: "Partner Room",   path: "/partner-room",                    anchor: false },
-  { label: "Deployments",    path: "/partner-room#environments",       anchor: true  },
-  { label: "Product Proof",  path: "/partner-room/demo-paths",         anchor: false },
-  { label: "Validation",     path: "/story",                           anchor: false },
-  { label: "Commercial",     path: "/partner-room/commercial-model",   anchor: false },
-  { label: "Brief Library",  path: "/partner-room/operator-brief",     anchor: false },
-  { label: "Next Step",      path: "mailto:lance@rtbx.com.au?subject=RTBX Travel Partner Briefing", ext: true },
+  { label: "Partner Room",   path: "/partner-room" },
+  { label: "Deployments",    path: "/partner-room/deployments" },
+  { label: "Product Proof",  path: "/partner-room/product-proof" },
+  { label: "Validation",     path: "/partner-room/validation" },
+  { label: "Commercial",     path: "/partner-room/commercial" },
+  { label: "Brief Library",  path: "/partner-room/brief-library" },
+  { label: "Next Step",      path: "/partner-room/next-step" },
 ];
 
 interface PartnerRoomLayoutProps {
@@ -57,7 +57,7 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
               <div style={{ width: 4, height: 4, borderRadius: "50%", background: "#c9a84c" }} />
               <span style={{ fontSize: 7.5, letterSpacing: "0.18em", color: "rgba(201,168,76,0.6)", textTransform: "uppercase", fontWeight: 700 }}>Private</span>
             </div>
-            <a href="mailto:lance@rtbx.com.au?subject=RTBX Travel Partner Briefing" style={{ textDecoration: "none" }}>
+            <Link href="/partner-room/next-step">
               <div style={{
                 padding: "6px 14px",
                 fontSize: 9,
@@ -74,7 +74,7 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
               >
                 Next Step →
               </div>
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -88,45 +88,35 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
           overflowX: "auto",
         }}>
           {NAV_SECTIONS.map((sec, i) => {
-            const isExt = !!(sec as any).ext;
-            const basePath = sec.path.split("#")[0];
-            const isAnchorOnly = !isExt && sec.path.includes("#") && basePath === "/partner-room";
-            const isActive = !isExt && !isAnchorOnly && (
-              location === basePath ||
-              (basePath !== "/partner-room" && basePath !== "/" && location.startsWith(basePath))
-            );
-            const itemStyle: React.CSSProperties = {
-              padding: "11px 16px",
-              fontSize: 9.5,
-              fontWeight: 700,
-              letterSpacing: "0.08em",
-              textTransform: "uppercase",
-              color: isExt ? "#c9a84c" : isActive ? "#fff" : "rgba(255,255,255,0.38)",
-              borderBottom: isActive ? "2px solid #c9a84c" : "2px solid transparent",
-              cursor: "pointer",
-              transition: "all 0.15s",
-              whiteSpace: "nowrap",
-              userSelect: "none",
-            };
-            const inner = (
-              <div style={itemStyle}
+            const isActive = location === sec.path ||
+              (sec.path !== "/partner-room" && location.startsWith(sec.path));
+            const isNextStep = sec.path === "/partner-room/next-step";
+            return (
+              <Link key={i} href={sec.path}>
+                <div style={{
+                  padding: "11px 16px",
+                  fontSize: 9.5,
+                  fontWeight: 700,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  color: isNextStep ? "#c9a84c" : isActive ? "#fff" : "rgba(255,255,255,0.38)",
+                  borderBottom: isActive ? "2px solid #c9a84c" : "2px solid transparent",
+                  cursor: "pointer",
+                  transition: "color 0.15s",
+                  whiteSpace: "nowrap",
+                  userSelect: "none",
+                }}
                 onMouseEnter={e => {
-                  const el = e.currentTarget as HTMLElement;
-                  if (isExt) { el.style.color = "#d4b35e"; }
-                  else if (!isActive) { el.style.color = "rgba(255,255,255,0.72)"; }
+                  if (!isActive) (e.currentTarget as HTMLElement).style.color = isNextStep ? "#d4b35e" : "rgba(255,255,255,0.72)";
                 }}
                 onMouseLeave={e => {
-                  const el = e.currentTarget as HTMLElement;
-                  if (isExt) { el.style.color = "#c9a84c"; }
-                  else if (!isActive) { el.style.color = "rgba(255,255,255,0.38)"; }
+                  if (!isActive) (e.currentTarget as HTMLElement).style.color = isNextStep ? "#c9a84c" : "rgba(255,255,255,0.38)";
                 }}
-              >
-                {sec.label}
-              </div>
+                >
+                  {sec.label}
+                </div>
+              </Link>
             );
-            return isExt
-              ? <a key={i} href={sec.path} style={{ textDecoration: "none" }}>{inner}</a>
-              : <Link key={i} href={sec.path}>{inner}</Link>;
           })}
         </div>
       </nav>

@@ -1,0 +1,177 @@
+You are working on the RTBX Travel Partner Room app.
+
+The visual structure is closer, but the navigation and routing are inconsistent. Fix the information architecture and link behaviour.
+
+Current problems:
+1. Deployment Environments links directly to the Holiday Parks demo.
+2. Validation links directly to Operator Story Lab.
+3. Deployments in the top bar does not reliably land anywhere useful.
+4. Demo Room has too many loose links.
+5. Dual View Demo is not clearly accessible from Demo Room.
+6. Operator Deep Dive is static but is being treated like an interactive demo.
+7. Signals Engine is informational, not interactive.
+8. Brief Library is too thin and does not behave like a proper library hub.
+9. Top navigation and the five proof-layer cards are not consistently mapped.
+
+Do not rebuild the whole app.
+Do not delete existing routes.
+Create clean hub pages or hub sections so top-level navigation always lands on a grouped room, not a random child asset.
+
+Top navigation should be:
+
+- Partner Room
+- Deployments
+- Product Proof
+- Validation
+- Commercial
+- Brief Library
+- Next Step
+
+Route map:
+
+Partner Room:
+Path: /partner-room
+
+Deployments:
+Path: /partner-room/deployments
+
+Product Proof:
+Path: /partner-room/product-proof
+
+Validation:
+Path: /partner-room/validation
+
+Commercial:
+Path: /partner-room/commercial
+
+Brief Library:
+Path: /partner-room/brief-library
+
+Next Step:
+Path: /partner-room/next-step
+
+If these routes do not exist yet, create lightweight hub pages for them.
+
+Important:
+Every top-level navigation item must go to a hub page.
+No top-level navigation item should jump directly to a specific demo, operator walkthrough, holiday parks scenario, or document.
+
+Five proof-layer cards on the Partner Room overview page should map like this:
+
+1. Partner Overview
+Primary button:
+Enter Partner Room
+Link:
+/partner-room
+
+2. Deployment Environments
+Primary button:
+View Deployments
+Link:
+/partner-room/deployments
+
+Do not link this button directly to Holiday Parks demo.
+
+3. Product Proof
+Primary button:
+View Product Proof
+Link:
+/partner-room/product-proof
+
+4. Validation & Operator Stories
+Primary button:
+Enter Validation
+Link:
+/partner-room/validation
+
+Do not link this button directly to Operator Story Lab.
+
+5. Commercial & Next Step
+Primary button:
+View Commercial Model
+Link:
+/partner-room/commercial
+
+Now organise child links like this:
+
+Deployments hub:
+- Hotels & Resorts
+- Holiday Parks & Outdoor Experiences
+- Corporate Travel
+- Events & Venues
+- Destination & Tourism Operators
+
+Holiday Parks demo should be a child action inside Deployments, not the main Deployments route.
+
+Product Proof hub:
+- Demo Room
+- Dual View Demo
+- Moment Economy
+- Decision & Action Layer
+- Intervention Library
+- Central Communications System
+- Registry & Assurance Layer
+- Signals Engine Brief
+
+Important:
+Dual View Demo must be clearly accessible from Product Proof and Demo Room.
+If Signals Engine is informational only, label it “Signals Engine Brief”, not “Signals Engine Demo”.
+
+Demo Room:
+Create a cleaner Demo Room sub-section with no more than four primary demo lanes:
+1. Dual View Demo
+2. Scenario Replay
+3. Guest / Operator Demo
+4. Core Systems Preview
+
+Move extra technical links below as secondary links.
+
+Validation hub:
+- Validation Lab
+- Scenario Replay Lab
+- Shadow Pilot Mode
+- Operator Story Lab
+- Executive Walkthrough
+- Operator Deep Dive Walkthrough
+
+Important:
+Operator Story Lab, Executive Walkthrough and Operator Deep Dive should be child links inside Validation, not top-level routes.
+If Operator Deep Dive is mostly static, label it “Operator Deep Dive Walkthrough”, not “Operator Demo”.
+
+Commercial hub:
+- Pilot Model
+- Commercial Model
+- Partner Pathways
+- Integration Model
+- Pilot Conversation
+- Request Briefing
+
+Brief Library hub:
+Create a proper library-style page with cards for:
+- Operator Brief
+- Integration Brief
+- Commercial Brief
+- Holiday Parks & Outdoor Experiences Brief
+- Pilot Metrics
+- Value Proof
+- Deployment Brief
+- Documents
+
+Next Step hub:
+- Request Briefing
+- Pilot Conversation
+- Partner Conversation
+- Integration Conversation
+- Funding Conversation
+
+Final QA requirements:
+1. Click every top-bar link and confirm it lands on the correct hub.
+2. Click every five proof-layer card button and confirm it lands on the matching hub.
+3. Confirm Deployments does not go straight to Holiday Parks.
+4. Confirm Validation does not go straight to Operator Story Lab.
+5. Confirm Dual View Demo is accessible from Product Proof / Demo Room.
+6. Confirm Brief Library feels like a real library, not three links on a page.
+7. Confirm no dead buttons remain.
+8. Confirm no route shows a blank page.
+9. Confirm labels match behaviour.
+10. Do not duplicate the same link in three places unless it is clearly a child action.

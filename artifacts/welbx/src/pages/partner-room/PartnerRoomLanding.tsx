@@ -82,7 +82,7 @@ const PROOF_LAYERS = [
       { label: "Who this room is for",          href: "/partner-room/overview" },
     ],
     cta: "Enter Partner Room",
-    ctaHref: "/partner-room/overview",
+    ctaHref: "/partner-room",
   },
   {
     num: "02",
@@ -91,14 +91,14 @@ const PROOF_LAYERS = [
     color: "#10b981",
     desc: "Five travel and hospitality environments — one RTBX Core operating system deployed across all of them.",
     links: [
-      { label: "Hotels & Resorts",                    href: "/partner-room#environments" },
-      { label: "Holiday Parks & Outdoor Experiences", href: "/partner-room/holiday-park-demo" },
-      { label: "Corporate Travel",                    href: "/partner-room#environments" },
-      { label: "Events & Venues",                     href: "/partner-room#environments" },
-      { label: "Destination & Tourism Operators",     href: "/partner-room#environments" },
+      { label: "Hotels & Resorts",                    href: "/partner-room/deployments" },
+      { label: "Holiday Parks & Outdoor Experiences", href: "/partner-room/deployments" },
+      { label: "Corporate Travel",                    href: "/partner-room/deployments" },
+      { label: "Events & Venues",                     href: "/partner-room/deployments" },
+      { label: "Destination & Tourism Operators",     href: "/partner-room/deployments" },
     ],
-    cta: "Run Holiday Parks Demo",
-    ctaHref: "/partner-room/holiday-park-demo",
+    cta: "View Deployments",
+    ctaHref: "/partner-room/deployments",
   },
   {
     num: "03",
@@ -107,15 +107,15 @@ const PROOF_LAYERS = [
     color: "#3b82f6",
     desc: "Live demos, moment economy, decision logic, intervention library and communications — the product operating in real time.",
     links: [
-      { label: "Demo Room",                     href: "/partner-room/demo-paths" },
-      { label: "Moment Economy",                href: "/partner-room/moments-economy" },
-      { label: "Decision & Action Layer",       href: "/partner-room/signals-engine" },
-      { label: "Intervention Library",          href: "/partner-room/signals-engine" },
-      { label: "Central Communications System", href: "/partner-room/signals-engine" },
-      { label: "Registry & Assurance Layer",    href: "/partner-room/signals-engine" },
+      { label: "Demo Room",                     href: "/partner-room/product-proof" },
+      { label: "Dual View Demo",                href: "/partner-room/product-proof" },
+      { label: "Moment Economy",                href: "/partner-room/product-proof" },
+      { label: "Decision & Action Layer",       href: "/partner-room/product-proof" },
+      { label: "Intervention Library",          href: "/partner-room/product-proof" },
+      { label: "Signals Engine Brief",          href: "/partner-room/product-proof" },
     ],
-    cta: "Open Demo Room",
-    ctaHref: "/partner-room/demo-paths",
+    cta: "View Product Proof",
+    ctaHref: "/partner-room/product-proof",
   },
   {
     num: "04",
@@ -124,15 +124,15 @@ const PROOF_LAYERS = [
     color: "#f97316",
     desc: "Scenario validation, shadow pilot mode, operator walkthroughs and the full guest story from signal to outcome.",
     links: [
-      { label: "Validation Lab",          href: "/story" },
-      { label: "Scenario Replay Lab",     href: "/story" },
-      { label: "Shadow Pilot Mode",       href: "/story" },
-      { label: "Operator Story Lab",      href: "/story" },
-      { label: "Executive Walkthrough",   href: "/story" },
-      { label: "Operator Deep Dive",      href: "/story/operator-deep-dive" },
+      { label: "Validation Lab",                    href: "/partner-room/validation" },
+      { label: "Scenario Replay Lab",               href: "/partner-room/validation" },
+      { label: "Shadow Pilot Mode",                 href: "/partner-room/validation" },
+      { label: "Operator Story Lab",                href: "/partner-room/validation" },
+      { label: "Executive Walkthrough",             href: "/partner-room/validation" },
+      { label: "Operator Deep Dive Walkthrough",    href: "/partner-room/validation" },
     ],
-    cta: "Enter Validation Lab",
-    ctaHref: "/story",
+    cta: "Enter Validation",
+    ctaHref: "/partner-room/validation",
   },
   {
     num: "05",
@@ -141,15 +141,15 @@ const PROOF_LAYERS = [
     color: "#a78bfa",
     desc: "Pilot model, commercial pathways, integration model — and direct briefing options to start a conversation.",
     links: [
-      { label: "Pilot Model",             href: "/partner-room/pilot-model" },
-      { label: "Commercial Model",        href: "/partner-room/commercial-model" },
-      { label: "Partner Pathways",        href: "/partner-room/commercial-model" },
-      { label: "Integration Model",       href: "/partner-room/integration-brief" },
-      { label: "Partner Briefing",        href: "mailto:lance@rtbx.com.au?subject=RTBX Travel Partner Briefing",   ext: true },
-      { label: "Pilot Conversation",      href: "mailto:lance@rtbx.com.au?subject=RTBX Travel Pilot Conversation", ext: true },
+      { label: "Pilot Model",             href: "/partner-room/commercial" },
+      { label: "Commercial Model",        href: "/partner-room/commercial" },
+      { label: "Partner Pathways",        href: "/partner-room/commercial" },
+      { label: "Integration Model",       href: "/partner-room/commercial" },
+      { label: "Pilot Conversation",      href: "/partner-room/next-step" },
+      { label: "Request Briefing",        href: "/partner-room/next-step" },
     ],
-    cta: "View Commercial Model",
-    ctaHref: "/partner-room/commercial-model",
+    cta: "View Commercial",
+    ctaHref: "/partner-room/commercial",
   },
 ];
 
@@ -257,7 +257,7 @@ export default function PartnerRoomLanding() {
               Explore the Room
             </div>
           </a>
-          <GhostBtn href="mailto:lance@rtbx.com.au?subject=RTBX Travel Partner Briefing" ext>Request Briefing</GhostBtn>
+          <GhostBtn href="/partner-room/next-step">Request Briefing</GhostBtn>
         </div>
       </div>
 

@@ -19,6 +19,12 @@ import PartnerGuestDemo from "@/pages/partner-room/PartnerGuestDemo";
 import PartnerOperatorDemo from "@/pages/partner-room/PartnerOperatorDemo";
 import PartnerDualViewDemo from "@/pages/partner-room/PartnerDualViewDemo";
 import PartnerHolidayParkDemo from "@/pages/partner-room/PartnerHolidayParkDemo";
+import PartnerDeployments from "@/pages/partner-room/PartnerDeployments";
+import PartnerProductProof from "@/pages/partner-room/PartnerProductProof";
+import PartnerValidation from "@/pages/partner-room/PartnerValidation";
+import PartnerCommercial from "@/pages/partner-room/PartnerCommercial";
+import PartnerBriefLibrary from "@/pages/partner-room/PartnerBriefLibrary";
+import PartnerNextStep from "@/pages/partner-room/PartnerNextStep";
 import StoryHub from "@/pages/StoryHub";
 import StoryOperator from "@/pages/StoryOperator";
 import StoryGuestStory from "@/pages/StoryGuestStory";
@@ -26,20 +32,26 @@ import StoryGuestStory from "@/pages/StoryGuestStory";
 const queryClient = new QueryClient();
 
 const PARTNER_ROUTES = [
-  { path: "/partner-room", component: PartnerRoomLanding },
-  { path: "/partner-room/overview", component: PartnerOverview },
-  { path: "/partner-room/operator-brief", component: PartnerOperatorBrief },
-  { path: "/partner-room/integration-brief", component: PartnerIntegrationBrief },
-  { path: "/partner-room/moments-economy", component: PartnerMomentsEconomy },
-  { path: "/partner-room/signals-engine", component: PartnerSignalsEngine },
-  { path: "/partner-room/pilot-model", component: PartnerPilotModel },
-  { path: "/partner-room/commercial-model", component: PartnerCommercialModel },
-  { path: "/partner-room/demo-paths", component: PartnerDemoPaths },
-  { path: "/partner-room/live-demos", component: PartnerLiveDemos },
-  { path: "/partner-room/guest-demo", component: PartnerGuestDemo },
-  { path: "/partner-room/operator-demo", component: PartnerOperatorDemo },
-  { path: "/partner-room/dual-view-demo", component: PartnerDualViewDemo },
-  { path: "/partner-room/holiday-park-demo", component: PartnerHolidayParkDemo },
+  { path: "/partner-room",                    component: PartnerRoomLanding },
+  { path: "/partner-room/overview",           component: PartnerOverview },
+  { path: "/partner-room/deployments",        component: PartnerDeployments },
+  { path: "/partner-room/product-proof",      component: PartnerProductProof },
+  { path: "/partner-room/validation",         component: PartnerValidation },
+  { path: "/partner-room/commercial",         component: PartnerCommercial },
+  { path: "/partner-room/brief-library",      component: PartnerBriefLibrary },
+  { path: "/partner-room/next-step",          component: PartnerNextStep },
+  { path: "/partner-room/operator-brief",     component: PartnerOperatorBrief },
+  { path: "/partner-room/integration-brief",  component: PartnerIntegrationBrief },
+  { path: "/partner-room/moments-economy",    component: PartnerMomentsEconomy },
+  { path: "/partner-room/signals-engine",     component: PartnerSignalsEngine },
+  { path: "/partner-room/pilot-model",        component: PartnerPilotModel },
+  { path: "/partner-room/commercial-model",   component: PartnerCommercialModel },
+  { path: "/partner-room/demo-paths",         component: PartnerDemoPaths },
+  { path: "/partner-room/live-demos",         component: PartnerLiveDemos },
+  { path: "/partner-room/guest-demo",         component: PartnerGuestDemo },
+  { path: "/partner-room/operator-demo",      component: PartnerOperatorDemo },
+  { path: "/partner-room/dual-view-demo",     component: PartnerDualViewDemo },
+  { path: "/partner-room/holiday-park-demo",  component: PartnerHolidayParkDemo },
 ];
 
 function Router() {
