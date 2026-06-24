@@ -3,7 +3,7 @@ import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 const VALUE_CARDS = [
   {
     title: "Execution Before Escalation",
-    desc: "WELBX acts on signals before they become visible problems. The playbook fires before the guest notices the gap — not after the complaint lands.",
+    desc: "RTBX Core acts on signals before they become visible problems. The playbook fires before the guest notices the gap — not after the complaint lands.",
     color: "#c9a84c",
   },
   {
@@ -18,7 +18,7 @@ const VALUE_CARDS = [
   },
   {
     title: "Workforce Intelligence",
-    desc: "Staff capacity signals, fatigue indicators, and response latency are monitored continuously. WELBX surfaces workforce pressure before it becomes a guest-facing error.",
+    desc: "Staff capacity signals, fatigue indicators, and response latency are monitored continuously. RTBX Core surfaces workforce pressure before it becomes a guest-facing error.",
     color: "#3b82f6",
   },
   {
@@ -55,10 +55,10 @@ export default function PartnerOperatorBrief() {
             Operator Brief
           </div>
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 24, maxWidth: 680 }}>
-            The Execution Gap That WELBX Closes
+            The Execution Gap That RTBX Core Closes
           </h1>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 680 }}>
-            Hotels do not lack data. They lack a governed operating layer between the signals their systems generate and the actions their teams take. That gap is where guest experience degrades, commercial value leaks, and operational cost accumulates. WELBX closes it — not by adding process, but by routing the right action to the right person before the moment passes.
+            Travel operators do not lack data. They lack a governed operating layer between the signals their systems generate and the actions their teams take. That gap is where guest experience degrades, commercial value leaks, and operational cost accumulates. RTBX Core closes it — not by adding process, but by routing the right action to the right person before the moment passes. WELBX is the guest-facing experience layer guests interact with directly.
           </p>
         </div>
 

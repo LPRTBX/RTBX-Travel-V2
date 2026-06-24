@@ -7,42 +7,42 @@ const DEFAULT_VALUE_PATHWAYS = [
   {
     title: "Operator Deployment",
     sub: "DEPLOYMENT PATHWAY",
-    desc: "Commercial partners with relationships across hotel portfolios, management companies, or ownership groups deploy WELBX as the operating layer across multiple properties. Each deployment creates a compounding evidence base that accelerates the next.",
+    desc: "Commercial partners with relationships across hotel portfolios, management companies, or ownership groups deploy RTBX Travel as the operating layer across multiple properties. Each deployment creates a compounding evidence base that accelerates the next.",
     points: ["Portfolio-scale deployment agreements", "Multi-property rollout with shared learning library", "Operator support and change management included"],
     color: "#c9a84c",
   },
   {
     title: "Technology Integration",
     sub: "INTEGRATION PATHWAY",
-    desc: "Technology partners whose systems already run in hotel environments create a certified integration that makes their platform a live signal source in the WELBX moment engine. The integration creates mutual value: your platform becomes more operationally relevant; WELBX becomes richer.",
+    desc: "Technology partners whose systems already run in travel environments create a certified integration that makes their platform a live signal source in the RTBX Core moment engine. The integration creates mutual value: your platform becomes more operationally relevant; RTBX Core becomes richer.",
     points: ["Certified integration programme with documented schema", "Co-marketing to shared operator base", "Revenue share model for integrations that unlock new moment categories"],
     color: "#3b82f6",
   },
   {
     title: "Channel Partnership",
     sub: "CHANNEL PATHWAY",
-    desc: "Distribution partners — including consultancies, technology resellers, and hospitality advisory groups — represent WELBX to their existing client base. The channel partnership is structured around successful operator deployments, not pipeline volume.",
+    desc: "Distribution partners — including consultancies, technology resellers, and hospitality advisory groups — represent RTBX Travel to their existing client base. The channel partnership is structured around successful operator deployments, not pipeline volume.",
     points: ["Structured onboarding and certification", "Deal registration and exclusivity by market where warranted", "Performance-based structure tied to live deployments"],
     color: "#a78bfa",
   },
   {
     title: "Data and Intelligence",
     sub: "DATA PATHWAY",
-    desc: "Partners whose value proposition depends on operational intelligence — benchmarking platforms, consulting firms, ownership analytics groups — access anonymised, aggregated operational performance data from the WELBX network. This creates a new category of hospitality operating intelligence.",
+    desc: "Partners whose value proposition depends on operational intelligence — benchmarking platforms, consulting firms, ownership analytics groups — access anonymised, aggregated operational performance data from the RTBX Travel network. This creates a new category of travel operating intelligence.",
     points: ["Aggregated, anonymised operational benchmarks", "Moment category performance by property type and market", "Joint research and industry publication opportunities"],
     color: "#10b981",
   },
   {
     title: "Pilot Co-Investment",
     sub: "PILOT PATHWAY",
-    desc: "Strategic partners with an interest in proving the WELBX model in a specific market or segment co-invest in a structured pilot at a named property. The co-investment covers integration, deployment, and evidence generation — with rights to reference the outcome in joint go-to-market.",
+    desc: "Strategic partners with an interest in proving the RTBX Travel model in a specific market or segment co-invest in a structured pilot at a named property. The co-investment covers integration, deployment, and evidence generation — with rights to reference the outcome in joint go-to-market.",
     points: ["Named property pilot with shared evidence ownership", "Co-branded outcome report at completion", "Right of first refusal on broader deployment partnership in the same market"],
     color: "#22d3ee",
   },
   {
     title: "Market Development",
     sub: "MARKET PATHWAY",
-    desc: "Partners developing new hospitality markets — from branded residences to extended-stay to mixed-use assets — work with WELBX to configure the operating layer for their specific context. The partnership creates a new application of the moment economy tailored to the asset class.",
+    desc: "Partners developing new travel markets — from branded residences to extended-stay to mixed-use assets — work with RTBX Travel to configure the operating layer for their specific context. The partnership creates a new application of the moment economy tailored to the asset class.",
     points: ["Custom moment library for the target asset class", "Joint IP and reference architecture for the market segment", "Exclusive deployment rights during the market development period"],
     color: "#f97316",
   },
@@ -54,7 +54,7 @@ export default function PartnerCommercialModel() {
 
   const valuePathways = commercialModel?.valuePathways ?? DEFAULT_VALUE_PATHWAYS;
   const headline = commercialModel?.headline ?? "Value Created at the Point\nof Execution";
-  const subheadline = commercialModel?.subheadline ?? "WELBX partnership is structured around the point where value is actually created — the moment of execution. Every pathway below is built on that principle. Commercial success follows operational proof.";
+  const subheadline = commercialModel?.subheadline ?? "RTBX Travel partnership is structured around the point where value is actually created — the moment of execution. Every pathway below is built on that principle. Commercial success follows operational proof.";
 
   return (
     <PartnerRoomLayout>
@@ -119,7 +119,7 @@ export default function PartnerCommercialModel() {
             First Step
           </div>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.6)", lineHeight: 1.75, maxWidth: 720, margin: 0 }}>
-            All partnership discussions begin with a direct briefing. The Partner Room is the pre-briefing environment. When you are ready to move forward, the next step is a conversation with the WELBX team — focused on your specific context, your existing systems, and the pathway that makes most sense for your organisation.
+            All partnership discussions begin with a direct briefing. The Partner Room is the pre-briefing environment. When you are ready to move forward, the next step is a conversation with the RTBX Travel team — focused on your specific context, your existing systems, and the pathway that makes most sense for your organisation.
           </p>
         </div>
 

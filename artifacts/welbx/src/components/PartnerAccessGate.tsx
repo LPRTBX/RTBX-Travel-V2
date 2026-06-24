@@ -50,14 +50,22 @@ export function PartnerAccessGate({ children }: PartnerAccessGateProps) {
       padding: 32,
     }}>
       <div style={{ width: "100%", maxWidth: 440, textAlign: "center" }}>
-        <div style={{ fontSize: 8.5, letterSpacing: "0.22em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 20 }}>
-          WELBX · Private Partner Room
+
+        {/* Brand hierarchy */}
+        <div style={{ marginBottom: 36 }}>
+          <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.18)", textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>
+            RTBX Group · Travel Vertical
+          </div>
+          <div style={{ fontSize: 8.5, letterSpacing: "0.22em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700 }}>
+            RTBX Travel · Partner Room
+          </div>
         </div>
+
         <h1 style={{ fontSize: 28, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", marginBottom: 14 }}>
           Private Partner Room
         </h1>
         <p style={{ fontSize: 13, color: "rgba(255,255,255,0.38)", lineHeight: 1.7, marginBottom: 40 }}>
-          This room is for invited partners reviewing WELBX Travel.
+          This room is for invited partners reviewing RTBX Travel — the travel and hospitality operating vertical, powered by RTBX Core.
         </p>
 
         <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -109,7 +117,7 @@ export function PartnerAccessGate({ children }: PartnerAccessGateProps) {
         </form>
 
         <div style={{ marginTop: 48, fontSize: 9, letterSpacing: "0.12em", color: "rgba(255,255,255,0.12)", textTransform: "uppercase", fontWeight: 600 }}>
-          Partner Room v1.0
+          RTBX Travel Partner Room v1.0
         </div>
       </div>
     </div>

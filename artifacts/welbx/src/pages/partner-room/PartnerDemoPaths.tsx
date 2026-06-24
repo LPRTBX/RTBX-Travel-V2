@@ -6,7 +6,7 @@ const DEMO_CARDS = [
   {
     title: "Executive Briefing",
     sub: "PARTNER DEMO",
-    desc: "A six-slide executive narrative covering WELBX's positioning, the operating problem it solves, and the value it creates. Designed for a 5-minute briefing format.",
+    desc: "A six-slide executive narrative covering RTBX Travel's positioning, the operating problem it solves, and the value it creates. Designed for a 5-minute briefing format.",
     duration: "5 minutes",
     audience: "C-suite, Owners, Board",
     link: "/partner-room/overview",
@@ -17,7 +17,7 @@ const DEMO_CARDS = [
   {
     title: "Operator Deep Dive",
     sub: "PARTNER DEMO",
-    desc: "A 13-section walkthrough of the full WELBX operating chain — from signal detection through to outcome and learning. Built for operations leaders and GMs.",
+    desc: "A 13-section walkthrough of the full RTBX Core operating chain — from signal detection through to outcome and learning. Built for operations leaders and GMs.",
     duration: "15–20 minutes",
     audience: "GMs, Operations Directors",
     link: "/partner-room/operator-demo",
@@ -84,8 +84,8 @@ const DEMO_CARDS = [
 
 export default function PartnerDemoPaths() {
   const { content } = usePartnerContent();
-  const headline = content?.demoPaths?.headline ?? "Choose the Right Entry Point";
-  const subheadline = content?.demoPaths?.subheadline ?? "Six paths through the WELBX platform — each calibrated to a different audience and intent. Start with the one that fits your current context, then navigate freely.";
+  const headline = content?.demoPaths?.headline ?? "RTBX Core Demo Room";
+  const subheadline = content?.demoPaths?.subheadline ?? "Seven paths through the RTBX Travel platform — each calibrated to a different audience and intent. RTBX Core drives the operating chain. WELBX is the guest-facing experience layer. Start with the path that fits your current context.";
 
   return (
     <PartnerRoomLayout>

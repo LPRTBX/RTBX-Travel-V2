@@ -1,2 +1,3 @@
 - [WELBX architecture](welbx-architecture.md) — 32+ routes, sectioned sidebar, AppContext with property/role/period/search state, 3 new pages (LearningLayer, CausalTrace, ValueProof)
 - [IHG Pilot Story structure](ihg-pilot-story.md) — 3 story routes under /story, sidebar IHG PILOT section, AppShell suppresses sidebar for /story/* same as /presentation-mode/*
+- [RTBX brand hierarchy](rtbx-brand-hierarchy.md) — RTBX Group > RTBX Core > RTBX Travel > WELBX; Partner Room now branded RTBX Travel; WELBX reserved for guest-facing layer only

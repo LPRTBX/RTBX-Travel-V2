@@ -27,7 +27,7 @@ const PARTNER_PATHS = [
     id: "integration",
     title: "Integration Partner",
     sub: "FOR TECHNOLOGY PARTNERS",
-    desc: "Connect existing systems into the WELBX signal layer so PMS, CRM, POS, workforce, loyalty, guest app and operational systems become live triggers.",
+    desc: "Connect existing systems into the RTBX Core signal layer so PMS, CRM, POS, workforce, loyalty, guest app and operational systems become live triggers.",
     cta: "Show Integration Model",
     link: "/partner-room/integration-brief",
     color: "#3b82f6",
@@ -166,15 +166,45 @@ export default function PartnerRoomLanding() {
 
       {/* Header block */}
       <div style={{ marginBottom: 72 }}>
+        {/* Brand hierarchy strip */}
+        <div style={{ display: "flex", gap: 0, marginBottom: 28, flexWrap: "wrap" }}>
+          {[
+            { label: "RTBX Group", sub: "Parent ecosystem", dim: true },
+            { label: "RTBX Core", sub: "Signal-to-action engine", dim: false },
+            { label: "RTBX Travel", sub: "Travel vertical", dim: false },
+            { label: "WELBX", sub: "Guest experience layer", blue: true },
+          ].map((item, i, arr) => (
+            <div key={item.label} style={{ display: "flex", alignItems: "center" }}>
+              <div style={{
+                padding: "6px 16px",
+                background: item.blue ? "rgba(59,130,246,0.06)" : "rgba(255,255,255,0.02)",
+                border: `1px solid ${item.blue ? "rgba(59,130,246,0.2)" : item.dim ? "rgba(255,255,255,0.05)" : "rgba(201,168,76,0.15)"}`,
+                borderRight: "none",
+              }}>
+                <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: item.blue ? "#3b82f6" : item.dim ? "rgba(255,255,255,0.3)" : "#c9a84c" }}>
+                  {item.label}
+                </div>
+                <div style={{ fontSize: 7.5, color: "rgba(255,255,255,0.22)", letterSpacing: "0.06em", marginTop: 2 }}>{item.sub}</div>
+              </div>
+              {i < arr.length - 1 && (
+                <div style={{ width: 16, height: 1, background: "rgba(255,255,255,0.1)", flexShrink: 0 }} />
+              )}
+            </div>
+          ))}
+        </div>
+
         <div style={{ fontSize: 9, letterSpacing: "0.22em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 20 }}>
-          {landing?.tagline ?? "WELBX Partner Room · Private Strategic Briefing"}
+          {landing?.tagline ?? "RTBX Travel Partner Room · Private Strategic Briefing"}
         </div>
         <h1 style={{ fontSize: 52, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.08, marginBottom: 24, maxWidth: 780 }}>
-          The execution layer hotels<br />
+          The execution layer travel operators<br />
           <span style={{ color: "#c9a84c" }}>do not currently have.</span>
         </h1>
-        <p style={{ fontSize: 16, color: "rgba(255,255,255,0.5)", lineHeight: 1.7, maxWidth: 600, marginBottom: 48 }}>
-          WELBX connects guest, staff and operational signals to the right action in the moment — before value is lost, risk escalates or experience breaks down.
+        <p style={{ fontSize: 16, color: "rgba(255,255,255,0.5)", lineHeight: 1.7, maxWidth: 640, marginBottom: 16 }}>
+          RTBX Travel connects guest, staff and operational signals to the right action in the moment — before value is lost, risk escalates or experience breaks down.
+        </p>
+        <p style={{ fontSize: 13, color: "rgba(255,255,255,0.32)", lineHeight: 1.65, maxWidth: 580, marginBottom: 48 }}>
+          RTBX Travel is powered by RTBX Core. WELBX is the guest-facing experience layer.
         </p>
 
         {/* CTA buttons */}
@@ -296,13 +326,13 @@ export default function PartnerRoomLanding() {
       {/* Travel Deployment Environments */}
       <div style={{ marginBottom: 96 }}>
         <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
-          Travel Deployment Environments
+          RTBX Travel · Deployment Environments
         </div>
         <div style={{ fontSize: 22, fontWeight: 700, color: "#fff", letterSpacing: "-0.01em", marginBottom: 12, maxWidth: 680 }}>
-          Travel as a vertical. Multiple deployment environments.
+          RTBX Travel. Five deployment environments.
         </div>
         <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.75, maxWidth: 620, marginBottom: 36 }}>
-          WELBX Travel applies the same signal-to-action infrastructure across different guest and operator environments. The setting changes, but the execution logic remains the same.
+          RTBX Travel applies the same RTBX Core signal-to-action infrastructure across different guest and operator environments. The setting changes — hotels, parks, events, corporate, destination — but the execution logic remains the same.
         </p>
 
         {/* Environment tab strip */}
@@ -434,7 +464,7 @@ export default function PartnerRoomLanding() {
       {/* Six-step flow visual */}
       <div style={{ marginBottom: 96 }}>
         <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 28 }}>
-          The WELBX Operating Chain
+          The RTBX Core Operating Chain
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 2 }}>
           {flowSteps.map((step, i) => (
@@ -595,7 +625,7 @@ export default function PartnerRoomLanding() {
               View Pilot Model
             </div>
           </Link>
-          <a href="mailto:lance@rtbx.com.au?subject=WELBX Partner Briefing" style={{ textDecoration: "none" }}>
+          <a href="mailto:lance@rtbx.com.au?subject=RTBX Travel Partner Briefing" style={{ textDecoration: "none" }}>
             <div style={{
               padding: "12px 24px",
               fontSize: 11,
