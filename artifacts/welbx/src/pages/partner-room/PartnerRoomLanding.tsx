@@ -67,164 +67,89 @@ const DEPLOYMENT_ENVS = [
   },
 ];
 
-const PORTAL_SECTIONS = [
+const PROOF_LAYERS = [
   {
     num: "01",
-    label: "Partner Room",
+    label: "Partner Overview",
+    navLabel: "Partner Room",
     color: "#c9a84c",
     desc: "What RTBX Travel is, how RTBX Core powers it, and where WELBX fits as the guest-facing experience layer.",
     links: [
+      { label: "Partner Overview",              href: "/partner-room/overview" },
       { label: "What is RTBX Travel?",          href: "/partner-room/overview" },
-      { label: "Powered by RTBX Core",           href: "/partner-room/overview" },
-      { label: "WELBX Guest Experience Layer",   href: "/partner-room/guest-demo",  blue: true },
-      { label: "Who this room is for",            href: "/partner-room/overview" },
+      { label: "Powered by RTBX Core",          href: "/partner-room/overview" },
+      { label: "WELBX Guest Experience Layer",  href: "/partner-room/guest-demo", blue: true },
+      { label: "Who this room is for",          href: "/partner-room/overview" },
     ],
-    cta: "Start Briefing",
+    cta: "Enter Partner Room",
     ctaHref: "/partner-room/overview",
   },
   {
     num: "02",
-    label: "Operating Environments",
+    label: "Deployment Environments",
+    navLabel: "Deployments",
     color: "#10b981",
-    desc: "Five travel environments where RTBX Travel deploys the same RTBX Core operating logic.",
+    desc: "Five travel and hospitality environments — one RTBX Core operating system deployed across all of them.",
     links: [
-      { label: "Hotels & Resorts",                     href: "/partner-room" },
-      { label: "Holiday Parks & Outdoor Experiences",  href: "/partner-room/holiday-park-demo" },
-      { label: "Corporate Travel",                      href: "/partner-room" },
-      { label: "Events & Venues",                       href: "/partner-room" },
-      { label: "Destination & Tourism Operators",       href: "/partner-room" },
+      { label: "Hotels & Resorts",                    href: "/partner-room#environments" },
+      { label: "Holiday Parks & Outdoor Experiences", href: "/partner-room/holiday-park-demo" },
+      { label: "Corporate Travel",                    href: "/partner-room#environments" },
+      { label: "Events & Venues",                     href: "/partner-room#environments" },
+      { label: "Destination & Tourism Operators",     href: "/partner-room#environments" },
     ],
     cta: "Run Holiday Parks Demo",
     ctaHref: "/partner-room/holiday-park-demo",
   },
   {
     num: "03",
-    label: "Demo Room",
-    color: "#c9a84c",
-    desc: "Live operating scenarios, guest journeys, operator views and dual-view demonstrations.",
+    label: "Product Proof",
+    navLabel: "Product Proof",
+    color: "#3b82f6",
+    desc: "Live demos, moment economy, decision logic, intervention library and communications — the product operating in real time.",
     links: [
-      { label: "All Demo Paths",          href: "/partner-room/demo-paths" },
-      { label: "Guest Demo",              href: "/partner-room/guest-demo", blue: true },
-      { label: "Operator Demo",           href: "/partner-room/operator-demo" },
-      { label: "Dual View Demo",          href: "/partner-room/dual-view-demo" },
-      { label: "Holiday Parks Scenario",  href: "/partner-room/holiday-park-demo" },
-      { label: "Scenario Demo",           href: "/scenario-demo" },
+      { label: "Demo Room",                     href: "/partner-room/demo-paths" },
+      { label: "Moment Economy",                href: "/partner-room/moments-economy" },
+      { label: "Decision & Action Layer",       href: "/partner-room/signals-engine" },
+      { label: "Intervention Library",          href: "/partner-room/signals-engine" },
+      { label: "Central Communications System", href: "/partner-room/signals-engine" },
+      { label: "Registry & Assurance Layer",    href: "/partner-room/signals-engine" },
     ],
     cta: "Open Demo Room",
     ctaHref: "/partner-room/demo-paths",
   },
   {
     num: "04",
-    label: "Moment Economy",
-    color: "#a78bfa",
-    desc: "The moment library — ten categories of service, welfare, commercial and operational moments that create measurable value.",
-    links: [
-      { label: "Partner Moments Economy",   href: "/partner-room/moments-economy" },
-      { label: "Moment Registry",           href: "/moment-registry" },
-      { label: "Moment Intelligence",       href: "/moment-intelligence" },
-      { label: "Live Moments",              href: "/live-moments" },
-    ],
-    cta: "View Moments",
-    ctaHref: "/partner-room/moments-economy",
-  },
-  {
-    num: "05",
-    label: "Decision & Action Layer",
-    color: "#c9a84c",
-    desc: "How RTBX Core classifies moments, selects responses, routes interventions and confirms outcomes.",
-    links: [
-      { label: "Decision Registry",       href: "/decision-registry" },
-      { label: "Playbook Engine",         href: "/playbook-engine" },
-      { label: "Intervention Library",    href: "/intervention-library" },
-      { label: "Signals Engine",          href: "/partner-room/signals-engine" },
-    ],
-    cta: "View Decision Registry",
-    ctaHref: "/decision-registry",
-  },
-  {
-    num: "06",
-    label: "Communications Layer",
-    color: "#22d3ee",
-    desc: "Guest messages, staff instructions and command assurance — structured communication from RTBX Core.",
-    links: [
-      { label: "Central Communications",       href: "/communications" },
-      { label: "Communication Registry",       href: "/communication-registry" },
-      { label: "Communication Intelligence",   href: "/communication-intelligence" },
-    ],
-    cta: "View Communications",
-    ctaHref: "/communications",
-  },
-  {
-    num: "07",
-    label: "Validation Lab",
-    color: "#10b981",
-    desc: "Scenario replay, shadow pilot mode and full validation dashboards — test the system before go-live.",
-    links: [
-      { label: "Scenario Replay Lab",        href: "/scenario-replay-lab" },
-      { label: "Shadow Pilot Mode",          href: "/shadow-pilot-mode" },
-      { label: "Validation Dashboard",       href: "/scenario-validation-dashboard" },
-      { label: "Validation Summary",         href: "/validation-summary" },
-      { label: "Export Reports",             href: "/export-reports" },
-    ],
-    cta: "Open Validation Lab",
-    ctaHref: "/scenario-replay-lab",
-  },
-  {
-    num: "08",
-    label: "Operator Story Lab",
+    label: "Validation & Operator Stories",
+    navLabel: "Validation",
     color: "#f97316",
-    desc: "Explore how RTBX Travel works inside real-world operator environments — from guest signal to staff action, escalation, assurance and value capture.",
+    desc: "Scenario validation, shadow pilot mode, operator walkthroughs and the full guest story from signal to outcome.",
     links: [
-      { label: "Executive Walkthrough",    href: "/story/executive-briefing" },
-      { label: "Operator Deep Dive",        href: "/story/operator-deep-dive" },
-      { label: "Live Guest Story",          href: "/story/live-guest-story", blue: true },
-      { label: "Staff Action View",         href: "/partner-room/operator-demo" },
-      { label: "Assurance & Value View",    href: "/partner-room/pilot-model" },
+      { label: "Validation Lab",          href: "/story" },
+      { label: "Scenario Replay Lab",     href: "/story" },
+      { label: "Shadow Pilot Mode",       href: "/story" },
+      { label: "Operator Story Lab",      href: "/story" },
+      { label: "Executive Walkthrough",   href: "/story" },
+      { label: "Operator Deep Dive",      href: "/story/operator-deep-dive" },
     ],
-    cta: "Enter Story Lab",
+    cta: "Enter Validation Lab",
     ctaHref: "/story",
   },
   {
-    num: "09",
-    label: "Commercial",
+    num: "05",
+    label: "Commercial & Next Step",
+    navLabel: "Commercial",
     color: "#a78bfa",
-    desc: "Pilot model, commercial pathways, integration model and partner engagement structure.",
+    desc: "Pilot model, commercial pathways, integration model — and direct briefing options to start a conversation.",
     links: [
-      { label: "Pilot Model",           href: "/partner-room/pilot-model" },
-      { label: "Commercial Model",      href: "/partner-room/commercial-model" },
-      { label: "Integration Brief",     href: "/partner-room/integration-brief" },
+      { label: "Pilot Model",             href: "/partner-room/pilot-model" },
+      { label: "Commercial Model",        href: "/partner-room/commercial-model" },
+      { label: "Partner Pathways",        href: "/partner-room/commercial-model" },
+      { label: "Integration Model",       href: "/partner-room/integration-brief" },
+      { label: "Partner Briefing",        href: "mailto:lance@rtbx.com.au?subject=RTBX Travel Partner Briefing",   ext: true },
+      { label: "Pilot Conversation",      href: "mailto:lance@rtbx.com.au?subject=RTBX Travel Pilot Conversation", ext: true },
     ],
     cta: "View Commercial Model",
     ctaHref: "/partner-room/commercial-model",
-  },
-  {
-    num: "10",
-    label: "Brief Library",
-    color: "#3b82f6",
-    desc: "Targeted briefings for operators, technology partners, commercial leads and holiday parks.",
-    links: [
-      { label: "Operator Brief",            href: "/partner-room/operator-brief" },
-      { label: "Integration Brief",         href: "/partner-room/integration-brief" },
-      { label: "Commercial Brief",          href: "/partner-room/commercial-model" },
-      { label: "Holiday Parks Brief",       href: "/partner-room/holiday-park-demo" },
-    ],
-    cta: "Open Brief Library",
-    ctaHref: "/partner-room/operator-brief",
-  },
-  {
-    num: "11",
-    label: "Next Step",
-    color: "#c9a84c",
-    desc: "Start a direct briefing — pilot conversation, partner pathway, integration or funding discussion.",
-    links: [
-      { label: "Partner Briefing",          href: "mailto:lance@rtbx.com.au?subject=RTBX Travel Partner Briefing",       ext: true },
-      { label: "Pilot Conversation",        href: "mailto:lance@rtbx.com.au?subject=RTBX Travel Pilot Conversation",     ext: true },
-      { label: "Integration Conversation",  href: "mailto:lance@rtbx.com.au?subject=RTBX Travel Integration Discussion", ext: true },
-      { label: "Funding Conversation",      href: "mailto:lance@rtbx.com.au?subject=RTBX Travel Funding Discussion",     ext: true },
-    ],
-    cta: "Request Briefing",
-    ctaHref: "mailto:lance@rtbx.com.au?subject=RTBX Travel Partner Briefing",
-    ctaExt: true,
   },
 ];
 
@@ -389,56 +314,54 @@ export default function PartnerRoomLanding() {
         </div>
       </div>
 
-      {/* ── 11 SECTION PORTAL CARDS ── */}
+      {/* ── FIVE PROOF LAYERS ── */}
       <div style={{ marginBottom: 96 }}>
         <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
-          Partner Room · Navigation
+          Partner Room · Structure
         </div>
-        <div style={{ fontSize: 22, fontWeight: 700, color: "#fff", letterSpacing: "-0.01em", marginBottom: 8 }}>
-          Eleven sections. One portal.
+        <div style={{ fontSize: 26, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", marginBottom: 8 }}>
+          One Partner Room.{" "}
+          <span style={{ color: "#c9a84c" }}>Five Proof Layers.</span>
         </div>
-        <p style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", lineHeight: 1.75, maxWidth: 580, marginBottom: 40 }}>
-          Each section is a structured entry point into the RTBX Travel platform. Start with the one that fits your context — all routes remain active.
+        <p style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", lineHeight: 1.75, maxWidth: 620, marginBottom: 40 }}>
+          Each layer gives a partner, operator or funder a different lens on the system — from positioning through to proof, validation and commercial next steps.
         </p>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
-          {PORTAL_SECTIONS.map(sec => (
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 2 }}>
+          {PROOF_LAYERS.map(sec => (
             <div key={sec.num} style={{
-              padding: "28px 26px",
+              padding: "26px 22px",
               background: "rgba(255,255,255,0.02)",
               border: "1px solid rgba(255,255,255,0.06)",
               borderTop: `2px solid ${sec.color}`,
               display: "flex",
               flexDirection: "column",
             }}>
-              {/* Section header */}
-              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
-                <span style={{ fontSize: 9, fontWeight: 800, color: `${sec.color}50`, letterSpacing: "0.08em" }}>{sec.num}</span>
-                <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: sec.color }}>{sec.label}</span>
+              {/* Header */}
+              <div style={{ marginBottom: 14 }}>
+                <div style={{ fontSize: 8, fontWeight: 800, color: `${sec.color}55`, letterSpacing: "0.1em", marginBottom: 5 }}>{sec.num}</div>
+                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: sec.color, lineHeight: 1.3 }}>{sec.label}</div>
+                <div style={{ fontSize: 8.5, letterSpacing: "0.1em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase", fontWeight: 600, marginTop: 4 }}>Nav: {sec.navLabel}</div>
               </div>
 
-              <p style={{ fontSize: 12, color: "rgba(255,255,255,0.42)", lineHeight: 1.65, marginBottom: 18, flex: 1 }}>
+              <p style={{ fontSize: 11, color: "rgba(255,255,255,0.38)", lineHeight: 1.6, marginBottom: 16, flex: 1 }}>
                 {sec.desc}
               </p>
 
               {/* Sub-links */}
-              <div style={{ display: "flex", flexDirection: "column", gap: 5, marginBottom: 20 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 5, marginBottom: 18 }}>
                 {sec.links.map((link, j) => {
                   const inner = (
                     <div style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 8,
-                      fontSize: 11,
-                      color: (link as any).blue ? "rgba(59,130,246,0.75)" : "rgba(255,255,255,0.42)",
-                      cursor: "pointer",
-                      transition: "color 0.12s",
-                      padding: "3px 0",
+                      display: "flex", alignItems: "center", gap: 7,
+                      fontSize: 10.5,
+                      color: (link as any).blue ? "rgba(59,130,246,0.7)" : "rgba(255,255,255,0.38)",
+                      cursor: "pointer", transition: "color 0.12s", padding: "2px 0",
                     }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = (link as any).blue ? "#3b82f6" : "rgba(255,255,255,0.85)"; }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = (link as any).blue ? "rgba(59,130,246,0.75)" : "rgba(255,255,255,0.42)"; }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = (link as any).blue ? "#3b82f6" : "rgba(255,255,255,0.82)"; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = (link as any).blue ? "rgba(59,130,246,0.7)" : "rgba(255,255,255,0.38)"; }}
                     >
-                      <div style={{ width: 12, height: 1, background: (link as any).blue ? "rgba(59,130,246,0.4)" : `${sec.color}35`, flexShrink: 0 }} />
+                      <div style={{ width: 10, height: 1, background: (link as any).blue ? "rgba(59,130,246,0.35)" : `${sec.color}30`, flexShrink: 0 }} />
                       {link.label}
                     </div>
                   );
@@ -449,35 +372,19 @@ export default function PartnerRoomLanding() {
               </div>
 
               {/* CTA */}
-              {(sec as any).ctaExt ? (
-                <a href={sec.ctaHref} style={{ textDecoration: "none" }}>
-                  <div style={{
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    padding: "10px 0", fontSize: 9.5, fontWeight: 700, letterSpacing: "0.1em",
-                    textTransform: "uppercase", color: sec.color, border: `1px solid ${sec.color}40`,
-                    cursor: "pointer", transition: "all 0.15s",
-                  }}
-                  onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = `${sec.color}12`; el.style.borderColor = `${sec.color}80`; }}
-                  onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "transparent"; el.style.borderColor = `${sec.color}40`; }}
-                  >
-                    {sec.cta} →
-                  </div>
-                </a>
-              ) : (
-                <Link href={sec.ctaHref}>
-                  <div style={{
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    padding: "10px 0", fontSize: 9.5, fontWeight: 700, letterSpacing: "0.1em",
-                    textTransform: "uppercase", color: sec.color, border: `1px solid ${sec.color}40`,
-                    cursor: "pointer", transition: "all 0.15s",
-                  }}
-                  onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = `${sec.color}12`; el.style.borderColor = `${sec.color}80`; }}
-                  onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "transparent"; el.style.borderColor = `${sec.color}40`; }}
-                  >
-                    {sec.cta} →
-                  </div>
-                </Link>
-              )}
+              <Link href={sec.ctaHref}>
+                <div style={{
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  padding: "9px 0", fontSize: 9, fontWeight: 700, letterSpacing: "0.1em",
+                  textTransform: "uppercase", color: sec.color, border: `1px solid ${sec.color}35`,
+                  cursor: "pointer", transition: "all 0.15s",
+                }}
+                onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = `${sec.color}10`; el.style.borderColor = `${sec.color}70`; }}
+                onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "transparent"; el.style.borderColor = `${sec.color}35`; }}
+                >
+                  {sec.cta} →
+                </div>
+              </Link>
             </div>
           ))}
         </div>

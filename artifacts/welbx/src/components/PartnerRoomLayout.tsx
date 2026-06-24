@@ -2,16 +2,13 @@ import { Link, useLocation } from "wouter";
 import { usePartnerContent } from "@/context/PartnerContentContext";
 
 const NAV_SECTIONS = [
-  { label: "Partner Room",     path: "/partner-room/overview",           color: "gold" },
-  { label: "Environments",     path: "/partner-room#environments",       color: "gold" },
-  { label: "Demo Room",        path: "/partner-room/demo-paths",         color: "gold" },
-  { label: "Moments",          path: "/partner-room/moments-economy",    color: "gold" },
-  { label: "Decisions",        path: "/decision-registry",               color: "gold" },
-  { label: "Communications",   path: "/communications",                  color: "gold" },
-  { label: "Validation",       path: "/scenario-replay-lab",             color: "gold" },
-  { label: "Operator Story Lab", path: "/story",                          color: "gold" },
-  { label: "Commercial",       path: "/partner-room/commercial-model",   color: "gold" },
-  { label: "Brief Library",    path: "/partner-room/operator-brief",     color: "gold" },
+  { label: "Partner Room",   path: "/partner-room",                    anchor: false },
+  { label: "Deployments",    path: "/partner-room#environments",       anchor: true  },
+  { label: "Product Proof",  path: "/partner-room/demo-paths",         anchor: false },
+  { label: "Validation",     path: "/story",                           anchor: false },
+  { label: "Commercial",     path: "/partner-room/commercial-model",   anchor: false },
+  { label: "Brief Library",  path: "/partner-room/operator-brief",     anchor: false },
+  { label: "Next Step",      path: "mailto:lance@rtbx.com.au?subject=RTBX Travel Partner Briefing", ext: true },
 ];
 
 interface PartnerRoomLayoutProps {
@@ -91,34 +88,45 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
           overflowX: "auto",
         }}>
           {NAV_SECTIONS.map((sec, i) => {
-              const basePath = sec.path.split("#")[0];
-            const isAnchorOnly = sec.path.includes("#") && basePath === "/partner-room";
-            const isActive = !isAnchorOnly && (
+            const isExt = !!(sec as any).ext;
+            const basePath = sec.path.split("#")[0];
+            const isAnchorOnly = !isExt && sec.path.includes("#") && basePath === "/partner-room";
+            const isActive = !isExt && !isAnchorOnly && (
               location === basePath ||
               (basePath !== "/partner-room" && basePath !== "/" && location.startsWith(basePath))
             );
-            return (
-              <Link key={sec.path + i} href={sec.path}>
-                <div style={{
-                  padding: "11px 14px",
-                  fontSize: 9.5,
-                  fontWeight: 700,
-                  letterSpacing: "0.08em",
-                  textTransform: "uppercase",
-                  color: isActive ? "#fff" : "rgba(255,255,255,0.38)",
-                  borderBottom: isActive ? "2px solid #c9a84c" : "2px solid transparent",
-                  cursor: "pointer",
-                  transition: "all 0.15s",
-                  whiteSpace: "nowrap",
-                  userSelect: "none",
+            const itemStyle: React.CSSProperties = {
+              padding: "11px 16px",
+              fontSize: 9.5,
+              fontWeight: 700,
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              color: isExt ? "#c9a84c" : isActive ? "#fff" : "rgba(255,255,255,0.38)",
+              borderBottom: isActive ? "2px solid #c9a84c" : "2px solid transparent",
+              cursor: "pointer",
+              transition: "all 0.15s",
+              whiteSpace: "nowrap",
+              userSelect: "none",
+            };
+            const inner = (
+              <div style={itemStyle}
+                onMouseEnter={e => {
+                  const el = e.currentTarget as HTMLElement;
+                  if (isExt) { el.style.color = "#d4b35e"; }
+                  else if (!isActive) { el.style.color = "rgba(255,255,255,0.72)"; }
                 }}
-                onMouseEnter={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.72)"; }}
-                onMouseLeave={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.38)"; }}
-                >
-                  {sec.label}
-                </div>
-              </Link>
+                onMouseLeave={e => {
+                  const el = e.currentTarget as HTMLElement;
+                  if (isExt) { el.style.color = "#c9a84c"; }
+                  else if (!isActive) { el.style.color = "rgba(255,255,255,0.38)"; }
+                }}
+              >
+                {sec.label}
+              </div>
             );
+            return isExt
+              ? <a key={i} href={sec.path} style={{ textDecoration: "none" }}>{inner}</a>
+              : <Link key={i} href={sec.path}>{inner}</Link>;
           })}
         </div>
       </nav>
