@@ -19,12 +19,12 @@ const MODES = [
   {
     path: "/story/executive-briefing",
     icon: Clock,
-    label: "Executive Briefing",
+    label: "Executive Walkthrough",
     duration: "5 Minutes",
     slides: "6 slides",
-    format: "The case for Behavioural Infrastructure",
-    desc: "A concise, high-impact overview of what WELBX does and why it matters. Designed for senior leaders with limited time and high expectations.",
-    steps: ["Why WELBX Exists", "The Execution Gap", "Signals to Moments", "One Guest · One Moment", "Executive Command", "Why It Matters"],
+    format: "Senior stakeholder overview",
+    desc: "A concise, high-impact overview of how RTBX Travel works inside a real operator environment. Designed for senior leaders with limited time and high expectations.",
+    steps: ["The Execution Gap", "RTBX Core Position", "Signals to Moments", "One Guest · One Moment", "Executive Command", "Measurable Value"],
     accent: C.amber,
     badge: "STRATEGY",
   },
@@ -35,7 +35,7 @@ const MODES = [
     duration: "15 Minutes",
     slides: "13 sections",
     format: "Inside the operating layer",
-    desc: "A complete walkthrough of every layer of the WELBX platform — from signal sensing to value attribution. For operations directors and technology leads.",
+    desc: "A complete walkthrough of every layer — from signal sensing to value attribution. For operations directors and technology leads at multi-property hotel operators.",
     steps: ["Problem Statement", "GHSOL Framework", "Signal Registry", "Moment Registry", "Strategic Visibility", "Decision Registry", "Execution Index", "Communications", "Guest Layer", "Outcome Layer", "Value Layer", "Executive Command", "Future Vision"],
     accent: C.green,
     badge: "OPERATIONS",
@@ -46,15 +46,39 @@ const MODES = [
     label: "Live Guest Story",
     duration: "Immersive",
     slides: "8 steps",
-    format: "The Diamond Arrival",
-    desc: "Experience a single guest moment from three perspectives — Guest, Operating, and Infrastructure. Follow Mr V. Hartmann from signal to outcome in real time.",
+    format: "The WELBX guest experience layer",
+    desc: "Experience a single guest moment from three perspectives — Guest, Operating, and Infrastructure. Follow a guest signal to outcome in real time through the WELBX layer.",
     steps: ["Signal Detected", "Moment Created", "Decision Made", "Communication Routed", "Action Executed", "Outcome Achieved", "Learning Captured", "Value Created"],
     accent: C.violet,
-    badge: "NARRATIVE",
+    badge: "GUEST LAYER",
+  },
+  {
+    path: "/partner-room/operator-demo",
+    icon: BookOpen,
+    label: "Staff Action View",
+    duration: "Guided",
+    slides: "Operator workflow",
+    format: "RTBX Core guided response",
+    desc: "The staff-facing side of RTBX Core — how guided responses, intervention instructions and operator workflows are delivered in the moment.",
+    steps: ["Signal Classified", "Playbook Selected", "Staff Briefed", "Action Confirmed", "Escalation Handled", "Resolution Logged"],
+    accent: C.cyan,
+    badge: "OPERATOR",
+  },
+  {
+    path: "/partner-room/pilot-model",
+    icon: Clock,
+    label: "Assurance & Value View",
+    duration: "Evidence layer",
+    slides: "Outcome trail",
+    format: "Proof of action · Risk reduction · Commercial value",
+    desc: "The assurance trail — how every action is logged, every outcome is measured, and how risk reduction and commercial value are captured and attributed.",
+    steps: ["Action Logged", "Outcome Measured", "Risk Trail Created", "Proof of Action", "Commercial Value Attributed", "Pilot ROI Confirmed"],
+    accent: "#f97316",
+    badge: "VALUE",
   },
 ];
 
-const BRANDS = ["Hyatt", "IHG", "Marriott", "Accor", "Hilton"];
+const BRANDS = ["Hyatt", "Marriott", "Accor", "Hilton", "IHG-scale operators"];
 
 export default function StoryHub() {
   return (
@@ -66,20 +90,19 @@ export default function StoryHub() {
         <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 24 }}>
           <span style={{ fontSize: 12, fontWeight: 800, letterSpacing: "0.24em", color: C.white, textTransform: "uppercase" }}>WELBX</span>
           <span style={{ color: C.dimmed }}>·</span>
-          <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.22em", color: C.amber, textTransform: "uppercase" }}>IHG PILOT STORY</span>
+          <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.22em", color: C.amber, textTransform: "uppercase" }}>OPERATOR STORY LAB</span>
         </div>
 
         <h1 style={{ fontSize: 40, fontWeight: 800, color: C.white, letterSpacing: "-0.02em", lineHeight: 1.1, marginBottom: 16 }}>
-          A Guided Demonstration<br />
-          <span style={{ color: C.amber }}>of Behavioural Infrastructure</span>
+          Operator Story Lab
         </h1>
 
-        <p style={{ fontSize: 13, color: C.muted, maxWidth: 500, lineHeight: 1.75, marginBottom: 20 }}>
-          Three modes. One platform. Designed for enterprise hospitality operators ready to understand execution at scale.
+        <p style={{ fontSize: 13, color: C.muted, maxWidth: 560, lineHeight: 1.75, marginBottom: 20 }}>
+          Explore how RTBX Travel works inside real-world operator environments — from guest signal to staff action, escalation, assurance and value capture.
         </p>
 
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: C.dimmed, textTransform: "uppercase" }}>Built for</span>
+          <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: C.dimmed, textTransform: "uppercase" }}>Designed for</span>
           {BRANDS.map((b, i) => (
             <span key={i} style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.1em", color: C.dimmed, padding: "3px 8px", border: `1px solid ${C.border}`, textTransform: "uppercase" }}>{b}</span>
           ))}
@@ -87,7 +110,7 @@ export default function StoryHub() {
       </motion.div>
 
       {/* Mode cards */}
-      <div style={{ display: "flex", gap: 20, flex: 1 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 14, flex: 1 }}>
         {MODES.map((mode, fi) => (
           <motion.div
             key={mode.path}

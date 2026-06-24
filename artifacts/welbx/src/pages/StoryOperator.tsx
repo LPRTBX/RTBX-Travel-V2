@@ -8,7 +8,7 @@ import {
 } from "@/components/presentation/PresentationComponents";
 
 const TOTAL = 13;
-const LABEL = "IHG PILOT STORY · OPERATOR DEEP DIVE";
+const LABEL = "OPERATOR STORY LAB · OPERATOR DEEP DIVE";
 
 /* ─── S1: The Problem ────────────────────────────────────────────── */
 function S1() {
@@ -690,7 +690,7 @@ function S13() {
         </div>
         <div style={{ padding: "18px 24px", background: `${C.amber}07`, border: `1px solid ${C.amber}20`, textAlign: "center" }}>
           <p style={{ fontSize: 15, fontWeight: 700, color: C.white }}>Better visibility. Better decisions. Better execution. Better outcomes.</p>
-          <p style={{ fontSize: 9, color: C.dimmed, marginTop: 6, letterSpacing: "0.1em", textTransform: "uppercase" }}>WELBX Behavioural Infrastructure · IHG Pilot Story · Grand Meridian, London</p>
+          <p style={{ fontSize: 9, color: C.dimmed, marginTop: 6, letterSpacing: "0.1em", textTransform: "uppercase" }}>WELBX Behavioural Infrastructure · Operator Story Lab · Example Multi-Property Hotel Operator Scenario</p>
         </div>
       </div>
       <SlideFooter slide={13} total={TOTAL} />

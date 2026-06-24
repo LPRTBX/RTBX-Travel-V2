@@ -171,16 +171,17 @@ const PORTAL_SECTIONS = [
   },
   {
     num: "08",
-    label: "IHG Pilot Story",
+    label: "Operator Story Lab",
     color: "#f97316",
-    desc: "The live pilot narrative — executive briefing, operator deep dive and guest story for a real-world IHG deployment.",
+    desc: "Explore how RTBX Travel works inside real-world operator environments — from guest signal to staff action, escalation, assurance and value capture.",
     links: [
-      { label: "Story Hub",             href: "/story" },
-      { label: "Executive Briefing",    href: "/story/executive-briefing" },
-      { label: "Operator Deep Dive",    href: "/story/operator-deep-dive" },
-      { label: "Live Guest Story",      href: "/story/live-guest-story" },
+      { label: "Executive Walkthrough",    href: "/story/executive-briefing" },
+      { label: "Operator Deep Dive",        href: "/story/operator-deep-dive" },
+      { label: "Live Guest Story",          href: "/story/live-guest-story", blue: true },
+      { label: "Staff Action View",         href: "/partner-room/operator-demo" },
+      { label: "Assurance & Value View",    href: "/partner-room/pilot-model" },
     ],
-    cta: "Enter Pilot Story",
+    cta: "Enter Story Lab",
     ctaHref: "/story",
   },
   {
@@ -331,7 +332,7 @@ export default function PartnerRoomLanding() {
               Open Dual View Demo
             </div>
           </Link>
-          <GhostBtn href="/story">IHG Pilot Story</GhostBtn>
+          <GhostBtn href="/story">Operator Story Lab</GhostBtn>
           <GhostBtn href="/partner-room/demo-paths">Demo Room</GhostBtn>
           <GhostBtn href="mailto:lance@rtbx.com.au?subject=RTBX Travel Partner Briefing" ext>Request Briefing</GhostBtn>
         </div>
@@ -636,7 +637,7 @@ export default function PartnerRoomLanding() {
               Open Dual View Demo
             </div>
           </Link>
-          <GhostBtn href="/story">IHG Pilot Story</GhostBtn>
+          <GhostBtn href="/story">Operator Story Lab</GhostBtn>
           <GhostBtn href="/partner-room/pilot-model">Pilot Model</GhostBtn>
           <GhostBtn href="mailto:lance@rtbx.com.au?subject=RTBX Travel Partner Briefing" ext>Request Partner Briefing</GhostBtn>
         </div>

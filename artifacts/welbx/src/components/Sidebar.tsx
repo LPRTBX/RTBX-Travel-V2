@@ -114,10 +114,12 @@ const HERO_ITEMS = [
 ];
 
 const IHG_ITEMS = [
-  { label: "Pilot Story Hub",      path: "/story",                      sub: "3 MODES",    accent: "#c9a84c" },
-  { label: "Executive Briefing",   path: "/story/executive-briefing",   sub: "6 SLIDES",   accent: "#c9a84c" },
-  { label: "Operator Deep Dive",   path: "/story/operator-deep-dive",   sub: "13 SECTIONS",accent: "#10b981" },
-  { label: "Live Guest Story",     path: "/story/live-guest-story",     sub: "IMMERSIVE",  accent: "#a78bfa" },
+  { label: "Story Lab Hub",         path: "/story",                      sub: "5 VIEWS",    accent: "#c9a84c" },
+  { label: "Executive Walkthrough", path: "/story/executive-briefing",   sub: "5 MINUTES",  accent: "#c9a84c" },
+  { label: "Operator Deep Dive",    path: "/story/operator-deep-dive",   sub: "15 MINUTES", accent: "#10b981" },
+  { label: "Live Guest Story",      path: "/story/live-guest-story",     sub: "IMMERSIVE",  accent: "#a78bfa" },
+  { label: "Staff Action View",     path: "/partner-room/operator-demo", sub: "RTBX CORE",  accent: "#22d3ee" },
+  { label: "Assurance & Value",     path: "/partner-room/pilot-model",   sub: "OUTCOMES",   accent: "#f97316" },
 ];
 
 interface NavItemProps {
@@ -269,7 +271,7 @@ export function Sidebar() {
         {/* IHG Pilot Story section */}
         <div style={{ margin: "10px 20px 4px", display: "flex", alignItems: "center", gap: 8 }}>
           <div style={{ flex: 1, height: 1, background: "hsl(220 13% 9%)" }} />
-          <span style={{ fontSize: 7, letterSpacing: "0.18em", color: location.startsWith("/story") ? "#c9a84c" : "hsl(215 16% 18%)", textTransform: "uppercase", fontWeight: 700, flexShrink: 0 }}>IHG PILOT</span>
+          <span style={{ fontSize: 7, letterSpacing: "0.18em", color: location.startsWith("/story") ? "#c9a84c" : "hsl(215 16% 18%)", textTransform: "uppercase", fontWeight: 700, flexShrink: 0 }}>OPERATOR STORY LAB</span>
           <div style={{ flex: 1, height: 1, background: "hsl(220 13% 9%)" }} />
         </div>
         {IHG_ITEMS.map(item => (

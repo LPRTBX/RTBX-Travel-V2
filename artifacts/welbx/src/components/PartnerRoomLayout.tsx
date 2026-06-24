@@ -9,7 +9,7 @@ const NAV_SECTIONS = [
   { label: "Decisions",        path: "/decision-registry",               color: "gold" },
   { label: "Communications",   path: "/communications",                  color: "gold" },
   { label: "Validation",       path: "/scenario-replay-lab",             color: "gold" },
-  { label: "IHG Pilot Story",  path: "/story",                           color: "gold" },
+  { label: "Operator Story Lab", path: "/story",                          color: "gold" },
   { label: "Commercial",       path: "/partner-room/commercial-model",   color: "gold" },
   { label: "Brief Library",    path: "/partner-room/operator-brief",     color: "gold" },
 ];

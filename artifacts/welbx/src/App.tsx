@@ -19,6 +19,9 @@ import PartnerGuestDemo from "@/pages/partner-room/PartnerGuestDemo";
 import PartnerOperatorDemo from "@/pages/partner-room/PartnerOperatorDemo";
 import PartnerDualViewDemo from "@/pages/partner-room/PartnerDualViewDemo";
 import PartnerHolidayParkDemo from "@/pages/partner-room/PartnerHolidayParkDemo";
+import StoryHub from "@/pages/StoryHub";
+import StoryOperator from "@/pages/StoryOperator";
+import StoryGuestStory from "@/pages/StoryGuestStory";
 
 const queryClient = new QueryClient();
 
@@ -45,6 +48,11 @@ function Router() {
       {PARTNER_ROUTES.map(({ path, component: Component }) => (
         <Route key={path} path={path} component={Component} />
       ))}
+      {/* Operator Story Lab routes */}
+      <Route path="/story" component={StoryHub} />
+      <Route path="/story/executive-briefing">{() => <Redirect to="/story" />}</Route>
+      <Route path="/story/operator-deep-dive" component={StoryOperator} />
+      <Route path="/story/live-guest-story" component={StoryGuestStory} />
       <Route>{() => <Redirect to="/partner-room" />}</Route>
     </Switch>
   );
