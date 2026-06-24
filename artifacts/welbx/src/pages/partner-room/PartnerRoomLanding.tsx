@@ -246,7 +246,7 @@ export default function PartnerRoomLanding() {
         </p>
 
         <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-          <Link href="/partner-room/dual-view-demo">
+          <a href="#proof-layers" style={{ textDecoration: "none" }}>
             <div style={{
               padding: "14px 28px", fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase",
               cursor: "pointer", background: "#c9a84c", color: "#080c14", border: "1px solid #c9a84c", transition: "all 0.15s",
@@ -254,11 +254,9 @@ export default function PartnerRoomLanding() {
             onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "#d4b35e"; }}
             onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "#c9a84c"; }}
             >
-              Open Dual View Demo
+              Explore the Room
             </div>
-          </Link>
-          <GhostBtn href="/story">Operator Story Lab</GhostBtn>
-          <GhostBtn href="/partner-room/demo-paths">Demo Room</GhostBtn>
+          </a>
           <GhostBtn href="mailto:lance@rtbx.com.au?subject=RTBX Travel Partner Briefing" ext>Request Briefing</GhostBtn>
         </div>
       </div>
@@ -315,7 +313,7 @@ export default function PartnerRoomLanding() {
       </div>
 
       {/* ── FIVE PROOF LAYERS ── */}
-      <div style={{ marginBottom: 96 }}>
+      <div id="proof-layers" style={{ marginBottom: 96 }}>
         <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
           Partner Room · Structure
         </div>
