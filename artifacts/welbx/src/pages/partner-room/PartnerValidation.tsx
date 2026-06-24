@@ -88,6 +88,32 @@ export default function PartnerValidation() {
           </div>
         </div>
 
+        {/* Validation Replay — featured */}
+        <div style={{ marginBottom: 32, padding: "32px 32px", background: "rgba(16,185,129,0.05)", border: "1px solid rgba(16,185,129,0.2)", borderTop: "2px solid #10b981", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 32 }}>
+          <div>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+              <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: "#10b981", border: "1px solid rgba(16,185,129,0.3)", padding: "3px 10px" }}>Interactive · Replay</div>
+              <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,0.3)" }}>Featured Demo</div>
+            </div>
+            <div style={{ fontSize: 18, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", marginBottom: 10 }}>Validation Replay Lab</div>
+            <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.65, maxWidth: 560, margin: 0 }}>
+              Play the same scenario in Normal, Escalation or Failure mode — watch how RTBX Core responds at every stage and see what changes when things go wrong.
+            </p>
+          </div>
+          <Link href="/partner-room/validation-replay">
+            <div style={{
+              padding: "12px 28px", fontSize: 10, fontWeight: 700, letterSpacing: "0.1em",
+              textTransform: "uppercase", color: "#10b981", border: "1px solid rgba(16,185,129,0.4)",
+              cursor: "pointer", transition: "all 0.15s", whiteSpace: "nowrap", flexShrink: 0,
+            }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(16,185,129,0.1)"; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "transparent"; }}
+            >
+              Open Replay Lab →
+            </div>
+          </Link>
+        </div>
+
         {/* Validation cards */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
           {VALIDATION_ITEMS.map(item => (

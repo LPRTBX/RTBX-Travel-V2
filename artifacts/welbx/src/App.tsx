@@ -25,6 +25,11 @@ import PartnerValidation from "@/pages/partner-room/PartnerValidation";
 import PartnerCommercial from "@/pages/partner-room/PartnerCommercial";
 import PartnerBriefLibrary from "@/pages/partner-room/PartnerBriefLibrary";
 import PartnerNextStep from "@/pages/partner-room/PartnerNextStep";
+import PartnerScenarioBuilder from "@/pages/partner-room/PartnerScenarioBuilder";
+import PartnerProofCalculator from "@/pages/partner-room/PartnerProofCalculator";
+import PartnerCommsDemo from "@/pages/partner-room/PartnerCommsDemo";
+import PartnerDecisionSpine from "@/pages/partner-room/PartnerDecisionSpine";
+import PartnerValidationReplay from "@/pages/partner-room/PartnerValidationReplay";
 import StoryHub from "@/pages/StoryHub";
 import StoryOperator from "@/pages/StoryOperator";
 import StoryGuestStory from "@/pages/StoryGuestStory";
@@ -51,7 +56,12 @@ const PARTNER_ROUTES = [
   { path: "/partner-room/guest-demo",         component: PartnerGuestDemo },
   { path: "/partner-room/operator-demo",      component: PartnerOperatorDemo },
   { path: "/partner-room/dual-view-demo",     component: PartnerDualViewDemo },
-  { path: "/partner-room/holiday-park-demo",  component: PartnerHolidayParkDemo },
+  { path: "/partner-room/holiday-park-demo",   component: PartnerHolidayParkDemo },
+  { path: "/partner-room/scenario-builder",   component: PartnerScenarioBuilder },
+  { path: "/partner-room/proof-calculator",   component: PartnerProofCalculator },
+  { path: "/partner-room/comms-demo",         component: PartnerCommsDemo },
+  { path: "/partner-room/decision-spine",     component: PartnerDecisionSpine },
+  { path: "/partner-room/validation-replay",  component: PartnerValidationReplay },
 ];
 
 function Router() {

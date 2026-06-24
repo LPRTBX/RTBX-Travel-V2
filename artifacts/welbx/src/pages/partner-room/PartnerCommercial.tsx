@@ -71,6 +71,32 @@ export default function PartnerCommercial() {
           </p>
         </div>
 
+        {/* Proof of Value Calculator — featured */}
+        <div style={{ marginBottom: 32, padding: "32px 32px", background: "rgba(201,168,76,0.05)", border: "1px solid rgba(201,168,76,0.2)", borderTop: "2px solid #c9a84c", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 32 }}>
+          <div>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+              <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: "#c9a84c", border: "1px solid rgba(201,168,76,0.3)", padding: "3px 10px" }}>Interactive · Calculator</div>
+              <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,0.3)" }}>Featured Tool</div>
+            </div>
+            <div style={{ fontSize: 18, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", marginBottom: 10 }}>Proof of Value Calculator</div>
+            <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.65, maxWidth: 560, margin: 0 }}>
+              Adjust sliders for your property or portfolio — get indicative monthly estimates for value protected, revenue created, staff hours saved and escalations prevented.
+            </p>
+          </div>
+          <Link href="/partner-room/proof-calculator">
+            <div style={{
+              padding: "12px 28px", fontSize: 10, fontWeight: 700, letterSpacing: "0.1em",
+              textTransform: "uppercase", color: "#c9a84c", border: "1px solid rgba(201,168,76,0.4)",
+              cursor: "pointer", transition: "all 0.15s", whiteSpace: "nowrap", flexShrink: 0,
+            }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(201,168,76,0.08)"; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "transparent"; }}
+            >
+              Open Calculator →
+            </div>
+          </Link>
+        </div>
+
         {/* Commercial sections */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2, marginBottom: 64 }}>
           {COMMERCIAL_SECTIONS.map(sec => (

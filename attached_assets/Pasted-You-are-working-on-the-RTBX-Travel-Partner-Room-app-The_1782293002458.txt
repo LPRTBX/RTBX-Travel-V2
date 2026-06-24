@@ -1,0 +1,200 @@
+You are working on the RTBX Travel Partner Room app.
+
+The current demos and proof points are too static. Improve interaction across the Product Proof, Demo Room, Validation Lab and proof-of-value areas.
+
+Do not rebuild the whole app.
+Do not add backend requirements.
+Use front-end state, tabs, toggles, steppers, selectors, sliders and scenario cards to make the demos feel live and interactive.
+
+Objective:
+Every major proof point should show movement and user choice.
+
+Create the following interactive modules:
+
+1. Scenario Builder
+Location:
+Product Proof / Demo Room
+
+Function:
+Allow the user to select:
+- Deployment environment
+- Scenario type
+- Risk level
+- Role view
+
+Deployment environments:
+- Hotels & Resorts
+- Holiday Parks & Outdoor Experiences
+- Corporate Travel
+- Events & Venues
+- Destination & Tourism Operators
+
+Scenario types:
+- Arrival friction
+- Service recovery
+- Guest welfare
+- Staff load
+- Weather disruption
+- Revenue activation
+- VIP / high-value guest
+
+Risk levels:
+- Level 1: Early signal
+- Level 2: Escalated intervention
+- Level 3: Critical assurance pathway
+
+Role views:
+- Guest / WELBX View
+- Operator View
+- Command / Assurance View
+- Partner / Funder View
+
+Based on the selected scenario, dynamically display:
+
+Signal → Classify → Decide → Execute → Assure → Value
+
+2. Signal-to-Action Stepper
+Location:
+Product Proof
+
+Create a clickable stepper with these stages:
+- Signal detected
+- Moment classified
+- Decision selected
+- Intervention triggered
+- Communication routed
+- Action confirmed
+- Outcome logged
+- Value calculated
+
+Each step should update the content panel with:
+- What RTBX Core sees
+- What action is triggered
+- Who owns the action
+- What gets logged
+
+3. Role View Toggle
+Location:
+Every main demo scenario
+
+Add a role toggle:
+- Guest / WELBX
+- Operator
+- Command
+- Partner / Funder
+
+Each role should show a different view of the same scenario.
+
+Guest / WELBX:
+Simple support message, check-in, prompt or option.
+
+Operator:
+Recommended action, checklist, owner and escalation guidance.
+
+Command:
+Status, evidence trail, completion and risk/value view.
+
+Partner / Funder:
+Repeatability, value creation, commercial proof and deployment logic.
+
+4. Proof-of-Value Calculator
+Location:
+Commercial or Product Proof
+
+Create a lightweight interactive calculator with sliders or selectable inputs:
+
+Inputs:
+- Number of rooms/sites
+- Guest volume per month
+- Issue frequency
+- Recovery rate
+- Average value protected per recovery
+- Staff minutes saved per incident
+- Marketplace conversion rate
+
+Outputs:
+- Estimated monthly value protected
+- Estimated monthly revenue created
+- Estimated staff hours saved
+- Estimated escalations prevented
+- Estimated assurance records created
+
+Use example values only.
+Clearly label outputs as indicative estimates.
+
+5. Communications Routing Demo
+Location:
+Communications Layer / Product Proof
+
+Allow the user to select a scenario and show:
+- Guest message
+- Staff instruction
+- Manager alert
+- Command dashboard update
+- Escalation timer
+- Completion confirmation
+
+This should visually show that RTBX Core routes the right message to the right person at the right time.
+
+6. Decision Spine Demo
+Location:
+Decision & Action Layer
+
+Create a simple branching decision demo.
+
+Example scenario:
+Holiday Park family arrival disruption.
+
+Inputs:
+- Cabin delay under or over 15 minutes
+- Children present yes/no
+- Weather disruption yes/no
+- Guest sentiment risk low/medium/high
+
+Based on selections, display:
+- Classification
+- Recommended decision
+- Intervention
+- Assigned owner
+- Escalation threshold
+- Assurance record
+
+7. Validation Replay Demo
+Location:
+Validation Lab
+
+Create a replay-style interaction with three modes:
+- Normal mode
+- Escalation mode
+- Failure mode
+
+For each mode, show how the same scenario changes:
+
+Normal mode:
+Action completed, outcome logged.
+
+Escalation mode:
+Delay threshold breached, manager alert triggered.
+
+Failure mode:
+Action missed, escalation and assurance issue created.
+
+Use the same flow:
+Signal → Classify → Decide → Execute → Assure → Value
+
+Important design rules:
+- Keep interactions simple and fast.
+- Do not overcomplicate with backend logic.
+- Use cards, tabs, toggles, steppers and state changes.
+- Avoid long static text blocks.
+- Each interactive module should help a partner, operator or funder understand what RTBX does.
+- Make the demos feel like an operating system, not a brochure.
+
+Final outcome:
+A user should be able to click through the Partner Room and experience RTBX Travel working:
+- choose a scenario
+- switch role views
+- see signal-to-action movement
+- see communications routing
+- replay validation conditions
+- see indicative commercial value
