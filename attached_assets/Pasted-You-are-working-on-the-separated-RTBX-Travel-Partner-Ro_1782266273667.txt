@@ -1,0 +1,147 @@
+You are working on the separated RTBX Travel Partner Room app.
+
+The full RTBX Travel site contains strong operating-system pages, but the Partner Room should not expose every page as a top-level item. It should extract the strongest layers and organise them into a clean partner-facing journey.
+
+Do not rebuild the whole app.
+Do not delete existing routes.
+Keep existing demo and full-site routes active.
+Clean the Partner Room information architecture and connect the strongest full-site assets into grouped partner-facing sections.
+
+Brand hierarchy:
+RTBX Group = parent ecosystem
+RTBX Core = infrastructure / signal-to-action engine
+RTBX Travel = travel and hospitality vertical
+WELBX = guest-facing human experience layer inside RTBX Travel
+
+Overall destination name:
+RTBX Travel Partner Room
+
+Hero:
+Title:
+RTBX Travel Partner Room
+
+Subtitle:
+Real-time guest, operator and service-moment infrastructure — powered by RTBX Core.
+
+Hero body:
+RTBX Travel turns live signals across hotels, resorts, holiday parks and experience environments into guided action, escalation, assurance and measurable value.
+
+Add this line near the top:
+RTBX Travel is powered by RTBX Core. WELBX is the guest-facing experience layer.
+
+Top navigation should be grouped into:
+
+1. Partner Room
+2. Operating Environments
+3. Demo Room
+4. Moment Economy
+5. Decision & Action Layer
+6. Communications Layer
+7. Validation Lab
+8. IHG Pilot Story
+9. Commercial
+10. Brief Library
+11. Next Step
+
+Do not show raw operational pages as top-level navigation.
+
+Group existing full-site assets like this:
+
+Partner Room:
+- What is RTBX Travel?
+- Powered by RTBX Core
+- WELBX Guest Experience Layer
+- Who this room is for
+
+Operating Environments:
+- Hotels & Resorts
+- Holiday Parks & Outdoor Experiences
+- Corporate Travel
+- Events & Venues
+- Destination & Tourism Operators
+
+Demo Room:
+- Existing demo paths
+- Live demos
+- Guest demo
+- Operator demo
+- Dual view demo
+- Scenario demo
+
+Moment Economy:
+- Partner Moments Economy page
+- Moment Registry preview
+- Moment Intelligence preview
+- Live Moments preview
+- 8–10 high-value travel moments
+
+Decision & Action Layer:
+- Decision Registry preview
+- Playbook Engine preview
+- Intervention Library preview
+- Escalation logic
+- Owner assignment
+- Outcome confirmation
+
+Communications Layer:
+- Central Communications System
+- Communication Registry preview
+- Communication Intelligence preview
+- Guest message / staff instruction / command assurance view
+
+Validation Lab:
+- Scenario Replay Lab
+- Scenario Runner
+- Shadow Pilot Mode
+- Scenario Validation Dashboard
+- Validation Summary
+- Export Reports
+
+IHG Pilot Story:
+- Story Hub
+- Executive Briefing
+- Operator Deep Dive
+- Live Guest Story
+
+Commercial:
+- Pilot Model
+- Commercial Model
+- Partner pathways
+- Integration model
+- Pilot success metrics
+
+Brief Library:
+- Operator Brief
+- Integration Brief
+- Commercial Brief
+- Holiday Parks & Outdoor Experiences Brief
+- Documents
+
+Next Step:
+- Pilot conversation
+- Partner pathway
+- Integration conversation
+- Funding conversation
+- Contact / next action
+
+Important rules:
+1. Do not add every internal system page to the top nav.
+2. Full-system routes can remain available but should be linked from grouped sections.
+3. The Partner Room should feel like an executive partner portal, not the full operating dashboard.
+4. Replace broad WELBX platform language with RTBX Travel / RTBX Core language.
+5. Keep WELBX only when referring to the guest-facing human experience layer.
+6. Use black, charcoal, white and gold as the core RTBX style.
+7. Use WELBX blue only where referring to the guest layer.
+8. Add Holiday Parks & Outdoor Experiences as a major sub-vertical under Travel Operating Environments.
+
+Final outcome:
+A partner, operator or funder should understand:
+- What RTBX Travel is
+- How RTBX Core powers it
+- Where WELBX fits
+- What travel environments it can deploy into
+- Which moments create value
+- How decisions, interventions and communications work
+- How the system can be validated before go-live
+- How the IHG pilot story demonstrates the model
+- What the commercial and partner pathway looks like

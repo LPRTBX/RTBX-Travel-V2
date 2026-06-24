@@ -4,77 +4,6 @@ import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 import { usePartnerContent } from "@/context/PartnerContentContext";
 import { PartnerProofBanner } from "@/components/PartnerProofBanner";
 
-const DEFAULT_FLOW_STEPS = [
-  { label: "Signals",   desc: "Live data streams from every operational layer — a configured signal library across guest, staff and property sources" },
-  { label: "Moments",   desc: "Pattern recognition surfaces what needs to happen now — validated against pilot moment categories" },
-  { label: "Decisions", desc: "Governed response logic selects the right action" },
-  { label: "Actions",   desc: "The right team member receives the right instruction" },
-  { label: "Outcomes",  desc: "Every resolution is recorded and measured" },
-  { label: "Value",     desc: "Learning compounds — the system improves on every cycle" },
-];
-
-const PARTNER_PATHS = [
-  {
-    id: "operator",
-    title: "Operator / Hotel Group",
-    sub: "FOR OPERATORS",
-    desc: "Improve service recovery, staff consistency, escalation visibility, guest experience and measurable operational execution.",
-    cta: "Show Operator Value",
-    link: "/partner-room/operator-brief",
-    color: "#c9a84c",
-  },
-  {
-    id: "integration",
-    title: "Integration Partner",
-    sub: "FOR TECHNOLOGY PARTNERS",
-    desc: "Connect existing systems into the RTBX Core signal layer so PMS, CRM, POS, workforce, loyalty, guest app and operational systems become live triggers.",
-    cta: "Show Integration Model",
-    link: "/partner-room/integration-brief",
-    color: "#3b82f6",
-  },
-  {
-    id: "commercial",
-    title: "Commercial Partner",
-    sub: "FOR COMMERCIAL PARTNERS",
-    desc: "Activate moments where guest need, commercial intent and operational timing create new value.",
-    cta: "Show Moments Economy",
-    link: "/partner-room/moments-economy",
-    color: "#a78bfa",
-  },
-  {
-    id: "strategic",
-    title: "Strategic / Funding Partner",
-    sub: "FOR STRATEGIC PARTNERS",
-    desc: "Understand the category opportunity, pilot validation model, commercial expansion and behavioural infrastructure position.",
-    cta: "Show Commercial Model",
-    link: "/partner-room/commercial-model",
-    color: "#22d3ee",
-  },
-];
-
-const PARTNER_ASKS = [
-  {
-    title: "Operator Partner",
-    ask: "Pilot 1–3 properties and validate the operating layer against agreed metrics.",
-    color: "#c9a84c",
-  },
-  {
-    title: "Integration Partner",
-    ask: "Map signal sources, confirm technical pathway and define first integration use case.",
-    color: "#3b82f6",
-  },
-  {
-    title: "Commercial Partner",
-    ask: "Map activation moments, partner offers and revenue-sharing pathways.",
-    color: "#a78bfa",
-  },
-  {
-    title: "Strategic Partner",
-    ask: "Support pilot validation, distribution, funding or category development.",
-    color: "#22d3ee",
-  },
-];
-
 const DEPLOYMENT_ENVS = [
   {
     id: "hotels",
@@ -138,41 +67,223 @@ const DEPLOYMENT_ENVS = [
   },
 ];
 
-const THIS_IS_NOT = [
-  "A guest app",
-  "A reporting dashboard",
-  "A replacement PMS",
-  "Another staff portal",
+const PORTAL_SECTIONS = [
+  {
+    num: "01",
+    label: "Partner Room",
+    color: "#c9a84c",
+    desc: "What RTBX Travel is, how RTBX Core powers it, and where WELBX fits as the guest-facing experience layer.",
+    links: [
+      { label: "What is RTBX Travel?",          href: "/partner-room/overview" },
+      { label: "Powered by RTBX Core",           href: "/partner-room/overview" },
+      { label: "WELBX Guest Experience Layer",   href: "/partner-room/guest-demo",  blue: true },
+      { label: "Who this room is for",            href: "/partner-room/overview" },
+    ],
+    cta: "Start Briefing",
+    ctaHref: "/partner-room/overview",
+  },
+  {
+    num: "02",
+    label: "Operating Environments",
+    color: "#10b981",
+    desc: "Five travel environments where RTBX Travel deploys the same RTBX Core operating logic.",
+    links: [
+      { label: "Hotels & Resorts",                     href: "/partner-room" },
+      { label: "Holiday Parks & Outdoor Experiences",  href: "/partner-room/holiday-park-demo" },
+      { label: "Corporate Travel",                      href: "/partner-room" },
+      { label: "Events & Venues",                       href: "/partner-room" },
+      { label: "Destination & Tourism Operators",       href: "/partner-room" },
+    ],
+    cta: "Run Holiday Parks Demo",
+    ctaHref: "/partner-room/holiday-park-demo",
+  },
+  {
+    num: "03",
+    label: "Demo Room",
+    color: "#c9a84c",
+    desc: "Live operating scenarios, guest journeys, operator views and dual-view demonstrations.",
+    links: [
+      { label: "All Demo Paths",          href: "/partner-room/demo-paths" },
+      { label: "Guest Demo",              href: "/partner-room/guest-demo", blue: true },
+      { label: "Operator Demo",           href: "/partner-room/operator-demo" },
+      { label: "Dual View Demo",          href: "/partner-room/dual-view-demo" },
+      { label: "Holiday Parks Scenario",  href: "/partner-room/holiday-park-demo" },
+      { label: "Scenario Demo",           href: "/scenario-demo" },
+    ],
+    cta: "Open Demo Room",
+    ctaHref: "/partner-room/demo-paths",
+  },
+  {
+    num: "04",
+    label: "Moment Economy",
+    color: "#a78bfa",
+    desc: "The moment library — ten categories of service, welfare, commercial and operational moments that create measurable value.",
+    links: [
+      { label: "Partner Moments Economy",   href: "/partner-room/moments-economy" },
+      { label: "Moment Registry",           href: "/moment-registry" },
+      { label: "Moment Intelligence",       href: "/moment-intelligence" },
+      { label: "Live Moments",              href: "/live-moments" },
+    ],
+    cta: "View Moments",
+    ctaHref: "/partner-room/moments-economy",
+  },
+  {
+    num: "05",
+    label: "Decision & Action Layer",
+    color: "#c9a84c",
+    desc: "How RTBX Core classifies moments, selects responses, routes interventions and confirms outcomes.",
+    links: [
+      { label: "Decision Registry",       href: "/decision-registry" },
+      { label: "Playbook Engine",         href: "/playbook-engine" },
+      { label: "Intervention Library",    href: "/intervention-library" },
+      { label: "Signals Engine",          href: "/partner-room/signals-engine" },
+    ],
+    cta: "View Decision Registry",
+    ctaHref: "/decision-registry",
+  },
+  {
+    num: "06",
+    label: "Communications Layer",
+    color: "#22d3ee",
+    desc: "Guest messages, staff instructions and command assurance — structured communication from RTBX Core.",
+    links: [
+      { label: "Central Communications",       href: "/communications" },
+      { label: "Communication Registry",       href: "/communication-registry" },
+      { label: "Communication Intelligence",   href: "/communication-intelligence" },
+    ],
+    cta: "View Communications",
+    ctaHref: "/communications",
+  },
+  {
+    num: "07",
+    label: "Validation Lab",
+    color: "#10b981",
+    desc: "Scenario replay, shadow pilot mode and full validation dashboards — test the system before go-live.",
+    links: [
+      { label: "Scenario Replay Lab",        href: "/scenario-replay-lab" },
+      { label: "Shadow Pilot Mode",          href: "/shadow-pilot-mode" },
+      { label: "Validation Dashboard",       href: "/scenario-validation-dashboard" },
+      { label: "Validation Summary",         href: "/validation-summary" },
+      { label: "Export Reports",             href: "/export-reports" },
+    ],
+    cta: "Open Validation Lab",
+    ctaHref: "/scenario-replay-lab",
+  },
+  {
+    num: "08",
+    label: "IHG Pilot Story",
+    color: "#f97316",
+    desc: "The live pilot narrative — executive briefing, operator deep dive and guest story for a real-world IHG deployment.",
+    links: [
+      { label: "Story Hub",             href: "/story" },
+      { label: "Executive Briefing",    href: "/story/executive-briefing" },
+      { label: "Operator Deep Dive",    href: "/story/operator-deep-dive" },
+      { label: "Live Guest Story",      href: "/story/live-guest-story" },
+    ],
+    cta: "Enter Pilot Story",
+    ctaHref: "/story",
+  },
+  {
+    num: "09",
+    label: "Commercial",
+    color: "#a78bfa",
+    desc: "Pilot model, commercial pathways, integration model and partner engagement structure.",
+    links: [
+      { label: "Pilot Model",           href: "/partner-room/pilot-model" },
+      { label: "Commercial Model",      href: "/partner-room/commercial-model" },
+      { label: "Integration Brief",     href: "/partner-room/integration-brief" },
+    ],
+    cta: "View Commercial Model",
+    ctaHref: "/partner-room/commercial-model",
+  },
+  {
+    num: "10",
+    label: "Brief Library",
+    color: "#3b82f6",
+    desc: "Targeted briefings for operators, technology partners, commercial leads and holiday parks.",
+    links: [
+      { label: "Operator Brief",            href: "/partner-room/operator-brief" },
+      { label: "Integration Brief",         href: "/partner-room/integration-brief" },
+      { label: "Commercial Brief",          href: "/partner-room/commercial-model" },
+      { label: "Holiday Parks Brief",       href: "/partner-room/holiday-park-demo" },
+    ],
+    cta: "Open Brief Library",
+    ctaHref: "/partner-room/operator-brief",
+  },
+  {
+    num: "11",
+    label: "Next Step",
+    color: "#c9a84c",
+    desc: "Start a direct briefing — pilot conversation, partner pathway, integration or funding discussion.",
+    links: [
+      { label: "Partner Briefing",          href: "mailto:lance@rtbx.com.au?subject=RTBX Travel Partner Briefing",       ext: true },
+      { label: "Pilot Conversation",        href: "mailto:lance@rtbx.com.au?subject=RTBX Travel Pilot Conversation",     ext: true },
+      { label: "Integration Conversation",  href: "mailto:lance@rtbx.com.au?subject=RTBX Travel Integration Discussion", ext: true },
+      { label: "Funding Conversation",      href: "mailto:lance@rtbx.com.au?subject=RTBX Travel Funding Discussion",     ext: true },
+    ],
+    cta: "Request Briefing",
+    ctaHref: "mailto:lance@rtbx.com.au?subject=RTBX Travel Partner Briefing",
+    ctaExt: true,
+  },
 ];
 
-const THIS_IS = [
-  "A real-time execution layer",
-  "A signal-to-action system",
-  "A governed response engine",
-  "A partner value platform",
+const THIS_IS_NOT = ["A guest app", "A reporting dashboard", "A replacement PMS", "Another staff portal"];
+const THIS_IS     = ["A real-time execution layer", "A signal-to-action system", "A governed response engine", "A partner value platform"];
+
+const FLOW_STEPS = [
+  { label: "Signals",   desc: "Live data from every operational layer — guest, staff and property sources" },
+  { label: "Moments",   desc: "Pattern recognition surfaces what needs to happen now" },
+  { label: "Decisions", desc: "Governed response logic selects the right action" },
+  { label: "Actions",   desc: "The right team member receives the right instruction" },
+  { label: "Outcomes",  desc: "Every resolution is recorded and measured" },
+  { label: "Value",     desc: "Learning compounds — the system improves on every cycle" },
 ];
+
+function GhostBtn({ href, children, ext = false }: { href: string; children: React.ReactNode; ext?: boolean }) {
+  const inner = (
+    <div style={{
+      padding: "10px 20px",
+      fontSize: 9.5,
+      fontWeight: 700,
+      letterSpacing: "0.1em",
+      textTransform: "uppercase" as const,
+      cursor: "pointer",
+      background: "transparent",
+      color: "rgba(255,255,255,0.55)",
+      border: "1px solid rgba(255,255,255,0.14)",
+      transition: "all 0.15s",
+      display: "inline-flex",
+      alignItems: "center",
+      gap: 6,
+    }}
+    onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = "rgba(255,255,255,0.38)"; el.style.color = "#fff"; }}
+    onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = "rgba(255,255,255,0.14)"; el.style.color = "rgba(255,255,255,0.55)"; }}
+    >
+      {children}
+    </div>
+  );
+  if (ext) return <a href={href} style={{ textDecoration: "none" }}>{inner}</a>;
+  return <Link href={href}>{inner}</Link>;
+}
 
 export default function PartnerRoomLanding() {
   const [activeEnv, setActiveEnv] = useState(0);
   const { content } = usePartnerContent();
   const landing = content?.landing;
 
-  const flowSteps = landing?.flowSteps ?? DEFAULT_FLOW_STEPS;
-  const partnerPaths = landing?.partnerPaths ?? PARTNER_PATHS;
-
   return (
     <PartnerRoomLayout>
-    <div style={{ maxWidth: 1200, margin: "0 auto", padding: "80px 32px 120px" }}>
+    <div style={{ maxWidth: 1280, margin: "0 auto", padding: "72px 32px 140px" }}>
 
-      {/* Header block */}
-      <div style={{ marginBottom: 72 }}>
+      {/* ── HERO ── */}
+      <div style={{ marginBottom: 80 }}>
         {/* Brand hierarchy strip */}
-        <div style={{ display: "flex", gap: 0, marginBottom: 28, flexWrap: "wrap" }}>
+        <div style={{ display: "flex", gap: 0, marginBottom: 32, flexWrap: "wrap" }}>
           {[
-            { label: "RTBX Group", sub: "Parent ecosystem", dim: true },
-            { label: "RTBX Core", sub: "Signal-to-action engine", dim: false },
-            { label: "RTBX Travel", sub: "Travel vertical", dim: false },
-            { label: "WELBX", sub: "Guest experience layer", blue: true },
+            { label: "RTBX Group",  sub: "Parent ecosystem",       dim: true,  blue: false },
+            { label: "RTBX Core",   sub: "Signal-to-action engine", dim: false, blue: false },
+            { label: "RTBX Travel", sub: "Travel vertical",         dim: false, blue: false },
+            { label: "WELBX",       sub: "Guest experience layer",  dim: false, blue: true  },
           ].map((item, i, arr) => (
             <div key={item.label} style={{ display: "flex", alignItems: "center" }}>
               <div style={{
@@ -181,46 +292,38 @@ export default function PartnerRoomLanding() {
                 border: `1px solid ${item.blue ? "rgba(59,130,246,0.2)" : item.dim ? "rgba(255,255,255,0.05)" : "rgba(201,168,76,0.15)"}`,
                 borderRight: "none",
               }}>
-                <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: item.blue ? "#3b82f6" : item.dim ? "rgba(255,255,255,0.3)" : "#c9a84c" }}>
+                <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: item.blue ? "#3b82f6" : item.dim ? "rgba(255,255,255,0.28)" : "#c9a84c" }}>
                   {item.label}
                 </div>
-                <div style={{ fontSize: 7.5, color: "rgba(255,255,255,0.22)", letterSpacing: "0.06em", marginTop: 2 }}>{item.sub}</div>
+                <div style={{ fontSize: 7.5, color: "rgba(255,255,255,0.2)", letterSpacing: "0.06em", marginTop: 2 }}>{item.sub}</div>
               </div>
-              {i < arr.length - 1 && (
-                <div style={{ width: 16, height: 1, background: "rgba(255,255,255,0.1)", flexShrink: 0 }} />
-              )}
+              {i < arr.length - 1 && <div style={{ width: 16, height: 1, background: "rgba(255,255,255,0.08)", flexShrink: 0 }} />}
             </div>
           ))}
         </div>
 
         <div style={{ fontSize: 9, letterSpacing: "0.22em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 20 }}>
-          {landing?.tagline ?? "RTBX Travel Partner Room · Private Strategic Briefing"}
+          {landing?.tagline ?? "Private Strategic Briefing · RTBX Travel"}
         </div>
-        <h1 style={{ fontSize: 52, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.08, marginBottom: 24, maxWidth: 780 }}>
-          The execution layer travel operators<br />
-          <span style={{ color: "#c9a84c" }}>do not currently have.</span>
+        <h1 style={{ fontSize: 56, fontWeight: 800, letterSpacing: "-0.025em", color: "#fff", lineHeight: 1.06, marginBottom: 24, maxWidth: 820 }}>
+          RTBX Travel<br />
+          <span style={{ color: "#c9a84c" }}>Partner Room</span>
         </h1>
-        <p style={{ fontSize: 16, color: "rgba(255,255,255,0.5)", lineHeight: 1.7, maxWidth: 640, marginBottom: 16 }}>
-          RTBX Travel connects guest, staff and operational signals to the right action in the moment — before value is lost, risk escalates or experience breaks down.
+        <p style={{ fontSize: 17, color: "rgba(255,255,255,0.55)", lineHeight: 1.7, maxWidth: 680, marginBottom: 14, fontWeight: 400 }}>
+          Real-time guest, operator and service-moment infrastructure — powered by RTBX Core.
         </p>
-        <p style={{ fontSize: 13, color: "rgba(255,255,255,0.32)", lineHeight: 1.65, maxWidth: 580, marginBottom: 48 }}>
+        <p style={{ fontSize: 14, color: "rgba(255,255,255,0.4)", lineHeight: 1.75, maxWidth: 640, marginBottom: 14 }}>
+          RTBX Travel turns live signals across hotels, resorts, holiday parks and experience environments into guided action, escalation, assurance and measurable value.
+        </p>
+        <p style={{ fontSize: 12, color: "rgba(255,255,255,0.25)", lineHeight: 1.6, maxWidth: 560, marginBottom: 44, letterSpacing: "0.01em" }}>
           RTBX Travel is powered by RTBX Core. WELBX is the guest-facing experience layer.
         </p>
 
-        {/* CTA buttons */}
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
           <Link href="/partner-room/dual-view-demo">
             <div style={{
-              padding: "14px 28px",
-              fontSize: 11,
-              fontWeight: 700,
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
-              cursor: "pointer",
-              background: "#c9a84c",
-              color: "#080c14",
-              border: "1px solid #c9a84c",
-              transition: "all 0.15s",
+              padding: "14px 28px", fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase",
+              cursor: "pointer", background: "#c9a84c", color: "#080c14", border: "1px solid #c9a84c", transition: "all 0.15s",
             }}
             onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "#d4b35e"; }}
             onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "#c9a84c"; }}
@@ -228,225 +331,232 @@ export default function PartnerRoomLanding() {
               Open Dual View Demo
             </div>
           </Link>
-          {[
-            { label: "Choose Partner Path", href: "#partner-paths" as string },
-            { label: "View Pilot Model",    href: "/partner-room/pilot-model" as string },
-          ].map(btn => (
-            btn.href.startsWith("#") ? (
-              <a key={btn.label} href={btn.href} style={{ textDecoration: "none" }}>
-                <div style={{
-                  padding: "14px 28px",
-                  fontSize: 11,
-                  fontWeight: 700,
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                  cursor: "pointer",
-                  background: "transparent",
-                  color: "rgba(255,255,255,0.6)",
-                  border: "1px solid rgba(255,255,255,0.15)",
-                  transition: "all 0.15s",
-                }}
-                onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = "rgba(255,255,255,0.4)"; el.style.color = "#fff"; }}
-                onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = "rgba(255,255,255,0.15)"; el.style.color = "rgba(255,255,255,0.6)"; }}
-                >
-                  {btn.label}
-                </div>
-              </a>
-            ) : (
-              <Link key={btn.label} href={btn.href}>
-                <div style={{
-                  padding: "14px 28px",
-                  fontSize: 11,
-                  fontWeight: 700,
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                  cursor: "pointer",
-                  background: "transparent",
-                  color: "rgba(255,255,255,0.6)",
-                  border: "1px solid rgba(255,255,255,0.15)",
-                  transition: "all 0.15s",
-                }}
-                onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = "rgba(255,255,255,0.4)"; el.style.color = "#fff"; }}
-                onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = "rgba(255,255,255,0.15)"; el.style.color = "rgba(255,255,255,0.6)"; }}
-                >
-                  {btn.label}
-                </div>
-              </Link>
-            )
+          <GhostBtn href="/story">IHG Pilot Story</GhostBtn>
+          <GhostBtn href="/partner-room/demo-paths">Demo Room</GhostBtn>
+          <GhostBtn href="mailto:lance@rtbx.com.au?subject=RTBX Travel Partner Briefing" ext>Request Briefing</GhostBtn>
+        </div>
+      </div>
+
+      {/* ── WHAT IT IS / IS NOT ── */}
+      <div style={{ marginBottom: 72 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2 }}>
+          <div style={{ padding: "32px 28px", background: "rgba(255,255,255,0.015)", border: "1px solid rgba(255,255,255,0.06)" }}>
+            <div style={{ fontSize: 9, letterSpacing: "0.16em", color: "rgba(255,255,255,0.28)", textTransform: "uppercase", fontWeight: 700, marginBottom: 20 }}>This is not</div>
+            {THIS_IS_NOT.map(item => (
+              <div key={item} style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
+                <div style={{ width: 14, height: 1, background: "rgba(239,68,68,0.35)", flexShrink: 0 }} />
+                <span style={{ fontSize: 13, color: "rgba(255,255,255,0.36)" }}>{item}</span>
+              </div>
+            ))}
+          </div>
+          <div style={{ padding: "32px 28px", background: "rgba(201,168,76,0.025)", border: "1px solid rgba(201,168,76,0.1)", borderLeft: "2px solid rgba(201,168,76,0.35)" }}>
+            <div style={{ fontSize: 9, letterSpacing: "0.16em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 20 }}>This is</div>
+            {THIS_IS.map(item => (
+              <div key={item} style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
+                <div style={{ width: 14, height: 1, background: "rgba(201,168,76,0.5)", flexShrink: 0 }} />
+                <span style={{ fontSize: 13, color: "rgba(255,255,255,0.68)", fontWeight: 500 }}>{item}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ── RTBX CORE OPERATING CHAIN ── */}
+      <div style={{ marginBottom: 88 }}>
+        <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 20 }}>
+          The RTBX Core Operating Chain
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 2 }}>
+          {FLOW_STEPS.map((step, i) => (
+            <div key={step.label} style={{
+              padding: "20px 16px",
+              background: "rgba(255,255,255,0.02)",
+              border: "1px solid rgba(255,255,255,0.06)",
+              borderLeft: i === 0 ? "2px solid #c9a84c" : undefined,
+              position: "relative",
+            }}>
+              <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(201,168,76,0.45)", textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>
+                {String(i + 1).padStart(2, "0")}
+              </div>
+              <div style={{ fontSize: 12, fontWeight: 700, color: "#fff", marginBottom: 8 }}>{step.label}</div>
+              <div style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", lineHeight: 1.5 }}>{step.desc}</div>
+              {i < FLOW_STEPS.length - 1 && (
+                <div style={{ position: "absolute", right: -7, top: "50%", transform: "translateY(-50%)", width: 12, height: 1, background: "rgba(201,168,76,0.25)", zIndex: 1 }} />
+              )}
+            </div>
           ))}
         </div>
       </div>
 
-      {/* What you are looking at */}
-      <div style={{ marginBottom: 80 }}>
-        <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 28 }}>
-          What you are looking at
+      {/* ── 11 SECTION PORTAL CARDS ── */}
+      <div style={{ marginBottom: 96 }}>
+        <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
+          Partner Room · Navigation
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2 }}>
-          {/* This is not */}
-          <div style={{
-            padding: "36px 32px",
-            background: "rgba(255,255,255,0.015)",
-            border: "1px solid rgba(255,255,255,0.06)",
-          }}>
-            <div style={{ fontSize: 10, letterSpacing: "0.14em", color: "rgba(255,255,255,0.3)", textTransform: "uppercase", fontWeight: 700, marginBottom: 24 }}>
-              This is not
+        <div style={{ fontSize: 22, fontWeight: 700, color: "#fff", letterSpacing: "-0.01em", marginBottom: 8 }}>
+          Eleven sections. One portal.
+        </div>
+        <p style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", lineHeight: 1.75, maxWidth: 580, marginBottom: 40 }}>
+          Each section is a structured entry point into the RTBX Travel platform. Start with the one that fits your context — all routes remain active.
+        </p>
+
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
+          {PORTAL_SECTIONS.map(sec => (
+            <div key={sec.num} style={{
+              padding: "28px 26px",
+              background: "rgba(255,255,255,0.02)",
+              border: "1px solid rgba(255,255,255,0.06)",
+              borderTop: `2px solid ${sec.color}`,
+              display: "flex",
+              flexDirection: "column",
+            }}>
+              {/* Section header */}
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
+                <span style={{ fontSize: 9, fontWeight: 800, color: `${sec.color}50`, letterSpacing: "0.08em" }}>{sec.num}</span>
+                <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: sec.color }}>{sec.label}</span>
+              </div>
+
+              <p style={{ fontSize: 12, color: "rgba(255,255,255,0.42)", lineHeight: 1.65, marginBottom: 18, flex: 1 }}>
+                {sec.desc}
+              </p>
+
+              {/* Sub-links */}
+              <div style={{ display: "flex", flexDirection: "column", gap: 5, marginBottom: 20 }}>
+                {sec.links.map((link, j) => {
+                  const inner = (
+                    <div style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 8,
+                      fontSize: 11,
+                      color: (link as any).blue ? "rgba(59,130,246,0.75)" : "rgba(255,255,255,0.42)",
+                      cursor: "pointer",
+                      transition: "color 0.12s",
+                      padding: "3px 0",
+                    }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = (link as any).blue ? "#3b82f6" : "rgba(255,255,255,0.85)"; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = (link as any).blue ? "rgba(59,130,246,0.75)" : "rgba(255,255,255,0.42)"; }}
+                    >
+                      <div style={{ width: 12, height: 1, background: (link as any).blue ? "rgba(59,130,246,0.4)" : `${sec.color}35`, flexShrink: 0 }} />
+                      {link.label}
+                    </div>
+                  );
+                  return (link as any).ext
+                    ? <a key={j} href={link.href} style={{ textDecoration: "none" }}>{inner}</a>
+                    : <Link key={j} href={link.href}>{inner}</Link>;
+                })}
+              </div>
+
+              {/* CTA */}
+              {(sec as any).ctaExt ? (
+                <a href={sec.ctaHref} style={{ textDecoration: "none" }}>
+                  <div style={{
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    padding: "10px 0", fontSize: 9.5, fontWeight: 700, letterSpacing: "0.1em",
+                    textTransform: "uppercase", color: sec.color, border: `1px solid ${sec.color}40`,
+                    cursor: "pointer", transition: "all 0.15s",
+                  }}
+                  onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = `${sec.color}12`; el.style.borderColor = `${sec.color}80`; }}
+                  onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "transparent"; el.style.borderColor = `${sec.color}40`; }}
+                  >
+                    {sec.cta} →
+                  </div>
+                </a>
+              ) : (
+                <Link href={sec.ctaHref}>
+                  <div style={{
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    padding: "10px 0", fontSize: 9.5, fontWeight: 700, letterSpacing: "0.1em",
+                    textTransform: "uppercase", color: sec.color, border: `1px solid ${sec.color}40`,
+                    cursor: "pointer", transition: "all 0.15s",
+                  }}
+                  onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = `${sec.color}12`; el.style.borderColor = `${sec.color}80`; }}
+                  onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "transparent"; el.style.borderColor = `${sec.color}40`; }}
+                  >
+                    {sec.cta} →
+                  </div>
+                </Link>
+              )}
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-              {THIS_IS_NOT.map(item => (
-                <div key={item} style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                  <div style={{ width: 14, height: 1, background: "rgba(239,68,68,0.4)", flexShrink: 0 }} />
-                  <span style={{ fontSize: 13, color: "rgba(255,255,255,0.38)", lineHeight: 1.5 }}>{item}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-          {/* This is */}
-          <div style={{
-            padding: "36px 32px",
-            background: "rgba(201,168,76,0.03)",
-            border: "1px solid rgba(201,168,76,0.12)",
-            borderLeft: "2px solid rgba(201,168,76,0.4)",
-          }}>
-            <div style={{ fontSize: 10, letterSpacing: "0.14em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 24 }}>
-              This is
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-              {THIS_IS.map(item => (
-                <div key={item} style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                  <div style={{ width: 14, height: 1, background: "rgba(201,168,76,0.6)", flexShrink: 0 }} />
-                  <span style={{ fontSize: 13, color: "rgba(255,255,255,0.7)", fontWeight: 500, lineHeight: 1.5 }}>{item}</span>
-                </div>
-              ))}
-            </div>
-          </div>
+          ))}
         </div>
       </div>
 
-      {/* Travel Deployment Environments */}
-      <div style={{ marginBottom: 96 }}>
-        <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
+      {/* ── OPERATING ENVIRONMENTS (tabbed) ── */}
+      <div id="environments" style={{ marginBottom: 96 }}>
+        <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
           RTBX Travel · Deployment Environments
         </div>
-        <div style={{ fontSize: 22, fontWeight: 700, color: "#fff", letterSpacing: "-0.01em", marginBottom: 12, maxWidth: 680 }}>
-          RTBX Travel. Five deployment environments.
+        <div style={{ fontSize: 22, fontWeight: 700, color: "#fff", letterSpacing: "-0.01em", marginBottom: 10, maxWidth: 680 }}>
+          Five deployment environments. One operating system.
         </div>
-        <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.75, maxWidth: 620, marginBottom: 36 }}>
-          RTBX Travel applies the same RTBX Core signal-to-action infrastructure across different guest and operator environments. The setting changes — hotels, parks, events, corporate, destination — but the execution logic remains the same.
+        <p style={{ fontSize: 13, color: "rgba(255,255,255,0.42)", lineHeight: 1.75, maxWidth: 620, marginBottom: 32 }}>
+          RTBX Core applies the same signal-to-action infrastructure across every environment. The context changes — the execution logic remains the same.
         </p>
 
-        {/* Environment tab strip */}
+        {/* Tab strip */}
         <div style={{ display: "flex", gap: 2, marginBottom: 2 }}>
           {DEPLOYMENT_ENVS.map((env, i) => (
             <button
               key={env.id}
               onClick={() => setActiveEnv(i)}
               style={{
-                flex: 1,
-                padding: "14px 10px",
+                flex: 1, padding: "13px 10px",
                 background: i === activeEnv ? `${env.color}10` : "rgba(255,255,255,0.02)",
                 border: `1px solid ${i === activeEnv ? env.color + "40" : "rgba(255,255,255,0.06)"}`,
                 borderBottom: i === activeEnv ? `2px solid ${env.color}` : "1px solid rgba(255,255,255,0.06)",
-                cursor: "pointer",
-                textAlign: "center",
-                transition: "all 0.15s",
+                cursor: "pointer", textAlign: "center", transition: "all 0.15s",
               }}
-              onMouseEnter={e => { if (i !== activeEnv) { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(255,255,255,0.04)"; el.style.borderColor = "rgba(255,255,255,0.12)"; }}}
-              onMouseLeave={e => { if (i !== activeEnv) { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(255,255,255,0.02)"; el.style.borderColor = "rgba(255,255,255,0.06)"; }}}
+              onMouseEnter={e => { if (i !== activeEnv) { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(255,255,255,0.04)"; } }}
+              onMouseLeave={e => { if (i !== activeEnv) { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(255,255,255,0.02)"; } }}
             >
-              <div style={{
-                fontSize: 9,
-                letterSpacing: "0.12em",
-                textTransform: "uppercase",
-                fontWeight: 700,
-                color: i === activeEnv ? DEPLOYMENT_ENVS[i].color : "rgba(255,255,255,0.35)",
-                lineHeight: 1.4,
-              }}>
+              <div style={{ fontSize: 9, letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 700, color: i === activeEnv ? env.color : "rgba(255,255,255,0.3)", lineHeight: 1.4 }}>
                 {env.title}
               </div>
             </button>
           ))}
         </div>
 
-        {/* Active environment detail panel */}
         {(() => {
           const env = DEPLOYMENT_ENVS[activeEnv];
           return (
-            <div style={{
-              padding: "36px 36px",
-              background: `${env.color}05`,
-              border: `1px solid ${env.color}20`,
-              borderTop: "none",
-            }}>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40, marginBottom: 32 }}>
+            <div style={{ padding: "32px 32px", background: `${env.color}05`, border: `1px solid ${env.color}20`, borderTop: "none" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 36, marginBottom: 28 }}>
                 <div>
-                  <div style={{ fontSize: 8, letterSpacing: "0.18em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
-                    Focus
-                  </div>
-                  <p style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", lineHeight: 1.7, marginBottom: 24 }}>
-                    {env.focus}
-                  </p>
-                  <div style={{ fontSize: 8, letterSpacing: "0.18em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
-                    Action Pathway
-                  </div>
-                  <div style={{ fontSize: 12, color: env.color, fontWeight: 600, letterSpacing: "0.03em" }}>
-                    {env.pathway}
-                  </div>
+                  <div style={{ fontSize: 8, letterSpacing: "0.16em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>Focus</div>
+                  <p style={{ fontSize: 13, color: "rgba(255,255,255,0.58)", lineHeight: 1.7, marginBottom: 20 }}>{env.focus}</p>
+                  <div style={{ fontSize: 8, letterSpacing: "0.16em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>Action Pathway</div>
+                  <div style={{ fontSize: 12, color: env.color, fontWeight: 600 }}>{env.pathway}</div>
                 </div>
                 <div>
-                  <div style={{ fontSize: 8, letterSpacing: "0.18em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
-                    Signal Examples
-                  </div>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 7, marginBottom: 0 }}>
-                    {env.signals.map((sig, j) => (
-                      <div key={j} style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                        <div style={{ width: 16, height: 1, background: `${env.color}50`, flexShrink: 0 }} />
-                        <span style={{ fontSize: 12, color: "rgba(255,255,255,0.5)" }}>{sig}</span>
-                      </div>
-                    ))}
-                  </div>
+                  <div style={{ fontSize: 8, letterSpacing: "0.16em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>Signal Examples</div>
+                  {env.signals.map((sig, j) => (
+                    <div key={j} style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 7 }}>
+                      <div style={{ width: 14, height: 1, background: `${env.color}45`, flexShrink: 0 }} />
+                      <span style={{ fontSize: 12, color: "rgba(255,255,255,0.48)" }}>{sig}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
-
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 2 }}>
                 {[
-                  { label: "Operator Value", value: env.operatorValue, color: "#c9a84c" },
-                  { label: "Guest Value", value: env.guestValue, color: "#10b981" },
-                  { label: "Partner Opportunity", value: env.partnerOpportunity, color: "#3b82f6" },
+                  { label: "Operator Value",       value: env.operatorValue,       color: "#c9a84c" },
+                  { label: "Guest Value",           value: env.guestValue,          color: "#10b981" },
+                  { label: "Partner Opportunity",   value: env.partnerOpportunity,  color: "#3b82f6" },
                 ].map(block => (
-                  <div key={block.label} style={{
-                    padding: "20px 20px",
-                    background: "rgba(255,255,255,0.02)",
-                    border: "1px solid rgba(255,255,255,0.06)",
-                    borderTop: `2px solid ${block.color}`,
-                  }}>
-                    <div style={{ fontSize: 8, letterSpacing: "0.16em", color: block.color, textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
-                      {block.label}
-                    </div>
-                    <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", lineHeight: 1.65 }}>
-                      {block.value}
-                    </div>
+                  <div key={block.label} style={{ padding: "18px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)", borderTop: `2px solid ${block.color}` }}>
+                    <div style={{ fontSize: 8, letterSpacing: "0.14em", color: block.color, textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>{block.label}</div>
+                    <div style={{ fontSize: 12, color: "rgba(255,255,255,0.48)", lineHeight: 1.6 }}>{block.value}</div>
                   </div>
                 ))}
               </div>
-
               {env.demoLink && (
-                <div style={{ marginTop: 24 }}>
+                <div style={{ marginTop: 20 }}>
                   <Link href={env.demoLink}>
                     <div style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 10,
-                      padding: "12px 24px",
-                      fontSize: 10,
-                      fontWeight: 700,
-                      letterSpacing: "0.12em",
-                      textTransform: "uppercase",
-                      cursor: "pointer",
-                      background: env.color,
-                      color: "#080c14",
-                      border: `1px solid ${env.color}`,
-                      transition: "all 0.15s",
+                      display: "inline-flex", alignItems: "center", gap: 8, padding: "11px 22px",
+                      fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase",
+                      cursor: "pointer", background: env.color, color: "#080c14", transition: "opacity 0.15s",
                     }}
                     onMouseEnter={e => { (e.currentTarget as HTMLElement).style.opacity = "0.85"; }}
                     onMouseLeave={e => { (e.currentTarget as HTMLElement).style.opacity = "1"; }}
@@ -461,77 +571,32 @@ export default function PartnerRoomLanding() {
         })()}
       </div>
 
-      {/* Six-step flow visual */}
-      <div style={{ marginBottom: 96 }}>
-        <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 28 }}>
-          The RTBX Core Operating Chain
-        </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 2 }}>
-          {flowSteps.map((step, i) => (
-            <div key={step.label} style={{
-              padding: "24px 18px",
-              background: "rgba(255,255,255,0.025)",
-              border: "1px solid rgba(255,255,255,0.06)",
-              borderLeft: i === 0 ? "2px solid #c9a84c" : undefined,
-              position: "relative",
-            }}>
-              <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(201,168,76,0.5)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
-                {String(i + 1).padStart(2, "0")}
-              </div>
-              <div style={{ fontSize: 13, fontWeight: 700, color: "#fff", marginBottom: 10, letterSpacing: "0.02em" }}>
-                {step.label}
-              </div>
-              <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.38)", lineHeight: 1.55 }}>
-                {step.desc}
-              </div>
-              {i < flowSteps.length - 1 && (
-                <div style={{ position: "absolute", right: -9, top: "50%", transform: "translateY(-50%)", width: 16, height: 1, background: "rgba(201,168,76,0.3)", zIndex: 1 }} />
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Partner path cards */}
-      <div id="partner-paths" style={{ marginBottom: 80 }}>
-        <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 28 }}>
-          Partnership Paths
+      {/* ── PARTNER PATHS ── */}
+      <div id="partner-paths" style={{ marginBottom: 72 }}>
+        <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 28 }}>
+          Choose your entry point
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
-          {partnerPaths.map((card: typeof PARTNER_PATHS[0]) => (
-            <div key={card.id ?? card.title} style={{
-              padding: "36px 28px",
-              background: "rgba(255,255,255,0.02)",
-              border: "1px solid rgba(255,255,255,0.07)",
-              borderTop: `2px solid ${card.color}`,
-              display: "flex",
-              flexDirection: "column",
-              gap: 0,
+          {[
+            { sub: "FOR OPERATORS", title: "Operator / Hotel Group", desc: "Service recovery, staff consistency, escalation visibility and measurable operational execution.", cta: "Operator Brief", href: "/partner-room/operator-brief", color: "#c9a84c" },
+            { sub: "FOR TECHNOLOGY PARTNERS", title: "Integration Partner", desc: "Connect PMS, CRM, POS, workforce and loyalty systems as live RTBX Core signal sources.", cta: "Integration Brief", href: "/partner-room/integration-brief", color: "#3b82f6" },
+            { sub: "FOR COMMERCIAL PARTNERS", title: "Commercial Partner", desc: "Activate moments where guest need, commercial intent and operational timing create value.", cta: "Moments Economy", href: "/partner-room/moments-economy", color: "#a78bfa" },
+            { sub: "FOR STRATEGIC PARTNERS", title: "Strategic / Funding Partner", desc: "Category opportunity, pilot validation model, commercial expansion and infrastructure position.", cta: "Commercial Model", href: "/partner-room/commercial-model", color: "#22d3ee" },
+          ].map(card => (
+            <div key={card.title} style={{
+              padding: "32px 24px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)",
+              borderTop: `2px solid ${card.color}`, display: "flex", flexDirection: "column",
             }}>
-              <div style={{ fontSize: 7.5, letterSpacing: "0.2em", color: card.color, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>
-                {card.sub}
-              </div>
-              <div style={{ fontSize: 16, fontWeight: 700, color: "#fff", marginBottom: 16, letterSpacing: "-0.01em", lineHeight: 1.3 }}>
-                {card.title}
-              </div>
-              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.42)", lineHeight: 1.7, marginBottom: 28, flex: 1 }}>
-                {card.desc}
-              </div>
-              <Link href={card.link}>
+              <div style={{ fontSize: 7.5, letterSpacing: "0.2em", color: card.color, textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>{card.sub}</div>
+              <div style={{ fontSize: 15, fontWeight: 700, color: "#fff", marginBottom: 14, lineHeight: 1.3, flex: 1 }}>{card.title}</div>
+              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", lineHeight: 1.65, marginBottom: 22 }}>{card.desc}</div>
+              <Link href={card.href}>
                 <div style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 8,
-                  fontSize: 10,
-                  fontWeight: 700,
-                  letterSpacing: "0.12em",
-                  textTransform: "uppercase",
-                  color: card.color,
-                  cursor: "pointer",
-                  transition: "opacity 0.15s",
+                  fontSize: 9.5, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase",
+                  color: card.color, cursor: "pointer", transition: "opacity 0.15s",
                 }}
-                onMouseEnter={e => (e.currentTarget as HTMLElement).style.opacity = "0.7"}
-                onMouseLeave={e => (e.currentTarget as HTMLElement).style.opacity = "1"}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.opacity = "0.65"; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.opacity = "1"; }}
                 >
                   {card.cta} →
                 </div>
@@ -541,46 +606,19 @@ export default function PartnerRoomLanding() {
         </div>
       </div>
 
-      {/* Partner Ask section */}
-      <div style={{ marginBottom: 80 }}>
-        <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 28 }}>
-          Where a partner can engage
-        </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
-          {PARTNER_ASKS.map(ask => (
-            <div key={ask.title} style={{
-              padding: "28px 24px",
-              background: "rgba(255,255,255,0.015)",
-              border: "1px solid rgba(255,255,255,0.06)",
-            }}>
-              <div style={{ width: 28, height: 2, background: ask.color, marginBottom: 18, opacity: 0.6 }} />
-              <div style={{ fontSize: 13, fontWeight: 700, color: "#fff", marginBottom: 12 }}>
-                {ask.title}
-              </div>
-              <div style={{ fontSize: 11.5, color: "rgba(255,255,255,0.4)", lineHeight: 1.7 }}>
-                {ask.ask}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Proof discipline banner */}
+      {/* ── PROOF BANNER ── */}
       <PartnerProofBanner />
 
-      {/* CTA footer */}
+      {/* ── FOOTER CTA ── */}
       <div style={{
-        padding: "48px 40px",
+        padding: "44px 40px",
         background: "rgba(201,168,76,0.04)",
         border: "1px solid rgba(201,168,76,0.12)",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "flex-start",
-        gap: 28,
+        display: "flex", flexDirection: "column", gap: 24,
       }}>
         <div>
-          <div style={{ fontSize: 9, letterSpacing: "0.2em", color: "rgba(201,168,76,0.6)", textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>
-            Strongest Journey
+          <div style={{ fontSize: 9, letterSpacing: "0.2em", color: "rgba(201,168,76,0.6)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
+            Next Step
           </div>
           <div style={{ fontSize: 20, fontWeight: 700, color: "#fff", letterSpacing: "-0.01em" }}>
             Ready to map this to your environment?
@@ -589,16 +627,8 @@ export default function PartnerRoomLanding() {
         <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
           <Link href="/partner-room/dual-view-demo">
             <div style={{
-              padding: "12px 24px",
-              fontSize: 11,
-              fontWeight: 700,
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
-              cursor: "pointer",
-              background: "#c9a84c",
-              color: "#080c14",
-              border: "1px solid #c9a84c",
-              transition: "all 0.15s",
+              padding: "12px 24px", fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase",
+              cursor: "pointer", background: "#c9a84c", color: "#080c14", border: "1px solid #c9a84c", transition: "all 0.15s",
             }}
             onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "#d4b35e"; }}
             onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "#c9a84c"; }}
@@ -606,44 +636,9 @@ export default function PartnerRoomLanding() {
               Open Dual View Demo
             </div>
           </Link>
-          <Link href="/partner-room/pilot-model">
-            <div style={{
-              padding: "12px 24px",
-              fontSize: 11,
-              fontWeight: 700,
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
-              cursor: "pointer",
-              background: "transparent",
-              color: "rgba(255,255,255,0.6)",
-              border: "1px solid rgba(255,255,255,0.15)",
-              transition: "all 0.15s",
-            }}
-            onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = "rgba(255,255,255,0.4)"; el.style.color = "#fff"; }}
-            onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = "rgba(255,255,255,0.15)"; el.style.color = "rgba(255,255,255,0.6)"; }}
-            >
-              View Pilot Model
-            </div>
-          </Link>
-          <a href="mailto:lance@rtbx.com.au?subject=RTBX Travel Partner Briefing" style={{ textDecoration: "none" }}>
-            <div style={{
-              padding: "12px 24px",
-              fontSize: 11,
-              fontWeight: 700,
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
-              cursor: "pointer",
-              background: "transparent",
-              color: "rgba(255,255,255,0.6)",
-              border: "1px solid rgba(255,255,255,0.15)",
-              transition: "all 0.15s",
-            }}
-            onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = "rgba(255,255,255,0.4)"; el.style.color = "#fff"; }}
-            onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.borderColor = "rgba(255,255,255,0.15)"; el.style.color = "rgba(255,255,255,0.6)"; }}
-            >
-              Request Partner Briefing
-            </div>
-          </a>
+          <GhostBtn href="/story">IHG Pilot Story</GhostBtn>
+          <GhostBtn href="/partner-room/pilot-model">Pilot Model</GhostBtn>
+          <GhostBtn href="mailto:lance@rtbx.com.au?subject=RTBX Travel Partner Briefing" ext>Request Partner Briefing</GhostBtn>
         </div>
       </div>
 
