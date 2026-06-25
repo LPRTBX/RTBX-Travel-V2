@@ -1,0 +1,108 @@
+You are working on the RTBX Travel Partner Room app.
+
+The Product Proof page is much closer, but it still has too many overlapping categories:
+- Interactive Modules
+- Demo Lanes
+- Product Modules
+
+Clean this page so it feels like a controlled proof experience, not a menu of mixed demos.
+
+Do not rebuild the whole app.
+Do not delete existing routes.
+Reorganise and relabel the Product Proof page.
+
+Required structure:
+
+Page title:
+Product Proof
+
+Subtitle:
+See RTBX Travel working across live scenarios, role views, communications, decision logic and value proof.
+
+Section 1:
+Choose a Proof Mode
+
+Show four primary cards only:
+
+1. Scenario Builder
+Description:
+Build a travel scenario and watch RTBX classify, decide, execute and assure.
+
+Button:
+Open Scenario Builder
+
+2. Dual View Demo
+Description:
+See the same moment from the guest, operator, command and partner view.
+
+Button:
+Open Dual View
+
+3. Communications Routing Demo
+Description:
+Watch RTBX route the right message to the right person at the right time.
+
+Button:
+Open Communications Demo
+
+4. Proof of Value Calculator
+Description:
+Adjust assumptions and see indicative value protected, revenue created and staff time saved.
+
+Button:
+Open Calculator
+
+Remove the separate “Demo Lanes” section as a top-level row.
+
+Do not delete those routes. Reassign them as follows:
+
+- Guest & Operator Demo should sit inside or link from Dual View Demo.
+- Scenario Replay should sit under Validation, not Product Proof.
+- Core Systems Preview should become the next Product Proof section, not a card mixed with demo lanes.
+
+Section 2:
+Core Systems Preview
+
+This section should explain:
+RTBX Core is made up of reusable system layers that turn signals into action, assurance and value.
+
+Show six system cards or tabs:
+
+1. Moment Economy
+2. Signals Engine Brief
+3. Decision Spine
+4. Intervention Library
+5. Central Communications Layer
+6. Registry & Assurance Layer
+
+Each system card should have:
+- What it does
+- Why it matters
+- View button
+
+Important label changes:
+- Rename “Decision Spine” to “Decision Spine Demo” only if it has interaction.
+- If it is informational, call it “Decision Spine Brief”.
+- Rename “Decision & Action Layer” to “Decision & Action Layer Brief”.
+- Rename “Central Communications System” to “Central Communications Layer”.
+- Keep “Signals Engine Brief” as a brief unless it becomes interactive.
+
+Section 3:
+Additional Walkthroughs
+
+Use this section only for secondary or static walkthroughs:
+- Holiday Parks Demo
+- Guest Journey Walkthrough
+- Operator Deep Dive Walkthrough
+- Demo Directory
+
+Keep this section visually smaller than Choose a Proof Mode.
+
+Final behaviour:
+- The Product Proof page should not feel like three competing menus.
+- The visitor should first choose one of four proof modes.
+- The core system modules should sit underneath as supporting proof.
+- Static walkthroughs should be secondary, not primary.
+- No dead buttons.
+- No blank routes.
+- Button labels must match the actual experience.

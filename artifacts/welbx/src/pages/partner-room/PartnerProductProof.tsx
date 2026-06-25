@@ -1,88 +1,202 @@
 import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 
-const INTERACTIVE_MODULES = [
+const PROOF_MODES = [
   {
     num: "01",
     label: "Scenario Builder",
     color: "#c9a84c",
-    tag: "Signal · Classify · Decide · Execute · Assure · Value",
-    desc: "Choose an environment, scenario type, risk level and role view — step through how RTBX Core handles it in real time.",
+    desc: "Build a travel scenario and watch RTBX classify, decide, execute and assure.",
     href: "/partner-room/scenario-builder",
     cta: "Open Scenario Builder",
   },
   {
     num: "02",
-    label: "Communications Routing",
+    label: "Dual View Demo",
     color: "#3b82f6",
-    tag: "Guest · Staff · Manager · Command",
-    desc: "Select a scenario and watch RTBX Core route the right message to the right person at the right time.",
-    href: "/partner-room/comms-demo",
-    cta: "Open Comms Demo",
+    desc: "See the same moment from the guest, operator, command and partner view.",
+    href: "/partner-room/dual-view-demo",
+    cta: "Open Dual View",
   },
   {
     num: "03",
-    label: "Decision Spine",
-    color: "#f97316",
-    tag: "Classify · Decide · Intervene · Assure",
-    desc: "Toggle inputs in a Holiday Park arrival scenario — see the classification, decision, intervention and assurance path update instantly.",
-    href: "/partner-room/decision-spine",
-    cta: "Open Decision Demo",
+    label: "Communications Routing Demo",
+    color: "#10b981",
+    desc: "Watch RTBX route the right message to the right person at the right time.",
+    href: "/partner-room/comms-demo",
+    cta: "Open Communications Demo",
   },
   {
     num: "04",
     label: "Proof of Value Calculator",
-    color: "#10b981",
-    tag: "Value Protected · Revenue Created · Hours Saved",
-    desc: "Adjust sliders for your property — get indicative monthly estimates for value protected, revenue created and staff hours saved.",
+    color: "#a78bfa",
+    desc: "Adjust assumptions and see indicative value protected, revenue created and staff time saved.",
     href: "/partner-room/proof-calculator",
     cta: "Open Calculator",
   },
 ];
 
-const DEMO_LANES = [
+const CORE_SYSTEMS = [
   {
-    num: "01",
-    label: "Dual View Demo",
-    color: "#c9a84c",
-    desc: "Side-by-side guest and operator view — watch the same moment unfold from both perspectives simultaneously.",
-    href: "/partner-room/dual-view-demo",
-    cta: "Open Dual View",
+    label: "Moment Economy",
+    tag: "Brief",
+    tagColor: "#c9a84c",
+    href: "/partner-room/moments-economy",
+    does: "Categorises every guest interaction into one of ten moment types — from arrival friction to welfare, revenue activation and VIP service.",
+    matters: "The moment layer is what turns raw signal data into something a system can act on with a governed, repeatable response.",
   },
   {
-    num: "02",
-    label: "Scenario Replay",
-    color: "#10b981",
-    desc: "Replay a live operating scenario — from signal detection through to resolution and outcome assurance.",
-    href: "/partner-room/demo-paths",
-    cta: "Run Scenario",
+    label: "Signals Engine Brief",
+    tag: "Brief",
+    tagColor: "#c9a84c",
+    href: "/partner-room/signals-engine",
+    does: "Captures real-time data from WELBX, PMS, POS, workforce and IoT sources — converts streams into classified moment signals.",
+    matters: "Without a structured signal layer, operators are reactive. With it, RTBX Core acts before the guest needs to say anything.",
   },
   {
-    num: "03",
-    label: "Guest & Operator Demo",
-    color: "#3b82f6",
-    desc: "Walk through the system from the guest layer (WELBX) through to the operator console in a single flow.",
-    href: "/partner-room/guest-demo",
-    cta: "Start Demo",
+    label: "Decision Spine Demo",
+    tag: "Interactive",
+    tagColor: "#f97316",
+    href: "/partner-room/decision-spine",
+    does: "Matches each classified moment to a governed playbook — selects a decision, assigns an owner and sets an escalation threshold.",
+    matters: "Consistent, auditable decisions across every property and shift — no reliance on individual judgement or memory.",
   },
   {
-    num: "04",
-    label: "Core Systems Preview",
-    color: "#a78bfa",
-    desc: "A high-level preview of all active RTBX Core modules — moments, decisions, communications, assurance.",
-    href: "/partner-room/demo-paths",
-    cta: "View Preview",
+    label: "Intervention Library",
+    tag: "Brief",
+    tagColor: "#c9a84c",
+    href: "/partner-room/signals-engine",
+    does: "A library of pre-built and configurable response playbooks — one for every moment category, risk level and deployment environment.",
+    matters: "Operators don't need to write protocols from scratch. The library gives them a tested, editable starting point for every scenario.",
+  },
+  {
+    label: "Central Communications Layer",
+    tag: "Interactive Demo",
+    tagColor: "#10b981",
+    href: "/partner-room/comms-demo",
+    does: "Routes structured messages to the right recipient at the right time — guest via WELBX, staff via task app, manager via dashboard, command via record.",
+    matters: "The right message to the right person in real time is what separates a resolved moment from an escalated one.",
+  },
+  {
+    label: "Registry & Assurance Layer",
+    tag: "Brief",
+    tagColor: "#c9a84c",
+    href: "/partner-room/signals-engine",
+    does: "Logs every resolution with evidence — who actioned it, when, what outcome was reached, and what value was captured.",
+    matters: "Operators and funders need proof the system works. The registry creates an auditable record for every moment handled.",
   },
 ];
 
-const PRODUCT_MODULES = [
-  { label: "Moment Economy",                href: "/partner-room/moments-economy",   desc: "Ten moment categories driving measurable service, welfare and commercial value." },
-  { label: "Decision & Action Layer",       href: "/partner-room/signals-engine",    desc: "How RTBX Core classifies moments, selects governed responses and routes to staff." },
-  { label: "Intervention Library",          href: "/partner-room/signals-engine",    desc: "Pre-built and configurable response playbooks for every moment category." },
-  { label: "Central Communications System", href: "/partner-room/signals-engine",    desc: "Structured guest messages, staff instructions and command assurance outputs." },
-  { label: "Registry & Assurance Layer",    href: "/partner-room/signals-engine",    desc: "Every resolution recorded, measured and surfaced for audit and learning." },
-  { label: "Signals Engine Brief",          href: "/partner-room/signals-engine",    desc: "Informational overview of how RTBX Core captures and classifies live signals." },
+const WALKTHROUGHS = [
+  {
+    label: "Holiday Parks Demo",
+    desc: "A full operating scenario inside a holiday park environment.",
+    href: "/partner-room/holiday-park-demo",
+    cta: "Open Demo",
+  },
+  {
+    label: "Guest Journey Walkthrough",
+    desc: "Step through the guest experience from check-in to resolution.",
+    href: "/partner-room/guest-demo",
+    cta: "View Walkthrough",
+  },
+  {
+    label: "Operator Deep Dive Walkthrough",
+    desc: "Detailed operator-level walkthrough from signal detection to resolution.",
+    href: "/story/operator-deep-dive",
+    cta: "Open Deep Dive",
+  },
+  {
+    label: "Demo Directory",
+    desc: "Full directory of available demo paths and walkthrough options.",
+    href: "/partner-room/demo-paths",
+    cta: "View Directory",
+  },
 ];
+
+function ProofModeCard({ mode }: { mode: typeof PROOF_MODES[0] }) {
+  return (
+    <div style={{
+      padding: "36px 32px",
+      background: `${mode.color}07`,
+      border: `1px solid ${mode.color}25`,
+      borderTop: `2px solid ${mode.color}`,
+      display: "flex", flexDirection: "column",
+    }}>
+      <div style={{ fontSize: 9, fontWeight: 800, color: `${mode.color}45`, letterSpacing: "0.12em", marginBottom: 10 }}>{mode.num}</div>
+      <div style={{ fontSize: 14, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", marginBottom: 14, lineHeight: 1.25 }}>
+        {mode.label}
+      </div>
+      <p style={{ fontSize: 13, color: "rgba(255,255,255,0.42)", lineHeight: 1.65, flex: 1, marginBottom: 28 }}>
+        {mode.desc}
+      </p>
+      <Link href={mode.href}>
+        <div style={{
+          display: "flex", alignItems: "center", justifyContent: "center",
+          padding: "12px 0", fontSize: 9.5, fontWeight: 700, letterSpacing: "0.1em",
+          textTransform: "uppercase", color: mode.color, border: `1px solid ${mode.color}45`,
+          cursor: "pointer", transition: "all 0.15s",
+        }}
+        onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = `${mode.color}12`; el.style.borderColor = `${mode.color}75`; }}
+        onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "transparent"; el.style.borderColor = `${mode.color}45`; }}
+        >
+          {mode.cta} →
+        </div>
+      </Link>
+    </div>
+  );
+}
+
+function SystemCard({ sys }: { sys: typeof CORE_SYSTEMS[0] }) {
+  return (
+    <div style={{
+      padding: "26px 24px",
+      background: "rgba(255,255,255,0.02)",
+      border: "1px solid rgba(255,255,255,0.06)",
+      display: "flex", flexDirection: "column",
+      transition: "border-color 0.15s",
+    }}
+    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(201,168,76,0.18)"; }}
+    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.06)"; }}
+    >
+      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 10, marginBottom: 16 }}>
+        <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.78)", lineHeight: 1.35 }}>
+          {sys.label}
+        </div>
+        <div style={{
+          fontSize: 7.5, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase",
+          color: sys.tagColor, border: `1px solid ${sys.tagColor}35`, padding: "2px 8px",
+          whiteSpace: "nowrap", flexShrink: 0,
+        }}>
+          {sys.tag}
+        </div>
+      </div>
+
+      <div style={{ marginBottom: 12 }}>
+        <div style={{ fontSize: 7.5, letterSpacing: "0.14em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 5 }}>What it does</div>
+        <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.42)", lineHeight: 1.6, margin: 0 }}>{sys.does}</p>
+      </div>
+
+      <div style={{ marginBottom: 20, flex: 1 }}>
+        <div style={{ fontSize: 7.5, letterSpacing: "0.14em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 5 }}>Why it matters</div>
+        <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.42)", lineHeight: 1.6, margin: 0 }}>{sys.matters}</p>
+      </div>
+
+      <Link href={sys.href}>
+        <div style={{
+          fontSize: 9, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase",
+          color: "#c9a84c", cursor: "pointer", transition: "color 0.12s",
+          display: "inline-flex", alignItems: "center", gap: 6,
+        }}
+        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "#d4b35e"; }}
+        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = "#c9a84c"; }}
+        >
+          View {sys.tag} →
+        </div>
+      </Link>
+    </div>
+  );
+}
 
 export default function PartnerProductProof() {
   return (
@@ -90,127 +204,91 @@ export default function PartnerProductProof() {
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "72px 32px 140px" }}>
 
         {/* Header */}
-        <div style={{ marginBottom: 64 }}>
+        <div style={{ marginBottom: 72 }}>
           <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
             Partner Room · Product Proof
           </div>
           <div style={{ fontSize: 32, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", marginBottom: 14 }}>
             Product Proof
           </div>
-          <p style={{ fontSize: 14, color: "rgba(255,255,255,0.42)", lineHeight: 1.75, maxWidth: 640 }}>
-            Live demos, moment economy, decision logic, intervention library and communications — the product operating in real time.
-            Start with a demo lane or explore a specific module below.
+          <p style={{ fontSize: 14, color: "rgba(255,255,255,0.38)", lineHeight: 1.75, maxWidth: 600 }}>
+            See RTBX Travel working across live scenarios, role views, communications, decision logic and value proof.
           </p>
         </div>
 
-        {/* Interactive Modules */}
-        <div style={{ marginBottom: 64 }}>
-          <div style={{ fontSize: 9, letterSpacing: "0.18em", color: "rgba(255,255,255,0.3)", textTransform: "uppercase", fontWeight: 700, marginBottom: 24 }}>
-            Interactive Modules
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2, marginBottom: 2 }}>
-            {INTERACTIVE_MODULES.map(mod => (
-              <div key={mod.num} style={{
-                padding: "28px 24px",
-                background: `${mod.color}06`,
-                border: `1px solid ${mod.color}20`,
-                borderTop: `2px solid ${mod.color}`,
-                display: "flex", flexDirection: "column",
-              }}>
-                <div style={{ fontSize: 8, fontWeight: 800, color: `${mod.color}50`, letterSpacing: "0.1em", marginBottom: 6 }}>{mod.num}</div>
-                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: mod.color, marginBottom: 8, lineHeight: 1.3 }}>
-                  {mod.label}
-                </div>
-                <div style={{ fontSize: 8.5, letterSpacing: "0.08em", color: `${mod.color}80`, fontWeight: 600, marginBottom: 12, lineHeight: 1.5 }}>
-                  {mod.tag}
-                </div>
-                <p style={{ fontSize: 12, color: "rgba(255,255,255,0.38)", lineHeight: 1.6, flex: 1, marginBottom: 20 }}>
-                  {mod.desc}
-                </p>
-                <Link href={mod.href}>
-                  <div style={{
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    padding: "10px 0", fontSize: 9, fontWeight: 700, letterSpacing: "0.1em",
-                    textTransform: "uppercase", color: mod.color, border: `1px solid ${mod.color}40`,
-                    cursor: "pointer", transition: "all 0.15s",
-                  }}
-                  onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = `${mod.color}12`; el.style.borderColor = `${mod.color}70`; }}
-                  onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "transparent"; el.style.borderColor = `${mod.color}40`; }}
-                  >
-                    {mod.cta} →
-                  </div>
-                </Link>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Demo Lanes */}
-        <div style={{ marginBottom: 64 }}>
-          <div style={{ fontSize: 9, letterSpacing: "0.18em", color: "rgba(255,255,255,0.3)", textTransform: "uppercase", fontWeight: 700, marginBottom: 24 }}>
-            Demo Lanes
+        {/* Section 1: Choose a Proof Mode */}
+        <div style={{ marginBottom: 80 }}>
+          <div style={{ marginBottom: 28 }}>
+            <div style={{ fontSize: 9, letterSpacing: "0.18em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 6 }}>
+              Section 01
+            </div>
+            <div style={{ fontSize: 18, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em" }}>
+              Choose a Proof Mode
+            </div>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
-            {DEMO_LANES.map(lane => (
-              <div key={lane.num} style={{
-                padding: "28px 24px",
-                background: "rgba(255,255,255,0.02)",
-                border: "1px solid rgba(255,255,255,0.06)",
-                borderTop: `2px solid ${lane.color}`,
-                display: "flex", flexDirection: "column",
-              }}>
-                <div style={{ fontSize: 8, fontWeight: 800, color: `${lane.color}50`, letterSpacing: "0.1em", marginBottom: 6 }}>{lane.num}</div>
-                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: lane.color, marginBottom: 14, lineHeight: 1.3 }}>
-                  {lane.label}
-                </div>
-                <p style={{ fontSize: 12, color: "rgba(255,255,255,0.38)", lineHeight: 1.6, flex: 1, marginBottom: 20 }}>
-                  {lane.desc}
-                </p>
-                <Link href={lane.href}>
-                  <div style={{
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    padding: "9px 0", fontSize: 9, fontWeight: 700, letterSpacing: "0.1em",
-                    textTransform: "uppercase", color: lane.color, border: `1px solid ${lane.color}35`,
-                    cursor: "pointer", transition: "all 0.15s",
-                  }}
-                  onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = `${lane.color}10`; el.style.borderColor = `${lane.color}70`; }}
-                  onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "transparent"; el.style.borderColor = `${lane.color}35`; }}
-                  >
-                    {lane.cta} →
-                  </div>
-                </Link>
-              </div>
-            ))}
+            {PROOF_MODES.map(mode => <ProofModeCard key={mode.num} mode={mode} />)}
           </div>
         </div>
 
-        {/* Product Modules */}
-        <div>
-          <div style={{ fontSize: 9, letterSpacing: "0.18em", color: "rgba(255,255,255,0.3)", textTransform: "uppercase", fontWeight: 700, marginBottom: 24 }}>
-            Product Modules
+        {/* Section 2: Core Systems Preview */}
+        <div style={{ marginBottom: 80 }}>
+          <div style={{ marginBottom: 8 }}>
+            <div style={{ fontSize: 9, letterSpacing: "0.18em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 6 }}>
+              Section 02
+            </div>
+            <div style={{ fontSize: 18, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", marginBottom: 10 }}>
+              Core Systems Preview
+            </div>
+            <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.32)", lineHeight: 1.65, maxWidth: 580, margin: 0 }}>
+              RTBX Core is made up of reusable system layers that turn signals into action, assurance and value.
+            </p>
           </div>
+          <div style={{ width: "100%", height: 1, background: "rgba(255,255,255,0.05)", margin: "24px 0" }} />
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
-            {PRODUCT_MODULES.map(mod => (
-              <Link key={mod.label} href={mod.href}>
-                <div style={{
-                  padding: "22px 22px",
-                  background: "rgba(255,255,255,0.02)",
-                  border: "1px solid rgba(255,255,255,0.06)",
-                  cursor: "pointer", transition: "all 0.15s",
-                  display: "flex", flexDirection: "column", gap: 8,
-                }}
-                onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(255,255,255,0.04)"; el.style.borderColor = "rgba(201,168,76,0.2)"; }}
-                onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(255,255,255,0.02)"; el.style.borderColor = "rgba(255,255,255,0.06)"; }}
-                >
-                  <div style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.72)" }}>
-                    {mod.label}
-                  </div>
-                  <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.32)", lineHeight: 1.6, margin: 0 }}>
-                    {mod.desc}
-                  </p>
-                  <div style={{ fontSize: 9, color: "#c9a84c", fontWeight: 700, letterSpacing: "0.08em", marginTop: 4 }}>View →</div>
+            {CORE_SYSTEMS.map(sys => <SystemCard key={sys.label} sys={sys} />)}
+          </div>
+        </div>
+
+        {/* Section 3: Additional Walkthroughs */}
+        <div>
+          <div style={{ marginBottom: 20 }}>
+            <div style={{ fontSize: 9, letterSpacing: "0.18em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase", fontWeight: 700, marginBottom: 6 }}>
+              Section 03
+            </div>
+            <div style={{ fontSize: 15, fontWeight: 700, color: "rgba(255,255,255,0.55)", letterSpacing: "-0.01em" }}>
+              Additional Walkthroughs
+            </div>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
+            {WALKTHROUGHS.map(w => (
+              <div key={w.label} style={{
+                padding: "20px 20px",
+                background: "rgba(255,255,255,0.015)",
+                border: "1px solid rgba(255,255,255,0.05)",
+                display: "flex", flexDirection: "column",
+              }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.03)"; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.015)"; }}
+              >
+                <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", color: "rgba(255,255,255,0.5)", marginBottom: 10, lineHeight: 1.3 }}>
+                  {w.label}
                 </div>
-              </Link>
+                <p style={{ fontSize: 11, color: "rgba(255,255,255,0.25)", lineHeight: 1.6, flex: 1, marginBottom: 16 }}>
+                  {w.desc}
+                </p>
+                <Link href={w.href}>
+                  <div style={{
+                    fontSize: 8.5, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase",
+                    color: "rgba(255,255,255,0.3)", cursor: "pointer", transition: "color 0.12s",
+                  }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.65)"; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.3)"; }}
+                  >
+                    {w.cta} →
+                  </div>
+                </Link>
+              </div>
             ))}
           </div>
         </div>
