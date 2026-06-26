@@ -1,171 +1,208 @@
 import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
-import { usePartnerContent } from "@/context/PartnerContentContext";
 
-const DEMO_CARDS = [
+const CORE_DEMOS = [
   {
-    title: "Executive Briefing",
-    sub: "PARTNER DEMO",
-    desc: "A six-slide executive narrative covering RTBX Travel's positioning, the operating problem it solves, and the value it creates. Designed for a 5-minute briefing format.",
-    duration: "5 minutes",
-    audience: "C-suite, Owners, Board",
-    link: "/partner-room/overview",
-    external: false,
+    num: "01",
+    title: "Scenario Builder",
+    tag: "Interactive · Full Flow",
+    tagColor: "#c9a84c",
+    desc: "Choose an environment, scenario type, risk level and role view — step through the full Signal → Classify → Decide → Execute → Assure → Value cycle.",
+    audience: "Operators · Commercial leads · Partners",
+    href: "/partner-room/scenario-builder",
+    cta: "Open Scenario Builder",
     color: "#c9a84c",
-    cta: "Start Briefing",
   },
   {
-    title: "Operator Deep Dive",
-    sub: "PARTNER DEMO",
-    desc: "A 13-section walkthrough of the full RTBX Core operating chain — from signal detection through to outcome and learning. Built for operations leaders and GMs.",
-    duration: "15–20 minutes",
-    audience: "GMs, Operations Directors",
-    link: "/partner-room/operator-demo",
-    external: false,
-    color: "#10b981",
-    cta: "Start Deep Dive",
-  },
-  {
-    title: "Live Guest Story",
-    sub: "PARTNER DEMO",
-    desc: "An immersive walkthrough of a single guest journey — following one stay from arrival through to departure, showing every moment WELBX detects and manages along the way.",
-    duration: "10 minutes",
-    audience: "Experience-led audiences",
-    link: "/partner-room/guest-demo",
-    external: false,
-    color: "#a78bfa",
-    cta: "Start Guest Story",
-  },
-  {
-    title: "Moments Economy Demo",
-    sub: "PARTNER ROOM",
-    desc: "An interactive reference showing all ten moment categories in the WELBX library — with signals, risk profile, action triggered, and partner opportunity for each.",
-    duration: "Self-paced",
-    audience: "Integration & commercial partners",
-    link: "/partner-room/moments-economy",
-    external: false,
-    color: "#c9a84c",
-    cta: "View Moments",
-  },
-  {
-    title: "Signals Engine Demo",
-    sub: "PARTNER ROOM",
-    desc: "A reference walkthrough of the WELBX signal layer — four signal categories, 247 signal types, and the seven-step logic chain from raw event to moment creation.",
-    duration: "Self-paced",
-    audience: "Integration partners, technical leads",
-    link: "/partner-room/signals-engine",
-    external: false,
+    num: "02",
+    title: "Dual View Demo",
+    tag: "Interactive · Side-by-Side",
+    tagColor: "#3b82f6",
+    desc: "See the same moment from the guest, operator and command view simultaneously — live synchronised perspectives.",
+    audience: "All audiences",
+    href: "/partner-room/dual-view-demo",
+    cta: "Open Dual View",
     color: "#3b82f6",
-    cta: "View Signals",
   },
   {
-    title: "Pilot Walkthrough",
-    sub: "PARTNER ROOM",
-    desc: "The full eight-phase pilot model with timelines, deliverables, and success criteria. The structured path from signed agreement to outcome report in eight weeks.",
-    duration: "Self-paced",
-    audience: "Operator partners, project leads",
-    link: "/partner-room/pilot-model",
-    external: false,
-    color: "#10b981",
-    cta: "View Pilot Model",
+    num: "03",
+    title: "Live Guest Story",
+    tag: "Interactive · Guest Journey",
+    tagColor: "#a78bfa",
+    desc: "Seven guest journey stages — arrival through checkout. Each stage shows what the guest sees, what RTBX Core automates and what the operator receives.",
+    audience: "Experience-led audiences · Operators",
+    href: "/partner-room/guest-demo",
+    cta: "Start Guest Story",
+    color: "#a78bfa",
   },
   {
-    title: "Holiday Parks Demo",
-    sub: "LIVE SCENARIO",
-    desc: "An interactive operating flow: a family arrives after a long drive, the cabin isn't ready, children are unsettled. Follow the full Signal → Classify → Decide → Execute → Assure cycle in real time.",
-    duration: "5 minutes",
-    audience: "Operators, park managers, commercial partners",
-    link: "/partner-room/holiday-park-demo",
-    external: false,
+    num: "04",
+    title: "Communications Routing Demo",
+    tag: "Interactive · Routing Logic",
+    tagColor: "#10b981",
+    desc: "Select a scenario and watch RTBX Core route the right message to the right person — guest, staff, manager and command layer.",
+    audience: "Operations · Technology partners",
+    href: "/partner-room/comms-demo",
+    cta: "Open Comms Demo",
     color: "#10b981",
-    cta: "Run Scenario",
+  },
+  {
+    num: "05",
+    title: "Decision Spine Demo",
+    tag: "Interactive · Decision Logic",
+    tagColor: "#f97316",
+    desc: "Toggle inputs in a live scenario — watch classification, decision, intervention and assurance path update in real time.",
+    audience: "Operations · Technology leads",
+    href: "/partner-room/decision-spine",
+    cta: "Open Decision Demo",
+    color: "#f97316",
+  },
+  {
+    num: "06",
+    title: "Proof of Value Calculator",
+    tag: "Interactive · Value Proof",
+    tagColor: "#22d3ee",
+    desc: "Adjust sliders for your property — get indicative monthly estimates for value protected, revenue created and staff hours saved.",
+    audience: "Commercial · Finance · Executives",
+    href: "/partner-room/proof-calculator",
+    cta: "Open Calculator",
+    color: "#22d3ee",
+  },
+];
+
+const DEPLOYMENT_DEMOS = [
+  {
+    label: "Hotels & Resorts",
+    color: "#c9a84c",
+    desc: "High-value arrival recovery in a city hotel.",
+    href: "/partner-room/deployments/hotels-resorts/demo",
+  },
+  {
+    label: "Holiday Parks",
+    color: "#10b981",
+    desc: "Family arrival at peak season — cabin delay.",
+    href: "/partner-room/holiday-park-demo",
+  },
+  {
+    label: "Corporate Travel",
+    color: "#3b82f6",
+    desc: "Duty of care + meeting schedule under pressure.",
+    href: "/partner-room/deployments/corporate-travel/demo",
+  },
+  {
+    label: "Events & Venues",
+    color: "#a78bfa",
+    desc: "Crowd flow issue 40 minutes before program.",
+    href: "/partner-room/deployments/events-venues/demo",
+  },
+  {
+    label: "Destination & Tourism",
+    color: "#f97316",
+    desc: "Transport delay cascading across 34 itineraries.",
+    href: "/partner-room/deployments/destination-tourism/demo",
   },
 ];
 
 export default function PartnerDemoPaths() {
-  const { content } = usePartnerContent();
-  const headline = content?.demoPaths?.headline ?? "RTBX Core Demo Room";
-  const subheadline = content?.demoPaths?.subheadline ?? "Seven paths through the RTBX Travel platform — each calibrated to a different audience and intent. RTBX Core drives the operating chain. WELBX is the guest-facing experience layer. Start with the path that fits your current context.";
-
   return (
     <PartnerRoomLayout>
-      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "72px 32px 120px" }}>
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "72px 32px 120px" }}>
 
         {/* Header */}
         <div style={{ marginBottom: 72 }}>
           <div style={{ fontSize: 9, letterSpacing: "0.22em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>
-            Demo Paths
+            Demo Room
           </div>
-          <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 24, maxWidth: 680 }}>
-            {headline}
+          <h1 style={{ fontSize: 36, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 18, maxWidth: 640 }}>
+            RTBX Core — Live & Interactive Demos
           </h1>
-          <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 640 }}>
-            {subheadline}
+          <p style={{ fontSize: 14, color: "rgba(255,255,255,0.48)", lineHeight: 1.8, maxWidth: 600 }}>
+            Every item here is interactive. No static slides, no screenshots. See the operating system working in real scenarios across real environments.
           </p>
+          <div style={{ marginTop: 18, padding: "12px 18px", background: "rgba(201,168,76,0.05)", border: "1px solid rgba(201,168,76,0.15)", display: "inline-flex", alignItems: "center", gap: 10 }}>
+            <div style={{ width: 6, height: 6, background: "#10b981", borderRadius: "50%", flexShrink: 0 }} />
+            <span style={{ fontSize: 10.5, color: "rgba(255,255,255,0.45)", letterSpacing: "0.04em" }}>Executive Briefing → Brief Library · Operator Deep Dive → Validation · Pilot Walkthrough → Commercial</span>
+          </div>
         </div>
 
-        {/* Demo cards */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
-          {DEMO_CARDS.map(card => (
-            <div key={card.title} style={{
-              padding: "36px 28px",
-              background: "rgba(255,255,255,0.02)",
-              border: "1px solid rgba(255,255,255,0.07)",
-              display: "flex",
-              flexDirection: "column",
-              gap: 0,
-            }}>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 18 }}>
-                <div style={{ fontSize: 7.5, letterSpacing: "0.2em", color: card.color, textTransform: "uppercase", fontWeight: 700 }}>
-                  {card.sub}
+        {/* Core Interactive Demos */}
+        <div style={{ marginBottom: 72 }}>
+          <div style={{ marginBottom: 24 }}>
+            <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 6 }}>Section 01</div>
+            <div style={{ fontSize: 17, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em" }}>Core Interactive Demos</div>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
+            {CORE_DEMOS.map(demo => (
+              <div key={demo.num} style={{
+                padding: "32px 26px",
+                background: `${demo.color}05`,
+                border: `1px solid ${demo.color}20`,
+                borderTop: `2px solid ${demo.color}`,
+                display: "flex", flexDirection: "column",
+              }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 14 }}>
+                  <div style={{ fontSize: 8, fontWeight: 800, color: `${demo.color}45`, letterSpacing: "0.12em" }}>{demo.num}</div>
+                  <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: demo.tagColor, border: `1px solid ${demo.tagColor}30`, padding: "2px 8px", whiteSpace: "nowrap", flexShrink: 0 }}>
+                    {demo.tag}
+                  </div>
                 </div>
-                <div style={{ width: 8, height: 8, border: `1px solid ${card.color}`, borderRadius: "50%", opacity: 0.5 }} />
+                <div style={{ fontSize: 14, fontWeight: 800, color: "#fff", marginBottom: 12, letterSpacing: "-0.01em", lineHeight: 1.25 }}>{demo.title}</div>
+                <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.4)", lineHeight: 1.65, flex: 1, marginBottom: 10 }}>{demo.desc}</p>
+                <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.2)", letterSpacing: "0.06em", textTransform: "uppercase", fontWeight: 600, marginBottom: 20 }}>{demo.audience}</div>
+                <Link href={demo.href}>
+                  <div style={{
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    padding: "11px 0", fontSize: 9.5, fontWeight: 700, letterSpacing: "0.1em",
+                    textTransform: "uppercase", color: demo.color, border: `1px solid ${demo.color}40`,
+                    cursor: "pointer", transition: "all 0.15s",
+                  }}
+                  onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = `${demo.color}12`; el.style.borderColor = `${demo.color}75`; }}
+                  onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "transparent"; el.style.borderColor = `${demo.color}40`; }}
+                  >
+                    {demo.cta} →
+                  </div>
+                </Link>
               </div>
-
-              <div style={{ fontSize: 17, fontWeight: 700, color: "#fff", marginBottom: 14, letterSpacing: "-0.01em", lineHeight: 1.25 }}>
-                {card.title}
-              </div>
-
-              <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.42)", lineHeight: 1.72, marginBottom: 28, flex: 1 }}>
-                {card.desc}
-              </p>
-
-              <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 28 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <span style={{ fontSize: 8, letterSpacing: "0.14em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, minWidth: 60 }}>Duration</span>
-                  <span style={{ fontSize: 11, color: "rgba(255,255,255,0.45)" }}>{card.duration}</span>
-                </div>
-                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <span style={{ fontSize: 8, letterSpacing: "0.14em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, minWidth: 60 }}>Audience</span>
-                  <span style={{ fontSize: 11, color: "rgba(255,255,255,0.45)" }}>{card.audience}</span>
-                </div>
-              </div>
-
-              <Link href={card.link}>
-                <div style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  padding: "12px 0",
-                  fontSize: 10.5,
-                  fontWeight: 700,
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                  color: card.color,
-                  border: `1px solid ${card.color}`,
-                  opacity: 0.85,
-                  cursor: "pointer",
-                  transition: "all 0.15s",
-                }}
-                onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.opacity = "1"; el.style.background = `${card.color}10`; }}
-                onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.opacity = "0.85"; el.style.background = "transparent"; }}
-                >
-                  {card.cta} →
-                </div>
-              </Link>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
+
+        {/* Deployment Scenario Demos */}
+        <div>
+          <div style={{ marginBottom: 20 }}>
+            <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 6 }}>Section 02</div>
+            <div style={{ fontSize: 17, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", marginBottom: 8 }}>Deployment Scenario Demos</div>
+            <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.3)", lineHeight: 1.6, maxWidth: 540, margin: 0 }}>
+              One complete operating scenario per deployment environment — Signal → Classify → Decide → Execute → Assure → Value.
+            </p>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 2 }}>
+            {DEPLOYMENT_DEMOS.map(d => (
+              <div key={d.label} style={{
+                padding: "24px 20px",
+                background: "rgba(255,255,255,0.02)",
+                border: "1px solid rgba(255,255,255,0.06)",
+                borderTop: `2px solid ${d.color}`,
+                display: "flex", flexDirection: "column",
+              }}>
+                <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: d.color, marginBottom: 10, lineHeight: 1.3 }}>{d.label}</div>
+                <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.3)", lineHeight: 1.55, flex: 1, marginBottom: 18 }}>{d.desc}</p>
+                <Link href={d.href}>
+                  <div style={{
+                    fontSize: 9, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase",
+                    color: d.color, cursor: "pointer", transition: "color 0.12s",
+                  }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.opacity = "0.7"; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.opacity = "1"; }}
+                  >
+                    Run Demo →
+                  </div>
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+
       </div>
     </PartnerRoomLayout>
   );

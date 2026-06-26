@@ -1,0 +1,230 @@
+You are working on the RTBX Travel Partner Room app.
+
+Current issue:
+The RTBX Core Demo Room / Demo Paths page still contains mixed asset types. It includes documents, static walkthroughs, pilot model content, screenshots and true demos all in the same room.
+
+This makes the Demo Room feel incorrect.
+
+Objective:
+Clean up the Demo Room so it only contains live or interactive demo experiences. Move static briefs, documents, pilot models and system explainers into the correct sections.
+
+Do not delete existing routes.
+Do not break existing links.
+Reassign, relabel and improve the content structure.
+
+Required cleanup:
+
+1. Demo Room should only contain true interactive demos.
+
+Demo Room should include:
+
+* Scenario Builder
+* Dual View Demo
+* Guest / Operator Demo
+* Communications Routing Demo
+* Decision Spine Demo
+* Deployment Scenario Demos
+
+Deployment Scenario Demos should include:
+
+* Hotels & Resorts Demo
+* Holiday Parks Demo
+* Corporate Travel Demo
+* Events & Venues Demo
+* Destination Operators Demo
+
+2. Move Executive Briefing out of Demo Room.
+
+Executive Briefing belongs in:
+Brief Library
+
+Label:
+Executive Briefing
+
+3. Move Operator Deep Dive out of Demo Room if it is static.
+
+Operator Deep Dive belongs in:
+Validation & Operator Stories
+
+Label:
+Operator Deep Dive Walkthrough
+
+If it is also a downloadable/static document, include it in Brief Library as well.
+
+4. Move Pilot Walkthrough out of Demo Room.
+
+Pilot Walkthrough belongs in:
+Commercial / Pilot Model
+
+Label:
+Pilot Model Walkthrough
+
+Do not call it a demo unless it has interaction.
+
+5. Moments Economy should not be labelled as a demo if it is mostly screenshots or static information.
+
+Move it under:
+Product Proof → Core Systems Preview
+
+Rename it:
+Moment Economy Explorer
+
+Make it interactive enough to show how moments become value.
+
+For each selected moment, show:
+
+* Moment selected
+* Signal detected
+* Risk or opportunity classification
+* Action triggered
+* Value created
+* Assurance record
+
+Include example moments:
+
+* Arrival friction
+* Room readiness delay
+* Guest welfare flag
+* Service recovery
+* Dining activation
+* Local experience opportunity
+* Weather disruption
+* Checkout sentiment drop
+
+6. Signals Engine should not be labelled as a demo if it is mostly screenshots or static information.
+
+Move it under:
+Product Proof → Core Systems Preview
+
+Rename it:
+Signals Engine Explorer
+
+If it remains informational, call it:
+Signals Engine Brief
+
+If making it interactive, show:
+
+* Raw signal
+* Signal category
+* Moment type
+* Decision threshold
+* Action pathway
+* Evidence trail
+
+Example:
+Raw signal: sentiment drop + unresolved service request
+Category: guest recovery risk
+Moment: service failure window
+Threshold: Level 2 escalation
+Action: staff follow-up + manager alert
+Evidence: action completed, outcome logged
+
+7. Live Guest Story needs to be improved.
+
+Current problem:
+Each button appears to show the same or similar answer.
+
+Fix:
+Each button in Live Guest Story must reveal a different stage of the guest journey with unique content.
+
+For each stage, show:
+
+* What the guest sees
+* What RTBX Core automates
+* What the operator receives
+* What assurance or value is created
+
+Create these guest journey stages:
+
+Arrival:
+Guest sees: welcome/check-in support.
+RTBX automation: arrival signal classified, readiness check triggered.
+Operator action: front desk receives guest context and recommended response.
+Value: friction reduced, arrival sentiment protected.
+
+Room delay:
+Guest sees: apology, timing update, support options.
+RTBX automation: room delay escalated if threshold breached.
+Operator action: housekeeping priority and manager visibility triggered.
+Value: recovery logged, review risk reduced.
+
+Weather change:
+Guest sees: updated activity options or local alternatives.
+RTBX automation: weather disruption classified as experience risk.
+Operator action: staff and partner recommendations routed.
+Value: experience recovered, marketplace opportunity created.
+
+Dining opportunity:
+Guest sees: relevant dining or booking prompt.
+RTBX automation: high-propensity moment detected.
+Operator action: F&B or concierge pathway triggered.
+Value: revenue opportunity created.
+
+Guest welfare flag:
+Guest sees: soft check-in or support option.
+RTBX automation: welfare signal classified with privacy-safe escalation threshold.
+Operator action: appropriate staff member receives guidance.
+Value: duty-of-care pathway created, action logged.
+
+Service recovery:
+Guest sees: resolution option and follow-up.
+RTBX automation: unresolved issue classified as escalation risk.
+Operator action: owner assigned, timer started, manager alert if unresolved.
+Value: escalation prevented, outcome recorded.
+
+Checkout:
+Guest sees: feedback prompt or loyalty pathway.
+RTBX automation: sentiment and outcome captured.
+Operator action: post-stay follow-up if needed.
+Value: assurance record completed, repeat-stay opportunity created.
+
+8. Rename the old mixed Demo Paths page.
+
+If it remains, label it:
+Demo Directory
+
+or:
+Demo Archive
+
+Do not make it the primary Demo Room experience.
+
+9. Product Proof should remain focused on proof modules.
+
+Product Proof should include:
+
+* Scenario Builder
+* Dual View Demo
+* Communications Routing Demo
+* Decision Spine Demo
+* Proof of Value Calculator
+* Core Systems Preview
+
+10. Core Systems Preview should include:
+
+* Moment Economy Explorer
+* Signals Engine Explorer or Brief
+* Decision & Action Layer
+* Intervention Library
+* Central Communications Layer
+* Registry & Assurance Layer
+
+11. Button behaviour rules:
+
+* Demo buttons must open interactive demo experiences.
+* Brief buttons must open Brief Library content.
+* Pilot buttons must open Commercial / Pilot Model content.
+* System explainer buttons must open Core Systems Preview.
+* Labels must match the actual experience.
+
+12. Final QA:
+
+* Executive Briefing no longer appears as a demo.
+* Operator Deep Dive no longer appears as a demo unless interactive.
+* Pilot Walkthrough no longer appears as a demo.
+* Moments Economy is reframed as an explorer or system proof layer.
+* Signals Engine is reframed as an explorer or brief.
+* Live Guest Story buttons show different answers for each journey stage.
+* Demo Room only contains live/interactive demos.
+* No blank routes.
+* No dead buttons.
+* No duplicate confusing links.

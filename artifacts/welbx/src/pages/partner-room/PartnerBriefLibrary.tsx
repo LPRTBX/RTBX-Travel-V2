@@ -3,6 +3,14 @@ import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 
 const BRIEFS = [
   {
+    label: "Executive Briefing",
+    tag: "Executive",
+    color: "#c9a84c",
+    desc: "A concise executive narrative covering RTBX Travel's positioning, the operating problem it solves and the value it creates. Designed for a 5-minute briefing format.",
+    href: "/partner-room/overview",
+    audience: "C-suite · Owners · Board",
+  },
+  {
     label: "Operator Brief",
     tag: "Operations",
     color: "#c9a84c",
@@ -27,7 +35,15 @@ const BRIEFS = [
     audience: "Commercial Leads · Executives",
   },
   {
-    label: "Holiday Parks & Outdoor Experiences Brief",
+    label: "Operator Deep Dive Walkthrough",
+    tag: "Walkthrough",
+    color: "#3b82f6",
+    desc: "A detailed operator-level walkthrough of RTBX Core in a hotel or resort context — from signal detection through to resolution, assurance and learning.",
+    href: "/story/operator-deep-dive",
+    audience: "GMs · Operations Directors",
+  },
+  {
+    label: "Holiday Parks & Outdoor Experiences",
     tag: "Environment",
     color: "#10b981",
     desc: "Sector-specific briefing for holiday park and outdoor experience operators — covers multi-site deployment, seasonal management and guest flow.",
@@ -69,9 +85,11 @@ const BRIEFS = [
 ];
 
 const TAG_COLORS: Record<string, string> = {
+  Executive:   "#c9a84c",
   Operations:  "#c9a84c",
   Technology:  "#3b82f6",
   Commercial:  "#a78bfa",
+  Walkthrough: "#3b82f6",
   Environment: "#10b981",
   Validation:  "#f97316",
   Library:     "rgba(255,255,255,0.3)",
@@ -120,7 +138,6 @@ export default function PartnerBriefLibrary() {
               onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(255,255,255,0.04)"; el.style.borderColor = `rgba(255,255,255,0.12)`; }}
               onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(255,255,255,0.02)"; el.style.borderColor = "rgba(255,255,255,0.06)"; }}
               >
-                {/* Tag */}
                 <div style={{
                   display: "inline-flex", alignItems: "center", marginBottom: 14,
                   fontSize: 7.5, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase",
@@ -130,19 +147,15 @@ export default function PartnerBriefLibrary() {
                 }}>
                   {brief.tag}
                 </div>
-
                 <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.06em", color: "#fff", marginBottom: 12, lineHeight: 1.35 }}>
                   {brief.label}
                 </div>
-
                 <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.32)", lineHeight: 1.6, flex: 1, marginBottom: 16 }}>
                   {brief.desc}
                 </p>
-
                 <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.2)", letterSpacing: "0.08em", textTransform: "uppercase", fontWeight: 600, marginBottom: 14 }}>
                   {brief.audience}
                 </div>
-
                 <div style={{ fontSize: 9, color: brief.color, fontWeight: 700, letterSpacing: "0.08em" }}>
                   Open Brief →
                 </div>

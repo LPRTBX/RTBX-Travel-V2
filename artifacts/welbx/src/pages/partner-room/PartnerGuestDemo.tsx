@@ -8,85 +8,118 @@ const P = {
   dimmed: "rgba(255,255,255,0.22)", green: "#10b981",
 };
 
-interface Screen {
+interface Stage {
   id: number;
+  stage: string;
   label: string;
-  signal: string;
-  moment: string;
-  welbxAction: string;
-  partnerOpportunity: string;
-  headerSub?: string;
-  message: string;
-  sub: string;
-  actions: string[];
-  confirmMsg: string;
+  phoneMessage: string;
+  phoneSub: string;
+  phoneActions: string[];
+  phoneConfirm: string;
+  guestSees: string;
+  rtbxAutomates: string;
+  operatorReceives: string;
+  valueCreated: string;
 }
 
-const SCREENS: Screen[] = [
+const STAGES: Stage[] = [
   {
     id: 0,
-    label: "01 · Welcome & Needs Triage",
-    signal: "Guest accessed WELBX interface via in-room tablet. Loyalty tier: Gold. Stay: 3 nights.",
-    moment: "Guest Needs Triage",
-    welbxAction: "Presenting contextual support options based on loyalty tier and stay history.",
-    partnerOpportunity: "Dining, transport and wellness upsell visible at steps 3–4.",
-    message: "Welcome back, Sarah.",
-    sub: "How can we make this stay easier?",
-    actions: ["I need help", "Improve my stay", "Dining & transport", "Feeling unwell or overwhelmed", "Room issue", "Something else"],
-    confirmMsg: "We're connecting you with the right team. A member of staff will be with you shortly.",
+    stage: "Arrival",
+    label: "01 · Arrival",
+    phoneMessage: "Welcome back, Sarah.",
+    phoneSub: "Your room is being prepared. Let us know how we can help while you wait.",
+    phoneActions: ["Check in digitally", "Hold my bags", "Find a quiet space", "Ask a question"],
+    phoneConfirm: "You're checked in. Room 408 will be ready by 15:30 — we'll send your key directly. No need to visit the desk.",
+    guestSees: "Warm digital check-in with practical options. No queue, no desk wait, no friction.",
+    rtbxAutomates: "Arrival signal classified from PMS + app access. Room readiness check triggered. Loyalty tier activated — Gold protocol applied.",
+    operatorReceives: "Front desk: guest context card — name, tier, flight origin, room status and recommended greeting script for this specific guest.",
+    valueCreated: "Arrival friction reduced. First-impression sentiment protected. Loyalty recognition delivered in under 30 seconds.",
   },
   {
     id: 1,
-    label: "02 · Smart Check-In Moment",
-    signal: "PMS: room not yet cleared. Guest ETA within 8 minutes. Housekeeping: 18 min ETA.",
-    moment: "Check-In Friction Risk",
-    welbxAction: "Presenting proactive waitlist options to pre-empt guest frustration at desk.",
-    partnerOpportunity: "Quiet lounge, bar and concierge upsell while guest waits.",
-    message: "Your room is nearly ready.",
-    sub: "Would you like us to notify you, hold your bags or arrange a quiet space while you wait?",
-    actions: ["Notify me when ready", "Hold my bags", "Arrange a quiet space", "Speak to the team"],
-    confirmMsg: "Noted. We'll notify you the moment your room is ready. Your bags will be held at the desk.",
+    stage: "Room Delay",
+    label: "02 · Room Delay",
+    phoneMessage: "Your room is nearly ready.",
+    phoneSub: "There's a 25-minute delay. Here's what we can arrange in the meantime.",
+    phoneActions: ["Notify me when ready", "Hold my bags", "Use the lounge", "Speak to the team"],
+    phoneConfirm: "Your bags are at concierge. Lounge access is arranged on Level 2. We'll notify you the moment your room is ready — expected 15:30.",
+    guestSees: "A proactive update with timing and options — before they need to ask or complain.",
+    rtbxAutomates: "Room delay escalation timer set: 45 minutes. Housekeeping reprioritised for Room 408. Lounge access pre-activated on guest profile.",
+    operatorReceives: "Housekeeping: Room 408 to priority queue. Manager: 45-min escalation timer active — alert queued. Front desk: lounge access confirmed, bags held.",
+    valueCreated: "Complaint prevented. Recovery pathway opened before frustration. Review risk reduced. Escalation timer set and tracked.",
   },
   {
     id: 2,
-    label: "03 · Service Recovery Moment",
-    signal: "Room issue logged via tablet. Guest is loyalty member. Maintenance unassigned. Stay: night 2 of 3.",
-    moment: "Room Issue Recovery",
-    welbxAction: "Presenting recovery options with low-friction escalation path. Duty manager alerted in parallel.",
-    partnerOpportunity: "Room move or upgrade recovery. Service recovery offer window open.",
-    message: "We noticed your room issue has been logged.",
-    sub: "Would you prefer a quick fix, a room move request or a manager follow-up?",
-    actions: ["Quick fix", "Room move request", "Manager follow-up", "Not urgent"],
-    confirmMsg: "A member of our team has been notified and will follow up within 5 minutes.",
+    stage: "Weather Change",
+    label: "03 · Weather Change",
+    phoneMessage: "The weather has changed this afternoon.",
+    phoneSub: "Your outdoor activity may be affected. Here are some alternatives we've put together for you.",
+    phoneActions: ["Indoor experiences nearby", "Reschedule outdoor activity", "Local recommendations", "Keep my booking"],
+    phoneConfirm: "We've sent you a curated indoor guide based on your preferences. The activity team has been updated — no action needed on your end.",
+    guestSees: "Alternatives delivered before the guest steps outside and faces disappointment. Proactive, not reactive.",
+    rtbxAutomates: "Weather disruption classified as experience risk. Activity partner notified. Indoor alternatives generated from guest profile and local partner inventory.",
+    operatorReceives: "Activity team: weather flag + guest preference update. Partner: capacity check triggered. Concierge: indoor options list queued for immediate delivery.",
+    valueCreated: "Guest experience recovered before it was lost. Local partner revenue opportunity created. Marketplace activation logged and evidenced.",
   },
   {
     id: 3,
-    label: "04 · Concierge & Commercial Moment",
-    signal: "Guest calendar: 2-hour window before restaurant booking at 20:00. Wellness preference flag on profile.",
-    moment: "Dining & Activation Window",
-    welbxAction: "Surfacing curated concierge options aligned to guest profile and available window.",
-    partnerOpportunity: "Spa, dining, transport and experience partners can activate here.",
-    message: "You have a free window before dinner.",
-    sub: "Would you like nearby dining, wellness, transport or local experience options?",
-    actions: ["Dining suggestions", "Wellness & spa", "Transport & transfers", "Local experiences"],
-    confirmMsg: "Our concierge will send you a curated list within 2 minutes. No need to call.",
+    stage: "Dining",
+    label: "04 · Dining Opportunity",
+    phoneMessage: "You have a free window before dinner.",
+    phoneSub: "Based on your stay so far, here are a few options we thought you'd enjoy.",
+    phoneActions: ["Dining suggestions", "Wellness & spa", "Transport & transfers", "Local experiences"],
+    phoneConfirm: "Our concierge is sending you a personalised list now — curated to your profile and your available window before 20:00.",
+    guestSees: "A relevant, well-timed prompt — not a generic notification. Delivered at exactly the right moment based on their actual schedule.",
+    rtbxAutomates: "High-propensity commercial window detected from booking data + stay history + dwell pattern. F&B pathway triggered. Personalisation layer applied from loyalty profile.",
+    operatorReceives: "F&B team: commercial activation window open for Room 408 — Gold tier, wellness preference noted. POS: upsell flag. Concierge: personalised list to be sent immediately.",
+    valueCreated: "F&B revenue opportunity activated. Guest engaged during dwell period. Ancillary revenue and experience partner revenue created.",
   },
   {
     id: 4,
-    label: "05 · Support & Wellbeing Moment",
-    signal: "Guest used help function at 23:40. Solo traveller flag. Quiet preference on profile. Previous support note.",
-    moment: "Guest Wellbeing Need",
-    welbxAction: "Low-profile, discreet support options surfaced. No intrusive escalation.",
-    partnerOpportunity: "Quiet room upgrade, wellbeing amenity or specialist service activation.",
-    message: "Need a quieter option or extra support during your stay?",
-    sub: "We can help discreetly. No need to explain.",
-    actions: ["Arrange a quiet space", "Speak to a staff member", "Come back to this later", "I'm fine, thank you"],
-    confirmMsg: "Understood. A quiet space has been arranged. You'll receive a note with the details.",
+    stage: "Guest Welfare",
+    label: "05 · Guest Welfare Flag",
+    phoneMessage: "We're here if you need anything.",
+    phoneSub: "No need to explain — we can help discreetly and without any fuss.",
+    phoneActions: ["Arrange a quiet space", "Speak to a staff member", "Come back to this later", "I'm fine, thank you"],
+    phoneConfirm: "Understood. A quiet space has been arranged on your floor. A staff member will check in discreetly — you don't need to do anything.",
+    guestSees: "Soft, dignified support — no intrusion, no stigma, no forms. Delivered at the right moment.",
+    rtbxAutomates: "Welfare signal classified using privacy-safe escalation model. Appropriate support pathway selected. No over-escalation. Quiet space pre-arranged based on signal confidence.",
+    operatorReceives: "Appropriate staff member: discreet welfare guidance card — role, action steps and care protocol. Manager on standby with context only if threshold is met.",
+    valueCreated: "Duty-of-care pathway created and evidenced. Guest supported without visibility. Welfare action logged with full assurance trail.",
+  },
+  {
+    id: 5,
+    stage: "Service Recovery",
+    label: "06 · Service Recovery",
+    phoneMessage: "We noticed your room issue is still open.",
+    phoneSub: "Let's resolve this properly. Choose how you'd like us to proceed.",
+    phoneActions: ["Escalate to a manager", "Request a room move", "Arrange a 5-minute fix", "It's sorted — thank you"],
+    phoneConfirm: "A manager has been alerted and will be with you in under 5 minutes. You won't need to re-explain anything — we've passed the full context.",
+    guestSees: "A clear resolution pathway, a committed timeframe and confidence that someone owns the problem.",
+    rtbxAutomates: "Unresolved issue reclassified as escalation risk. Owner assigned. Timer started: 5 minutes. Manager alert queued. Full context packaged — no re-briefing needed.",
+    operatorReceives: "Manager: escalation alert with full context — room number, issue type, time open, prior actions, guest tier. Owner assigned. Timer: 5 minutes to resolution.",
+    valueCreated: "Escalation pathway active. Ownership assigned and logged. Evidence trail created. Negative review risk significantly reduced.",
+  },
+  {
+    id: 6,
+    stage: "Checkout",
+    label: "07 · Checkout",
+    phoneMessage: "Thank you for staying, Sarah.",
+    phoneSub: "Your checkout is ready. We'd love to hear how your stay went.",
+    phoneActions: ["Express checkout", "Share feedback", "Book my next stay", "Request a receipt"],
+    phoneConfirm: "You're checked out. Your receipt is on its way. Your feedback has been recorded — thank you. We look forward to welcoming you back.",
+    guestSees: "Frictionless checkout, a loyalty moment and a dignified farewell — no queue, no desk.",
+    rtbxAutomates: "Checkout signal triggers sentiment capture + loyalty pathway. Post-stay flag raised if sentiment below threshold. Repeat-stay opportunity queued for CRM activation.",
+    operatorReceives: "GM summary: stay outcome, guest sentiment signal, unresolved items (if any), loyalty re-engagement flag. Post-stay follow-up triggered if sentiment requires it.",
+    valueCreated: "Assurance record completed. Outcome evidenced. Repeat-stay opportunity created. CRM journey activated for this guest.",
   },
 ];
 
-function PhoneFrame({ screen, selected, onSelect }: {
-  screen: Screen;
+const QUAD_COLORS = ["#c9a84c", "#3b82f6", "#10b981", "#a78bfa"];
+
+function PhoneFrame({ stage, selected, onSelect }: {
+  stage: Stage;
   selected: string | null;
   onSelect: (a: string) => void;
 }) {
@@ -99,7 +132,6 @@ function PhoneFrame({ screen, selected, onSelect }: {
       boxShadow: "0 40px 100px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.06)",
       flexShrink: 0,
     }}>
-      {/* Phone screen */}
       <div style={{
         background: "#faf9f6",
         borderRadius: 36,
@@ -108,7 +140,6 @@ function PhoneFrame({ screen, selected, onSelect }: {
         display: "flex",
         flexDirection: "column",
       }}>
-        {/* Status bar */}
         <div style={{
           background: "#0d0d1a",
           padding: "10px 20px 8px",
@@ -117,7 +148,7 @@ function PhoneFrame({ screen, selected, onSelect }: {
           alignItems: "center",
           flexShrink: 0,
         }}>
-          <span style={{ fontSize: 9.5, fontWeight: 700, color: "rgba(255,255,255,0.9)" }}>23:46</span>
+          <span style={{ fontSize: 9.5, fontWeight: 700, color: "rgba(255,255,255,0.9)" }}>15:12</span>
           <div style={{ display: "flex", gap: 5, alignItems: "center" }}>
             <span style={{ fontSize: 7, color: "rgba(255,255,255,0.6)" }}>●●●</span>
             <span style={{ fontSize: 7, color: "rgba(255,255,255,0.6)" }}>WiFi</span>
@@ -125,34 +156,33 @@ function PhoneFrame({ screen, selected, onSelect }: {
           </div>
         </div>
 
-        {/* Hotel header */}
         <div style={{
           background: "#0d0d1a",
-          padding: "10px 20px 14px",
+          padding: "8px 20px 12px",
           textAlign: "center",
           flexShrink: 0,
         }}>
-          <div style={{ fontSize: 8, letterSpacing: "0.28em", color: "rgba(201,168,76,0.9)", textTransform: "uppercase", fontWeight: 700 }}>
+          <div style={{ fontSize: 7.5, letterSpacing: "0.28em", color: "rgba(201,168,76,0.9)", textTransform: "uppercase", fontWeight: 700 }}>
             GRAND MERIDIAN · LONDON
+          </div>
+          <div style={{ fontSize: 8, color: "rgba(255,255,255,0.2)", marginTop: 3, letterSpacing: "0.1em" }}>
+            {stage.stage.toUpperCase()} MOMENT
           </div>
         </div>
 
-        {/* Content */}
-        <div style={{ flex: 1, overflowY: "auto", padding: "22px 20px 16px" }}>
-          {/* Greeting */}
+        <div style={{ flex: 1, overflowY: "auto", padding: "20px 18px 14px" }}>
           <div style={{ marginBottom: 18 }}>
             <div style={{ fontSize: 15, fontWeight: 700, color: "#1a1a2e", marginBottom: 5, lineHeight: 1.3 }}>
-              {screen.message}
+              {stage.phoneMessage}
             </div>
             <div style={{ fontSize: 11.5, color: "#4a4a6a", lineHeight: 1.6 }}>
-              {screen.sub}
+              {stage.phoneSub}
             </div>
           </div>
 
-          {/* Actions */}
           {selected === null ? (
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {screen.actions.map(action => (
+              {stage.phoneActions.map(action => (
                 <button
                   key={action}
                   onClick={() => onSelect(action)}
@@ -179,8 +209,8 @@ function PhoneFrame({ screen, selected, onSelect }: {
                 padding: "14px", background: "#eef7f2",
                 border: "1px solid rgba(16,185,129,0.3)", borderRadius: 10, marginBottom: 14,
               }}>
-                <div style={{ fontSize: 9, fontWeight: 700, color: "#10b981", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 5 }}>✓ Received</div>
-                <div style={{ fontSize: 11, color: "#2d4a3e", lineHeight: 1.6 }}>{screen.confirmMsg}</div>
+                <div style={{ fontSize: 9, fontWeight: 700, color: "#10b981", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 5 }}>✓ Confirmed</div>
+                <div style={{ fontSize: 11, color: "#2d4a3e", lineHeight: 1.6 }}>{stage.phoneConfirm}</div>
               </div>
               <button
                 onClick={() => onSelect("")}
@@ -190,12 +220,11 @@ function PhoneFrame({ screen, selected, onSelect }: {
                   fontSize: 9.5, color: "#6b6b8a", cursor: "pointer",
                   fontFamily: "system-ui, sans-serif",
                 }}
-              >← Go back</button>
+              >← Try another option</button>
             </div>
           )}
         </div>
 
-        {/* Microcopy */}
         <div style={{
           padding: "10px 20px 14px",
           borderTop: "1px solid rgba(0,0,0,0.06)",
@@ -211,16 +240,171 @@ function PhoneFrame({ screen, selected, onSelect }: {
   );
 }
 
-function DemoFooter() {
+const QUAD_LABELS = ["What the Guest Sees", "What RTBX Core Automates", "What the Operator Receives", "Value Created"];
+
+export default function PartnerGuestDemo() {
+  const [stageIdx, setStageIdx] = useState(0);
+  const [selected, setSelected] = useState<string | null>(null);
+  const stage = STAGES[stageIdx];
+
+  function goTo(idx: number) {
+    setStageIdx(idx);
+    setSelected(null);
+  }
+
+  const quadContent = [stage.guestSees, stage.rtbxAutomates, stage.operatorReceives, stage.valueCreated];
+
   return (
-    <div style={{ borderTop: `1px solid ${P.border}`, padding: "40px 60px" }}>
-      <div style={{ maxWidth: 800, margin: "0 auto", textAlign: "center" }}>
-        <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: P.dimmed, textTransform: "uppercase", marginBottom: 10, fontWeight: 700 }}>Ready to map this to your environment?</div>
-        <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+    <PartnerRoomLayout>
+      {/* Header */}
+      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "56px 60px 36px" }}>
+        <div style={{ fontSize: 8, letterSpacing: "0.22em", color: P.amber, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>
+          Live Guest Story
+        </div>
+        <h1 style={{ fontSize: 36, fontWeight: 800, color: P.white, letterSpacing: "-0.02em", marginBottom: 10 }}>
+          One Stay. Seven Moments.
+        </h1>
+        <p style={{ fontSize: 13, color: P.muted, maxWidth: 560, lineHeight: 1.7, margin: 0 }}>
+          Follow a single guest from arrival to checkout — at each stage, see what the guest experiences, what RTBX Core automates, what the operator receives and what value is created.
+        </p>
+      </div>
+
+      {/* Stage tabs */}
+      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px 32px" }}>
+        <div style={{ display: "flex", gap: 2, overflowX: "auto" }}>
+          {STAGES.map((s, i) => (
+            <button
+              key={s.id}
+              onClick={() => goTo(i)}
+              style={{
+                padding: "10px 16px",
+                background: i === stageIdx ? `${P.amber}12` : "rgba(255,255,255,0.02)",
+                border: `1px solid ${i === stageIdx ? P.amber + "50" : "rgba(255,255,255,0.07)"}`,
+                borderBottom: i === stageIdx ? `2px solid ${P.amber}` : "1px solid rgba(255,255,255,0.07)",
+                cursor: "pointer",
+                fontSize: 9, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase",
+                color: i === stageIdx ? P.amber : P.dimmed,
+                whiteSpace: "nowrap", transition: "all 0.12s",
+              }}
+              onMouseEnter={e => { if (i !== stageIdx) (e.currentTarget as HTMLElement).style.color = P.muted; }}
+              onMouseLeave={e => { if (i !== stageIdx) (e.currentTarget as HTMLElement).style.color = P.dimmed; }}
+            >
+              {s.label.split("·")[0].trim()} · {s.stage}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Demo area */}
+      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px 80px", display: "flex", gap: 56, alignItems: "flex-start" }}>
+
+        {/* Left: Phone */}
+        <div style={{ flexShrink: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: 24 }}>
+          <PhoneFrame stage={stage} selected={selected} onSelect={s => setSelected(s || null)} />
+          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+            <button
+              onClick={() => goTo(Math.max(0, stageIdx - 1))}
+              disabled={stageIdx === 0}
+              style={{
+                background: "none", border: `1px solid ${P.border}`,
+                color: stageIdx === 0 ? P.dimmed : P.muted,
+                padding: "5px 12px", fontSize: 10, cursor: stageIdx === 0 ? "not-allowed" : "pointer",
+                fontFamily: "system-ui, sans-serif",
+              }}
+            >←</button>
+            {STAGES.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => goTo(i)}
+                style={{
+                  width: i === stageIdx ? 18 : 6, height: 6, borderRadius: 3,
+                  border: "none",
+                  background: i === stageIdx ? P.amber : "rgba(255,255,255,0.15)",
+                  cursor: "pointer", transition: "all 0.2s", padding: 0,
+                }}
+              />
+            ))}
+            <button
+              onClick={() => goTo(Math.min(STAGES.length - 1, stageIdx + 1))}
+              disabled={stageIdx === STAGES.length - 1}
+              style={{
+                background: "none", border: `1px solid ${P.border}`,
+                color: stageIdx === STAGES.length - 1 ? P.dimmed : P.muted,
+                padding: "5px 12px", fontSize: 10, cursor: stageIdx === STAGES.length - 1 ? "not-allowed" : "pointer",
+                fontFamily: "system-ui, sans-serif",
+              }}
+            >→</button>
+          </div>
+          <div style={{ fontSize: 9, color: P.dimmed, textAlign: "center" }}>Stage {stageIdx + 1} of {STAGES.length} · {stage.stage}</div>
+        </div>
+
+        {/* Right: 4-quadrant context */}
+        <div style={{ flex: 1, paddingTop: 4 }}>
+          <div style={{ fontSize: 8, letterSpacing: "0.2em", color: P.amber, textTransform: "uppercase", fontWeight: 700, marginBottom: 22 }}>
+            {stage.label}
+          </div>
+
+          {/* 4 quadrants */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2, marginBottom: 32 }}>
+            {QUAD_LABELS.map((label, i) => (
+              <div key={label} style={{
+                padding: "20px 22px",
+                background: P.navy,
+                border: `1px solid rgba(255,255,255,0.06)`,
+                borderTop: `2px solid ${QUAD_COLORS[i]}40`,
+              }}>
+                <div style={{ fontSize: 7.5, letterSpacing: "0.14em", color: QUAD_COLORS[i], textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
+                  {label}
+                </div>
+                <div style={{ fontSize: 12, color: P.muted, lineHeight: 1.7 }}>
+                  {quadContent[i]}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Stage navigator */}
+          <div style={{ fontSize: 7.5, letterSpacing: "0.14em", color: P.dimmed, textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
+            All Journey Stages
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+            {STAGES.map((s, i) => (
+              <button
+                key={s.id}
+                onClick={() => goTo(i)}
+                style={{
+                  display: "flex", alignItems: "center", gap: 12,
+                  padding: "9px 14px",
+                  background: i === stageIdx ? `${P.amber}08` : "transparent",
+                  border: `1px solid ${i === stageIdx ? `${P.amber}30` : "transparent"}`,
+                  cursor: "pointer", textAlign: "left", fontFamily: "system-ui, sans-serif",
+                  transition: "all 0.12s",
+                }}
+                onMouseEnter={e => { if (i !== stageIdx) (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.03)"; }}
+                onMouseLeave={e => { if (i !== stageIdx) (e.currentTarget as HTMLElement).style.background = "transparent"; }}
+              >
+                <span style={{ fontSize: 9, fontWeight: 700, color: i === stageIdx ? P.amber : P.dimmed, minWidth: 18 }}>
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span style={{ fontSize: 10.5, color: i === stageIdx ? P.white : P.muted, fontWeight: i === stageIdx ? 600 : 400 }}>
+                  {s.stage}
+                </span>
+                {i === stageIdx && (
+                  <span style={{ fontSize: 8.5, color: P.amber, marginLeft: "auto", letterSpacing: "0.1em", textTransform: "uppercase" }}>Active</span>
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div style={{ borderTop: `1px solid ${P.border}`, padding: "36px 60px" }}>
+        <div style={{ maxWidth: 800, margin: "0 auto", display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
           {[
-            { label: "View Pilot Model", path: "/partner-room/pilot-model" },
-            { label: "Open Integration Brief", path: "/partner-room/integration-brief" },
-            { label: "View Moments Economy", path: "/partner-room/moments-economy" },
+            { label: "Scenario Builder", path: "/partner-room/scenario-builder" },
+            { label: "Dual View Demo", path: "/partner-room/dual-view-demo" },
+            { label: "Deployment Demos", path: "/partner-room/deployments" },
           ].map(b => (
             <Link key={b.path} href={b.path}>
               <div style={{
@@ -235,134 +419,6 @@ function DemoFooter() {
           ))}
         </div>
       </div>
-    </div>
-  );
-}
-
-export default function PartnerGuestDemo() {
-  const [screenIdx, setScreenIdx] = useState(0);
-  const [selected, setSelected] = useState<string | null>(null);
-  const screen = SCREENS[screenIdx];
-
-  function goTo(idx: number) {
-    setScreenIdx(idx);
-    setSelected(null);
-  }
-
-  return (
-    <PartnerRoomLayout>
-      {/* Header */}
-      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "56px 60px 48px" }}>
-        <div style={{ fontSize: 8, letterSpacing: "0.22em", color: P.amber, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>
-          GUEST EXPERIENCE DEMO
-        </div>
-        <h1 style={{ fontSize: 36, fontWeight: 800, color: P.white, letterSpacing: "-0.02em", marginBottom: 10 }}>
-          What the Guest Sees
-        </h1>
-        <p style={{ fontSize: 13, color: P.muted, maxWidth: 500, lineHeight: 1.7, margin: 0 }}>
-          A zero-download, concierge-grade interface. Five moments. Each one turning a signal into a supported action.
-        </p>
-      </div>
-
-      {/* Demo area */}
-      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px 80px", display: "flex", gap: 60, alignItems: "flex-start" }}>
-
-        {/* Left: Phone + nav */}
-        <div style={{ flexShrink: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: 28 }}>
-          <PhoneFrame screen={screen} selected={selected} onSelect={s => setSelected(s || null)} />
-
-          {/* Step dots */}
-          <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-            <button
-              onClick={() => goTo(Math.max(0, screenIdx - 1))}
-              disabled={screenIdx === 0}
-              style={{
-                background: "none", border: `1px solid ${P.border}`, color: screenIdx === 0 ? P.dimmed : P.muted,
-                padding: "5px 12px", fontSize: 10, cursor: screenIdx === 0 ? "not-allowed" : "pointer",
-                fontFamily: "system-ui, sans-serif",
-              }}
-            >←</button>
-            {SCREENS.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => goTo(i)}
-                style={{
-                  width: 8, height: 8, borderRadius: "50%", border: "none",
-                  background: i === screenIdx ? P.amber : "rgba(255,255,255,0.15)",
-                  cursor: "pointer", transition: "background 0.2s", padding: 0,
-                }}
-              />
-            ))}
-            <button
-              onClick={() => goTo(Math.min(SCREENS.length - 1, screenIdx + 1))}
-              disabled={screenIdx === SCREENS.length - 1}
-              style={{
-                background: "none", border: `1px solid ${P.border}`, color: screenIdx === SCREENS.length - 1 ? P.dimmed : P.muted,
-                padding: "5px 12px", fontSize: 10, cursor: screenIdx === SCREENS.length - 1 ? "not-allowed" : "pointer",
-                fontFamily: "system-ui, sans-serif",
-              }}
-            >→</button>
-          </div>
-          <div style={{ fontSize: 9, color: P.dimmed, textAlign: "center" }}>Screen {screenIdx + 1} of {SCREENS.length}</div>
-        </div>
-
-        {/* Right: Context panel */}
-        <div style={{ flex: 1, paddingTop: 8 }}>
-          {/* Screen label */}
-          <div style={{ fontSize: 8, letterSpacing: "0.2em", color: P.amber, textTransform: "uppercase", fontWeight: 700, marginBottom: 20 }}>
-            {screen.label}
-          </div>
-
-          {/* Signal */}
-          <div style={{ marginBottom: 24, padding: "18px 22px", background: P.navy, border: `1px solid ${P.border}` }}>
-            <div style={{ fontSize: 7.5, letterSpacing: "0.14em", color: P.dimmed, textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>Signal Detected</div>
-            <div style={{ fontSize: 12, color: P.muted, lineHeight: 1.7 }}>{screen.signal}</div>
-          </div>
-
-          {/* Moment + WELBX action */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 24 }}>
-            <div style={{ padding: "18px 22px", background: P.navy, border: `1px solid ${P.border}` }}>
-              <div style={{ fontSize: 7.5, letterSpacing: "0.14em", color: P.dimmed, textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>Moment Type</div>
-              <div style={{ fontSize: 13, fontWeight: 700, color: P.amber }}>{screen.moment}</div>
-            </div>
-            <div style={{ padding: "18px 22px", background: P.navy, border: `1px solid ${P.border}` }}>
-              <div style={{ fontSize: 7.5, letterSpacing: "0.14em", color: P.dimmed, textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>Partner Opportunity</div>
-              <div style={{ fontSize: 11, color: P.green, lineHeight: 1.6 }}>{screen.partnerOpportunity}</div>
-            </div>
-          </div>
-
-          {/* WELBX action */}
-          <div style={{ padding: "18px 22px", background: P.navy, border: `1px solid ${P.border}`, marginBottom: 32 }}>
-            <div style={{ fontSize: 7.5, letterSpacing: "0.14em", color: P.dimmed, textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>What WELBX Is Doing</div>
-            <div style={{ fontSize: 12, color: P.muted, lineHeight: 1.7 }}>{screen.welbxAction}</div>
-          </div>
-
-          {/* Screen navigator list */}
-          <div style={{ fontSize: 7.5, letterSpacing: "0.14em", color: P.dimmed, textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>All Screens</div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-            {SCREENS.map((s, i) => (
-              <button
-                key={s.id}
-                onClick={() => goTo(i)}
-                style={{
-                  display: "flex", alignItems: "center", gap: 12,
-                  padding: "10px 14px", background: i === screenIdx ? `${P.amber}08` : "transparent",
-                  border: `1px solid ${i === screenIdx ? `${P.amber}30` : "transparent"}`,
-                  cursor: "pointer", textAlign: "left", fontFamily: "system-ui, sans-serif",
-                  transition: "all 0.12s",
-                }}
-                onMouseEnter={e => { if (i !== screenIdx) (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.03)"; }}
-                onMouseLeave={e => { if (i !== screenIdx) (e.currentTarget as HTMLElement).style.background = "transparent"; }}
-              >
-                <span style={{ fontSize: 9, fontWeight: 700, color: i === screenIdx ? P.amber : P.dimmed, minWidth: 18 }}>{String(i + 1).padStart(2, "0")}</span>
-                <span style={{ fontSize: 10.5, color: i === screenIdx ? P.white : P.muted, fontWeight: i === screenIdx ? 600 : 400 }}>{s.label.split("·")[1]?.trim()}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <DemoFooter />
     </PartnerRoomLayout>
   );
 }

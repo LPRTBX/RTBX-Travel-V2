@@ -35,7 +35,7 @@ export default function PartnerSignalsEngine() {
         {/* Header */}
         <div style={{ marginBottom: 48 }}>
           <div style={{ fontSize: 9, letterSpacing: "0.22em", color: "#3b82f6", textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>
-            Signals Engine
+            Signals Engine Brief
           </div>
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 24, maxWidth: 720 }}>
             {headline.split("\n").map((line, i) => (
