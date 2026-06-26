@@ -1,20 +1,103 @@
 import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 
-const BRIEFS = [
+const RESOURCE_DOCS = [
+  {
+    label: "Partnership Overview",
+    tag: "Strategy",
+    color: "#c9a84c",
+    desc: "What RTBX Travel is, who partners are, what they earn, and how the pilot-to-scale pathway works across all five deployment environments.",
+    href: "/partner-room/resources/travel-partnership-overview",
+    audience: "All Partners · First Briefing",
+  },
+  {
+    label: "Business Plan",
+    tag: "Strategy",
+    color: "#c9a84c",
+    desc: "Full RTBX Travel company logic — the problem, the solution, the product stack, the moats, the commercial model and the 3-year roadmap.",
+    href: "/partner-room/resources/travel-business-plan",
+    audience: "Strategic Partners · Funders",
+  },
+  {
+    label: "GTM Plan",
+    tag: "Strategy",
+    color: "#c9a84c",
+    desc: "Beachhead strategy, priority sequence across five environments, first 20 partner conversations and full pilot pathway timeline.",
+    href: "/partner-room/resources/travel-gtm-plan",
+    audience: "Commercial · Distribution Partners",
+  },
+  {
+    label: "Commercial Case",
+    tag: "Commercial",
+    color: "#a78bfa",
+    desc: "Category opportunity, revenue pathways, multiple moats and strategic exit analysis. Why RTBX Travel is commercially serious.",
+    href: "/partner-room/resources/travel-commercial-case",
+    audience: "Commercial Leads · Funders · Board",
+  },
+  {
+    label: "Commercial Partnership Brief",
+    tag: "Commercial",
+    color: "#a78bfa",
+    desc: "Seven revenue streams, five partner commercial models and pilot terms. Complete commercial structure for partner conversations.",
+    href: "/partner-room/resources/travel-commercial-partnership-brief",
+    audience: "Commercial Leads · Executives",
+  },
+  {
+    label: "Revenue Model",
+    tag: "Commercial",
+    color: "#a78bfa",
+    desc: "Indicative revenue streams with assumptions, per-environment economics and a 3-year forecast across platform, deployment, marketplace and intelligence layers.",
+    href: "/partner-room/resources/travel-revenue-model",
+    audience: "Finance · Funders · Executives",
+  },
+  {
+    label: "UX Blueprint",
+    tag: "Product",
+    color: "#3b82f6",
+    desc: "Role-based UX map — what each stakeholder (guest, staff, manager, exec, partner, funder) sees, does, captures and creates.",
+    href: "/partner-room/resources/travel-ux-blueprint",
+    audience: "Product · Technology · Commercial",
+  },
+  {
+    label: "Systems Map",
+    tag: "Product",
+    color: "#3b82f6",
+    desc: "Four head systems with all modules, RTBX Core infrastructure layer, and deployment environment coverage matrix.",
+    href: "/partner-room/resources/travel-systems-map",
+    audience: "Product · Technology · Operators",
+  },
+  {
+    label: "Pilot Model",
+    tag: "Operations",
+    color: "#10b981",
+    desc: "8-phase pilot pathway with week timing, outputs and governance. 8 success metrics with targets and why each matters.",
+    href: "/partner-room/resources/travel-pilot-model",
+    audience: "Operators · Commercial · Finance",
+  },
+  {
+    label: "Demo Links",
+    tag: "Demos",
+    color: "#f97316",
+    desc: "Clean directory of all interactive demos and live scenario tools. No static documents or placeholder links.",
+    href: "/partner-room/resources/travel-demo-links",
+    audience: "All Partners",
+  },
+];
+
+const BRIEFINGS = [
   {
     label: "Executive Briefing",
     tag: "Executive",
     color: "#c9a84c",
     desc: "A concise executive narrative covering RTBX Travel's positioning, the operating problem it solves and the value it creates. Designed for a 5-minute briefing format.",
     href: "/partner-room/overview",
-    audience: "C-suite · Owners · Board",
+    audience: "C-Suite · Owners · Board",
   },
   {
     label: "Operator Brief",
     tag: "Operations",
-    color: "#c9a84c",
-    desc: "The core briefing document for hotel, resort and park operators — covers system overview, deployment model, staff impact and value proof.",
+    color: "#10b981",
+    desc: "The core briefing for hotel, resort and park operators — system overview, deployment model, staff impact and value proof.",
     href: "/partner-room/operator-brief",
     audience: "Hotel · Resort · Park Operators",
   },
@@ -25,14 +108,6 @@ const BRIEFS = [
     desc: "API-first integration guide for technology partners — PMS, POS, CRM, workforce and loyalty system connectivity.",
     href: "/partner-room/integration-brief",
     audience: "Technology Partners · IT Leads",
-  },
-  {
-    label: "Commercial Brief",
-    tag: "Commercial",
-    color: "#a78bfa",
-    desc: "Commercial structure, pricing tiers, revenue share and partner pathway summary for commercial and executive stakeholders.",
-    href: "/partner-room/commercial-model",
-    audience: "Commercial Leads · Executives",
   },
   {
     label: "Operator Deep Dive Walkthrough",
@@ -46,54 +121,63 @@ const BRIEFS = [
     label: "Holiday Parks & Outdoor Experiences",
     tag: "Environment",
     color: "#10b981",
-    desc: "Sector-specific briefing for holiday park and outdoor experience operators — covers multi-site deployment, seasonal management and guest flow.",
+    desc: "Sector-specific briefing for holiday park and outdoor experience operators — multi-site deployment, seasonal management and guest flow.",
     href: "/partner-room/holiday-park-demo",
     audience: "Parks · Outdoor Operators",
-  },
-  {
-    label: "Pilot Metrics",
-    tag: "Validation",
-    color: "#f97316",
-    desc: "Key performance indicators, outcome metrics and value measurement framework for a structured RTBX Travel pilot.",
-    href: "/partner-room/pilot-model",
-    audience: "Operators · Commercial · Finance",
-  },
-  {
-    label: "Value Proof",
-    tag: "Validation",
-    color: "#f97316",
-    desc: "Documented outcome data, service improvement evidence and commercial value capture from RTBX Travel deployments.",
-    href: "/partner-room/pilot-model",
-    audience: "Executives · Funders · Partners",
-  },
-  {
-    label: "Deployment Brief",
-    tag: "Operations",
-    color: "#c9a84c",
-    desc: "Technical and operational requirements for deploying RTBX Travel — infrastructure, integration, training and go-live checklist.",
-    href: "/partner-room/operator-brief",
-    audience: "Operations · IT · Project Leads",
-  },
-  {
-    label: "Documents",
-    tag: "Library",
-    color: "rgba(255,255,255,0.3)",
-    desc: "Supporting documents, annexures and reference materials for the RTBX Travel Partner Room.",
-    href: "/partner-room/operator-brief",
-    audience: "All Partners",
   },
 ];
 
 const TAG_COLORS: Record<string, string> = {
-  Executive:   "#c9a84c",
-  Operations:  "#c9a84c",
-  Technology:  "#3b82f6",
-  Commercial:  "#a78bfa",
+  Strategy: "#c9a84c",
+  Commercial: "#a78bfa",
+  Product: "#3b82f6",
+  Operations: "#10b981",
+  Demos: "#f97316",
+  Executive: "#c9a84c",
+  Technology: "#3b82f6",
   Walkthrough: "#3b82f6",
   Environment: "#10b981",
-  Validation:  "#f97316",
-  Library:     "rgba(255,255,255,0.3)",
 };
+
+function BriefCard({ brief }: { brief: { label: string; tag: string; color: string; desc: string; href: string; audience: string } }) {
+  return (
+    <Link href={brief.href}>
+      <div style={{
+        padding: "26px 22px",
+        background: "rgba(255,255,255,0.02)",
+        border: "1px solid rgba(255,255,255,0.06)",
+        borderTop: `2px solid ${brief.color}`,
+        display: "flex", flexDirection: "column",
+        cursor: "pointer", transition: "all 0.15s", height: "100%",
+      }}
+      onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(255,255,255,0.04)"; el.style.borderColor = "rgba(255,255,255,0.12)"; }}
+      onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(255,255,255,0.02)"; el.style.borderColor = "rgba(255,255,255,0.06)"; }}
+      >
+        <div style={{
+          display: "inline-flex", alignItems: "center", marginBottom: 12,
+          fontSize: 7.5, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase",
+          color: TAG_COLORS[brief.tag] || "rgba(255,255,255,0.3)",
+          border: `1px solid ${TAG_COLORS[brief.tag] || "rgba(255,255,255,0.1)"}30`,
+          padding: "2px 8px", alignSelf: "flex-start",
+        }}>
+          {brief.tag}
+        </div>
+        <div style={{ fontSize: 11.5, fontWeight: 700, color: "#fff", marginBottom: 10, lineHeight: 1.35 }}>
+          {brief.label}
+        </div>
+        <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.35)", lineHeight: 1.6, flex: 1, marginBottom: 14 }}>
+          {brief.desc}
+        </p>
+        <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.2)", letterSpacing: "0.08em", textTransform: "uppercase", fontWeight: 600, marginBottom: 12 }}>
+          {brief.audience}
+        </div>
+        <div style={{ fontSize: 9, color: brief.color, fontWeight: 700, letterSpacing: "0.08em" }}>
+          Open →
+        </div>
+      </div>
+    </Link>
+  );
+}
 
 export default function PartnerBriefLibrary() {
   return (
@@ -101,7 +185,7 @@ export default function PartnerBriefLibrary() {
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "72px 32px 140px" }}>
 
         {/* Header */}
-        <div style={{ marginBottom: 64 }}>
+        <div style={{ marginBottom: 56 }}>
           <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
             Partner Room · Brief Library
           </div>
@@ -109,12 +193,13 @@ export default function PartnerBriefLibrary() {
             Brief Library
           </div>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.42)", lineHeight: 1.75, maxWidth: 640 }}>
-            Targeted briefings, validation documents and reference materials — each scoped for a specific audience and decision context.
+            Partner documents, resource pages and targeted briefings — each scoped for a specific audience and decision context.
+            No placeholder pages. Every link opens a complete resource.
           </p>
 
           {/* Tag filter legend */}
           <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 24 }}>
-            {Object.entries(TAG_COLORS).map(([tag, color]) => (
+            {Object.entries(TAG_COLORS).filter(([tag], i, arr) => arr.findIndex(([t]) => t === tag) === i).map(([tag, color]) => (
               <div key={tag} style={{ display: "flex", alignItems: "center", gap: 6 }}>
                 <div style={{ width: 8, height: 2, background: color }} />
                 <span style={{ fontSize: 8.5, color: "rgba(255,255,255,0.28)", letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: 700 }}>{tag}</span>
@@ -123,45 +208,33 @@ export default function PartnerBriefLibrary() {
           </div>
         </div>
 
-        {/* Brief cards grid */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
-          {BRIEFS.map(brief => (
-            <Link key={brief.label} href={brief.href}>
-              <div style={{
-                padding: "28px 24px",
-                background: "rgba(255,255,255,0.02)",
-                border: "1px solid rgba(255,255,255,0.06)",
-                borderTop: `2px solid ${brief.color}`,
-                display: "flex", flexDirection: "column",
-                cursor: "pointer", transition: "all 0.15s", height: "100%",
-              }}
-              onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(255,255,255,0.04)"; el.style.borderColor = `rgba(255,255,255,0.12)`; }}
-              onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(255,255,255,0.02)"; el.style.borderColor = "rgba(255,255,255,0.06)"; }}
-              >
-                <div style={{
-                  display: "inline-flex", alignItems: "center", marginBottom: 14,
-                  fontSize: 7.5, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase",
-                  color: TAG_COLORS[brief.tag] || "rgba(255,255,255,0.3)",
-                  border: `1px solid ${TAG_COLORS[brief.tag] || "rgba(255,255,255,0.1)"}30`,
-                  padding: "2px 8px", alignSelf: "flex-start",
-                }}>
-                  {brief.tag}
-                </div>
-                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.06em", color: "#fff", marginBottom: 12, lineHeight: 1.35 }}>
-                  {brief.label}
-                </div>
-                <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.32)", lineHeight: 1.6, flex: 1, marginBottom: 16 }}>
-                  {brief.desc}
-                </p>
-                <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.2)", letterSpacing: "0.08em", textTransform: "uppercase", fontWeight: 600, marginBottom: 14 }}>
-                  {brief.audience}
-                </div>
-                <div style={{ fontSize: 9, color: brief.color, fontWeight: 700, letterSpacing: "0.08em" }}>
-                  Open Brief →
-                </div>
-              </div>
-            </Link>
-          ))}
+        {/* Section 1: Resource Library */}
+        <div style={{ marginBottom: 56 }}>
+          <div style={{ marginBottom: 20 }}>
+            <div style={{ fontSize: 8.5, letterSpacing: "0.16em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase", fontWeight: 700, marginBottom: 4 }}>Section 01</div>
+            <div style={{ fontSize: 17, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", marginBottom: 6 }}>RTBX Travel Resource Library</div>
+            <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.35)", lineHeight: 1.65, maxWidth: 640, margin: 0 }}>
+              Full planning and partner documents — business plan, commercial model, GTM strategy, systems map, pilot model and revenue model.
+              Built for strategic partners, operators, funders and integration partners.
+            </p>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 2 }}>
+            {RESOURCE_DOCS.map(doc => <BriefCard key={doc.label} brief={doc} />)}
+          </div>
+        </div>
+
+        {/* Section 2: Briefings */}
+        <div>
+          <div style={{ marginBottom: 20 }}>
+            <div style={{ fontSize: 8.5, letterSpacing: "0.16em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase", fontWeight: 700, marginBottom: 4 }}>Section 02</div>
+            <div style={{ fontSize: 17, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", marginBottom: 6 }}>Targeted Briefings</div>
+            <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.35)", lineHeight: 1.65, maxWidth: 640, margin: 0 }}>
+              Audience-specific briefings — executive, operator, technology and environment-level. Each scoped to a specific decision context.
+            </p>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 2 }}>
+            {BRIEFINGS.map(brief => <BriefCard key={brief.label} brief={brief} />)}
+          </div>
         </div>
 
       </div>

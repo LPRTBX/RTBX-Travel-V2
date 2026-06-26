@@ -108,8 +108,8 @@ const WALKTHROUGHS = [
   },
   {
     label: "Demo Directory",
-    desc: "Full directory of available demo paths and walkthrough options.",
-    href: "/partner-room/demo-paths",
+    desc: "Full directory of all interactive demos and live scenario tools across every deployment environment.",
+    href: "/partner-room/resources/travel-demo-links",
     cta: "View Directory",
   },
 ];
