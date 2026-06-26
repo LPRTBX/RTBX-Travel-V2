@@ -46,7 +46,7 @@ export default function TravelPilotModel() {
             {[
               { label: "Duration", value: "8–12 weeks" },
               { label: "Integration needed", value: "Push-first — none required to start" },
-              { label: "Pilot fee (indicative)", value: "£10K–£25K" },
+              { label: "Pilot fee (indicative)", value: "A$15K–A$45K" },
               { label: "Output", value: "Outcome report + value proof" },
             ].map(s => (
               <div key={s.label} style={{ padding: "18px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: "2px solid rgba(201,168,76,0.35)" }}>

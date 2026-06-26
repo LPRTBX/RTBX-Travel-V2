@@ -103,15 +103,15 @@ const FLOW_STEPS: FlowStep[] = [
     detail: [
       "Guest experience protected — 2,840 attendees entered without significant disruption",
       "Incident risk reduced — escalation to event director prevented, no external complaint",
-      "Revenue protected — estimated $8,400 F&B spend preserved through catering recovery",
+      "Revenue protected — estimated A$8,400 F&B spend preserved through catering recovery",
       "Staff time optimised — guided redeployment: 14 min vs unguided average: 38 min",
       "Event reputation maintained — no social media escalation, no formal complaint filed",
       "Assurance record created — full incident and resolution evidence, post-event learnable",
     ],
     roles: {
       "Guest / Attendee": "Event started on time. Welcome drink received. A minor flow issue was handled without reaching guests as a problem.",
-      "Operator": "Value record: Guest experience: protected | Revenue: $8,400 | Escalation: prevented | Staff time: 14 min guided | Reputation: maintained",
-      "Command / Assurance": "Value record #9120 | Guests protected: 2,840 | Revenue: $8,400 | Escalation: 0 | Assurance: complete | Repeatability: confirmed",
+      "Operator": "Value record: Guest experience: protected | Revenue: A$8,400 | Escalation: prevented | Staff time: 14 min guided | Reputation: maintained",
+      "Command / Assurance": "Value record #9120 | Guests protected: 2,840 | Revenue: A$8,400 | Escalation: 0 | Assurance: complete | Repeatability: confirmed",
     },
   },
 ];
@@ -119,7 +119,7 @@ const FLOW_STEPS: FlowStep[] = [
 const PROOF_POINTS = [
   { label: "Risk reduced", desc: "Crowd flow and catering issues resolved before program impact", color: "#10b981" },
   { label: "Escalation prevented", desc: "Event director alert not triggered — 30-min window met", color: "#10b981" },
-  { label: "Revenue protected", desc: "$8,400 estimated F&B spend preserved", color: COLOR },
+  { label: "Revenue protected", desc: "A$8,400 estimated F&B spend preserved", color: COLOR },
   { label: "Staff time saved", desc: "Guided redeployment: 14 min vs unguided 38 min average", color: COLOR },
   { label: "Assurance record", desc: "Full incident and resolution evidence trail created", color: "#a78bfa" },
   { label: "Experience recovered", desc: "2,840 guests entered on time, sentiment positive", color: "#22d3ee" },

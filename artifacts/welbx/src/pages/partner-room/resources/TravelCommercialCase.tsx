@@ -4,7 +4,7 @@ import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 const C = { gold: "#c9a84c", muted: "rgba(255,255,255,0.45)", dim: "rgba(255,255,255,0.22)", green: "#10b981", blue: "#3b82f6" };
 
 const REVENUE_PATHWAYS = [
-  { label: "Guest Recovery Value", color: "#c9a84c", desc: "Every avoided negative review, reduced churn event and loyalty recovery represents measurable revenue protected. Estimated £150–£2,000 per prevented review-driven cancellation or churn event.", signal: "Review risk prevented + repeat-stay preserved" },
+  { label: "Guest Recovery Value", color: "#c9a84c", desc: "Every avoided negative review, reduced churn event and loyalty recovery represents measurable revenue protected. Estimated A$300–A$4,000 per prevented review-driven cancellation or churn event.", signal: "Review risk prevented + repeat-stay preserved" },
   { label: "Staff Response Value", color: "#3b82f6", desc: "Faster, more accurate staff response reduces shift overhead, reduces repeat contact from the same guest and reduces management intervention cost per shift.", signal: "Staff time saved per shift" },
   { label: "Marketplace & Local Partner", color: "#10b981", desc: "Every activated dining, experience, transport or local offer moment creates a transaction. RTBX Travel takes a share. Partners pay for routing access and activation at the right moment.", signal: "Commercial moment activated" },
   { label: "Loyalty & Repeat Stay", color: "#a78bfa", desc: "A guest who receives a welfare prompt, a recovery option or a concierge activation is statistically more likely to return. Repeat-stay value across a property portfolio is material.", signal: "Repeat stay pathway activated" },
@@ -48,10 +48,10 @@ export default function TravelCommercialCase() {
           <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>Category Opportunity</div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
             {[
-              { label: "Global hotel market", value: "£1.4T+", sub: "Annual revenue — execution infrastructure is a small but high-margin category" },
-              { label: "Holiday parks (UK)", value: "£5.5B", sub: "UK outdoor hospitality market — rapidly digitalising, under-served by current tech" },
-              { label: "Corporate travel", value: "£700B+", sub: "Global market — duty-of-care and traveller wellbeing is a priority spend category" },
-              { label: "Events & venues", value: "£900B+", sub: "Global events market — welfare, safety and crowd management tech demand rising" },
+              { label: "Global hotel market", value: "A$2.5T+", sub: "Annual revenue — execution infrastructure is a small but high-margin category" },
+              { label: "Holiday parks (AU & NZ)", value: "A$12B+", sub: "AU & NZ outdoor hospitality market — rapidly digitalising, under-served by current tech" },
+              { label: "Corporate travel", value: "A$1.3T+", sub: "Global market — duty-of-care and traveller wellbeing is a priority spend category" },
+              { label: "Events & venues", value: "A$1.5T+", sub: "Global events market — welfare, safety and crowd management tech demand rising" },
             ].map(stat => (
               <div key={stat.label} style={{ padding: "24px 22px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: "2px solid rgba(201,168,76,0.35)" }}>
                 <div style={{ fontSize: 28, fontWeight: 800, color: C.gold, marginBottom: 8, letterSpacing: "-0.02em" }}>{stat.value}</div>

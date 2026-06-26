@@ -101,7 +101,7 @@ const FLOW_STEPS: FlowStep[] = [
     key: "value", label: "Value", color: COLOR, icon: "◆",
     summary: "Value captured", status: "RECORDED",
     detail: [
-      "Estimated value protected: $680 — recovery of high-value stay, LTV maintained",
+      "Estimated value protected: A$680 — recovery of high-value stay, LTV maintained",
       "Negative review risk eliminated — Platinum guest, 28-min resolution, no complaint filed",
       "Staff efficiency: 6 min active concierge time vs 22 min unguided average",
       "Escalation prevented — duty manager intervention not required",
@@ -110,8 +110,8 @@ const FLOW_STEPS: FlowStep[] = [
     ],
     roles: {
       "Guest / Traveller": "Stay recovered before it was lost. Platinum treatment maintained. Guest left with a positive first impression despite a delayed room.",
-      "Operator": "Recovery: 28 min | Value protected: $680 | Staff time: 6 min | Review risk: eliminated | Escalation: prevented | LTV: maintained.",
-      "Command / Assurance": "Value record #3214 | Protected: $680 | LTV: maintained | Escalation: 0 | Assurance: complete | Repeatability: 94% protocol match rate",
+      "Operator": "Recovery: 28 min | Value protected: A$680 | Staff time: 6 min | Review risk: eliminated | Escalation: prevented | LTV: maintained.",
+      "Command / Assurance": "Value record #3214 | Protected: A$680 | LTV: maintained | Escalation: 0 | Assurance: complete | Repeatability: 94% protocol match rate",
     },
   },
 ];
@@ -119,7 +119,7 @@ const FLOW_STEPS: FlowStep[] = [
 const PROOF_POINTS = [
   { label: "Risk reduced", desc: "Sentiment risk intercepted before complaint", color: "#10b981" },
   { label: "Escalation prevented", desc: "Duty manager not required — 28 min resolution", color: "#10b981" },
-  { label: "Revenue protected", desc: "$680 estimated value and LTV maintained", color: COLOR },
+  { label: "Revenue protected", desc: "A$680 estimated value and LTV maintained", color: COLOR },
   { label: "Staff time saved", desc: "6 min guided vs 22 min unguided response", color: COLOR },
   { label: "Assurance record", desc: "Complete evidence trail created and logged", color: "#a78bfa" },
   { label: "Experience recovered", desc: "Platinum sentiment recovered to 4.6 in-stay", color: "#3b82f6" },

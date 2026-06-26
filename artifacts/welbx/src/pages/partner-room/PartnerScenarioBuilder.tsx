@@ -35,13 +35,13 @@ const SCENARIO_DATA: Record<ScenarioKey, ScenarioData> = {
       "Queue relief protocol: mobile check-in activation + lounge access offer",
       "Staff alerted · Mobile check-in link pushed to queue · Lounge opened",
       "11 of 13 guests used mobile check-in. Average queue reduced to 2 min.",
-      "$1,240 estimated value protected · 3 reviews protected · 11 NPS points recovered"
+      "A$1,240 estimated value protected · 3 reviews protected · 11 NPS points recovered"
     ),
     roles: {
       guest: "\"While you wait — skip the queue with mobile check-in. Your room is ready and your key is on your phone.\"",
       operator: "ACTION: Queue relief activated. Mobile check-in pushed to 13 guests. Lounge access open. Monitor until resolved.",
       command: "Moment #3812 | ARRIVAL_FRICTION | L1 | STATUS: RESOLVING | Queue: 2 min avg | 11/13 guests mobile | Owner: Front Desk",
-      partner: "Arrival friction triggers: ~34/month | Mobile check-in activation rate: 84% | Value protected: ~$42k/month | NPS recovery: consistent",
+      partner: "Arrival friction triggers: ~34/month | Mobile check-in activation rate: 84% | Value protected: ~A$42k/month | NPS recovery: consistent",
     },
     riskModifier: (r) => r === "Level 3: Critical assurance pathway" ? "Emergency protocol + duty manager alert added" : r === "Level 2: Escalated intervention" ? "Manager alert triggered at 12 min" : "Standard arrival relief protocol",
   },
@@ -52,13 +52,13 @@ const SCENARIO_DATA: Record<ScenarioKey, ScenarioData> = {
       "Immediate proactive contact + room upgrade offer activated",
       "Front desk alert issued. Room 614 (upgrade) reserved. WELBX message sent.",
       "Guest accepted upgrade at 14:47. Staff completed at 14:53. Confirmed.",
-      "$420 value protected · Negative review prevented · Guest NPS: +2.5"
+      "A$420 value protected · Negative review prevented · Guest NPS: +2.5"
     ),
     roles: {
       guest: "\"We noticed your room wasn't quite right. We've arranged an upgrade for you — our team will be with you in 5 minutes.\"",
-      operator: "ACTION: Room 412 → 614 upgrade approved. Assigned: Front Desk (Sarah). Deadline: 15:00. Voucher: F&B $30 attached.",
+      operator: "ACTION: Room 412 → 614 upgrade approved. Assigned: Front Desk (Sarah). Deadline: 15:00. Voucher: F&B A$30 attached.",
       command: "Moment #4421 | SERVICE_RECOVERY | RESOLVED | Time-to-resolution: 6 min | Owner: Front Desk | Evidence: staff note + guest confirmation",
-      partner: "Service recovery rate: 94% | Avg resolution: 7 min | Value protected/month: $34,200 | This scenario repeats ~82×/month",
+      partner: "Service recovery rate: 94% | Avg resolution: 7 min | Value protected/month: A$34,200 | This scenario repeats ~82×/month",
     },
     riskModifier: (r) => r === "Level 3: Critical assurance pathway" ? "General Manager notified · External review monitoring activated" : r === "Level 2: Escalated intervention" ? "Duty manager escalated + compensation pre-approved" : "Front desk proactive contact",
   },
@@ -103,13 +103,13 @@ const SCENARIO_DATA: Record<ScenarioKey, ScenarioData> = {
       "Weather contingency protocol: alternative programming activated",
       "28 guests contacted via WELBX. Indoor alternatives offered. Refunds queued.",
       "24 guests accepted alternatives. 4 refunds processed. Zero complaints.",
-      "$3,400 revenue protected · 24 bookings retained · 4 refunds issued (vs 28 potential)"
+      "A$3,400 revenue protected · 24 bookings retained · 4 refunds issued (vs 28 potential)"
     ),
     roles: {
       guest: "\"Due to weather conditions, your outdoor activity has been moved to our indoor experience centre. Alternatively, we can reschedule or refund.\"",
       operator: "WEATHER: 78 outdoor bookings affected 14:00–18:00. Push alternatives now. Activate indoor venue (capacity: 40). Refund portal open.",
-      command: "Moment #7840 | WEATHER_DISRUPTION | L2 | Guests affected: 78 | Alternatives accepted: 24 | Refunds: 4 | Revenue protected: $3,400",
-      partner: "Weather disruption events: ~6/month | Revenue protection rate: 68% | Without RTBX: ~$18k lost/month | With RTBX: ~$5.8k lost/month",
+      command: "Moment #7840 | WEATHER_DISRUPTION | L2 | Guests affected: 78 | Alternatives accepted: 24 | Refunds: 4 | Revenue protected: A$3,400",
+      partner: "Weather disruption events: ~6/month | Revenue protection rate: 68% | Without RTBX: ~A$18k lost/month | With RTBX: ~A$5.8k lost/month",
     },
     riskModifier: (r) => r === "Level 3: Critical assurance pathway" ? "Safety protocol + emergency accommodation coordination" : r === "Level 2: Escalated intervention" ? "Operations manager + all department heads alerted" : "Automated rebooking and alternative offers",
   },
@@ -120,13 +120,13 @@ const SCENARIO_DATA: Record<ScenarioKey, ScenarioData> = {
       "Personalised offer: spa + dining package at 15% to preferred guest segment",
       "Offer pushed via WELBX. Booking link created. Expiry: 2 hours.",
       "Guest booked spa (12:30) + dinner (19:00). Confirmation sent.",
-      "$340 incremental revenue created · Zero marginal cost · Conversion: 1 interaction"
+      "A$340 incremental revenue created · Zero marginal cost · Conversion: 1 interaction"
     ),
     roles: {
       guest: "\"Based on your interests — a spa afternoon followed by dinner at The Terrace, 15% off, available today only. Book in one tap.\"",
       operator: "REVENUE MOMENT: Guest in room 318 — high intent signal. Offer: Spa 12:30 + Dinner 19:00 (package, 15% off). Expires 16:00. Monitor.",
-      command: "Moment #2209 | REVENUE_ACTIVATION | CONVERTED | Revenue: $340 | Conversion time: 18 min | Channel: WELBX | Zero staff interaction",
-      partner: "Revenue activation triggers: ~180/month | Conversion rate: 34% | Avg revenue/conversion: $280 | Monthly increment: ~$17k/property",
+      command: "Moment #2209 | REVENUE_ACTIVATION | CONVERTED | Revenue: A$340 | Conversion time: 18 min | Channel: WELBX | Zero staff interaction",
+      partner: "Revenue activation triggers: ~180/month | Conversion rate: 34% | Avg revenue/conversion: A$280 | Monthly increment: ~A$17k/property",
     },
     riskModifier: (r) => r === "Level 3: Critical assurance pathway" ? "N/A for revenue — escalation path not applicable" : r === "Level 2: Escalated intervention" ? "VIP offer queue + concierge follow-up" : "Automated personalised offer push",
   },
@@ -137,13 +137,13 @@ const SCENARIO_DATA: Record<ScenarioKey, ScenarioData> = {
       "VIP welcome protocol: dedicated concierge, pre-arrival preferences loaded",
       "Concierge briefed. Room personalised. WELBX welcome with named greeting sent.",
       "Guest checked in at 15:12. Preferences fulfilled. Concierge confirmed.",
-      "$1,800 LTV protected · Loyalty renewal probability: +42% · Corporate account: retained"
+      "A$1,800 LTV protected · Loyalty renewal probability: +42% · Corporate account: retained"
     ),
     roles: {
       guest: "\"Welcome back, Mr. Harrison. Your suite is ready with your preferences. James, your dedicated concierge, will be with you at arrival.\"",
       operator: "VIP ARRIVAL: Mr. Harrison · Suite 901 · Platinum · Corporate: Meridian Group. Concierge: James. Preferences: quiet room, firm pillow, still water. By 15:00.",
       command: "Moment #1104 | VIP_GUEST | ACTIVE | Suite 901 | Concierge: James M. | Preferences: loaded | Corporate: Meridian | Status: on-track",
-      partner: "VIP activations: ~22/month | Loyalty renewal uplift: +42% | Corporate account retention: 98% | LTV per VIP activation: ~$1,800",
+      partner: "VIP activations: ~22/month | Loyalty renewal uplift: +42% | Corporate account retention: 98% | LTV per VIP activation: ~A$1,800",
     },
     riskModifier: (r) => r === "Level 3: Critical assurance pathway" ? "General Manager involvement + corporate account manager notified" : r === "Level 2: Escalated intervention" ? "Department head briefed + F&B pre-authorised" : "Standard VIP welcome protocol",
   },

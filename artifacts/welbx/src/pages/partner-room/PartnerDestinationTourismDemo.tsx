@@ -101,7 +101,7 @@ const FLOW_STEPS: FlowStep[] = [
     key: "value", label: "Value", color: COLOR, icon: "◆",
     summary: "Value captured", status: "RECORDED",
     detail: [
-      "Revenue protected — estimated $12,800 across 34 guest itineraries and partner bookings",
+      "Revenue protected — estimated A$12,800 across 34 guest itineraries and partner bookings",
       "34 guest journeys preserved — zero missed connections, zero refunds, zero complaints",
       "Partner coordination: 3 operators aligned in 12 min vs typical manual: 45+ min",
       "Escalation prevented — destination manager intervention not required",
@@ -110,8 +110,8 @@ const FLOW_STEPS: FlowStep[] = [
     ],
     roles: {
       "Guest / Traveller": "Journey protected. No disruption to the itinerary from the guest's perspective. Full value of trip maintained.",
-      "Operator": "Value record: Revenue protected $12,800 | Guests: 34 | Partners: 3 coordinated | Escalation: 0 | Coordination time: 12 min guided vs 45 min unguided",
-      "Command / Assurance": "Value record #5560 | Protected: $12,800 | Guests: 34 | Partners: 3 | Assurance: complete | Repeatability: multi-partner playbook confirmed",
+      "Operator": "Value record: Revenue protected A$12,800 | Guests: 34 | Partners: 3 coordinated | Escalation: 0 | Coordination time: 12 min guided vs 45 min unguided",
+      "Command / Assurance": "Value record #5560 | Protected: A$12,800 | Guests: 34 | Partners: 3 | Assurance: complete | Repeatability: multi-partner playbook confirmed",
     },
   },
 ];
@@ -119,7 +119,7 @@ const FLOW_STEPS: FlowStep[] = [
 const PROOF_POINTS = [
   { label: "Risk reduced", desc: "34-guest cascade intercepted, no missed connections", color: "#10b981" },
   { label: "Escalation prevented", desc: "Destination manager alert not triggered — 45-min window met", color: "#10b981" },
-  { label: "Revenue protected", desc: "$12,800 estimated across 34 guest itineraries", color: COLOR },
+  { label: "Revenue protected", desc: "A$12,800 estimated across 34 guest itineraries", color: COLOR },
   { label: "Staff time saved", desc: "3-partner coordination: 12 min guided vs 45 min average", color: COLOR },
   { label: "Assurance record", desc: "Complete multi-partner coordination evidence trail", color: "#a78bfa" },
   { label: "Experience recovered", desc: "34 guest journeys protected, zero complaints filed", color: "#22d3ee" },

@@ -4,13 +4,13 @@ import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 const C = { gold: "#c9a84c", muted: "rgba(255,255,255,0.45)", dim: "rgba(255,255,255,0.22)", green: "#10b981", blue: "#3b82f6" };
 
 const REVENUE_STREAMS = [
-  { stream: "Platform Licence", type: "Recurring", per: "Per property / site / operator", indicative: "£8,000–£25,000 / yr", desc: "Annual access to RTBX Travel operating platform, moment library, signal layer and assurance registry." },
-  { stream: "Deployment Fee", type: "One-off", per: "Per environment setup", indicative: "£5,000–£15,000", desc: "Configuration, moment mapping, pathway design, staff training and go-live support per deployment environment." },
-  { stream: "Active Environment Fee", type: "Recurring", per: "Per active property / month", indicative: "£500–£2,500 / mo", desc: "Monthly fee for live RTBX Core signal processing, moment classification and action routing per active environment." },
+  { stream: "Platform Licence", type: "Recurring", per: "Per property / site / operator", indicative: "A$15,000–A$45,000 / yr", desc: "Annual access to RTBX Travel operating platform, moment library, signal layer and assurance registry." },
+  { stream: "Deployment Fee", type: "One-off", per: "Per environment setup", indicative: "A$10,000–A$30,000", desc: "Configuration, moment mapping, pathway design, staff training and go-live support per deployment environment." },
+  { stream: "Active Environment Fee", type: "Recurring", per: "Per active property / month", indicative: "A$1,000–A$5,000 / mo", desc: "Monthly fee for live RTBX Core signal processing, moment classification and action routing per active environment." },
   { stream: "Marketplace Revenue", type: "Transaction", per: "Per activated offer", indicative: "8–15% transaction share", desc: "Revenue share on local experience, dining, transport and partner offer transactions activated through RTBX Travel moments." },
-  { stream: "Loyalty Activation", type: "Transaction", per: "Per loyalty moment", indicative: "£0.50–£5 per activation", desc: "Fee per loyalty moment created — check-in recognition, recovery offer, repeat-stay pathway, tier upgrade trigger." },
-  { stream: "Intelligence & Reporting", type: "Subscription", per: "Per operator group / portfolio", indicative: "£12,000–£40,000 / yr", desc: "Premium environment health, portfolio comparison, value proof and governance reporting for group operators and funders." },
-  { stream: "Integration Partner Revenue", type: "Recurring", per: "Per integration / year", indicative: "£3,000–£10,000 / yr", desc: "API connection fee for technology partners — PMS, POS, CRM, workforce, loyalty. Includes signal schema access and event feed." },
+  { stream: "Loyalty Activation", type: "Transaction", per: "Per loyalty moment", indicative: "A$1–A$10 per activation", desc: "Fee per loyalty moment created — check-in recognition, recovery offer, repeat-stay pathway, tier upgrade trigger." },
+  { stream: "Intelligence & Reporting", type: "Subscription", per: "Per operator group / portfolio", indicative: "A$22,000–A$75,000 / yr", desc: "Premium environment health, portfolio comparison, value proof and governance reporting for group operators and funders." },
+  { stream: "Integration Partner Revenue", type: "Recurring", per: "Per integration / year", indicative: "A$6,000–A$20,000 / yr", desc: "API connection fee for technology partners — PMS, POS, CRM, workforce, loyalty. Includes signal schema access and event feed." },
 ];
 
 const PARTNER_MODELS = [
@@ -55,7 +55,7 @@ const PILOT_TERMS = [
   { label: "Duration", value: "8–12 weeks" },
   { label: "Phase 1", value: "3–4 week shadow pilot — signal validation, no live delivery" },
   { label: "Phase 2", value: "4–6 week live pilot — real moments, real outcomes" },
-  { label: "Pilot fee", value: "£10,000–£25,000 (indicative, environment-dependent)" },
+  { label: "Pilot fee", value: "A$15,000–A$45,000 (indicative, environment-dependent)" },
   { label: "Included", value: "Full configuration, staff pathway design, outcome reporting, commercial conversion terms" },
   { label: "Conversion", value: "Pilot converts to annual platform agreement if 3+ success metrics are met" },
   { label: "Guarantee", value: "Outcome report produced regardless of conversion. Evidence stays with the operator." },

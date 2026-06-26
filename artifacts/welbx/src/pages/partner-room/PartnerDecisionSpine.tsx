@@ -96,7 +96,7 @@ function getDecision(delay: "Under 15 min" | "Over 15 min", children: boolean, w
     return {
       classification: "ARRIVAL_FRICTION · Standard · Delay 15m+ · L1",
       decision: "Proactive delay management — comfort provisions + activity voucher",
-      intervention: "Welcome pack delivered to waiting area · Activity voucher ($40) issued · ETA communicated every 10 min",
+      intervention: "Welcome pack delivered to waiting area · Activity voucher (A$40) issued · ETA communicated every 10 min",
       owner: "Front Desk (senior staff)",
       escalation: "Duty manager alert if delay exceeds 30 min or sentiment drops",
       assurance: "Delay logged · Voucher recorded · Resolution confirmation required",
@@ -117,7 +117,7 @@ function getDecision(delay: "Under 15 min" | "Over 15 min", children: boolean, w
   return {
     classification: "ARRIVAL_FRICTION · Standard · Minor delay · L1",
     decision: "Proactive communication — friendly update + drinks voucher",
-    intervention: "WELBX message sent with ETA + drinks voucher ($15) · No staff reassignment required",
+    intervention: "WELBX message sent with ETA + drinks voucher (A$15) · No staff reassignment required",
     owner: "Front Desk (standard)",
     escalation: "Escalate if delay exceeds 15 min or guest makes direct complaint",
     assurance: "Delay noted · Voucher issued · No further action unless escalated",

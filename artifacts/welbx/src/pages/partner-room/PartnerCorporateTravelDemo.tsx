@@ -67,7 +67,7 @@ const FLOW_STEPS: FlowStep[] = [
     key: "execute", label: "Execute", color: "#10b981", icon: "◉",
     summary: "Actions delivered", status: "EXECUTING",
     detail: [
-      "WELBX message sent — express check-in instructions, workspace details, meal credit: $45",
+      "WELBX message sent — express check-in instructions, workspace details, meal credit: A$45",
       "Front desk briefed — Reynolds, D. flagged as priority, express lane prepared",
       "Room 420 ready and confirmed — housekeeping priority completed at 08:42",
       "Business centre pre-opened — reserved session logged, keycard access activated",
@@ -101,7 +101,7 @@ const FLOW_STEPS: FlowStep[] = [
     key: "value", label: "Value", color: COLOR, icon: "◆",
     summary: "Value captured", status: "RECORDED",
     detail: [
-      "Estimated productivity protected: ~$1,200 — 3 meetings delivered on schedule",
+      "Estimated productivity protected: ~A$1,200 — 3 meetings delivered on schedule",
       "Duty of care met — zero compliance risk, corporate account protected",
       "Policy compliance confirmed — zero out-of-policy spend, zero exception required",
       "Corporate account retained — Meridian Group satisfaction signal: positive",
@@ -110,7 +110,7 @@ const FLOW_STEPS: FlowStep[] = [
     ],
     roles: {
       "Guest / Traveller": "Trip delivered on schedule. Policy compliant. No friction, no paperwork, no disruption to the day's agenda.",
-      "Operator": "Value record: Productivity protected $1,200 | DOC: met | Policy: zero exceptions | Corporate: satisfied | Staff efficiency: 8 min guided",
+      "Operator": "Value record: Productivity protected A$1,200 | DOC: met | Policy: zero exceptions | Corporate: satisfied | Staff efficiency: 8 min guided",
       "Command / Assurance": "Value record #7841 | Productivity: protected | DOC: compliant | Account: retained | Assurance: complete | Repeatability: 97% protocol match",
     },
   },

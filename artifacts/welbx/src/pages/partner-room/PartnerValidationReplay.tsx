@@ -54,14 +54,14 @@ const STEPS: ReplayStep[] = [
   {
     label: "Outcome Assured",
     normal:     { status: "complete", detail: "Outcome confirmed: guest accepted upgrade at 14:09. Record closed. Sentiment recovered to 4.3." },
-    escalation: { status: "complete", detail: "Manager personally resolved at 14:18. Compensation: F&B voucher $50 added. Outcome confirmed." },
+    escalation: { status: "complete", detail: "Manager personally resolved at 14:18. Compensation: F&B voucher A$50 added. Outcome confirmed." },
     failure:    { status: "failed",    detail: "No resolution achieved. Guest complaint logged externally. Assurance ISSUE created. GM notified." },
   },
   {
     label: "Value Captured",
-    normal:     { status: "complete", detail: "$420 value protected. Resolution: 7 min. Guest NPS: +2. No escalation. Record closed." },
-    escalation: { status: "complete", detail: "$420 value protected (with delay). Resolution: 16 min. Manager time cost: $18. Escalation record closed." },
-    failure:    { status: "failed",    detail: "Value LOST. Negative review: 1-star posted. Estimated impact: −$840. Assurance issue open. Review required." },
+    normal:     { status: "complete", detail: "A$420 value protected. Resolution: 7 min. Guest NPS: +2. No escalation. Record closed." },
+    escalation: { status: "complete", detail: "A$420 value protected (with delay). Resolution: 16 min. Manager time cost: A$18. Escalation record closed." },
+    failure:    { status: "failed",    detail: "Value LOST. Negative review: 1-star posted. Estimated impact: −A$840. Assurance issue open. Review required." },
   },
 ];
 
@@ -213,9 +213,9 @@ export default function PartnerValidationReplay() {
           <div style={{ marginTop: 24, padding: "24px 28px", background: `${modeColor}08`, border: `1px solid ${modeColor}25`, borderTop: `2px solid ${modeColor}` }}>
             <div style={{ fontSize: 9, letterSpacing: "0.16em", color: modeColor, textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>Replay Complete · {mode} Mode</div>
             <p style={{ fontSize: 13, color: "rgba(255,255,255,0.58)", lineHeight: 1.7, margin: 0 }}>
-              {mode === "Normal" && "RTBX Core resolved the incident in 7 minutes. Value protected: $420. Guest sentiment recovered. No escalation. Assurance record closed."}
-              {mode === "Escalation" && "Escalation triggered at 10 min. Manager resolved at 16 min. Additional cost: $18. Value still protected. Assurance record: escalation noted. System worked — with delay."}
-              {mode === "Failure" && "Action missed. No resolution. Negative review posted. Estimated impact: −$840. Assurance issue open. Root cause: staff non-compliance. Requires operational review."}
+              {mode === "Normal" && "RTBX Core resolved the incident in 7 minutes. Value protected: A$420. Guest sentiment recovered. No escalation. Assurance record closed."}
+              {mode === "Escalation" && "Escalation triggered at 10 min. Manager resolved at 16 min. Additional cost: A$18. Value still protected. Assurance record: escalation noted. System worked — with delay."}
+              {mode === "Failure" && "Action missed. No resolution. Negative review posted. Estimated impact: −A$840. Assurance issue open. Root cause: staff non-compliance. Requires operational review."}
             </p>
           </div>
         )}
