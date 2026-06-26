@@ -37,6 +37,16 @@ import PartnerValidationReplay from "@/pages/partner-room/PartnerValidationRepla
 import StoryHub from "@/pages/StoryHub";
 import StoryOperator from "@/pages/StoryOperator";
 import StoryGuestStory from "@/pages/StoryGuestStory";
+import TravelPartnershipOverview from "@/pages/partner-room/resources/TravelPartnershipOverview";
+import TravelCommercialPartnershipBrief from "@/pages/partner-room/resources/TravelCommercialPartnershipBrief";
+import TravelBusinessPlan from "@/pages/partner-room/resources/TravelBusinessPlan";
+import TravelGtmPlan from "@/pages/partner-room/resources/TravelGtmPlan";
+import TravelCommercialCase from "@/pages/partner-room/resources/TravelCommercialCase";
+import TravelUxBlueprint from "@/pages/partner-room/resources/TravelUxBlueprint";
+import TravelSystemsMap from "@/pages/partner-room/resources/TravelSystemsMap";
+import TravelPilotModel from "@/pages/partner-room/resources/TravelPilotModel";
+import TravelRevenueModel from "@/pages/partner-room/resources/TravelRevenueModel";
+import TravelDemoLinks from "@/pages/partner-room/resources/TravelDemoLinks";
 
 const queryClient = new QueryClient();
 
@@ -70,6 +80,16 @@ const PARTNER_ROUTES = [
   { path: "/partner-room/comms-demo",         component: PartnerCommsDemo },
   { path: "/partner-room/decision-spine",     component: PartnerDecisionSpine },
   { path: "/partner-room/validation-replay",  component: PartnerValidationReplay },
+  { path: "/partner-room/resources/travel-partnership-overview",         component: TravelPartnershipOverview },
+  { path: "/partner-room/resources/travel-commercial-partnership-brief", component: TravelCommercialPartnershipBrief },
+  { path: "/partner-room/resources/travel-business-plan",                component: TravelBusinessPlan },
+  { path: "/partner-room/resources/travel-gtm-plan",                     component: TravelGtmPlan },
+  { path: "/partner-room/resources/travel-commercial-case",              component: TravelCommercialCase },
+  { path: "/partner-room/resources/travel-ux-blueprint",                 component: TravelUxBlueprint },
+  { path: "/partner-room/resources/travel-systems-map",                  component: TravelSystemsMap },
+  { path: "/partner-room/resources/travel-pilot-model",                  component: TravelPilotModel },
+  { path: "/partner-room/resources/travel-revenue-model",                component: TravelRevenueModel },
+  { path: "/partner-room/resources/travel-demo-links",                   component: TravelDemoLinks },
 ];
 
 function Router() {

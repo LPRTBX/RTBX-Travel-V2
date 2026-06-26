@@ -1,0 +1,497 @@
+You are updating the RTBX Travel Partner Room app.
+
+The Partner Room currently has resource cards, demo cards and briefing links that are either dead, too thin, or pointing to the wrong place. This creates a trust break.
+
+Create a proper RTBX Travel Partner Resource Library.
+
+This is for the Travel / Hospitality vertical only, but it must still follow the RTBX Group architecture:
+
+RTBX Group = parent ecosystem
+RTBX Core = infrastructure engine
+RTBX Travel = travel and hospitality deployment vertical
+WELBX = guest-facing human experience layer only
+
+Do not make these generic placeholder pages.
+
+Build real partner-facing pages using the same quality and structure as the stronger RTBX Building / Assure pages: business plan, GTM plan, commercial case, UX blueprint, operating system map, role-based views, commercial pathways, pilot logic, demo links and evidence logic.
+
+Create these new RTBX Travel resource routes:
+
+/partner-room/resources/travel-partnership-overview
+/partner-room/resources/travel-commercial-partnership-brief
+/partner-room/resources/travel-business-plan
+/partner-room/resources/travel-gtm-plan
+/partner-room/resources/travel-commercial-case
+/partner-room/resources/travel-ux-blueprint
+/partner-room/resources/travel-systems-map
+/partner-room/resources/travel-pilot-model
+/partner-room/resources/travel-revenue-model
+/partner-room/resources/travel-demo-links
+
+Update all Partner Room resource cards so they point to these routes.
+
+No dead cards.
+No placeholder pages.
+No “coming soon” pages unless clearly marked as a secondary future item.
+
+Use this structure:
+
+1. RTBX Travel Partnership Overview
+
+Route:
+/partner-room/resources/travel-partnership-overview
+
+Purpose:
+Explain why RTBX Travel is a partner-led infrastructure opportunity across hotels, resorts, holiday parks, corporate travel, events and destination operators.
+
+Sections:
+
+* What RTBX Travel is
+* How RTBX Travel is powered by RTBX Core
+* Where WELBX fits as the guest-facing experience layer
+* Why travel partners matter
+* Where partners fit
+* Travel operating environments
+* Partner types
+* Mutual value creation
+* Pilot-to-scale pathway
+* What a strategic partner can own, distribute, integrate or fund
+
+Include these travel operating environments:
+
+* Hotels & Resorts
+* Holiday Parks & Outdoor Experiences
+* Corporate & Business Travel
+* Events & Venues
+* Destination & Tourism Operators
+
+Core line:
+“RTBX Travel is not just a travel platform to use. It is an execution ecosystem partners can help deploy, scale and monetise.”
+
+2. RTBX Travel Commercial Partnership Brief
+
+Route:
+/partner-room/resources/travel-commercial-partnership-brief
+
+Purpose:
+Explain how partners create commercial value through RTBX Travel.
+
+Sections:
+
+* Commercial model overview
+* Platform licensing
+* Deployment fees
+* Site / property / active environment fees
+* Partner revenue share
+* Marketplace revenue
+* Loyalty and experience activation revenue
+* Intelligence and reporting revenue
+* Integration partner structures
+* Pilot terms
+* Distribution models
+* Vertical launch partner model
+* Strategic travel partner model
+
+Core line:
+“RTBX Travel creates layered value: platform revenue, deployment revenue, marketplace revenue, intelligence revenue and ecosystem revenue.”
+
+3. RTBX Travel Business Plan
+
+Route:
+/partner-room/resources/travel-business-plan
+
+Purpose:
+Explain the whole RTBX Travel company logic inside the broader RTBX Group ecosystem.
+
+Sections:
+
+* Executive summary
+* Problem in travel and hospitality
+* Solution
+* RTBX Travel architecture
+* RTBX Core engine
+* WELBX guest-facing experience layer
+* Travel vertical strategy
+* Product stack
+* Operating environments
+* Moats
+* Commercial model
+* Beachhead strategy
+* 3-year roadmap
+* Funding / partner ask
+
+Problem framing:
+Travel operators already have PMS, booking engines, CRMs, communication tools, dashboards and SOPs. The gap is not lack of systems. The gap is real-time execution across guest, staff, service, welfare, recovery and commercial moments.
+
+4. RTBX Travel Go-To-Market Plan
+
+Route:
+/partner-room/resources/travel-gtm-plan
+
+Purpose:
+Show how RTBX Travel enters market without trying to launch every travel sub-vertical at once.
+
+Sections:
+
+* Beachhead strategy
+* First proof environments
+* Hotels & Resorts
+* Holiday Parks & Outdoor Experiences
+* Corporate Travel
+* Partner-led distribution
+* First 20 travel conversations
+* Pilot model
+* Conversion pathway
+* Expansion pathway
+* Strategic partner pathway
+
+Priority sequence:
+
+1. Hotels & Resorts
+2. Holiday Parks & Outdoor Experiences
+3. Corporate & Business Travel
+4. Events & Venues
+5. Destination & Tourism Operators
+
+Core line:
+“Focus first. Prove value in live travel environments. Expand across accommodation, experience and destination ecosystems.”
+
+5. RTBX Travel Commercial Case
+
+Route:
+/partner-room/resources/travel-commercial-case
+
+Purpose:
+Show why RTBX Travel is commercially serious.
+
+Sections:
+
+* Category opportunity
+* Why execution infrastructure is valuable in travel
+* Revenue pathways
+* Guest recovery value
+* Staff response value
+* Marketplace and local partner value
+* Loyalty and repeat stay value
+* Intelligence and reporting value
+* Multiple moats
+* Market expansion logic
+* Strategic exit pathways
+
+Core line:
+“RTBX Travel sits at the intersection of guest experience, operator performance and commercial activation — a system where better execution creates value across the whole travel ecosystem.”
+
+6. RTBX Travel UX Blueprint
+
+Route:
+/partner-room/resources/travel-ux-blueprint
+
+Purpose:
+Show what each travel stakeholder sees, does and creates.
+
+Sections:
+
+* Role-based UX model
+* Guest / WELBX view
+* Front desk / frontline staff view
+* Operator / manager view
+* Executive / command view
+* Partner view
+* Integration partner view
+* Funder / investor view
+
+For each role include:
+
+* What they need to know
+* What action they take
+* What evidence or signal is captured
+* What system update is created
+* What value is created
+
+Core line:
+“RTBX Travel makes execution visible by showing what each person sees, does and creates.”
+
+Include role examples:
+
+Guest / WELBX view:
+
+* Receives check-in support, recovery options, welfare prompts, local experience nudges and post-stay feedback pathways.
+
+Frontline staff view:
+
+* Receives guided action, owner assignment, timing, escalation rules and context.
+
+Operator / manager view:
+
+* Sees live service risk, recovery progress, staff response status, unresolved moments and assurance records.
+
+Executive / command view:
+
+* Sees patterns, value protected, escalations, property performance, proof of action and deployment intelligence.
+
+Partner view:
+
+* Sees where their platform, service, marketplace, integration or funding role creates value.
+
+7. RTBX Travel Systems Map
+
+Route:
+/partner-room/resources/travel-systems-map
+
+Purpose:
+Show the head systems inside RTBX Travel and how they map to operating environments.
+
+Sections:
+
+* RTBX Travel head systems
+* Modules under each head system
+* Deployment environments
+* How RTBX Core powers each system
+* How WELBX appears only as the guest-facing layer
+* Deployment opportunities
+
+Use this RTBX Travel head system source of truth:
+
+RTBX Travel:
+
+* Guest Experience OS
+* Service Recovery & Staff Response OS
+* Marketplace & Loyalty Activation OS
+* Operator Intelligence OS
+
+Under each head system include modules:
+
+Guest Experience OS:
+
+* Guest check-in pathways
+* Guest welfare prompts
+* In-stay nudges
+* Experience preferences
+* Post-stay sentiment
+* WELBX guest-facing layer
+
+Service Recovery & Staff Response OS:
+
+* Moment classification
+* Staff action pathways
+* Recovery playbooks
+* Escalation rules
+* Manager alerts
+* Assurance records
+
+Marketplace & Loyalty Activation OS:
+
+* Local experience offers
+* Dining activation
+* Partner marketplace
+* Loyalty moments
+* Repeat-stay pathways
+* Commercial opportunity capture
+
+Operator Intelligence OS:
+
+* Moment registry
+* Signal registry
+* Decision spine
+* Outcome registry
+* Environment health view
+* Value proof and reporting
+
+Deployment environments:
+
+* Hotels & Resorts
+* Holiday Parks & Outdoor Experiences
+* Corporate & Business Travel
+* Events & Venues
+* Destination & Tourism Operators
+
+Core line:
+“The environment changes. The RTBX Travel operating logic does not.”
+
+8. RTBX Travel Pilot Model
+
+Route:
+/partner-room/resources/travel-pilot-model
+
+Purpose:
+Explain how a travel operator can start safely without heavy integration.
+
+Sections:
+
+* Pilot objective
+* Ideal pilot operator
+* 3–6 week signal validation phase
+* 8-week pilot pathway
+* Push-first deployment
+* No heavy integration needed to start
+* Pilot environments
+* Success metrics
+* Pilot governance
+* Pilot outputs
+* Expansion decision
+
+Pilot phases:
+
+1. Operator alignment
+2. Moment mapping
+3. Scenario validation
+4. Staff and guest pathway setup
+5. Shadow pilot
+6. Live pilot
+7. Reporting and value proof
+8. Expansion recommendation
+
+Metrics:
+
+* Guest engagement
+* Service recovery moments
+* Staff response completion
+* Escalations prevented
+* Revenue opportunities surfaced
+* Guest sentiment movement
+* Assurance records created
+* Operator time saved
+
+9. RTBX Travel Revenue Model
+
+Route:
+/partner-room/resources/travel-revenue-model
+
+Purpose:
+Show how RTBX Travel makes money across layered revenue streams.
+
+Sections:
+
+* Revenue model overview
+* Platform licence
+* Property / site deployment fees
+* Active environment fees
+* Marketplace revenue share
+* Loyalty activation revenue
+* Partner integration revenue
+* Intelligence and reporting revenue
+* Pilot to annual contract conversion
+* Partner revenue share model
+* 3-year indicative forecast
+
+Revenue pathways:
+
+* Annual platform licence per property/site/operator
+* Pilot setup and deployment fees
+* Marketplace / local partner transaction share
+* Loyalty / active member activation revenue
+* Premium reporting and intelligence layer
+* Strategic partner distribution model
+* Vertical launch partner model
+
+Core line:
+“RTBX Travel creates revenue at the platform, deployment, marketplace, intelligence and ecosystem layers.”
+
+Use indicative values only and label them clearly as example assumptions.
+
+10. RTBX Travel Demo Links
+
+Route:
+/partner-room/resources/travel-demo-links
+
+Purpose:
+Create a clean demo directory that only links to real demos and interactive proof modules.
+
+Do not mix documents, pilot models or static briefings into this page.
+
+Sections:
+
+* Product Proof demos
+* Deployment environment demos
+* Validation demos
+* Guest / operator experience demos
+* Core systems preview links
+
+Include demo links:
+
+Product Proof:
+
+* Scenario Builder
+* Dual View Demo
+* Communications Routing Demo
+* Decision Spine Demo
+* Proof of Value Calculator
+
+Deployment Demos:
+
+* Hotels & Resorts Demo
+* Holiday Parks & Outdoor Experiences Demo
+* Corporate Travel Demo
+* Events & Venues Demo
+* Destination & Tourism Operators Demo
+
+Validation:
+
+* Scenario Replay Lab
+* Shadow Pilot Mode
+* Validation Lab
+
+Core Systems Preview:
+
+* Moment Economy Explorer
+* Signals Engine Explorer or Brief
+* Decision & Action Layer
+* Intervention Library
+* Central Communications Layer
+* Registry & Assurance Layer
+
+Rules:
+
+* Executive Briefing belongs in Brief Library, not Demo Links.
+* Operator Deep Dive belongs in Validation & Operator Stories or Brief Library if static.
+* Pilot Model belongs in Commercial or Pilot Model, not Demo Links.
+* Moments Economy and Signals Engine should only appear here if they are interactive explorers. If they are informational, they belong under Core Systems Preview.
+
+Partner Room card fix:
+Update resource cards so they link to:
+
+Travel Partnership Overview:
+/partner-room/resources/travel-partnership-overview
+
+Travel Commercial Partnership Brief:
+/partner-room/resources/travel-commercial-partnership-brief
+
+Travel Business Plan:
+/partner-room/resources/travel-business-plan
+
+Travel GTM Plan:
+/partner-room/resources/travel-gtm-plan
+
+Travel Commercial Case:
+/partner-room/resources/travel-commercial-case
+
+Travel UX Blueprint:
+/partner-room/resources/travel-ux-blueprint
+
+Travel Systems Map:
+/partner-room/resources/travel-systems-map
+
+Travel Pilot Model:
+/partner-room/resources/travel-pilot-model
+
+Travel Revenue Model:
+/partner-room/resources/travel-revenue-model
+
+Travel Demo Links:
+/partner-room/resources/travel-demo-links
+
+Design rules:
+
+* Keep the same dark RTBX black/gold/white visual system.
+* Use Travel ocean blue only as a subtle accent.
+* Use WELBX blue only when referencing the guest-facing experience layer.
+* Make these feel like planning and partner documents, not marketing fluff.
+* Use cards, tables, role views, commercial pathways and evidence logic.
+* Keep pages scannable.
+* Avoid giant paragraphs.
+* Do not use WELBX language as the parent brand.
+* Do not make these pages only about hotels. Hotels are one proof environment. Holiday parks, corporate travel, events and destination operators must also be visible.
+* Do not make the docs specific to Building or Assure. This is RTBX Travel.
+
+Final result:
+The RTBX Travel Partner Room should no longer have dead resource cards. It should feel like the RTBX Travel partner headquarters: the place where strategic partners, operators, funders and integration partners can understand the business plan, commercial model, GTM, UX, operating systems, proof points, pilot pathway, revenue model and deployment opportunities.
