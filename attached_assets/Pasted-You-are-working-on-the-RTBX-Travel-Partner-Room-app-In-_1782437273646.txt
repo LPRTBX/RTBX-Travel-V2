@@ -1,0 +1,169 @@
+You are working on the RTBX Travel Partner Room app.
+
+In the Deployment Environments section, only the Holiday Parks & Outdoor Experiences card currently has a live demo button. This makes the other deployment cards feel incomplete.
+
+Update all five deployment environment cards so they have consistent demo access and consistent behaviour.
+
+Deployment environment cards:
+
+1. Hotels & Resorts
+2. Holiday Parks & Outdoor Experiences
+3. Corporate Travel
+4. Events & Venues
+5. Destination & Tourism Operators
+
+Required changes:
+
+1. Each card should show a consistent status label:
+   Demo Path Available
+
+2. Each card should have a consistent CTA button:
+   Run [Environment] Demo →
+
+Examples:
+
+* Run Hotels & Resorts Demo →
+* Run Holiday Parks Demo →
+* Run Corporate Travel Demo →
+* Run Events & Venues Demo →
+* Run Destination Demo →
+
+3. Do not remove the existing Holiday Parks demo.
+   Keep it and make the other cards match its quality and format.
+
+4. Create lightweight interactive demo routes for each environment if they do not already exist:
+
+Hotels & Resorts:
+/partner-room/deployments/hotels-resorts/demo
+
+Holiday Parks & Outdoor Experiences:
+/partner-room/deployments/holiday-parks/demo
+
+Corporate Travel:
+/partner-room/deployments/corporate-travel/demo
+
+Events & Venues:
+/partner-room/deployments/events-venues/demo
+
+Destination & Tourism Operators:
+/partner-room/deployments/destination-tourism/demo
+
+5. Each demo should follow the same RTBX Core flow:
+
+Signal → Classify → Decide → Execute → Assure → Value
+
+6. Each demo should include three role views:
+
+* Human / guest / traveller / attendee view
+* Operator view
+* Command / assurance view
+
+7. Each demo should include Proof of Value:
+
+* Risk reduced
+* Escalation prevented
+* Revenue protected or created
+* Staff time saved
+* Assurance record created
+* Experience recovered or improved
+
+Demo scenario details:
+
+Hotels & Resorts Demo:
+Scenario:
+A guest arrives early after a long flight. The room is not ready, sentiment risk is rising, loyalty profile is high-value and front desk is under pressure.
+
+Signal:
+Early arrival, room readiness delay, loyalty profile, sentiment risk, front desk load.
+
+Classify:
+High-value arrival recovery moment.
+
+Decide:
+Trigger proactive welcome support, room readiness check, F&B gesture, luggage support and manager visibility if delay exceeds threshold.
+
+Execute:
+Guest receives support options. Front desk receives guided response. Housekeeping receives priority check. Manager sees status.
+
+Assure:
+Recovery action logged, guest sentiment checked, value protected and assurance trail created.
+
+Corporate Travel Demo:
+Scenario:
+A business traveller has back-to-back meetings, a delayed check-in, policy constraints and duty-of-care flags after a disrupted itinerary.
+
+Signal:
+Delayed arrival, corporate profile, policy requirement, meeting schedule pressure, traveller distress flag.
+
+Classify:
+Corporate duty-of-care and productivity protection moment.
+
+Decide:
+Trigger priority check-in support, policy-compliant option, workspace or transport support and escalation if duty-of-care threshold is met.
+
+Execute:
+Traveller receives options. Operator receives action pathway. Corporate travel manager gets visibility if required.
+
+Assure:
+Policy action logged, support completed, issue resolved and value protected.
+
+Events & Venues Demo:
+Scenario:
+A guest flow issue emerges during a major event. Catering demand spikes, access delays increase and guest sentiment starts dropping before the main program.
+
+Signal:
+Crowd flow anomaly, catering shortfall, access delay, sentiment drop, event schedule pressure.
+
+Classify:
+Live event experience and operations risk moment.
+
+Decide:
+Trigger crowd flow action, catering alert, guest communication, staff redeployment and escalation if thresholds are breached.
+
+Execute:
+Guests receive guidance. Venue staff receive action instructions. Event operator sees live status.
+
+Assure:
+Actions completed, incident risk reduced, guest experience protected and evidence trail created.
+
+Destination & Tourism Operators Demo:
+Scenario:
+A transport delay affects multiple guest itineraries. Activity bookings, accommodation arrival windows and local partner capacity are disrupted.
+
+Signal:
+Transport delay, booking conflict, partner response gap, weather trigger, guest journey break.
+
+Classify:
+Multi-partner destination disruption moment.
+
+Decide:
+Trigger itinerary adjustment, partner notification, guest communication, alternative activity offer and escalation if multiple bookings are affected.
+
+Execute:
+Guest receives updated options. Operators and partners receive role-specific tasks. Destination command view tracks resolution.
+
+Assure:
+Partner response logged, guest pathway updated, revenue protected and destination-level assurance created.
+
+8. The demo pages do not need backend logic.
+   Use front-end state, tabs, steppers and role toggles to make them feel interactive.
+
+9. Each demo page should include:
+
+* Scenario summary
+* Signal panel
+* Classification panel
+* Decision panel
+* Execution panel
+* Assurance panel
+* Value proof panel
+* Role view toggle
+
+10. Final QA:
+
+* All five deployment cards have demo buttons.
+* No deployment card only says “Available” without a demo action.
+* All demo links work.
+* No blank routes.
+* The Holiday Parks demo still works.
+* The deployment environment section feels consistent and complete.

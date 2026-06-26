@@ -6,15 +6,14 @@ const ENVS = [
     label: "Hotels & Resorts",
     color: "#c9a84c",
     desc: "Full-property operating layer — guest signal to staff action across rooms, F&B, concierge and maintenance.",
-    moments: ["Room readiness delay", "Service request spike", "Guest sentiment drop", "Loyalty profile trigger", "Staff response gap"],
-    status: "Available",
+    moments: ["Room readiness delay", "High-value arrival recovery", "Guest sentiment drop", "Loyalty profile trigger", "Staff response gap"],
+    demo: { label: "Run Hotels & Resorts Demo", href: "/partner-room/deployments/hotels-resorts/demo" },
   },
   {
     label: "Holiday Parks & Outdoor Experiences",
     color: "#10b981",
     desc: "Multi-site, seasonal operating environments with dispersed guest populations and varied facility types.",
     moments: ["Check-in queue build-up", "Facility maintenance signal", "Weather-related activity shift", "Peak-period guest cluster", "Site-level sentiment alert"],
-    status: "Live Demo Available",
     demo: { label: "Run Holiday Parks Demo", href: "/partner-room/holiday-park-demo" },
   },
   {
@@ -22,21 +21,21 @@ const ENVS = [
     color: "#3b82f6",
     desc: "Managed travel environments — programme compliance, policy adherence, duty of care and cost control signals.",
     moments: ["Policy breach signal", "Duty of care trigger", "Cost overrun alert", "Itinerary change cascade", "Traveller distress flag"],
-    status: "Available",
+    demo: { label: "Run Corporate Travel Demo", href: "/partner-room/deployments/corporate-travel/demo" },
   },
   {
     label: "Events & Venues",
     color: "#a78bfa",
     desc: "Event-day operating logic — from arrival through to experience delivery, F&B flow and post-event assurance.",
     moments: ["Crowd flow anomaly", "Catering shortfall signal", "Access control issue", "Performer schedule change", "Guest escalation trigger"],
-    status: "Available",
+    demo: { label: "Run Events & Venues Demo", href: "/partner-room/deployments/events-venues/demo" },
   },
   {
     label: "Destination & Tourism Operators",
     color: "#f97316",
     desc: "Multi-experience, multi-partner environments — coordinating between accommodation, activity and transport layers.",
     moments: ["Transport delay cascade", "Booking conflict signal", "Partner response gap", "Guest journey break", "Weather impact trigger"],
-    status: "Available",
+    demo: { label: "Run Destination Demo", href: "/partner-room/deployments/destination-tourism/demo" },
   },
 ];
 
@@ -76,12 +75,9 @@ export default function PartnerDeployments() {
                 </div>
                 <div style={{
                   fontSize: 8, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase",
-                  color: env.demo ? "#10b981" : "rgba(255,255,255,0.22)",
-                  border: `1px solid ${env.demo ? "rgba(16,185,129,0.3)" : "rgba(255,255,255,0.08)"}`,
-                  padding: "3px 8px",
-                  whiteSpace: "nowrap",
+                  color: "#10b981", border: "1px solid rgba(16,185,129,0.3)", padding: "3px 8px", whiteSpace: "nowrap",
                 }}>
-                  {env.status}
+                  Demo Path Available
                 </div>
               </div>
 
@@ -89,7 +85,7 @@ export default function PartnerDeployments() {
                 {env.desc}
               </p>
 
-              <div style={{ marginBottom: 22 }}>
+              <div style={{ marginBottom: 24 }}>
                 <div style={{ fontSize: 8, letterSpacing: "0.16em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
                   Signal Examples
                 </div>
@@ -103,21 +99,19 @@ export default function PartnerDeployments() {
                 </div>
               </div>
 
-              {env.demo && (
-                <Link href={env.demo.href}>
-                  <div style={{
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    padding: "10px 0", fontSize: 9.5, fontWeight: 700, letterSpacing: "0.1em",
-                    textTransform: "uppercase", color: env.color, border: `1px solid ${env.color}35`,
-                    cursor: "pointer", transition: "all 0.15s",
-                  }}
-                  onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = `${env.color}10`; el.style.borderColor = `${env.color}70`; }}
-                  onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "transparent"; el.style.borderColor = `${env.color}35`; }}
-                  >
-                    {env.demo.label} →
-                  </div>
-                </Link>
-              )}
+              <Link href={env.demo.href}>
+                <div style={{
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  padding: "11px 0", fontSize: 9.5, fontWeight: 700, letterSpacing: "0.1em",
+                  textTransform: "uppercase", color: env.color, border: `1px solid ${env.color}40`,
+                  cursor: "pointer", transition: "all 0.15s",
+                }}
+                onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = `${env.color}10`; el.style.borderColor = `${env.color}75`; }}
+                onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "transparent"; el.style.borderColor = `${env.color}40`; }}
+                >
+                  {env.demo.label} →
+                </div>
+              </Link>
             </div>
           ))}
         </div>

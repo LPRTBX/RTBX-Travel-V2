@@ -25,6 +25,10 @@ import PartnerValidation from "@/pages/partner-room/PartnerValidation";
 import PartnerCommercial from "@/pages/partner-room/PartnerCommercial";
 import PartnerBriefLibrary from "@/pages/partner-room/PartnerBriefLibrary";
 import PartnerNextStep from "@/pages/partner-room/PartnerNextStep";
+import PartnerHotelsResortsDemo from "@/pages/partner-room/PartnerHotelsResortsDemo";
+import PartnerCorporateTravelDemo from "@/pages/partner-room/PartnerCorporateTravelDemo";
+import PartnerEventsVenuesDemo from "@/pages/partner-room/PartnerEventsVenuesDemo";
+import PartnerDestinationTourismDemo from "@/pages/partner-room/PartnerDestinationTourismDemo";
 import PartnerScenarioBuilder from "@/pages/partner-room/PartnerScenarioBuilder";
 import PartnerProofCalculator from "@/pages/partner-room/PartnerProofCalculator";
 import PartnerCommsDemo from "@/pages/partner-room/PartnerCommsDemo";
@@ -56,8 +60,12 @@ const PARTNER_ROUTES = [
   { path: "/partner-room/guest-demo",         component: PartnerGuestDemo },
   { path: "/partner-room/operator-demo",      component: PartnerOperatorDemo },
   { path: "/partner-room/dual-view-demo",     component: PartnerDualViewDemo },
-  { path: "/partner-room/holiday-park-demo",   component: PartnerHolidayParkDemo },
-  { path: "/partner-room/scenario-builder",   component: PartnerScenarioBuilder },
+  { path: "/partner-room/holiday-park-demo",                         component: PartnerHolidayParkDemo },
+  { path: "/partner-room/deployments/hotels-resorts/demo",           component: PartnerHotelsResortsDemo },
+  { path: "/partner-room/deployments/corporate-travel/demo",         component: PartnerCorporateTravelDemo },
+  { path: "/partner-room/deployments/events-venues/demo",            component: PartnerEventsVenuesDemo },
+  { path: "/partner-room/deployments/destination-tourism/demo",      component: PartnerDestinationTourismDemo },
+  { path: "/partner-room/scenario-builder",                          component: PartnerScenarioBuilder },
   { path: "/partner-room/proof-calculator",   component: PartnerProofCalculator },
   { path: "/partner-room/comms-demo",         component: PartnerCommsDemo },
   { path: "/partner-room/decision-spine",     component: PartnerDecisionSpine },
