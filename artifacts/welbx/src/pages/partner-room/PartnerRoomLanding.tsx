@@ -312,6 +312,49 @@ export default function PartnerRoomLanding() {
         </div>
       </div>
 
+      {/* ── LIVE MVP PREVIEW ── */}
+      <div style={{ marginBottom: 56 }}>
+        <a href="https://replit.com/@LP1313/rtbx-travel-moment-response-mvp" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
+          <div style={{
+            padding: "28px 32px",
+            background: "rgba(201,168,76,0.06)",
+            border: "1px solid rgba(201,168,76,0.28)",
+            borderLeft: "3px solid #c9a84c",
+            display: "flex", alignItems: "center", justifyContent: "space-between", gap: 32,
+            transition: "all 0.15s", cursor: "pointer",
+          }}
+          onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(201,168,76,0.1)"; el.style.borderColor = "rgba(201,168,76,0.45)"; }}
+          onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(201,168,76,0.06)"; el.style.borderColor = "rgba(201,168,76,0.28)"; }}
+          >
+            <div style={{ flex: 1 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                  <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#c9a84c", animation: "pulse 2s infinite" }} />
+                  <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: "#c9a84c" }}>Live MVP Preview</span>
+                </div>
+                <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,0.25)", border: "1px solid rgba(255,255,255,0.1)", padding: "2px 8px" }}>Working Product</div>
+              </div>
+              <div style={{ fontSize: 15, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", marginBottom: 8 }}>
+                RTBX Travel — Moment Response MVP
+              </div>
+              <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.45)", lineHeight: 1.65, maxWidth: 680, margin: "0 0 10px 0" }}>
+                This MVP shows the first RTBX Travel product loop: a staff, guest or operator signal is captured, converted into a classified moment, assigned to the right person, supported with a guest-facing WELBX message, escalated if required, logged for assurance and reported as pilot evidence.
+              </p>
+              <div style={{ fontSize: 10, color: "rgba(255,255,255,0.22)", fontStyle: "italic" }}>
+                This is not the full Travel OS. It is the first deployable wedge: Moment Response.
+              </div>
+            </div>
+            <div style={{
+              padding: "12px 24px", fontSize: 10, fontWeight: 700, letterSpacing: "0.1em",
+              textTransform: "uppercase", color: "#c9a84c", border: "1px solid rgba(201,168,76,0.4)",
+              whiteSpace: "nowrap", flexShrink: 0,
+            }}>
+              Open Live MVP ↗
+            </div>
+          </div>
+        </a>
+      </div>
+
       {/* ── FIVE PROOF LAYERS ── */}
       <div id="proof-layers" style={{ marginBottom: 96 }}>
         <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>

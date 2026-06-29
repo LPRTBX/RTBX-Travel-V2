@@ -3,7 +3,18 @@ import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 
 const C = { gold: "#c9a84c", muted: "rgba(255,255,255,0.45)", dim: "rgba(255,255,255,0.22)", green: "#10b981" };
 
+const MVP_URL = "https://replit.com/@LP1313/rtbx-travel-moment-response-mvp";
+
 const SECTIONS = [
+  {
+    label: "Live Product",
+    tag: "Working MVP",
+    tagColor: "#c9a84c",
+    desc: "The first working RTBX Travel product loop — not a demo, not a simulation. A real deployable MVP.",
+    items: [
+      { label: "RTBX Travel Moment Response MVP", desc: "Staff, guest or operator signal is captured → classified moment → owner assigned → WELBX guest message → escalated if needed → logged for assurance → pilot report updated. The first deployable wedge: Moment Response.", href: MVP_URL, cta: "Open Live MVP ↗", color: "#c9a84c", ext: true },
+    ],
+  },
   {
     label: "Product Proof Demos",
     tag: "Interactive",
@@ -100,19 +111,35 @@ export default function TravelDemoLinks() {
                   <div key={item.label} style={{ padding: "22px 22px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: `2px solid ${item.color}`, display: "flex", flexDirection: "column" }}>
                     <div style={{ fontSize: 12, fontWeight: 700, color: "#fff", marginBottom: 8, letterSpacing: "-0.01em" }}>{item.label}</div>
                     <p style={{ fontSize: 11.5, color: C.muted, lineHeight: 1.6, flex: 1, marginBottom: 18 }}>{item.desc}</p>
-                    <Link href={item.href}>
-                      <div style={{
-                        display: "inline-flex", alignItems: "center", justifyContent: "center",
-                        padding: "10px 0", fontSize: 9.5, fontWeight: 700, letterSpacing: "0.1em",
-                        textTransform: "uppercase", color: item.color, border: `1px solid ${item.color}40`,
-                        cursor: "pointer", transition: "all 0.15s",
-                      }}
-                      onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = `${item.color}12`; el.style.borderColor = `${item.color}80`; }}
-                      onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "transparent"; el.style.borderColor = `${item.color}40`; }}
-                      >
-                        {item.cta} →
-                      </div>
-                    </Link>
+                    {(item as any).ext ? (
+                      <a href={item.href} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
+                        <div style={{
+                          display: "inline-flex", alignItems: "center", justifyContent: "center",
+                          padding: "10px 0", fontSize: 9.5, fontWeight: 700, letterSpacing: "0.1em",
+                          textTransform: "uppercase", color: item.color, border: `1px solid ${item.color}40`,
+                          cursor: "pointer", transition: "all 0.15s",
+                        }}
+                        onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = `${item.color}12`; el.style.borderColor = `${item.color}80`; }}
+                        onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "transparent"; el.style.borderColor = `${item.color}40`; }}
+                        >
+                          {item.cta}
+                        </div>
+                      </a>
+                    ) : (
+                      <Link href={item.href}>
+                        <div style={{
+                          display: "inline-flex", alignItems: "center", justifyContent: "center",
+                          padding: "10px 0", fontSize: 9.5, fontWeight: 700, letterSpacing: "0.1em",
+                          textTransform: "uppercase", color: item.color, border: `1px solid ${item.color}40`,
+                          cursor: "pointer", transition: "all 0.15s",
+                        }}
+                        onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = `${item.color}12`; el.style.borderColor = `${item.color}80`; }}
+                        onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "transparent"; el.style.borderColor = `${item.color}40`; }}
+                        >
+                          {item.cta} →
+                        </div>
+                      </Link>
+                    )}
                   </div>
                 ))}
               </div>

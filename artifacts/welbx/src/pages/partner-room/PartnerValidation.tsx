@@ -88,6 +88,44 @@ export default function PartnerValidation() {
           </div>
         </div>
 
+        {/* Pilot Product Preview */}
+        <div style={{ marginBottom: 24 }}>
+          <a href="https://replit.com/@LP1313/rtbx-travel-moment-response-mvp" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
+            <div style={{
+              padding: "24px 32px",
+              background: "rgba(201,168,76,0.05)",
+              border: "1px solid rgba(201,168,76,0.22)",
+              borderTop: "2px solid #c9a84c",
+              display: "flex", alignItems: "center", justifyContent: "space-between", gap: 32,
+              cursor: "pointer", transition: "all 0.15s",
+            }}
+            onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(201,168,76,0.09)"; el.style.borderColor = "rgba(201,168,76,0.4)"; }}
+            onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(201,168,76,0.05)"; el.style.borderColor = "rgba(201,168,76,0.22)"; }}
+            >
+              <div>
+                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#c9a84c" }} />
+                    <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: "#c9a84c" }}>Pilot Product Preview</span>
+                  </div>
+                  <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,0.25)", border: "1px solid rgba(255,255,255,0.1)", padding: "2px 8px" }}>Working MVP</div>
+                </div>
+                <div style={{ fontSize: 15, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", marginBottom: 6 }}>Moment Response MVP</div>
+                <p style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", lineHeight: 1.65, maxWidth: 620, margin: 0 }}>
+                  Use the MVP to validate the push-first pilot workflow before integrations are added. Signal captured → classified → assigned → WELBX guest message → escalated → logged → pilot evidence.
+                </p>
+              </div>
+              <div style={{
+                padding: "10px 22px", fontSize: 9.5, fontWeight: 700, letterSpacing: "0.1em",
+                textTransform: "uppercase", color: "#c9a84c", border: "1px solid rgba(201,168,76,0.4)",
+                whiteSpace: "nowrap", flexShrink: 0,
+              }}>
+                Open Moment Response MVP ↗
+              </div>
+            </div>
+          </a>
+        </div>
+
         {/* Validation Replay — featured */}
         <div style={{ marginBottom: 32, padding: "32px 32px", background: "rgba(16,185,129,0.05)", border: "1px solid rgba(16,185,129,0.2)", borderTop: "2px solid #10b981", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 32 }}>
           <div>

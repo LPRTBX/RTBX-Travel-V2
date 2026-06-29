@@ -1,0 +1,91 @@
+You are working on the RTBX Travel Partner Room app.
+
+Add a clear link to the working RTBX Travel Moment Response MVP.
+
+This should not be buried as a generic demo. Position it as the Live MVP Preview.
+
+MVP URL:
+[INSERT MVP URL HERE]
+
+Required changes:
+
+1. Add a Live MVP Preview card to the Partner Room overview page.
+
+Card title:
+Live MVP Preview
+
+Subtitle:
+Open the working RTBX Travel Moment Response MVP.
+
+Description:
+This MVP shows the first RTBX Travel product loop: a staff, guest or operator signal is captured, converted into a classified moment, assigned to the right person, supported with a guest-facing WELBX message, escalated if required, logged for assurance and reported as pilot evidence.
+
+CTA:
+Open Live MVP
+
+Link:
+[INSERT MVP URL HERE]
+
+2. Add the same Live MVP Preview card to Product Proof.
+
+Place it near the top of Product Proof, above or beside the proof modes.
+
+Label:
+Working product preview
+
+Supporting copy:
+The Partner Room explains the RTBX Travel model. The Live MVP Preview shows the first working product loop.
+
+3. Add the Live MVP Preview link to the Demo Links / Resource Library page.
+
+Use this grouping:
+
+Live Product:
+- RTBX Travel Moment Response MVP
+
+Product Proof:
+- Scenario Builder
+- Dual View Demo
+- Communications Routing Demo
+- Decision Spine Demo
+- Proof of Value Calculator
+
+Deployment Demos:
+- Hotels & Resorts Demo
+- Holiday Parks & Outdoor Experiences Demo
+- Corporate Travel Demo
+- Events & Venues Demo
+- Destination & Tourism Operators Demo
+
+4. Add an optional link inside Validation Lab.
+
+Title:
+Pilot Product Preview
+
+Description:
+Use the MVP to validate the push-first pilot workflow before integrations are added.
+
+CTA:
+Open Moment Response MVP
+
+5. Add this explanation somewhere near the Live MVP Preview card:
+
+This is not the full Travel OS. It is the first deployable wedge: Moment Response.
+
+6. Keep the brand hierarchy correct:
+- RTBX Travel = travel vertical
+- RTBX Core = signal-to-action engine
+- WELBX = guest-facing experience layer only
+
+7. Do not replace existing Product Proof demos.
+The Live MVP Preview should sit above them as the working product proof.
+
+8. Make all MVP links open in a new tab.
+
+9. Final QA:
+- Live MVP Preview card appears on Partner Room overview.
+- Live MVP Preview appears in Product Proof.
+- Live MVP link appears in Demo Links / Resource Library.
+- MVP link opens in a new tab.
+- No dead links.
+- It is clear that the MVP is a working product preview, not a static demo.
