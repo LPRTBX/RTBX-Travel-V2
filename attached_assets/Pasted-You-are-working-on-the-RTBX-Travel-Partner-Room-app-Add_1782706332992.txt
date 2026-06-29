@@ -1,0 +1,283 @@
+You are working on the RTBX Travel Partner Room app.
+
+Add a new partner-facing section that explains how RTBX Travel collects signals and turns them into moments.
+
+This section must be honest, credible and commercially clear. It should not overclaim that RTBX automatically reads every live system from day one.
+
+Section title:
+How RTBX Travel Captures Signals
+
+Subtitle:
+RTBX Travel starts with captured signals, turns them into classified moments, guides the right response and creates an assurance trail. Early pilots can begin without heavy integration. Integrations make the signal layer more automated over time.
+
+Core framing:
+RTBX Travel can start without heavy integration. Early pilots use staff, guest and operator-entered signals to validate the moment-to-action workflow. As partner and operator integrations are approved, RTBX can connect to PMS, task, communications, weather, marketplace and reporting systems to create real-time or near-real-time signal capture.
+
+Add this line prominently:
+The first proof is not full automation. The first proof is execution visibility.
+
+Add this supporting line:
+RTBX proves whether live moments are being captured, classified, assigned, acted on and logged.
+
+Create a clear visual pipeline:
+
+Signal Source
+↓
+Signal Intake
+↓
+Moment Classification
+↓
+Decision Spine
+↓
+Action Pathway
+↓
+Communication Routing
+↓
+Assurance Log
+↓
+Value Proof
+
+Add an example underneath:
+
+Example:
+Housekeeping status + guest arrival timing + sentiment risk
+↓
+Room readiness delay
+↓
+Level 2 arrival recovery moment
+↓
+Trigger front desk + housekeeping + guest support pathway
+↓
+Notify staff, guest and manager
+↓
+Log recovery action
+↓
+Value protected: review risk reduced, loyalty protected
+
+Create seven signal source cards:
+
+1. Manual Staff Signal Capture
+
+Explain:
+This is the first real-world signal method. A staff member sees or receives an operational issue and enters it into RTBX through a dashboard form, mobile web form, QR staff link, tablet/front-desk link or manager console.
+
+Examples:
+
+* Guest complaint
+* Room delay
+* Unresolved request
+* Queue issue
+* Guest frustration
+* Maintenance problem
+* Weather disruption
+* Staff overload
+
+Why it matters:
+This is enough for MVP because it proves whether RTBX can classify the moment and guide the right response.
+
+2. Guest-Facing Signals
+
+Explain:
+Guests can create signals through the WELBX guest-facing experience layer. This can start through QR codes, SMS/web links, in-room QR, tablet/kiosk, email link or guest message prompt. No app download is required.
+
+Examples:
+
+* My room is not ready
+* I need help
+* Something is wrong
+* I want local activity options
+* I am unhappy with my stay
+* Post-stay sentiment
+* Check-in friction
+* Support request
+
+Why it matters:
+This gives RTBX a direct human-facing signal layer while keeping WELBX positioned only as the guest-facing experience layer.
+
+3. PMS / Booking System Signals
+
+Explain:
+As integrations are approved, RTBX can receive or read signals from PMS and booking systems.
+
+Examples:
+
+* Arrival time
+* Departure time
+* Room type
+* Room/cabin status
+* Loyalty or VIP flag
+* Booking notes
+* Special requests
+* Guest profile
+* Reservation changes
+* Group or corporate booking context
+
+Important wording:
+This is not required for the first MVP. It becomes part of the integration-assisted pilot and scale pathway.
+
+4. Webhooks and Event Signals
+
+Explain:
+Where platforms support event notifications or webhooks, RTBX can receive real-time or near-real-time updates when operational events occur.
+
+Examples:
+
+* Reservation changed
+* Room/cabin status updated
+* Guest message received
+* Task completed
+* Task overdue
+* Booking modified
+* Service event triggered
+
+Important wording:
+Use the phrase “real-time or near-real-time where integration access allows.”
+
+Do not say:
+RTBX automatically reads everything live.
+
+5. Task / Housekeeping / Maintenance Signals
+
+Explain:
+These are some of the most valuable operational signals because they connect directly to action.
+
+Examples:
+
+* Room not ready
+* Cleaning delayed
+* Maintenance unresolved
+* Task overdue
+* No owner assigned
+* Repeated request
+* Staff capacity issue
+
+Why it matters:
+These signals turn quickly into staff action pathways, escalation thresholds and assurance records.
+
+6. Communications Signals
+
+Explain:
+RTBX can collect and classify signals from guest messages, staff updates, manager notes, unresolved replies, sentiment tags, escalation messages and service recovery follow-ups.
+
+Core line:
+Message becomes signal → signal becomes moment → moment becomes action.
+
+Why it matters:
+This is where the Central Communications Layer becomes real. RTBX does not just send messages; it routes the right action to the right person at the right time.
+
+7. External / Environmental Signals
+
+Explain:
+External signals are especially useful in travel, holiday parks and outdoor experiences.
+
+Examples:
+
+* Weather alert
+* Flight delay
+* Road disruption
+* Event crowding
+* Local activity cancellation
+* Safety alert
+* Partner availability
+* Transport disruption
+
+Why it matters:
+Environmental signals help RTBX classify disruption, trigger recovery pathways and create marketplace or local partner opportunities.
+
+Add a section called:
+What Is Real Now vs Later
+
+Use three columns:
+
+Real for MVP:
+
+* Staff enters moment
+* Guest enters moment
+* Manager enters moment
+* System classifies moment
+* Action pathway is recommended
+* Owner is assigned
+* Guest message is generated
+* Escalation threshold is set
+* Outcome is logged
+* Pilot report is updated
+
+Real for Pilot Phase:
+
+* PMS reservation lookup
+* Guest profile enrichment
+* Room/cabin readiness signals
+* Webhook/event triggers
+* Task system signals
+* Guest messaging integration
+* Weather/API signals
+* Basic partner marketplace triggers
+
+Not Real Yet / Do Not Oversell:
+
+* Fully automated predictive modelling
+* Reading all systems without integration approval
+* AI deciding sensitive welfare risk
+* Live behavioural intelligence across every guest
+* Universal PMS integration from day one
+
+Add a section called:
+The Deployment Path
+
+Show four stages:
+
+Stage 1 — Push-First MVP
+Signals are captured through staff intake, guest QR/link, manager console, mock PMS data and simulated guest messages.
+Goal: prove the workflow.
+
+Stage 2 — Integration-Assisted Pilot
+Signals can come from PMS, booking data, room/cabin status, task systems, guest messaging tools and weather APIs.
+Goal: prove automation and reduced manual load.
+
+Stage 3 — Multi-Site Operating Layer
+Signals are captured across multiple properties, parks or operator environments.
+Goal: prove patterns, consistency and operator intelligence.
+
+Stage 4 — Intelligence Layer
+RTBX uses accumulated data to identify repeat moments, high-risk windows, staff response patterns, recovery effectiveness, marketplace opportunities and predictive execution logic.
+Goal: become infrastructure.
+
+Add a section called:
+Why This Is Credible
+
+Use this copy:
+RTBX does not need every integration on day one to prove value. The first proof is whether the organisation can capture live moments, classify them, guide action and prove the response. Integrations make the signal layer faster and more automated, but the operating logic can be validated through a push-first pilot.
+
+Add this closing line:
+RTBX Travel turns captured signals into governed action. The MVP proves the response loop. Integrations make the signal layer more automated over time.
+
+Design requirements:
+
+* Keep the dark RTBX black, charcoal, gold and white visual system.
+* Use blue only when referencing WELBX / guest-facing layer.
+* Use cards, timeline, pipeline diagram and clear sections.
+* Keep the page scannable.
+* Avoid giant paragraphs.
+* Do not make this sound like generic marketing.
+* Do not overclaim full automation from day one.
+* Make the section feel like a credible partner/operator explanation.
+
+Navigation:
+Place this section under:
+Product Proof
+or:
+Core Systems Preview
+
+Suggested route:
+/partner-room/product-proof/signal-capture
+
+Also add a link to this section from:
+
+* Product Proof
+* Core Systems Preview
+* Moment Economy Explorer
+* Signals Engine Explorer / Brief
+* Partner Resource Library
+
+Final outcome:
+A partner, operator or funder should understand exactly how RTBX Travel collects signals now, how it will collect more automated signals later, and why the MVP is a credible first step rather than a fake automation claim.
