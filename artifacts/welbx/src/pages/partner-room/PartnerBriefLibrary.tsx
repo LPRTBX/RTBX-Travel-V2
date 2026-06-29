@@ -110,6 +110,14 @@ const BRIEFINGS = [
     audience: "Technology Partners · IT Leads",
   },
   {
+    label: "Signal Capture — How RTBX Collects Signals",
+    tag: "Product",
+    color: "#c9a84c",
+    desc: "Seven signal sources, the signal-to-assurance pipeline, what is real for MVP vs pilot phase, and the four-stage deployment path. Honest, credible and commercially clear.",
+    href: "/partner-room/product-proof/signal-capture",
+    audience: "Partners · Operators · Funders",
+  },
+  {
     label: "Operator Deep Dive Walkthrough",
     tag: "Walkthrough",
     color: "#3b82f6",

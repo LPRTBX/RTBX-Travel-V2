@@ -54,6 +54,14 @@ const CORE_SYSTEMS = [
     matters: "Without a structured signal layer, operators are reactive. With it, RTBX Core acts before the guest needs to say anything.",
   },
   {
+    label: "Signal Capture — How RTBX Collects Signals",
+    tag: "Brief",
+    tagColor: "#c9a84c",
+    href: "/partner-room/product-proof/signal-capture",
+    does: "Explains the seven signal sources, the pipeline from intake to assurance log, what is real for MVP vs pilot phase, and the four-stage deployment path.",
+    matters: "A partner or funder needs to understand exactly how RTBX captures signals now and why the push-first MVP is a credible first step — not a fake automation claim.",
+  },
+  {
     label: "Decision Spine Demo",
     tag: "Interactive",
     tagColor: "#f97316",

@@ -13,6 +13,7 @@ const C = {
   green:  "#10b981",
   blue:   "#3b82f6",
   violet: "#a78bfa",
+  cyan:   "#22d3ee",
 };
 
 const MODES = [

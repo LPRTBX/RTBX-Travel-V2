@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 import { PartnerCTAFooter } from "@/components/PartnerCTAFooter";
 import { usePartnerContent } from "@/context/PartnerContentContext";
@@ -232,6 +233,28 @@ export default function PartnerMomentsEconomy() {
         </div>
 
         <PartnerCTAFooter />
+
+        {/* Signal Capture link */}
+        <div style={{ marginTop: 24, paddingTop: 24, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+          <div style={{ fontSize: 8, letterSpacing: "0.18em", color: "rgba(255,255,255,0.18)", textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>Related</div>
+          <Link href="/partner-room/product-proof/signal-capture">
+            <div style={{
+              display: "inline-flex", alignItems: "center", gap: 12,
+              padding: "14px 20px",
+              background: "rgba(201,168,76,0.04)",
+              border: "1px solid rgba(201,168,76,0.18)",
+              cursor: "pointer", transition: "all 0.15s",
+            }}
+            onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(201,168,76,0.08)"; el.style.borderColor = "rgba(201,168,76,0.3)"; }}
+            onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(201,168,76,0.04)"; el.style.borderColor = "rgba(201,168,76,0.18)"; }}
+            >
+              <div>
+                <div style={{ fontSize: 10.5, fontWeight: 700, color: "#c9a84c", marginBottom: 2 }}>How RTBX Travel Captures Signals →</div>
+                <div style={{ fontSize: 10, color: "rgba(255,255,255,0.28)", lineHeight: 1.4 }}>Seven signal sources · Signal pipeline · MVP vs Pilot Phase · Deployment stages</div>
+              </div>
+            </div>
+          </Link>
+        </div>
       </div>
     </PartnerRoomLayout>
   );
