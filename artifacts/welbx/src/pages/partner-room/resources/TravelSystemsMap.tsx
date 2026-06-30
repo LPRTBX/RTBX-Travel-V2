@@ -29,7 +29,7 @@ const HEAD_SYSTEMS = [
       { name: "Recovery playbooks", desc: "Pre-configured playbooks per moment type and environment" },
       { name: "Escalation rules", desc: "Threshold-based escalation from frontline to manager to command layer" },
       { name: "Manager alerts", desc: "Push notification to manager if resolution timer breached" },
-      { name: "Assurance records", desc: "Every action, response and outcome logged as an immutable assurance record" },
+      { name: "Assurance records", desc: "Every action, response and outcome logged as an auditable assurance record" },
     ],
   },
   {

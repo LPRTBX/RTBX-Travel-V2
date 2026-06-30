@@ -139,7 +139,7 @@ const DEPLOYMENT_STAGES = [
     num: "04",
     label: "Intelligence Layer",
     color: "#a78bfa",
-    desc: "RTBX uses accumulated data to identify repeat moments, high-risk windows, staff response patterns, recovery effectiveness, marketplace opportunities and predictive execution logic.",
+    desc: "RTBX uses accumulated data to identify repeat moments, high-risk windows, staff response patterns, recovery effectiveness, marketplace opportunities and pattern insights for execution.",
     goal: "Become infrastructure.",
   },
 ];

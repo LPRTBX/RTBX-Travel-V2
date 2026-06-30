@@ -74,7 +74,7 @@ export default function PartnerIntegrationBrief() {
             Your System Already Captures the Signal
           </h1>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 680 }}>
-            WELBX is a signal reader, not a replacement. Every data source your platform already manages becomes a live input to the moment engine. A single integration makes your system a trigger in the operating chain — creating compounding value for operators that neither platform can generate alone.
+            RTBX Travel is a signal-to-action layer, not a replacement. Every data source your platform already manages becomes a captured signal input to the moment engine. A single approved integration makes your system a trigger in the operating chain — creating compounding value for operators that neither platform can generate alone.
           </p>
         </div>
 

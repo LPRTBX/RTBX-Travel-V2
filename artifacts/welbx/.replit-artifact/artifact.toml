@@ -1,6 +1,6 @@
 kind = "web"
 previewPath = "/"
-title = "WELBX Travel Operating Layer"
+title = "RTBX Travel Partner Room"
 version = "1.0.0"
 id = "artifacts/welbx"
 router = "path"

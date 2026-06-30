@@ -43,7 +43,7 @@ const DEFAULT_PILOT_PHASES = [
     num: "06",
     title: "Live Activation",
     duration: "Week 5–6",
-    desc: "WELBX goes live as the primary operating layer for agreed moment categories. Staff briefed and supported by the WELBX team. Moment detection, routing, and outcome recording active.",
+    desc: "RTBX Travel goes live as the moment-to-action operating layer for agreed moment categories. Staff briefed and supported by the RTBX Travel team. Moment detection, routing, and outcome recording active.",
     color: "#a78bfa",
   },
   {
@@ -92,7 +92,7 @@ export default function PartnerPilotModel() {
   const phases = pilotModel?.phases ?? DEFAULT_PILOT_PHASES;
   const successCriteria = pilotModel?.successCriteria ?? DEFAULT_SUCCESS_CRITERIA;
   const headline = pilotModel?.headline ?? "Eight Weeks to a Proven\nOperating Layer";
-  const subheadline = pilotModel?.subheadline ?? "The WELBX pilot is structured as a compressed, high-evidence engagement. It is designed to prove the value of the operating layer in a live property environment — with measurable outcomes at every stage and a clear performance record at the end.";
+  const subheadline = pilotModel?.subheadline ?? "The RTBX Travel pilot is structured as a compressed, high-evidence engagement. It is designed to prove the value of the moment-to-action operating layer in a live property environment — with measurable outcomes at every stage and a clear performance record at the end.";
 
   return (
     <PartnerRoomLayout>
