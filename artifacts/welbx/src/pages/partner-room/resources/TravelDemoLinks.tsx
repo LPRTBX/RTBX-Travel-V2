@@ -16,6 +16,17 @@ const SECTIONS = [
     ],
   },
   {
+    label: "Demo Pathways",
+    tag: "Deployment Timeline",
+    tagColor: "#a78bfa",
+    desc: "Three views across the RTBX Travel deployment timeline — what is live now, what the pilot becomes with approved integrations, and what Stage 3 looks like at scale.",
+    items: [
+      { label: "Live MVP Preview — Moment Response", desc: "The first deployable product loop. Signal captured, classified, assigned, WELBX message sent, escalated if required, logged and reported as pilot evidence.", href: MVP_URL, cta: "Open Live MVP ↗", color: "#c9a84c", ext: true },
+      { label: "Integration-Assisted Pilot Preview", desc: "How the Moment Response workflow becomes faster and more automated when PMS, task, messaging, weather and marketplace integrations are approved and connected.", href: "/partner-room/product-proof/pilot-expansion-preview", cta: "View Pilot Expansion", color: "#10b981" },
+      { label: "Stage 3 Operating Layer Preview", desc: "Multi-site signal visibility, pattern insights, action routing, assurance reporting, value proof and marketplace activation. What RTBX Travel becomes at scale.", href: "/partner-room/product-proof/stage-3-operating-layer", cta: "View Stage 3 Preview", color: "#a78bfa" },
+    ],
+  },
+  {
     label: "Product Proof Demos",
     tag: "Interactive",
     tagColor: "#c9a84c",

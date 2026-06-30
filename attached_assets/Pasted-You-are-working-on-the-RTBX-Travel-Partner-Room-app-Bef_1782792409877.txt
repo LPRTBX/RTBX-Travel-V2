@@ -1,0 +1,239 @@
+You are working on the RTBX Travel Partner Room app.
+
+Before final cleanup, add a clear demo pathway section that shows both:
+1. the actual live MVP demo, and
+2. what RTBX Travel looks like at Stage 3 as a multi-site operating layer.
+
+Do not expand the MVP itself.
+Do not change the MVP code.
+This work is only in the Partner Room.
+
+Required changes:
+
+1. Add a section called:
+Demo Pathways
+
+Place this section in:
+- Product Proof page
+- Demo Links / Resource Library page
+- optionally Partner Room landing page as a smaller card
+
+2. Create three demo pathway cards:
+
+Card 1:
+Title:
+Live MVP Preview — Moment Response
+
+Status label:
+Live MVP
+
+Description:
+The Live MVP Preview shows the first deployable RTBX Travel product loop. A staff, guest or operator signal is captured, classified into a moment, assigned to the right person, supported with a WELBX guest-facing message, escalated if required, logged for assurance and reported as pilot evidence.
+
+CTA:
+Open Live MVP
+
+URL:
+[INSERT LIVE MVP PUBLIC URL HERE]
+
+Open in new tab.
+
+Card 2:
+Title:
+Integration-Assisted Pilot Preview
+
+Status label:
+Pilot-stage preview
+
+Description:
+This preview shows how the Moment Response workflow becomes faster and richer when approved integrations are added, including PMS or booking data, task/housekeeping signals, guest messaging, weather alerts and operator reporting.
+
+CTA:
+View Pilot Expansion
+
+Route:
+Create or link to:
+/partner-room/product-proof/pilot-expansion-preview
+
+Card 3:
+Title:
+Stage 3 Operating Layer Preview
+
+Status label:
+Future-state operating preview
+
+Description:
+This preview shows what RTBX Travel looks like once deployed across multiple properties, parks or travel environments. It demonstrates multi-site signal visibility, pattern insights, action routing, assurance reporting, value proof and marketplace activation.
+
+CTA:
+View Stage 3 Preview
+
+Route:
+Create or link to:
+/partner-room/product-proof/stage-3-operating-layer
+
+3. Create the Stage 3 Operating Layer Preview page.
+
+Route:
+/partner-room/product-proof/stage-3-operating-layer
+
+Page title:
+Stage 3 Operating Layer Preview
+
+Subtitle:
+What RTBX Travel becomes after the Moment Response workflow is validated and approved integrations are connected.
+
+Add this disclaimer near the top:
+This preview shows the intended Stage 3 operating layer once the Moment Response workflow has been validated and approved integrations are connected. It is not presented as the current MVP.
+
+4. Stage 3 page content.
+
+Create these sections:
+
+A. Multi-Site Operator View
+
+Show example sites:
+- Harbour Hotel
+- Coastal Holiday Park
+- City Corporate Hotel
+- Regional Event Venue
+- Destination Partner Network
+
+Show example columns:
+- Open moments
+- Escalated moments
+- Closed today
+- Value protected
+- Current risk level
+
+B. Live Signal Streams
+
+Show signal categories:
+- Guest signals
+- Staff signals
+- PMS / booking signals
+- Task / housekeeping signals
+- Weather and disruption signals
+- Partner / marketplace signals
+- Communication signals
+
+Explain:
+Signals can start as staff, guest and operator-entered inputs, then expand through approved integrations over time.
+
+C. Moment Heatmap
+
+Show examples:
+- Arrival friction rising at Harbour Hotel
+- Weather disruption active at Coastal Holiday Park
+- Checkout sentiment risk increasing at City Corporate Hotel
+- Revenue opportunity window open across Destination Partner Network
+
+D. Pattern Insights
+
+Show example insights:
+- Room readiness delays spike between 1:30pm and 3:00pm across two properties.
+- Weather disruptions are creating service recovery moments in family bookings.
+- Unresolved guest requests are more likely to escalate when no owner is assigned within 12 minutes.
+- Checkout sentiment improves when recovery action is completed before departure.
+
+Use the phrase:
+Pattern insights
+
+Do not call this full predictive automation yet.
+
+E. Role-Based Views at Stage 3
+
+Show how the same operating layer changes by role:
+
+Frontline staff:
+Assigned actions only.
+
+Property manager:
+Escalation watch and site performance.
+
+Operator executive:
+Multi-site patterns, value proof and risk.
+
+Partner/funder:
+De-identified assurance and deployment evidence.
+
+F. Stage 3 System Flow
+
+Show this flow:
+
+Multiple properties
+↓
+Multiple signal streams
+↓
+Moment classification across sites
+↓
+Pattern insights
+↓
+Action routing
+↓
+Manager/operator visibility
+↓
+Assurance records
+↓
+Commercial/value reporting
+
+5. Create the Pilot Expansion Preview page.
+
+Route:
+/partner-room/product-proof/pilot-expansion-preview
+
+Page title:
+Integration-Assisted Pilot Preview
+
+Subtitle:
+How the push-first Moment Response MVP becomes faster and more automated when approved integrations are added.
+
+Add sections:
+- PMS / booking enrichment
+- Task and housekeeping signal feeds
+- Guest messaging integration
+- Weather and disruption signals
+- Operator reporting
+- Marketplace and local partner triggers
+
+Add this honest line:
+The first MVP does not require heavy integrations. Integrations are added to reduce manual load, improve timing and strengthen signal context.
+
+6. Keep language honest.
+
+Use:
+- live MVP
+- pilot-stage preview
+- future-state operating preview
+- approved integrations
+- real-time or near-real-time where integration access allows
+- pattern insights
+
+Avoid:
+- fully automated from day one
+- reads every live system
+- predictive AI engine
+- immutable records
+- universal PMS integration
+
+7. Link these pages from:
+- Product Proof
+- Demo Links / Resource Library
+- Core Systems Preview if present
+- Signal Capture Pathway if present
+
+8. Keep brand hierarchy correct:
+- RTBX Travel is the travel vertical.
+- RTBX Core is the signal-to-action engine.
+- WELBX is the guest-facing experience layer only.
+
+9. Keep design consistent:
+- dark RTBX black / charcoal / white / gold
+- blue only for WELBX guest-facing layer
+- use cards, tables, pipeline visuals and concise sections
+
+Final result:
+Partners should be able to see:
+- what is working now through the Live MVP Preview,
+- how the pilot becomes integration-assisted,
+- and what Stage 3 looks like as a scalable RTBX Travel operating layer.

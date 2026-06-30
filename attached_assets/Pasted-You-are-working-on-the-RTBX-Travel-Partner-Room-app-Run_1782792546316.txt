@@ -1,0 +1,244 @@
+You are working on the RTBX Travel Partner Room app.
+
+Run a final QA cleanup pass only.
+
+Do not add new sections.
+Do not expand the MVP.
+Do not rebuild the app.
+Do not change the working MVP app.
+Do not remove the Stage 3 Operating Layer Preview or Pilot Expansion Preview if they already exist.
+
+The goal is to make the Partner Room cleaner, more credible and ready to send to partners.
+
+Important MVP link instruction:
+The correct Live MVP demo link is already in the Partner Room Live Demos / Demo Links section.
+
+Use that existing Live MVP demo URL as the source of truth.
+
+Do not replace it with a placeholder.
+Do not use:
+https://replit.com/@LP1313/rtbx-travel-moment-response-mvp
+
+Find any old MVP project URL and replace it with the same deployed public MVP URL already used in the Live Demos section.
+
+All MVP links should open in a new tab.
+
+Required changes:
+
+1. Verify and align the Live MVP URL everywhere.
+
+Search the app for:
+https://replit.com/@LP1313/rtbx-travel-moment-response-mvp
+
+Replace any instance with the correct deployed public MVP URL already used in the Partner Room Live Demos / Demo Links section.
+
+Apply this in:
+- PartnerRoomLanding.tsx
+- PartnerProductProof.tsx
+- PartnerValidation.tsx
+- TravelDemoLinks.tsx
+- any other file where the old Replit project URL appears
+
+All Live MVP links should:
+- use the same URL
+- open in a new tab
+- be labelled clearly as Live MVP Preview or Live MVP Preview — Moment Response
+
+2. Reduce MVP dominance on the Partner Room landing page.
+
+The MVP should remain visible, but it should not feel like the main product.
+
+Change the landing page MVP section label to:
+Working Product Proof
+
+Change the title to:
+Live MVP Preview — Moment Response
+
+Keep this positioning:
+This is not the full Travel OS. It is the first deployable wedge: Moment Response.
+
+Make the card slightly less visually dominant than the main Partner Room proof layers.
+
+Do not remove the MVP card.
+
+3. Preserve the demo pathway structure.
+
+If the app already has Demo Pathways, preserve them.
+
+The demo pathway structure should show:
+
+- Live MVP Preview — Moment Response
+- Integration-Assisted Pilot Preview
+- Stage 3 Operating Layer Preview
+
+Make sure the labels are honest:
+
+Live MVP Preview — Moment Response:
+Status label: Live MVP
+
+Integration-Assisted Pilot Preview:
+Status label: Pilot-stage preview
+
+Stage 3 Operating Layer Preview:
+Status label: Future-state operating preview
+
+Do not describe Stage 3 as live.
+Do not imply Stage 3 is the current MVP.
+Do not make Stage 3 more prominent than the Live MVP.
+
+4. Tighten overclaim language.
+
+Search the app for phrases that imply RTBX reads every live system automatically from day one.
+
+Replace language like:
+- live data from every operational layer
+- captures real-time data from PMS, POS, workforce and IoT sources
+- pattern recognition surfaces what needs to happen now
+- immutable assurance record
+- predictive AI engine
+- fully automated from day one
+
+With more accurate wording:
+- captured signals from guest, staff, operator and approved system sources
+- staff, guest and operator-entered signals first, then approved integrations over time
+- classification logic identifies what needs to happen now
+- auditable assurance record
+- pattern insights
+- real-time or near-real-time where integration access allows
+
+5. Keep the honest signal-capture framing.
+
+The Partner Room should clearly say:
+RTBX Travel can start without heavy integration. Early pilots use staff, guest and operator-entered signals to validate the moment-to-action workflow. Integrations make the signal layer faster and more automated over time.
+
+Do not remove the “What is real now vs later” section.
+
+Do not remove the Signal Capture Pathway page.
+
+6. Rename the app/artifact title where possible.
+
+Change:
+WELBX Travel Operating Layer
+
+To:
+RTBX Travel Partner Room
+
+WELBX should only be described as:
+the guest-facing experience layer.
+
+Do not describe WELBX as:
+- the platform
+- the operating layer
+- the parent system
+- the infrastructure
+
+7. Check brand hierarchy everywhere.
+
+Use:
+- RTBX Group = parent ecosystem
+- RTBX Core = signal-to-action engine
+- RTBX Travel = travel vertical
+- WELBX = guest-facing experience layer only
+
+Do not describe WELBX as the platform or parent system.
+
+8. Keep top navigation exactly as:
+
+Partner Room
+Deployments
+Product Proof
+Validation
+Commercial
+Brief Library
+Next Step
+
+Do not add more top nav items.
+
+Do not rename these top nav items.
+
+9. QA all core routes.
+
+Confirm these routes work:
+
+- /partner-room
+- /partner-room/deployments
+- /partner-room/product-proof
+- /partner-room/product-proof/signal-capture
+- /partner-room/product-proof/pilot-expansion-preview
+- /partner-room/product-proof/stage-3-operating-layer
+- /partner-room/validation
+- /partner-room/commercial
+- /partner-room/brief-library
+- /partner-room/next-step
+- /partner-room/resources/travel-demo-links
+
+If any of these routes are missing but linked somewhere, fix the route or fix the link.
+
+Do not create unnecessary new pages.
+
+10. QA all deployment demo links.
+
+Confirm all deployment demo links work:
+
+- Hotels & Resorts
+- Holiday Parks & Outdoor Experiences
+- Corporate Travel
+- Events & Venues
+- Destination & Tourism Operators
+
+If labels vary slightly, keep them consistent with this structure:
+
+- Hotels & Resorts
+- Holiday Parks & Outdoor Experiences
+- Corporate Travel
+- Events & Venues
+- Destination & Tourism Operators
+
+11. Access gate reminder.
+
+Do not hard-code an access code.
+
+Keep VITE_PARTNER_ROOM_CODE environment variable logic.
+
+If the access gate exists, leave it intact.
+
+12. Clean product language.
+
+The Partner Room should describe the Live MVP as:
+
+The working product preview for the first deployable wedge: Moment Response.
+
+The Partner Room should describe Stage 3 as:
+
+A future-state operating preview showing what RTBX Travel becomes after the Moment Response workflow is validated and approved integrations are connected.
+
+The Partner Room should describe RTBX Travel as:
+
+A travel vertical powered by RTBX Core that turns captured signals into classified moments, guided action, assurance records and value proof.
+
+13. Final result.
+
+The Partner Room should feel like:
+- a credible strategic partner room
+- a clean RTBX Travel briefing
+- a product proof environment
+- a commercial and pilot conversation starter
+
+It should not feel like:
+- a collection of random demos
+- an overbuilt prototype
+- a fake automation claim
+- a WELBX platform instead of RTBX Travel
+- a claim that RTBX reads every system automatically from day one
+
+14. Final QA checklist to report back.
+
+After completing the cleanup, report:
+- where the Live MVP link appears
+- whether all MVP links use the same deployed public URL
+- whether all MVP links open in a new tab
+- whether the old Replit project URL was removed
+- whether Stage 3 is clearly labelled as future-state preview
+- whether WELBX is only described as the guest-facing layer
+- whether all core routes work
+- whether all deployment demo links work

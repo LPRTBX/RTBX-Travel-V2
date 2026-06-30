@@ -305,7 +305,87 @@ export default function PartnerProductProof() {
           </div>
         </div>
 
-        {/* Section 3: Additional Walkthroughs */}
+        {/* Section 3: Demo Pathways */}
+        <div style={{ marginBottom: 80 }}>
+          <div style={{ marginBottom: 20 }}>
+            <div style={{ fontSize: 9, letterSpacing: "0.18em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 6 }}>
+              Section 03
+            </div>
+            <div style={{ fontSize: 18, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", marginBottom: 8 }}>
+              Demo Pathways
+            </div>
+            <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.3)", lineHeight: 1.65, maxWidth: 600, margin: 0 }}>
+              Three views of RTBX Travel across the deployment timeline — what is live now, what the pilot becomes with integrations, and what Stage 3 looks like at scale.
+            </p>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
+            {/* Card 1: Live MVP */}
+            <a href="https://replit.com/@LP1313/rtbx-travel-moment-response-mvp" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
+              <div style={{
+                padding: "28px 24px", background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.2)",
+                borderTop: "2px solid #c9a84c", display: "flex", flexDirection: "column", height: "100%",
+                cursor: "pointer", transition: "all 0.15s",
+              }}
+              onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(201,168,76,0.1)"; el.style.borderColor = "rgba(201,168,76,0.38)"; }}
+              onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(201,168,76,0.06)"; el.style.borderColor = "rgba(201,168,76,0.2)"; }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 14 }}>
+                  <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#c9a84c", flexShrink: 0 }} />
+                  <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#c9a84c" }}>Live MVP</div>
+                </div>
+                <div style={{ fontSize: 13, fontWeight: 800, color: "#fff", marginBottom: 12, lineHeight: 1.3 }}>Live MVP Preview — Moment Response</div>
+                <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.38)", lineHeight: 1.65, flex: 1, marginBottom: 20 }}>
+                  The first deployable RTBX Travel product loop. Signal captured, classified, assigned, WELBX message sent, escalated if required, logged and reported.
+                </p>
+                <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#c9a84c" }}>Open Live MVP ↗</div>
+              </div>
+            </a>
+            {/* Card 2: Pilot Expansion */}
+            <Link href="/partner-room/product-proof/pilot-expansion-preview">
+              <div style={{
+                padding: "28px 24px", background: "rgba(16,185,129,0.04)", border: "1px solid rgba(16,185,129,0.15)",
+                borderTop: "2px solid #10b981", display: "flex", flexDirection: "column", height: "100%",
+                cursor: "pointer", transition: "all 0.15s",
+              }}
+              onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(16,185,129,0.08)"; el.style.borderColor = "rgba(16,185,129,0.3)"; }}
+              onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(16,185,129,0.04)"; el.style.borderColor = "rgba(16,185,129,0.15)"; }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 14 }}>
+                  <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#10b981", flexShrink: 0 }} />
+                  <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#10b981" }}>Pilot-Stage Preview</div>
+                </div>
+                <div style={{ fontSize: 13, fontWeight: 800, color: "#fff", marginBottom: 12, lineHeight: 1.3 }}>Integration-Assisted Pilot Preview</div>
+                <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.38)", lineHeight: 1.65, flex: 1, marginBottom: 20 }}>
+                  How the Moment Response workflow becomes faster and richer when approved integrations are added — PMS, task signals, guest messaging, weather and operator reporting.
+                </p>
+                <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#10b981" }}>View Pilot Expansion →</div>
+              </div>
+            </Link>
+            {/* Card 3: Stage 3 */}
+            <Link href="/partner-room/product-proof/stage-3-operating-layer">
+              <div style={{
+                padding: "28px 24px", background: "rgba(167,139,250,0.04)", border: "1px solid rgba(167,139,250,0.15)",
+                borderTop: "2px solid #a78bfa", display: "flex", flexDirection: "column", height: "100%",
+                cursor: "pointer", transition: "all 0.15s",
+              }}
+              onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(167,139,250,0.08)"; el.style.borderColor = "rgba(167,139,250,0.3)"; }}
+              onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(167,139,250,0.04)"; el.style.borderColor = "rgba(167,139,250,0.15)"; }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 14 }}>
+                  <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#a78bfa", flexShrink: 0 }} />
+                  <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#a78bfa" }}>Future-State Operating Preview</div>
+                </div>
+                <div style={{ fontSize: 13, fontWeight: 800, color: "#fff", marginBottom: 12, lineHeight: 1.3 }}>Stage 3 Operating Layer Preview</div>
+                <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.38)", lineHeight: 1.65, flex: 1, marginBottom: 20 }}>
+                  Multi-site signal visibility, pattern insights, action routing, assurance reporting, value proof and marketplace activation — once the pilot is validated and integrations are approved.
+                </p>
+                <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#a78bfa" }}>View Stage 3 Preview →</div>
+              </div>
+            </Link>
+          </div>
+        </div>
+
+        {/* Section 4: Additional Walkthroughs */}
         <div>
           <div style={{ marginBottom: 20 }}>
             <div style={{ fontSize: 9, letterSpacing: "0.18em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase", fontWeight: 700, marginBottom: 6 }}>

@@ -35,6 +35,8 @@ import PartnerCommsDemo from "@/pages/partner-room/PartnerCommsDemo";
 import PartnerDecisionSpine from "@/pages/partner-room/PartnerDecisionSpine";
 import PartnerValidationReplay from "@/pages/partner-room/PartnerValidationReplay";
 import PartnerSignalCapture from "@/pages/partner-room/PartnerSignalCapture";
+import PartnerStage3Preview from "@/pages/partner-room/PartnerStage3Preview";
+import PartnerPilotExpansionPreview from "@/pages/partner-room/PartnerPilotExpansionPreview";
 import StoryHub from "@/pages/StoryHub";
 import StoryOperator from "@/pages/StoryOperator";
 import StoryGuestStory from "@/pages/StoryGuestStory";
@@ -81,7 +83,9 @@ const PARTNER_ROUTES = [
   { path: "/partner-room/comms-demo",         component: PartnerCommsDemo },
   { path: "/partner-room/decision-spine",     component: PartnerDecisionSpine },
   { path: "/partner-room/validation-replay",  component: PartnerValidationReplay },
-  { path: "/partner-room/product-proof/signal-capture", component: PartnerSignalCapture },
+  { path: "/partner-room/product-proof/signal-capture",          component: PartnerSignalCapture },
+  { path: "/partner-room/product-proof/stage-3-operating-layer",  component: PartnerStage3Preview },
+  { path: "/partner-room/product-proof/pilot-expansion-preview",  component: PartnerPilotExpansionPreview },
   { path: "/partner-room/resources/travel-partnership-overview",         component: TravelPartnershipOverview },
   { path: "/partner-room/resources/travel-commercial-partnership-brief", component: TravelCommercialPartnershipBrief },
   { path: "/partner-room/resources/travel-business-plan",                component: TravelBusinessPlan },
