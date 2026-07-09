@@ -7,7 +7,7 @@ import { SIGNAL_CATEGORIES } from "@/data/signals";
 
 const DEFAULT_LOGIC_CHAIN = [
   { step: "01", label: "Event Ingestion",      desc: "Signal arrives via push from source system in real time" },
-  { step: "02", label: "Normalisation",         desc: "Event mapped to WELBX signal schema, type and source tagged" },
+  { step: "02", label: "Normalisation",         desc: "Event mapped to RTBX Core signal schema, type and source tagged" },
   { step: "03", label: "Confidence Scoring",    desc: "Historical accuracy and source reliability applied to weighting" },
   { step: "04", label: "Pattern Matching",      desc: "Signal compared against configured moment patterns in BXOS — pilot library" },
   { step: "05", label: "Cluster Detection",     desc: "Co-occurring signals grouped; combined confidence calculated" },
@@ -27,7 +27,7 @@ export default function PartnerSignalsEngine() {
   const { content } = usePartnerContent();
   const logicChain = content?.signalsEngine?.logicChain ?? DEFAULT_LOGIC_CHAIN;
   const headline = content?.signalsEngine?.headline ?? "A Configured Signal Library.\nOne Operating Picture.";
-  const subheadline = content?.signalsEngine?.subheadline ?? "The WELBX signal layer reads from every operational source a property already generates data from. Signals are normalised, weighted, and pattern-matched in real time — creating a live operating picture that the moment engine acts on continuously.";
+  const subheadline = content?.signalsEngine?.subheadline ?? "RTBX Core captures staff, guest and operator-entered signals first, then approved integrations over time. Signals are normalised, weighted, and pattern-matched — creating an operating picture that the moment engine acts on, in real-time or near-real-time where integration access allows.";
 
   return (
     <PartnerRoomLayout>

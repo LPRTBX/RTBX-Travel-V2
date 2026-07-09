@@ -50,7 +50,7 @@ const CORE_SYSTEMS = [
     tag: "Brief",
     tagColor: "#c9a84c",
     href: "/partner-room/signals-engine",
-    does: "Captures real-time data from WELBX, PMS, POS, workforce and IoT sources — converts streams into classified moment signals.",
+    does: "Captures staff, guest and operator-entered signals first, then approved PMS, POS, workforce, messaging and environmental integrations over time — converting captured signals into classified moments.",
     matters: "Without a structured signal layer, operators are reactive. With it, RTBX Core acts before the guest needs to say anything.",
   },
   {

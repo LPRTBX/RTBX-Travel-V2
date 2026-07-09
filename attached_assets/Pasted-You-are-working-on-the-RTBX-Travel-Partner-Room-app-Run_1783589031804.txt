@@ -1,0 +1,105 @@
+You are working on the RTBX Travel Partner Room app.
+
+Run a final link, language and brand hierarchy QA pass.
+
+Do not add new sections.
+Do not expand the MVP.
+Do not rebuild the app.
+Do not remove the Stage 3 or Pilot Expansion previews.
+
+Required changes:
+
+1. Fix the MVP URL everywhere.
+
+The current old URL is:
+https://replit.com/@LP1313/rtbx-travel-moment-response-mvp
+
+Replace every instance with the correct deployed public MVP URL.
+
+Files known to contain the old URL:
+- PartnerPilotExpansionPreview.tsx
+- PartnerProductProof.tsx
+- PartnerRoomLanding.tsx
+- PartnerStage3Preview.tsx
+- PartnerValidation.tsx
+- resources/TravelDemoLinks.tsx
+
+All MVP links must:
+- use the same deployed public URL
+- open in a new tab
+- use rel="noopener noreferrer"
+- be labelled Live MVP Preview or Live MVP Preview — Moment Response
+
+2. Clean WELBX language.
+
+WELBX must only be described as:
+the guest-facing experience layer.
+
+Do not describe WELBX as:
+- the platform
+- the operating layer
+- the infrastructure
+- the system that detects or routes moments
+
+Replace wording like:
+See how WELBX appears in the moment...
+
+With:
+See how RTBX Travel works across guest, operator and signal-to-action views, with WELBX appearing only as the guest-facing experience layer.
+
+Replace wording like:
+what WELBX detects, what it routes
+
+With:
+what RTBX Core classifies, routes and logs, with WELBX used for guest-facing communication.
+
+3. Tighten Signals Engine wording.
+
+Replace:
+Captures real-time data from WELBX, PMS, POS, workforce and IoT sources — converts streams into classified moment signals.
+
+With:
+Captures staff, guest and operator-entered signals first, then approved PMS, POS, workforce, messaging and environmental integrations over time — converting captured signals into classified moments.
+
+4. Keep the honest signal-capture framing.
+
+Make sure the Partner Room clearly says:
+RTBX Travel can start without heavy integration. Early pilots use staff, guest and operator-entered signals to validate the moment-to-action workflow. Integrations make the signal layer faster and more automated over time.
+
+5. Keep Stage 3 honest.
+
+Stage 3 must be labelled:
+Future-state operating preview
+
+Do not call Stage 3 live.
+Do not imply Stage 3 is the current MVP.
+Do not imply integrations or AI already exist inside the MVP.
+
+6. Check internal Partner Room routes.
+
+Confirm these routes exist and are linked correctly:
+- /partner-room
+- /partner-room/deployments
+- /partner-room/product-proof
+- /partner-room/product-proof/signal-capture
+- /partner-room/product-proof/pilot-expansion-preview
+- /partner-room/product-proof/stage-3-operating-layer
+- /partner-room/validation
+- /partner-room/commercial
+- /partner-room/brief-library
+- /partner-room/next-step
+- /partner-room/resources/travel-demo-links
+
+7. Confirm deployment demo links work:
+- Hotels & Resorts
+- Holiday Parks & Outdoor Experiences
+- Corporate Travel
+- Events & Venues
+- Destination & Tourism Operators
+
+8. Final report back:
+- list all files where the MVP URL was replaced
+- confirm the old Replit project URL no longer appears
+- confirm all MVP links open in a new tab
+- confirm WELBX is only described as the guest-facing layer
+- confirm Stage 3 is labelled as future-state preview

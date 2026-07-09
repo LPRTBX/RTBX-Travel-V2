@@ -53,7 +53,7 @@ const INTEGRATION_CATEGORIES = [
 
 const FLOW_NODES = [
   { label: "Existing Systems",        sub: "PMS, HKP, CRM, POS, IoT" },
-  { label: "WELBX Signal Layer",      sub: "247 signal types, real-time" },
+  { label: "RTBX Core Signal Layer",  sub: "247 signal types, real-time or near-real-time" },
   { label: "Moment Engine",           sub: "Pattern recognition, BXOS" },
   { label: "Decision Spine",          sub: "Governed playbook execution" },
   { label: "Routed Action",           sub: "NEXUS communication routing" },
@@ -147,7 +147,7 @@ export default function PartnerIntegrationBrief() {
             Integration Model
           </div>
           <p style={{ fontSize: 13.5, color: "rgba(255,255,255,0.6)", lineHeight: 1.75, margin: 0 }}>
-            WELBX operates on a push-first model. Your system pushes signal events to the WELBX API in real time — no polling, no batch sync. This ensures sub-second latency from event to moment detection. The integration surface is intentionally minimal: a single webhook endpoint per signal category, with a documented schema for each source type. Most integrations are live within a two-week technical sprint.
+            RTBX Core operates on a push-first model. Your system pushes signal events to the RTBX Core API — no polling, no batch sync. This supports real-time or near-real-time latency from event to moment detection where integration access allows. The integration surface is intentionally minimal: a single webhook endpoint per signal category, with a documented schema for each source type. Most approved integrations are live within a two-week technical sprint.
           </p>
         </div>
       </div>

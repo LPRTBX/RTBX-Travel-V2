@@ -130,7 +130,7 @@ export default function PartnerHolidayParkDemo() {
             <span style={{ color: "#10b981" }}>and didn't.</span>
           </h1>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 640 }}>
-            A family arrives at a holiday park after a long drive. Weather has changed, the cabin is not ready, children are unsettled, and the guest is at risk of frustration before the stay has properly begun. This is what WELBX does in that moment.
+            A family arrives at a holiday park after a long drive. Weather has changed, the cabin is not ready, children are unsettled, and the guest is at risk of frustration before the stay has properly begun. This is what RTBX Travel does in that moment, with WELBX carrying the guest-facing message.
           </p>
         </div>
 

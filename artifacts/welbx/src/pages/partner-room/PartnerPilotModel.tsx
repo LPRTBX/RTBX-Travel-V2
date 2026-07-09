@@ -22,7 +22,7 @@ const DEFAULT_PILOT_PHASES = [
     num: "03",
     title: "Integration Sprint",
     duration: "Week 2–3",
-    desc: "Technical integration of priority signal sources. Push-webhook configuration for each confirmed source. WELBX signal layer activated and receiving live data from the property.",
+    desc: "Technical integration of priority signal sources. Push-webhook configuration for each confirmed source. RTBX Core signal layer activated and receiving approved data from the property.",
     color: "#3b82f6",
   },
   {
@@ -36,7 +36,7 @@ const DEFAULT_PILOT_PHASES = [
     num: "05",
     title: "Shadow Mode",
     duration: "Week 4",
-    desc: "WELBX runs in parallel with existing operations — detecting, classifying, and routing moments without displacing existing workflows. Output compared against actual operational decisions made during the same period.",
+    desc: "RTBX Travel runs in parallel with existing operations — detecting, classifying, and routing moments without displacing existing workflows. Output compared against actual operational decisions made during the same period.",
     color: "#a78bfa",
   },
   {
