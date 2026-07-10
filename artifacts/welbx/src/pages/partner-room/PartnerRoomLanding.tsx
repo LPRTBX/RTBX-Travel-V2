@@ -157,8 +157,8 @@ const THIS_IS_NOT = ["A guest app", "A reporting dashboard", "A replacement PMS"
 const THIS_IS     = ["A real-time execution layer", "A signal-to-action system", "A governed response engine", "A partner value platform"];
 
 const FLOW_STEPS = [
-  { label: "Signals",   desc: "Live data from every operational layer — guest, staff and property sources" },
-  { label: "Moments",   desc: "Pattern recognition surfaces what needs to happen now" },
+  { label: "Signals",   desc: "Captured signals from guest, staff, operator and approved system sources" },
+  { label: "Moments",   desc: "Classification logic identifies what needs to happen now" },
   { label: "Decisions", desc: "Governed response logic selects the right action" },
   { label: "Actions",   desc: "The right team member receives the right instruction" },
   { label: "Outcomes",  desc: "Every resolution is recorded and measured" },

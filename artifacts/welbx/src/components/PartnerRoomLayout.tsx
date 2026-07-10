@@ -78,7 +78,7 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
           </div>
         </div>
 
-        {/* Row 2: 11 section nav */}
+        {/* Row 2: primary partner nav */}
         <div style={{
           maxWidth: 1400,
           margin: "0 auto",

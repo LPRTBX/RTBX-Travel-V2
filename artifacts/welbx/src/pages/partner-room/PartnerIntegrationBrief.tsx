@@ -147,7 +147,7 @@ export default function PartnerIntegrationBrief() {
             Integration Model
           </div>
           <p style={{ fontSize: 13.5, color: "rgba(255,255,255,0.6)", lineHeight: 1.75, margin: 0 }}>
-            RTBX Core operates on a push-first model. Your system pushes signal events to the RTBX Core API — no polling, no batch sync. This supports real-time or near-real-time latency from event to moment detection where integration access allows. The integration surface is intentionally minimal: a single webhook endpoint per signal category, with a documented schema for each source type. Most approved integrations are live within a two-week technical sprint.
+            RTBX Core prefers a push-first model where approved systems can send signal events to RTBX. Where push events are not available, other integration patterns can be assessed during technical discovery. The integration surface is intentionally minimal: a single webhook endpoint per signal category, with a documented schema for each source type. Simple push-first or webhook-based integrations may be testable within a short technical sprint. Timing depends on partner access, data permissions, system capability and operator approval.
           </p>
         </div>
       </div>

@@ -82,6 +82,22 @@ const RESOURCE_DOCS = [
     href: "/partner-room/resources/travel-demo-links",
     audience: "All Partners",
   },
+  {
+    label: "AI Intelligence Layer",
+    tag: "Product",
+    color: "#3b82f6",
+    desc: "How RTBX Travel uses AI progressively across signal understanding, moment classification, risk and priority, decision support, communication, routing, pattern insights, marketplace activation and assurance reporting.",
+    href: "/partner-room/resources/travel-ai-intelligence-layer",
+    audience: "Product · Technology · Funders",
+  },
+  {
+    label: "Architecture, Modelling, UX & QA",
+    tag: "Product",
+    color: "#3b82f6",
+    desc: "The RTBX Travel operating architecture, data model, role-based UX model and QA approach across classification, privacy, assurance, integration and GitHub testing.",
+    href: "/partner-room/resources/travel-architecture-modelling-ux-qa",
+    audience: "Product · Technology · Engineering",
+  },
 ];
 
 const BRIEFINGS = [

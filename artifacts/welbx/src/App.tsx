@@ -50,6 +50,8 @@ import TravelSystemsMap from "@/pages/partner-room/resources/TravelSystemsMap";
 import TravelPilotModel from "@/pages/partner-room/resources/TravelPilotModel";
 import TravelRevenueModel from "@/pages/partner-room/resources/TravelRevenueModel";
 import TravelDemoLinks from "@/pages/partner-room/resources/TravelDemoLinks";
+import TravelAiIntelligenceLayer from "@/pages/partner-room/resources/TravelAiIntelligenceLayer";
+import TravelArchitectureModellingUxQa from "@/pages/partner-room/resources/TravelArchitectureModellingUxQa";
 
 const queryClient = new QueryClient();
 
@@ -96,6 +98,8 @@ const PARTNER_ROUTES = [
   { path: "/partner-room/resources/travel-pilot-model",                  component: TravelPilotModel },
   { path: "/partner-room/resources/travel-revenue-model",                component: TravelRevenueModel },
   { path: "/partner-room/resources/travel-demo-links",                   component: TravelDemoLinks },
+  { path: "/partner-room/resources/travel-ai-intelligence-layer",        component: TravelAiIntelligenceLayer },
+  { path: "/partner-room/resources/travel-architecture-modelling-ux-qa", component: TravelArchitectureModellingUxQa },
 ];
 
 function Router() {

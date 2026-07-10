@@ -14,11 +14,11 @@ const PROBLEMS = [
 
 const MOATS = [
   { label: "Signal Library", desc: "247+ configured travel signal types — built to be environment-specific and deployment-ready." },
-  { label: "Moment Classification Logic", desc: "Pattern recognition that converts live signals into classified moments with governed responses." },
+  { label: "Moment Classification Logic", desc: "Classification logic that converts captured signals into classified moments with governed responses." },
   { label: "Decision Spine", desc: "Intervention logic that applies the right response threshold across guest, welfare, recovery and commercial moment types." },
   { label: "Assurance Registry", desc: "Every moment, action and outcome logged. Evidence for operators, funders, regulators and guests." },
   { label: "Deployment Speed", desc: "Push-first, no-heavy-integration entry. A pilot can start in weeks, not months." },
-  { label: "WELBX Interface", desc: "Zero-download, no-login, in-moment guest interface. Already built and deployable." },
+  { label: "WELBX Guest Layer", desc: "Zero-download, no-login guest-facing experience layer used to surface support, recovery and experience options." },
 ];
 
 const ROADMAP = [

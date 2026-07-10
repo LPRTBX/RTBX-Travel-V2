@@ -1,0 +1,274 @@
+You are working on the RTBX Travel Partner Room app.
+
+Run a final functioning, flow, link and brief-document QA cleanup.
+
+Do not rebuild the app.
+Do not remove existing sections.
+Do not expand the MVP.
+Do not change the working MVP app.
+Keep the Partner Room structure intact.
+
+Goal:
+Make the Partner Room send-ready for strategic partners, operators and funders.
+
+1. Fix the Live MVP URL everywhere.
+
+Search for:
+https://replit.com/@LP1313/rtbx-travel-moment-response-mvp
+
+Replace every instance with the deployed public Live MVP URL already used for the actual live MVP demo.
+
+Known files:
+- src/pages/partner-room/PartnerPilotExpansionPreview.tsx
+- src/pages/partner-room/PartnerProductProof.tsx
+- src/pages/partner-room/PartnerRoomLanding.tsx
+- src/pages/partner-room/PartnerStage3Preview.tsx
+- src/pages/partner-room/PartnerValidation.tsx
+- src/pages/partner-room/resources/TravelDemoLinks.tsx
+
+All MVP links must:
+- use the same deployed public MVP URL
+- open in a new tab
+- include rel="noopener noreferrer"
+- be labelled Live MVP Preview or Live MVP Preview — Moment Response
+
+2. Confirm Partner Room internal links.
+
+Confirm all these routes exist and link correctly:
+
+- /partner-room
+- /partner-room/deployments
+- /partner-room/product-proof
+- /partner-room/product-proof/signal-capture
+- /partner-room/product-proof/pilot-expansion-preview
+- /partner-room/product-proof/stage-3-operating-layer
+- /partner-room/validation
+- /partner-room/commercial
+- /partner-room/brief-library
+- /partner-room/next-step
+- /partner-room/resources/travel-demo-links
+
+Confirm deployment demo links work:
+
+- /partner-room/deployments/hotels-resorts/demo
+- /partner-room/holiday-park-demo
+- /partner-room/deployments/corporate-travel/demo
+- /partner-room/deployments/events-venues/demo
+- /partner-room/deployments/destination-tourism/demo
+
+3. Tighten overclaim language.
+
+In PartnerRoomLanding.tsx replace:
+
+Live data from every operational layer — guest, staff and property sources
+
+With:
+
+Captured signals from guest, staff, operator and approved system sources
+
+Replace:
+
+Pattern recognition surfaces what needs to happen now
+
+With:
+
+Classification logic identifies what needs to happen now
+
+4. Update TravelBusinessPlan.tsx.
+
+Replace:
+
+Pattern recognition that converts live signals into classified moments with governed responses.
+
+With:
+
+Classification logic that converts captured signals into classified moments with governed responses.
+
+Replace:
+
+WELBX Interface — Zero-download, no-login, in-moment guest interface. Already built and deployable.
+
+With:
+
+WELBX Guest Layer — Zero-download, no-login guest-facing experience layer used to surface support, recovery and experience options.
+
+5. Update TravelCommercialCase.tsx.
+
+Replace:
+
+This is not a rules engine. This is a governed decision system.
+
+With:
+
+The MVP starts with rules-based classification. Over time, RTBX Core becomes a governed decision system strengthened by approved integrations, operator playbooks and outcome data.
+
+6. Update PartnerIntegrationBrief.tsx.
+
+Replace:
+
+Most approved integrations are live within a two-week technical sprint.
+
+With:
+
+Simple push-first or webhook-based integrations may be testable within a short technical sprint. Timing depends on partner access, data permissions, system capability and operator approval.
+
+Replace any absolute claim that all systems must push events and that no polling or batch sync is ever used.
+
+Use:
+
+RTBX Core prefers a push-first model where approved systems can send signal events to RTBX. Where push events are not available, other integration patterns can be assessed during technical discovery.
+
+7. Update TravelDemoLinks.tsx.
+
+Replace:
+
+Every link on this page opens a real interactive or live demo experience. No static slides. No placeholder pages. No documents listed here.
+
+With:
+
+Every link on this page opens either a live MVP, an interactive demo or a clearly labelled pilot/stage preview. No placeholder pages.
+
+8. Add two missing Brief Library resources.
+
+Add resource cards in PartnerBriefLibrary.tsx:
+
+A. AI Intelligence Layer
+
+Label:
+AI Intelligence Layer
+
+Tag:
+Product
+
+Description:
+How RTBX Travel uses AI progressively across signal understanding, moment classification, risk and priority, decision support, communication, routing, pattern insights, marketplace activation and assurance reporting.
+
+Route:
+/partner-room/resources/travel-ai-intelligence-layer
+
+B. Architecture, Modelling, UX & QA
+
+Label:
+Architecture, Modelling, UX & QA
+
+Tag:
+Product
+
+Description:
+The RTBX Travel operating architecture, data model, role-based UX model and QA approach across classification, privacy, assurance, integration and GitHub testing.
+
+Route:
+/partner-room/resources/travel-architecture-modelling-ux-qa
+
+9. Create page:
+src/pages/partner-room/resources/TravelAiIntelligenceLayer.tsx
+
+Route:
+/partner-room/resources/travel-ai-intelligence-layer
+
+Content sections:
+- Positioning
+- AI model stack
+- Stage 1: rules-based MVP
+- Stage 2: AI-assisted pilot
+- Stage 3: multi-site intelligence
+- RTBX Travel Moment Graph
+- Build vs buy
+- Safety and governance
+
+Use this line:
+RTBX Travel is not using AI to generate more information. It is using AI to turn signals into action, action into assurance, and assurance into value.
+
+Add disclaimer:
+The Live MVP uses deterministic rules and classification logic. AI models are introduced progressively during integration-assisted pilots and Stage 3 deployments once operator-approved data sources are connected.
+
+Model cards:
+- Signal Understanding
+- Moment Classification
+- Risk & Priority
+- Decision Spine
+- Communication Generation
+- Routing & Assignment
+- Escalation Forecasting
+- Pattern Intelligence
+- Marketplace Recommendation
+- Assurance & Reporting
+- Operator Copilot
+
+10. Create page:
+src/pages/partner-room/resources/TravelArchitectureModellingUxQa.tsx
+
+Route:
+/partner-room/resources/travel-architecture-modelling-ux-qa
+
+Content sections:
+- Core architecture
+- Data model
+- Role-based UX
+- Signal-to-action flow
+- QA model
+- Classification QA
+- Role/privacy QA
+- Integration QA
+- GitHub CI pathway
+
+Use this line:
+Same moment. Different view. One assurance trail.
+
+Show architecture:
+Captured signals
+→ Signal Registry
+→ Moment Classification Engine
+→ Risk & Priority Engine
+→ Decision Spine
+→ Action Pathway Engine
+→ Communication Routing
+→ Assurance Log
+→ Outcome & Value Registry
+→ Pattern Intelligence Layer
+
+11. Register both new routes in App.tsx.
+
+Import:
+TravelAiIntelligenceLayer
+TravelArchitectureModellingUxQa
+
+Add routes:
+- /partner-room/resources/travel-ai-intelligence-layer
+- /partner-room/resources/travel-architecture-modelling-ux-qa
+
+12. Keep brand hierarchy correct everywhere.
+
+Use:
+- RTBX Group = parent ecosystem
+- RTBX Core = signal-to-action engine
+- RTBX Travel = travel vertical
+- WELBX = guest-facing experience layer only
+
+Do not describe WELBX as:
+- the platform
+- the operating layer
+- the parent system
+- the infrastructure
+- the system that detects or routes moments
+
+13. Minor code comment cleanup.
+
+In PartnerRoomLayout.tsx, replace the comment:
+
+Row 2: 11 section nav
+
+With:
+
+Row 2: primary partner nav
+
+14. Final QA report.
+
+After changes, report:
+- whether the old Replit MVP URL was removed
+- what Live MVP URL is now used
+- whether all MVP links open in a new tab
+- whether all Partner Room internal routes work
+- whether the two new Brief Library resources were added
+- whether WELBX is only described as the guest-facing layer
+- whether Stage 3 is clearly labelled as future-state preview

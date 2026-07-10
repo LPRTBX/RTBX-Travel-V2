@@ -98,7 +98,7 @@ export default function TravelDemoLinks() {
           <div style={{ fontSize: 8.5, letterSpacing: "0.2em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>Partner Resource · Demo Links</div>
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 14, maxWidth: 680 }}>RTBX Travel — Demo Directory</h1>
           <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.75, maxWidth: 600, margin: 0 }}>
-            Every link on this page opens a real interactive or live demo experience. No static slides. No placeholder pages. No documents listed here.
+            Every link on this page opens either a live MVP, an interactive demo or a clearly labelled pilot/stage preview. No placeholder pages.
           </p>
           <div style={{ marginTop: 14, padding: "10px 16px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", display: "inline-flex", gap: 8, alignItems: "center" }}>
             <div style={{ width: 6, height: 6, borderRadius: "50%", background: C.green }} />
