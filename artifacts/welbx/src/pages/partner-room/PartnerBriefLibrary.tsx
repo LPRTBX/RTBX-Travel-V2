@@ -98,6 +98,30 @@ const RESOURCE_DOCS = [
     href: "/partner-room/resources/travel-architecture-modelling-ux-qa",
     audience: "Product · Technology · Engineering",
   },
+  {
+    label: "Commercial Unit",
+    tag: "Commercial",
+    color: "#a78bfa",
+    desc: "How RTBX Travel is commercialised by property, portfolio or network — revenue layers from master platform agreement through to managed intelligence and partner revenue.",
+    href: "/partner-room/commercial-unit",
+    audience: "Commercial Leads · Executives",
+  },
+  {
+    label: "Rollout Model",
+    tag: "Operations",
+    color: "#10b981",
+    desc: "The rollout archetype — pilot properties through to network rollout, additional Operating Systems and portfolio intelligence. Illustrative, not a contracted commitment.",
+    href: "/partner-room/rollout-model",
+    audience: "Operators · Commercial · Partners",
+  },
+  {
+    label: "Partner Ecosystem",
+    tag: "Strategy",
+    color: "#c9a84c",
+    desc: "The seven partner roles around a licensed deployment — operator, integration, deployment, distribution, loyalty, marketplace and strategic vertical partners.",
+    href: "/partner-room/partner-ecosystem",
+    audience: "All Partners",
+  },
 ];
 
 const BRIEFINGS = [

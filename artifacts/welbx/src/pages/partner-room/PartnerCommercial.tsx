@@ -50,6 +50,22 @@ const COMMERCIAL_SECTIONS = [
     cta: "View Integration Model",
     ext: false,
   },
+  {
+    label: "Commercial Unit",
+    color: "#a78bfa",
+    desc: "Revenue layers from master platform agreement through property/portfolio licence, activation, operating systems, modules, managed intelligence and partner revenue.",
+    href: "/partner-room/commercial-unit",
+    cta: "View Commercial Unit",
+    ext: false,
+  },
+  {
+    label: "Rollout Model",
+    color: "#10b981",
+    desc: "Property Activation, Portfolio Rollout and the rollout archetype — how a deployment scales from pilot to network.",
+    href: "/partner-room/rollout-model",
+    cta: "View Rollout Model",
+    ext: false,
+  },
 ];
 
 const CTA_ITEMS = [

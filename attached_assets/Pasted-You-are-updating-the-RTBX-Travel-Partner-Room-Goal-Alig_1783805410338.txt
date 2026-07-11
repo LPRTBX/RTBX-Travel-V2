@@ -1,0 +1,174 @@
+You are updating the RTBX Travel Partner Room.
+
+Goal:
+Align Travel partner and commercial content with the final RTBX architecture.
+
+Do not redesign the room.
+Do not remove functioning resources.
+Do not expose detailed commercial terms publicly.
+Do not present illustrative rollout scenarios as contracted commitments.
+Do not make unsupported IHG claims.
+Do not use organisation names unless deliberately approved for that protected page.
+
+CORE STORY
+
+One RTBX Core
++ Travel Intelligence Pack
++ Travel Operating Systems
++ Activated Modules
++ Property / Portfolio Configuration
+= Active RTBX Travel Operating Environment
+
+RESTRUCTURE PARTNER ROOM
+
+START HERE
+
+- RTBX Travel Overview
+- Travel Intelligence Model
+- Travel Operating Architecture
+- Commercial & Deployment Model
+- Partner Ecosystem
+
+PLATFORM & OPERATING SYSTEMS
+
+- Guest Experience OS
+- Service Recovery & Staff Response OS
+- Marketplace & Loyalty Activation OS
+- Operator Intelligence OS
+- Safety & Guest Welfare OS
+- Module Catalogue
+- AI & Central Comms
+- Integration Architecture
+
+DEPLOYMENT
+
+- Discovery and Configuration
+- Pilot Model
+- Property Activation
+- Portfolio Rollout
+- Managed Intelligence
+- Live Scenarios
+
+COMMERCIAL
+
+- Master Platform Agreement
+- Property / Portfolio Licence
+- Deployment and Configuration
+- Operating System Activation
+- Module Activation
+- Managed Intelligence
+- Partner / Marketplace Revenue
+- Expansion Model
+
+PARTNERS
+
+- Hotel Group / Operator
+- PMS / CRM Integration Partner
+- Deployment Partner
+- Travel Distribution Partner
+- Loyalty Partner
+- Local Service / Marketplace Partner
+- Strategic Vertical Partner
+
+COMMERCIAL UNIT
+
+Explain:
+
+Travel is primarily commercialised by property, portfolio or travel network.
+
+Revenue layers:
+
+- master platform agreement
+- property / portfolio licence
+- activation and configuration
+- operating systems activated
+- modules activated
+- managed portfolio intelligence
+- partner and marketplace revenue
+
+USAGE
+
+Do not lead with:
+- seats
+- chats
+- tokens
+
+Lead with:
+- active properties
+- active operating systems
+- signals processed
+- moments recognised
+- playbooks executed
+- communications coordinated
+- outcomes completed
+- value recorded
+
+ROLLOUT ARCHETYPE
+
+Show:
+
+Pilot Properties
+→ Initial Portfolio
+→ Regional Rollout
+→ Network Rollout
+→ Additional Operating Systems
+→ Portfolio Intelligence
+→ Partner / Marketplace Activation
+
+Use this line:
+
+Travel scales through property replication, operating-system expansion and portfolio intelligence.
+
+INTEGRATION
+
+Show:
+
+PMS
+CRM
+Loyalty
+Booking Engine
+Guest Messaging
+Housekeeping
+Maintenance
+Payments
+Partner Systems
+
+→ RTBX Integration Hub
+
+Do not imply every system is already integrated.
+Label integrations as:
+- live
+- configurable
+- planned
+- illustrative
+
+UPDATE RESOURCE LINKS
+
+Ensure all cards lead to functioning pages.
+
+Mark unfinished resources as:
+- In development
+- Guided walkthrough
+- Planned
+
+ACCESS
+
+Keep full partner materials protected.
+
+Use clear confidentiality language:
+
+Travel Partner Room materials are provided for strategic partner and operator review and should not be redistributed without RTBX approval.
+
+Run:
+pnpm run typecheck
+pnpm run build
+
+Final report:
+- room structure changed
+- resources reused
+- commercial model aligned
+- integrations labelled
+- access confirmed
+- links verified
+- typecheck result
+- build result

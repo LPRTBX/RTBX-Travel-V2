@@ -44,6 +44,9 @@ import PartnerTravelOperatingSystems from "@/pages/partner-room/PartnerTravelOpe
 import PartnerBuildConfigure from "@/pages/partner-room/PartnerBuildConfigure";
 import PartnerOperationsCentre from "@/pages/partner-room/PartnerOperationsCentre";
 import PartnerTravelScenarios from "@/pages/partner-room/PartnerTravelScenarios";
+import PartnerCommercialUnit from "@/pages/partner-room/PartnerCommercialUnit";
+import PartnerRolloutModel from "@/pages/partner-room/PartnerRolloutModel";
+import PartnerEcosystem from "@/pages/partner-room/PartnerEcosystem";
 import StoryHub from "@/pages/StoryHub";
 import StoryOperator from "@/pages/StoryOperator";
 import StoryGuestStory from "@/pages/StoryGuestStory";
@@ -110,6 +113,9 @@ const PARTNER_ROUTES = [
   { path: "/partner-room/operations",         component: PartnerOperationsCentre },
   { path: "/partner-room/travel-scenarios",   component: PartnerTravelScenarios },
   { path: "/travel-scenarios",                component: PartnerTravelScenarios },
+  { path: "/partner-room/commercial-unit",    component: PartnerCommercialUnit },
+  { path: "/partner-room/rollout-model",      component: PartnerRolloutModel },
+  { path: "/partner-room/partner-ecosystem",  component: PartnerEcosystem },
   { path: "/partner-room/resources/travel-partnership-overview",         component: TravelPartnershipOverview },
   { path: "/partner-room/resources/travel-commercial-partnership-brief", component: TravelCommercialPartnershipBrief },
   { path: "/partner-room/resources/travel-business-plan",                component: TravelBusinessPlan },

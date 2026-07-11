@@ -1,53 +1,95 @@
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 
-const INTEGRATION_CATEGORIES = [
+type IntegrationStatus = "Live" | "Configurable" | "Planned" | "Illustrative";
+
+const STATUS_COLORS: Record<IntegrationStatus, string> = {
+  Live: "#10b981", Configurable: "#3b82f6", Planned: "#f97316", Illustrative: "rgba(255,255,255,0.35)",
+};
+
+const INTEGRATION_CATEGORIES: { title: string; sub: string; desc: string; color: string; status: IntegrationStatus }[] = [
   {
     title: "Property Management Systems",
     sub: "PMS",
     desc: "Arrival manifests, room status, reservation data, loyalty tier, guest profile, check-in/out events.",
     color: "#c9a84c",
+    status: "Configurable",
   },
   {
     title: "Housekeeping Platforms",
     sub: "OPERATIONS",
     desc: "Room readiness pipeline, task assignment status, completion timestamps, staff capacity ratios.",
     color: "#c9a84c",
+    status: "Configurable",
   },
   {
     title: "Task Management & Workforce",
     sub: "WORKFORCE",
     desc: "Staff assignment, response latency, task completion rates, shift logs, handover quality signals.",
     color: "#3b82f6",
+    status: "Configurable",
   },
   {
     title: "Guest-Facing Applications",
     sub: "GUEST APP",
     desc: "In-stay requests, sentiment signals, complaint submissions, dining intent, service interaction data.",
     color: "#3b82f6",
+    status: "Live",
   },
   {
     title: "CRM & Loyalty Platforms",
-    sub: "CRM",
+    sub: "CRM / LOYALTY",
     desc: "Guest history, loyalty tier, preference profiles, spend patterns, prior stay records, cancellation signals.",
     color: "#a78bfa",
+    status: "Configurable",
+  },
+  {
+    title: "Booking Engine",
+    sub: "BOOKING",
+    desc: "Reservation intent, arrival windows, party composition and booking-channel signals feeding early arrival detection.",
+    color: "#a78bfa",
+    status: "Planned",
+  },
+  {
+    title: "Guest Messaging",
+    sub: "MESSAGING",
+    desc: "Two-way guest communication channel used to deliver and confirm demo communications and staff-routed responses.",
+    color: "#a78bfa",
+    status: "Live",
+  },
+  {
+    title: "Maintenance Systems",
+    sub: "MAINTENANCE",
+    desc: "Work-order status, defect reports and technician scheduling feeding the Maintenance Defect scenario.",
+    color: "#10b981",
+    status: "Planned",
+  },
+  {
+    title: "Payments",
+    sub: "PAYMENTS",
+    desc: "Spend patterns, refund and compensation triggers used in service-recovery and welfare playbooks.",
+    color: "#10b981",
+    status: "Planned",
   },
   {
     title: "Revenue Management Systems",
     sub: "RMS",
     desc: "Rate signals, occupancy patterns, activation exposure index, upsell window data, commercial triggers.",
-    color: "#a78bfa",
+    color: "#10b981",
+    status: "Illustrative",
   },
   {
     title: "Building & IoT Infrastructure",
     sub: "BMS / IoT",
     desc: "Queue sensor data, environmental signals, energy anomalies, safety system triggers, HVAC status.",
     color: "#10b981",
+    status: "Illustrative",
   },
   {
-    title: "Point of Sale & F&B",
-    sub: "POS",
-    desc: "F&B velocity signals, menu constraint flags, group spend tracking, activation window confirmation.",
-    color: "#10b981",
+    title: "Partner Systems",
+    sub: "PARTNER SYSTEMS",
+    desc: "Local service, marketplace and loyalty partner systems activated through RTBX Travel at the right moment in the guest journey.",
+    color: "#22d3ee",
+    status: "Planned",
   },
 ];
 
@@ -73,15 +115,28 @@ export default function PartnerIntegrationBrief() {
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 24, maxWidth: 680 }}>
             Your System Already Captures the Signal
           </h1>
-          <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 680 }}>
-            RTBX Travel is a signal-to-action layer, not a replacement. Every data source your platform already manages becomes a captured signal input to the moment engine. A single approved integration makes your system a trigger in the operating chain — creating compounding value for operators that neither platform can generate alone.
+          <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 680, marginBottom: 14 }}>
+            RTBX Travel is a signal-to-action layer, not a replacement. Every data source your platform already manages becomes a captured signal input to the moment engine, through the RTBX Integration Hub. A single approved integration makes your system a trigger in the operating chain — creating compounding value for operators that neither platform can generate alone.
           </p>
+          <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.3)", fontStyle: "italic" }}>
+            Not every system below is integrated for every deployment. Each category is labelled with its current integration status.
+          </p>
+        </div>
+
+        {/* Status legend */}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 16, marginBottom: 32 }}>
+          {(Object.keys(STATUS_COLORS) as IntegrationStatus[]).map(s => (
+            <div key={s} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <div style={{ width: 7, height: 7, borderRadius: "50%", background: STATUS_COLORS[s] }} />
+              <span style={{ fontSize: 9.5, color: "rgba(255,255,255,0.5)", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase" }}>{s}</span>
+            </div>
+          ))}
         </div>
 
         {/* Integration category cards */}
         <div style={{ marginBottom: 80 }}>
           <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 28 }}>
-            Integration Categories
+            Integration Categories → RTBX Integration Hub
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
             {INTEGRATION_CATEGORIES.map(cat => (
@@ -91,8 +146,13 @@ export default function PartnerIntegrationBrief() {
                 border: "1px solid rgba(255,255,255,0.06)",
                 borderLeft: `2px solid ${cat.color}`,
               }}>
-                <div style={{ fontSize: 7.5, letterSpacing: "0.18em", color: cat.color, textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
-                  {cat.sub}
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, marginBottom: 10 }}>
+                  <div style={{ fontSize: 7.5, letterSpacing: "0.18em", color: cat.color, textTransform: "uppercase", fontWeight: 700 }}>
+                    {cat.sub}
+                  </div>
+                  <div style={{ fontSize: 6.5, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: STATUS_COLORS[cat.status], border: `1px solid ${STATUS_COLORS[cat.status]}45`, padding: "2px 6px", whiteSpace: "nowrap" }}>
+                    {cat.status}
+                  </div>
                 </div>
                 <div style={{ fontSize: 12.5, fontWeight: 700, color: "#fff", marginBottom: 10, lineHeight: 1.3 }}>
                   {cat.title}

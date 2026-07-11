@@ -4,6 +4,15 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@media (max-width: 720px) {
+  .rtbx-stack-row {
+    grid-template-columns: 1fr !important;
+  }
+  .rtbx-stack-row > div {
+    border-left: none !important;
+  }
+}
+
 @theme inline {
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));

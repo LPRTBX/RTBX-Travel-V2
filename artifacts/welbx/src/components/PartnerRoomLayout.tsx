@@ -7,42 +7,78 @@ interface NavGroup { label: string; path: string; items: NavItem[]; }
 
 const NAV_GROUPS: NavGroup[] = [
   {
-    label: "Overview",
-    path: "/partner-room",
+    label: "Start Here",
+    path: "/partner-room/overview",
     items: [
-      { label: "Home",             path: "/partner-room" },
-      { label: "Why RTBX Travel",  path: "/partner-room/overview" },
-      { label: "Operating Model",  path: "/partner-room/operating-model" },
-      { label: "Proof",            path: "/partner-room/product-proof" },
+      { label: "RTBX Travel Overview",           path: "/partner-room/overview" },
+      { label: "Travel Intelligence Model",       path: "/partner-room/travel-intelligence" },
+      { label: "Travel Operating Architecture",   path: "/partner-room/operating-model" },
+      { label: "Commercial & Deployment Model",   path: "/partner-room/commercial" },
+      { label: "Partner Ecosystem",               path: "/partner-room/partner-ecosystem" },
     ],
   },
   {
-    label: "Travel Intelligence",
-    path: "/partner-room/travel-intelligence",
-    items: [
-      { label: "RTBX Travel Intelligence",  path: "/partner-room/travel-intelligence" },
-      { label: "Travel Operating Systems",  path: "/partner-room/travel-operating-systems" },
-      { label: "Connection Map",             path: "/partner-room/resources/travel-systems-map" },
-      { label: "Signals and Moments",        path: "/partner-room/signals-engine" },
-      { label: "Governance and Playbooks",   path: "/partner-room/decision-spine" },
-      { label: "Role Views",                 path: "/partner-room/operator-demo" },
-      { label: "Central Comms and AI",       path: "/partner-room/travel-ai-comms" },
-      { label: "Live Scenarios",             path: "/partner-room/travel-scenarios" },
-    ],
-  },
-  {
-    label: "Operating Systems",
-    path: "/partner-room/resources/travel-systems-map",
+    label: "Platform & Operating Systems",
+    path: "/partner-room/travel-operating-systems",
     items: [
       { label: "Guest Experience OS",                    path: "/partner-room/resources/travel-systems-map#guest-experience-os" },
       { label: "Service Recovery & Staff Response OS",   path: "/partner-room/resources/travel-systems-map#service-recovery-os" },
       { label: "Marketplace & Loyalty Activation OS",    path: "/partner-room/resources/travel-systems-map#marketplace-loyalty-os" },
       { label: "Operator Intelligence OS",                path: "/partner-room/resources/travel-systems-map#operator-intelligence-os" },
       { label: "Safety & Guest Welfare OS",               path: "/partner-room/resources/travel-systems-map#safety-welfare-os" },
+      { label: "Module Catalogue",                        path: "/partner-room/resources/travel-systems-map" },
+      { label: "AI & Central Comms",                      path: "/partner-room/travel-ai-comms" },
+      { label: "Integration Architecture",                path: "/partner-room/integration-brief" },
+      { label: "Signals and Moments",                     path: "/partner-room/signals-engine" },
+      { label: "Governance and Playbooks",                path: "/partner-room/decision-spine" },
+      { label: "Role Views",                              path: "/partner-room/operator-demo" },
     ],
   },
   {
-    label: "Build / Configure",
+    label: "Deployment",
+    path: "/partner-room/build-configure",
+    items: [
+      { label: "Discovery and Configuration",  path: "/partner-room/build-configure" },
+      { label: "Pilot Model",                  path: "/partner-room/pilot-model" },
+      { label: "Property Activation",          path: "/partner-room/rollout-model#property-activation" },
+      { label: "Portfolio Rollout",            path: "/partner-room/rollout-model#portfolio-rollout" },
+      { label: "Managed Intelligence",         path: "/partner-room/operations" },
+      { label: "Live Scenarios",               path: "/partner-room/travel-scenarios" },
+      { label: "Action Centre",                path: "/partner-room/operations#action-centre" },
+      { label: "Outcome Ledger",               path: "/partner-room/operations#outcome-ledger" },
+      { label: "Evidence Ledger",              path: "/partner-room/operations#evidence-ledger" },
+      { label: "Value Dashboard",              path: "/partner-room/operations#value-dashboard" },
+    ],
+  },
+  {
+    label: "Commercial",
+    path: "/partner-room/commercial-unit",
+    items: [
+      { label: "Master Platform Agreement",       path: "/partner-room/commercial-unit#master-platform-agreement" },
+      { label: "Property / Portfolio Licence",    path: "/partner-room/commercial-unit#property-portfolio-licence" },
+      { label: "Deployment and Configuration",    path: "/partner-room/commercial-unit#deployment-and-configuration" },
+      { label: "Operating System Activation",     path: "/partner-room/commercial-unit#operating-system-activation" },
+      { label: "Module Activation",               path: "/partner-room/commercial-unit#module-activation" },
+      { label: "Managed Intelligence",            path: "/partner-room/commercial-unit#managed-intelligence" },
+      { label: "Partner / Marketplace Revenue",   path: "/partner-room/commercial-unit#partner-marketplace-revenue" },
+      { label: "Expansion Model",                 path: "/partner-room/commercial-unit#expansion-model" },
+    ],
+  },
+  {
+    label: "Partners",
+    path: "/partner-room/partner-ecosystem",
+    items: [
+      { label: "Hotel Group / Operator",              path: "/partner-room/partner-ecosystem#hotel-group-operator" },
+      { label: "PMS / CRM Integration Partner",       path: "/partner-room/partner-ecosystem#pms-crm-integration-partner" },
+      { label: "Deployment Partner",                  path: "/partner-room/partner-ecosystem#deployment-partner" },
+      { label: "Travel Distribution Partner",         path: "/partner-room/partner-ecosystem#travel-distribution-partner" },
+      { label: "Loyalty Partner",                     path: "/partner-room/partner-ecosystem#loyalty-partner" },
+      { label: "Local Service / Marketplace Partner", path: "/partner-room/partner-ecosystem#local-service-marketplace-partner" },
+      { label: "Strategic Vertical Partner",          path: "/partner-room/partner-ecosystem#strategic-vertical-partner" },
+    ],
+  },
+  {
+    label: "Configure",
     path: "/partner-room/build-configure",
     items: [
       { label: "Deployment Builder",  path: "/partner-room/build-configure#deployment-builder" },
@@ -51,16 +87,6 @@ const NAV_GROUPS: NavGroup[] = [
       { label: "Playbook Builder",    path: "/partner-room/build-configure#playbook-builder" },
       { label: "Comms Builder",       path: "/partner-room/build-configure#comms-builder" },
       { label: "Scenario Tester",     path: "/partner-room/build-configure#scenario-tester" },
-    ],
-  },
-  {
-    label: "Operations",
-    path: "/partner-room/operations",
-    items: [
-      { label: "Action Centre",    path: "/partner-room/operations#action-centre" },
-      { label: "Outcome Ledger",   path: "/partner-room/operations#outcome-ledger" },
-      { label: "Evidence Ledger",  path: "/partner-room/operations#evidence-ledger" },
-      { label: "Value Dashboard",  path: "/partner-room/operations#value-dashboard" },
     ],
   },
   {
@@ -248,21 +274,25 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
         borderTop: "1px solid rgba(255,255,255,0.05)",
         padding: "14px 32px",
         display: "flex",
-        alignItems: "center",
-        gap: 20,
-        flexWrap: "wrap",
+        flexDirection: "column",
+        gap: 8,
       }}>
-        {[
-          `RTBX Travel Partner Room v1.0`,
-          `Content: ${contentVersion}`,
-          `Updated: ${lastUpdated}`,
-          `Powered by RTBX Core`,
-        ].map((item, i, arr) => (
-          <span key={item} style={{ display: "flex", alignItems: "center", gap: 20 }}>
-            <span style={{ fontSize: 8.5, letterSpacing: "0.12em", color: "rgba(255,255,255,0.15)", textTransform: "uppercase", fontWeight: 600 }}>{item}</span>
-            {i < arr.length - 1 && <span style={{ fontSize: 9, color: "rgba(255,255,255,0.08)" }}>·</span>}
-          </span>
-        ))}
+        <p style={{ fontSize: 8.5, letterSpacing: "0.03em", color: "rgba(255,255,255,0.22)", margin: 0, lineHeight: 1.5, maxWidth: 900 }}>
+          Travel Partner Room materials are provided for strategic partner and operator review and should not be redistributed without RTBX approval.
+        </p>
+        <div style={{ display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap" }}>
+          {[
+            `RTBX Travel Partner Room v1.0`,
+            `Content: ${contentVersion}`,
+            `Updated: ${lastUpdated}`,
+            `Powered by RTBX Core`,
+          ].map((item, i, arr) => (
+            <span key={item} style={{ display: "flex", alignItems: "center", gap: 20 }}>
+              <span style={{ fontSize: 8.5, letterSpacing: "0.12em", color: "rgba(255,255,255,0.15)", textTransform: "uppercase", fontWeight: 600 }}>{item}</span>
+              {i < arr.length - 1 && <span style={{ fontSize: 9, color: "rgba(255,255,255,0.08)" }}>·</span>}
+            </span>
+          ))}
+        </div>
       </footer>
     </div>
   );
