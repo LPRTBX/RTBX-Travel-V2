@@ -21,6 +21,7 @@ const NAV_GROUPS: NavGroup[] = [
     path: "/partner-room/travel-intelligence",
     items: [
       { label: "RTBX Travel Intelligence",  path: "/partner-room/travel-intelligence" },
+      { label: "Travel Operating Systems",  path: "/partner-room/travel-operating-systems" },
       { label: "Connection Map",             path: "/partner-room/resources/travel-systems-map" },
       { label: "Signals and Moments",        path: "/partner-room/signals-engine" },
       { label: "Governance and Playbooks",   path: "/partner-room/decision-spine" },

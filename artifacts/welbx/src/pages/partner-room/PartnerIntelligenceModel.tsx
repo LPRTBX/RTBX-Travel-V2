@@ -295,6 +295,7 @@ export default function PartnerIntelligenceModel() {
         {/* ── FOOTER LINKS ── */}
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 32, display: "flex", gap: 10, flexWrap: "wrap" }}>
           {[
+            { label: "Travel Operating Systems", href: "/partner-room/travel-operating-systems" },
             { label: "Operating Model",  href: "/partner-room/operating-model" },
             { label: "Connection Map",   href: "/partner-room/resources/travel-systems-map" },
             { label: "Architecture, Modelling & UX/QA", href: "/partner-room/resources/travel-architecture-modelling-ux-qa" },

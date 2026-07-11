@@ -1,0 +1,200 @@
+You are updating the RTBX Travel application.
+
+Goal:
+Create a clear Travel Operating Systems and Module Catalogue.
+
+Do not rebuild the app.
+Do not invent disconnected products.
+Do not duplicate RTBX Core modules.
+Do not remove existing Travel functionality.
+Do not treat every module as a standalone product.
+
+POSITIONING
+
+RTBX Core provides the shared execution architecture.
+
+RTBX Travel extends the core through tailored operating systems.
+
+Each operating system groups vertical-specific modules around a major hotel or travel operating problem.
+
+CREATE OR UPDATE ROUTE
+
+/travel-operating-systems
+
+Page title:
+RTBX Travel Operating Systems
+
+Subtitle:
+Purpose-built operating systems running on one shared RTBX Core.
+
+CREATE THESE OPERATING SYSTEMS
+
+1. Guest Experience OS
+
+Purpose:
+Coordinate guest needs, experience signals and service response across the stay.
+
+Modules:
+- Guest Signal Capture
+- Guest Assistant
+- Pre-Arrival Readiness
+- In-Stay Request Coordination
+- Guest Sentiment
+- Loyalty Recognition
+- Special Occasion Recognition
+- Post-Stay Follow-Up
+
+2. Service Recovery & Staff Response OS
+
+Purpose:
+Turn guest issues and staff pressure into governed recovery pathways.
+
+Modules:
+- Service Recovery
+- Complaint Escalation
+- Compensation Rules
+- Duty Manager Routing
+- Staff Nudges
+- Queue / Backlog Detection
+- Recovery Communication
+- Escalation Tracking
+
+3. Marketplace & Loyalty Activation OS
+
+Purpose:
+Identify relevant commercial and loyalty moments without compromising the guest experience.
+
+Modules:
+- Local Experience Activation
+- Transport Activation
+- Dining and Wellness Offers
+- Loyalty Prompting
+- Ancillary Revenue
+- Partner Routing
+- Conversion Tracking
+- Partner Quality Feedback
+
+4. Operator Intelligence OS
+
+Purpose:
+Give property and group operators live intelligence across response, value and consistency.
+
+Modules:
+- Property Dashboard
+- Portfolio Dashboard
+- Response Performance
+- Playbook Performance
+- Staffing Pressure
+- Guest Pattern Intelligence
+- Value Reporting
+- Benchmarking
+- Executive Reporting
+
+5. Safety & Guest Welfare OS
+
+Purpose:
+Support governed response to guest welfare, staff safety and critical incidents.
+
+Modules:
+- Guest Distress
+- Medical Assistance
+- Vulnerable Guest Support
+- Security Escalation
+- Staff Safety
+- Critical Incident Comms
+- Evidence Capture
+- Post-Incident Review
+
+OPTIONAL SPECIALIST EXTENSIONS
+
+Show as future/optional extensions, not core operating systems:
+
+- Business Traveller OS
+- Holiday Park Operations OS
+- Group Travel Coordination OS
+- Destination Intelligence OS
+
+FOR EACH OPERATING SYSTEM SHOW
+
+- purpose
+- primary users
+- input systems
+- signals
+- moments
+- governance
+- playbooks
+- communications
+- actions
+- outcomes
+- value measures
+- modules available
+- pilot entry point
+- expansion pathway
+
+ADD A HIERARCHY VISUAL
+
+RTBX Core
+→ Travel Intelligence Pack
+→ Travel Operating System
+→ Activated Modules
+→ Property Configuration
+→ Live Operating Environment
+
+ADD A MODULE MATRIX
+
+Rows:
+Travel Operating Systems
+
+Columns:
+- Guest
+- Frontline
+- Manager
+- Operator
+- Partner
+- Executive
+
+Show which operating systems serve each role.
+
+DEPLOYMENT LOGIC
+
+Explain:
+
+A hotel does not need to activate every operating system on day one.
+
+Example rollout:
+
+Phase 1:
+Guest Experience OS
++ Service Recovery & Staff Response OS
+
+Phase 2:
+Operator Intelligence OS
++ Safety & Guest Welfare OS
+
+Phase 3:
+Marketplace & Loyalty Activation OS
++ Advanced Portfolio Intelligence
+
+Use this line:
+
+RTBX Travel expands through more properties, more operating systems, more modules and deeper intelligence.
+
+NAVIGATION
+
+Place Travel Operating Systems under the Travel Intelligence or Platform group.
+
+If individual OS routes already exist, retain them.
+If not, use one catalogue page with expandable sections rather than creating unnecessary pages.
+
+Run:
+pnpm run typecheck
+pnpm run build
+
+Final report:
+- operating systems added
+- modules mapped
+- existing functionality reused
+- module duplication removed
+- deployment sequence added
+- typecheck result
+- build result
