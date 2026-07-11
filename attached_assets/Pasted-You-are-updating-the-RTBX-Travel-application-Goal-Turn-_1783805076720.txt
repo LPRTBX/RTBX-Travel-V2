@@ -1,0 +1,214 @@
+You are updating the RTBX Travel application.
+
+Goal:
+Turn existing demos into proof that RTBX Travel is one configured operating environment running on RTBX Core.
+
+Do not remove working demos.
+Do not replace functioning interactions with static cards.
+Do not present static screens as live systems.
+Do not use live customer or personal data.
+Use synthetic demonstration data only.
+
+CREATE OR UPDATE ROUTE
+
+/travel-scenarios
+
+Page title:
+RTBX Travel Live Scenarios
+
+Subtitle:
+See how signals move through governance, communication, action, evidence and value.
+
+CREATE THESE SCENARIOS
+
+1. Repeat Guest — Room Not Ready
+
+Signals:
+- early arrival
+- room delay
+- repeat guest
+- negative sentiment
+
+Moment:
+Loyalty Protection and Service Recovery Moment
+
+Governance:
+Room Readiness SOP
+Guest Recovery Policy
+Compensation Approval Matrix
+
+Playbook:
+Repeat Guest Room Delay Recovery
+
+Roles:
+Front Desk
+Duty Manager
+Housekeeping
+Guest
+
+Comms:
+guest acknowledgement
+housekeeping priority prompt
+manager escalation
+follow-up message
+
+Outcome:
+guest informed
+recovery option approved
+room prioritised
+follow-up completed
+
+Value:
+loyalty protected
+negative review risk reduced
+response time recorded
+
+2. Distressed Guest
+
+Signals:
+- guest distress
+- unusual request
+- staff concern
+
+Moment:
+Guest Welfare Moment
+
+Governance:
+Guest Welfare Procedure
+Safety Escalation Rule
+
+Playbook:
+Guest Welfare Support and Escalation
+
+Roles:
+Front Desk
+Duty Manager
+Security / Specialist Support
+
+AI boundary:
+AI may guide approved questions and communication.
+Human escalation is mandatory.
+
+3. Service Backlog
+
+Signals:
+- multiple open requests
+- staffing pressure
+- delayed completion
+
+Moment:
+Operational Pressure Moment
+
+Playbook:
+Service Backlog Coordination
+
+Roles:
+Front Desk
+Housekeeping
+Duty Manager
+Operator
+
+Value:
+staff coordination
+response improvement
+guest-impact reduction
+
+4. Maintenance Defect
+
+Signals:
+- guest report
+- repeat maintenance issue
+- room impact
+
+Moment:
+Room Safety and Maintenance Escalation
+
+Playbook:
+Maintenance Response and Guest Recovery
+
+5. Transport Disruption
+
+Signals:
+- flight delay
+- transfer failure
+- guest arrival change
+
+Moment:
+Guest Journey Disruption
+
+Playbook:
+Transport Recovery and Communication
+
+Partner activation:
+approved transport provider
+
+6. Premium Guest Opportunity
+
+Signals:
+- loyalty status
+- guest interests
+- available partner offer
+
+Moment:
+Loyalty and Commercial Opportunity
+
+Playbook:
+Guest Experience and Partner Activation
+
+For every scenario, show:
+
+Existing system/input
+→ signal
+→ moment
+→ governance
+→ playbook
+→ role
+→ communication
+→ action
+→ evidence
+→ outcome
+→ value
+→ learning
+
+INTERACTIONS
+
+Users should be able to:
+
+- start scenario
+- select role view
+- inspect incoming signal
+- see AI classification
+- review governance source
+- view recommended playbook
+- confirm human action
+- send demo communication
+- escalate where required
+- complete outcome
+- view evidence and value
+
+Add clear labels:
+
+- Demo
+- Synthetic data
+- Human approval required
+- AI-assisted
+
+Update live demo links and Partner Room.
+
+Confirm:
+- no dead buttons
+- no links to missing routes
+- no static screen labelled live
+- mobile and desktop flow works
+
+Run:
+pnpm run typecheck
+pnpm run build
+
+Final report:
+- scenarios added
+- interactions verified
+- broken links fixed
+- demo labels added
+- typecheck result
+- build result

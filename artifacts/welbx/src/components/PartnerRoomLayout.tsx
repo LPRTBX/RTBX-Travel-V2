@@ -27,6 +27,7 @@ const NAV_GROUPS: NavGroup[] = [
       { label: "Governance and Playbooks",   path: "/partner-room/decision-spine" },
       { label: "Role Views",                 path: "/partner-room/operator-demo" },
       { label: "Central Comms and AI",       path: "/partner-room/travel-ai-comms" },
+      { label: "Live Scenarios",             path: "/partner-room/travel-scenarios" },
     ],
   },
   {

@@ -43,6 +43,7 @@ import PartnerIntelligenceModel from "@/pages/partner-room/PartnerIntelligenceMo
 import PartnerTravelOperatingSystems from "@/pages/partner-room/PartnerTravelOperatingSystems";
 import PartnerBuildConfigure from "@/pages/partner-room/PartnerBuildConfigure";
 import PartnerOperationsCentre from "@/pages/partner-room/PartnerOperationsCentre";
+import PartnerTravelScenarios from "@/pages/partner-room/PartnerTravelScenarios";
 import StoryHub from "@/pages/StoryHub";
 import StoryOperator from "@/pages/StoryOperator";
 import StoryGuestStory from "@/pages/StoryGuestStory";
@@ -107,6 +108,8 @@ const PARTNER_ROUTES = [
   { path: "/travel-value",         component: () => <Redirect to="/partner-room/operations#value-dashboard" /> },
   { path: "/partner-room/build-configure",    component: PartnerBuildConfigure },
   { path: "/partner-room/operations",         component: PartnerOperationsCentre },
+  { path: "/partner-room/travel-scenarios",   component: PartnerTravelScenarios },
+  { path: "/travel-scenarios",                component: PartnerTravelScenarios },
   { path: "/partner-room/resources/travel-partnership-overview",         component: TravelPartnershipOverview },
   { path: "/partner-room/resources/travel-commercial-partnership-brief", component: TravelCommercialPartnershipBrief },
   { path: "/partner-room/resources/travel-business-plan",                component: TravelBusinessPlan },
