@@ -241,9 +241,47 @@ export default function PartnerRoomLanding() {
         <p style={{ fontSize: 14, color: "rgba(255,255,255,0.4)", lineHeight: 1.75, maxWidth: 640, marginBottom: 14 }}>
           RTBX Travel turns live signals across hotels, resorts, holiday parks and experience environments into guided action, escalation, assurance and measurable value.
         </p>
-        <p style={{ fontSize: 12, color: "rgba(255,255,255,0.25)", lineHeight: 1.6, maxWidth: 560, marginBottom: 44, letterSpacing: "0.01em" }}>
+        <p style={{ fontSize: 12, color: "rgba(255,255,255,0.25)", lineHeight: 1.6, maxWidth: 560, marginBottom: 28, letterSpacing: "0.01em" }}>
           RTBX Travel is powered by RTBX Core. WELBX is the guest-facing experience layer.
         </p>
+
+        {/* Operating platform statement */}
+        <div style={{ padding: "16px 20px", background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.22)", borderLeft: "3px solid #c9a84c", maxWidth: 700, marginBottom: 24 }}>
+          <p style={{ fontSize: 13.5, color: "rgba(255,255,255,0.78)", lineHeight: 1.75, margin: 0, fontWeight: 600 }}>
+            This is the RTBX Core operating platform configured for Travel.
+          </p>
+        </div>
+
+        {/* Simple operating hierarchy */}
+        <div style={{ marginBottom: 44 }}>
+          <div style={{ fontSize: 8, letterSpacing: "0.18em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>
+            Simple Hierarchy
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 8, maxWidth: 900 }}>
+            {[
+              "RTBX Core",
+              "Travel Intelligence Pack",
+              "Travel Operating Systems",
+              "Activated Modules",
+              "Hotel / Resort / Park Configuration",
+              "Active Travel Operating Environment",
+            ].map((step, i, arr) => (
+              <div key={step} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <div style={{ padding: "7px 12px", fontSize: 9.5, fontWeight: 700, color: "rgba(255,255,255,0.55)", border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.02)" }}>
+                  {step}
+                </div>
+                {i < arr.length - 1 && <span style={{ fontSize: 10, color: "rgba(255,255,255,0.15)" }}>→</span>}
+              </div>
+            ))}
+          </div>
+          <div style={{ marginTop: 12 }}>
+            <Link href="/partner-room/operating-model">
+              <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "#c9a84c", cursor: "pointer" }}>
+                See the full Operating Model →
+              </span>
+            </Link>
+          </div>
+        </div>
 
         <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
           <a href="#proof-layers" style={{ textDecoration: "none" }}>

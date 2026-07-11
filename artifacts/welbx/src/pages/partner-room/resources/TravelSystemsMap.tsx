@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 
@@ -5,6 +6,7 @@ const C = { gold: "#c9a84c", muted: "rgba(255,255,255,0.45)", dim: "rgba(255,255
 
 const HEAD_SYSTEMS = [
   {
+    id: "guest-experience-os",
     label: "Guest Experience OS",
     color: "#3b82f6",
     note: "WELBX-powered guest layer",
@@ -19,6 +21,7 @@ const HEAD_SYSTEMS = [
     ],
   },
   {
+    id: "service-recovery-os",
     label: "Service Recovery & Staff Response OS",
     color: "#10b981",
     note: "Operator-facing operating layer",
@@ -33,6 +36,7 @@ const HEAD_SYSTEMS = [
     ],
   },
   {
+    id: "marketplace-loyalty-os",
     label: "Marketplace & Loyalty Activation OS",
     color: "#c9a84c",
     note: "Commercial activation layer",
@@ -47,6 +51,7 @@ const HEAD_SYSTEMS = [
     ],
   },
   {
+    id: "operator-intelligence-os",
     label: "Operator Intelligence OS",
     color: "#a78bfa",
     note: "Command and reporting layer",
@@ -60,25 +65,52 @@ const HEAD_SYSTEMS = [
       { name: "Value proof and reporting", desc: "Board-ready value evidence — recovery rate, revenue surfaced, assurance completeness, portfolio comparison" },
     ],
   },
+  {
+    id: "safety-welfare-os",
+    label: "Safety & Guest Welfare OS",
+    color: "#ef4444",
+    note: "Duty-of-care and escalation layer",
+    desc: "The system that governs welfare, safety and incident signals — routing them to the right role owner under pre-approved escalation rules. It never makes safety, legal or welfare decisions autonomously.",
+    modules: [
+      { name: "Welfare signal classification", desc: "Privacy-safe recognition of welfare and safety-relevant signal patterns" },
+      { name: "Duty-of-care escalation", desc: "Threshold-based escalation to duty manager, security or welfare-trained staff" },
+      { name: "Incident coordination", desc: "Coordinated dispatch and status tracking across staff involved in a live incident" },
+      { name: "Accessibility routing", desc: "Flags and routes accessibility needs to the appropriate support pathway" },
+      { name: "Legal and compensation hold", desc: "Holds compensation, legal or safety matters for named human sign-off — never auto-approved" },
+      { name: "Assurance and audit trail", desc: "Every welfare and safety action logged to the Evidence Ledger for review" },
+    ],
+  },
 ];
 
 const ENVS = [
-  { label: "Hotels & Resorts", color: "#c9a84c", systems: ["Guest Experience OS", "Service Recovery OS", "Marketplace & Loyalty OS", "Operator Intelligence OS"] },
-  { label: "Holiday Parks & Outdoor", color: "#10b981", systems: ["Guest Experience OS", "Service Recovery OS", "Marketplace & Loyalty OS", "Operator Intelligence OS"] },
+  { label: "Hotels & Resorts", color: "#c9a84c", systems: ["Guest Experience OS", "Service Recovery OS", "Marketplace & Loyalty OS", "Operator Intelligence OS", "Guest Welfare OS"] },
+  { label: "Holiday Parks & Outdoor", color: "#10b981", systems: ["Guest Experience OS", "Service Recovery OS", "Marketplace & Loyalty OS", "Operator Intelligence OS", "Guest Welfare OS"] },
   { label: "Corporate & Business Travel", color: "#3b82f6", systems: ["Guest Experience OS", "Service Recovery OS", "Operator Intelligence OS"] },
-  { label: "Events & Venues", color: "#a78bfa", systems: ["Service Recovery OS", "Operator Intelligence OS"] },
+  { label: "Events & Venues", color: "#a78bfa", systems: ["Service Recovery OS", "Operator Intelligence OS", "Guest Welfare OS"] },
   { label: "Destination & Tourism", color: "#22d3ee", systems: ["Guest Experience OS", "Marketplace & Loyalty OS", "Operator Intelligence OS"] },
 ];
 
 export default function TravelSystemsMap() {
+  useEffect(() => {
+    const scrollToHash = () => {
+      const hash = window.location.hash.replace("#", "");
+      if (!hash) return;
+      const el = document.getElementById(hash);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+    scrollToHash();
+    window.addEventListener("hashchange", scrollToHash);
+    return () => window.removeEventListener("hashchange", scrollToHash);
+  }, []);
+
   return (
     <PartnerRoomLayout>
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "72px 32px 120px" }}>
 
         {/* Header */}
         <div style={{ marginBottom: 56 }}>
-          <div style={{ fontSize: 8.5, letterSpacing: "0.2em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>Partner Resource · Systems Map</div>
-          <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 18, maxWidth: 680 }}>RTBX Travel — Systems Map</h1>
+          <div style={{ fontSize: 8.5, letterSpacing: "0.2em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>Partner Resource · Connection Map / Systems Map</div>
+          <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 18, maxWidth: 680 }}>RTBX Travel — Operating Systems &amp; Connection Map</h1>
           <div style={{ padding: "16px 20px", background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.22)", borderLeft: "3px solid #c9a84c", maxWidth: 680 }}>
             <p style={{ fontSize: 13, color: "rgba(255,255,255,0.7)", lineHeight: 1.75, margin: 0, fontStyle: "italic" }}>
               "The environment changes. The RTBX Travel operating logic does not."
@@ -88,10 +120,10 @@ export default function TravelSystemsMap() {
 
         {/* Head systems */}
         <div style={{ marginBottom: 56 }}>
-          <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>RTBX Travel — Four Head Systems</div>
+          <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>RTBX Travel — Five Head Systems</div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2 }}>
             {HEAD_SYSTEMS.map(hs => (
-              <div key={hs.label} style={{ padding: "24px 22px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: `2px solid ${hs.color}` }}>
+              <div key={hs.label} id={hs.id} style={{ padding: "24px 22px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: `2px solid ${hs.color}`, scrollMarginTop: 90 }}>
                 <div style={{ fontSize: 12, fontWeight: 800, color: hs.color, marginBottom: 4, letterSpacing: "0.02em" }}>{hs.label}</div>
                 <div style={{ fontSize: 8, color: hs.color, opacity: 0.55, letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>{hs.note}</div>
                 <p style={{ fontSize: 11.5, color: C.muted, lineHeight: 1.6, marginBottom: 18 }}>{hs.desc}</p>
@@ -112,7 +144,7 @@ export default function TravelSystemsMap() {
         <div style={{ marginBottom: 40, padding: "20px 22px", background: "rgba(201,168,76,0.04)", border: "1px solid rgba(201,168,76,0.15)" }}>
           <div style={{ fontSize: 8, letterSpacing: "0.14em", color: C.gold, textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>RTBX Core — Powers Every Head System</div>
           <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, margin: 0 }}>
-            All four head systems run on RTBX Core infrastructure — the same signal ingestion, moment classification, decision spine, action routing and assurance registry. WELBX appears only as the guest-facing delivery surface inside the Guest Experience OS. Every other layer is operator and partner-facing.
+            All five head systems run on RTBX Core infrastructure — the same signal ingestion, moment classification, decision spine, action routing and assurance registry. WELBX appears only as the guest-facing delivery surface inside the Guest Experience OS. Every other layer is operator and partner-facing.
           </p>
         </div>
 

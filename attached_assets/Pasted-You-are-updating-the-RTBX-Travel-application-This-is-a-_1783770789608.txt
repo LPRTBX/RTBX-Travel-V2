@@ -1,0 +1,202 @@
+You are updating the RTBX Travel application.
+
+This is a controlled architecture, messaging and navigation change.
+
+Do not rebuild the application.
+Do not remove working demos.
+Do not change the RTBX Travel brand identity.
+Do not change the existing colour system, typography, spacing, card system or overall visual style unless fixing a clear UX issue.
+Do not introduce an entirely new design language.
+Do not duplicate RTBX Core infrastructure inside Travel.
+Do not imply RTBX replaces the PMS, CRM, loyalty system, booking engine, housekeeping system or existing hotel technology.
+Do not imply AI autonomously makes safety, compensation, legal, welfare or operational decisions.
+Do not remove existing commercial, partner or demo content until it has been mapped into the new structure.
+
+CORE POSITIONING
+
+RTBX builds AI-enabled operating systems for human environments.
+
+RTBX Travel is not a separate RTBX platform.
+
+RTBX Travel is the RTBX Core operating platform configured for hotel, resort, holiday park, business travel and guest-service environments.
+
+Use this core statement:
+
+RTBX Travel sits across the systems, people, policies and communication channels already used by travel operators, turning live guest and operational signals into governed action, coordinated communication and measurable outcomes in real time.
+
+SHARED RTBX CORE
+
+The shared core remains:
+
+- Integration Hub
+- Signal Registry
+- Moment Engine
+- Governance Library
+- Decision Spine
+- Playbook Library
+- Escalation Engine
+- Role Routing
+- Central Comms OS
+- Action Centre
+- Outcome Ledger
+- Evidence Ledger
+- Value Engine
+- Learning Layer
+
+TRAVEL EXTENSION
+
+RTBX Travel should extend the core through:
+
+- Travel Intelligence Pack
+- Travel Operating Systems
+- Travel Modules
+- Travel Integrations
+- Travel Roles
+- Travel Playbooks
+- Travel AI Assistants
+- Travel Outcome Model
+- Travel Value Model
+
+GOAL
+
+Restructure the application story so it follows:
+
+1. RTBX Travel Overview
+2. Travel Intelligence Model
+3. Travel Operating Environment
+4. Travel Connection Map
+5. Travel Operating Systems
+6. Travel Modules
+7. Signals and Moments
+8. Governance and Playbooks
+9. Role Views
+10. Central Comms and AI Assistants
+11. Action Centre
+12. Outcomes and Evidence
+13. Value Dashboard
+14. Live Scenarios
+15. Deployment and Partner Pathway
+
+ADD A CLEAR STATEMENT NEAR THE TOP
+
+“This is the RTBX Core operating platform configured for Travel.”
+
+ADD A SIMPLE HIERARCHY
+
+RTBX Core
+→ Travel Intelligence Pack
+→ Travel Operating Systems
+→ Activated Modules
+→ Hotel / Resort / Park Configuration
+→ Active Travel Operating Environment
+
+PUBLIC POSITIONING
+
+Use this public promise:
+
+Guest and operational signals
+→ Governed response
+→ Coordinated action
+→ Measurable guest and operator outcomes
+
+PARTNER / OPERATING MODEL
+
+Use this deeper operating loop:
+
+Signal
+→ Moment
+→ Governance Rule
+→ Travel Playbook
+→ Role Owner
+→ Communication / Action
+→ Outcome / Evidence
+→ Value / Learning
+
+FULL ARCHITECTURE
+
+Use this only on architecture pages:
+
+PMS / CRM / Guest / Staff / Partner Inputs
+→ RTBX Integration Hub
+→ Travel Signal Registry
+→ Travel Moment Engine
+→ Travel Governance
+→ Decision Spine
+→ Travel Playbook Library
+→ Escalation and Role Routing
+→ Central Comms OS
+→ Travel Action Centre
+→ Outcome and Evidence Ledgers
+→ Travel Value Engine
+→ Travel Intelligence
+
+NAVIGATION
+
+Create or align these top-level groups:
+
+Overview
+- Home
+- Why RTBX Travel
+- Operating Model
+- Proof
+
+Travel Intelligence
+- Travel Intelligence Model
+- Connection Map
+- Signals and Moments
+- Governance and Playbooks
+- Role Views
+- Central Comms and AI
+
+Operating Systems
+- Guest Experience OS
+- Service Recovery & Staff Response OS
+- Marketplace & Loyalty Activation OS
+- Operator Intelligence OS
+- Safety & Guest Welfare OS
+
+Build / Configure
+- Deployment Builder
+- Signal Mapper
+- Governance Mapper
+- Playbook Builder
+- Comms Builder
+- Scenario Tester
+
+Operations
+- Action Centre
+- Outcome Ledger
+- Evidence Ledger
+- Value Dashboard
+
+Rooms
+- Partner Room
+- Live Demos
+- Contact
+
+Keep navigation compact.
+If too many items exist, use hub pages rather than overcrowding the top navigation.
+
+Do not delete routes yet.
+Map existing pages into the new structure.
+
+AFTER CHANGES
+
+Run the correct package commands for this repository.
+
+Likely:
+pnpm run typecheck
+pnpm run build
+
+If package scripts differ, inspect package.json and use the correct scripts.
+
+Final report:
+- files changed
+- navigation changes
+- pages reused
+- routes added
+- old routes retained
+- access treatment
+- typecheck result
+- build result
+- remaining architecture inconsistencies
