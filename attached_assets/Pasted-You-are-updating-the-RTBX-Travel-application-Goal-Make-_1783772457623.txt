@@ -1,0 +1,192 @@
+You are updating the RTBX Travel application.
+
+Goal:
+Make RTBX Travel feel operational by connecting signals, playbooks, communications, actions, evidence, outcomes and value.
+
+Do not rebuild the app.
+Do not create static dashboards with no interaction.
+Do not present estimated value as verified financial performance.
+Do not claim regulatory, safety or insurer outcomes without evidence.
+
+CREATE OR UPDATE
+
+- Travel Action Centre
+- Travel Outcome Ledger
+- Travel Evidence Ledger
+- Travel Value Dashboard
+
+ROUTES
+
+Use existing routes where present.
+
+If missing, add:
+
+/travel-action-centre
+/travel-outcomes
+/travel-value
+
+TRAVEL ACTION CENTRE
+
+Show active cards containing:
+
+- action id
+- property
+- guest / operating moment
+- linked signal
+- linked playbook
+- owner
+- supporting roles
+- priority
+- due time
+- communication status
+- escalation status
+- evidence required
+- outcome required
+- current state
+
+Example actions:
+
+- Room Readiness Recovery
+- Guest Distress Follow-Up
+- Repeat Guest Loyalty Protection
+- Maintenance Escalation
+- Staff Pressure Response
+- Partner Transport Activation
+- Post-Stay Complaint Recovery
+
+Statuses:
+
+- New
+- Acknowledged
+- In progress
+- Waiting approval
+- Escalated
+- Completed
+- Follow-up required
+- Closed
+
+TRAVEL OUTCOME LEDGER
+
+Each record should include:
+
+- signal
+- moment
+- governance rule
+- playbook
+- owner
+- actions taken
+- communications sent
+- approval
+- time to response
+- time to completion
+- guest confirmation
+- operator outcome
+- commercial outcome
+- follow-up
+- learning note
+
+TRAVEL EVIDENCE LEDGER
+
+Include:
+
+- timestamps
+- owner
+- action confirmation
+- message delivery
+- approval record
+- escalation record
+- supporting evidence
+- guest acknowledgement
+- closure review
+
+Use careful wording:
+
+- traceable
+- reviewable
+- timestamped
+- audit-supporting
+
+Avoid unsupported claims such as:
+- tamper-proof
+- automatically compliant
+- insurer-grade
+- audit-ready by default
+
+TRAVEL VALUE DASHBOARD
+
+Measure:
+
+Guest:
+- recovery completion
+- guest acknowledgement
+- satisfaction movement
+- loyalty risk protected
+- unresolved complaints
+
+Operations:
+- average response time
+- average completion time
+- staff adoption
+- playbook completion
+- cross-department handoff
+- open overdue actions
+
+Commercial:
+- partner activations
+- ancillary revenue opportunities
+- conversion rate
+- loyalty activations
+- recovered guest value
+
+Risk and governance:
+- high-risk escalations
+- approval completeness
+- evidence completeness
+- unresolved safety/welfare moments
+
+Clearly label demo or estimated values.
+
+FEEDBACK LOOP
+
+Show:
+
+Outcome
+→ Signal Registry
+→ Travel Playbook Performance
+→ Communication Performance
+→ Value Engine
+→ Travel Intelligence
+
+Use this line:
+
+Every outcome improves the signal pattern, tests the playbook, measures execution and strengthens Travel Intelligence.
+
+INTERACTION
+
+Allow users to:
+
+- filter by property
+- filter by operating system
+- filter by role
+- filter by priority
+- expand an action
+- progress a demo action
+- view linked communications
+- view evidence
+- view outcome
+- view value impact
+
+Use synthetic demo data only.
+
+Run:
+pnpm run typecheck
+pnpm run build
+
+Final report:
+- action flow status
+- outcome flow status
+- evidence flow status
+- value measures added
+- interactions added
+- typecheck result
+- build result
