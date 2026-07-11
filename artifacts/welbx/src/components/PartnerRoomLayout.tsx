@@ -26,7 +26,7 @@ const NAV_GROUPS: NavGroup[] = [
       { label: "Signals and Moments",        path: "/partner-room/signals-engine" },
       { label: "Governance and Playbooks",   path: "/partner-room/decision-spine" },
       { label: "Role Views",                 path: "/partner-room/operator-demo" },
-      { label: "Central Comms and AI",       path: "/partner-room/comms-demo" },
+      { label: "Central Comms and AI",       path: "/partner-room/travel-ai-comms" },
     ],
   },
   {

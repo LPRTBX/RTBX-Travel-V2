@@ -1,0 +1,198 @@
+You are updating the RTBX Travel application.
+
+Goal:
+Make Central Comms and AI visibly operational inside RTBX Travel.
+
+Do not create a generic chatbot page.
+Do not imply AI is the operating system.
+Do not imply AI can independently approve compensation, safety response, security action, medical advice or critical escalation.
+Do not duplicate RTBX Core AI infrastructure.
+
+POSITIONING
+
+Central Comms OS turns governed Travel decisions into coordinated communication.
+
+AI assistants are interfaces inside Central Comms OS.
+
+CREATE OR UPDATE ROUTE
+
+/travel-ai-comms
+
+Page title:
+Travel AI & Central Comms
+
+Subtitle:
+Governed AI assistants and communications coordinated across guest, staff and operator roles.
+
+SHOW THIS FLOW
+
+Travel Signal
+→ Travel Moment
+→ Governance Rule
+→ Travel Playbook
+→ Role Routing
+→ Central Comms OS
+→ AI Assistant / Nudge / Message / Escalation
+→ Action Centre
+→ Outcome and Evidence
+
+TRAVEL AI ASSISTANTS
+
+1. Guest Assistant
+
+Can:
+- answer approved property and stay questions
+- support guest requests
+- guide service-recovery communication
+- surface approved local experiences
+- collect guest feedback
+
+Must escalate:
+- medical concerns
+- safety concerns
+- formal complaints
+- compensation above threshold
+- vulnerable guest concerns
+- legal or security issues
+
+2. Front Desk Assistant
+
+Can:
+- summarise guest context
+- suggest approved playbooks
+- draft recovery messages
+- prioritise open requests
+- identify escalation requirements
+
+Must not:
+- independently approve compensation
+- close a high-risk safety issue
+- override hotel policy
+- access information outside role permission
+
+3. Duty Manager Assistant
+
+Can:
+- summarise active high-priority moments
+- recommend escalation pathways
+- identify incomplete actions
+- draft approved communication
+- surface cross-department pressure
+
+Must escalate:
+- critical incidents
+- legal matters
+- significant compensation
+- security and welfare matters
+
+4. Concierge / Partner Assistant
+
+Can:
+- identify relevant guest interests
+- surface approved partner options
+- coordinate bookings
+- record conversion and outcome
+
+Must not:
+- promote unapproved partners
+- share sensitive guest data
+- make unsupported guarantees
+
+5. Operator Intelligence Assistant
+
+Can:
+- summarise property trends
+- compare response performance
+- identify high-performing playbooks
+- generate executive summaries
+- highlight value leakage
+
+Must not:
+- make employment, legal or safety determinations
+- expose personal data outside authorised roles
+
+CENTRAL COMMS CHANNELS
+
+Include:
+
+- in-app
+- guest web/QR
+- chatbot
+- email
+- SMS
+- WhatsApp where approved
+- staff dashboard
+- manager dashboard
+- Teams / Slack where configured
+- partner portal
+- post-stay communication
+
+COMMUNICATION REGISTRY
+
+Create structured examples containing:
+
+- communication id
+- moment type
+- audience
+- role
+- channel
+- template
+- tone
+- approval rule
+- escalation rule
+- linked playbook
+- linked governance
+- delivery status
+- response status
+- outcome requirement
+
+TRAVEL COMMUNICATION EXAMPLES
+
+Include:
+
+- room delay acknowledgement
+- duty manager escalation
+- guest welfare check-in
+- recovery follow-up
+- partner booking confirmation
+- loyalty protection message
+- unresolved complaint escalation
+- staff pressure nudge
+- post-stay recovery message
+
+AI OPERATING MODEL
+
+Show:
+
+External AI Capability
+→ RTBX AI Gateway
+→ Travel Knowledge and Retrieval
+→ Governance and Policy Controls
+→ Travel Assistant Boundaries
+→ Human Approval
+→ Communication / Action
+→ Outcome Logging
+→ Evaluation and Learning
+
+Use this line:
+
+External AI models provide capability. RTBX Travel provides the context, governance, role permissions, action pathways and memory.
+
+Update:
+- Travel Architecture
+- Action Centre
+- Outcome Ledger
+- Live Scenarios
+
+Run:
+pnpm run typecheck
+pnpm run build
+
+Final report:
+- assistants added
+- communication flows added
+- AI boundaries added
+- channels added
+- route connected
+- typecheck result
+- build result

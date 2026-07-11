@@ -32,6 +32,7 @@ import PartnerDestinationTourismDemo from "@/pages/partner-room/PartnerDestinati
 import PartnerScenarioBuilder from "@/pages/partner-room/PartnerScenarioBuilder";
 import PartnerProofCalculator from "@/pages/partner-room/PartnerProofCalculator";
 import PartnerCommsDemo from "@/pages/partner-room/PartnerCommsDemo";
+import PartnerTravelAiComms from "@/pages/partner-room/PartnerTravelAiComms";
 import PartnerDecisionSpine from "@/pages/partner-room/PartnerDecisionSpine";
 import PartnerValidationReplay from "@/pages/partner-room/PartnerValidationReplay";
 import PartnerSignalCapture from "@/pages/partner-room/PartnerSignalCapture";
@@ -88,6 +89,8 @@ const PARTNER_ROUTES = [
   { path: "/partner-room/scenario-builder",                          component: PartnerScenarioBuilder },
   { path: "/partner-room/proof-calculator",   component: PartnerProofCalculator },
   { path: "/partner-room/comms-demo",         component: PartnerCommsDemo },
+  { path: "/partner-room/travel-ai-comms",    component: PartnerTravelAiComms },
+  { path: "/travel-ai-comms",                 component: PartnerTravelAiComms },
   { path: "/partner-room/decision-spine",     component: PartnerDecisionSpine },
   { path: "/partner-room/validation-replay",  component: PartnerValidationReplay },
   { path: "/partner-room/product-proof/signal-capture",          component: PartnerSignalCapture },

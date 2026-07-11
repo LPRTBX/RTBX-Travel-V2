@@ -58,6 +58,7 @@ function DemoFooter() {
         <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: P.dimmed, textTransform: "uppercase", marginBottom: 10, fontWeight: 700 }}>Ready to map this to your environment?</div>
         <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
           {[
+            { label: "Travel AI & Central Comms", path: "/partner-room/travel-ai-comms" },
             { label: "View Pilot Model", path: "/partner-room/pilot-model" },
             { label: "Open Integration Brief", path: "/partner-room/integration-brief" },
             { label: "View Moments Economy", path: "/partner-room/moments-economy" },

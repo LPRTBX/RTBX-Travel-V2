@@ -40,6 +40,17 @@ export default function PartnerOperationsCentre() {
           </p>
         </div>
 
+        <Link href="/partner-room/travel-ai-comms">
+          <div style={{
+            display: "inline-flex", alignItems: "center", gap: 10, padding: "12px 18px", marginBottom: 32,
+            background: "rgba(201,168,76,0.05)", border: "1px solid rgba(201,168,76,0.2)", cursor: "pointer",
+          }}>
+            <span style={{ fontSize: 11, fontWeight: 700, color: "#c9a84c", letterSpacing: "0.04em" }}>
+              Every action here is coordinated through Central Comms — Travel AI & Central Comms →
+            </span>
+          </div>
+        </Link>
+
         <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
           {OPS.map(o => (
             <div key={o.id} id={o.id} style={{ padding: "26px 26px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: `2px solid ${o.color}`, display: "grid", gridTemplateColumns: "1fr auto", gap: 24, alignItems: "center", scrollMarginTop: 90 }}>

@@ -113,6 +113,7 @@ export default function TravelArchitectureModellingUxQa() {
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 32, display: "flex", gap: 10, flexWrap: "wrap" }}>
           {[
             { label: "Travel Intelligence", href: "/partner-room/travel-intelligence" },
+            { label: "Travel AI & Central Comms", href: "/partner-room/travel-ai-comms" },
             { label: "AI Intelligence Layer", href: "/partner-room/resources/travel-ai-intelligence-layer" },
             { label: "Systems Map", href: "/partner-room/resources/travel-systems-map" },
             { label: "Brief Library", href: "/partner-room/brief-library" },
