@@ -151,7 +151,7 @@ export default function PartnerOperatingModel() {
 
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 32, display: "flex", gap: 10, flexWrap: "wrap" }}>
           {[
-            { label: "Travel Intelligence Model", href: "/partner-room/intelligence-model" },
+            { label: "Travel Intelligence Model", href: "/partner-room/travel-intelligence" },
             { label: "Connection Map",            href: "/partner-room/resources/travel-systems-map" },
             { label: "Product Proof",             href: "/partner-room/product-proof" },
           ].map(b => (

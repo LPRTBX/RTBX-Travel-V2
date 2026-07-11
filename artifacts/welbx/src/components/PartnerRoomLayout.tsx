@@ -18,9 +18,9 @@ const NAV_GROUPS: NavGroup[] = [
   },
   {
     label: "Travel Intelligence",
-    path: "/partner-room/intelligence-model",
+    path: "/partner-room/travel-intelligence",
     items: [
-      { label: "Travel Intelligence Model",  path: "/partner-room/intelligence-model" },
+      { label: "RTBX Travel Intelligence",  path: "/partner-room/travel-intelligence" },
       { label: "Connection Map",             path: "/partner-room/resources/travel-systems-map" },
       { label: "Signals and Moments",        path: "/partner-room/signals-engine" },
       { label: "Governance and Playbooks",   path: "/partner-room/decision-spine" },

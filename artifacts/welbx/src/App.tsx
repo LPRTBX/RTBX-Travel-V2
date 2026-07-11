@@ -94,6 +94,8 @@ const PARTNER_ROUTES = [
   { path: "/partner-room/product-proof/pilot-expansion-preview",  component: PartnerPilotExpansionPreview },
   { path: "/partner-room/operating-model",    component: PartnerOperatingModel },
   { path: "/partner-room/intelligence-model", component: PartnerIntelligenceModel },
+  { path: "/partner-room/travel-intelligence", component: PartnerIntelligenceModel },
+  { path: "/travel-intelligence",              component: PartnerIntelligenceModel },
   { path: "/partner-room/build-configure",    component: PartnerBuildConfigure },
   { path: "/partner-room/operations",         component: PartnerOperationsCentre },
   { path: "/partner-room/resources/travel-partnership-overview",         component: TravelPartnershipOverview },

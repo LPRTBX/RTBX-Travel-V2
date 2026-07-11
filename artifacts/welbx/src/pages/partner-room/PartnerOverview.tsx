@@ -1,3 +1,4 @@
+import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 import { usePartnerContent } from "@/context/PartnerContentContext";
 
@@ -86,6 +87,17 @@ export default function PartnerOverview() {
             ))}
           </div>
         </div>
+
+        <Link href="/partner-room/travel-intelligence">
+          <div style={{
+            display: "inline-flex", alignItems: "center", gap: 10, padding: "12px 18px", marginBottom: 8,
+            background: "rgba(201,168,76,0.05)", border: "1px solid rgba(201,168,76,0.2)", cursor: "pointer",
+          }}>
+            <span style={{ fontSize: 11, fontWeight: 700, color: "#c9a84c", letterSpacing: "0.04em" }}>
+              See how RTBX Core is configured for Travel — RTBX Travel Intelligence →
+            </span>
+          </div>
+        </Link>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
           {sections.map((section) => (

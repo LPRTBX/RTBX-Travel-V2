@@ -1,0 +1,259 @@
+You are updating the RTBX Travel application.
+
+Goal:
+Create the Travel Intelligence Pack as the domain-specific extension of RTBX Core.
+
+Do not rebuild the app.
+Do not create a separate AI platform.
+Do not duplicate shared RTBX Core systems.
+Do not imply Travel Intelligence is a standalone foundation model.
+Do not imply AI replaces hotel staff or operator judgement.
+
+POSITIONING
+
+The RTBX Core platform remains consistent across all verticals.
+
+The Travel Intelligence Pack changes:
+
+- knowledge sources
+- signal taxonomy
+- moment taxonomy
+- governance sources
+- playbooks
+- roles
+- communication rules
+- AI assistant boundaries
+- integrations
+- outcomes
+- value measures
+
+CREATE OR UPDATE ROUTE
+
+/travel-intelligence
+
+Page title:
+RTBX Travel Intelligence
+
+Subtitle:
+The RTBX Core operating platform configured for guest, staff, operator and partner moments.
+
+CREATE DATA MODEL
+
+Create a central data file where appropriate:
+
+src/data/travelIntelligence.ts
+
+Use structured records for:
+
+1. Travel Signal Taxonomy
+2. Travel Moment Taxonomy
+3. Travel Governance Sources
+4. Travel Role Model
+5. Travel AI Assistant Model
+6. Travel Outcome Model
+7. Travel Value Model
+8. Travel Integration Map
+
+TRAVEL SIGNAL TAXONOMY
+
+Include representative signals across:
+
+Guest experience:
+- guest frustration
+- negative sentiment
+- repeat complaint
+- room readiness delay
+- loyalty risk
+- service request delay
+
+Operations:
+- housekeeping backlog
+- maintenance issue
+- staffing pressure
+- queue build-up
+- service disruption
+- missed handover
+
+Safety and welfare:
+- guest distress
+- medical assistance request
+- security concern
+- vulnerable guest signal
+- staff safety concern
+
+Commercial:
+- upsell opportunity
+- local experience interest
+- transport requirement
+- dining interest
+- loyalty activation
+- business traveller need
+
+Partner:
+- local provider availability
+- service failure
+- partner capacity
+- booking conversion
+- partner quality signal
+
+TRAVEL MOMENT TAXONOMY
+
+Include:
+
+- Service Recovery Moment
+- Guest Welfare Moment
+- Safety Escalation Moment
+- Loyalty Protection Moment
+- Operational Pressure Moment
+- Staff Support Moment
+- Commercial Opportunity Moment
+- Partner Activation Moment
+- Post-Stay Recovery Moment
+- Reputation Risk Moment
+
+Each moment should include:
+
+- id
+- name
+- triggering signals
+- risk level
+- value at stake
+- governance sources
+- likely playbooks
+- primary owner
+- escalation threshold
+- AI support allowed
+- human approval required
+- outcome measures
+
+TRAVEL GOVERNANCE SOURCES
+
+Include:
+
+- Guest Service Recovery Policy
+- Compensation Approval Matrix
+- Guest Safety Procedure
+- Medical Assistance Procedure
+- Room Readiness SOP
+- Complaint Escalation SOP
+- Loyalty Treatment Standard
+- Staff Safety Procedure
+- Partner Approval Standard
+- Privacy and Consent Rules
+- Critical Incident Procedure
+
+TRAVEL ROLE MODEL
+
+Include:
+
+- Guest
+- Front Desk
+- Housekeeping
+- Concierge
+- Duty Manager
+- General Manager
+- Security
+- Maintenance
+- Revenue / Loyalty Lead
+- Partner Provider
+- Regional Operator
+- Brand / Group Executive
+
+For each role show:
+
+- what they see
+- what they can do
+- what they cannot do
+- what they own
+- what they can approve
+- what triggers escalation
+- linked playbooks
+- linked communications
+- outcome responsibility
+
+TRAVEL OUTCOME MODEL
+
+Include:
+
+- response started
+- response completed
+- guest acknowledged
+- issue resolved
+- guest recovered
+- compensation approved
+- escalation completed
+- follow-up required
+- partner activated
+- commercial conversion
+- evidence captured
+- post-stay outcome
+- unresolved / further review
+
+TRAVEL VALUE MODEL
+
+Include:
+
+Operational:
+- response time
+- completion rate
+- staff time saved
+- consistency across properties
+
+Guest:
+- recovery rate
+- satisfaction movement
+- loyalty protection
+- complaint closure
+- review prevention
+
+Commercial:
+- ancillary revenue
+- partner conversion
+- loyalty activation
+- repeat-stay protection
+
+Risk:
+- safety escalation quality
+- evidence completeness
+- governance alignment
+- unresolved high-risk moments
+
+PAGE CONTENT
+
+Show:
+
+Travel Systems and Human Inputs
+→ Travel Signals
+→ Travel Moments
+→ Governed Playbooks
+→ Travel Roles
+→ Central Comms
+→ Actions
+→ Outcomes
+→ Travel Intelligence
+
+Use this line:
+
+The architecture is shared. Travel Intelligence changes what RTBX understands, recommends, communicates and measures inside the travel environment.
+
+Add explicit boundary language:
+
+AI may classify, summarise, recommend, draft and coordinate.
+Human approval remains required for safety, welfare, compensation, legal, security and critical operational decisions.
+
+Update Architecture and Overview pages to link to Travel Intelligence.
+
+Run:
+pnpm run typecheck
+pnpm run build
+
+Final report:
+- data records added
+- route added
+- signals covered
+- moments covered
+- roles covered
+- governance covered
+- AI boundaries included
+- typecheck result
+- build result
