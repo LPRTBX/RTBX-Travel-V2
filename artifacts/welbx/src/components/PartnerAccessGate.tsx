@@ -116,7 +116,11 @@ export function PartnerAccessGate({ children }: PartnerAccessGateProps) {
           </button>
         </form>
 
-        <div style={{ marginTop: 48, fontSize: 9, letterSpacing: "0.12em", color: "rgba(255,255,255,0.12)", textTransform: "uppercase", fontWeight: 600 }}>
+        <p style={{ marginTop: 28, fontSize: 10, color: "rgba(255,255,255,0.22)", lineHeight: 1.6 }}>
+          This is a front-end MVP access gate for reviewer convenience, not a security boundary. Do not share the access code outside invited partners.
+        </p>
+
+        <div style={{ marginTop: 20, fontSize: 9, letterSpacing: "0.12em", color: "rgba(255,255,255,0.12)", textTransform: "uppercase", fontWeight: 600 }}>
           RTBX Travel Partner Room v1.0
         </div>
       </div>

@@ -14,8 +14,8 @@ const DEFAULT_VALUE_PATHWAYS = [
   {
     title: "Technology Integration",
     sub: "INTEGRATION PATHWAY",
-    desc: "Technology partners whose systems already run in travel environments create a certified integration that makes their platform a live signal source in the RTBX Core moment engine. The integration creates mutual value: your platform becomes more operationally relevant; RTBX Core becomes richer.",
-    points: ["Certified integration programme with documented schema", "Co-marketing to shared operator base", "Revenue share model for integrations that unlock new moment categories"],
+    desc: "Technology partners whose systems already run in travel environments create a structured integration that makes their platform a signal source in the RTBX Core moment engine. The integration creates mutual value: your platform becomes more operationally relevant; RTBX Core becomes richer.",
+    points: ["Structured integration programme with documented schema", "Co-marketing to shared operator base", "Revenue share model for integrations that unlock new moment categories"],
     color: "#3b82f6",
   },
   {

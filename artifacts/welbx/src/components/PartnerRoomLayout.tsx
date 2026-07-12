@@ -36,9 +36,8 @@ const NAV_GROUPS: NavGroup[] = [
   },
   {
     label: "Deployment",
-    path: "/partner-room/build-configure",
+    path: "/partner-room/pilot-model",
     items: [
-      { label: "Discovery and Configuration",  path: "/partner-room/build-configure" },
       { label: "Pilot Model",                  path: "/partner-room/pilot-model" },
       { label: "Property Activation",          path: "/partner-room/rollout-model#property-activation" },
       { label: "Portfolio Rollout",            path: "/partner-room/rollout-model#portfolio-rollout" },

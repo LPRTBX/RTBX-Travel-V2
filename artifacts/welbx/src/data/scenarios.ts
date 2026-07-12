@@ -63,7 +63,7 @@ export const SCENARIOS: Scenario[] = [
         output: "Decision time: 0.8s · Governance path: clear", pass: true,
         detected: "Moment GM-002 is active with HIGH urgency. Playbook PB-002 is queued. Decision DEC-047 is created: trigger Housekeeping Priority Protocol with lounge pre-access activation.",
         whyMatters: "The decision is what authorises and governs the response. Without a governed decision, team members may act inconsistently, too slowly, or not at all. The decision also creates the audit trail that proves the response was appropriate.",
-        whatHappens: "PB-002 auto-executes four steps simultaneously: Housekeeping Priority Protocol, floor supervisor deployment, lounge pre-access activation, and guest communication routing. Decision is logged as DEC-047 with full attribution.",
+        whatHappens: "PB-002 auto-executes the governed response in parallel: Housekeeping Priority Protocol, floor supervisor deployment, lounge pre-access activation, and guest communication routing. Decision is logged as DEC-047 with full attribution.",
         responsible: "BXOS Auto (decision owner for HIGH urgency VIP playbooks). Duty Manager is notified but not required to confirm. Manual override available within a 60-second window.",
         success: "Decision made within 1 second of moment creation. All four playbook steps initiated simultaneously. Decision log entry created with timestamp, owner, and playbook reference.",
         couldFail: "Playbook PB-002 set to require manual confirmation would add 2–5 minutes of delay if Duty Manager is unavailable. Playbook misconfiguration (e.g. wrong urgency threshold) could trigger an incorrect or insufficient response protocol.",

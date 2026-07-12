@@ -1,0 +1,229 @@
+Run a full product, architecture, content, UX, access and demo QA on RTBX Travel.
+
+Do not redesign the app.
+Do not add new modules unless required to resolve a defined gap.
+Do not remove vertical-specific differentiation.
+Do not expose protected operating logic publicly.
+
+CORE TEST
+
+RTBX Travel must feel:
+
+- unmistakably RTBX
+- unmistakably Travel
+- one configured operating environment
+- not a separate platform
+- not a generic chatbot
+- not a static dashboard
+
+CHECK SHARED ARCHITECTURE
+
+Confirm Travel uses:
+
+- Integration Hub
+- Signal Registry
+- Moment Engine
+- Governance Library
+- Decision Spine
+- Playbook Library
+- Escalation Engine
+- Role Routing
+- Central Comms OS
+- Action Centre
+- Outcome Ledger
+- Evidence Ledger
+- Value Engine
+- Learning Layer
+
+CHECK TRAVEL DIFFERENTIATION
+
+Confirm Travel contains:
+
+- Travel Intelligence Pack
+- travel signal taxonomy
+- travel moment taxonomy
+- guest and operator governance
+- travel playbooks
+- Travel role views
+- Travel AI assistants
+- Travel Central Comms
+- Travel integrations
+- Travel outcome model
+- Travel value model
+- Travel operating systems
+- Travel module catalogue
+
+CHECK OPERATING SYSTEMS
+
+Confirm:
+
+- Guest Experience OS
+- Service Recovery & Staff Response OS
+- Marketplace & Loyalty Activation OS
+- Operator Intelligence OS
+- Safety & Guest Welfare OS
+
+For each, verify:
+
+- purpose
+- modules
+- roles
+- signals
+- moments
+- governance
+- playbooks
+- communications
+- actions
+- outcomes
+- value
+
+CHECK STORY
+
+Public promise:
+
+Guest and operational signals
+→ Governed response
+→ Coordinated action
+→ Measurable outcomes
+
+Operating loop:
+
+Signal
+→ Moment
+→ Governance Rule
+→ Travel Playbook
+→ Role Owner
+→ Communication / Action
+→ Outcome / Evidence
+→ Value / Learning
+
+Full architecture:
+
+Travel Systems / Human Inputs
+→ Integration Hub
+→ Travel Signal Registry
+→ Travel Moment Engine
+→ Governance
+→ Decision Spine
+→ Travel Playbook Library
+→ Escalation and Role Routing
+→ Central Comms OS
+→ Action Centre
+→ Outcome and Evidence
+→ Value Engine
+→ Travel Intelligence
+
+CHECK AI
+
+Confirm:
+
+- external AI models are treated as interchangeable capabilities
+- RTBX owns context, governance, playbooks, roles, boundaries and learning
+- guest assistant boundaries are clear
+- front-desk assistant boundaries are clear
+- manager assistant boundaries are clear
+- safety, compensation, legal and welfare decisions require human approval
+
+CHECK NAVIGATION
+
+Confirm:
+
+- navigation is grouped
+- no overcrowded dropdowns
+- no duplicate routes
+- active route is highlighted
+- mobile navigation works
+- protected items are marked
+- Partner Room is easy to find
+- live scenarios are easy to find
+
+CHECK DEMOS
+
+Test:
+
+- repeat guest room delay
+- distressed guest
+- service backlog
+- maintenance defect
+- transport disruption
+- premium guest opportunity
+
+For each verify:
+
+- scenario starts
+- role switch works
+- signal opens
+- governance displays
+- playbook displays
+- communication can be triggered
+- escalation works
+- action can progress
+- evidence displays
+- outcome completes
+- value displays
+- reset works
+
+CHECK LINKS
+
+Verify:
+
+- internal navigation
+- CTA buttons
+- Partner Room resources
+- live demos
+- contact
+- back links
+- external links
+- no placeholder routes presented as complete
+
+CHECK ACCESS
+
+Confirm:
+
+- public overview remains high level
+- partner resources are protected
+- operational tools are partner/internal where appropriate
+- internal demos are protected
+- access codes are correctly described as MVP gates if front-end only
+
+CHECK CONTENT
+
+Remove or flag:
+
+- stale WELBX language
+- outdated four-step-only descriptions
+- separate-platform language
+- unsupported compliance claims
+- unsupported “live” claims
+- hardcoded customer claims
+- stale pricing
+- duplicate content
+
+CHECK BUILD
+
+Run:
+
+pnpm run typecheck
+pnpm run build
+
+FINAL REPORT
+
+Provide:
+
+1. Build status
+2. Typecheck status
+3. Files changed
+4. Routes verified
+5. Navigation status
+6. Shared RTBX Core alignment
+7. Travel differentiation status
+8. Operating systems status
+9. AI and Central Comms status
+10. Action / outcome / evidence status
+11. Demo functionality status
+12. Partner Room status
+13. Commercial-model status
+14. Access status
+15. Broken links fixed
+16. Remaining risks
+17. Recommended next changes

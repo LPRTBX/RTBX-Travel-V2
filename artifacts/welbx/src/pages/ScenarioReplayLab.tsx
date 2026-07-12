@@ -188,11 +188,11 @@ export default function ScenarioReplayLab() {
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 5 }}>
             <span style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.22em", color: P.green, textTransform: "uppercase", padding: "2px 8px", border: `1px solid ${P.green}30`, background: `${P.green}08` }}>VALIDATION · ACTIVE</span>
-            <span style={{ fontSize: 7.5, color: P.dimmed }}>WELBX Scenario Replay Lab · v1.0</span>
+            <span style={{ fontSize: 7.5, color: P.dimmed }}>RTBX Travel Scenario Replay Lab · v1.0</span>
           </div>
           <h1 style={{ fontSize: 20, fontWeight: 800, color: P.white, letterSpacing: "-0.01em", marginBottom: 5 }}>Scenario Replay Lab</h1>
           <p style={{ fontSize: 10.5, color: P.muted, maxWidth: 520 }}>
-            Manually simulate hotel scenarios through the full WELBX chain before live integration. Each scenario is scored against expected behavioural logic at every step.
+            Manually simulate hotel scenarios through the full RTBX Travel operating chain before live integration. Each scenario is scored against expected behavioural logic at every step.
           </p>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 8, alignItems: "flex-end" }}>
@@ -480,11 +480,11 @@ export default function ScenarioReplayLab() {
                   </div>
                   <div style={{ background: "rgba(239,68,68,0.09)", padding: "10px 14px" }}>
                     <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.14em", color: "#f87171", textTransform: "uppercase" }}>Traditional Hotel Response</div>
-                    <div style={{ fontSize: 9.5, color: P.dimmed, marginTop: 2 }}>Without WELBX operating layer</div>
+                    <div style={{ fontSize: 9.5, color: P.dimmed, marginTop: 2 }}>Without the RTBX Travel operating layer</div>
                   </div>
                   <div style={{ background: "rgba(201,168,76,0.09)", padding: "10px 14px" }}>
-                    <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.14em", color: P.amber, textTransform: "uppercase" }}>WELBX Response</div>
-                    <div style={{ fontSize: 9.5, color: P.dimmed, marginTop: 2 }}>With WELBX operating layer active</div>
+                    <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.14em", color: P.amber, textTransform: "uppercase" }}>RTBX Travel Response</div>
+                    <div style={{ fontSize: 9.5, color: P.dimmed, marginTop: 2 }}>With the RTBX Travel operating layer active</div>
                   </div>
                 </div>
 
@@ -540,7 +540,7 @@ export default function ScenarioReplayLab() {
                     </div>
                   )}
                   <div style={{ marginLeft: "auto", fontSize: 8, fontWeight: 700, letterSpacing: "0.12em", color: P.dimmed, textTransform: "uppercase" }}>
-                    WELBX vs. Traditional · {scenario.id}
+                    RTBX Travel vs. Traditional · {scenario.id}
                   </div>
                 </div>
               </div>

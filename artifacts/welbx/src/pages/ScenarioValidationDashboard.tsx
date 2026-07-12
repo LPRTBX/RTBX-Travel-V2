@@ -228,7 +228,7 @@ export default function ScenarioValidationDashboard() {
             Scenario Validation Dashboard
           </h1>
           <p style={{ fontSize: 11, color: P.muted, maxWidth: 540, lineHeight: 1.65 }}>
-            Aggregated results across all {scenarioData.length} scenario tests. Use this dashboard to determine whether WELBX logic is ready for live pilot integration.
+            Aggregated results across all {scenarioData.length} scenario tests. Use this dashboard to determine whether RTBX Travel logic is ready for live pilot integration.
           </p>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 8, flexShrink: 0, alignItems: "flex-end" }}>

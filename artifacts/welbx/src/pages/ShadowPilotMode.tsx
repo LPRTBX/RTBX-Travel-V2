@@ -31,13 +31,13 @@ interface Finding {
 }
 
 const FINDINGS: Finding[] = [
-  { key: "same_outcome",        label: "Same Outcome",          desc: "WELBX and the traditional approach reached the same result.",                 color: P.muted,   dim: "rgba(140,150,170,0.1)" },
-  { key: "faster_visibility",   label: "Faster Visibility",     desc: "WELBX would have flagged the situation significantly sooner.",               color: P.blue,    dim: "rgba(96,165,250,0.1)" },
-  { key: "better_decision",     label: "Better Decision",       desc: "WELBX's recommendation was more precise, timely, or appropriate.",           color: P.violet,  dim: "rgba(167,139,250,0.1)" },
-  { key: "better_coordination", label: "Better Coordination",   desc: "WELBX would have aligned more departments more effectively.",                color: P.cyan,    dim: "rgba(34,211,238,0.1)" },
+  { key: "same_outcome",        label: "Same Outcome",          desc: "RTBX Travel and the traditional approach reached the same result.",                 color: P.muted,   dim: "rgba(140,150,170,0.1)" },
+  { key: "faster_visibility",   label: "Faster Visibility",     desc: "RTBX Travel would have flagged the situation significantly sooner.",               color: P.blue,    dim: "rgba(96,165,250,0.1)" },
+  { key: "better_decision",     label: "Better Decision",       desc: "RTBX Travel's recommendation was more precise, timely, or appropriate.",           color: P.violet,  dim: "rgba(167,139,250,0.1)" },
+  { key: "better_coordination", label: "Better Coordination",   desc: "RTBX Travel would have aligned more departments more effectively.",                color: P.cyan,    dim: "rgba(34,211,238,0.1)" },
   { key: "improved_guest",      label: "Improved Guest Outcome",desc: "The guest experience would have been measurably better.",                    color: P.amber,   dim: P.amberDim },
-  { key: "reduced_escalation",  label: "Reduced Escalation Risk",desc: "WELBX would have prevented the situation from worsening or escalating.",   color: P.orange,  dim: "rgba(245,158,11,0.1)" },
-  { key: "learning_captured",   label: "Learning Captured",     desc: "WELBX would have generated a reusable insight from this event.",            color: P.green,   dim: P.greenDim },
+  { key: "reduced_escalation",  label: "Reduced Escalation Risk",desc: "RTBX Travel would have prevented the situation from worsening or escalating.",   color: P.orange,  dim: "rgba(245,158,11,0.1)" },
+  { key: "learning_captured",   label: "Learning Captured",     desc: "RTBX Travel would have generated a reusable insight from this event.",            color: P.green,   dim: P.greenDim },
 ];
 
 /* ─── Data types ───────────────────────────────────────────────── */
@@ -72,9 +72,9 @@ function uid() {
 /* ─── Form fields ──────────────────────────────────────────────── */
 const FIELDS: Array<{ key: keyof Omit<ShadowEntry, "id"|"ref"|"createdAt"|"findings">; label: string; placeholder: string; color: string }> = [
   { key: "whatHappened",          label: "What Actually Happened",                color: P.red,    placeholder: "Describe the real operational event as it unfolded — guest, context, timing, staff involved." },
-  { key: "welbxDetected",         label: "What WELBX Would Have Detected",        color: P.blue,   placeholder: "Which signals would WELBX have picked up? What data sources would have triggered it?" },
-  { key: "welbxRecommended",      label: "What WELBX Would Have Recommended",     color: P.violet, placeholder: "What decision or action would the playbook engine have issued? To whom and at what urgency?" },
-  { key: "communicationTriggered",label: "What Communication Would Have Triggered",color: P.cyan,  placeholder: "Which channels, recipients and message content would WELBX have dispatched?" },
+  { key: "welbxDetected",         label: "What RTBX Travel Would Have Detected",        color: P.blue,   placeholder: "Which signals would RTBX Travel have picked up? What data sources would have triggered it?" },
+  { key: "welbxRecommended",      label: "What RTBX Travel Would Have Recommended",     color: P.violet, placeholder: "What decision or action would the playbook engine have issued? To whom and at what urgency?" },
+  { key: "communicationTriggered",label: "What Communication Would Have Triggered",color: P.cyan,  placeholder: "Which channels, recipients and message content would RTBX Travel have dispatched?" },
   { key: "actionFollowed",        label: "What Action Would Have Followed",        color: P.amber,  placeholder: "What operational step would have been taken as a result — by which team, within what timeframe?" },
   { key: "outcomeImproved",       label: "What Outcome May Have Improved",         color: P.green,  placeholder: "How might the guest experience, operational efficiency or staff load have differed?" },
 ];
@@ -123,7 +123,7 @@ function EmptyState({ onNew }: { onNew: () => void }) {
         No shadow pilot entries yet
       </div>
       <div style={{ fontSize: 12, color: P.muted, maxWidth: 340, lineHeight: 1.7, marginBottom: 24 }}>
-        Record a real hotel event and simulate what WELBX would have done. Each entry builds your validation evidence.
+        Record a real hotel event and simulate what RTBX Travel would have done. Each entry builds your validation evidence.
       </div>
       <button
         onClick={onNew}
@@ -260,14 +260,14 @@ export default function ShadowPilotMode() {
                 color: P.amber, padding: "2px 8px",
                 border: `1px solid ${P.amber}30`, background: P.amberDim,
               }}>SHADOW PILOT · INACTIVE</span>
-              <span style={{ fontSize: 8, color: P.dimmed }}>WELBX Shadow Pilot Mode · v1.0</span>
+              <span style={{ fontSize: 8, color: P.dimmed }}>RTBX Travel Shadow Pilot Mode · v1.0</span>
             </div>
             <h1 style={{ fontSize: 22, fontWeight: 800, color: P.white, letterSpacing: "-0.02em", marginBottom: 5 }}>
               Shadow Pilot Mode
             </h1>
             <p style={{ fontSize: 11, color: P.muted, maxWidth: 560, lineHeight: 1.65 }}>
-              Simulate how WELBX would run alongside real hotel operations — without touching live systems.
-              Log actual events, then map what WELBX would have detected, recommended, and improved.
+              Simulate how RTBX Travel would run alongside real hotel operations — without touching live systems.
+              Log actual events, then map what RTBX Travel would have detected, recommended, and improved.
             </p>
           </div>
 
@@ -524,7 +524,7 @@ export default function ShadowPilotMode() {
               )}
             </div>
             <p style={{ fontSize: 11, color: P.muted, marginBottom: 28, lineHeight: 1.6 }}>
-              Record a real hotel event, then fill in how WELBX would have responded. Select the findings that apply.
+              Record a real hotel event, then fill in how RTBX Travel would have responded. Select the findings that apply.
             </p>
 
             {/* Incident reference */}
