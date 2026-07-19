@@ -112,10 +112,11 @@ export default function PartnerOperationsCentre() {
           </div>
         </Link>
 
-        {/* ── ACTION CENTRE ── */}
+        {/* ── EXECUTION CENTRE ── */}
         <div id="action-centre" style={{ marginBottom: 64, scrollMarginTop: 90 }}>
-          <SectionLabel>01 · Live</SectionLabel>
+          <SectionLabel>01 · Execution</SectionLabel>
           <H2>RTBX Execution Centre — Travel Environment</H2>
+          <div style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", letterSpacing: "0.04em", marginBottom: 12, marginTop: -6 }}>Travel Operations Centre</div>
           <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, marginBottom: 20, maxWidth: 760 }}>
             Every open moment, its assigned role owner and its response deadline. Filter by property, operating system, role or priority. Expand a card for its linked communications, evidence and outcome — or progress it through its demo status sequence.
           </p>

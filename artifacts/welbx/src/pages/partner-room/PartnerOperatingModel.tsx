@@ -40,7 +40,7 @@ const FULL_ARCHITECTURE = [
   "Travel Playbook Library",
   "Escalation and Role Routing",
   "Central Comms OS",
-  "Execution Centre — Travel Environment",
+  "RTBX Execution Centre — Travel Environment",
   "Evidence and Outcome Ledgers",
   "Evidence, Outcome and Value Layer",
   "Travel Intelligence",

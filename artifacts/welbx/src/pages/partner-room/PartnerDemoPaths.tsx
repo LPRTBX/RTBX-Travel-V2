@@ -70,13 +70,13 @@ const CORE_DEMOS = [
   },
   {
     num: "07",
-    title: "RTBX Travel Live Scenarios",
+    title: "RTBX Travel Scenarios",
     tag: "Interactive · Full Chain",
     tagColor: "#3b82f6",
     desc: "Six governed scenarios covering loyalty recovery, guest welfare, backlog, maintenance, transport and commercial opportunity — each stepping through signal to value.",
     audience: "Operators · Partners · Executives",
     href: "/partner-room/travel-scenarios",
-    cta: "Open Live Scenarios",
+    cta: "Open Scenarios",
     color: "#3b82f6",
   },
 ];

@@ -1,5 +1,5 @@
 /**
- * Travel Action Centre, Outcome Ledger, Evidence Ledger and Value Dashboard.
+ * RTBX Execution Centre — Travel Environment, Outcome Ledger, Evidence Ledger and Value Dashboard.
  *
  * Synthetic demo data only. Values marked `demo: true` in the value
  * dashboard are illustrative/estimated and must be labelled as such in the
@@ -562,7 +562,7 @@ export const TRAVEL_FEEDBACK_LOOP: string[] = [
   "Signal Registry",
   "Travel Playbook Performance",
   "Communication Performance",
-  "Value Engine",
+  "Evidence and Outcome Layer",
   "Travel Intelligence",
 ];
 

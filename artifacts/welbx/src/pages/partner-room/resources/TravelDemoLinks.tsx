@@ -41,7 +41,7 @@ const SECTIONS = [
   },
   {
     label: "Deployment Scenario Demos",
-    tag: "Live Scenarios",
+    tag: "Scenarios",
     tagColor: "#10b981",
     desc: "One complete operating scenario per deployment environment — from first signal to resolved outcome and value evidenced.",
     items: [

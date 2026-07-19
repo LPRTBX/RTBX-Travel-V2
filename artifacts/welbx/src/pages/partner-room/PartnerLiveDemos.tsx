@@ -52,10 +52,10 @@ const DEMOS = [
   {
     id: "scenarios",
     num: "05",
-    title: "RTBX Travel Live Scenarios",
+    title: "RTBX Travel Scenarios",
     sub: "Six governed scenarios — signal through governance, action, evidence and value.",
     desc: "Select a role view, step through the full chain, send demo communications, confirm human actions and escalations, and view the resulting evidence and value.",
-    cta: "Open Live Scenarios",
+    cta: "Open Scenarios",
     path: "/partner-room/travel-scenarios",
     color: P.blue,
   },

@@ -311,9 +311,9 @@ export default function PartnerTravelScenarios() {
       <div style={{ maxWidth: 1160, margin: "0 auto", padding: "72px 32px 140px" }}>
 
         <div style={{ marginBottom: 40 }}>
-          <div style={{ fontSize: 8.5, letterSpacing: "0.2em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>Live Scenarios</div>
+          <div style={{ fontSize: 8.5, letterSpacing: "0.2em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>Scenarios</div>
           <h1 style={{ fontSize: 36, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 16, maxWidth: 760 }}>
-            RTBX Travel Live Scenarios
+            RTBX Travel Scenarios
           </h1>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 700, marginBottom: 16 }}>
             See how signals move through governance, communication, action, evidence and value.

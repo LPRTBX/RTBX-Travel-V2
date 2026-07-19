@@ -80,7 +80,7 @@ export default function PartnerRolloutModel() {
           </p>
         </div>
 
-        <div id="managed-intelligence" style={{ scrollMarginTop: 100, marginBottom: 12, fontSize: 17, fontWeight: 800, color: "#fff" }}>Managed Intelligence &amp; Live Scenarios</div>
+        <div id="managed-intelligence" style={{ scrollMarginTop: 100, marginBottom: 12, fontSize: 17, fontWeight: 800, color: "#fff" }}>Managed Intelligence &amp; Scenarios</div>
         <div className="rtbx-stack-row" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2, marginBottom: 32 }}>
           <Link href="/partner-room/operations">
             <div style={{ padding: "24px 22px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: `2px solid ${C.purple}`, cursor: "pointer" }}>
@@ -90,7 +90,7 @@ export default function PartnerRolloutModel() {
           </Link>
           <Link href="/partner-room/travel-scenarios">
             <div style={{ padding: "24px 22px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: `2px solid ${C.blue}`, cursor: "pointer" }}>
-              <div style={{ fontSize: 12, fontWeight: 700, color: C.blue, marginBottom: 8 }}>Live Scenarios</div>
+              <div style={{ fontSize: 12, fontWeight: 700, color: C.blue, marginBottom: 8 }}>Scenarios</div>
               <p style={{ fontSize: 11.5, color: C.muted, lineHeight: 1.6, margin: 0 }}>Six governed scenarios walking through signal, governance, action, evidence and value end to end.</p>
             </div>
           </Link>
