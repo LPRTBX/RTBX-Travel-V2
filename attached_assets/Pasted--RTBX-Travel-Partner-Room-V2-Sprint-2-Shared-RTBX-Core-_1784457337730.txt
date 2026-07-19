@@ -1,0 +1,1550 @@
+# RTBX Travel Partner Room V2
+
+## Sprint 2 — Shared RTBX Core Alignment
+
+You are working on the existing **RTBX Travel Partner Room V2** application.
+
+Sprint 1 should already have:
+
+* Confirmed the canonical application
+* Stabilised the repository
+* Archived or isolated legacy WELBX source
+* Established canonical routes
+* Corrected stale metadata
+* Resolved missing content-loading behaviour
+* Pinned the runtime and package manager
+* Added baseline route, link and build checks
+
+Do not repeat Sprint 1 unless a blocker prevents this sprint from being completed.
+
+This is an **architecture, terminology, hierarchy and content-alignment sprint**.
+
+It is not a rebuild.
+
+---
+
+# 1. Sprint objective
+
+Align RTBX Travel with the shared RTBX Main platform so that the Travel site clearly communicates:
+
+1. What belongs to the shared RTBX Core
+2. What is configured specifically for Travel
+3. What becomes a Travel operating system
+4. What is configured for an individual property or customer
+5. What is working proof, simulation, planned or production engineering
+
+The Travel site must no longer appear to contain a separate intelligence architecture that competes with or redefines RTBX Main.
+
+The central principle is:
+
+> RTBX Travel configures the shared RTBX Intelligence Engine for travel environments. It does not redefine the RTBX platform.
+
+---
+
+# 2. Non-negotiable constraints
+
+## Preserve
+
+Preserve the strongest existing Travel assets:
+
+* Travel-specific intelligence
+* Travel signals and moments
+* Hotel and resort use cases
+* Guest and operator views
+* Service recovery logic
+* Safety and welfare controls
+* Decision Spine
+* Travel playbooks
+* Central communications
+* Evidence and outcome flows
+* Operating-system concepts
+* Partner and deployment pathways
+* Product-proof demonstrations
+* Existing visual identity where it remains effective
+* Existing working routes and interactions
+
+## Do not
+
+* Do not rebuild the site
+* Do not replace the design system
+* Do not create a second architecture
+* Do not add new operating systems
+* Do not add new scenarios
+* Do not implement production integrations
+* Do not implement a backend
+* Do not significantly change pricing or commercial assumptions
+* Do not complete Sprint 3 scenario restructuring
+* Do not complete Sprint 4 Build and Configure functionality
+* Do not remove Travel-specific value
+* Do not turn the site into a generic copy of RTBX Main
+* Do not represent simulations as live production integrations
+* Do not add pages where an existing canonical page can be improved
+
+Where possible, update current pages and components rather than creating replacements.
+
+---
+
+# 3. Canonical RTBX architecture
+
+The Travel application must use the following shared RTBX architecture consistently.
+
+## RTBX Intelligence Engine
+
+The shared engine is:
+
+> **Connect → Understand → Decide → Act → Learn**
+
+This sequence must become the primary operating logic across Travel.
+
+### Connect
+
+Connect existing systems, sources, people, roles and channels.
+
+Travel examples include:
+
+* Property management systems
+* Housekeeping systems
+* Task and workforce systems
+* Maintenance systems
+* CRM and loyalty platforms
+* Guest applications
+* Messaging platforms
+* Booking and reservation sources
+* Policies and operating procedures
+* Role and identity information
+* External transport or disruption data
+* Partner platforms
+* Manual staff signals
+* Guest-submitted signals
+
+### Understand
+
+Interpret signals in context and determine whether an important Travel moment exists.
+
+Travel examples include:
+
+* Guest state
+* Arrival state
+* Room-readiness risk
+* Service delay
+* Repeated requests
+* Maintenance impact
+* Guest distress
+* Welfare concern
+* Operational pressure
+* Loyalty context
+* Recovery opportunity
+* Escalation risk
+* Pattern recognition
+
+### Decide
+
+Apply the correct governance, policy, threshold, permission and accountability.
+
+Travel examples include:
+
+* Brand standards
+* Property procedures
+* Safety rules
+* Welfare requirements
+* Service-level thresholds
+* Approval requirements
+* Escalation rules
+* Role permissions
+* Communications controls
+* Evidence requirements
+* Customer-specific decision rules
+
+### Act
+
+Coordinate the response through the appropriate people, playbooks, prompts, communications and systems.
+
+Travel examples include:
+
+* Playbook activation
+* Role routing
+* Staff prompts
+* Guest communications
+* Task creation
+* Escalation
+* Approval
+* Recovery action
+* Operational handoff
+* Evidence capture
+* Central Comms OS
+* Execution Centre
+
+### Learn
+
+Record what happened, measure outcomes and improve future decisions and playbooks.
+
+Travel examples include:
+
+* Evidence Ledger
+* Outcome Ledger
+* Service performance
+* Response time
+* Resolution quality
+* Escalation performance
+* Repeat issue detection
+* Guest outcome
+* Staff adoption
+* Operational learning
+* Cross-property patterns
+* Playbook refinement
+* Value measurement
+
+---
+
+# 4. Six intelligence layers
+
+The five-step engine describes how RTBX operates.
+
+The six intelligence layers describe how the platform is structured.
+
+Every major Travel architecture page must map to these six shared layers.
+
+## Layer 1 — Connection Layer
+
+Includes:
+
+* Integration Hub
+* Systems of record
+* APIs
+* MCPs
+* Webhooks
+* Documents and knowledge
+* Identity and roles
+* Communications channels
+* Manual inputs
+* External data sources
+
+Travel configuration includes PMS, housekeeping, guest messaging, CRM, maintenance, booking and operational systems.
+
+---
+
+## Layer 2 — Context and Moment Layer
+
+Includes:
+
+* Signal Registry
+* Context assembly
+* Moment recognition
+* Pattern recognition
+* Risk and opportunity identification
+* Role intelligence
+* Environment state
+* Travel-specific interpretation
+
+Travel configuration includes guest moments, operational moments, service risks, safety signals and recovery opportunities.
+
+---
+
+## Layer 3 — Governance and Decision Layer
+
+Includes:
+
+* Decision Spine
+* Policies
+* Standards
+* Thresholds
+* Permissions
+* Human approval
+* Escalation logic
+* Accountability
+* Decision records
+
+Travel configuration includes hotel policy, brand standards, safety controls, SLA rules and property-specific governance.
+
+---
+
+## Layer 4 — Execution and Communication Layer
+
+Includes:
+
+* Playbook Engine
+* Prompt & Nudge Engine
+* Central Comms OS
+* Role routing
+* Tasks
+* Workflows
+* Approvals
+* Escalations
+* Execution Centre
+
+Travel configuration includes service recovery, guest response, operational coordination, staff prompts and property actions.
+
+---
+
+## Layer 5 — Evidence, Outcome and Value Layer
+
+Includes:
+
+* Evidence Ledger
+* Outcome Ledger
+* Action traceability
+* Resolution records
+* KPI measurement
+* Value measurement
+* Assurance
+* Reporting
+
+Travel configuration includes response evidence, recovery outcomes, service performance, operating value and partner reporting.
+
+---
+
+## Layer 6 — Learning and Intelligence Layer
+
+Includes:
+
+* Feedback loops
+* Pattern recognition
+* Playbook improvement
+* Threshold refinement
+* Cross-deployment learning
+* Governance review
+* Intelligence improvement
+* Performance optimisation
+
+Travel configuration includes recurring issue detection, property comparison, operating-system refinement and cross-property learning.
+
+---
+
+# 5. Required platform hierarchy
+
+The Travel application must clearly show the following hierarchy:
+
+## Level 1 — Shared RTBX Core
+
+Shared across every RTBX vertical:
+
+* RTBX Intelligence Engine
+* Integration Hub
+* Signal Registry
+* Decision Spine
+* Playbook Engine
+* Prompt & Nudge Engine
+* Central Comms OS
+* Evidence Ledger
+* Outcome Ledger
+* Build & Configure
+* Execution Centre
+* Assurance and learning capabilities
+
+## Level 2 — Travel intelligence configuration
+
+Travel-specific configuration of shared RTBX capabilities:
+
+* Travel signals
+* Travel moments
+* Travel context
+* Travel roles
+* Travel governance
+* Travel decision rules
+* Travel playbooks
+* Travel communication patterns
+* Travel evidence requirements
+* Travel outcome models
+
+## Level 3 — Travel operating systems
+
+Configured operating environments that solve connected industry problems:
+
+* Guest Experience OS
+* Service Recovery and Staff Response OS
+* Operator Intelligence OS
+* Safety and Guest Welfare OS
+* Marketplace and Loyalty Activation OS
+
+Do not yet reprioritise or restructure these systems beyond the agreed positioning. Deeper operating-system refinement belongs to Sprint 3.
+
+## Level 4 — Customer or property configuration
+
+Customer-specific settings such as:
+
+* Property type
+* Brand standards
+* Systems connected
+* Operating roles
+* Escalation thresholds
+* Service levels
+* Approval rules
+* Communication channels
+* Evidence requirements
+* Selected operating systems
+* Activated scenarios
+* Property-specific playbooks
+
+## Level 5 — Active deployment
+
+The runtime environment where RTBX:
+
+* Receives signals
+* Understands moments
+* Makes governed recommendations
+* Coordinates action
+* Captures evidence
+* Measures outcomes
+* Learns
+
+This hierarchy must be visually and verbally consistent.
+
+---
+
+# 6. Canonical terminology
+
+Use the following terminology throughout active user-facing pages.
+
+| Required term                               | Meaning                                                                  |
+| ------------------------------------------- | ------------------------------------------------------------------------ |
+| RTBX Intelligence Engine                    | The shared platform intelligence and orchestration engine                |
+| Connect → Understand → Decide → Act → Learn | The shared RTBX operating cycle                                          |
+| Six intelligence layers                     | The structural architecture of the engine                                |
+| Integration Hub                             | Connection management across systems and sources                         |
+| Signal Registry                             | Shared registry of operational and human signals                         |
+| Context and Moment Layer                    | Interpretation of signals within a relevant situation                    |
+| Decision Spine                              | Governance, permissions, thresholds and accountable decisions            |
+| Playbook Engine                             | Reusable governed response logic                                         |
+| Prompt & Nudge Engine                       | Role-specific prompts, recommendations and interventions                 |
+| Central Comms OS                            | Coordinated communication across channels and roles                      |
+| Evidence Ledger                             | Record of what was done and the supporting evidence                      |
+| Outcome Ledger                              | Record of what changed and whether the action worked                     |
+| Build & Configure                           | Customer and deployment configuration environment                        |
+| Execution Centre                            | Shared operational environment for active signals, decisions and actions |
+| Travel configuration                        | Travel-specific intelligence applied to shared Core capabilities         |
+| Travel operating system                     | A configured set of RTBX capabilities solving a connected Travel problem |
+
+---
+
+# 7. Terms requiring correction
+
+Search all active user-facing source for inconsistent or competing architecture terms.
+
+## Travel Moment Engine
+
+Do not present the Travel Moment Engine as a separate foundational engine.
+
+Replace with language such as:
+
+* Travel configuration of the Context and Moment Layer
+* Travel moment intelligence
+* Travel signal and moment model
+* Travel context recognition
+
+A component title such as “Travel Moment Intelligence” is acceptable where it is clearly subordinate to the RTBX Intelligence Engine.
+
+## Travel Governance Engine
+
+Do not present governance as a separate Travel engine.
+
+Use:
+
+* Travel governance configuration
+* Travel rules within the Decision Spine
+* Property and brand governance
+* Travel decision controls
+
+## Travel Action Centre
+
+Do not use this as a separate platform construct.
+
+Use:
+
+> **RTBX Execution Centre — Travel Environment**
+
+“Travel Operations Centre” may remain as the user-facing operational view inside the Execution Centre.
+
+## AI Comms
+
+Do not describe this as an isolated AI feature.
+
+Use:
+
+* Prompt & Nudge Engine
+* Central Comms OS
+* AI-assisted communications
+* Governed communication workflows
+
+Clarify whether AI:
+
+* Drafts
+* Recommends
+* Personalises
+* Requires approval
+* Sends automatically
+* Escalates to a human
+
+## Value Engine
+
+Do not introduce a separate Value Engine unless RTBX Main uses that exact canonical term.
+
+Map value functions to:
+
+* Evidence, Outcome and Value Layer
+* Evidence Ledger
+* Outcome Ledger
+* Value measurement
+
+## Operations Centre
+
+Use as the Travel operational interface within the shared Execution Centre.
+
+## Build and Configure
+
+Use the canonical label:
+
+> **Build & Configure**
+
+The page may retain its current route where necessary, but visible terminology should align.
+
+---
+
+# 8. Page-by-page alignment requirements
+
+Do not add duplicate pages.
+
+Update existing canonical pages.
+
+---
+
+## `/partner-room`
+
+### Purpose
+
+Orient a hotel, operating or technology partner to RTBX Travel.
+
+### Required changes
+
+The opening section must explain:
+
+* RTBX is the shared intelligence and execution layer
+* RTBX Travel configures that platform for Travel
+* It connects existing systems rather than replacing them
+* It turns operational signals into governed action
+* It records evidence and outcomes
+* It can begin with a controlled hotel pilot
+
+Introduce the five-step engine visibly:
+
+**Connect → Understand → Decide → Act → Learn**
+
+Show the relationship:
+
+```text id="zrcyde"
+Shared RTBX Core
+        ↓
+Travel intelligence configuration
+        ↓
+Travel operating systems
+        ↓
+Property configuration
+        ↓
+Active deployment
+```
+
+Do not overload the hero section with every Travel environment.
+
+Lead with hotels and resorts while preserving broader expansion pathways lower on the page.
+
+---
+
+## `/overview`
+
+### Purpose
+
+Provide the clearest explanation of what RTBX Travel is and why it matters.
+
+### Required changes
+
+Structure the page around:
+
+1. The operating problem
+2. Why existing systems do not coordinate action
+3. The role of RTBX
+4. The five-step engine
+5. The six intelligence layers
+6. Travel configuration
+7. Travel operating systems
+8. Working proof
+9. Pilot pathway
+
+Avoid repeating the full content of the Operating Model page.
+
+---
+
+## `/operator-brief`
+
+### Purpose
+
+Explain the product in operator language.
+
+### Required changes
+
+Focus on:
+
+* What the operator sees
+* What RTBX connects
+* What RTBX detects
+* What RTBX recommends
+* What requires human approval
+* What actions are coordinated
+* What evidence is captured
+* What outcomes are measured
+
+Avoid platform-heavy language where the operator needs a practical explanation.
+
+Retain the shared five-step logic, but translate each step into hotel operations.
+
+---
+
+## `/operating-model`
+
+### Purpose
+
+Become the canonical architecture page for RTBX Travel.
+
+### Required changes
+
+This page must clearly display:
+
+### Shared RTBX Core
+
+* Intelligence Engine
+* Integration Hub
+* Signal Registry
+* Decision Spine
+* Playbook Engine
+* Prompt & Nudge Engine
+* Central Comms OS
+* Evidence and Outcome Ledgers
+* Build & Configure
+* Execution Centre
+
+### Travel configuration
+
+* Travel systems
+* Travel signals
+* Travel moments
+* Travel roles
+* Travel governance
+* Travel playbooks
+* Travel communications
+* Travel outcomes
+
+### Travel operating systems
+
+* Guest Experience
+* Service Recovery and Staff Response
+* Operator Intelligence
+* Safety and Guest Welfare
+* Marketplace and Loyalty Activation
+
+### Property deployment
+
+* Connected systems
+* Configured roles
+* Activated scenarios
+* Governance settings
+* Selected playbooks
+* Communication channels
+* Evidence requirements
+
+The page must show both:
+
+* The five-step operating cycle
+* The six-layer architecture
+
+Do not treat them as competing models.
+
+---
+
+## `/travel-intelligence`
+
+### Purpose
+
+Explain the Travel-specific intelligence model.
+
+### Required changes
+
+Frame the page as:
+
+> The Travel configuration of the shared RTBX Intelligence Engine.
+
+Map existing Travel intelligence elements to the six layers.
+
+For every Travel intelligence element, indicate whether it is:
+
+* Shared Core capability
+* Travel-specific configuration
+* Customer-specific configuration
+* Runtime output
+
+Avoid renaming shared RTBX Core modules with Travel-specific replacements.
+
+Example:
+
+| Travel element        | Correct platform relationship                 |
+| --------------------- | --------------------------------------------- |
+| Arrival signal        | Travel signal in the Signal Registry          |
+| Room-not-ready moment | Travel moment in the Context and Moment Layer |
+| SLA threshold         | Travel rule in the Decision Spine             |
+| Recovery sequence     | Travel playbook in the Playbook Engine        |
+| Staff notification    | Prompt & Nudge Engine and Central Comms OS    |
+| Resolution proof      | Evidence Ledger                               |
+| Guest outcome         | Outcome Ledger                                |
+| Repeat pattern        | Learning and Intelligence Layer               |
+
+---
+
+## `/travel-operating-systems`
+
+### Purpose
+
+Explain how shared RTBX capabilities become meaningful Travel operating systems.
+
+### Required changes
+
+For each operating system, show:
+
+* The industry problem
+* Primary users
+* Connected signals
+* Governance controls
+* Activated playbooks
+* Communication pathways
+* Evidence captured
+* Outcomes measured
+* Shared RTBX capabilities used
+
+Do not portray each operating system as a separate standalone technology platform.
+
+Use a shared visual pattern:
+
+```text id="x6rnt6"
+RTBX Core capabilities
+        +
+Travel intelligence
+        +
+Property configuration
+        =
+Travel operating system
+```
+
+Detailed reprioritisation and scenario linkage belongs to Sprint 3.
+
+---
+
+## `/integration-brief`
+
+### Purpose
+
+Explain how RTBX connects to the existing Travel ecosystem.
+
+### Required changes
+
+Organise systems beneath the **Integration Hub**.
+
+Group them as:
+
+* Systems of record
+* Operational systems
+* Identity and roles
+* Communications
+* Knowledge and governance sources
+* External signals
+* Partner platforms
+
+For every named integration or category, show maturity as:
+
+* Integrated
+* Demonstrated
+* Connector-ready
+* Customer-specific
+* Planned
+
+Do not use “live” when the evidence is only a front-end simulation.
+
+Add a short statement:
+
+> RTBX does not require a rip-and-replace deployment. It connects systems, applies context and governance, coordinates action and records outcomes across the existing environment.
+
+---
+
+## `/signals-engine`
+
+### Purpose
+
+Show the Travel configuration of the Signal Registry.
+
+### Required changes
+
+Rename visible references that imply a separate signal engine.
+
+Use:
+
+* Travel Signal Registry
+* Travel signal configuration
+* Signal sources
+* Signal status
+* Signal context
+* Signal-to-moment relationship
+
+Show:
+
+1. Source system
+2. Signal
+3. Data status
+4. Context applied
+5. Moment identified
+6. Decision pathway
+7. Accountable role
+
+Do not complete the full scenario schema in this sprint.
+
+---
+
+## `/moments-economy`
+
+### Purpose
+
+Explain how operational signals become meaningful moments.
+
+### Required changes
+
+Position moments beneath the Context and Moment Layer.
+
+Every moment card or record should show:
+
+* Connected signals
+* Relevant context
+* Risk or opportunity
+* Operating system
+* Decision requirement
+* Likely playbook
+* Current maturity
+
+Avoid presenting “moment” as an independent product category detached from the five-step engine.
+
+---
+
+## `/decision-spine`
+
+### Purpose
+
+Demonstrate shared RTBX governance and decision infrastructure configured for Travel.
+
+### Required changes
+
+Show the relationship between:
+
+* Signal
+* Context
+* Governance source
+* Rule
+* Threshold
+* Permission
+* Human approval
+* Accountable role
+* Decision
+* Evidence requirement
+
+Use the canonical term **Decision Spine** throughout.
+
+Clarify that Travel policies and property rules configure the shared Decision Spine.
+
+---
+
+## `/travel-ai-comms`
+
+### Purpose
+
+Show governed prompts, nudges and communication coordination.
+
+### Required changes
+
+Frame the page around:
+
+* Prompt & Nudge Engine
+* Central Comms OS
+* Role-specific communication
+* Human approval
+* Channel selection
+* Escalation
+* Communication evidence
+
+Clearly distinguish:
+
+* AI-generated draft
+* AI recommendation
+* Human-approved message
+* Automated operational notification
+* Guest-facing communication
+* Internal staff communication
+* High-risk communication requiring human control
+
+Do not imply that all messages are automatically sent.
+
+---
+
+## `/comms-demo`
+
+### Purpose
+
+Demonstrate the communications capability.
+
+### Required changes
+
+Align all labels to:
+
+* Prompt & Nudge Engine
+* Central Comms OS
+* Travel communications configuration
+
+Preserve the interactive demonstration.
+
+Do not create another communications architecture.
+
+---
+
+## `/operations`
+
+### Purpose
+
+Serve as the primary Travel operational proof environment.
+
+### Required changes
+
+Present it as:
+
+> **RTBX Execution Centre — Travel Environment**
+
+The page may retain “Travel Operations Centre” as its practical interface title.
+
+Map the main sections to:
+
+* Active signals
+* Moments requiring attention
+* Decisions
+* Assigned actions
+* Communications
+* Escalations
+* Evidence
+* Outcomes
+* Learning or recurring patterns
+
+Use the five-step engine as an operational trace where useful.
+
+Do not significantly redesign the operational interface during this sprint.
+
+---
+
+## `/product-proof`
+
+### Purpose
+
+Explain what is currently demonstrable.
+
+### Required changes
+
+Group proof by the five-step engine:
+
+* Connect proof
+* Understand proof
+* Decide proof
+* Act proof
+* Learn proof
+
+For each proof item, show:
+
+* Capability demonstrated
+* Interface or page
+* Data type
+* Maturity
+* Limitations
+* Production engineering still required
+
+Use only approved maturity labels.
+
+Remove or correct any claim implying the current Travel site is already a fully integrated production platform.
+
+---
+
+## `/validation`
+
+### Purpose
+
+State what has and has not been validated.
+
+### Required changes
+
+Map validation to:
+
+* Core architecture
+* Travel intelligence
+* Operating-system logic
+* User workflows
+* Integration assumptions
+* Governance controls
+* Evidence and outcomes
+* Technical production requirements
+
+Clearly separate:
+
+* Validated through working interface
+* Validated through synthetic scenario
+* Architecturally defined
+* Not yet technically integrated
+* Requires customer pilot
+* Requires production engineering
+
+---
+
+## `/validation-replay`
+
+### Purpose
+
+Show the full RTBX loop through a synthetic scenario.
+
+### Required changes
+
+Make the replay visibly follow:
+
+**Connect → Understand → Decide → Act → Learn**
+
+For each stage, show:
+
+* What entered the system
+* What RTBX interpreted
+* What governance was applied
+* What action was coordinated
+* What evidence was recorded
+* What outcome was produced
+* What was learned
+
+Preserve the existing replay interaction.
+
+---
+
+## Guest, operator and dual-view demos
+
+### Required changes
+
+Use consistent shared-Core language.
+
+### Guest view
+
+Show the guest-facing output of coordinated RTBX action.
+
+Do not imply the guest is interacting directly with the full RTBX engine.
+
+### Operator view
+
+Show:
+
+* Signals
+* Context
+* Decision
+* Accountable role
+* Action
+* Communication
+* Evidence
+* Outcome
+
+### Dual view
+
+Show how one governed workflow produces coordinated experiences across roles.
+
+Emphasise orchestration rather than two unrelated interfaces.
+
+---
+
+## `/build-configure`
+
+### Purpose
+
+Explain how shared RTBX capabilities are configured for a property.
+
+### Required changes
+
+Present Build & Configure as the environment where a customer selects:
+
+* Property or environment
+* Connected systems
+* Roles
+* Operating systems
+* Governance rules
+* Scenarios
+* Playbooks
+* Communication channels
+* Evidence requirements
+* Outcome targets
+
+Do not pretend the page is fully functional if selections do not persist or affect runtime behaviour.
+
+Use the correct maturity label:
+
+* Working interface
+* Prototype configuration experience
+* Simulation
+* Production configuration
+
+Full functional linkage belongs to Sprint 4.
+
+---
+
+## Pilot, deployment and commercial pages
+
+### Required changes
+
+Align these pages to the shared deployment pathway:
+
+**Explore → Align → Configure → Pilot → Prove → Deploy → Expand**
+
+Show that RTBX Core remains consistent while the following are configured:
+
+* Travel environment
+* Customer systems
+* Operating systems
+* Governance
+* Roles
+* Playbooks
+* Outcomes
+
+Do not substantially change pricing or commercial figures in this sprint.
+
+---
+
+# 9. Navigation and information hierarchy
+
+Do not perform a full UX redesign.
+
+Make only the navigation changes required to clarify the architecture.
+
+## Required hierarchy
+
+The navigation should make these journeys understandable:
+
+### Start
+
+* Partner Room
+* Overview
+* Operator Brief
+
+### Platform
+
+* Operating Model
+* Travel Intelligence
+* Travel Operating Systems
+* Integration
+
+### Configure and Execute
+
+* Build & Configure
+* Execution Centre
+* Decision Spine
+* Communications
+* Evidence and Outcomes
+
+### Proof
+
+* Product Proof
+* Validation
+* Guest View
+* Operator View
+* Dual View
+
+### Pilot and Partnership
+
+* Pilot Model
+* Deployment
+* Commercial
+* Partner Ecosystem
+* Resource Library
+* Next Step
+
+Do not delete working pages solely because they are removed from primary navigation.
+
+Secondary and future-state pages may remain accessible through contextual links or the resource library.
+
+---
+
+# 10. Shared architecture component
+
+Create or update one reusable architecture component rather than independently recreating the platform model across pages.
+
+The component should support:
+
+* Compact mode
+* Full architecture mode
+* Five-step engine mode
+* Six-layer mode
+* Core-to-vertical hierarchy mode
+
+Possible reusable component structure:
+
+```text id="107ifm"
+RTBXArchitecture
+  ├── FiveStepEngine
+  ├── IntelligenceLayers
+  ├── CoreCapabilityMap
+  ├── VerticalConfigurationMap
+  └── DeploymentHierarchy
+```
+
+Use the existing component and styling conventions.
+
+Do not introduce a second design system.
+
+---
+
+# 11. Shared content source
+
+Create a canonical architecture data source to prevent wording drift.
+
+Suggested location:
+
+```text id="bu40m9"
+src/data/rtbxArchitecture.ts
+```
+
+or the appropriate existing project location.
+
+It should define:
+
+* Five engine stages
+* Six intelligence layers
+* Shared Core capabilities
+* Canonical names
+* Short descriptions
+* Travel configuration examples
+* Maturity labels
+* Deployment pathway
+
+Pages should reference this shared source where practical.
+
+Do not hardcode inconsistent versions of the architecture across multiple pages.
+
+---
+
+# 12. Canonical architecture data model
+
+Use a typed structure appropriate to the project.
+
+Example shape:
+
+```ts id="jihrjt"
+type EngineStage = {
+  id: "connect" | "understand" | "decide" | "act" | "learn";
+  label: string;
+  summary: string;
+  coreCapabilities: string[];
+  travelConfiguration: string[];
+  outputs: string[];
+};
+
+type IntelligenceLayer = {
+  id: string;
+  order: number;
+  label: string;
+  summary: string;
+  sharedCapabilities: string[];
+  travelExamples: string[];
+};
+
+type CoreCapability = {
+  id: string;
+  label: string;
+  layerId: string;
+  stageIds: EngineStage["id"][];
+  summary: string;
+};
+
+type MaturityStatus =
+  | "working-proof"
+  | "prototype"
+  | "simulation"
+  | "connector-ready"
+  | "integrated"
+  | "production"
+  | "planned";
+```
+
+Adjust to the current language and stack.
+
+Do not introduce unnecessary abstraction.
+
+---
+
+# 13. Proof maturity standard
+
+Apply the Sprint 1 proof-boundary standard consistently to major architecture and proof pages.
+
+## Working Proof
+
+A functioning interactive interface demonstrating the intended workflow.
+
+## Prototype
+
+A partial capability or configurable interface not yet connected to the full runtime.
+
+## Simulation
+
+A workflow using synthetic signals, actions, messages, evidence or outcomes.
+
+## Connector-ready
+
+Only where an interface contract, field mapping and test harness exist.
+
+## Integrated
+
+Only where data has been successfully exchanged with a named external system.
+
+## Production
+
+Only where the capability is deployed with:
+
+* Production authentication
+* Monitoring
+* Data controls
+* Reliability controls
+* Operational support
+* Customer-approved governance
+
+Do not use maturity labels decoratively.
+
+---
+
+# 14. Visual and content consistency
+
+This is not the full readability sprint, but architecture updates must remain readable.
+
+## Required standards
+
+* Do not place the complete architecture on every page.
+* Use compact summaries with links to the Operating Model.
+* Avoid paragraphs that repeat the same platform explanation.
+* Use consistent stage names and layer names.
+* Ensure architecture labels are readable on desktop and mobile.
+* Do not use text below the existing minimum standards established in Sprint 1.
+* Do not introduce low-contrast architecture diagrams.
+* Ensure cards and diagrams have meaningful headings.
+* Avoid equal visual weight for Core, Travel configuration and customer configuration.
+* Shared Core should be visually distinct from Travel configuration.
+* Customer-specific configuration should be visibly subordinate to both.
+
+---
+
+# 15. Required technical verification
+
+After implementation, run:
+
+* Dependency installation
+* Typecheck
+* Lint
+* Existing tests
+* Route smoke tests
+* Internal-link tests
+* Legacy terminology check
+* Asset checks
+* Production build
+
+Also verify:
+
+* Every active page uses canonical terminology
+* No competing Travel engine is introduced
+* Five-step order is consistent
+* Six-layer order is consistent
+* Core capabilities use the approved names
+* Navigation labels resolve to canonical routes
+* Architecture components render on desktop and mobile
+* No archived legacy components were reintroduced
+
+Do not claim success for checks that were not run.
+
+---
+
+# 16. Architecture consistency test
+
+Add a lightweight test or validation script that confirms:
+
+* Exactly five engine stages exist
+* They appear in the correct order
+* Exactly six intelligence layers exist
+* They appear in the correct order
+* Required Core capabilities are present
+* No active content source uses prohibited replacement architecture names
+* The deployment pathway uses the approved seven stages
+* Maturity labels use only approved values
+
+The test should read from the canonical architecture data source rather than scrape rendered pages where practical.
+
+---
+
+# 17. Required sprint outputs
+
+At completion, provide the following report.
+
+## A. Executive summary
+
+Explain:
+
+* What was aligned
+* What was preserved
+* What terminology changed
+* What architecture became canonical
+* What was deliberately deferred
+
+## B. Page-change register
+
+For every changed page:
+
+* Route
+* Purpose
+* Alignment change
+* Shared Core elements introduced
+* Travel-specific value retained
+* Proof or maturity changes
+* Any unresolved issue
+
+## C. Terminology register
+
+Include:
+
+| Previous term | New term | Files affected | Reason |
+| ------------- | -------- | -------------- | ------ |
+
+## D. Architecture register
+
+Document:
+
+* Five-step engine
+* Six intelligence layers
+* Shared Core capabilities
+* Travel configuration
+* Customer configuration
+* Active deployment hierarchy
+
+## E. Navigation register
+
+Document:
+
+* Primary navigation
+* Secondary pages
+* Removed navigation links
+* Preserved routes
+* Redirects
+* Future consolidation items
+
+## F. Verification report
+
+Provide exact results for:
+
+* Install
+* Typecheck
+* Lint
+* Tests
+* Architecture consistency test
+* Route tests
+* Link tests
+* Legacy terminology check
+* Asset checks
+* Production build
+
+## G. Deferred work
+
+Separate deferred items into:
+
+### Sprint 3
+
+* Operating-system prioritisation
+* Scenario contract
+* Playbook linkage
+* Accountable roles
+* Escalation logic
+* Evidence requirements
+* Outcome targets
+
+### Sprint 4
+
+* Functional Build & Configure
+* Configuration persistence
+* Runtime activation
+* End-to-end execution loop
+
+### Sprint 5
+
+* Partner ownership
+* Partner economics
+* Commercial consolidation
+* Pilot and expansion pathway
+
+### Sprint 6
+
+* Full readability
+* Accessibility
+* Responsive QA
+* Release verification
+* Commercial-claim approval
+
+## H. Git summary
+
+Provide:
+
+* Branch
+* Commits
+* Working-tree status
+* Conflicts
+* Uncommitted files
+* Whether the branch is safe to merge
+
+---
+
+# 18. Acceptance criteria
+
+Sprint 2 is complete only when:
+
+* The site uses **RTBX Intelligence Engine** consistently
+* The five-step engine is consistently:
+
+  * Connect
+  * Understand
+  * Decide
+  * Act
+  * Learn
+* The six intelligence layers use the approved names and order
+* Shared RTBX Core is clearly separated from Travel configuration
+* Travel operating systems are presented as configured uses of shared Core
+* Customer and property configuration is visibly separate
+* The Execution Centre is presented as a shared RTBX capability
+* The Travel Operations Centre is clearly an environment within the Execution Centre
+* The Decision Spine is presented as shared Core
+* The Playbook Engine is presented as shared Core
+* The Prompt & Nudge Engine is presented as shared Core
+* Central Comms OS is presented as shared Core
+* Evidence and Outcome Ledgers are presented as shared Core
+* Integration content is organised beneath the Integration Hub
+* No active page introduces a competing Travel engine
+* No legacy WELBX, BXOS or NEXUS terminology appears in active user-facing content
+* Proof maturity is stated honestly
+* The strongest existing Travel content and interactions remain intact
+* No unnecessary new pages were created
+* Typecheck and production build were run
+* All failures are reported honestly
+
+---
+
+# 19. Final instruction
+
+RTBX Travel should feel like a powerful vertical operating environment built on one shared RTBX platform.
+
+The result must communicate:
+
+> RTBX provides the intelligence, governance, execution, communication, evidence and learning infrastructure. Travel configures that infrastructure for hotel operations, guest experience, service recovery, safety, loyalty and partner activation.
+
+Do not make the site generic.
+
+Do not remove its commercial strength.
+
+Do not begin Sprint 3.
+
+At the end of this sprint, stop and provide the complete Sprint 2 report before making any further operating-system or scenario changes.

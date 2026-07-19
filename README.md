@@ -1,288 +1,133 @@
-# RTBX Travel v2
+# RTBX Travel Partner Room V2
 
-**AI-enabled operating systems for travel and hospitality environments.**
-
-RTBX Travel is a vertical deployment of the RTBX Core platform, configured specifically for hotels, resorts, holiday parks, accommodation providers and travel operators.
-
-Rather than replacing existing systems, RTBX sits across the technology already in use—connecting signals, people, policies and AI into governed action, coordinated communication and measurable operational outcomes.
+**Product:** RTBX Travel Partner Room  
+**Part of:** RTBX Group shared platform  
+**Repository:** `LPRTBX/RTBX-Travel-V2`  
+**Maturity:** Interactive front-end product proof and partner environment  
+**Sprint:** V2 Sprint 1 complete (Repository and Architecture Stabilisation)
 
 ---
 
-# RTBX Platform Architecture
+## Product identity
 
-RTBX is built on a shared operating architecture used across every RTBX deployment.
+RTBX Travel is the travel and hospitality operating vertical, powered by RTBX Core. It turns live guest, operator and service-moment signals into governed responses, coordinated actions and measurable outcomes across hotels, resorts, holiday parks and experience environments.
+
+This repository contains the **RTBX Travel Partner Room** — a strategic partner and operator environment for reviewing the product, its operating architecture, commercial model and deployment pathway.
+
+WELBX is the guest-facing experience layer of RTBX Travel. It is not a separate platform.
+
+---
+
+## Application structure
 
 ```
-RTBX Core
-    ↓
-Travel Intelligence Pack
-    ↓
-Travel Operating Systems
-    ↓
-Activated Modules
-    ↓
-Property Configuration
-    ↓
-Live Operating Environment
-```
+artifacts/welbx/          # Active RTBX Travel Partner Room application
+  src/
+    App.tsx               # Router (wouter) — canonical route table
+    main.tsx              # Entry point
+    pages/
+      partner-room/       # Partner Room page components
+        resources/        # Resource library page components
+      StoryHub.tsx        # Story Lab (protected, pre-approved brand references)
+      StoryOperator.tsx
+      StoryGuestStory.tsx
+    archive/
+      legacy-welbx/       # Archived WELBX pages — NOT part of active routing
+    components/
+      PartnerRoomLayout.tsx   # Partner Room nav, header, footer
+      PartnerAccessGate.tsx   # Front-end MVP access gate
+      Sidebar.tsx             # Legacy WELBX sidebar (Story Lab use only)
+      GlobalSearch.tsx        # Global search index
+    context/              # React context providers
+    data/                 # Centralised data files (travelIntelligence.ts etc.)
+    lib/                  # Utilities and content types
+    scripts/              # QA and verification scripts (see below)
+  public/                 # Static assets (favicon.svg, opengraph.jpg)
+  index.html              # App shell
+  package.json            # Artifact package config
+  tsconfig.json           # TypeScript config (excludes src/archive)
+  vite.config.ts          # Vite build config
 
-Every RTBX deployment shares the same execution architecture while configuring intelligence, governance, workflows and AI for each industry.
+docs/
+  route-register.md             # Canonical route register
+  access-and-proof-boundaries.md  # Access gate and proof boundary documentation
 
----
-
-# RTBX Core
-
-The RTBX Core platform includes:
-
-- Integration Hub
-- Signal Registry
-- Moment Engine
-- Governance Library
-- Decision Spine
-- Playbook Library
-- Escalation Engine
-- Role Routing
-- Central Comms OS
-- Action Centre
-- Outcome Ledger
-- Evidence Ledger
-- Value Engine
-- Learning Layer
-
-These components remain consistent across every RTBX deployment.
-
----
-
-# RTBX Travel Intelligence
-
-The Travel Intelligence Pack extends the RTBX Core by configuring:
-
-- Guest experience signals
-- Operational moments
-- Travel governance
-- Hotel playbooks
-- Travel role views
-- AI assistant boundaries
-- Communication pathways
-- Outcome measures
-- Value reporting
-
-Travel Intelligence changes what RTBX understands, recommends, communicates and measures inside hospitality environments.
-
----
-
-# Travel Operating Systems
-
-RTBX Travel is organised into dedicated operating systems.
-
-## Guest Experience OS
-
-Coordinates guest requests, sentiment, loyalty and service delivery.
-
-## Service Recovery & Staff Response OS
-
-Supports governed guest recovery, complaint handling and operational coordination.
-
-## Marketplace & Loyalty Activation OS
-
-Activates relevant commercial opportunities, loyalty engagement and approved partner experiences.
-
-## Operator Intelligence OS
-
-Provides portfolio visibility, benchmarking, response performance and executive reporting.
-
-## Safety & Guest Welfare OS
-
-Supports guest wellbeing, staff safety, critical incidents and governed escalation.
-
----
-
-# Operating Model
-
-Every travel scenario follows the same execution pathway.
-
-```
-Signal
-    ↓
-Moment
-    ↓
-Governance
-    ↓
-Playbook
-    ↓
-Role Owner
-    ↓
-Communication
-    ↓
-Action
-    ↓
-Evidence
-    ↓
-Outcome
-    ↓
-Value
-    ↓
-Learning
+.github/
+  workflows/
+    travel-qa.yml         # CI: typecheck, test, check:legacy, routes, links, build
 ```
 
 ---
 
-# AI Enablement
+## Commands
 
-RTBX uses external AI models as configurable capability.
+Run all commands from the workspace root unless noted.
 
-RTBX provides:
+| Command | Description |
+|---------|-------------|
+| `pnpm install` | Install all dependencies |
+| `pnpm --filter @workspace/welbx run dev` | Start development server |
+| `pnpm --filter @workspace/welbx run typecheck` | TypeScript typecheck |
+| `pnpm --filter @workspace/welbx run test` | Run tests (vitest) |
+| `pnpm --filter @workspace/welbx run test:routes` | Verify all App.tsx imports resolve |
+| `pnpm --filter @workspace/welbx run test:links` | Verify internal links resolve to routes |
+| `pnpm --filter @workspace/welbx run check:legacy` | Check for prohibited legacy terminology |
+| `pnpm --filter @workspace/welbx run check:assets` | Check public assets exist |
+| `pnpm --filter @workspace/welbx run build` | Production build |
+| `pnpm --filter @workspace/welbx run serve` | Preview production build |
 
-- Context
-- Governance
-- Role permissions
-- Organisational memory
-- Communication rules
-- Decision support
-- Action routing
-- Outcome learning
-
-AI may assist by:
-
-- Classifying signals
-- Summarising context
-- Drafting communications
-- Recommending playbooks
-- Identifying patterns
-
-Human approval remains required for safety, welfare, legal, compensation and other high-consequence operational decisions.
-
----
-
-# Integration Philosophy
-
-RTBX does not replace existing technology.
-
-Typical integrations include:
-
-- Property Management Systems (PMS)
-- CRM platforms
-- Loyalty platforms
-- Guest messaging
-- Booking engines
-- Housekeeping systems
-- Maintenance systems
-- Payment platforms
-- Communication platforms
-- Partner systems
-
-These connect through the RTBX Integration Hub.
-
----
-
-# Repository Structure
-
-```
-src/
-
-components/
-pages/
-data/
-hooks/
-contexts/
-
-Partner Room
-Travel Intelligence
-Operating Systems
-Live Scenarios
-Action Centre
-Outcome Ledger
-Value Dashboard
-```
-
----
-
-# Development
-
-Install dependencies
+### Shortcuts (from `artifacts/welbx/`)
 
 ```bash
-pnpm install
-```
-
-Run locally
-
-```bash
-pnpm dev
-```
-
-Type check
-
-```bash
+cd artifacts/welbx
+pnpm run dev
 pnpm run typecheck
-```
-
-Build
-
-```bash
+pnpm run test
+pnpm run test:routes
+pnpm run test:links
+pnpm run check:legacy
+pnpm run check:assets
 pnpm run build
 ```
 
 ---
 
-# Deployment Philosophy
+## Node and package manager
 
-RTBX Travel is deployed progressively.
-
-Typical rollout:
-
-Phase 1
-
-- Guest Experience OS
-- Service Recovery OS
-
-Phase 2
-
-- Operator Intelligence
-- Safety & Guest Welfare
-
-Phase 3
-
-- Marketplace
-- Portfolio Intelligence
-- Advanced AI Enablement
+| Requirement | Version |
+|-------------|---------|
+| Node.js | `>=24.0.0` (see `.nvmrc`) |
+| pnpm | `>=10.0.0` (enforced via `packageManager` field) |
 
 ---
 
-# Commercial Model
+## Repository rules
 
-Travel deployments scale through:
-
-- Property licences
-- Portfolio licences
-- Operating System activation
-- Module activation
-- Deployment & configuration
-- Managed intelligence services
-- Partner marketplace participation
-
-RTBX expands through more properties, more operating systems, more activated modules and deeper intelligence—not by creating separate platforms.
+1. **Do not restore WELBX pages into active routing.** All legacy WELBX pages are in `src/archive/legacy-welbx/`. They must not be imported into production routes.
+2. **Do not create duplicate routes.** Every product concept has one canonical route. See `docs/route-register.md`.
+3. **Do not represent simulated data as a production integration.** All demo content is synthetic. Use the proof boundary definitions in `docs/access-and-proof-boundaries.md`.
+4. **Do not add a new page where an existing canonical page can be extended.**
+5. **Update the route register** (`docs/route-register.md`) when routes change.
+6. **Preserve the shared RTBX Core architecture.** Travel is a configured vertical, not a rebuild.
+7. **Vertical configuration must not redefine RTBX Core.** Signal registry, moment engine, decision spine and playbook library are RTBX Core components — Travel configures them.
+8. **Run `check:legacy` before merging** to prevent legacy terminology re-entering active source.
 
 ---
 
-# Vision
+## Access and proof boundaries
 
-RTBX builds AI-enabled operating systems for human environments.
+See `docs/access-and-proof-boundaries.md` for full documentation.
 
-Travel is one deployment of the RTBX platform alongside:
+**Summary:** The Partner Room uses a client-side MVP access gate (`VITE_PARTNER_ROOM_CODE`). This is not a security boundary. All content is synthetic demonstration data unless explicitly labelled otherwise.
 
-- Sport
-- Enterprise
-- Health
-- Assure
-- Education
+---
 
-One platform.
+## Deferred work
 
-Multiple Intelligence Packs.
-
-Configurable operating systems.
-
-Governed AI.
-
-Real-time execution.
+| Sprint | Focus |
+|--------|-------|
+| Sprint 2 | RTBX Core terminology alignment (BXOS → Signal Engine, NEXUS → Routing Layer, etc.) |
+| Sprint 3 | Demo and scenario consolidation |
+| Sprint 4 | Build, Configure and Execute pathway |
+| Sprint 5 | Partner and commercial pathway consolidation |
+| Sprint 6 | Final release QA |

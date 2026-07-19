@@ -1,0 +1,719 @@
+# RTBX Travel Partner Room V2
+
+## Sprint 1 — Repository and Architecture Stabilisation
+
+You are working on the existing **RTBX Travel Partner Room V2** application.
+
+This is an already substantial and commercially valuable product. **Do not rebuild it. Do not redesign the product. Do not add new operating systems, scenarios, pages, demonstrations or commercial concepts.**
+
+The purpose of this sprint is to stabilise the repository, remove legacy confusion, establish canonical routes and ensure the current application can be reliably maintained, tested and deployed.
+
+---
+
+# 1. Sprint objective
+
+Create one clean, identifiable and technically stable RTBX Travel application by:
+
+1. Confirming the canonical application entry point
+2. Protecting the existing Travel Partner Room
+3. Archiving obsolete WELBX source files
+4. Removing stale branding from the active application
+5. Establishing one canonical route for each product concept
+6. Resolving broken or misleading content-loading behaviour
+7. Pinning the runtime and package manager
+8. Adding baseline route, link and build verification
+9. Documenting what remains active, redirected, archived and deferred
+
+This is a stabilisation sprint only.
+
+---
+
+# 2. Non-negotiable constraints
+
+## Preserve
+
+Preserve all valuable current RTBX Travel capabilities, including:
+
+* Partner Room landing page
+* Overview
+* Operator Brief
+* Operating Model
+* Travel Intelligence
+* Travel Operating Systems
+* Build and Configure
+* Operations Centre
+* Travel Scenarios
+* Integration Brief
+* Signal and Moment experiences
+* Decision Spine
+* AI and communications experiences
+* Product Proof
+* Signal Capture
+* Validation
+* Validation Replay
+* Guest Demo
+* Operator Demo
+* Dual View Demo
+* Scenario Builder
+* Hotel and Resort Demo
+* Pilot Model
+* Commercial pathway
+* Partner Ecosystem
+* Brief and Resource Library
+
+Do not remove a functioning capability merely because its route or naming is being consolidated.
+
+## Do not
+
+* Do not rebuild the application
+* Do not replace the current design system
+* Do not redesign every page
+* Do not rewrite all product content
+* Do not create new feature pages
+* Do not add new scenarios
+* Do not add production integrations
+* Do not create a new backend
+* Do not change the commercial model
+* Do not implement Sprint 2 terminology changes beyond obvious stale branding
+* Do not make speculative improvements outside this brief
+* Do not delete files until their usage has been verified
+* Do not remove routes that external links may depend on without adding redirects
+
+Where there is uncertainty, preserve the current functionality and record the issue in the sprint report.
+
+---
+
+# 3. Start with a read-only repository audit
+
+Before modifying code, inspect and report:
+
+* Repository name
+* Git remote
+* Current branch
+* Current commit
+* Workspace structure
+* Application entry point
+* Build tool
+* Package manager
+* Node version requirements
+* Current scripts
+* Route definition location
+* Public asset location
+* Environment variable usage
+* Current test files
+* Current CI workflows
+* Current build status
+* Current typecheck status
+* Current lint status
+
+Then identify:
+
+* All reachable page components
+* All unreachable page components
+* All redirect-only routes
+* All duplicate or alias routes
+* All source files containing `WELBX`
+* All source files containing `BXOS`
+* All source files containing `NEXUS`
+* All source files containing outdated Travel naming
+* All references to `/partner-content.json`
+* All missing local assets
+* All internal links that do not resolve to a canonical route
+* All routes that rely on application fallback rather than an intentional route
+
+Do not change files until this inventory has been completed.
+
+---
+
+# 4. Protect the working application
+
+Before cleanup:
+
+1. Confirm that the currently rendered Partner Room entry point is the intended application.
+2. Confirm that the active route tree points to the current RTBX Travel Partner Room pages.
+3. Confirm which pages are imported by the active router.
+4. Confirm whether any legacy WELBX files are dynamically imported or referenced outside the router.
+5. Create a safe archive approach for obsolete files.
+
+Use one of these approaches:
+
+### Preferred approach
+
+Move confirmed obsolete pages to:
+
+```text
+src/archive/legacy-welbx/
+```
+
+Add a README explaining:
+
+* Why the files were archived
+* The date of archival
+* That they are not part of the active RTBX Travel application
+* That they must not be imported into production routes
+
+### Alternative approach
+
+Delete confirmed obsolete files only where:
+
+* They are not imported
+* They are not dynamically referenced
+* They are not required by tests
+* They are not required by build scripts
+* Their functionality already exists in the current application
+* Git history provides adequate recovery
+
+Prefer archiving over deletion during this sprint.
+
+---
+
+# 5. Remove legacy-brand contamination
+
+Search the full repository for:
+
+```text
+WELBX
+BXOS
+NEXUS
+Welbx
+welbx
+```
+
+Classify every result as:
+
+* Active user-facing content
+* Active metadata
+* Active code identifier
+* Comment only
+* Archived content
+* Historical document
+* Unused source
+
+## Required changes
+
+Remove or update stale terminology from:
+
+* Active page titles
+* Browser metadata
+* Open Graph metadata
+* Application description
+* Manifest
+* Favicon references
+* Active navigation
+* Active Story Lab pages
+* Active buttons
+* Active labels
+* Active footer content
+* Loading and error states
+* Public-facing comments embedded in generated output
+
+Use **RTBX Travel** as the active vertical brand.
+
+Do not attempt the complete Sprint 2 architecture renaming yet. This sprint should remove obvious legacy-brand contamination without broadly rewriting the current product model.
+
+Archived historical files may retain old terminology if clearly isolated in the legacy archive.
+
+---
+
+# 6. Establish a canonical route register
+
+Create:
+
+```text
+docs/route-register.md
+```
+
+The register must include:
+
+| Field                    | Description                            |
+| ------------------------ | -------------------------------------- |
+| Canonical route          | The approved primary route             |
+| Page/component           | Component rendered                     |
+| Page purpose             | What the route is for                  |
+| Status                   | Active, redirect, archived or deferred |
+| Alias routes             | Existing alternate paths               |
+| Navigation location      | Where it appears                       |
+| External dependency risk | Whether old links may exist            |
+| Action                   | Keep, redirect, merge later or archive |
+
+## Route rules
+
+* Every distinct product concept must have one canonical route.
+* Duplicate route names should redirect to the canonical route.
+* Existing public links must not be broken unnecessarily.
+* Redirects must be deliberate and documented.
+* No alias route should independently render a separate duplicate page.
+* No route should rely on the wildcard application fallback when an explicit route is appropriate.
+* The root `/` route must intentionally redirect to or render the correct Travel entry point.
+* Any stale `/` links in Story Lab or other pages must be corrected.
+* Temporary compatibility redirects must be clearly marked.
+
+## Areas requiring consolidation planning
+
+Do not complete the full page-merging work in this sprint, but establish canonical route decisions for:
+
+### Travel Intelligence
+
+Potential aliases must point to one canonical page.
+
+### Travel Operating Systems
+
+Potential aliases must point to one canonical page.
+
+### Travel Scenarios
+
+Potential aliases must point to one canonical page.
+
+### AI and Communications
+
+Potential aliases must point to one canonical page.
+
+### Demonstrations
+
+Document the future consolidation of:
+
+* Demo Paths
+* Live Demos
+* Travel Demo Links
+* Guest Demo
+* Operator Demo
+* Dual View Demo
+* Environment demos
+
+Do not remove the individual working demos.
+
+### Commercial pages
+
+Document the future consolidation of:
+
+* Commercial
+* Commercial Model
+* Commercial Unit
+* Proof Calculator
+* Revenue Model
+
+Do not rewrite the commercial model during Sprint 1.
+
+---
+
+# 7. Correct content-loading integrity
+
+The application currently attempts to load:
+
+```text
+/partner-content.json
+```
+
+Determine whether this file is intended to be:
+
+* A deployed public content file
+* A generated build artifact
+* A local override
+* A future CMS mechanism
+* An obsolete feature
+
+## Required resolution
+
+Choose one deliberate solution.
+
+### Option A — Activate it properly
+
+If the editable-content mechanism is genuinely required:
+
+* Add the file to the correct public asset directory
+* Define and validate its schema
+* Add safe fallback handling
+* Add a visible development warning when loading fails
+* Prevent malformed content from breaking the app
+* Document which fields can be overridden
+* Add a test verifying that the content file loads
+
+### Option B — Remove the false mechanism
+
+If no external content file is currently used:
+
+* Remove the unsuccessful fetch
+* Keep the current internal content source
+* Remove silent network failure behaviour
+* Document that content is currently code-managed
+* Record external content management as deferred
+
+Do not leave a silent request for a missing file.
+
+---
+
+# 8. Runtime and package management
+
+The repository must produce consistent results across:
+
+* Local development
+* Replit or equivalent development environment
+* GitHub Actions
+* Production build environment
+
+## Required actions
+
+1. Confirm whether the workspace uses pnpm, npm or another package manager.
+2. Use only one package manager for the canonical workflow.
+3. Add the correct root `packageManager` field, for example:
+
+```json
+"packageManager": "pnpm@<approved-version>"
+```
+
+4. Add or confirm the required Node version using the appropriate files, such as:
+
+```text
+.nvmrc
+.node-version
+engines in package.json
+```
+
+5. Ensure the selected pnpm version is compatible with the selected Node version.
+6. Remove conflicting lockfiles only after confirming the canonical package manager.
+7. Ensure CI uses the same Node and package-manager versions.
+8. Ensure workspace install commands operate from the correct directory.
+9. Document the commands in the root README.
+
+Do not upgrade dependencies broadly unless required to make the current application install or build.
+
+---
+
+# 9. Root README update
+
+Update the root README so a developer or coding agent can immediately understand:
+
+## Product identity
+
+* RTBX Travel Partner Room V2
+* Part of the shared RTBX platform
+* Current repository purpose
+* Current maturity: interactive front-end product proof and partner environment
+
+## Application structure
+
+* Active app directory
+* Router location
+* Shared components
+* Page components
+* Static assets
+* Archived legacy source
+* Documentation
+* Tests
+
+## Commands
+
+Include the verified commands for:
+
+* Install
+* Development
+* Typecheck
+* Lint
+* Test
+* Production build
+* Preview
+* Route verification
+* Link verification
+
+## Repository rules
+
+State clearly:
+
+* Do not restore WELBX pages into active routing
+* Do not create duplicate routes
+* Do not represent simulated data as a production integration
+* Do not add a new page where an existing canonical page can be extended
+* Update the route register when routes change
+* Preserve the shared RTBX Core architecture
+* Vertical configuration must not redefine RTBX Core
+
+---
+
+# 10. Baseline automated verification
+
+Add lightweight tests and scripts appropriate to the existing stack.
+
+## Minimum required checks
+
+### Route smoke test
+
+Verify that every canonical route:
+
+* Resolves
+* Renders without crashing
+* Does not fall into the not-found page
+* Does not produce an unhandled runtime exception
+
+### Internal-link test
+
+Verify that internal route references:
+
+* Match a canonical route or documented redirect
+* Do not point to archived pages
+* Do not point to stale root paths
+* Do not use broken relative links
+
+### Legacy terminology test
+
+Add a script or test that fails when prohibited legacy terms are added to active user-facing source.
+
+Archived directories may be excluded.
+
+### Missing asset check
+
+Verify that locally referenced:
+
+* Images
+* JSON files
+* Icons
+* Fonts
+* Downloads
+* Documents
+
+exist at build time.
+
+### Build and typecheck
+
+Confirm:
+
+* Dependency installation
+* Typecheck
+* Tests
+* Production build
+
+These must be executable through documented package scripts.
+
+## Recommended scripts
+
+Use names appropriate to the current package structure, such as:
+
+```text
+pnpm install
+pnpm typecheck
+pnpm lint
+pnpm test
+pnpm test:routes
+pnpm test:links
+pnpm check:legacy
+pnpm check:assets
+pnpm build
+```
+
+Do not fabricate commands that do not work. Add only commands that have been implemented and verified.
+
+---
+
+# 11. CI stabilisation
+
+Inspect the existing GitHub Actions configuration.
+
+Create or update one canonical Travel QA workflow.
+
+It should:
+
+1. Check out the repository
+2. Set up the approved Node version
+3. Set up the approved pnpm version
+4. Install with the frozen lockfile
+5. Run typecheck
+6. Run lint where currently supported
+7. Run tests
+8. Run route and link checks
+9. Run the production build
+
+Do not maintain conflicting duplicate QA workflows.
+
+If lint currently has substantial pre-existing failures unrelated to Sprint 1:
+
+* Do not hide the problem
+* Record the baseline
+* Fix errors introduced by Sprint 1
+* Separate historical warnings from blocking failures
+* Document the deferred remediation
+
+---
+
+# 12. Access-gate integrity
+
+The current Partner Room access mechanism is an MVP client-side gate.
+
+During this sprint:
+
+* Do not build enterprise authentication
+* Do not describe the current gate as secure access control
+* Confirm that confidential production information is not exposed
+* Ensure the UI describes the environment accurately
+* Ensure a missing environment variable does not create misleading behaviour
+* Document the current gate limitations in the README or technical notes
+
+Create:
+
+```text
+docs/access-and-proof-boundaries.md
+```
+
+Include:
+
+* Current access mechanism
+* What it protects against
+* What it does not protect against
+* Current data type used
+* Production authentication requirements
+* Rules for confidential documents
+* Rules for synthetic versus customer data
+
+---
+
+# 13. Proof-boundary documentation
+
+In the same document or a separate document, define:
+
+## Working Proof
+
+A functioning interactive interface that demonstrates the intended workflow.
+
+## Simulation
+
+A workflow using synthetic signals, actions, communications, evidence or outcomes.
+
+## Connector-ready
+
+Only use when an interface contract, mapping and test harness exist.
+
+## Integrated
+
+Only use when data has been successfully exchanged with a named external system.
+
+## Production
+
+Only use when deployed with production authentication, monitoring, data controls and operational support.
+
+This sprint does not require rewriting every proof label, but it must establish the standard that Sprint 2 and later sprints will use.
+
+Correct any clearly false or high-risk current claims discovered during the repository audit.
+
+---
+
+# 14. Required sprint outputs
+
+At completion, provide:
+
+## A. Executive summary
+
+Explain:
+
+* What was stabilised
+* What was preserved
+* What was archived
+* What was redirected
+* What remains unresolved
+
+## B. Changed-file register
+
+For each changed file:
+
+* File path
+* Change made
+* Reason
+* Risk level
+
+## C. Route register
+
+Include:
+
+* Canonical routes
+* Redirects
+* Archived routes
+* Deferred consolidation decisions
+
+## D. Legacy cleanup report
+
+Include:
+
+* Number of legacy files found
+* Number archived
+* Number deleted
+* Number retained
+* Reason for retained files
+* Remaining active legacy terminology, if any
+
+## E. Verification report
+
+Provide the exact result of:
+
+* Install
+* Typecheck
+* Lint
+* Tests
+* Route tests
+* Link tests
+* Asset checks
+* Production build
+
+Do not state that a check passed unless it was run successfully.
+
+## F. Deferred issues
+
+Separate deferred work into:
+
+* Sprint 2 — RTBX Core alignment
+* Sprint 3 — Operating systems and scenarios
+* Sprint 4 — Build, Configure and Execute
+* Sprint 5 — Partner and commercial pathway
+* Sprint 6 — Final release QA
+
+## G. Git summary
+
+Provide:
+
+* Branch used
+* Commits created
+* Final working-tree status
+* Any uncommitted files
+* Any conflicts encountered
+* Whether the branch is safe to merge
+
+---
+
+# 15. Acceptance criteria
+
+Sprint 1 is complete only when:
+
+* The canonical RTBX Travel app is clearly identified
+* The current Partner Room remains functional
+* Confirmed unused WELBX pages are archived or safely removed
+* No active route unintentionally renders legacy WELBX content
+* No active metadata describes the product as WELBX
+* Each active concept has one documented canonical route
+* Duplicate paths use intentional redirects
+* Root routing is intentional
+* Internal links resolve
+* The missing `partner-content.json` behaviour is resolved
+* Node and package-manager versions are pinned
+* README commands are accurate
+* Baseline route checks exist
+* Baseline internal-link checks exist
+* Missing local assets are detected
+* The current access and proof boundaries are documented
+* Typecheck and build have been run
+* Any failures are reported honestly
+* No new product scope has been introduced
+
+---
+
+# 16. Final instruction
+
+This application already has significant product depth.
+
+The goal of Sprint 1 is not to make it larger. The goal is to make it:
+
+* Safe to edit
+* Clear to navigate
+* Consistent in identity
+* Reliable to build
+* Easier to test
+* Ready for RTBX Core alignment
+
+Work systematically. Preserve existing commercial value. Do not make speculative product decisions.
+
+At the end, stop and provide the complete Sprint 1 report before beginning any Sprint 2 changes.

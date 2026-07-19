@@ -5,7 +5,7 @@ import { Search, X, ArrowRight } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 
 const SEARCH_ENTRIES = [
-  { label: "Landing",                   path: "/",                       section: "FOUNDATION",       desc: "Why WELBX — the problem it solves" },
+  { label: "Landing",                   path: "/partner-room",           section: "FOUNDATION",       desc: "Why RTBX Travel — the problem it solves" },
   { label: "GHSOL",                     path: "/ghsol",                  section: "FOUNDATION",       desc: "Framework — the 6-step operating chain" },
   { label: "Signal Registry",           path: "/signal-registry",        section: "SIGNALS",          desc: "247 signals catalogued, weighted and mapped" },
   { label: "Signal Intelligence",       path: "/signal-intelligence",    section: "SIGNALS",          desc: "Pattern analytics across signal categories" },
@@ -35,7 +35,7 @@ const SEARCH_ENTRIES = [
   { label: "Guest Layer",               path: "/guest-layer",            section: "PLATFORM",         desc: "Guest engagement intelligence" },
   { label: "Scenario Demo",             path: "/scenario-demo",          section: "PLATFORM",         desc: "Guided walkthrough — 8-step demo" },
   { label: "Live Demo",                 path: "/demo",                   section: "HERO",             desc: "Full guided experience" },
-  { label: "Comparison",               path: "/compare",                section: "HERO",             desc: "WELBX vs. standard operations" },
+  { label: "Comparison",               path: "/compare",                section: "HERO",             desc: "RTBX Travel vs. standard operations" },
   { label: "Command Mode",              path: "/command-mode",           section: "HERO",             desc: "Critical response — 4-phase live demo" },
 ];
 

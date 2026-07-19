@@ -177,7 +177,7 @@ export function Sidebar() {
       <div style={{ padding: "20px 20px 12px", borderBottom: "1px solid hsl(220 13% 9%)" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
           <Link href="/">
-            <span style={{ fontSize: 13, fontWeight: 800, letterSpacing: "0.22em", color: "#fff", textTransform: "uppercase", cursor: "pointer" }}>WELBX</span>
+            <span style={{ fontSize: 13, fontWeight: 800, letterSpacing: "0.22em", color: "#fff", textTransform: "uppercase", cursor: "pointer" }}>RTBX TRAVEL</span>
           </Link>
           <button
             onClick={() => setSearchOpen(true)}

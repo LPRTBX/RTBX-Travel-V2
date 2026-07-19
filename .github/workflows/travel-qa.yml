@@ -1,0 +1,68 @@
+name: RTBX Travel QA
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'artifacts/welbx/**'
+      - 'lib/**'
+      - 'package.json'
+      - 'pnpm-workspace.yaml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'artifacts/welbx/**'
+      - 'lib/**'
+      - 'package.json'
+      - 'pnpm-workspace.yaml'
+
+jobs:
+  travel-qa:
+    name: Travel QA
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: '10.26.1'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm --filter @workspace/welbx run typecheck
+
+      - name: Lint
+        # NOTE: lint script not yet configured (Sprint 1 baseline — deferred to Sprint 2)
+        run: pnpm --filter @workspace/welbx run lint
+        continue-on-error: true
+
+      - name: Run tests
+        run: pnpm --filter @workspace/welbx run test
+
+      - name: Check legacy terminology
+        # NOTE: 361 legacy term occurrences remain as of Sprint 1 baseline.
+        # Sprint 2 will reduce this to zero. This check is advisory until then.
+        run: pnpm --filter @workspace/welbx run check:legacy
+        continue-on-error: true
+
+      - name: Test routes
+        run: pnpm --filter @workspace/welbx run test:routes
+
+      - name: Test internal links
+        run: pnpm --filter @workspace/welbx run test:links
+
+      - name: Check assets
+        run: pnpm --filter @workspace/welbx run check:assets
+
+      - name: Production build
+        run: pnpm --filter @workspace/welbx run build

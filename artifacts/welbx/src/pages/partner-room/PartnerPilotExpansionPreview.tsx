@@ -24,10 +24,10 @@ const INTEGRATION_SECTIONS = [
     num: "03",
     label: "Guest Messaging Integration",
     color: "#3b82f6",
-    explain: "With approved guest messaging integration, RTBX and WELBX can send and receive messages through the guest's preferred channel — SMS, in-app, email or kiosk — and capture guest responses as classified signals.",
-    examples: ["WELBX message delivered via SMS if no app installed", "Guest reply captured and classified as signal", "Pre-arrival message triggered by PMS arrival data", "Post-stay sentiment collected automatically"],
-    mvpVsPilot: "MVP: WELBX guest message is generated in the platform. Pilot: delivered via approved external channel.",
-    welbx: true,
+    explain: "With approved guest messaging integration, RTBX Travel can send and receive messages through the guest's preferred channel — SMS, in-app, email or kiosk — and capture guest responses as classified signals.",
+    examples: ["RTBX Travel message delivered via SMS if no app installed", "Guest reply captured and classified as signal", "Pre-arrival message triggered by PMS arrival data", "Post-stay sentiment collected automatically"],
+    mvpVsPilot: "MVP: RTBX Travel guest message is generated in the platform. Pilot: delivered via approved external channel.",
+    rtbxTravel: true,
   },
   {
     num: "04",
@@ -150,7 +150,7 @@ export default function PartnerPilotExpansionPreview() {
                       <div style={{ fontSize: 7.5, fontWeight: 800, color: `${section.color}50`, letterSpacing: "0.14em" }}>{section.num}</div>
                       <div style={{ fontSize: 12.5, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em" }}>
                         {section.label}
-                        {section.welbx && <span style={{ fontSize: 8, fontWeight: 700, color: "#3b82f6", marginLeft: 8, letterSpacing: "0.1em", verticalAlign: "middle" }}>WELBX</span>}
+                        {section.rtbxTravel && <span style={{ fontSize: 8, fontWeight: 700, color: "#3b82f6", marginLeft: 8, letterSpacing: "0.1em", verticalAlign: "middle" }}>RTBX TRAVEL</span>}
                       </div>
                     </div>
                     <p style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", lineHeight: 1.7, margin: "0 0 16px 0" }}>
