@@ -39,7 +39,7 @@ const SYSTEMS_FLOW = ["Travel Signals", "Travel Moments", "Governed Playbooks", 
 
 const PACK_COMPONENTS = [
   { label: "Travel Signal Registry",  color: C.blue,   desc: "Every guest, staff, operator and system signal relevant to a travel environment, classified and scored.", href: "/partner-room/signals-engine" },
-  { label: "Travel Moment Engine",    color: C.gold,   desc: "Recognises which of the known travel moment types a signal cluster belongs to.", href: "/partner-room/moments-economy" },
+  { label: "Travel Moment Intelligence",    color: C.gold,   desc: "Recognises which of the known travel moment types a signal cluster belongs to. Travel configuration of the shared Context and Moment Layer.", href: "/partner-room/moments-economy" },
   { label: "Travel Governance",       color: C.purple, desc: "The pre-approved rules that decide what is allowed to happen in response to a moment.", href: "/partner-room/decision-spine" },
   { label: "Travel Playbook Library", color: C.green,  desc: "The response patterns available to a role owner once governance has cleared a moment.", href: "/partner-room/decision-spine" },
   { label: "Travel Role Routing",     color: C.cyan,   desc: "Ensures the right human role — never an autonomous system — owns the response.", href: "/partner-room/operator-demo" },

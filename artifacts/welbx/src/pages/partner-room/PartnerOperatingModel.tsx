@@ -27,22 +27,22 @@ const OPERATING_LOOP = [
   { label: "Role Owner",          desc: "A named human role owns the response — never an autonomous system" },
   { label: "Communication / Action", desc: "Central Comms OS delivers the instruction or update to the right person" },
   { label: "Outcome / Evidence",  desc: "The resolution is logged to the Outcome and Evidence Ledgers" },
-  { label: "Value / Learning",    desc: "The Value Engine and Learning Layer turn the outcome into measurable, compounding value" },
+  { label: "Value / Learning",    desc: "The Evidence, Outcome and Value Layer and Learning and Intelligence Layer turn the outcome into measurable, compounding value" },
 ];
 
 const FULL_ARCHITECTURE = [
   "PMS / CRM / Guest / Staff / Partner Inputs",
   "RTBX Integration Hub",
   "Travel Signal Registry",
-  "Travel Moment Engine",
+  "Context and Moment Layer — Travel Configuration",
   "Travel Governance",
   "Decision Spine",
   "Travel Playbook Library",
   "Escalation and Role Routing",
   "Central Comms OS",
-  "Travel Action Centre",
-  "Outcome and Evidence Ledgers",
-  "Travel Value Engine",
+  "Execution Centre — Travel Environment",
+  "Evidence and Outcome Ledgers",
+  "Evidence, Outcome and Value Layer",
   "Travel Intelligence",
 ];
 

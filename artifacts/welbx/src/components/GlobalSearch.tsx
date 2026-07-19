@@ -10,7 +10,7 @@ const SEARCH_ENTRIES = [
   { label: "Signal Registry",           path: "/signal-registry",        section: "SIGNALS",          desc: "247 signals catalogued, weighted and mapped" },
   { label: "Signal Intelligence",       path: "/signal-intelligence",    section: "SIGNALS",          desc: "Pattern analytics across signal categories" },
   { label: "Moment Registry",           path: "/moment-registry",        section: "MOMENTS",          desc: "20 canonical behavioural moments" },
-  { label: "Moment Intelligence",       path: "/moment-intelligence",    section: "MOMENTS",          desc: "BXOS analysis — moment pattern view" },
+  { label: "Moment Intelligence",       path: "/moment-intelligence",    section: "MOMENTS",          desc: "RTBX Intelligence Engine — moment pattern view" },
   { label: "Live Moments",              path: "/live-moments",           section: "MOMENTS",          desc: "6 active moments — real-time feed" },
   { label: "Decision Registry",         path: "/decision-registry",      section: "DECISIONS",        desc: "Audit log of all decisions made" },
   { label: "Playbook Engine",           path: "/playbook-engine",        section: "DECISIONS",        desc: "Execution rules — trigger conditions" },

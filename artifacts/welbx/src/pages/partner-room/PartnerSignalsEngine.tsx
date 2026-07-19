@@ -9,7 +9,7 @@ const DEFAULT_LOGIC_CHAIN = [
   { step: "01", label: "Event Ingestion",      desc: "Signal arrives via push from source system in real time" },
   { step: "02", label: "Normalisation",         desc: "Event mapped to RTBX Core signal schema, type and source tagged" },
   { step: "03", label: "Confidence Scoring",    desc: "Historical accuracy and source reliability applied to weighting" },
-  { step: "04", label: "Pattern Matching",      desc: "Signal compared against configured moment patterns in BXOS — pilot library" },
+  { step: "04", label: "Pattern Matching",      desc: "Signal compared against configured moment patterns in the Context and Moment Layer — pilot configuration" },
   { step: "05", label: "Cluster Detection",     desc: "Co-occurring signals grouped; combined confidence calculated" },
   { step: "06", label: "Threshold Evaluation",  desc: "Cluster assessed against moment creation threshold for its category" },
   { step: "07", label: "Moment Trigger",        desc: "If threshold met, moment created and playbook queued for execution" },

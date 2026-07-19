@@ -98,7 +98,7 @@ export const INTERVENTION_LIBRARY: CategoryData[] = [
         name: "Shift Handover Risk",
         expectedOutcomes: ["Operational Continuity", "Quality Transfer", "Accountability"],
         interventions: [
-          { name: "Structured Handover Briefing — BXOS Template", successRate: 91, usageFrequency: "High", outcomeQuality: 9.0 },
+          { name: "Structured Handover Briefing — RTBX Template", successRate: 91, usageFrequency: "High", outcomeQuality: 9.0 },
           { name: "Dual-Sign-Off Protocol for Active Moments", successRate: 85, usageFrequency: "Medium", outcomeQuality: 8.4 },
           { name: "Live Dashboard Walkthrough at Shift Change", successRate: 78, usageFrequency: "Medium", outcomeQuality: 7.7 },
         ],
@@ -230,7 +230,7 @@ export const INTERVENTION_LIBRARY: CategoryData[] = [
         interventions: [
           { name: "COO Diagnostic Review — Root Cause Framework", successRate: 78, usageFrequency: "Medium", outcomeQuality: 7.7 },
           { name: "Property Performance Intervention Plan", successRate: 71, usageFrequency: "Low", outcomeQuality: 7.0 },
-          { name: "WELBX Benchmarking Report — Peer Comparison", successRate: 82, usageFrequency: "Medium", outcomeQuality: 8.1 },
+          { name: "RTBX Travel Benchmarking Report — Peer Comparison", successRate: 82, usageFrequency: "Medium", outcomeQuality: 8.1 },
           { name: "Investment Governance Escalation Protocol", successRate: 65, usageFrequency: "Low", outcomeQuality: 6.4 },
         ],
       },
@@ -239,9 +239,9 @@ export const INTERVENTION_LIBRARY: CategoryData[] = [
         name: "Cross-Property Learning Signal",
         expectedOutcomes: ["Systemic Improvement", "Knowledge Transfer", "Competitive Advantage"],
         interventions: [
-          { name: "Best Practice Codification — WELBX Playbook Update", successRate: 74, usageFrequency: "Medium", outcomeQuality: 7.3 },
+          { name: "Best Practice Codification — RTBX Playbook Update", successRate: 74, usageFrequency: "Medium", outcomeQuality: 7.3 },
           { name: "Cross-Property Workshop — GM Peer Exchange", successRate: 69, usageFrequency: "Low", outcomeQuality: 6.8 },
-          { name: "BXOS Model Calibration — Signal Weighting Update", successRate: 83, usageFrequency: "Medium", outcomeQuality: 8.2 },
+          { name: "Intelligence Model Calibration — Signal Weighting Update", successRate: 83, usageFrequency: "Medium", outcomeQuality: 8.2 },
         ],
       },
       {

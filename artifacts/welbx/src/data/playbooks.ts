@@ -114,7 +114,7 @@ export const PLAYBOOKS: Playbook[] = [
       "Dispatch Duty Manager to guest location within 90 seconds",
       "Notify Security and First Aid team simultaneously",
       "Isolate guest in a private, calm environment away from public areas",
-      "Document incident with time-stamped log in WELBX Command Centre",
+      "Document incident with time-stamped log in RTBX Execution Centre",
       "Arrange welfare follow-up within 30 minutes of resolution",
     ],
     owners: ["Duty Manager", "Security Lead", "First Aid Officer"],
@@ -348,7 +348,7 @@ export const PLAYBOOKS: Playbook[] = [
       "Staff member flagged by peer or supervisor for welfare concern",
       "Shift duration exceeds 10 hours without documented break",
       "Error rate or task completion rate drops >20% versus baseline",
-      "WELBX Workforce Genome detects pattern consistent with fatigue signature",
+      "RTBX Intelligence Engine detects pattern consistent with fatigue signature",
     ],
     recommendedActions: [
       "Conduct immediate welfare check conversation in private",
@@ -420,7 +420,7 @@ export const PLAYBOOKS: Playbook[] = [
       "Dispatch engineering team with ETA communicated to affected guests within 15 minutes",
       "Offer room move or service alternative for guests with active impact",
       "Engage external contractor if internal resolution time exceeds threshold",
-      "Update WELBX maintenance log with real-time status and resolution timeline",
+      "Update RTBX maintenance log with real-time status and resolution timeline",
     ],
     owners: ["Engineering Lead", "Duty Manager", "Facilities Manager"],
     escalationRules: [

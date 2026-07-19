@@ -21,7 +21,7 @@ const SECTIONS = [
     color: "#c9a84c",
     items: [
       { label: "Moment Registry",     path: "/moment-registry",     sub: "20 MOMENTS" },
-      { label: "Moment Intelligence", path: "/moment-intelligence", sub: "BXOS ANALYSIS" },
+      { label: "Moment Intelligence", path: "/moment-intelligence", sub: "RTBX ANALYSIS" },
       { label: "Live Moments",        path: "/live-moments",        sub: "6 ACTIVE" },
     ],
   },
@@ -297,19 +297,15 @@ export function Sidebar() {
         ))}
       </nav>
 
-      {/* Footer engines */}
+      {/* Footer platform label */}
       <div style={{ padding: "12px 20px 14px", borderTop: "1px solid hsl(220 13% 9%)" }}>
-        <div style={{ fontSize: 7, letterSpacing: "0.18em", color: "hsl(215 16% 18%)", textTransform: "uppercase", marginBottom: 7, fontWeight: 700 }}>Engines</div>
-        {[
-          { name: "BXOS",   desc: "Intelligence" },
-          { name: "NEXUS",  desc: "Routing" },
-          { name: "VECTOR", desc: "Execution" },
-        ].map(e => (
-          <div key={e.name} style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", padding: "2.5px 0" }}>
-            <span style={{ fontSize: 8.5, letterSpacing: "0.12em", color: "hsl(215 16% 26%)", textTransform: "uppercase", fontWeight: 700 }}>{e.name}</span>
-            <span style={{ fontSize: 7.5, letterSpacing: "0.08em", color: "hsl(215 16% 18%)", textTransform: "uppercase" }}>{e.desc}</span>
-          </div>
-        ))}
+        <div style={{ fontSize: 7, letterSpacing: "0.18em", color: "hsl(215 16% 18%)", textTransform: "uppercase", marginBottom: 7, fontWeight: 700 }}>Platform</div>
+        <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", padding: "2.5px 0" }}>
+          <span style={{ fontSize: 8.5, letterSpacing: "0.12em", color: "hsl(215 16% 26%)", textTransform: "uppercase", fontWeight: 700 }}>RTBX Intelligence Engine</span>
+        </div>
+        <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", padding: "2.5px 0" }}>
+          <span style={{ fontSize: 7.5, letterSpacing: "0.08em", color: "hsl(215 16% 18%)", textTransform: "uppercase" }}>Connect · Understand · Decide · Act · Learn</span>
+        </div>
         <div style={{ marginTop: 8, padding: "4px 6px", background: "hsl(220 13% 7%)", border: "1px solid hsl(220 13% 11%)", textAlign: "center" }}>
           <span style={{ fontSize: 7, letterSpacing: "0.1em", color: "hsl(215 16% 20%)", textTransform: "uppercase" }}>
             Cmd+K · Search

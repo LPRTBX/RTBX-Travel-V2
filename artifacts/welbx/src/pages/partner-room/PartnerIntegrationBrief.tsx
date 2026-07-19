@@ -96,9 +96,9 @@ const INTEGRATION_CATEGORIES: { title: string; sub: string; desc: string; color:
 const FLOW_NODES = [
   { label: "Existing Systems",        sub: "PMS, HKP, CRM, POS, IoT" },
   { label: "RTBX Core Signal Layer",  sub: "247 signal types, real-time or near-real-time" },
-  { label: "Moment Engine",           sub: "Pattern recognition, BXOS" },
+  { label: "Context and Moment Layer", sub: "Pattern recognition, RTBX Intelligence Engine" },
   { label: "Decision Spine",          sub: "Governed playbook execution" },
-  { label: "Routed Action",           sub: "NEXUS communication routing" },
+  { label: "Routed Action",           sub: "RTBX Routing Engine — communication coordination" },
   { label: "Outcome Record",          sub: "Audit trail + learning cycle" },
 ];
 

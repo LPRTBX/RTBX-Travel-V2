@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useCallback, ReactNode } from "react";
 
-const STORAGE_KEY = "welbx_intervention_usage";
+const STORAGE_KEY = "rtbx_intervention_usage";
 
 export interface UsageRecord {
   timesUsed: number;

@@ -7,11 +7,11 @@ const STAGES = ["SIGNALS", "CONVERGENCE", "DECISION", "PATHWAY", "EXECUTION", "O
 type Stage = typeof STAGES[number];
 
 const STAGE_ENGINES: Record<Stage, string> = {
-  SIGNALS:     "BXOS",
-  CONVERGENCE: "BXOS",
-  DECISION:    "BXOS",
-  PATHWAY:     "NEXUS",
-  EXECUTION:   "VECTOR",
+  SIGNALS:     "RTBX Intelligence Engine",
+  CONVERGENCE: "RTBX Intelligence Engine",
+  DECISION:    "RTBX Intelligence Engine",
+  PATHWAY:     "RTBX Routing Engine",
+  EXECUTION:   "RTBX Execution Engine",
   OUTCOME:     "",
 };
 
@@ -156,7 +156,7 @@ function StepContent({ scenario, step, view }: { scenario: ScenarioId; step: num
       <motion.div {...fade} style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, height: "100%" }}>
         <div>
           <div style={{ padding: "14px 16px", border: "1px solid rgba(201,168,76,0.2)", background: "rgba(201,168,76,0.04)", marginBottom: 12 }}>
-            <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: "#c9a84c", textTransform: "uppercase", marginBottom: 6 }}>BXOS Pattern Confirmation</div>
+            <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: "#c9a84c", textTransform: "uppercase", marginBottom: 6 }}>RTBX Intelligence Engine — Pattern Confirmation</div>
             <div style={{ display: "flex", alignItems: "baseline", gap: 12, marginBottom: 6 }}>
               <span style={{ fontSize: 36, fontWeight: 800, color: "#fff", lineHeight: 1 }}>89%</span>
               <span style={{ fontSize: 11, color: "hsl(215 16% 40%)" }}>signal confidence</span>
@@ -195,7 +195,7 @@ function StepContent({ scenario, step, view }: { scenario: ScenarioId; step: num
             })}
           </div>
           <div style={{ padding: "14px 16px", border: "1px solid hsl(220 13% 10%)", background: "hsl(220 13% 7%)", flex: 1 }}>
-            <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: "hsl(215 16% 26%)", textTransform: "uppercase", marginBottom: 8 }}>BXOS Assessment</div>
+            <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: "hsl(215 16% 26%)", textTransform: "uppercase", marginBottom: 8 }}>RTBX Intelligence Engine — Assessment</div>
             <p style={{ fontSize: 11, color: "hsl(215 16% 42%)", lineHeight: 1.7 }}>Signal convergence confirms a non-random threshold event. Pattern matches historical pre-weekend arrival surge with early inbound flight. Immediate multi-channel intervention is warranted. Decision required within T+2 minutes to preserve outcome window.</p>
           </div>
         </div>
@@ -206,7 +206,7 @@ function StepContent({ scenario, step, view }: { scenario: ScenarioId; step: num
       <motion.div {...fade} style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
         <div>
           <div style={{ padding: "12px 16px", background: "rgba(16,185,129,0.05)", border: "1px solid rgba(16,185,129,0.18)", marginBottom: 12 }}>
-            <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: "#10b981", textTransform: "uppercase", marginBottom: 3 }}>BXOS Decision · 3 options evaluated</div>
+            <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: "#10b981", textTransform: "uppercase", marginBottom: 3 }}>RTBX Intelligence Engine — Decision · 3 options evaluated</div>
             <div style={{ fontSize: 12, color: "hsl(215 16% 52%)" }}>Decision latency: <span style={{ color: "#fff", fontWeight: 700, fontFamily: "var(--app-font-mono)" }}>8 seconds</span></div>
           </div>
           <div style={{ border: "1px solid hsl(220 13% 10%)" }}>
@@ -237,7 +237,7 @@ function StepContent({ scenario, step, view }: { scenario: ScenarioId; step: num
       <motion.div {...fade} style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
         <div>
           <div style={{ padding: "12px 16px", background: "rgba(201,168,76,0.05)", border: "1px solid rgba(201,168,76,0.2)", marginBottom: 12 }}>
-            <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: "#c9a84c", textTransform: "uppercase", marginBottom: 3 }}>NEXUS Routing · Initiated 12:47:00</div>
+            <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: "#c9a84c", textTransform: "uppercase", marginBottom: 3 }}>RTBX Routing Engine — Initiated 12:47:00</div>
             <div style={{ fontSize: 12, color: "hsl(215 16% 52%)" }}>Four channels activated · Estimated impact: <span style={{ color: "#fff", fontWeight: 700 }}>−8 min queue</span></div>
           </div>
           <div style={{ border: "1px solid hsl(220 13% 10%)" }}>
@@ -258,8 +258,8 @@ function StepContent({ scenario, step, view }: { scenario: ScenarioId; step: num
             ))}
           </div>
           <div style={{ padding: "14px 16px", border: "1px solid hsl(220 13% 10%)", background: "hsl(220 13% 7%)", flex: 1 }}>
-            <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: "hsl(215 16% 26%)", textTransform: "uppercase", marginBottom: 8 }}>NEXUS Logic</div>
-            <p style={{ fontSize: 11, color: "hsl(215 16% 42%)", lineHeight: 1.7 }}>NEXUS selects the fastest viable path for each component of the decision. Desk D3 is opened in parallel with the mobile bypass — neither depends on the other. Guest routing begins before desk is staffed, reducing effective wait time.</p>
+            <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: "hsl(215 16% 26%)", textTransform: "uppercase", marginBottom: 8 }}>RTBX Routing Engine — Logic</div>
+            <p style={{ fontSize: 11, color: "hsl(215 16% 42%)", lineHeight: 1.7 }}>RTBX Routing Engine selects the fastest viable path for each component of the decision. Desk D3 is opened in parallel with the mobile bypass — neither depends on the other. Guest routing begins before desk is staffed, reducing effective wait time.</p>
           </div>
         </div>
       </motion.div>
@@ -270,7 +270,7 @@ function StepContent({ scenario, step, view }: { scenario: ScenarioId; step: num
         <div>
           <div style={{ padding: "12px 16px", background: "rgba(201,168,76,0.05)", border: "1px solid rgba(201,168,76,0.2)", marginBottom: 12, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <div>
-              <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: "#c9a84c", textTransform: "uppercase", marginBottom: 3 }}>VECTOR Deploying · Live</div>
+              <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: "#c9a84c", textTransform: "uppercase", marginBottom: 3 }}>RTBX Execution Engine — Deploying · Live</div>
               <div style={{ fontSize: 11, color: "hsl(215 16% 46%)" }}>7 guests in active flow · 5 completed</div>
             </div>
             <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#c9a84c" }} className="animate-pulse" />
@@ -350,7 +350,7 @@ function StepContent({ scenario, step, view }: { scenario: ScenarioId; step: num
         {isGuest ? (
           <div style={{ padding: "16px", border: "1px solid hsl(220 13% 10%)", background: "hsl(220 13% 7%)" }}>
             <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: "hsl(215 16% 26%)", textTransform: "uppercase", marginBottom: 8 }}>The guest is unaware</div>
-            <p style={{ fontSize: 13, color: "hsl(215 16% 46%)", lineHeight: 1.8 }}>BXOS is building a picture from behavioral absence. No interaction. No signal from the guest. Only what is not happening.</p>
+            <p style={{ fontSize: 13, color: "hsl(215 16% 46%)", lineHeight: 1.8 }}>RTBX Intelligence Engine is building a picture from behavioral absence. No interaction. No signal from the guest. Only what is not happening.</p>
             <div style={{ marginTop: 14, paddingTop: 12, borderTop: "1px solid hsl(220 13% 10%)" }}>
               <div style={{ fontSize: 10, color: "hsl(215 16% 32%)", marginBottom: 6 }}>From the guest's perspective at this moment:</div>
               <div style={{ fontSize: 13, fontStyle: "italic", color: "hsl(215 16% 50%)", lineHeight: 1.7 }}>"The door is closed. The room is quiet. No one has knocked."</div>
@@ -386,7 +386,7 @@ function StepContent({ scenario, step, view }: { scenario: ScenarioId; step: num
     <motion.div {...fade} style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
       <div>
         <div style={{ padding: "14px 16px", border: "1px solid rgba(239,68,68,0.22)", background: "rgba(239,68,68,0.05)", marginBottom: 12 }}>
-          <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: "#ef4444", textTransform: "uppercase", marginBottom: 6 }}>BXOS Welfare Model · Confirmed</div>
+          <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: "#ef4444", textTransform: "uppercase", marginBottom: 6 }}>RTBX Intelligence Engine — Welfare Model · Confirmed</div>
           <div style={{ display: "flex", alignItems: "baseline", gap: 12, marginBottom: 6 }}>
             <span style={{ fontSize: 36, fontWeight: 800, color: "#fff", lineHeight: 1 }}>94%</span>
             <span style={{ fontSize: 11, color: "hsl(215 16% 40%)" }}>signal confidence</span>
@@ -421,7 +421,7 @@ function StepContent({ scenario, step, view }: { scenario: ScenarioId; step: num
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         <div style={{ padding: "14px 16px", border: "1px solid hsl(220 13% 10%)", background: "hsl(220 13% 7%)", flex: 1 }}>
           <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: "hsl(215 16% 26%)", textTransform: "uppercase", marginBottom: 8 }}>What makes this a convergence event</div>
-          <p style={{ fontSize: 11, color: "hsl(215 16% 42%)", lineHeight: 1.75 }}>Any single signal in isolation could reflect preference. The 22-hour DND could be a long sleep. No meals could be dietary. What BXOS identifies is the alignment of seven independent dimensions simultaneously — each one unlikely on its own, impossible together without cause.</p>
+          <p style={{ fontSize: 11, color: "hsl(215 16% 42%)", lineHeight: 1.75 }}>Any single signal in isolation could reflect preference. The 22-hour DND could be a long sleep. No meals could be dietary. What RTBX identifies is the alignment of seven independent dimensions simultaneously — each one unlikely on its own, impossible together without cause.</p>
           <div style={{ marginTop: 14, padding: "10px 14px", background: "rgba(239,68,68,0.05)", border: "1px solid rgba(239,68,68,0.15)" }}>
             <div style={{ fontSize: 10, fontStyle: "italic", color: "hsl(215 16% 48%)", lineHeight: 1.65 }}>"This is not a guest who prefers quiet. This is a guest who has gone quiet."</div>
           </div>
@@ -434,7 +434,7 @@ function StepContent({ scenario, step, view }: { scenario: ScenarioId; step: num
     <motion.div {...fade} style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
       <div>
         <div style={{ padding: "12px 16px", background: "rgba(239,68,68,0.06)", border: "1px solid rgba(239,68,68,0.2)", marginBottom: 12 }}>
-          <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: "#ef4444", textTransform: "uppercase", marginBottom: 3 }}>BXOS Decision · Level 4 Crisis Protocol</div>
+          <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: "#ef4444", textTransform: "uppercase", marginBottom: 3 }}>RTBX Intelligence Engine — Level 4 Crisis Protocol</div>
           <div style={{ fontSize: 12, color: "hsl(215 16% 50%)" }}>Decision latency: <span style={{ color: "#fff", fontWeight: 700, fontFamily: "var(--app-font-mono)" }}>6 seconds</span></div>
         </div>
         <div style={{ border: "1px solid hsl(220 13% 10%)" }}>
@@ -469,7 +469,7 @@ function StepContent({ scenario, step, view }: { scenario: ScenarioId; step: num
       <div>
         <div style={{ padding: "12px 16px", background: "rgba(239,68,68,0.05)", border: "1px solid rgba(239,68,68,0.18)", marginBottom: 12 }}>
           <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: "#ef4444", textTransform: "uppercase", marginBottom: 3 }}>
-            {isGuest ? "Guest Pathway — What the guest receives" : "NEXUS Crisis Routing — Level 4"}
+            {isGuest ? "Guest Pathway — What the guest receives" : "RTBX Routing Engine — Level 4 Crisis"}
           </div>
           <div style={{ fontSize: 12, color: "hsl(215 16% 50%)" }}>
             {isGuest ? "Calm · Personal · No alarm language" : "Six channels activated · Simultaneous deployment"}
@@ -500,12 +500,12 @@ function StepContent({ scenario, step, view }: { scenario: ScenarioId; step: num
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         <div style={{ padding: "14px 16px", border: "1px solid hsl(220 13% 10%)", background: "hsl(220 13% 7%)", flex: 1 }}>
           <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: "hsl(215 16% 26%)", textTransform: "uppercase", marginBottom: 8 }}>
-            {isGuest ? "The design of care" : "NEXUS routing logic"}
+            {isGuest ? "The design of care" : "RTBX Routing Engine logic"}
           </div>
           <p style={{ fontSize: 11, color: "hsl(215 16% 42%)", lineHeight: 1.75 }}>
             {isGuest
               ? "Every decision about the guest pathway is made with one principle: preserve dignity. The hotel does not respond to this moment with alarm. It responds with presence. The guest should feel, at the moment of contact, that they are cared for — not managed."
-              : "NEXUS activates all six channels simultaneously. The GM route and the welfare liaison route do not depend on each other — they run in parallel. Security is positioned but not visible to the guest. The routing chain is ordered by human warmth, not operational hierarchy."}
+              : "RTBX Routing Engine activates all six channels simultaneously. The GM route and the welfare liaison route do not depend on each other — they run in parallel. Security is positioned but not visible to the guest. The routing chain is ordered by human warmth, not operational hierarchy."}
           </p>
         </div>
       </div>
@@ -517,7 +517,7 @@ function StepContent({ scenario, step, view }: { scenario: ScenarioId; step: num
       <div>
         <div style={{ padding: "12px 16px", background: "rgba(239,68,68,0.06)", border: "1px solid rgba(239,68,68,0.2)", marginBottom: 12, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <div>
-            <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: "#ef4444", textTransform: "uppercase", marginBottom: 3 }}>VECTOR Tracking · Crisis</div>
+            <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: "#ef4444", textTransform: "uppercase", marginBottom: 3 }}>RTBX Execution Engine — Tracking · Crisis</div>
             <div style={{ fontSize: 11, color: "hsl(215 16% 44%)" }}>{isGuest ? "Guest-side delivery · All messages unread" : "Welfare knock in progress · 20:19"}</div>
           </div>
           <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#ef4444" }} className="animate-pulse" />
@@ -545,7 +545,7 @@ function StepContent({ scenario, step, view }: { scenario: ScenarioId; step: num
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         <div style={{ padding: "14px 16px", border: "1px solid hsl(220 13% 10%)", background: "hsl(220 13% 7%)", flex: 1 }}>
           <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: "hsl(215 16% 26%)", textTransform: "uppercase", marginBottom: 8 }}>
-            {isGuest ? "What the guest has received" : "VECTOR deployment status"}
+            {isGuest ? "What the guest has received" : "RTBX Execution Engine — deployment status"}
           </div>
           {isGuest ? (
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -595,7 +595,7 @@ function StepContent({ scenario, step, view }: { scenario: ScenarioId; step: num
                 </motion.div>
               ))}
               <div style={{ marginTop: 8, paddingTop: 12, borderTop: "1px solid hsl(220 13% 9%)" }}>
-                <div style={{ fontSize: 10, color: "hsl(215 16% 32%)", letterSpacing: "0.08em" }}>This is WELBX in service of the human stay.</div>
+                <div style={{ fontSize: 10, color: "hsl(215 16% 32%)", letterSpacing: "0.08em" }}>This is RTBX Travel in service of the human stay.</div>
               </div>
             </motion.div>
           </div>
@@ -613,10 +613,10 @@ function StepContent({ scenario, step, view }: { scenario: ScenarioId; step: num
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         <div style={{ padding: "14px 16px", border: "1px solid hsl(220 13% 10%)", background: "hsl(220 13% 7%)", flex: 1 }}>
           <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: "hsl(215 16% 26%)", textTransform: "uppercase", marginBottom: 8 }}>Duty of care — protocol note</div>
-          <p style={{ fontSize: 11, color: "hsl(215 16% 42%)", lineHeight: 1.75 }}>Mr. Nakamura had been a PLATINUM guest for seven stays. BXOS detected a critical pattern shift across all monitored dimensions. The hotel's role in this moment was not operational. It was human. Level 4 protocol exists because great hospitality includes duty of care — and WELBX is the system that ensures that duty is never missed.</p>
+          <p style={{ fontSize: 11, color: "hsl(215 16% 42%)", lineHeight: 1.75 }}>Mr. Nakamura had been a PLATINUM guest for seven stays. RTBX detected a critical pattern shift across all monitored dimensions. The hotel's role in this moment was not operational. It was human. Level 4 protocol exists because great hospitality includes duty of care — and RTBX Travel is the system that ensures that duty is never missed.</p>
           <div style={{ marginTop: 14, padding: "10px 14px", border: "1px solid rgba(16,185,129,0.14)", background: "rgba(16,185,129,0.03)" }}>
             <div style={{ fontSize: 10, color: "#10b981", fontWeight: 600, marginBottom: 4 }}>Recovery note</div>
-            <div style={{ fontSize: 10, color: "hsl(215 16% 42%)", lineHeight: 1.6 }}>This scenario demonstrates WELBX operating at the boundary of hospitality and human care. The same operating layer — different signal class, same governed response.</div>
+            <div style={{ fontSize: 10, color: "hsl(215 16% 42%)", lineHeight: 1.6 }}>This scenario demonstrates RTBX Travel operating at the boundary of hospitality and human care. The same operating layer — different signal class, same governed response.</div>
           </div>
         </div>
       </div>
@@ -672,7 +672,7 @@ export default function LiveDemo() {
   const goNext = useCallback(() => { if (step < 5) { setStep(step + 1); setAutoPlay(false); } }, [step]);
   const goPrev = useCallback(() => { if (step > 0) { setStep(step - 1); setAutoPlay(false); } }, [step]);
 
-  const ENGINE_COLOR: Record<string, string> = { BXOS: "#c9a84c", NEXUS: "#60a5fa", VECTOR: "#10b981", "": "transparent" };
+  const ENGINE_COLOR: Record<string, string> = { "RTBX Intelligence Engine": "#c9a84c", "RTBX Routing Engine": "#60a5fa", "RTBX Execution Engine": "#10b981", "": "transparent" };
   const engine = STAGE_ENGINES[stage];
   const engineColor = ENGINE_COLOR[engine] || "#c9a84c";
 
@@ -711,7 +711,7 @@ export default function LiveDemo() {
         </AnimatePresence>
 
         <div style={{ marginLeft: "auto", fontSize: 8.5, color: "hsl(215 16% 28%)", letterSpacing: "0.08em" }}>
-          WELBX · {scenario === "operations" ? "The Grand Meridian, London — 12:46" : "The Grand Meridian, London — 20:14"}
+          RTBX Travel · {scenario === "operations" ? "The Grand Meridian, London — 12:46" : "The Grand Meridian, London — 20:14"}
         </div>
       </div>
 
@@ -723,7 +723,7 @@ export default function LiveDemo() {
             const isPast = i < step;
             const c = isActive ? "#fff" : isPast ? "hsl(215 16% 42%)" : "hsl(215 16% 24%)";
             const eng = STAGE_ENGINES[s];
-            const engC = { BXOS: "#c9a84c", NEXUS: "#60a5fa", VECTOR: "#10b981", "": "#fff" }[eng] || "#c9a84c";
+            const engC = { "RTBX Intelligence Engine": "#c9a84c", "RTBX Routing Engine": "#60a5fa", "RTBX Execution Engine": "#10b981", "": "#fff" }[eng] || "#c9a84c";
             return (
               <div key={s} style={{ display: "flex", alignItems: "center", flex: i < STAGES.length - 1 ? 1 : "none" }}>
                 <button onClick={() => { setStep(i); setAutoPlay(false); }}

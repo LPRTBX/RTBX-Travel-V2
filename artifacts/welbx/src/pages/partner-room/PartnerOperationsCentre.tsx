@@ -115,7 +115,7 @@ export default function PartnerOperationsCentre() {
         {/* ── ACTION CENTRE ── */}
         <div id="action-centre" style={{ marginBottom: 64, scrollMarginTop: 90 }}>
           <SectionLabel>01 · Live</SectionLabel>
-          <H2>Travel Action Centre</H2>
+          <H2>RTBX Execution Centre — Travel Environment</H2>
           <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, marginBottom: 20, maxWidth: 760 }}>
             Every open moment, its assigned role owner and its response deadline. Filter by property, operating system, role or priority. Expand a card for its linked communications, evidence and outcome — or progress it through its demo status sequence.
           </p>
