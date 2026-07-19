@@ -1,5 +1,6 @@
 import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
+import { ENGINE_STAGES, INTELLIGENCE_LAYERS } from "@/data/rtbxArchitecture";
 
 const C = { gold: "#c9a84c", muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,255,0.22)", green: "#10b981", blue: "#3b82f6", purple: "#a78bfa" };
 
@@ -126,6 +127,47 @@ export default function PartnerOperatingModel() {
           </p>
           <div style={{ padding: "28px 28px 6px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
             <Chain items={OPERATING_LOOP} />
+          </div>
+        </div>
+
+        {/* Five-Step Engine */}
+        <div style={{ marginBottom: 72 }}>
+          <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 6 }}>
+            Five-Step Engine
+          </div>
+          <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.7, maxWidth: 640, marginBottom: 24 }}>
+            Every moment runs through five stages — from first signal to compounding value. Each stage has named human ownership; no stage is an autonomous system decision.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 2 }}>
+            {ENGINE_STAGES.map((stage, i) => (
+              <div key={stage.id} style={{ padding: "20px 16px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: "2px solid #c9a84c", position: "relative" }}>
+                <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(201,168,76,0.45)", textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>{String(i + 1).padStart(2, "0")}</div>
+                <div style={{ fontSize: 12, fontWeight: 700, color: "#fff", marginBottom: 8 }}>{stage.label}</div>
+                <div style={{ fontSize: 10, color: C.muted, lineHeight: 1.5 }}>{stage.summary}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Six Intelligence Layers */}
+        <div style={{ marginBottom: 72 }}>
+          <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 6 }}>
+            Six Intelligence Layers
+          </div>
+          <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.7, maxWidth: 640, marginBottom: 24 }}>
+            Each layer is part of RTBX Core, configured for Travel. The Travel configuration adds domain-specific signals, moment types, governance policies and outcome models.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
+            {INTELLIGENCE_LAYERS.map(layer => (
+              <div key={layer.id} style={{ padding: "20px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: "2px solid #c9a84c" }}>
+                <div style={{ fontSize: 12, fontWeight: 700, color: "#fff", marginBottom: 6 }}>{layer.label}</div>
+                <div style={{ fontSize: 10.5, color: C.muted, lineHeight: 1.55, marginBottom: 10 }}>{layer.summary}</div>
+                <div style={{ fontSize: 8.5, fontWeight: 700, color: "rgba(201,168,76,0.5)", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 4 }}>Primary Stage: {layer.primaryStage}</div>
+                {layer.sharedCapabilities.map(cap => (
+                  <div key={cap} style={{ fontSize: 9.5, color: "rgba(255,255,255,0.28)", marginBottom: 3, paddingLeft: 8, borderLeft: "1px solid rgba(255,255,255,0.1)" }}>{cap}</div>
+                ))}
+              </div>
+            ))}
           </div>
         </div>
 

@@ -1,9 +1,9 @@
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 
-type IntegrationStatus = "Live" | "Configurable" | "Planned" | "Illustrative";
+type IntegrationStatus = "Demonstrable" | "Configurable" | "Planned" | "Architecturally Defined";
 
 const STATUS_COLORS: Record<IntegrationStatus, string> = {
-  Live: "#10b981", Configurable: "#3b82f6", Planned: "#f97316", Illustrative: "rgba(255,255,255,0.35)",
+  Demonstrable: "#10b981", Configurable: "#3b82f6", Planned: "#f97316", "Architecturally Defined": "rgba(255,255,255,0.35)",
 };
 
 const INTEGRATION_CATEGORIES: { title: string; sub: string; desc: string; color: string; status: IntegrationStatus }[] = [
@@ -33,7 +33,7 @@ const INTEGRATION_CATEGORIES: { title: string; sub: string; desc: string; color:
     sub: "GUEST APP",
     desc: "In-stay requests, sentiment signals, complaint submissions, dining intent, service interaction data.",
     color: "#3b82f6",
-    status: "Live",
+    status: "Demonstrable",
   },
   {
     title: "CRM & Loyalty Platforms",
@@ -54,7 +54,7 @@ const INTEGRATION_CATEGORIES: { title: string; sub: string; desc: string; color:
     sub: "MESSAGING",
     desc: "Two-way guest communication channel used to deliver and confirm demo communications and staff-routed responses.",
     color: "#a78bfa",
-    status: "Live",
+    status: "Demonstrable",
   },
   {
     title: "Maintenance Systems",
@@ -75,14 +75,14 @@ const INTEGRATION_CATEGORIES: { title: string; sub: string; desc: string; color:
     sub: "RMS",
     desc: "Rate signals, occupancy patterns, activation exposure index, upsell window data, commercial triggers.",
     color: "#10b981",
-    status: "Illustrative",
+    status: "Architecturally Defined",
   },
   {
     title: "Building & IoT Infrastructure",
     sub: "BMS / IoT",
     desc: "Queue sensor data, environmental signals, energy anomalies, safety system triggers, HVAC status.",
     color: "#10b981",
-    status: "Illustrative",
+    status: "Architecturally Defined",
   },
   {
     title: "Partner Systems",
@@ -119,7 +119,14 @@ export default function PartnerIntegrationBrief() {
             RTBX Travel is a signal-to-action layer, not a replacement. Every data source your platform already manages becomes a captured signal input to the moment engine, through the RTBX Integration Hub. A single approved integration makes your system a trigger in the operating chain — creating compounding value for operators that neither platform can generate alone.
           </p>
           <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.3)", fontStyle: "italic" }}>
-            Not every system below is integrated for every deployment. Each category is labelled with its current integration status.
+            Not every system below is integrated for every deployment. Each category is labelled with its current status — 'Demonstrable' means working in this Partner Room environment; 'Architecturally Defined' means the integration model is specified but not yet connected.
+          </p>
+        </div>
+
+        <div style={{ padding: "20px 24px", background: "rgba(59,130,246,0.04)", border: "1px solid rgba(59,130,246,0.15)", borderLeft: "3px solid #3b82f6", marginBottom: 24 }}>
+          <div style={{ fontSize: 8, letterSpacing: "0.18em", color: "#3b82f6", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>No Rip-and-Replace</div>
+          <p style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", lineHeight: 1.75, margin: 0 }}>
+            RTBX Travel connects to the systems already running in your property. The PMS, housekeeping app, guest app, CRM and task management platforms you depend on today become signal sources. RTBX adds the governed execution layer between them — nothing is removed, nothing is replaced.
           </p>
         </div>
 

@@ -30,19 +30,18 @@ export default function PartnerTravelAiComms() {
 
         {/* ── HEADER ── */}
         <div style={{ marginBottom: 40 }}>
-          <SectionLabel>Travel Intelligence</SectionLabel>
+          <SectionLabel>RTBX Travel · Communications</SectionLabel>
           <h1 style={{ fontSize: 40, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 16, maxWidth: 760 }}>
-            Travel AI &amp; Central Comms
+            Prompt &amp; Nudge Engine and Central Comms OS
           </h1>
           <p style={{ fontSize: 15, color: C.muted, lineHeight: 1.75, maxWidth: 720 }}>
             Governed AI assistants and communications coordinated across guest, staff and operator roles.
           </p>
         </div>
 
-        {/* ── POSITIONING ── */}
-        <div style={{ padding: "18px 22px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderLeft: "3px solid #c9a84c", marginBottom: 40 }}>
-          <p style={{ fontSize: 13.5, color: "rgba(255,255,255,0.72)", lineHeight: 1.8, margin: 0, fontWeight: 600 }}>
-            {TRAVEL_AI_COMMS_POSITIONING_STATEMENT}
+        <div style={{ padding: "16px 20px", background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.18)", borderLeft: "3px solid #c9a84c", maxWidth: 700, marginBottom: 32 }}>
+          <p style={{ fontSize: 13, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, margin: 0, fontWeight: 600 }}>
+            The Prompt & Nudge Engine drafts AI-assisted recommendations for staff and guests. The Central Comms OS routes every communication through the right channel to the right person. Every guest-facing message requires human approval or pre-authorised policy. High-risk communications — welfare, safety, compensation, legal — always require a named human owner.
           </p>
         </div>
 
@@ -200,12 +199,48 @@ export default function PartnerTravelAiComms() {
           </div>
         </div>
 
-        {/* ── GOVERNED, NOT AUTONOMOUS ── */}
-        <div style={{ padding: "20px 22px", background: "rgba(239,68,68,0.04)", border: "1px solid rgba(239,68,68,0.15)", marginBottom: 48 }}>
-          <div style={{ fontSize: 8, letterSpacing: "0.14em", color: C.red, textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>What AI Does Not Do</div>
-          <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, margin: 0 }}>
-            No Travel AI assistant independently approves compensation, safety response, security action, medical advice or critical escalation. Central Comms OS is the coordination layer; AI assistants are interfaces inside it. Every consequential decision passes to a named human role.
-          </p>
+        {/* AI Boundary */}
+        <div style={{ marginBottom: 56 }}>
+          <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 20 }}>
+            AI Operating Boundary
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2, marginBottom: 20 }}>
+            <div style={{ padding: "22px 24px", background: "rgba(16,185,129,0.04)", border: "1px solid rgba(16,185,129,0.2)", borderTop: "2px solid #10b981" }}>
+              <div style={{ fontSize: 9, letterSpacing: "0.14em", color: "#10b981", textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>AI May</div>
+              {[
+                "Classify signals and identify moment types",
+                "Draft guest-facing messages (requires human approval before send)",
+                "Recommend playbooks to role owners",
+                "Summarise moment context for the duty manager",
+                "Suggest escalation paths based on risk level",
+                "Coordinate multi-channel delivery routing",
+              ].map(item => (
+                <div key={item} style={{ display: "flex", gap: 10, marginBottom: 10, fontSize: 12, color: "rgba(255,255,255,0.65)" }}>
+                  <span style={{ color: "#10b981", flexShrink: 0 }}>+</span>{item}
+                </div>
+              ))}
+            </div>
+            <div style={{ padding: "22px 24px", background: "rgba(239,68,68,0.04)", border: "1px solid rgba(239,68,68,0.2)", borderTop: "2px solid #ef4444" }}>
+              <div style={{ fontSize: 9, letterSpacing: "0.14em", color: "#ef4444", textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>Requires Human Approval</div>
+              {[
+                "Send any guest-facing message (pre-authorised policy or human sign-off)",
+                "Approve compensation or refund at any value",
+                "Make welfare, safety or duty-of-care decisions",
+                "Override configured governance thresholds",
+                "Act without a named accountable role owner",
+                "Send communications on behalf of named staff without authorisation",
+              ].map(item => (
+                <div key={item} style={{ display: "flex", gap: 10, marginBottom: 10, fontSize: 12, color: "rgba(255,255,255,0.65)" }}>
+                  <span style={{ color: "#ef4444", flexShrink: 0 }}>—</span>{item}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div style={{ padding: "14px 18px", background: "rgba(201,168,76,0.04)", border: "1px solid rgba(201,168,76,0.15)", borderLeft: "3px solid #c9a84c" }}>
+            <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.6)", lineHeight: 1.65, margin: 0 }}>
+              AI assists with classification, drafting and routing. It does not autonomously make safety, compensation, legal or welfare decisions. Every response passes through Travel Governance to a named human role owner.
+            </p>
+          </div>
         </div>
 
         {/* ── FOOTER LINKS ── */}

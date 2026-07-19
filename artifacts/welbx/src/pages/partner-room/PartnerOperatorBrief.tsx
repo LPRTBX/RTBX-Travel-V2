@@ -62,6 +62,54 @@ export default function PartnerOperatorBrief() {
           </p>
         </div>
 
+        {/* Five-Step Engine — Operator Language */}
+        <div style={{ marginBottom: 80 }}>
+          <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 28 }}>
+            The Five-Step Engine — Operator Language
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+            {[
+              {
+                step: "01", label: "Connect", color: "#c9a84c",
+                ops: "Your systems are already generating signals — arrival manifests, room status, guest app events, housekeeping updates. RTBX connects to them and reads every relevant signal as it arrives.",
+                example: "PMS flags a VIP arrival with a 45-minute room delay. Guest app shows the guest has checked in remotely. Housekeeping reports the room team is at capacity.",
+              },
+              {
+                step: "02", label: "Understand", color: "#3b82f6",
+                ops: "Signals are classified into known moment types. A room delay, a loyalty arrival and a guest app check-in become a single moment: Arrival Friction — High Risk — Loyalty Protection Threshold Active.",
+                example: "The system does not send a notification. It recognises that three signals together create a specific, high-priority service moment.",
+              },
+              {
+                step: "03", label: "Decide", color: "#a78bfa",
+                ops: "Governance rules determine what is permitted. Lounge access may be activated without approval. Compensation above a threshold requires manager sign-off. Guest-facing messages require human approval. No autonomous decisions.",
+                example: "The Compensation Approval Matrix determines that the front desk may offer a complimentary upgrade but that any monetary compensation requires duty manager authorisation.",
+              },
+              {
+                step: "04", label: "Act", color: "#10b981",
+                ops: "The right role owner — front desk, duty manager, housekeeping team lead — receives a clear, contextualised instruction through the right channel. AI drafts the guest message; a human approves and sends it.",
+                example: "Front desk receives: 'VIP arrival in 10 minutes — room not ready — lounge access authorised — send guest message to offer lounge and estimated room time.' Manager is on standby.",
+              },
+              {
+                step: "05", label: "Learn", color: "#22d3ee",
+                ops: "Every resolved moment feeds back. Detection windows improve, thresholds recalibrate, playbook performance is tracked by property and shift. Value is measured and reported to management.",
+                example: "This moment type now has a resolved record: arrival sentiment protected, lounge activated, housekeeping reprioritised, no complaint received. The evidence trail is complete.",
+              },
+            ].map((item, i) => (
+              <div key={item.step} style={{
+                display: "grid", gridTemplateColumns: "60px 180px 1fr 1fr", gap: 24,
+                padding: "24px 28px", background: "rgba(255,255,255,0.02)",
+                border: "1px solid rgba(255,255,255,0.06)", borderLeft: `3px solid ${item.color}`,
+                alignItems: "flex-start",
+              }}>
+                <div style={{ fontSize: 11, fontWeight: 800, color: `${item.color}55`, letterSpacing: "0.08em", paddingTop: 2 }}>{item.step}</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: item.color, letterSpacing: "-0.01em", paddingTop: 2 }}>{item.label}</div>
+                <div style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", lineHeight: 1.7 }}>{item.ops}</div>
+                <div style={{ fontSize: 11, color: "rgba(255,255,255,0.32)", lineHeight: 1.6, fontStyle: "italic" }}>{item.example}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Value cards */}
         <div style={{ marginBottom: 80 }}>
           <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 28 }}>

@@ -180,7 +180,7 @@ function MiniPhone({ step, scenario }: { step: StepContent; scenario: string }) 
 function SignalFlow({ step, currentStep }: { step: number; currentStep: number }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, paddingTop: 40 }}>
-      <div style={{ fontSize: 7, letterSpacing: "0.16em", color: P.dimmed, textTransform: "uppercase", fontWeight: 700, writingMode: "vertical-rl", transform: "rotate(180deg)", marginBottom: 8 }}>SIGNAL FLOW</div>
+      <div style={{ fontSize: 7, letterSpacing: "0.16em", color: P.dimmed, textTransform: "uppercase", fontWeight: 700, writingMode: "vertical-rl", transform: "rotate(180deg)", marginBottom: 8 }}>RTBX CORE ORCHESTRATES</div>
       {[0,1,2,3,4,5,6].map(i => (
         <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 2 }}>
           <div style={{ width: 8, height: 8, borderRadius: "50%", background: i <= currentStep ? P.amber : "rgba(255,255,255,0.1)", transition: "background 0.3s" }} />
@@ -268,10 +268,19 @@ export default function PartnerDualViewDemo() {
       {/* Header */}
       <div style={{ maxWidth: 1400, margin: "0 auto", padding: "48px 60px 32px" }}>
         <div style={{ fontSize: 8, letterSpacing: "0.22em", color: P.amber, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>DUAL VIEW DEMO</div>
-        <h1 style={{ fontSize: 34, fontWeight: 800, color: P.white, letterSpacing: "-0.02em", marginBottom: 10 }}>Both Sides of the Moment</h1>
+        <h1 style={{ fontSize: 34, fontWeight: 800, color: P.white, letterSpacing: "-0.02em", marginBottom: 10 }}>RTBX Orchestration — Dual View Demo</h1>
         <p style={{ fontSize: 13, color: P.muted, maxWidth: 520, lineHeight: 1.7, margin: 0 }}>
           The same moment shown from two perspectives. Step through the signal-to-value chain on both the guest and operator side.
         </p>
+      </div>
+
+      {/* Context callout */}
+      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px 0" }}>
+        <div style={{ padding: "14px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderLeft: "3px solid #c9a84c", marginBottom: 20 }}>
+          <p style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", lineHeight: 1.7, margin: 0 }}>
+            RTBX Core orchestrates both sides of the moment simultaneously. The guest experiences a seamless response. The operator sees a governed action with full context. Neither side is aware of the other — RTBX coordinates both through the Central Comms OS and the Travel Operating System.
+          </p>
+        </div>
       </div>
 
       {/* Scenario selector */}

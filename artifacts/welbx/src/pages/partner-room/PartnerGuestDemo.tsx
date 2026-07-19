@@ -240,7 +240,7 @@ function PhoneFrame({ stage, selected, onSelect }: {
   );
 }
 
-const QUAD_LABELS = ["What the Guest Sees", "What RTBX Core Automates", "What the Operator Receives", "Value Created"];
+const QUAD_LABELS = ["What the Guest Sees", "What RTBX Core Coordinates", "What the Operator Receives", "Value Created"];
 
 export default function PartnerGuestDemo() {
   const [stageIdx, setStageIdx] = useState(0);
@@ -259,7 +259,7 @@ export default function PartnerGuestDemo() {
       {/* Header */}
       <div style={{ maxWidth: 1400, margin: "0 auto", padding: "56px 60px 36px" }}>
         <div style={{ fontSize: 8, letterSpacing: "0.22em", color: P.amber, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>
-          Live Guest Story
+          Guest Experience Demo
         </div>
         <h1 style={{ fontSize: 36, fontWeight: 800, color: P.white, letterSpacing: "-0.02em", marginBottom: 10 }}>
           One Stay. Seven Moments.
@@ -267,6 +267,15 @@ export default function PartnerGuestDemo() {
         <p style={{ fontSize: 13, color: P.muted, maxWidth: 560, lineHeight: 1.7, margin: 0 }}>
           Follow a single guest from arrival to checkout — at each stage, see what the guest experiences, what RTBX Core automates, what the operator receives and what value is created.
         </p>
+      </div>
+
+      {/* Context callout */}
+      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px 0" }}>
+        <div style={{ padding: "14px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderLeft: "3px solid #3b82f6", marginBottom: 24 }}>
+          <p style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", lineHeight: 1.7, margin: 0 }}>
+            The guest never interacts directly with RTBX. What the guest sees is the output of coordinated RTBX action — a message that arrived at the right moment, a problem resolved before they noticed it, a recommendation that felt personal. RTBX Core runs behind the scenes; WELBX is the experience layer guests interact with.
+          </p>
+        </div>
       </div>
 
       {/* Stage tabs */}

@@ -3,6 +3,7 @@ import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 import { usePartnerContent } from "@/context/PartnerContentContext";
 import { PartnerProofBanner } from "@/components/PartnerProofBanner";
+import { ENGINE_STAGES, PLATFORM_HIERARCHY } from "@/data/rtbxArchitecture";
 
 const DEPLOYMENT_ENVS = [
   {
@@ -156,14 +157,6 @@ const PROOF_LAYERS = [
 const THIS_IS_NOT = ["A guest app", "A reporting dashboard", "A replacement PMS", "Another staff portal"];
 const THIS_IS     = ["A real-time execution layer", "A signal-to-action system", "A governed response engine", "A partner value platform"];
 
-const FLOW_STEPS = [
-  { label: "Signals",   desc: "Captured signals from guest, staff, operator and approved system sources" },
-  { label: "Moments",   desc: "Classification logic identifies what needs to happen now" },
-  { label: "Decisions", desc: "Governed response logic selects the right action" },
-  { label: "Actions",   desc: "The right team member receives the right instruction" },
-  { label: "Outcomes",  desc: "Every resolution is recorded and measured" },
-  { label: "Value",     desc: "Learning compounds — the system improves on every cycle" },
-];
 
 function GhostBtn({ href, children, ext = false }: { href: string; children: React.ReactNode; ext?: boolean }) {
   const inner = (
@@ -258,17 +251,10 @@ export default function PartnerRoomLanding() {
             Simple Hierarchy
           </div>
           <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 8, maxWidth: 900 }}>
-            {[
-              "RTBX Core",
-              "Travel Intelligence Pack",
-              "Travel Operating Systems",
-              "Activated Modules",
-              "Hotel / Resort / Park Configuration",
-              "Active Travel Operating Environment",
-            ].map((step, i, arr) => (
-              <div key={step} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            {PLATFORM_HIERARCHY.map((h, i, arr) => (
+              <div key={h.id} style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 <div style={{ padding: "7px 12px", fontSize: 9.5, fontWeight: 700, color: "rgba(255,255,255,0.55)", border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.02)" }}>
-                  {step}
+                  {h.label}
                 </div>
                 {i < arr.length - 1 && <span style={{ fontSize: 10, color: "rgba(255,255,255,0.15)" }}>→</span>}
               </div>
@@ -323,14 +309,14 @@ export default function PartnerRoomLanding() {
         </div>
       </div>
 
-      {/* ── RTBX CORE OPERATING CHAIN ── */}
+      {/* ── THE FIVE-STEP ENGINE ── */}
       <div style={{ marginBottom: 88 }}>
         <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 20 }}>
-          The RTBX Core Operating Chain
+          The Five-Step Engine — Connect to Learn
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 2 }}>
-          {FLOW_STEPS.map((step, i) => (
-            <div key={step.label} style={{
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 2 }}>
+          {ENGINE_STAGES.map((stage, i) => (
+            <div key={stage.id} style={{
               padding: "20px 16px",
               background: "rgba(255,255,255,0.02)",
               border: "1px solid rgba(255,255,255,0.06)",
@@ -340,9 +326,9 @@ export default function PartnerRoomLanding() {
               <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(201,168,76,0.45)", textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>
                 {String(i + 1).padStart(2, "0")}
               </div>
-              <div style={{ fontSize: 12, fontWeight: 700, color: "#fff", marginBottom: 8 }}>{step.label}</div>
-              <div style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", lineHeight: 1.5 }}>{step.desc}</div>
-              {i < FLOW_STEPS.length - 1 && (
+              <div style={{ fontSize: 12, fontWeight: 700, color: "#fff", marginBottom: 8 }}>{stage.label}</div>
+              <div style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", lineHeight: 1.5 }}>{stage.summary}</div>
+              {i < ENGINE_STAGES.length - 1 && (
                 <div style={{ position: "absolute", right: -7, top: "50%", transform: "translateY(-50%)", width: 12, height: 1, background: "rgba(201,168,76,0.25)", zIndex: 1 }} />
               )}
             </div>

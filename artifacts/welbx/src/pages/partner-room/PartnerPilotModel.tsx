@@ -2,27 +2,28 @@ import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 import { PartnerCTAFooter } from "@/components/PartnerCTAFooter";
 import { PartnerProofBanner } from "@/components/PartnerProofBanner";
 import { usePartnerContent } from "@/context/PartnerContentContext";
+import { DEPLOYMENT_PATHWAY } from "@/data/rtbxArchitecture";
 
 const DEFAULT_PILOT_PHASES = [
   {
     num: "01",
     title: "Partner Alignment",
     duration: "Week 1",
-    desc: "Executive alignment on pilot scope, property selection, and success metrics. Stakeholder briefing with operations and technology leads. Pilot agreement signed.",
+    desc: "Executive alignment on pilot scope, property selection, and success metrics. Stakeholder briefing with operations and technology leads. Pilot agreement signed. [Explore & Align stage]",
     color: "#c9a84c",
   },
   {
     num: "02",
     title: "Signal Source Audit",
     duration: "Week 1–2",
-    desc: "Review of existing data sources available at the pilot property — PMS, housekeeping software, guest app, CRM, and IoT where present. Integration surface mapped and documented.",
+    desc: "Review of existing data sources available at the pilot property — PMS, housekeeping software, guest app, CRM, and IoT where present. Integration surface mapped and documented. [Configure stage]",
     color: "#c9a84c",
   },
   {
     num: "03",
     title: "Integration Sprint",
     duration: "Week 2–3",
-    desc: "Technical integration of priority signal sources. Push-webhook configuration for each confirmed source. RTBX Core signal layer activated and receiving approved data from the property.",
+    desc: "Technical integration of priority signal sources. Push-webhook configuration for each confirmed source. RTBX Core signal layer activated and receiving approved data from the property. [Pilot stage]",
     color: "#3b82f6",
   },
   {
@@ -115,6 +116,34 @@ export default function PartnerPilotModel() {
 
         {/* Proof banner */}
         <PartnerProofBanner />
+
+        {/* Seven-Stage Deployment Pathway */}
+        <div style={{ marginBottom: 56 }}>
+          <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 20 }}>
+            Seven-Stage Deployment Pathway
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 6, marginBottom: 24 }}>
+            {DEPLOYMENT_PATHWAY.map((stage, i, arr) => (
+              <div key={stage.id} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <div style={{
+                  padding: "10px 14px",
+                  background: stage.id === "pilot" ? "rgba(201,168,76,0.1)" : "rgba(255,255,255,0.02)",
+                  border: `1px solid ${stage.id === "pilot" ? "rgba(201,168,76,0.4)" : "rgba(255,255,255,0.1)"}`,
+                  borderLeft: stage.id === "pilot" ? "2px solid #c9a84c" : undefined,
+                }}>
+                  <div style={{ fontSize: 9, fontWeight: 700, color: stage.id === "pilot" ? "#c9a84c" : "rgba(255,255,255,0.55)", letterSpacing: "0.08em", textTransform: "uppercase" }}>{stage.label}</div>
+                  <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", marginTop: 2 }}>{stage.summary.split(".")[0]}</div>
+                </div>
+                {i < arr.length - 1 && <span style={{ fontSize: 12, color: "rgba(255,255,255,0.18)" }}>→</span>}
+              </div>
+            ))}
+          </div>
+          <div style={{ padding: "14px 18px", background: "rgba(255,255,255,0.015)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: "2px solid rgba(201,168,76,0.4)" }}>
+            <p style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", lineHeight: 1.65, margin: 0 }}>
+              RTBX Core remains consistent through every stage. What changes at each stage is the Travel environment — which systems are connected, which operating systems are activated, which governance rules are configured, which roles are assigned, and which outcome targets are set.
+            </p>
+          </div>
+        </div>
 
         {/* Phases */}
         <div style={{ marginBottom: 80 }}>

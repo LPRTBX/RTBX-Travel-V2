@@ -94,13 +94,19 @@ export default function PartnerCommsDemo() {
         {/* Header */}
         <div style={{ marginBottom: 48 }}>
           <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
-            Product Proof · Communications
+            RTBX Travel · Comms
           </div>
           <div style={{ fontSize: 28, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", marginBottom: 10 }}>
-            Communications Routing Demo
+            Central Comms OS — Routing Demo
           </div>
           <p style={{ fontSize: 13, color: "rgba(255,255,255,0.38)", lineHeight: 1.7, maxWidth: 580 }}>
             Select a scenario — then see how RTBX Core routes the right message to the right person at the right time.
+          </p>
+        </div>
+
+        <div style={{ padding: "14px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderLeft: "3px solid #c9a84c", marginBottom: 32 }}>
+          <p style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", lineHeight: 1.7, margin: 0 }}>
+            The Central Comms OS routes governed instructions to staff roles and AI-drafted messages to guests. Messages shown as "Delivered" in this demo are simulated — production delivery requires full system integration. Guest-facing messages require human approval or pre-authorised policy clearance before send. No message sends automatically.
           </p>
         </div>
 
@@ -167,6 +173,14 @@ export default function PartnerCommsDemo() {
                   <div style={{ padding: "0 8px", paddingTop: 2 }}>
                     <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: st.color, border: `1px solid ${st.color}30`, padding: "2px 7px", display: "inline-block" }}>
                       {st.label}
+                    </div>
+                    <div style={{ marginTop: 4 }}>
+                      {msg.recipient.includes("Guest") || msg.recipient.startsWith("Mr.") || msg.recipient.startsWith("Ms.") || msg.recipient.startsWith("All Affected") || msg.recipient.startsWith("Affected")
+                        ? <div style={{ fontSize: 8, fontWeight: 700, color: "#f97316", letterSpacing: "0.08em", textTransform: "uppercase" }}>Human approval required</div>
+                        : msg.recipient.includes("Duty Manager") || msg.recipient.includes("Shift Supervisor") || msg.recipient.includes("Corporate Account")
+                        ? <div style={{ fontSize: 8, fontWeight: 700, color: "#3b82f6", letterSpacing: "0.08em", textTransform: "uppercase" }}>Manager approval</div>
+                        : <div style={{ fontSize: 8, color: "rgba(255,255,255,0.3)", letterSpacing: "0.06em", textTransform: "uppercase" }}>Automated routing</div>
+                      }
                     </div>
                   </div>
                 </div>

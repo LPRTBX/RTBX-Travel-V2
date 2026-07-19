@@ -1,5 +1,6 @@
 import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
+import { ENGINE_STAGES } from "@/data/rtbxArchitecture";
 
 const PROOF_MODES = [
   {
@@ -212,7 +213,7 @@ export default function PartnerProductProof() {
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "72px 32px 140px" }}>
 
         {/* Header */}
-        <div style={{ marginBottom: 72 }}>
+        <div style={{ marginBottom: 48 }}>
           <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
             Partner Room · Product Proof
           </div>
@@ -222,6 +223,100 @@ export default function PartnerProductProof() {
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.38)", lineHeight: 1.75, maxWidth: 600 }}>
             See RTBX Travel working across live scenarios, role views, communications, decision logic and value proof.
           </p>
+        </div>
+
+        {/* Honesty statement */}
+        <div style={{ padding: "20px 24px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.08)", borderLeft: "3px solid #c9a84c", marginBottom: 48 }}>
+          <div style={{ fontSize: 8.5, letterSpacing: "0.16em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
+            What This Proof Shows
+          </div>
+          <p style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", lineHeight: 1.75, margin: 0 }}>
+            This room demonstrates architecture, interface design, scenario replay and configurable data models. It does not demonstrate a fully integrated production system. Each section below is labelled with its current status — working interface, synthetic scenario, architecturally defined, or requires pilot — so you can assess what is proven and what requires production engineering.
+          </p>
+        </div>
+
+        {/* Five-Step Proof Structure */}
+        <div style={{ marginBottom: 64 }}>
+          <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
+            Five-Step Proof Structure
+          </div>
+          <div style={{ fontSize: 24, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", marginBottom: 8 }}>
+            Proof Grouped by Engine Stage
+          </div>
+          <p style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", lineHeight: 1.75, maxWidth: 600, marginBottom: 32 }}>
+            Each section of the Partner Room demonstrates a specific engine stage. Use this map to find the proof relevant to your question.
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+            {[
+              {
+                stageLabel: "Connect", stageNum: "01",
+                items: [
+                  { label: "Integration Brief", desc: "Systems connected to the RTBX Integration Hub, integration maturity and model.", href: "/partner-room/integration-brief", status: "Architecturally Defined" },
+                  { label: "Travel Signal Registry", desc: "Signal taxonomy, source systems, signal-to-moment flow chain.", href: "/partner-room/signals-engine", status: "Working Interface" },
+                ],
+              },
+              {
+                stageLabel: "Understand", stageNum: "02",
+                items: [
+                  { label: "Moment Economy Explorer", desc: "8 moment types with signals, context, classification, OS, playbook and maturity.", href: "/partner-room/moments-economy", status: "Working Interface" },
+                  { label: "Travel Intelligence", desc: "Full signal taxonomy, moment taxonomy, governance sources and role model.", href: "/partner-room/travel-intelligence", status: "Working Interface" },
+                ],
+              },
+              {
+                stageLabel: "Decide", stageNum: "03",
+                items: [
+                  { label: "Decision Spine", desc: "10-step decision chain and 4 Travel governance sources with interactive scenario.", href: "/partner-room/decision-spine", status: "Working Interface" },
+                  { label: "Operating Model", desc: "Full architecture showing governance, playbook selection and role routing.", href: "/partner-room/operating-model", status: "Architecturally Defined" },
+                ],
+              },
+              {
+                stageLabel: "Act", stageNum: "04",
+                items: [
+                  { label: "Comms Demo", desc: "Central Comms OS routing: signal to message routing across channels with approval indicators.", href: "/partner-room/comms-demo", status: "Synthetic Scenario" },
+                  { label: "Operations Centre", desc: "RTBX Execution Centre — the operator interface for moments, actions and evidence.", href: "/partner-room/operations", status: "Working Interface" },
+                  { label: "Operator Demo", desc: "What the role owner sees: signals, context, decision, action, comms, evidence.", href: "/partner-room/operator-demo", status: "Working Interface" },
+                  { label: "Guest Demo", desc: "What the guest experiences as the output of coordinated RTBX action.", href: "/partner-room/guest-demo", status: "Working Interface" },
+                ],
+              },
+              {
+                stageLabel: "Learn", stageNum: "05",
+                items: [
+                  { label: "Validation Replay", desc: "Five-step replay: Connect to Learn, with what entered, interpreted, governed, actioned and learned.", href: "/partner-room/validation-replay", status: "Synthetic Scenario" },
+                  { label: "Product Proof Validation", desc: "8-category validation map: working interface through to requires production engineering.", href: "/partner-room/validation", status: "Working Interface" },
+                ],
+              },
+            ].map(stage => (
+              <div key={stage.stageLabel} style={{ border: "1px solid rgba(255,255,255,0.07)", overflow: "hidden" }}>
+                <div style={{ padding: "14px 22px", background: "rgba(201,168,76,0.05)", borderBottom: "1px solid rgba(255,255,255,0.06)", display: "flex", alignItems: "center", gap: 14 }}>
+                  <span style={{ fontSize: 9, fontWeight: 800, color: "rgba(201,168,76,0.4)", letterSpacing: "0.1em" }}>{stage.stageNum}</span>
+                  <span style={{ fontSize: 13, fontWeight: 700, color: "#c9a84c", letterSpacing: "0.04em", textTransform: "uppercase" }}>{stage.stageLabel}</span>
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+                  {stage.items.map((item, j) => (
+                    <a key={item.label} href={item.href} style={{ textDecoration: "none" }}>
+                      <div style={{
+                        display: "grid", gridTemplateColumns: "1fr 60px", gap: 16, padding: "16px 22px", alignItems: "center",
+                        borderBottom: j < stage.items.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none",
+                        background: "rgba(255,255,255,0.01)", transition: "all 0.12s", cursor: "pointer",
+                      }}
+                      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.03)"; }}
+                      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.01)"; }}
+                      >
+                        <div>
+                          <div style={{ fontSize: 12.5, fontWeight: 700, color: "#fff", marginBottom: 3 }}>{item.label} →</div>
+                          <div style={{ fontSize: 11, color: "rgba(255,255,255,0.38)", lineHeight: 1.5 }}>{item.desc}</div>
+                        </div>
+                        <div style={{
+                          fontSize: 7.5, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", textAlign: "right", lineHeight: 1.4,
+                          color: item.status === "Working Interface" ? "#10b981" : item.status === "Synthetic Scenario" ? "#3b82f6" : "rgba(255,255,255,0.3)",
+                        }}>{item.status}</div>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Live MVP Preview — featured above proof modes */}
@@ -389,7 +484,7 @@ export default function PartnerProductProof() {
         <div>
           <div style={{ marginBottom: 20 }}>
             <div style={{ fontSize: 9, letterSpacing: "0.18em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase", fontWeight: 700, marginBottom: 6 }}>
-              Section 03
+              Section 04
             </div>
             <div style={{ fontSize: 15, fontWeight: 700, color: "rgba(255,255,255,0.55)", letterSpacing: "-0.01em" }}>
               Additional Walkthroughs

@@ -1,5 +1,6 @@
 import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
+import { INTELLIGENCE_LAYERS, CORE_CAPABILITIES } from "@/data/rtbxArchitecture";
 import {
   TRAVEL_SIGNAL_TAXONOMY,
   TRAVEL_MOMENT_TAXONOMY,
@@ -80,6 +81,51 @@ export default function PartnerIntelligenceModel() {
               </div>
             </Link>
           ))}
+        </div>
+
+        {/* Six-Layer Position Map */}
+        <div style={{ marginBottom: 40 }}>
+          <SectionLabel>Six-Layer Position Map</SectionLabel>
+          <H2>Every Travel Element Mapped to the RTBX Core Architecture</H2>
+          <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, marginBottom: 24, maxWidth: 700 }}>
+            Every capability in the Travel Intelligence Pack has a position in the RTBX Core six-layer architecture. Each item is labelled as Shared Core, Travel Configuration, or Property Configuration.
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+            {INTELLIGENCE_LAYERS.map(layer => {
+              const caps = CORE_CAPABILITIES.filter(c => c.layer === layer.id);
+              return (
+                <div key={layer.id} style={{ padding: "18px 20px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
+                  <div style={{ fontSize: 12, fontWeight: 800, color: "#fff", marginBottom: 4 }}>{layer.label}</div>
+                  <div style={{ fontSize: 11, color: C.muted, marginBottom: 12 }}>{layer.summary}</div>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                    {caps.map(cap => (
+                      <div key={cap.id} style={{
+                        display: "flex", alignItems: "center", gap: 6, padding: "5px 10px",
+                        background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.08)",
+                      }}>
+                        <span style={{ fontSize: 10.5, color: "rgba(255,255,255,0.65)" }}>{cap.name}</span>
+                        <span style={{
+                          fontSize: 7.5, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase",
+                          padding: "1px 5px",
+                          color: cap.origin === "RTBX Core" ? "#c9a84c" : cap.origin === "Travel Configuration" ? "#3b82f6" : "#10b981",
+                          border: `1px solid ${cap.origin === "RTBX Core" ? "rgba(201,168,76,0.3)" : cap.origin === "Travel Configuration" ? "rgba(59,130,246,0.3)" : "rgba(16,185,129,0.3)"}`,
+                        }}>{cap.origin === "RTBX Core" ? "Shared Core" : cap.origin === "Travel Configuration" ? "Travel Config" : "Property Config"}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          {/* Origin legend */}
+          <div style={{ display: "flex", gap: 16, marginTop: 16 }}>
+            {[{ label: "Shared Core", color: "#c9a84c" }, { label: "Travel Config", color: "#3b82f6" }, { label: "Property Config", color: "#10b981" }].map(l => (
+              <div key={l.label} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <div style={{ width: 8, height: 8, background: l.color, borderRadius: 1 }} />
+                <span style={{ fontSize: 9.5, color: "rgba(255,255,255,0.4)", fontWeight: 700, letterSpacing: "0.04em" }}>{l.label}</span>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* ── SHARED ARCHITECTURE STATEMENT ── */}

@@ -5,12 +5,13 @@ import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 const C = { muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,255,0.22)" };
 
 const BUILDERS = [
-  { id: "deployment-builder", label: "Deployment Builder", color: "#c9a84c", desc: "Configures which environment, roles and channels are active for a property before go-live.", href: "/partner-room/deployments", cta: "Open Deployment Environments" },
-  { id: "signal-mapper",      label: "Signal Mapper",      color: "#3b82f6", desc: "Maps which signal sources — PMS, CRM, staff app, guest app — feed the Travel Signal Registry for this deployment.", href: "/partner-room/product-proof/signal-capture", cta: "Open Signal Capture" },
-  { id: "governance-mapper",  label: "Governance Mapper",  color: "#a78bfa", desc: "Maps which governance rules apply to which moment types, and which role owner is authorised to act.", href: "/partner-room/decision-spine", cta: "Open Decision Spine" },
-  { id: "playbook-builder",   label: "Playbook Builder",   color: "#10b981", desc: "Assembles the Travel Playbooks available to a role owner once governance has cleared a moment.", href: "/partner-room/scenario-builder", cta: "Open Scenario Builder" },
-  { id: "comms-builder",      label: "Comms Builder",      color: "#22d3ee", desc: "Configures the message templates and channels Central Comms OS uses to deliver an instruction or update.", href: "/partner-room/comms-demo", cta: "Open Comms Demo" },
-  { id: "scenario-tester",    label: "Scenario Tester",    color: "#f97316", desc: "Runs a scenario end-to-end against the configured deployment before it goes live, including escalation and failure paths.", href: "/partner-room/validation-replay", cta: "Open Validation Replay" },
+  { id: "property-setup",       label: "Property Setup",                color: "#c9a84c", desc: "Configure the property type, environment (hotel, resort, serviced apartment), and portfolio scope for this deployment. Defines the operational context RTBX Core operates within.", href: "/partner-room/deployments", cta: "Open Deployment Environments" },
+  { id: "systems-integrations", label: "Systems & Integrations",        color: "#3b82f6", desc: "Maps which signal sources — PMS, housekeeping, CRM, guest app, IoT — feed the Travel Signal Registry for this deployment. Defines the integration surface and data flows.", href: "/partner-room/product-proof/signal-capture", cta: "Open Signal Capture" },
+  { id: "operating-systems",    label: "Operating Systems & Modules",   color: "#a78bfa", desc: "Select which Travel Operating Systems and modules are activated for this deployment — Arrival OS, Rooms OS, F&B OS, Welfare OS, and the Commercial Activation layer.", href: "/partner-room/decision-spine", cta: "Open Decision Spine" },
+  { id: "roles-governance",     label: "Roles & Governance",            color: "#10b981", desc: "Configure the roles, approval authorities, and governance sources that determine who owns each moment type and what they are authorised to do. Maps to your existing org structure.", href: "/partner-room/scenario-builder", cta: "Open Scenario Builder" },
+  { id: "scenarios-playbooks",  label: "Scenarios & Playbooks",         color: "#22d3ee", desc: "Select and configure the scenarios and playbooks available to role owners once governance has cleared a moment. Assembles the Travel Playbook library for this property.", href: "/partner-room/scenario-builder", cta: "Open Scenario Builder" },
+  { id: "comms-channels",       label: "Comms Channels",                color: "#f59e0b", desc: "Configure the communication channels Central Comms OS uses to deliver instructions and updates — staff app, guest app, SMS, email, in-room system, and front desk alerts.", href: "/partner-room/comms-demo", cta: "Open Comms Demo" },
+  { id: "evidence-outcomes",    label: "Evidence & Outcomes",           color: "#f97316", desc: "Set the outcome targets and evidence requirements for each moment category. Defines what successful resolution looks like and what is logged to the assurance record.", href: "/partner-room/validation-replay", cta: "Open Validation Replay" },
 ];
 
 export default function PartnerBuildConfigure() {
@@ -32,13 +33,23 @@ export default function PartnerBuildConfigure() {
 
         <div style={{ marginBottom: 48 }}>
           <div style={{ fontSize: 8.5, letterSpacing: "0.2em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
-            Build / Configure
+            RTBX Travel · Build &amp; Configure
           </div>
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 18, maxWidth: 720 }}>
-            Configuring the RTBX Travel Deployment
+            Configure Your Travel Deployment
           </h1>
           <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.8, maxWidth: 700 }}>
             These are the configuration surfaces used to set up an RTBX Core deployment for a property — not a replacement for the property's PMS, CRM, loyalty platform or booking engine. Each surface below links to the closest working proof of that capability in the Partner Room.
+          </p>
+        </div>
+
+        {/* Maturity callout */}
+        <div style={{ padding: "18px 22px", background: "rgba(255,165,0,0.04)", border: "1px solid rgba(255,165,0,0.2)", borderLeft: "3px solid #f97316", marginBottom: 36 }}>
+          <div style={{ fontSize: 8, letterSpacing: "0.16em", color: "#f97316", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
+            Current Status: Prototype &amp; Simulation
+          </div>
+          <p style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", lineHeight: 1.75, margin: 0 }}>
+            This configurator demonstrates the selection model for Travel deployments. Full functional persistence — saving configurations, activating integrations, creating live accounts — is deferred to Sprint 4 and pilot engagement. The selection surfaces shown are architecturally representative of what will be configured during an actual deployment.
           </p>
         </div>
 

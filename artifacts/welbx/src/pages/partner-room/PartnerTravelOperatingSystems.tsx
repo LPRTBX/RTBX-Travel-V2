@@ -53,6 +53,39 @@ export default function PartnerTravelOperatingSystems() {
           </p>
         </div>
 
+        {/* How a Travel OS is Built */}
+        <div style={{ marginBottom: 40 }}>
+          <SectionLabel>Architecture Pattern</SectionLabel>
+          <H2>How a Travel Operating System Is Built</H2>
+          <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, marginBottom: 24, maxWidth: 700 }}>
+            Each Travel Operating System is the product of three layers combined. No OS is a standalone platform — each depends on RTBX Core capabilities and Travel Intelligence configuration.
+          </p>
+          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 12, marginBottom: 20 }}>
+            {[
+              { label: "RTBX Core", sub: "Signal-to-action infrastructure", color: "#c9a84c", bg: "rgba(201,168,76,0.08)" },
+              { label: "+", sub: "", color: "rgba(255,255,255,0.3)", bg: "transparent", border: "none" },
+              { label: "Travel Intelligence Pack", sub: "Signals, moments, governance, playbooks", color: "#3b82f6", bg: "rgba(59,130,246,0.08)" },
+              { label: "+", sub: "", color: "rgba(255,255,255,0.3)", bg: "transparent", border: "none" },
+              { label: "Property Configuration", sub: "Modules, roles, channels, rules", color: "#10b981", bg: "rgba(16,185,129,0.08)" },
+              { label: "=", sub: "", color: "rgba(255,255,255,0.3)", bg: "transparent", border: "none" },
+              { label: "Travel Operating System", sub: "Purpose-built for a hotel problem domain", color: "#c9a84c", bg: "rgba(201,168,76,0.12)", highlight: true },
+            ].map((item, i) => (
+              item.sub === "" ? (
+                <div key={i} style={{ fontSize: 22, fontWeight: 300, color: item.color }}>{item.label}</div>
+              ) : (
+                <div key={i} style={{
+                  padding: "14px 18px", background: item.bg,
+                  border: `1px solid ${(item as any).highlight ? "#c9a84c" : "rgba(255,255,255,0.1)"}`,
+                  borderLeft: (item as any).highlight ? "3px solid #c9a84c" : undefined,
+                }}>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: item.color, marginBottom: 4 }}>{item.label}</div>
+                  <div style={{ fontSize: 9.5, color: "rgba(255,255,255,0.4)" }}>{item.sub}</div>
+                </div>
+              )
+            ))}
+          </div>
+        </div>
+
         {/* ── HIERARCHY VISUAL ── */}
         <div style={{ marginBottom: 56 }}>
           <SectionLabel>Hierarchy</SectionLabel>

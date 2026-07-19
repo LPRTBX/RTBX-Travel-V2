@@ -26,7 +26,6 @@ const CATEGORY_COLORS: Record<string, string> = {
 export default function PartnerSignalsEngine() {
   const { content } = usePartnerContent();
   const logicChain = content?.signalsEngine?.logicChain ?? DEFAULT_LOGIC_CHAIN;
-  const headline = content?.signalsEngine?.headline ?? "A Configured Signal Library.\nOne Operating Picture.";
   const subheadline = content?.signalsEngine?.subheadline ?? "RTBX Core captures staff, guest and operator-entered signals first, then approved integrations over time. Signals are normalised, weighted, and pattern-matched — creating an operating picture that the moment engine acts on, in real-time or near-real-time where integration access allows.";
 
   return (
@@ -36,10 +35,10 @@ export default function PartnerSignalsEngine() {
         {/* Header */}
         <div style={{ marginBottom: 48 }}>
           <div style={{ fontSize: 9, letterSpacing: "0.22em", color: "#3b82f6", textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>
-            Signals Engine Brief
+            Travel Signal Registry
           </div>
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 24, maxWidth: 720 }}>
-            {headline.split("\n").map((line, i) => (
+            {"Travel Signal Registry — Travel Configuration of the RTBX Core Signal Layer".split("\n").map((line, i) => (
               <span key={i}>{i > 0 && <br />}{line}</span>
             ))}
           </h1>
@@ -48,8 +47,45 @@ export default function PartnerSignalsEngine() {
           </p>
         </div>
 
+        {/* Positioning callout */}
+        <div style={{ padding: "16px 20px", background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.18)", borderLeft: "3px solid #c9a84c", marginBottom: 32 }}>
+          <p style={{ fontSize: 13, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, margin: 0, fontWeight: 600 }}>
+            The Travel Signal Registry is the Travel configuration of the RTBX Core Signal Layer. Every signal is classified, scored and mapped to the Context and Moment Layer — where it becomes part of a moment classification. No signal generates a response on its own.
+          </p>
+        </div>
+
         {/* Proof banner */}
         <PartnerProofBanner />
+
+        {/* Signal Flow Chain */}
+        <div style={{ marginBottom: 48 }}>
+          <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 20 }}>
+            Signal Flow Chain — Source to Decision
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 6 }}>
+            {[
+              { label: "Source System", sub: "PMS · Guest App · Staff Comms · IoT" },
+              { label: "Signal Captured", sub: "Normalised · Scored · Tagged" },
+              { label: "Data Status", sub: "Real-time · Near real-time · Batch" },
+              { label: "Context Applied", sub: "Guest profile · Property rules · History" },
+              { label: "Moment Identified", sub: "Type · Risk level · Value at stake" },
+              { label: "Decision Pathway", sub: "Governance · Playbook · Role" },
+              { label: "Accountable Role", sub: "Named human owner" },
+            ].map((node, i, arr) => (
+              <div key={node.label} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <div style={{
+                  padding: "10px 14px",
+                  background: i === 0 ? "rgba(59,130,246,0.08)" : i === arr.length - 1 ? "rgba(201,168,76,0.08)" : "rgba(255,255,255,0.02)",
+                  border: `1px solid ${i === 0 ? "rgba(59,130,246,0.3)" : i === arr.length - 1 ? "rgba(201,168,76,0.3)" : "rgba(255,255,255,0.1)"}`,
+                }}>
+                  <div style={{ fontSize: 10.5, fontWeight: 700, color: i === 0 ? "#3b82f6" : i === arr.length - 1 ? "#c9a84c" : "#fff", marginBottom: 3 }}>{node.label}</div>
+                  <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", lineHeight: 1.4 }}>{node.sub}</div>
+                </div>
+                {i < arr.length - 1 && <span style={{ fontSize: 11, color: "rgba(255,255,255,0.2)" }}>→</span>}
+              </div>
+            ))}
+          </div>
+        </div>
 
         {/* Signal category sections */}
         <div style={{ marginBottom: 80, display: "flex", flexDirection: "column", gap: 2 }}>

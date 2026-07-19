@@ -92,10 +92,13 @@ export default function PartnerOperationsCentre() {
 
         {/* ── HEADER ── */}
         <div style={{ marginBottom: 48 }}>
-          <SectionLabel>Operations</SectionLabel>
-          <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 18, maxWidth: 760 }}>
-            Running RTBX Travel Day to Day
+          <SectionLabel>RTBX Travel · Operations</SectionLabel>
+          <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 12, maxWidth: 760 }}>
+            RTBX Execution Centre — Travel Environment
           </h1>
+          <div style={{ fontSize: 14, color: "rgba(255,255,255,0.45)", marginBottom: 16, letterSpacing: "-0.01em" }}>
+            Travel Operations Centre — Operator Interface
+          </div>
           <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.8, maxWidth: 700 }}>
             The Action Centre, Outcome Ledger, Evidence Ledger and Value Dashboard below run on synthetic demo data and connect signals to playbooks, communications, actions, evidence, outcomes and value — the same operating surfaces a live deployment runs on once configuration is complete.
           </p>
@@ -120,6 +123,25 @@ export default function PartnerOperationsCentre() {
           <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, marginBottom: 20, maxWidth: 760 }}>
             Every open moment, its assigned role owner and its response deadline. Filter by property, operating system, role or priority. Expand a card for its linked communications, evidence and outcome — or progress it through its demo status sequence.
           </p>
+
+          {/* 8 operational domains */}
+          <div style={{ marginBottom: 20 }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 16 }}>
+              {["Active Signals", "Moments", "Decisions", "Actions", "Comms", "Escalations", "Evidence", "Outcomes & Learning"].map((d, i) => (
+                <div key={d} style={{
+                  padding: "5px 12px", fontSize: 9, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase",
+                  color: i === 0 ? "#c9a84c" : "rgba(255,255,255,0.4)",
+                  border: `1px solid ${i === 0 ? "rgba(201,168,76,0.3)" : "rgba(255,255,255,0.1)"}`,
+                  background: i === 0 ? "rgba(201,168,76,0.06)" : "rgba(255,255,255,0.02)",
+                }}>{d}</div>
+              ))}
+            </div>
+            <div style={{ padding: "14px 18px", background: "rgba(255,255,255,0.015)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: "2px solid rgba(201,168,76,0.4)" }}>
+              <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.5)", lineHeight: 1.65, margin: 0 }}>
+                This is the RTBX Execution Centre configured for the Travel environment. Every live moment, decision, communication and outcome record flows through this interface. Operators see only what they are authorised to see; every action is governed and evidenced.
+              </p>
+            </div>
+          </div>
 
           {/* filters */}
           <div style={{ display: "flex", flexWrap: "wrap", gap: 20, marginBottom: 22 }}>

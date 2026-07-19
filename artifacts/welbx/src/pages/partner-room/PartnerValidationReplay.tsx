@@ -28,40 +28,40 @@ interface ReplayStep {
 
 const STEPS: ReplayStep[] = [
   {
-    label: "Signal Detected",
-    normal:     { status: "complete", detail: "Guest sentiment drop detected in WELBX — score 2.1. Signal queued at 14:02." },
-    escalation: { status: "complete", detail: "Guest sentiment drop detected in WELBX — score 2.1. Signal queued at 14:02." },
-    failure:    { status: "complete", detail: "Guest sentiment drop detected in WELBX — score 2.1. Signal queued at 14:02." },
+    label: "Connect — Signal Entered",
+    normal:     { status: "complete", detail: "Room readiness delay signal — captured from housekeeping system — real-time status confirmed. Signal queued at 14:02." },
+    escalation: { status: "complete", detail: "Room readiness delay signal — captured from housekeeping system — real-time status confirmed. Signal queued at 14:02." },
+    failure:    { status: "complete", detail: "Room readiness delay signal — captured from housekeeping system — status field incomplete. Signal queued at 14:02 with data gap flagged." },
   },
   {
-    label: "Moment Classified",
-    normal:     { status: "complete", detail: "SERVICE_RECOVERY · Hospitality · L1. Playbook match: service-recovery-standard. Decision queued." },
-    escalation: { status: "complete", detail: "SERVICE_RECOVERY · Hospitality · L1. Playbook match: service-recovery-standard. Decision queued." },
-    failure:    { status: "complete", detail: "SERVICE_RECOVERY · Hospitality · L1. Playbook match: service-recovery-standard. Decision queued." },
+    label: "Understand — Moment Classified",
+    normal:     { status: "complete", detail: "Service Recovery Moment identified — Risk: High — Loyalty tier active — Value at stake: guest satisfaction + repeat booking. Playbook match confirmed." },
+    escalation: { status: "complete", detail: "Service Recovery Moment identified — Risk: High — Loyalty tier active — Value at stake: guest satisfaction + repeat booking. Playbook match confirmed." },
+    failure:    { status: "failed",   detail: "Signal cluster incomplete — moment type ambiguous between Service Recovery and Arrival Friction. Classification defaulted without full context. Playbook match unreliable." },
   },
   {
-    label: "Decision Selected",
-    normal:     { status: "complete", detail: "Playbook activated: proactive contact + upgrade offer. Staff task created. Timer: 10 min." },
-    escalation: { status: "complete", detail: "Playbook activated: proactive contact + upgrade offer. Staff task created. Timer: 10 min." },
-    failure:    { status: "complete", detail: "Playbook activated: proactive contact + upgrade offer. Staff task created. Timer: 10 min." },
+    label: "Decide — Governance Applied",
+    normal:     { status: "complete", detail: "Guest Service Recovery Policy applied — Compensation Approval Matrix checked — Duty manager response within SLA authorised. Decision logged." },
+    escalation: { status: "complete", detail: "Guest Service Recovery Policy applied — Compensation Approval Matrix checked — Duty manager response within SLA authorised. Escalation threshold set at 10 min." },
+    failure:    { status: "failed",   detail: "Governance check attempted — ambiguous moment classification meant no clear policy match. Decision deferred. No role owner assigned. Timer not started." },
   },
   {
-    label: "Intervention Executed",
-    normal:     { status: "complete", detail: "Staff accepted task at 14:04. Guest contacted. Upgrade arranged. Completed at 14:09 (5 min)." },
-    escalation: { status: "breached",  detail: "Staff task not accepted — 10 min timer expired at 14:12. ESCALATION TRIGGERED. Manager alerted." },
-    failure:    { status: "failed",    detail: "Staff task not accepted — 10 min timer expired. No response to escalation. Task MISSED." },
+    label: "Act — Response Coordinated",
+    normal:     { status: "complete", detail: "Duty manager notified via staff app — guest recovery message drafted by AI — front desk approved send — room reprioritised in housekeeping queue. Completed at 14:09." },
+    escalation: { status: "breached", detail: "Staff task not accepted — 10 min timer expired at 14:12. ESCALATION TRIGGERED. Manager alerted via secondary channel. Manager personally coordinated recovery at 14:18." },
+    failure:    { status: "failed",   detail: "No role owner assigned — no staff task created — no guest message sent. Action window passed with no coordinated response." },
   },
   {
-    label: "Outcome Assured",
-    normal:     { status: "complete", detail: "Outcome confirmed: guest accepted upgrade at 14:09. Record closed. Sentiment recovered to 4.3." },
-    escalation: { status: "complete", detail: "Manager personally resolved at 14:18. Compensation: F&B voucher A$50 added. Outcome confirmed." },
-    failure:    { status: "failed",    detail: "No resolution achieved. Guest complaint logged externally. Assurance ISSUE created. GM notified." },
+    label: "Act — Evidence Recorded",
+    normal:     { status: "complete", detail: "Moment record complete — governance decision logged — action confirmed — timestamp and role owner recorded in Evidence Ledger. Record closed at 14:09." },
+    escalation: { status: "complete", detail: "Moment record complete — escalation event logged — manager action confirmed — F&B voucher A$50 compensation recorded — Evidence Ledger updated at 14:18." },
+    failure:    { status: "failed",   detail: "Evidence Ledger entry created but incomplete — no action log, no role owner, no outcome. Assurance ISSUE flagged. GM notified. Record remains open." },
   },
   {
-    label: "Value Captured",
-    normal:     { status: "complete", detail: "A$420 value protected. Resolution: 7 min. Guest NPS: +2. No escalation. Record closed." },
-    escalation: { status: "complete", detail: "A$420 value protected (with delay). Resolution: 16 min. Manager time cost: A$18. Escalation record closed." },
-    failure:    { status: "failed",    detail: "Value LOST. Negative review: 1-star posted. Estimated impact: −A$840. Assurance issue open. Review required." },
+    label: "Learn — Outcome & Learning",
+    normal:     { status: "complete", detail: "Outcome: guest recovered — no complaint lodged — satisfaction preserved — playbook performance record updated — detection threshold calibrated. Value protected: A$420." },
+    escalation: { status: "complete", detail: "Outcome: guest recovered with delay — manager compensation applied — escalation path validated — staff response time flagged for review — playbook updated. Value protected: A$420 (with A$18 cost)." },
+    failure:    { status: "failed",   detail: "Value LOST. Negative review posted — estimated impact: −A$840. Learning signal: classification failure upstream — incomplete signal ingestion identified as root cause. Operational review required." },
   },
 ];
 
@@ -173,7 +173,7 @@ export default function PartnerValidationReplay() {
                 key={i}
                 onClick={() => setActiveStep(i)}
                 style={{
-                  display: "grid", gridTemplateColumns: "36px 40px 180px 1fr 100px",
+                  display: "grid", gridTemplateColumns: "36px 40px 220px 1fr 100px",
                   padding: "16px 16px", gap: 0, cursor: "pointer", transition: "all 0.2s",
                   opacity: isVisible ? 1 : 0.25,
                   background: isActive ? cfg.bg : "rgba(255,255,255,0.015)",
@@ -213,9 +213,9 @@ export default function PartnerValidationReplay() {
           <div style={{ marginTop: 24, padding: "24px 28px", background: `${modeColor}08`, border: `1px solid ${modeColor}25`, borderTop: `2px solid ${modeColor}` }}>
             <div style={{ fontSize: 9, letterSpacing: "0.16em", color: modeColor, textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>Replay Complete · {mode} Mode</div>
             <p style={{ fontSize: 13, color: "rgba(255,255,255,0.58)", lineHeight: 1.7, margin: 0 }}>
-              {mode === "Normal" && "RTBX Core resolved the incident in 7 minutes. Value protected: A$420. Guest sentiment recovered. No escalation. Assurance record closed."}
-              {mode === "Escalation" && "Escalation triggered at 10 min. Manager resolved at 16 min. Additional cost: A$18. Value still protected. Assurance record: escalation noted. System worked — with delay."}
-              {mode === "Failure" && "Action missed. No resolution. Negative review posted. Estimated impact: −A$840. Assurance issue open. Root cause: staff non-compliance. Requires operational review."}
+              {mode === "Normal" && "RTBX resolved the incident in 7 minutes across all five engine stages. Signal connected, moment understood, governance decided, response coordinated, evidence recorded, outcome learned. Value protected: A$420. No escalation. Record closed."}
+              {mode === "Escalation" && "Escalation triggered at Act stage — 10 min SLA breached. Manager resolved at 16 min. Governance held throughout. Evidence complete including escalation event. Value still protected. Playbook updated with staff response time flag."}
+              {mode === "Failure" && "Classification failure at Understand stage cascaded through all subsequent steps. No governance match, no role owner, no action, incomplete evidence. Negative review posted. Estimated impact: −A$840. Root cause: incomplete signal at Connect stage. Operational review required."}
             </p>
           </div>
         )}

@@ -150,6 +150,68 @@ export default function PartnerDecisionSpine() {
           </p>
         </div>
 
+        {/* Decision Chain */}
+        <div style={{ marginBottom: 72 }}>
+          <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>
+            The RTBX Core Decision Spine — Travel Configuration
+          </div>
+          <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.5)", lineHeight: 1.7, maxWidth: 640, marginBottom: 28 }}>
+            Every moment runs through this chain before any action is taken. Travel policies configure the shared Decision Spine — they are not a separate system.
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 0, maxWidth: 780 }}>
+            {[
+              { n: "01", label: "Signal", desc: "Signals are captured and classified by the Travel Signal Registry. Multiple signals combine into a signal cluster." },
+              { n: "02", label: "Context", desc: "Signal cluster assembled into a moment record by the Context and Moment Layer. Guest profile, property rules and history are applied." },
+              { n: "03", label: "Governance Source", desc: "Applicable Travel governance sources identified — e.g. Guest Service Recovery Policy, Compensation Approval Matrix, Critical Incident Procedure." },
+              { n: "04", label: "Rule Applied", desc: "The relevant governance rule determines what response is permitted — and what is not." },
+              { n: "05", label: "Threshold Evaluated", desc: "Risk level and value at stake are checked against configured thresholds. High-risk moments trigger an elevated approval path." },
+              { n: "06", label: "Permission Granted", desc: "Response path approved by governance — or escalated if the required permission level exceeds the current role's authority." },
+              { n: "07", label: "Human Approval (where required)", desc: "Compensation, welfare, legal and safety decisions always require named human approval. AI may not approve these responses." },
+              { n: "08", label: "Accountable Role Assigned", desc: "A named human role owns the response — never an autonomous system. The role is determined by the moment type and governance rule." },
+              { n: "09", label: "Decision Executed", desc: "The role owner acts on the governed recommendation. The action is delivered through the Central Comms OS to the right channel." },
+              { n: "10", label: "Evidence Required", desc: "Every decision is logged to the Evidence Ledger: timestamp, governance source, role owner, action taken, and outcome recorded." },
+            ].map((item, i, arr) => (
+              <div key={item.n} style={{ display: "flex", alignItems: "flex-start", gap: 16 }}>
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: 24, flexShrink: 0 }}>
+                  <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#c9a84c", flexShrink: 0, marginTop: 4 }} />
+                  {i < arr.length - 1 && <div style={{ width: 1, flex: 1, minHeight: 32, background: "rgba(201,168,76,0.2)" }} />}
+                </div>
+                <div style={{ paddingBottom: 24 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}>
+                    <span style={{ fontSize: 8.5, fontWeight: 700, color: "rgba(201,168,76,0.4)", letterSpacing: "0.08em" }}>{item.n}</span>
+                    <span style={{ fontSize: 13, fontWeight: 700, color: "#fff" }}>{item.label}</span>
+                  </div>
+                  <div style={{ fontSize: 11.5, color: "rgba(255,255,255,0.45)", lineHeight: 1.65, maxWidth: 640 }}>{item.desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Travel Governance Sources */}
+        <div style={{ marginBottom: 72 }}>
+          <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>
+            Travel Policies Configure the Shared Decision Spine
+          </div>
+          <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.5)", lineHeight: 1.7, maxWidth: 640, marginBottom: 24 }}>
+            These Travel governance sources are applied to every moment before a decision is permitted. They are Travel configurations of RTBX Core governance — not standalone rules.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2 }}>
+            {[
+              { label: "Guest Service Recovery Policy", desc: "Defines compensation levels, recovery pathway requirements and SLA thresholds for service failure moments. Determines what the front desk may resolve independently and what requires manager authorisation.", color: "#c9a84c" },
+              { label: "Compensation Approval Matrix", desc: "Sets approval authority by role and compensation value. Monetary compensation above defined thresholds requires a named authoriser. AI may not approve any compensation.", color: "#3b82f6" },
+              { label: "Critical Incident Procedure", desc: "Mandates immediate escalation path for welfare, safety or legal moments. No autonomous AI action permitted. Named duty manager must own every critical incident response.", color: "#ef4444" },
+              { label: "Privacy & Consent Rules", desc: "Governs what guest data may be captured, processed and acted on under what consent conditions. Welfare signals require privacy-safe handling. No guest data used without authorised consent.", color: "#a78bfa" },
+            ].map(item => (
+              <div key={item.label} style={{ padding: "22px 24px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: `3px solid ${item.color}` }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: "#fff", marginBottom: 10 }}>{item.label}</div>
+                <div style={{ fontSize: 11.5, color: "rgba(255,255,255,0.45)", lineHeight: 1.65 }}>{item.desc}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Interactive demo */}
         <div style={{ display: "grid", gridTemplateColumns: "340px 1fr", gap: 2 }}>
           {/* Inputs */}
           <div>
