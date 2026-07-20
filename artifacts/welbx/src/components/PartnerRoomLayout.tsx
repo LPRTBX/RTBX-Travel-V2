@@ -66,7 +66,7 @@ interface PartnerRoomLayoutProps {
 }
 
 export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
-  const [location] = useLocation();
+  const [location, navigate] = useLocation();
   const [openGroup, setOpenGroup] = useState<string | null>(null);
   const { content } = usePartnerContent();
   const contentVersion = content?.contentVersion ?? "1.0.0";
@@ -151,23 +151,46 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
                 style={{ position: "relative" }}
                 onMouseEnter={() => setOpenGroup(group.label)}
                 onMouseLeave={() => setOpenGroup(null)}
+                // Close the menu when focus moves completely outside this group container
+                onBlur={e => {
+                  if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+                    setOpenGroup(null);
+                  }
+                }}
               >
-                <Link href={group.path}>
-                  <div style={{
+                {/* Trigger: native button so it is keyboard-focusable without nested interactive elements */}
+                <button
+                  aria-haspopup="menu"
+                  aria-expanded={isOpen}
+                  onClick={() => navigate(group.path)}
+                  onFocus={() => setOpenGroup(group.label)}
+                  onKeyDown={e => {
+                    if (e.key === " " || e.key === "ArrowDown") {
+                      e.preventDefault();
+                      setOpenGroup(isOpen ? null : group.label);
+                    }
+                    if (e.key === "Escape") setOpenGroup(null);
+                  }}
+                  style={{
                     padding: "11px 16px",
                     fontSize: 9.5,
                     fontWeight: 700,
                     letterSpacing: "0.08em",
-                    textTransform: "uppercase",
+                    textTransform: "uppercase" as const,
                     color: isGroupActive ? "#fff" : "rgba(255,255,255,0.38)",
+                    borderTop: "none",
+                    borderLeft: "none",
+                    borderRight: "none",
                     borderBottom: isGroupActive ? "2px solid #c9a84c" : "2px solid transparent",
+                    background: "transparent",
                     cursor: "pointer",
                     transition: "color 0.15s",
-                    whiteSpace: "nowrap",
-                    userSelect: "none",
+                    whiteSpace: "nowrap" as const,
+                    userSelect: "none" as const,
                     display: "flex",
                     alignItems: "center",
                     gap: 5,
+                    outline: "none",
                   }}
                   onMouseEnter={e => {
                     if (!isGroupActive) (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.72)";
@@ -175,30 +198,39 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
                   onMouseLeave={e => {
                     if (!isGroupActive) (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.38)";
                   }}
-                  >
-                    {group.label}
-                    <span style={{ fontSize: 7, color: "rgba(255,255,255,0.3)" }}>▾</span>
-                  </div>
-                </Link>
+                >
+                  {group.label}
+                  <span style={{ fontSize: 7, color: "rgba(255,255,255,0.3)" }}>▾</span>
+                </button>
 
                 {isOpen && (
-                  <div style={{
-                    position: "absolute",
-                    top: "100%",
-                    left: 0,
-                    minWidth: 260,
-                    background: "#0c1220",
-                    border: "1px solid rgba(201,168,76,0.2)",
-                    boxShadow: "0 12px 28px rgba(0,0,0,0.5)",
-                    zIndex: 60,
-                    padding: "6px 0",
-                  }}>
+                  <div
+                    role="menu"
+                    style={{
+                      position: "absolute",
+                      top: "100%",
+                      left: 0,
+                      minWidth: 260,
+                      background: "#0c1220",
+                      border: "1px solid rgba(201,168,76,0.2)",
+                      boxShadow: "0 12px 28px rgba(0,0,0,0.5)",
+                      zIndex: 60,
+                      padding: "6px 0",
+                    }}>
                     {group.items.map(item => {
                       const itemActive = location === item.path.split("#")[0];
                       return (
+                        // Link renders a native <a> which is keyboard-focusable by default.
+                        // The inner div is purely presentational (no tabIndex, no interactive role).
                         <Link key={item.path} href={item.path}>
                           <div
                             onClick={() => setOpenGroup(null)}
+                            onKeyDown={e => {
+                              if (e.key === "Escape") setOpenGroup(null);
+                            }}
+                            // Focus/blur on the div bubble from the parent <a> so we can apply hover styles
+                            onFocus={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.04)"; }}
+                            onBlur={e => { (e.currentTarget as HTMLElement).style.background = "transparent"; }}
                             style={{
                               padding: "9px 16px",
                               fontSize: 10,

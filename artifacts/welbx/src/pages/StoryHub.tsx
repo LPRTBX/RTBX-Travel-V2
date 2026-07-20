@@ -47,8 +47,8 @@ const MODES = [
     label: "Live Guest Story",
     duration: "Immersive",
     slides: "8 steps",
-    format: "The WELBX guest experience layer",
-    desc: "Experience a single guest moment from three perspectives — Guest, Operating, and Infrastructure. Follow a guest signal to outcome in real time through the WELBX layer.",
+    format: "The guest experience layer in action",
+    desc: "Experience a single guest moment from three perspectives — Guest, Operating, and Infrastructure. Follow a guest signal to outcome in real time through the RTBX Travel platform.",
     steps: ["Signal Detected", "Moment Created", "Decision Made", "Communication Routed", "Action Executed", "Outcome Achieved", "Learning Captured", "Value Created"],
     accent: C.violet,
     badge: "GUEST LAYER",
@@ -89,7 +89,7 @@ export default function StoryHub() {
       {/* Header */}
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} style={{ marginBottom: 52 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 24 }}>
-          <span style={{ fontSize: 12, fontWeight: 800, letterSpacing: "0.24em", color: C.white, textTransform: "uppercase" }}>WELBX</span>
+          <span style={{ fontSize: 12, fontWeight: 800, letterSpacing: "0.24em", color: C.white, textTransform: "uppercase" }}>RTBX Travel</span>
           <span style={{ color: C.dimmed }}>·</span>
           <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.22em", color: C.amber, textTransform: "uppercase" }}>OPERATOR STORY LAB</span>
         </div>
@@ -166,7 +166,7 @@ export default function StoryHub() {
         transition={{ duration: 0.4, delay: 0.4 }}
         style={{ marginTop: 32, paddingTop: 24, borderTop: `1px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "space-between" }}
       >
-        <span style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.1em", color: C.dimmed, textTransform: "uppercase" }}>WELBX Behavioural Infrastructure  |  The Operating Layer Between Signal And Action</span>
+        <span style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.1em", color: C.dimmed, textTransform: "uppercase" }}>RTBX Travel  |  The Operating Layer Between Signal And Action</span>
         <Link href="/"><span style={{ fontSize: 8.5, color: C.dimmed, cursor: "pointer", textDecoration: "underline" }}>← Return to Platform</span></Link>
       </motion.div>
     </div>

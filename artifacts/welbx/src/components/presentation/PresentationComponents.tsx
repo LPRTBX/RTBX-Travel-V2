@@ -17,7 +17,7 @@ export const C = {
   cyan:   "#22d3ee",
 };
 
-export const FOOTER = "WELBX Behavioural Infrastructure  |  The Operating Layer Between Signal And Action";
+export const FOOTER = "RTBX Travel  |  The Operating Layer Between Signal And Action";
 
 /* ─── Slide Shell ─────────────────────────────────────────────────── */
 export function PresentationSlide({ children, className }: { children: ReactNode; className?: string }) {
@@ -46,7 +46,7 @@ export function SlideHeader({ label }: { label?: string }) {
   return (
     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 44 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-        <span style={{ fontSize: 12, fontWeight: 800, letterSpacing: "0.24em", color: C.white, textTransform: "uppercase" }}>WELBX</span>
+        <span style={{ fontSize: 12, fontWeight: 800, letterSpacing: "0.24em", color: C.white, textTransform: "uppercase" }}>RTBX Travel</span>
         {label && (
           <>
             <span style={{ color: C.dimmed, fontSize: 10 }}>·</span>
@@ -54,7 +54,7 @@ export function SlideHeader({ label }: { label?: string }) {
           </>
         )}
       </div>
-      <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.16em", color: C.dimmed, textTransform: "uppercase" }}>BEHAVIOURAL INFRASTRUCTURE</span>
+      <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.16em", color: C.dimmed, textTransform: "uppercase" }}>PARTNER ROOM</span>
     </div>
   );
 }

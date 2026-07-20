@@ -404,7 +404,7 @@ export default function PartnerHolidayParkDemo() {
               All Demo Paths
             </div>
           </Link>
-          <a href="mailto:lance@rtbx.com.au?subject=Holiday Parks Demo - WELBX" style={{ textDecoration: "none" }}>
+          <a href="mailto:lance@rtbx.com.au?subject=Holiday Parks Demo — RTBX Travel" style={{ textDecoration: "none" }}>
             <div style={{
               padding: "14px 28px",
               fontSize: 11,

@@ -9,7 +9,7 @@ type ViewMode = 'guest' | 'operating' | 'infrastructure';
 const VIEW_CONFIG: Record<ViewMode, { label: string; color: string; sub: string }> = {
   guest:          { label: "GUEST VIEW",          color: C.blue,   sub: "What Mr Hartmann experiences" },
   operating:      { label: "OPERATING VIEW",       color: C.amber,  sub: "What the team sees and does" },
-  infrastructure: { label: "INFRASTRUCTURE VIEW",  color: C.violet, sub: "What WELBX is doing invisibly" },
+  infrastructure: { label: "INFRASTRUCTURE VIEW",  color: C.violet, sub: "What RTBX is doing invisibly" },
 };
 
 interface StepView { headline: string; narrative: string; points: string[]; }
@@ -32,8 +32,8 @@ const STEPS: Step[] = [
       points: ["Diamond guest ETA: 12 minutes · confidence 97%", "Room 847 status: OCCUPIED · Housekeeping not assigned", "Housekeeping estimated arrival: 22 minutes — beyond guest ETA"],
     },
     infrastructure: {
-      headline: "BXOS pattern matching begins.",
-      narrative: "BXOS clustering algorithm identifies signal convergence. Three signals map to a known VIP collision pattern.",
+      headline: "Intelligence Engine pattern matching begins.",
+      narrative: "Signal clustering algorithm identifies signal convergence. Three signals map to a known VIP collision pattern.",
       points: ["Signal cluster threshold: met (3 of 3 signals)", "Pattern match against 847 prior VIP arrival events", "Confidence building: 88% → 91% in 14 seconds", "Moment creation threshold: imminent"],
     },
   },
@@ -51,7 +51,7 @@ const STEPS: Step[] = [
     },
     infrastructure: {
       headline: "Pattern matched. Moment created. Playbook queued.",
-      narrative: "BXOS has matched the signal cluster against the VIP arrival collision pattern. Moment GM-002 is created and governance chain begins.",
+      narrative: "The intelligence engine has matched the signal cluster against the VIP arrival collision pattern. Moment GM-002 is created and governance chain begins.",
       points: ["Moment ID: GM-002 · VIP Arrival Risk", "Confidence: 91% · Pattern: Arrival Window Collision", "Historical match: 847 prior VIP events — 94% resolved successfully", "Playbook PB-002 queued. Decision pending."],
     },
   },
@@ -65,12 +65,12 @@ const STEPS: Step[] = [
     operating: {
       headline: "Housekeeping Priority Protocol auto-triggered.",
       narrative: "Playbook PB-002 triggers automatically. No Duty Manager input required. The decision is governed.",
-      points: ["Decision DEC-047 created: Trigger Housekeeping Priority Protocol", "Owner: BXOS Auto", "Lounge pre-access activated", "Floor supervisor deployment initiated"],
+      points: ["Decision DEC-047 created: Trigger Housekeeping Priority Protocol", "Owner: Auto-governed", "Lounge pre-access activated", "Floor supervisor deployment initiated"],
     },
     infrastructure: {
       headline: "Decision DEC-047 logged in 0.8 seconds.",
       narrative: "The governance chain executes instantly. Decision is logged, attributed, and auditable.",
-      points: ["Decision time: 0.8 seconds from moment creation", "Governance path: BXOS Auto → PB-002 → Step 1 of 4", "Decision log: time-stamped, attributed, retrievable", "Communication routing initiated"],
+      points: ["Decision time: 0.8 seconds from moment creation", "Governance path: Auto-governed → PB-002 → Step 1 of 4", "Decision log: time-stamped, attributed, retrievable", "Communication routing initiated"],
     },
   },
   {
@@ -82,11 +82,11 @@ const STEPS: Step[] = [
     },
     operating: {
       headline: "Three channels routed. Zero manual coordination.",
-      narrative: "NEXUS routing engine deploys communications simultaneously to Housekeeping Lead, Duty Manager, and the guest app.",
+      narrative: "Routing engine deploys communications simultaneously to Housekeeping Lead, Duty Manager, and the guest app.",
       points: ["Housekeeping Lead · Mobile push: 'Room 847 priority clearance. Diamond arrival 12 min.'", "Duty Manager · In-app: 'PB-002 running. VIP Arrival Risk active. ETA 12 min.'", "Guest app: personalised welcome and lounge confirmation"],
     },
     infrastructure: {
-      headline: "NEXUS deploys 3 channels in parallel.",
+      headline: "Routing engine deploys 3 channels in parallel.",
       narrative: "Staff and guest communications are separated by design. The guest never sees operational urgency.",
       points: ["Communication ID: CC-089 through CC-091", "Channels: Mobile push · In-app · Guest app", "Routing time: 1.2 seconds from decision", "Staff and guest comms decoupled"],
     },
@@ -141,7 +141,7 @@ const STEPS: Step[] = [
     },
     infrastructure: {
       headline: "Signal weights recalibrated. 848th VIP event logged.",
-      narrative: "BXOS updates the pattern library based on this event. Future detection improves automatically.",
+      narrative: "The intelligence engine updates the pattern library based on this event. Future detection improves automatically.",
       points: ["VIP arrival detection window: extended by 8 minutes", "Housekeeping ETA threshold: recalibrated", "Institutional memory: updated", "Pattern library: 848 VIP events — 94.6% resolved"],
     },
   },
@@ -214,7 +214,7 @@ function StepVisual({ step, viewColor }: { step: number; viewColor: string }) {
           {[
             { label: "Decision", value: "Trigger Housekeeping Priority Protocol" },
             { label: "Playbook",   value: "PB-002 · VIP Arrival Protocol" },
-            { label: "Owner",      value: "BXOS Auto" },
+            { label: "Owner",      value: "Auto-governed" },
             { label: "Time",       value: "0.8 seconds from moment creation" },
             { label: "Status",     value: "EXECUTING" },
           ].map((row, i) => (
@@ -359,7 +359,7 @@ export default function StoryGuestStory() {
       {/* Header */}
       <div style={{ padding: "16px 32px", borderBottom: `1px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0, background: "hsl(220 13% 4%)" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <span style={{ fontSize: 11, fontWeight: 800, letterSpacing: "0.22em", color: C.white, textTransform: "uppercase" }}>WELBX</span>
+          <span style={{ fontSize: 11, fontWeight: 800, letterSpacing: "0.22em", color: C.white, textTransform: "uppercase" }}>RTBX Travel</span>
           <span style={{ color: C.border }}>·</span>
           <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.2em", color: vc.color, textTransform: "uppercase" }}>THE DIAMOND ARRIVAL</span>
         </div>
@@ -479,7 +479,7 @@ export default function StoryGuestStory() {
 
             {/* Visual panel */}
             <div style={{ width: 360, flexShrink: 0, borderLeft: `1px solid ${C.border}`, padding: "24px 20px", overflow: "auto", background: "hsl(220 13% 4%)" }}>
-              <div style={{ fontSize: 7, fontWeight: 700, letterSpacing: "0.18em", color: C.dimmed, textTransform: "uppercase", marginBottom: 14 }}>WELBX · LIVE VIEW</div>
+              <div style={{ fontSize: 7, fontWeight: 700, letterSpacing: "0.18em", color: C.dimmed, textTransform: "uppercase", marginBottom: 14 }}>RTBX Travel · LIVE VIEW</div>
               <StepVisual step={currentStep} viewColor={vc.color} />
             </div>
           </div>
