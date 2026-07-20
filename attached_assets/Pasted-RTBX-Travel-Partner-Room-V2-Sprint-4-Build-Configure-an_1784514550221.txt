@@ -1,0 +1,1461 @@
+RTBX Travel Partner Room V2
+Sprint 4 — Build, Configure and Execute
+
+You are working on the existing RTBX Travel Partner Room V2 application.
+
+The previous sprints should already have completed:
+
+Sprint 1 — Repository stabilisation
+Canonical application confirmed
+Legacy WELBX source isolated
+Routes stabilised
+Runtime and package manager pinned
+Baseline route, link and build verification added
+Sprint 2 — RTBX Core alignment
+RTBX Intelligence Engine aligned
+Connect → Understand → Decide → Act → Learn implemented consistently
+Six intelligence layers aligned
+Shared RTBX Core separated from Travel configuration
+Canonical architecture data established
+Sprint 3 — Operating systems, scenarios and playbooks
+Priority Travel operating systems established
+Canonical scenario model created
+Canonical playbook model created
+Canonical role register created
+Scenarios linked to playbooks, roles, evidence and outcomes
+Scenario and playbook validation added
+Guest, Operator and Dual View demonstrations aligned
+
+Do not repeat these sprints unless a specific technical blocker requires a small corrective change.
+
+This sprint is focused on:
+
+Build & Configure
+Deployment configuration
+Scenario activation
+Runtime execution
+Role-based action
+Communication coordination
+Evidence capture
+Outcome capture
+End-to-end operating-system proof
+
+This is not a production backend, external integration or customer deployment sprint.
+
+1. Sprint objective
+
+Create a complete interactive workflow demonstrating how a Travel environment can be configured and activated through the shared RTBX platform.
+
+The user must be able to move through:
+
+Configure environment → Select systems → Map roles → Activate operating systems → Apply governance → Select scenarios and playbooks → Configure communications → Confirm evidence and outcomes → Activate deployment → Execute scenario → Capture evidence → Record outcome → Review learning
+
+Configuration created within Build & Configure must influence the runtime experience inside the RTBX Execution Centre — Travel Environment.
+
+The result must prove that RTBX Travel is a configurable operating-system layer, not merely a collection of static demonstrations.
+
+2. Non-negotiable constraints
+Preserve
+
+Preserve:
+
+Existing architecture
+Existing canonical routes
+Existing Travel operating systems
+Existing six core scenarios
+Existing playbooks
+Existing role register
+Existing Decision Spine
+Existing Guest Demo
+Existing Operator Demo
+Existing Dual View Demo
+Existing Validation Replay
+Existing Operations Centre
+Existing proof maturity standards
+Existing visual design system
+Existing commercial and partner pages
+Existing validation and build checks
+Do not
+Do not rebuild the application
+Do not introduce a new design system
+Do not add new operating-system categories
+Do not create large numbers of new scenarios
+Do not build production external integrations
+Do not build enterprise authentication
+Do not introduce a database solely for this sprint
+Do not create a new backend unless a stable backend already exists and only a small extension is needed
+Do not describe local state as production persistence
+Do not describe synthetic signals as live integrations
+Do not create duplicate configuration pages
+Do not replace shared RTBX Core modules with Travel-specific engines
+Do not change commercial pricing or assumptions
+Do not begin Sprint 5 commercial restructuring
+Do not begin Sprint 6 full UX and release QA
+
+Use the simplest maintainable implementation that creates a coherent end-to-end working demonstration.
+
+3. Required operating loop
+
+The completed application must support:
+
+Build & Configure
+        ↓
+Deployment configuration created
+        ↓
+Operating systems activated
+        ↓
+Scenario activated
+        ↓
+Signal received
+        ↓
+Context understood
+        ↓
+Decision rule applied
+        ↓
+Accountable role assigned
+        ↓
+Playbook activated
+        ↓
+Actions and communications coordinated
+        ↓
+Evidence recorded
+        ↓
+Outcome measured
+        ↓
+Learning displayed
+
+This may use synthetic data and local browser persistence.
+
+It must remain clearly labelled as an interactive product simulation rather than production infrastructure.
+
+4. Build & Configure flow
+
+Use the existing canonical /build-configure route.
+
+Create one guided configuration experience using a stepper, staged workspace or equivalent existing UI pattern.
+
+Do not create nine separate pages unless the existing architecture absolutely requires it.
+
+Use these stages:
+
+Environment
+Systems
+Roles
+Operating Systems
+Governance
+Scenarios and Playbooks
+Communications
+Evidence and Outcomes
+Review and Activate
+
+Configuration state must persist between stages.
+
+5. Stage 1 — Environment
+
+Allow the user to configure:
+
+Deployment name
+Organisation or property name
+Environment type
+Property type
+Number of properties
+Number of rooms or equivalent scale
+Region
+Time zone
+Operating model
+Demonstration or pilot-design status
+
+Supported environment options may include:
+
+Hotel
+Resort
+Hotel group
+Holiday park
+Corporate Travel
+Event or venue
+Destination environment
+
+Hotels and resorts must remain the default and primary pathway.
+
+Operating-model options may include:
+
+Single property
+Multi-property group
+Regional deployment
+Group-wide deployment
+
+Display:
+
+Prototype configuration environment using synthetic deployment data.
+
+6. Stage 2 — Systems and connections
+
+Allow the user to select systems beneath the shared Integration Hub.
+
+Systems of record
+Property management system
+Reservation or booking platform
+CRM
+Loyalty platform
+Guest profile system
+Operational systems
+Housekeeping
+Maintenance
+Task management
+Workforce management
+Service request platform
+Incident system
+Communications
+Guest messaging
+Email
+SMS
+Internal messaging
+Staff application
+Contact centre
+Knowledge and governance
+Brand standards
+Property procedures
+Safety policies
+Service-level rules
+Escalation procedures
+Guest communication standards
+External signals
+Transport disruption
+Weather
+Local services
+Partner inventory
+Building or IoT signals
+
+Every selected system must use an approved status:
+
+Simulated
+Manual
+Demonstrated
+Connector-ready
+Integrated
+Planned
+
+Do not default systems to Integrated.
+
+System selection must affect:
+
+Available signals
+Scenario readiness
+Runtime source labels
+Connection maturity shown in the Execution Centre
+
+Example:
+
+PMS signal — simulated
+
+7. Stage 3 — Roles and accountability
+
+Use the canonical Travel role register.
+
+Allow the user to:
+
+Activate or deactivate roles
+Map canonical roles to local titles
+Assign accountable roles
+Assign supporting roles
+Assign escalation roles
+Configure communication permissions
+Configure evidence responsibilities
+
+Example:
+
+RTBX role: Duty Manager
+Local title: Manager on Duty
+
+Do not create a duplicate role merely because the customer uses a different local title.
+
+Activation must be blocked where:
+
+A selected scenario has no accountable role
+A playbook action has no active owner
+An escalation target is inactive
+Required evidence has no owner
+A high-risk scenario has no human approval role
+8. Stage 4 — Operating systems
+
+Allow activation of:
+
+Lead operating systems
+Guest Experience OS
+Service Recovery and Staff Response OS
+Operator Intelligence OS
+Cross-cutting control
+Safety and Guest Welfare OS
+Expansion operating system
+Marketplace and Loyalty Activation OS
+
+Selecting an operating system must make its related:
+
+Signals
+Scenarios
+Playbooks
+Roles
+Governance requirements
+Outcome measures
+
+available in later stages.
+
+Safety and Guest Welfare controls must activate automatically where required by a selected scenario.
+
+Marketplace and Loyalty Activation must display requirements for:
+
+Permission
+Accurate context
+Appropriate timing
+Delivery capacity
+Governance
+Exclusion during distress or unresolved service recovery
+9. Stage 5 — Governance
+
+Allow configuration of the shared Decision Spine for the deployment.
+
+Configuration areas should include:
+
+Service-level thresholds
+Approval thresholds
+Escalation timeframes
+Compensation authority
+Guest communication approval
+High-risk communication restrictions
+Safety and welfare escalation
+Evidence requirements
+Privacy controls
+Human approval requirements
+
+Each governance rule must identify its source:
+
+Brand standard
+Property procedure
+Safety policy
+Customer rule
+Pilot configuration
+Regulatory requirement
+Demonstration default
+
+Governance settings must affect runtime behaviour.
+
+Examples:
+
+Room-delay threshold changes when escalation is triggered
+Compensation authority changes the required approver
+Distressed guest scenarios always require human approval
+Communication settings determine whether a message can be sent
+SLA settings determine breach status
+
+Do not create a separate Travel Governance Engine.
+
+10. Stage 6 — Scenarios and playbooks
+
+Allow activation of the existing six scenarios:
+
+Repeat guest room not ready
+Distressed guest
+Service backlog
+Maintenance defect
+Transport disruption
+Premium guest opportunity
+
+For each scenario show:
+
+Operating system
+Trigger
+Required signals
+Accountable role
+Linked playbook
+Human approval requirement
+Primary evidence
+Primary outcome
+Maturity status
+
+A scenario cannot be activated if:
+
+Its operating system is inactive
+Required signals are unavailable without synthetic override
+Its accountable role is inactive
+Its playbook is missing
+Mandatory governance is incomplete
+Required evidence has no owner
+
+Where a connection is unavailable, allow:
+
+Use synthetic signal source for this scenario.
+
+Keep this status visible throughout runtime.
+
+Allow limited playbook configuration:
+
+Configure thresholds
+Map owners to active local roles
+Select communication channels
+Activate or deactivate optional steps
+Configure approval requirements
+Set outcomes as customer-configured, pilot-defined or to be agreed
+
+Mandatory governance and safety steps must not be removable.
+
+11. Stage 7 — Communications
+
+Configure the shared:
+
+Prompt & Nudge Engine
+Central Comms OS
+
+Supported communication types:
+
+Staff prompt
+Recommended action
+Approval request
+Escalation notification
+Guest-facing draft
+Internal notification
+Resolution confirmation
+Outcome notification
+
+Supported channels may include:
+
+Staff application
+Internal messaging
+Email
+SMS
+Guest application
+Front-office interface
+Manager dashboard
+
+For each communication configure:
+
+Audience
+Channel
+Approval requirement
+Generated, templated or manual
+Evidence requirement
+Escalation behaviour
+
+The distressed-guest pathway must require:
+
+Human review
+Restricted content
+Approved escalation
+Appropriate evidence boundaries
+
+Do not permit uncontrolled autonomous high-risk communication.
+
+12. Stage 8 — Evidence and outcomes
+Evidence configuration
+
+Support evidence such as:
+
+Signal received
+Source verified
+Decision recorded
+Approval recorded
+Task assigned
+Communication approved
+Communication sent
+Guest acknowledgement
+Repair completed
+Resolution confirmed
+Escalation completed
+Review completed
+
+Each evidence item must define:
+
+Required or optional
+Owner
+Completion rule
+Visibility
+Proof maturity
+Outcome configuration
+
+Support outcomes such as:
+
+Time to acknowledge
+Time to assign
+Time to resolve
+SLA met
+Escalation required
+Guest contacted
+Recovery completed
+Safety handoff completed
+Evidence completed
+Repeat issue detected
+Guest outcome
+Staff adoption
+
+Each outcome must define:
+
+Metric
+Target type
+Measurement method
+Source
+Owner
+Maturity
+
+Do not invent approved targets.
+
+Use:
+
+Customer-configured
+Pilot-defined
+Indicative
+To be agreed during alignment
+13. Stage 9 — Review and Activate
+
+Display a deployment summary containing:
+
+Environment
+Selected systems
+Connection maturity
+Active roles
+Active operating systems
+Active scenarios
+Linked playbooks
+Governance settings
+Communication settings
+Evidence requirements
+Outcome measures
+Known limitations
+
+Use readiness states:
+
+Incomplete
+Ready for simulation
+Ready for pilot design
+Blocked
+Production engineering required
+
+Do not use “Ready for production.”
+
+Primary action:
+
+Activate Travel Environment
+
+Activation must:
+
+Save the configuration
+Create a deployment ID
+Set deployment status
+Set it as the active deployment
+Make it available inside the Execution Centre
+Allow an active scenario to be launched
+14. Deployment configuration model
+
+Create a canonical typed deployment configuration model.
+
+Use an appropriate location such as:
+
+src/data/travelDeploymentConfig.ts
+
+Example structure:
+
+type TravelDeploymentConfig = {
+  id: string;
+  name: string;
+
+  status:
+    | "draft"
+    | "ready-for-simulation"
+    | "active-simulation"
+    | "pilot-design"
+    | "blocked";
+
+  environment: {
+    organisationName: string;
+    propertyName: string;
+    environmentType: string;
+    propertyType: string;
+    propertyCount: number;
+    roomCount?: number;
+    region: string;
+    timezone: string;
+    operatingModel: string;
+  };
+
+  systems: {
+    systemId: string;
+    name: string;
+    category: string;
+    status:
+      | "simulated"
+      | "manual"
+      | "demonstrated"
+      | "connector-ready"
+      | "integrated"
+      | "planned";
+    enabled: boolean;
+  }[];
+
+  roles: {
+    roleId: string;
+    localTitle?: string;
+    enabled: boolean;
+  }[];
+
+  operatingSystemIds: string[];
+
+  governance: {
+    ruleId: string;
+    source: string;
+    value: string | number | boolean;
+    required: boolean;
+  }[];
+
+  scenarios: {
+    scenarioId: string;
+    enabled: boolean;
+    signalMode: "configured-source" | "synthetic";
+    accountableRoleId: string;
+    playbookId: string;
+    overrides?: Record<string, unknown>;
+  }[];
+
+  communications: {
+    communicationType: string;
+    audience: string;
+    channel: string;
+    approvalRequired: boolean;
+    generationMode: "generated" | "templated" | "manual";
+  }[];
+
+  evidenceRequirements: {
+    evidenceType: string;
+    ownerRoleId: string;
+    required: boolean;
+  }[];
+
+  outcomeMetrics: {
+    metric: string;
+    targetType:
+      | "customer-configured"
+      | "pilot-defined"
+      | "indicative"
+      | "to-be-agreed";
+    target?: string;
+  }[];
+
+  createdAt: string;
+  updatedAt: string;
+};
+
+Adjust to current project conventions without unnecessary abstraction.
+
+15. Persistence and deployment context
+
+Use the simplest appropriate persistence mechanism:
+
+Existing application state solution
+Local storage
+IndexedDB only if already used
+Existing stable backend only if already available
+
+Do not introduce a database solely for Sprint 4.
+
+Configuration should:
+
+Survive navigation
+Survive refresh where practical
+Be editable
+Be resettable
+Be exportable as JSON where practical
+Be clearly identified as local synthetic demonstration data
+
+Display:
+
+This prototype stores synthetic deployment configuration locally for demonstration purposes. It is not a production customer environment.
+
+Create a shared deployment context or equivalent state layer.
+
+Example capability:
+
+DeploymentProvider
+  ├── activeDeployment
+  ├── updateDeployment
+  ├── activateDeployment
+  ├── resetDeployment
+  ├── exportDeployment
+  └── launchScenario
+
+The active deployment should be available to:
+
+Build & Configure
+Execution Centre
+Scenario pages
+Operator Demo
+Guest Demo where relevant
+Dual View Demo
+Validation Replay
+Evidence views
+Outcome views
+
+Do not create disconnected deployment state separately on each page.
+
+16. Default synthetic deployment
+
+Provide one preconfigured deployment for immediate demonstration.
+
+Suggested deployment
+
+Harbour Hotel Melbourne — Pilot Environment
+
+Configuration
+Single hotel
+220 rooms
+PMS simulated
+Housekeeping simulated
+Maintenance manual
+Guest messaging demonstrated
+Internal communications demonstrated
+Active operating systems
+Guest Experience OS
+Service Recovery and Staff Response OS
+Operator Intelligence OS
+Safety and Guest Welfare controls
+Active scenarios
+Repeat guest room not ready
+Service backlog
+Maintenance defect
+Status
+Ready for simulation
+
+Clearly state that the property and all data are synthetic.
+
+Allow the user to load this deployment or create a new one.
+
+17. Execution Centre
+
+Update the existing Operations route so it functions as:
+
+RTBX Execution Centre — Travel Environment
+
+“Travel Operations Centre” may remain as the practical interface title.
+
+It must consume the active deployment configuration.
+
+Required sections
+Deployment context
+Deployment name
+Property
+Active operating systems
+Active scenarios
+Connection maturity
+Runtime status
+Active signals
+Source
+Signal
+Maturity
+Timestamp
+Synthetic or configured status
+Active moments
+Context
+Risk or opportunity
+Scenario
+Required response
+Decision
+Governance source
+Rule
+Threshold
+Required approval
+Accountable role
+Recommended decision
+Playbook
+Linked playbook
+Current step
+Action owner
+Timing
+Completion status
+Next action
+Communications
+Recipient
+Channel
+Message type
+Approval status
+Sent or pending
+Evidence status
+Escalations
+Threshold
+Current state
+Escalation owner
+Required action
+Evidence
+Evidence item
+Owner
+Required status
+Completion status
+Outcomes
+Metric
+Target
+Current result
+Status
+Learning
+Pattern identified
+Review requirement
+Recommended improvement
+18. Runtime execution model
+
+Keep scenario definitions separate from scenario execution records.
+
+Create a runtime model such as:
+
+type ScenarioExecution = {
+  id: string;
+  deploymentId: string;
+  scenarioId: string;
+  playbookId: string;
+
+  status:
+    | "signal-received"
+    | "understanding"
+    | "decision-required"
+    | "approval-required"
+    | "in-action"
+    | "escalated"
+    | "resolved"
+    | "closed";
+
+  startedAt: string;
+  updatedAt: string;
+
+  signals: RuntimeSignal[];
+  context: RuntimeContext;
+  decision: RuntimeDecision;
+  actions: RuntimeAction[];
+  communications: RuntimeCommunication[];
+  escalations: RuntimeEscalation[];
+  evidence: RuntimeEvidence[];
+  outcomes: RuntimeOutcome[];
+  learning?: RuntimeLearning;
+};
+
+Use one reusable runtime engine driven by deployment, scenario and playbook data.
+
+Do not create six separate hardcoded workflow engines.
+
+19. Five-step runtime trace
+
+Every execution must visibly follow:
+
+Connect
+Signal source
+Signal received
+Source maturity
+Timestamp
+Understand
+Context assembled
+Moment identified
+Risk or opportunity
+Validation or confidence state
+Decide
+Governance applied
+Decision required
+Accountable role
+Approval status
+Act
+Playbook steps
+Actions
+Communications
+Escalations
+Evidence capture
+Learn
+Outcome
+Pattern
+Review requirement
+Recommended improvement
+
+Use a timeline, progress trace or equivalent existing visual pattern.
+
+Do not create a competing workflow framework.
+
+20. State transition rules
+
+Use explicit state transitions:
+
+signal-received
+    ↓
+understanding
+    ↓
+decision-required
+    ↓
+approval-required, where configured
+    ↓
+in-action
+    ↓
+escalated, where a threshold is breached
+    ↓
+resolved
+    ↓
+closed
+
+Define:
+
+Valid transitions
+Preconditions
+Role permissions
+Approval requirements
+Escalation conditions
+Evidence requirements
+Closure conditions
+
+Impossible transitions must be blocked.
+
+Examples:
+
+An action cannot complete before assignment
+High-risk communication cannot send before approval
+A scenario cannot close with mandatory evidence incomplete
+Escalation must trigger when its configured threshold is exceeded
+Outcomes cannot complete without the required result data
+21. Execution controls
+
+Support controls such as:
+
+Launch scenario
+Receive signal
+Validate signal
+Apply decision rule
+Approve action
+Assign owner
+Complete action
+Send approved communication
+Trigger escalation
+Add evidence
+Record outcome
+Resolve scenario
+Close scenario
+Replay scenario
+Reset scenario
+
+Controls must respect state, governance and permissions.
+
+22. End-to-end scenarios
+
+Fully connect at least these three scenarios:
+
+Repeat guest room not ready
+Service backlog
+Maintenance defect
+
+Each must demonstrate:
+
+Different signal sources
+Different accountable roles
+Different playbooks
+Different escalation rules
+Different evidence requirements
+Different outcomes
+
+Preserve configuration for:
+
+Distressed guest
+Transport disruption
+Premium guest opportunity
+
+The distressed-guest scenario must never demonstrate uncontrolled autonomous action or communication.
+
+Do not create separate runtime logic for every scenario.
+
+23. Role views
+Guest View
+
+Show only appropriate guest-facing information:
+
+Approved update
+Relevant next action
+Confirmation
+Resolution
+
+Do not expose:
+
+Internal risk classification
+Governance notes
+Staff performance information
+Restricted welfare details
+Internal escalation commentary
+Operator View
+
+Show:
+
+Signals
+Context
+Decision
+Accountable role
+Playbook
+Actions
+Communications
+Escalations
+Evidence
+Outcomes
+Dual View
+
+Show how one execution coordinates:
+
+Operator workflow
+Guest-facing experience
+
+All views must use the same execution ID and runtime state.
+
+24. Evidence capture
+
+Implement lightweight interactive evidence capture.
+
+Supported types may include:
+
+Confirmation
+Timestamp
+Staff note
+Approved message
+Task completion
+Guest acknowledgement
+Photo placeholder
+Repair confirmation
+Escalation record
+Resolution confirmation
+
+Do not implement real file storage unless it already exists.
+
+Evidence should record:
+
+Type
+Owner
+Timestamp
+Required or optional
+Completion status
+Visibility
+Synthetic status
+
+Mandatory evidence must block scenario closure.
+
+25. Outcome capture
+
+Support outcome states:
+
+Pending
+Met
+Partially met
+Not met
+Not measured
+
+Do not force successful outcomes.
+
+A scenario must be able to close with an unsuccessful or partially successful outcome where evidence is complete.
+
+Supported outcomes may include:
+
+Time to acknowledge
+Time to assign
+Time to resolve
+SLA achieved
+Guest contacted
+Recovery completed
+Escalation completed
+Evidence completed
+Repeat issue identified
+26. Learning output
+
+After scenario completion, generate a simple rules-based learning record.
+
+Examples:
+
+Repeat maintenance defect detected
+SLA threshold may require review
+Approval caused response delay
+Role assignment was unclear
+Mandatory playbook step was skipped
+Guest recovery completed within target
+Backlog indicates a capacity issue
+
+Display:
+
+Demonstrated learning output based on synthetic scenario evidence.
+
+Do not claim autonomous cross-customer intelligence.
+
+27. Configuration summary, reset and export
+
+Allow users to:
+
+Review configuration
+Edit configuration
+Reset configuration
+Load the default deployment
+Export configuration as JSON where practical
+Import a compatible configuration where safe
+
+Validate imported configuration.
+
+Do not accept malformed or untrusted values silently.
+
+28. Navigation and calls to action
+Build & Configure
+
+Primary action:
+
+Configure Travel Environment
+
+Review stage
+
+Primary action:
+
+Activate Travel Environment
+
+After activation
+
+Primary action:
+
+Open Execution Centre
+
+Execution Centre
+
+Primary actions:
+
+Launch Scenario
+Continue Active Scenario
+Review Evidence
+Review Outcomes
+Scenario completion
+
+Primary actions:
+
+Review Learning
+Replay Scenario
+Return to Execution Centre
+
+Avoid dead-end pages.
+
+29. Proof and maturity language
+
+Apply the approved taxonomy.
+
+Build & Configure
+
+Prototype configuration experience
+
+Execution Centre
+
+Working interactive simulation
+
+Signals
+
+Use:
+
+Simulated
+Manual
+Demonstrated
+Connector-ready
+Integrated
+Planned
+Evidence
+
+Synthetic evidence record
+
+Outcomes
+
+Demonstrated outcome using synthetic execution data
+
+Persistence
+
+Local demonstration persistence
+
+Do not use:
+
+Live customer deployment
+Production environment
+Real-time integration
+Production orchestration
+Customer data
+
+unless technically proven.
+
+30. Required validation
+
+Add validation for:
+
+Deployment configuration
+Required environment fields exist
+Selected systems are valid
+System maturity values are approved
+Selected roles exist
+Selected operating systems exist
+Selected scenarios exist
+Selected playbooks exist
+Governance rules are valid
+Evidence owners are active
+Outcome metrics are valid
+Activation readiness
+
+Block activation where:
+
+No operating system is selected
+No scenario is selected
+A scenario has no accountable role
+A required signal is absent without synthetic override
+A playbook is absent
+Mandatory governance is incomplete
+A high-risk scenario has no human approver
+Required evidence has no owner
+Runtime
+
+Validate that:
+
+Execution references a valid deployment
+Execution references a valid scenario
+Execution references a valid playbook
+State transitions are valid
+Action owners are active
+Approval rules are enforced
+Escalations follow configured thresholds
+Closure requires mandatory evidence
+Outcome states are approved
+31. Required tests
+Configuration tests
+Default deployment loads
+New deployment can be created
+Configuration persists
+Configuration resets
+Systems affect scenario availability
+Roles affect scenario readiness
+Operating systems affect scenario availability
+Governance affects runtime decisions
+Invalid configuration cannot activate
+Runtime tests
+Scenario launches
+Five-step trace progresses
+Invalid transitions are blocked
+Approval requirements are enforced
+Action ownership is enforced
+Escalation triggers correctly
+Mandatory evidence blocks closure
+Outcomes can record success or failure
+Learning appears after completion
+Cross-view tests
+Guest and Operator views use the same execution
+Dual View uses the same execution
+Restricted internal information is hidden from Guest View
+Scenario and playbook data remain consistent
+Persistence tests
+Deployment survives navigation
+Active execution survives navigation
+Refresh works where supported
+Reset clears local demonstration state
+32. Technical verification
+
+Run:
+
+Dependency installation
+Typecheck
+Lint
+Existing tests
+Architecture consistency validation
+Operating-system validation
+Scenario validation
+Playbook validation
+Role validation
+Deployment configuration validation
+Runtime state validation
+State-transition tests
+Cross-view tests
+Route smoke tests
+Internal-link tests
+Legacy terminology check
+Asset checks
+Production build
+
+Manually verify:
+
+Build & Configure works on desktop
+Build & Configure works on mobile
+Default deployment loads
+A new configuration can be created
+Deployment can activate
+Execution Centre consumes the active deployment
+At least three scenarios execute end to end
+Evidence can be completed
+Outcomes can be recorded
+Learning appears
+Guest, Operator and Dual Views remain functional
+No regression from Sprints 1–3 was introduced
+
+Do not report a check as passed unless it was actually run successfully.
+
+33. Required Sprint 4 report
+
+At completion, provide:
+
+A. Executive summary
+
+Explain:
+
+What became configurable
+What became executable
+What persists
+Which scenarios run end to end
+What remains synthetic
+What requires production engineering
+B. Configuration-stage report
+
+For every stage:
+
+Purpose
+Fields
+Validation
+Data source
+Runtime effect
+Maturity
+C. Deployment model
+
+Document:
+
+Configuration structure
+Persistence approach
+Activation states
+Readiness rules
+Reset behaviour
+Export behaviour
+D. Runtime model
+
+Document:
+
+Execution states
+Valid transitions
+Decision behaviour
+Approval behaviour
+Escalation behaviour
+Evidence requirements
+Closure rules
+Outcome handling
+Learning output
+E. End-to-end scenario report
+
+For each completed scenario:
+
+Signal
+Governance
+Accountable role
+Playbook
+Actions
+Communications
+Escalation
+Evidence
+Outcome
+Learning
+Maturity
+F. Changed-file register
+
+For each changed file:
+
+Path
+Change
+Reason
+Risk level
+G. Verification report
+
+Provide exact results for:
+
+Install
+Typecheck
+Lint
+Tests
+Configuration tests
+Runtime tests
+State-transition tests
+Cross-view tests
+Route tests
+Link tests
+Legacy terminology check
+Asset checks
+Production build
+H. Known limitations
+
+Clearly identify applicable limitations such as:
+
+Local-only persistence
+Synthetic data
+Missing external integrations
+Missing production authentication
+Missing production audit storage
+Missing production communications
+Missing multi-tenant boundaries
+Missing operational monitoring
+I. Deferred work
+Sprint 5
+Partner ownership
+Integration responsibilities
+Ecosystem mapping
+Commercial consolidation
+Pilot scope
+Deployment package
+Expansion pathway
+Revenue-model clarity
+Sprint 6
+Readability
+Accessibility
+Mobile refinement
+Visual hierarchy
+Final QA
+Proof-claim approval
+Release gate
+J. Git summary
+
+Include:
+
+Branch
+Commits
+Working-tree status
+Conflicts
+Uncommitted files
+Whether safe to merge
+34. Acceptance criteria
+
+Sprint 4 is complete only when:
+
+Build & Configure provides one guided flow
+A synthetic Travel deployment can be created
+Systems can be selected
+System maturity is visible
+Roles can be mapped
+Operating systems can be activated
+Governance can be configured
+Scenarios can be activated
+Scenarios link to valid playbooks
+Communications can be configured
+Evidence requirements can be configured
+Outcome measures can be configured
+Readiness is validated
+Deployment can be activated
+The active deployment is available in the Execution Centre
+At least three scenarios execute end to end
+Runtime follows Connect → Understand → Decide → Act → Learn
+Accountable roles are enforced
+Human approvals are enforced
+Escalation thresholds are enforced
+Playbook actions progress in order
+Mandatory evidence blocks closure
+Outcomes can record successful and unsuccessful results
+Learning appears after completion
+Guest, Operator and Dual Views use shared execution state
+Restricted internal information is hidden from Guest View
+Configuration survives navigation
+Local persistence is labelled honestly
+No unsupported production claims are introduced
+No duplicate RTBX architecture is introduced
+Existing Travel product proof remains intact
+Typecheck and production build are run
+All failures are reported honestly
+Final instruction
+
+Sprint 4 must demonstrate the difference between a site that describes an operating system and a product that behaves like one.
+
+The completed experience must prove:
+
+A Travel environment is configured once. That configuration determines which systems, roles, governance rules, scenarios, playbooks, communications, evidence requirements and outcomes are active. When a signal arrives, the same configuration drives the complete governed response.
+
+Use reusable, data-driven runtime logic.
+
+Do not create separate hardcoded implementations for individual scenarios.
+
+Do not begin Sprint 5.
+
+At completion, stop and provide the full Sprint 4 report.
