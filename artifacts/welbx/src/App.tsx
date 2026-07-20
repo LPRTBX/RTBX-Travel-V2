@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { Switch, Route, Router as WouterRouter, Redirect } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -6,8 +7,16 @@ import { PartnerContentProvider } from "@/context/PartnerContentContext";
 import { PartnerAccessGate } from "@/components/PartnerAccessGate";
 import { DeploymentProvider } from "@/context/DeploymentContext";
 
+// ── Critical-path routes (eager) ────────────────────────────────────────────
+// These are the first pages a partner sees; keep them in the main bundle.
 import PartnerRoomLanding from "@/pages/partner-room/PartnerRoomLanding";
 import PartnerOverview from "@/pages/partner-room/PartnerOverview";
+import PartnerDeployments from "@/pages/partner-room/PartnerDeployments";
+import PartnerProductProof from "@/pages/partner-room/PartnerProductProof";
+import PartnerValidation from "@/pages/partner-room/PartnerValidation";
+import PartnerCommercial from "@/pages/partner-room/PartnerCommercial";
+import PartnerBriefLibrary from "@/pages/partner-room/PartnerBriefLibrary";
+import PartnerNextStep from "@/pages/partner-room/PartnerNextStep";
 import PartnerOperatorBrief from "@/pages/partner-room/PartnerOperatorBrief";
 import PartnerIntegrationBrief from "@/pages/partner-room/PartnerIntegrationBrief";
 import PartnerMomentsEconomy from "@/pages/partner-room/PartnerMomentsEconomy";
@@ -19,52 +28,71 @@ import PartnerLiveDemos from "@/pages/partner-room/PartnerLiveDemos";
 import PartnerGuestDemo from "@/pages/partner-room/PartnerGuestDemo";
 import PartnerOperatorDemo from "@/pages/partner-room/PartnerOperatorDemo";
 import PartnerDualViewDemo from "@/pages/partner-room/PartnerDualViewDemo";
-import PartnerHolidayParkDemo from "@/pages/partner-room/PartnerHolidayParkDemo";
-import PartnerDeployments from "@/pages/partner-room/PartnerDeployments";
-import PartnerProductProof from "@/pages/partner-room/PartnerProductProof";
-import PartnerValidation from "@/pages/partner-room/PartnerValidation";
-import PartnerCommercial from "@/pages/partner-room/PartnerCommercial";
-import PartnerBriefLibrary from "@/pages/partner-room/PartnerBriefLibrary";
-import PartnerNextStep from "@/pages/partner-room/PartnerNextStep";
-import PartnerHotelsResortsDemo from "@/pages/partner-room/PartnerHotelsResortsDemo";
-import PartnerCorporateTravelDemo from "@/pages/partner-room/PartnerCorporateTravelDemo";
-import PartnerEventsVenuesDemo from "@/pages/partner-room/PartnerEventsVenuesDemo";
-import PartnerDestinationTourismDemo from "@/pages/partner-room/PartnerDestinationTourismDemo";
-import PartnerScenarioBuilder from "@/pages/partner-room/PartnerScenarioBuilder";
-import PartnerProofCalculator from "@/pages/partner-room/PartnerProofCalculator";
-import PartnerCommsDemo from "@/pages/partner-room/PartnerCommsDemo";
-import PartnerTravelAiComms from "@/pages/partner-room/PartnerTravelAiComms";
-import PartnerDecisionSpine from "@/pages/partner-room/PartnerDecisionSpine";
-import PartnerValidationReplay from "@/pages/partner-room/PartnerValidationReplay";
-import PartnerSignalCapture from "@/pages/partner-room/PartnerSignalCapture";
-import PartnerStage3Preview from "@/pages/partner-room/PartnerStage3Preview";
-import PartnerPilotExpansionPreview from "@/pages/partner-room/PartnerPilotExpansionPreview";
-import PartnerOperatingModel from "@/pages/partner-room/PartnerOperatingModel";
-import PartnerIntelligenceModel from "@/pages/partner-room/PartnerIntelligenceModel";
-import PartnerTravelOperatingSystems from "@/pages/partner-room/PartnerTravelOperatingSystems";
 import PartnerBuildConfigure from "@/pages/partner-room/PartnerBuildConfigure";
 import PartnerOperationsCentre from "@/pages/partner-room/PartnerOperationsCentre";
 import PartnerTravelScenarios from "@/pages/partner-room/PartnerTravelScenarios";
-import PartnerCommercialUnit from "@/pages/partner-room/PartnerCommercialUnit";
-import PartnerRolloutModel from "@/pages/partner-room/PartnerRolloutModel";
+import PartnerCommsDemo from "@/pages/partner-room/PartnerCommsDemo";
+import PartnerTravelAiComms from "@/pages/partner-room/PartnerTravelAiComms";
+import PartnerOperatingModel from "@/pages/partner-room/PartnerOperatingModel";
+import PartnerIntelligenceModel from "@/pages/partner-room/PartnerIntelligenceModel";
+import PartnerTravelOperatingSystems from "@/pages/partner-room/PartnerTravelOperatingSystems";
 import PartnerEcosystem from "@/pages/partner-room/PartnerEcosystem";
-import StoryHub from "@/pages/StoryHub";
-import StoryOperator from "@/pages/StoryOperator";
-import StoryGuestStory from "@/pages/StoryGuestStory";
-import TravelPartnershipOverview from "@/pages/partner-room/resources/TravelPartnershipOverview";
-import TravelCommercialPartnershipBrief from "@/pages/partner-room/resources/TravelCommercialPartnershipBrief";
-import TravelBusinessPlan from "@/pages/partner-room/resources/TravelBusinessPlan";
-import TravelGtmPlan from "@/pages/partner-room/resources/TravelGtmPlan";
-import TravelCommercialCase from "@/pages/partner-room/resources/TravelCommercialCase";
-import TravelUxBlueprint from "@/pages/partner-room/resources/TravelUxBlueprint";
-import TravelSystemsMap from "@/pages/partner-room/resources/TravelSystemsMap";
-import TravelPilotModel from "@/pages/partner-room/resources/TravelPilotModel";
-import TravelRevenueModel from "@/pages/partner-room/resources/TravelRevenueModel";
-import TravelDemoLinks from "@/pages/partner-room/resources/TravelDemoLinks";
-import TravelAiIntelligenceLayer from "@/pages/partner-room/resources/TravelAiIntelligenceLayer";
-import TravelArchitectureModellingUxQa from "@/pages/partner-room/resources/TravelArchitectureModellingUxQa";
+import PartnerRolloutModel from "@/pages/partner-room/PartnerRolloutModel";
+import PartnerCommercialUnit from "@/pages/partner-room/PartnerCommercialUnit";
+
+// ── Secondary routes (lazy) ──────────────────────────────────────────────────
+// Deployment demo verticals, product proof deep-dives, utility routes,
+// story lab, and resource library pages are loaded on demand.
+
+// Deployment vertical demos
+const PartnerHolidayParkDemo       = lazy(() => import("@/pages/partner-room/PartnerHolidayParkDemo"));
+const PartnerHotelsResortsDemo     = lazy(() => import("@/pages/partner-room/PartnerHotelsResortsDemo"));
+const PartnerCorporateTravelDemo   = lazy(() => import("@/pages/partner-room/PartnerCorporateTravelDemo"));
+const PartnerEventsVenuesDemo      = lazy(() => import("@/pages/partner-room/PartnerEventsVenuesDemo"));
+const PartnerDestinationTourismDemo = lazy(() => import("@/pages/partner-room/PartnerDestinationTourismDemo"));
+
+// Product proof utilities
+const PartnerScenarioBuilder       = lazy(() => import("@/pages/partner-room/PartnerScenarioBuilder"));
+const PartnerProofCalculator       = lazy(() => import("@/pages/partner-room/PartnerProofCalculator"));
+const PartnerDecisionSpine         = lazy(() => import("@/pages/partner-room/PartnerDecisionSpine"));
+const PartnerValidationReplay      = lazy(() => import("@/pages/partner-room/PartnerValidationReplay"));
+const PartnerSignalCapture         = lazy(() => import("@/pages/partner-room/PartnerSignalCapture"));
+const PartnerStage3Preview         = lazy(() => import("@/pages/partner-room/PartnerStage3Preview"));
+const PartnerPilotExpansionPreview = lazy(() => import("@/pages/partner-room/PartnerPilotExpansionPreview"));
+
+// Story lab
+const StoryHub                     = lazy(() => import("@/pages/StoryHub"));
+const StoryOperator                = lazy(() => import("@/pages/StoryOperator"));
+const StoryGuestStory              = lazy(() => import("@/pages/StoryGuestStory"));
+
+// Resource library (appendix documents)
+const TravelPartnershipOverview           = lazy(() => import("@/pages/partner-room/resources/TravelPartnershipOverview"));
+const TravelCommercialPartnershipBrief    = lazy(() => import("@/pages/partner-room/resources/TravelCommercialPartnershipBrief"));
+const TravelBusinessPlan                  = lazy(() => import("@/pages/partner-room/resources/TravelBusinessPlan"));
+const TravelGtmPlan                       = lazy(() => import("@/pages/partner-room/resources/TravelGtmPlan"));
+const TravelCommercialCase                = lazy(() => import("@/pages/partner-room/resources/TravelCommercialCase"));
+const TravelUxBlueprint                   = lazy(() => import("@/pages/partner-room/resources/TravelUxBlueprint"));
+const TravelSystemsMap                    = lazy(() => import("@/pages/partner-room/resources/TravelSystemsMap"));
+const TravelPilotModel                    = lazy(() => import("@/pages/partner-room/resources/TravelPilotModel"));
+const TravelRevenueModel                  = lazy(() => import("@/pages/partner-room/resources/TravelRevenueModel"));
+const TravelDemoLinks                     = lazy(() => import("@/pages/partner-room/resources/TravelDemoLinks"));
+const TravelAiIntelligenceLayer           = lazy(() => import("@/pages/partner-room/resources/TravelAiIntelligenceLayer"));
+const TravelArchitectureModellingUxQa     = lazy(() => import("@/pages/partner-room/resources/TravelArchitectureModellingUxQa"));
+
+// ────────────────────────────────────────────────────────────────────────────
 
 const queryClient = new QueryClient();
+
+/** Minimal fallback shown while a lazy chunk loads. */
+const PageFallback = () => (
+  <div style={{
+    display: "flex", alignItems: "center", justifyContent: "center",
+    minHeight: "100vh", background: "#0a0a0a", color: "rgba(255,255,255,0.3)",
+    fontSize: 13, fontFamily: "sans-serif", letterSpacing: "0.05em",
+  }}>
+    Loading…
+  </div>
+);
 
 const PARTNER_ROUTES = [
   { path: "/partner-room",                    component: PartnerRoomLanding },
@@ -133,17 +161,19 @@ const PARTNER_ROUTES = [
 
 function Router() {
   return (
-    <Switch>
-      {PARTNER_ROUTES.map(({ path, component: Component }) => (
-        <Route key={path} path={path} component={Component} />
-      ))}
-      {/* Operator Story Lab routes */}
-      <Route path="/story" component={StoryHub} />
-      <Route path="/story/executive-briefing">{() => <Redirect to="/story" />}</Route>
-      <Route path="/story/operator-deep-dive" component={StoryOperator} />
-      <Route path="/story/live-guest-story" component={StoryGuestStory} />
-      <Route>{() => <Redirect to="/partner-room" />}</Route>
-    </Switch>
+    <Suspense fallback={<PageFallback />}>
+      <Switch>
+        {PARTNER_ROUTES.map(({ path, component: Component }) => (
+          <Route key={path} path={path} component={Component} />
+        ))}
+        {/* Operator Story Lab routes */}
+        <Route path="/story" component={StoryHub} />
+        <Route path="/story/executive-briefing">{() => <Redirect to="/story" />}</Route>
+        <Route path="/story/operator-deep-dive" component={StoryOperator} />
+        <Route path="/story/live-guest-story" component={StoryGuestStory} />
+        <Route>{() => <Redirect to="/partner-room" />}</Route>
+      </Switch>
+    </Suspense>
   );
 }
 
