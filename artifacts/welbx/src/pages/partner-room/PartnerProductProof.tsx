@@ -132,17 +132,17 @@ function ProofModeCard({ mode }: { mode: typeof PROOF_MODES[0] }) {
       borderTop: `2px solid ${mode.color}`,
       display: "flex", flexDirection: "column",
     }}>
-      <div style={{ fontSize: 9, fontWeight: 800, color: `${mode.color}45`, letterSpacing: "0.12em", marginBottom: 10 }}>{mode.num}</div>
-      <div style={{ fontSize: 14, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", marginBottom: 14, lineHeight: 1.25 }}>
+      <div style={{ fontSize: 11, fontWeight: 800, color: `${mode.color}45`, letterSpacing: "0.1em", marginBottom: 10 }}>{mode.num}</div>
+      <div style={{ fontSize: 15, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", marginBottom: 14, lineHeight: 1.25 }}>
         {mode.label}
       </div>
-      <p style={{ fontSize: 13, color: "rgba(255,255,255,0.42)", lineHeight: 1.65, flex: 1, marginBottom: 28 }}>
+      <p style={{ fontSize: 13, color: "rgba(255,255,255,0.48)", lineHeight: 1.65, flex: 1, marginBottom: 28 }}>
         {mode.desc}
       </p>
       <Link href={mode.href}>
         <div style={{
           display: "flex", alignItems: "center", justifyContent: "center",
-          padding: "12px 0", fontSize: 9.5, fontWeight: 700, letterSpacing: "0.1em",
+          padding: "12px 0", fontSize: 11, fontWeight: 700, letterSpacing: "0.08em",
           textTransform: "uppercase", color: mode.color, border: `1px solid ${mode.color}45`,
           cursor: "pointer", transition: "all 0.15s",
         }}
@@ -169,11 +169,11 @@ function SystemCard({ sys }: { sys: typeof CORE_SYSTEMS[0] }) {
     onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.06)"; }}
     >
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 10, marginBottom: 16 }}>
-        <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.78)", lineHeight: 1.35 }}>
+        <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "rgba(255,255,255,0.78)", lineHeight: 1.35 }}>
           {sys.label}
         </div>
         <div style={{
-          fontSize: 7.5, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase",
+          fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase",
           color: sys.tagColor, border: `1px solid ${sys.tagColor}35`, padding: "2px 8px",
           whiteSpace: "nowrap", flexShrink: 0,
         }}>
@@ -182,18 +182,18 @@ function SystemCard({ sys }: { sys: typeof CORE_SYSTEMS[0] }) {
       </div>
 
       <div style={{ marginBottom: 12 }}>
-        <div style={{ fontSize: 7.5, letterSpacing: "0.14em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 5 }}>What it does</div>
-        <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.42)", lineHeight: 1.6, margin: 0 }}>{sys.does}</p>
+        <div style={{ fontSize: 11, letterSpacing: "0.1em", color: "rgba(255,255,255,0.28)", textTransform: "uppercase", fontWeight: 700, marginBottom: 5 }}>What it does</div>
+        <p style={{ fontSize: 13, color: "rgba(255,255,255,0.48)", lineHeight: 1.6, margin: 0 }}>{sys.does}</p>
       </div>
 
       <div style={{ marginBottom: 20, flex: 1 }}>
-        <div style={{ fontSize: 7.5, letterSpacing: "0.14em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 5 }}>Why it matters</div>
-        <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.42)", lineHeight: 1.6, margin: 0 }}>{sys.matters}</p>
+        <div style={{ fontSize: 11, letterSpacing: "0.1em", color: "rgba(255,255,255,0.28)", textTransform: "uppercase", fontWeight: 700, marginBottom: 5 }}>Why it matters</div>
+        <p style={{ fontSize: 13, color: "rgba(255,255,255,0.48)", lineHeight: 1.6, margin: 0 }}>{sys.matters}</p>
       </div>
 
       <Link href={sys.href}>
         <div style={{
-          fontSize: 9, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase",
+          fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase",
           color: "#c9a84c", cursor: "pointer", transition: "color 0.12s",
           display: "inline-flex", alignItems: "center", gap: 6,
         }}
@@ -214,20 +214,20 @@ export default function PartnerProductProof() {
 
         {/* Header */}
         <div style={{ marginBottom: 48 }}>
-          <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
+          <div style={{ fontSize: 11, letterSpacing: "0.18em", color: "rgba(255,255,255,0.28)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
             Partner Room · Product Proof
           </div>
-          <div style={{ fontSize: 32, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", marginBottom: 14 }}>
+          <h1 style={{ fontSize: 32, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", marginBottom: 14, lineHeight: 1.2 }}>
             Product Proof
-          </div>
-          <p style={{ fontSize: 14, color: "rgba(255,255,255,0.38)", lineHeight: 1.75, maxWidth: 600 }}>
+          </h1>
+          <p style={{ fontSize: 15, color: "rgba(255,255,255,0.42)", lineHeight: 1.75, maxWidth: 600 }}>
             See RTBX Travel working across live scenarios, role views, communications, decision logic and value proof.
           </p>
         </div>
 
         {/* Honesty statement */}
         <div style={{ padding: "20px 24px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.08)", borderLeft: "3px solid #c9a84c", marginBottom: 48 }}>
-          <div style={{ fontSize: 8.5, letterSpacing: "0.16em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
+          <div style={{ fontSize: 11, letterSpacing: "0.14em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
             What This Proof Shows
           </div>
           <p style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", lineHeight: 1.75, margin: 0 }}>
@@ -237,13 +237,13 @@ export default function PartnerProductProof() {
 
         {/* Five-Step Proof Structure */}
         <div style={{ marginBottom: 64 }}>
-          <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
+          <div style={{ fontSize: 11, letterSpacing: "0.16em", color: "rgba(255,255,255,0.28)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
             Five-Step Proof Structure
           </div>
-          <div style={{ fontSize: 24, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", marginBottom: 8 }}>
+          <h2 style={{ fontSize: 24, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", marginBottom: 8, lineHeight: 1.25 }}>
             Proof Grouped by Engine Stage
-          </div>
-          <p style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", lineHeight: 1.75, maxWidth: 600, marginBottom: 32 }}>
+          </h2>
+          <p style={{ fontSize: 14, color: "rgba(255,255,255,0.42)", lineHeight: 1.75, maxWidth: 600, marginBottom: 32 }}>
             Each section of the Partner Room demonstrates a specific engine stage. Use this map to find the proof relevant to your question.
           </p>
           <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
@@ -288,14 +288,14 @@ export default function PartnerProductProof() {
             ].map(stage => (
               <div key={stage.stageLabel} style={{ border: "1px solid rgba(255,255,255,0.07)", overflow: "hidden" }}>
                 <div style={{ padding: "14px 22px", background: "rgba(201,168,76,0.05)", borderBottom: "1px solid rgba(255,255,255,0.06)", display: "flex", alignItems: "center", gap: 14 }}>
-                  <span style={{ fontSize: 9, fontWeight: 800, color: "rgba(201,168,76,0.4)", letterSpacing: "0.1em" }}>{stage.stageNum}</span>
+                  <span style={{ fontSize: 11, fontWeight: 800, color: "rgba(201,168,76,0.4)", letterSpacing: "0.08em" }}>{stage.stageNum}</span>
                   <span style={{ fontSize: 13, fontWeight: 700, color: "#c9a84c", letterSpacing: "0.04em", textTransform: "uppercase" }}>{stage.stageLabel}</span>
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
                   {stage.items.map((item, j) => (
                     <a key={item.label} href={item.href} style={{ textDecoration: "none" }}>
                       <div style={{
-                        display: "grid", gridTemplateColumns: "1fr 60px", gap: 16, padding: "16px 22px", alignItems: "center",
+                        display: "grid", gridTemplateColumns: "1fr auto", gap: 16, padding: "16px 22px", alignItems: "center",
                         borderBottom: j < stage.items.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none",
                         background: "rgba(255,255,255,0.01)", transition: "all 0.12s", cursor: "pointer",
                       }}
@@ -303,11 +303,11 @@ export default function PartnerProductProof() {
                       onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.01)"; }}
                       >
                         <div>
-                          <div style={{ fontSize: 12.5, fontWeight: 700, color: "#fff", marginBottom: 3 }}>{item.label} →</div>
-                          <div style={{ fontSize: 11, color: "rgba(255,255,255,0.38)", lineHeight: 1.5 }}>{item.desc}</div>
+                          <div style={{ fontSize: 13, fontWeight: 700, color: "#fff", marginBottom: 3 }}>{item.label} →</div>
+                          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.42)", lineHeight: 1.5 }}>{item.desc}</div>
                         </div>
                         <div style={{
-                          fontSize: 7.5, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", textAlign: "right", lineHeight: 1.4,
+                          fontSize: 11, fontWeight: 700, letterSpacing: "0.04em", textTransform: "uppercase", textAlign: "right", lineHeight: 1.4, whiteSpace: "nowrap",
                           color: item.status === "Working Interface" ? "#10b981" : item.status === "Synthetic Scenario" ? "#3b82f6" : "rgba(255,255,255,0.3)",
                         }}>{item.status}</div>
                       </div>
@@ -321,7 +321,7 @@ export default function PartnerProductProof() {
 
         {/* Live MVP Preview — featured above proof modes */}
         <div style={{ marginBottom: 48 }}>
-          <div style={{ fontSize: 8, letterSpacing: "0.18em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>
+          <div style={{ fontSize: 11, letterSpacing: "0.14em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>
             Working Product Preview
           </div>
           <a href="https://replit.com/@LP1313/rtbx-travel-moment-response-mvp" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
@@ -340,22 +340,22 @@ export default function PartnerProductProof() {
                 <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                     <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#c9a84c" }} />
-                    <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: "#c9a84c" }}>Live MVP Preview</span>
+                    <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#c9a84c" }}>Live MVP Preview</span>
                   </div>
-                  <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,0.25)", border: "1px solid rgba(255,255,255,0.1)", padding: "2px 8px" }}>Working Product</div>
+                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.3)", border: "1px solid rgba(255,255,255,0.1)", padding: "2px 8px" }}>Working Product</div>
                 </div>
-                <div style={{ fontSize: 15, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", marginBottom: 8 }}>
+                <div style={{ fontSize: 16, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", marginBottom: 8 }}>
                   RTBX Travel — Moment Response MVP
                 </div>
-                <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.45)", lineHeight: 1.65, maxWidth: 720, margin: "0 0 8px 0" }}>
+                <p style={{ fontSize: 13, color: "rgba(255,255,255,0.5)", lineHeight: 1.65, maxWidth: 720, margin: "0 0 8px 0" }}>
                   This MVP shows the first RTBX Travel product loop: a staff, guest or operator signal is captured, converted into a classified moment, assigned to the right person, supported with a guest-facing WELBX message, escalated if required, logged for assurance and reported as pilot evidence.
                 </p>
-                <div style={{ fontSize: 10, color: "rgba(255,255,255,0.22)", fontStyle: "italic" }}>
+                <div style={{ fontSize: 12, color: "rgba(255,255,255,0.28)", fontStyle: "italic" }}>
                   The Partner Room explains the RTBX Travel model. The Live MVP Preview shows the first working product loop. This is not the full Travel OS — it is the first deployable wedge: Moment Response.
                 </div>
               </div>
               <div style={{
-                padding: "12px 24px", fontSize: 10, fontWeight: 700, letterSpacing: "0.1em",
+                padding: "12px 24px", fontSize: 11, fontWeight: 700, letterSpacing: "0.08em",
                 textTransform: "uppercase", color: "#c9a84c", border: "1px solid rgba(201,168,76,0.4)",
                 whiteSpace: "nowrap", flexShrink: 0,
               }}>
@@ -369,10 +369,10 @@ export default function PartnerProductProof() {
         {/* Section 1: Choose a Proof Mode */}
         <div style={{ marginBottom: 80 }}>
           <div style={{ marginBottom: 28 }}>
-            <div style={{ fontSize: 9, letterSpacing: "0.18em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 6 }}>
+            <div style={{ fontSize: 11, letterSpacing: "0.14em", color: "rgba(255,255,255,0.28)", textTransform: "uppercase", fontWeight: 700, marginBottom: 6 }}>
               Section 01
             </div>
-            <div style={{ fontSize: 18, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em" }}>
+            <div style={{ fontSize: 20, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em" }}>
               Choose a Proof Mode
             </div>
           </div>
@@ -384,13 +384,13 @@ export default function PartnerProductProof() {
         {/* Section 2: Core Systems Preview */}
         <div style={{ marginBottom: 80 }}>
           <div style={{ marginBottom: 8 }}>
-            <div style={{ fontSize: 9, letterSpacing: "0.18em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 6 }}>
+            <div style={{ fontSize: 11, letterSpacing: "0.14em", color: "rgba(255,255,255,0.28)", textTransform: "uppercase", fontWeight: 700, marginBottom: 6 }}>
               Section 02
             </div>
-            <div style={{ fontSize: 18, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", marginBottom: 10 }}>
+            <div style={{ fontSize: 20, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", marginBottom: 10 }}>
               Core Systems Preview
             </div>
-            <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.32)", lineHeight: 1.65, maxWidth: 580, margin: 0 }}>
+            <p style={{ fontSize: 13, color: "rgba(255,255,255,0.36)", lineHeight: 1.65, maxWidth: 580, margin: 0 }}>
               RTBX Core is made up of reusable system layers that turn signals into action, assurance and value.
             </p>
           </div>
@@ -403,13 +403,13 @@ export default function PartnerProductProof() {
         {/* Section 3: Demo Pathways */}
         <div style={{ marginBottom: 80 }}>
           <div style={{ marginBottom: 20 }}>
-            <div style={{ fontSize: 9, letterSpacing: "0.18em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 6 }}>
+            <div style={{ fontSize: 11, letterSpacing: "0.14em", color: "rgba(255,255,255,0.28)", textTransform: "uppercase", fontWeight: 700, marginBottom: 6 }}>
               Section 03
             </div>
-            <div style={{ fontSize: 18, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", marginBottom: 8 }}>
+            <div style={{ fontSize: 20, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", marginBottom: 8 }}>
               Demo Pathways
             </div>
-            <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.3)", lineHeight: 1.65, maxWidth: 600, margin: 0 }}>
+            <p style={{ fontSize: 13, color: "rgba(255,255,255,0.34)", lineHeight: 1.65, maxWidth: 600, margin: 0 }}>
               Three views of RTBX Travel across the deployment timeline — what is live now, what the pilot becomes with integrations, and what Stage 3 looks like at scale.
             </p>
           </div>
@@ -426,13 +426,13 @@ export default function PartnerProductProof() {
               >
                 <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 14 }}>
                   <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#c9a84c", flexShrink: 0 }} />
-                  <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#c9a84c" }}>Live MVP</div>
+                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#c9a84c" }}>Live MVP</div>
                 </div>
-                <div style={{ fontSize: 13, fontWeight: 800, color: "#fff", marginBottom: 12, lineHeight: 1.3 }}>Live MVP Preview — Moment Response</div>
-                <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.38)", lineHeight: 1.65, flex: 1, marginBottom: 20 }}>
+                <div style={{ fontSize: 14, fontWeight: 800, color: "#fff", marginBottom: 12, lineHeight: 1.3 }}>Live MVP Preview — Moment Response</div>
+                <p style={{ fontSize: 13, color: "rgba(255,255,255,0.42)", lineHeight: 1.65, flex: 1, marginBottom: 20 }}>
                   The first deployable RTBX Travel product loop. Signal captured, classified, assigned, WELBX message sent, escalated if required, logged and reported.
                 </p>
-                <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#c9a84c" }}>Open Live MVP ↗</div>
+                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#c9a84c" }}>Open Live MVP ↗</div>
               </div>
             </a>
             {/* Card 2: Pilot Expansion */}
@@ -447,13 +447,13 @@ export default function PartnerProductProof() {
               >
                 <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 14 }}>
                   <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#10b981", flexShrink: 0 }} />
-                  <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#10b981" }}>Pilot-Stage Preview</div>
+                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#10b981" }}>Pilot-Stage Preview</div>
                 </div>
-                <div style={{ fontSize: 13, fontWeight: 800, color: "#fff", marginBottom: 12, lineHeight: 1.3 }}>Integration-Assisted Pilot Preview</div>
-                <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.38)", lineHeight: 1.65, flex: 1, marginBottom: 20 }}>
+                <div style={{ fontSize: 14, fontWeight: 800, color: "#fff", marginBottom: 12, lineHeight: 1.3 }}>Integration-Assisted Pilot Preview</div>
+                <p style={{ fontSize: 13, color: "rgba(255,255,255,0.42)", lineHeight: 1.65, flex: 1, marginBottom: 20 }}>
                   How the Moment Response workflow becomes faster and richer when approved integrations are added — PMS, task signals, guest messaging, weather and operator reporting.
                 </p>
-                <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#10b981" }}>View Pilot Expansion →</div>
+                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#10b981" }}>View Pilot Expansion →</div>
               </div>
             </Link>
             {/* Card 3: Stage 3 */}
@@ -468,13 +468,13 @@ export default function PartnerProductProof() {
               >
                 <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 14 }}>
                   <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#a78bfa", flexShrink: 0 }} />
-                  <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#a78bfa" }}>Future-State Operating Preview</div>
+                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#a78bfa" }}>Future-State Operating Preview</div>
                 </div>
-                <div style={{ fontSize: 13, fontWeight: 800, color: "#fff", marginBottom: 12, lineHeight: 1.3 }}>Stage 3 Operating Layer Preview</div>
-                <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.38)", lineHeight: 1.65, flex: 1, marginBottom: 20 }}>
+                <div style={{ fontSize: 14, fontWeight: 800, color: "#fff", marginBottom: 12, lineHeight: 1.3 }}>Stage 3 Operating Layer Preview</div>
+                <p style={{ fontSize: 13, color: "rgba(255,255,255,0.42)", lineHeight: 1.65, flex: 1, marginBottom: 20 }}>
                   Multi-site signal visibility, pattern insights, action routing, assurance reporting, value proof and marketplace activation — once the pilot is validated and integrations are approved.
                 </p>
-                <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#a78bfa" }}>View Stage 3 Preview →</div>
+                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#a78bfa" }}>View Stage 3 Preview →</div>
               </div>
             </Link>
           </div>
@@ -483,10 +483,10 @@ export default function PartnerProductProof() {
         {/* Section 4: Additional Walkthroughs */}
         <div>
           <div style={{ marginBottom: 20 }}>
-            <div style={{ fontSize: 9, letterSpacing: "0.18em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase", fontWeight: 700, marginBottom: 6 }}>
+            <div style={{ fontSize: 11, letterSpacing: "0.14em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 6 }}>
               Section 04
             </div>
-            <div style={{ fontSize: 15, fontWeight: 700, color: "rgba(255,255,255,0.55)", letterSpacing: "-0.01em" }}>
+            <div style={{ fontSize: 18, fontWeight: 700, color: "rgba(255,255,255,0.6)", letterSpacing: "-0.01em" }}>
               Additional Walkthroughs
             </div>
           </div>
@@ -497,26 +497,11 @@ export default function PartnerProductProof() {
                 background: "rgba(255,255,255,0.015)",
                 border: "1px solid rgba(255,255,255,0.05)",
                 display: "flex", flexDirection: "column",
-              }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.03)"; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.015)"; }}
-              >
-                <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", color: "rgba(255,255,255,0.5)", marginBottom: 10, lineHeight: 1.3 }}>
-                  {w.label}
-                </div>
-                <p style={{ fontSize: 11, color: "rgba(255,255,255,0.25)", lineHeight: 1.6, flex: 1, marginBottom: 16 }}>
-                  {w.desc}
-                </p>
+              }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: "#fff", marginBottom: 8, lineHeight: 1.35 }}>{w.label}</div>
+                <p style={{ fontSize: 12, color: "rgba(255,255,255,0.38)", lineHeight: 1.6, flex: 1, marginBottom: 16 }}>{w.desc}</p>
                 <Link href={w.href}>
-                  <div style={{
-                    fontSize: 8.5, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase",
-                    color: "rgba(255,255,255,0.3)", cursor: "pointer", transition: "color 0.12s",
-                  }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.65)"; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.3)"; }}
-                  >
-                    {w.cta} →
-                  </div>
+                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#c9a84c", cursor: "pointer" }}>{w.cta} →</div>
                 </Link>
               </div>
             ))}

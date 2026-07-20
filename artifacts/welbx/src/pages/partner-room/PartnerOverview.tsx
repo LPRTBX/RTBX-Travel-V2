@@ -27,34 +27,16 @@ RTBX Travel is RTBX Core configured for travel and hospitality environments — 
   {
     num: "04",
     heading: "The Five-Step Engine",
-    body: `Every moment runs through five stages:
+    body: `Every moment runs through five stages: Connect → Understand → Decide → Act → Learn. Signal ingestion, moment classification, governance-gated decision, human-owned action, and compounding value. No stage is an autonomous system decision.
 
-Connect — Ingest signals from every guest, staff, system and partner touchpoint. PMS arrivals, guest app events, housekeeping status, IoT alerts — all normalised and classified.
-
-Understand — Classify incoming signals into known moment types. A room delay plus a loyalty flag plus a frustrated guest signal becomes a Service Recovery Moment with a risk level and value at stake.
-
-Decide — Apply pre-approved governance rules to determine the permitted response path. Compensation requires manager approval. Welfare decisions require human sign-off. No autonomous action is permitted.
-
-Act — Route the governed response to the correct human role owner via the right channel. The duty manager receives a clear instruction. The guest receives a message that was drafted by AI and approved by a human.
-
-Learn — Turn every actioned outcome into measurable, compounding value. Every resolution feeds the pattern library. Detection improves. Playbook performance is tracked and reported.`,
+See the full engine detail on the Operating Model page.`,
   },
   {
     num: "05",
     heading: "The Six Intelligence Layers",
-    body: `RTBX Core is built on six layers, each configured for Travel:
+    body: `RTBX Core is built on six layers, each configured for Travel: Signal, Moment, Governance, Decision, Communications, and Outcome & Value. Each layer has domain-specific signals, moment types, governance policies and outcome models configured for travel environments.
 
-Signal Layer — captures, normalises and classifies every incoming signal across all sources. The Travel Signal Registry holds 30+ representative signal types across guest experience, operations, safety and welfare, commercial and partner domains.
-
-Moment Layer — recognises which known moment type a signal cluster represents. The Travel Moment Taxonomy defines 10 canonical moment types, each with risk level, governance requirements and value at stake.
-
-Governance Layer — applies pre-approved governance rules before any response is permitted. Every moment response is gated by at least one governance source.
-
-Decision Layer — selects the permitted playbook and assigns the human role owner. No autonomous decision — every response path terminates at a named human role.
-
-Communications Layer — delivers governed instructions and AI-drafted messages to the right person via the right channel. WELBX is the guest-facing delivery channel.
-
-Outcome & Value Layer — records every actioned outcome and converts it into measurable, compounding value.`,
+The full layer architecture is documented on the Operating Model page.`,
   },
   {
     num: "06",
@@ -120,35 +102,24 @@ export default function PartnerOverview() {
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "72px 32px 120px" }}>
 
         <div style={{ marginBottom: 64 }}>
-          <div style={{ fontSize: 9, letterSpacing: "0.22em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>
+          <div style={{ fontSize: 11, letterSpacing: "0.18em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>
             Briefing Room · Platform Overview
           </div>
-          <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 20 }}>
+          <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.15, marginBottom: 20 }}>
             {headline}
           </h1>
-          {/* Brand hierarchy callout */}
-          <div style={{
-            display: "inline-flex",
-            flexWrap: "wrap",
-            gap: 0,
-            marginTop: 4,
-          }}>
-            {[
-              { label: "RTBX Group", sub: "Parent ecosystem", color: "rgba(255,255,255,0.4)" },
-              { label: "RTBX Core", sub: "Signal-to-action engine", color: "#c9a84c" },
-              { label: "RTBX Travel", sub: "Travel vertical", color: "#c9a84c" },
-              { label: "WELBX", sub: "Guest experience layer", color: "#3b82f6" },
-            ].map((item, i, arr) => (
-              <div key={item.label} style={{ display: "flex", alignItems: "center", gap: 0 }}>
-                <div style={{ padding: "6px 14px", background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.07)", borderRight: "none" }}>
-                  <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: item.color }}>{item.label}</div>
-                  <div style={{ fontSize: 8, color: "rgba(255,255,255,0.3)", letterSpacing: "0.06em", marginTop: 2 }}>{item.sub}</div>
-                </div>
-                {i < arr.length - 1 && (
-                  <div style={{ width: 16, height: 1, background: "rgba(255,255,255,0.12)", flexShrink: 0 }} />
-                )}
-              </div>
-            ))}
+          {/* Brand context — concise, links to full model */}
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 8, flexWrap: "wrap" }}>
+            <span style={{ fontSize: 12, color: "rgba(255,255,255,0.35)" }}>RTBX Group</span>
+            <span style={{ fontSize: 11, color: "rgba(255,255,255,0.2)" }}>→</span>
+            <span style={{ fontSize: 12, fontWeight: 700, color: "#c9a84c" }}>RTBX Core</span>
+            <span style={{ fontSize: 11, color: "rgba(255,255,255,0.2)" }}>→</span>
+            <span style={{ fontSize: 12, fontWeight: 700, color: "#c9a84c" }}>RTBX Travel</span>
+            <span style={{ fontSize: 11, color: "rgba(255,255,255,0.2)" }}>→</span>
+            <span style={{ fontSize: 12, fontWeight: 700, color: "#3b82f6" }}>WELBX</span>
+            <Link href="/partner-room/operating-model">
+              <span style={{ fontSize: 11, color: "rgba(255,255,255,0.3)", marginLeft: 8, cursor: "pointer", textDecoration: "underline" }}>Full Operating Model →</span>
+            </Link>
           </div>
         </div>
 
@@ -157,7 +128,7 @@ export default function PartnerOverview() {
             display: "inline-flex", alignItems: "center", gap: 10, padding: "12px 18px", marginBottom: 8,
             background: "rgba(201,168,76,0.05)", border: "1px solid rgba(201,168,76,0.2)", cursor: "pointer",
           }}>
-            <span style={{ fontSize: 11, fontWeight: 700, color: "#c9a84c", letterSpacing: "0.04em" }}>
+            <span style={{ fontSize: 12, fontWeight: 700, color: "#c9a84c", letterSpacing: "0.04em" }}>
               See how RTBX Core is configured for Travel — RTBX Travel Intelligence →
             </span>
           </div>
@@ -176,11 +147,11 @@ export default function PartnerOverview() {
                 <div style={{ fontSize: 11, fontWeight: 800, color: "rgba(201,168,76,0.35)", letterSpacing: "0.08em" }}>{section.num}</div>
               </div>
               <div>
-                <h2 style={{ fontSize: 22, fontWeight: 700, color: "#fff", marginBottom: 24, letterSpacing: "-0.01em" }}>
+                <h2 style={{ fontSize: 22, fontWeight: 700, color: "#fff", marginBottom: 24, letterSpacing: "-0.01em", lineHeight: 1.3 }}>
                   {section.heading}
                 </h2>
                 {section.body.split("\n\n").map((para, j) => (
-                  <p key={j} style={{ fontSize: 14, color: "rgba(255,255,255,0.55)", lineHeight: 1.8, marginBottom: 16 }}>
+                  <p key={j} style={{ fontSize: 15, color: "rgba(255,255,255,0.58)", lineHeight: 1.7, marginBottom: 16 }}>
                     {para}
                   </p>
                 ))}

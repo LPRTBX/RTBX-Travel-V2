@@ -162,9 +162,9 @@ function GhostBtn({ href, children, ext = false }: { href: string; children: Rea
   const inner = (
     <div style={{
       padding: "10px 20px",
-      fontSize: 9.5,
+      fontSize: 11,
       fontWeight: 700,
-      letterSpacing: "0.1em",
+      letterSpacing: "0.08em",
       textTransform: "uppercase" as const,
       cursor: "pointer",
       background: "transparent",
@@ -196,7 +196,7 @@ export default function PartnerRoomLanding() {
 
       {/* ── HERO ── */}
       <div style={{ marginBottom: 80 }}>
-        {/* Brand hierarchy strip */}
+        {/* Brand hierarchy strip — concise context setter */}
         <div style={{ display: "flex", gap: 0, marginBottom: 32, flexWrap: "wrap" }}>
           {[
             { label: "RTBX Group",  sub: "Parent ecosystem",       dim: true,  blue: false },
@@ -211,17 +211,17 @@ export default function PartnerRoomLanding() {
                 border: `1px solid ${item.blue ? "rgba(59,130,246,0.2)" : item.dim ? "rgba(255,255,255,0.05)" : "rgba(201,168,76,0.15)"}`,
                 borderRight: "none",
               }}>
-                <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: item.blue ? "#3b82f6" : item.dim ? "rgba(255,255,255,0.28)" : "#c9a84c" }}>
+                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: item.blue ? "#3b82f6" : item.dim ? "rgba(255,255,255,0.32)" : "#c9a84c" }}>
                   {item.label}
                 </div>
-                <div style={{ fontSize: 7.5, color: "rgba(255,255,255,0.2)", letterSpacing: "0.06em", marginTop: 2 }}>{item.sub}</div>
+                <div style={{ fontSize: 11, color: "rgba(255,255,255,0.28)", letterSpacing: "0.04em", marginTop: 2 }}>{item.sub}</div>
               </div>
               {i < arr.length - 1 && <div style={{ width: 16, height: 1, background: "rgba(255,255,255,0.08)", flexShrink: 0 }} />}
             </div>
           ))}
         </div>
 
-        <div style={{ fontSize: 9, letterSpacing: "0.22em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 20 }}>
+        <div style={{ fontSize: 11, letterSpacing: "0.18em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 20 }}>
           {landing?.tagline ?? "Private Strategic Briefing · RTBX Travel"}
         </div>
         <h1 style={{ fontSize: 56, fontWeight: 800, letterSpacing: "-0.025em", color: "#fff", lineHeight: 1.06, marginBottom: 24, maxWidth: 820 }}>
@@ -231,38 +231,38 @@ export default function PartnerRoomLanding() {
         <p style={{ fontSize: 17, color: "rgba(255,255,255,0.55)", lineHeight: 1.7, maxWidth: 680, marginBottom: 14, fontWeight: 400 }}>
           Real-time guest, operator and service-moment infrastructure — powered by RTBX Core.
         </p>
-        <p style={{ fontSize: 14, color: "rgba(255,255,255,0.4)", lineHeight: 1.75, maxWidth: 640, marginBottom: 14 }}>
+        <p style={{ fontSize: 15, color: "rgba(255,255,255,0.42)", lineHeight: 1.75, maxWidth: 640, marginBottom: 14 }}>
           RTBX Travel turns live signals across hotels, resorts, holiday parks and experience environments into guided action, escalation, assurance and measurable value.
         </p>
-        <p style={{ fontSize: 12, color: "rgba(255,255,255,0.25)", lineHeight: 1.6, maxWidth: 560, marginBottom: 28, letterSpacing: "0.01em" }}>
+        <p style={{ fontSize: 13, color: "rgba(255,255,255,0.28)", lineHeight: 1.6, maxWidth: 560, marginBottom: 28, letterSpacing: "0.01em" }}>
           RTBX Travel is powered by RTBX Core. WELBX is the guest-facing experience layer.
         </p>
 
         {/* Operating platform statement */}
         <div style={{ padding: "16px 20px", background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.22)", borderLeft: "3px solid #c9a84c", maxWidth: 700, marginBottom: 24 }}>
-          <p style={{ fontSize: 13.5, color: "rgba(255,255,255,0.78)", lineHeight: 1.75, margin: 0, fontWeight: 600 }}>
+          <p style={{ fontSize: 14, color: "rgba(255,255,255,0.78)", lineHeight: 1.75, margin: 0, fontWeight: 600 }}>
             This is the RTBX Core operating platform configured for Travel.
           </p>
         </div>
 
-        {/* Simple operating hierarchy */}
+        {/* Simple operating hierarchy — links to full model */}
         <div style={{ marginBottom: 44 }}>
-          <div style={{ fontSize: 8, letterSpacing: "0.18em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>
+          <div style={{ fontSize: 11, letterSpacing: "0.14em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>
             Simple Hierarchy
           </div>
           <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 8, maxWidth: 900 }}>
             {PLATFORM_HIERARCHY.map((h, i, arr) => (
               <div key={h.id} style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <div style={{ padding: "7px 12px", fontSize: 9.5, fontWeight: 700, color: "rgba(255,255,255,0.55)", border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.02)" }}>
+                <div style={{ padding: "7px 12px", fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.58)", border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.02)" }}>
                   {h.label}
                 </div>
-                {i < arr.length - 1 && <span style={{ fontSize: 10, color: "rgba(255,255,255,0.15)" }}>→</span>}
+                {i < arr.length - 1 && <span style={{ fontSize: 12, color: "rgba(255,255,255,0.18)" }}>→</span>}
               </div>
             ))}
           </div>
           <div style={{ marginTop: 12 }}>
             <Link href="/partner-room/operating-model">
-              <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "#c9a84c", cursor: "pointer" }}>
+              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "#c9a84c", cursor: "pointer" }}>
                 See the full Operating Model →
               </span>
             </Link>
@@ -272,7 +272,7 @@ export default function PartnerRoomLanding() {
         <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
           <a href="#proof-layers" style={{ textDecoration: "none" }}>
             <div style={{
-              padding: "14px 28px", fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase",
+              padding: "14px 28px", fontSize: 12, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase",
               cursor: "pointer", background: "#c9a84c", color: "#080c14", border: "1px solid #c9a84c", transition: "all 0.15s",
             }}
             onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "#d4b35e"; }}
@@ -289,29 +289,29 @@ export default function PartnerRoomLanding() {
       <div style={{ marginBottom: 72 }}>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2 }}>
           <div style={{ padding: "32px 28px", background: "rgba(255,255,255,0.015)", border: "1px solid rgba(255,255,255,0.06)" }}>
-            <div style={{ fontSize: 9, letterSpacing: "0.16em", color: "rgba(255,255,255,0.28)", textTransform: "uppercase", fontWeight: 700, marginBottom: 20 }}>This is not</div>
+            <div style={{ fontSize: 11, letterSpacing: "0.14em", color: "rgba(255,255,255,0.32)", textTransform: "uppercase", fontWeight: 700, marginBottom: 20 }}>This is not</div>
             {THIS_IS_NOT.map(item => (
               <div key={item} style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
                 <div style={{ width: 14, height: 1, background: "rgba(239,68,68,0.35)", flexShrink: 0 }} />
-                <span style={{ fontSize: 13, color: "rgba(255,255,255,0.36)" }}>{item}</span>
+                <span style={{ fontSize: 14, color: "rgba(255,255,255,0.38)" }}>{item}</span>
               </div>
             ))}
           </div>
           <div style={{ padding: "32px 28px", background: "rgba(201,168,76,0.025)", border: "1px solid rgba(201,168,76,0.1)", borderLeft: "2px solid rgba(201,168,76,0.35)" }}>
-            <div style={{ fontSize: 9, letterSpacing: "0.16em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 20 }}>This is</div>
+            <div style={{ fontSize: 11, letterSpacing: "0.14em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 20 }}>This is</div>
             {THIS_IS.map(item => (
               <div key={item} style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
                 <div style={{ width: 14, height: 1, background: "rgba(201,168,76,0.5)", flexShrink: 0 }} />
-                <span style={{ fontSize: 13, color: "rgba(255,255,255,0.68)", fontWeight: 500 }}>{item}</span>
+                <span style={{ fontSize: 14, color: "rgba(255,255,255,0.68)", fontWeight: 500 }}>{item}</span>
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      {/* ── THE FIVE-STEP ENGINE ── */}
+      {/* ── THE FIVE-STEP ENGINE — condensed, links to Operating Model ── */}
       <div style={{ marginBottom: 88 }}>
-        <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 20 }}>
+        <div style={{ fontSize: 11, letterSpacing: "0.16em", color: "rgba(255,255,255,0.28)", textTransform: "uppercase", fontWeight: 700, marginBottom: 20 }}>
           The Five-Step Engine — Connect to Learn
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 2 }}>
@@ -323,22 +323,29 @@ export default function PartnerRoomLanding() {
               borderLeft: i === 0 ? "2px solid #c9a84c" : undefined,
               position: "relative",
             }}>
-              <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(201,168,76,0.45)", textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>
+              <div style={{ fontSize: 11, letterSpacing: "0.14em", color: "rgba(201,168,76,0.45)", textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>
                 {String(i + 1).padStart(2, "0")}
               </div>
-              <div style={{ fontSize: 12, fontWeight: 700, color: "#fff", marginBottom: 8 }}>{stage.label}</div>
-              <div style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", lineHeight: 1.5 }}>{stage.summary}</div>
+              <div style={{ fontSize: 13, fontWeight: 700, color: "#fff", marginBottom: 8 }}>{stage.label}</div>
+              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.38)", lineHeight: 1.55 }}>{stage.summary}</div>
               {i < ENGINE_STAGES.length - 1 && (
                 <div style={{ position: "absolute", right: -7, top: "50%", transform: "translateY(-50%)", width: 12, height: 1, background: "rgba(201,168,76,0.25)", zIndex: 1 }} />
               )}
             </div>
           ))}
         </div>
+        <div style={{ marginTop: 16 }}>
+          <Link href="/partner-room/operating-model">
+            <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", cursor: "pointer" }}>
+              Full operating model with six-layer architecture →
+            </span>
+          </Link>
+        </div>
       </div>
 
       {/* ── WORKING PRODUCT PROOF ── */}
       <div style={{ marginBottom: 56 }}>
-        <div style={{ fontSize: 8, letterSpacing: "0.18em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
+        <div style={{ fontSize: 11, letterSpacing: "0.14em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
           Working Product Proof
         </div>
         <a href="https://replit.com/@LP1313/rtbx-travel-moment-response-mvp" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
@@ -357,23 +364,23 @@ export default function PartnerRoomLanding() {
               <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                   <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#c9a84c" }} />
-                  <span style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: "#c9a84c" }}>Live MVP</span>
+                  <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c" }}>Live MVP</span>
                 </div>
-                <div style={{ fontSize: 7, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.2)", border: "1px solid rgba(255,255,255,0.08)", padding: "2px 7px" }}>Working Product</div>
+                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.25)", border: "1px solid rgba(255,255,255,0.08)", padding: "2px 7px" }}>Working Product</div>
               </div>
-              <div style={{ fontSize: 13.5, fontWeight: 700, color: "rgba(255,255,255,0.85)", letterSpacing: "-0.01em", marginBottom: 7 }}>
+              <div style={{ fontSize: 14, fontWeight: 700, color: "rgba(255,255,255,0.85)", letterSpacing: "-0.01em", marginBottom: 7 }}>
                 Live MVP Preview — Moment Response
               </div>
-              <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.35)", lineHeight: 1.65, maxWidth: 680, margin: "0 0 8px 0" }}>
+              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.38)", lineHeight: 1.65, maxWidth: 680, margin: "0 0 8px 0" }}>
                 The working product preview for the first deployable wedge: Moment Response. Signal captured, classified, assigned, WELBX message sent, escalated if required, logged for assurance and reported as pilot evidence.
               </p>
-              <div style={{ fontSize: 9.5, color: "rgba(255,255,255,0.18)", fontStyle: "italic" }}>
+              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.22)", fontStyle: "italic" }}>
                 This is not the full Travel OS. It is the first deployable wedge: Moment Response.
               </div>
             </div>
             <div style={{
-              padding: "10px 20px", fontSize: 9, fontWeight: 700, letterSpacing: "0.1em",
-              textTransform: "uppercase", color: "rgba(201,168,76,0.7)", border: "1px solid rgba(201,168,76,0.25)",
+              padding: "10px 20px", fontSize: 11, fontWeight: 700, letterSpacing: "0.08em",
+              textTransform: "uppercase", color: "rgba(201,168,76,0.75)", border: "1px solid rgba(201,168,76,0.28)",
               whiteSpace: "nowrap", flexShrink: 0,
             }}>
               Open Live MVP ↗
@@ -384,14 +391,14 @@ export default function PartnerRoomLanding() {
 
       {/* ── FIVE PROOF LAYERS ── */}
       <div id="proof-layers" style={{ marginBottom: 96 }}>
-        <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
+        <div style={{ fontSize: 11, letterSpacing: "0.16em", color: "rgba(255,255,255,0.28)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
           Partner Room · Structure
         </div>
         <div style={{ fontSize: 26, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", marginBottom: 8 }}>
           One Partner Room.{" "}
           <span style={{ color: "#c9a84c" }}>Five Proof Layers.</span>
         </div>
-        <p style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", lineHeight: 1.75, maxWidth: 620, marginBottom: 40 }}>
+        <p style={{ fontSize: 14, color: "rgba(255,255,255,0.42)", lineHeight: 1.75, maxWidth: 620, marginBottom: 40 }}>
           Each layer gives a partner, operator or funder a different lens on the system — from positioning through to proof, validation and commercial next steps.
         </p>
 
@@ -407,12 +414,12 @@ export default function PartnerRoomLanding() {
             }}>
               {/* Header */}
               <div style={{ marginBottom: 14 }}>
-                <div style={{ fontSize: 8, fontWeight: 800, color: `${sec.color}55`, letterSpacing: "0.1em", marginBottom: 5 }}>{sec.num}</div>
-                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: sec.color, lineHeight: 1.3 }}>{sec.label}</div>
-                <div style={{ fontSize: 8.5, letterSpacing: "0.1em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase", fontWeight: 600, marginTop: 4 }}>Nav: {sec.navLabel}</div>
+                <div style={{ fontSize: 11, fontWeight: 800, color: `${sec.color}55`, letterSpacing: "0.08em", marginBottom: 5 }}>{sec.num}</div>
+                <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: sec.color, lineHeight: 1.3 }}>{sec.label}</div>
+                <div style={{ fontSize: 11, letterSpacing: "0.08em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 600, marginTop: 4 }}>Nav: {sec.navLabel}</div>
               </div>
 
-              <p style={{ fontSize: 11, color: "rgba(255,255,255,0.38)", lineHeight: 1.6, marginBottom: 16, flex: 1 }}>
+              <p style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", lineHeight: 1.6, marginBottom: 16, flex: 1 }}>
                 {sec.desc}
               </p>
 
@@ -422,12 +429,12 @@ export default function PartnerRoomLanding() {
                   const inner = (
                     <div style={{
                       display: "flex", alignItems: "center", gap: 7,
-                      fontSize: 10.5,
-                      color: (link as any).blue ? "rgba(59,130,246,0.7)" : "rgba(255,255,255,0.38)",
+                      fontSize: 12,
+                      color: (link as any).blue ? "rgba(59,130,246,0.75)" : "rgba(255,255,255,0.4)",
                       cursor: "pointer", transition: "color 0.12s", padding: "2px 0",
                     }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = (link as any).blue ? "#3b82f6" : "rgba(255,255,255,0.82)"; }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = (link as any).blue ? "rgba(59,130,246,0.7)" : "rgba(255,255,255,0.38)"; }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = (link as any).blue ? "#3b82f6" : "rgba(255,255,255,0.85)"; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = (link as any).blue ? "rgba(59,130,246,0.75)" : "rgba(255,255,255,0.4)"; }}
                     >
                       <div style={{ width: 10, height: 1, background: (link as any).blue ? "rgba(59,130,246,0.35)" : `${sec.color}30`, flexShrink: 0 }} />
                       {link.label}
@@ -443,7 +450,7 @@ export default function PartnerRoomLanding() {
               <Link href={sec.ctaHref}>
                 <div style={{
                   display: "flex", alignItems: "center", justifyContent: "center",
-                  padding: "9px 0", fontSize: 9, fontWeight: 700, letterSpacing: "0.1em",
+                  padding: "9px 0", fontSize: 11, fontWeight: 700, letterSpacing: "0.08em",
                   textTransform: "uppercase", color: sec.color, border: `1px solid ${sec.color}35`,
                   cursor: "pointer", transition: "all 0.15s",
                 }}
@@ -460,13 +467,13 @@ export default function PartnerRoomLanding() {
 
       {/* ── OPERATING ENVIRONMENTS (tabbed) ── */}
       <div id="environments" style={{ marginBottom: 96 }}>
-        <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
+        <div style={{ fontSize: 11, letterSpacing: "0.16em", color: "rgba(255,255,255,0.28)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
           RTBX Travel · Deployment Environments
         </div>
         <div style={{ fontSize: 22, fontWeight: 700, color: "#fff", letterSpacing: "-0.01em", marginBottom: 10, maxWidth: 680 }}>
           Five deployment environments. One operating system.
         </div>
-        <p style={{ fontSize: 13, color: "rgba(255,255,255,0.42)", lineHeight: 1.75, maxWidth: 620, marginBottom: 32 }}>
+        <p style={{ fontSize: 14, color: "rgba(255,255,255,0.45)", lineHeight: 1.75, maxWidth: 620, marginBottom: 32 }}>
           RTBX Core applies the same signal-to-action infrastructure across every environment. The context changes — the execution logic remains the same.
         </p>
 
@@ -486,7 +493,7 @@ export default function PartnerRoomLanding() {
               onMouseEnter={e => { if (i !== activeEnv) { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(255,255,255,0.04)"; } }}
               onMouseLeave={e => { if (i !== activeEnv) { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(255,255,255,0.02)"; } }}
             >
-              <div style={{ fontSize: 9, letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 700, color: i === activeEnv ? env.color : "rgba(255,255,255,0.3)", lineHeight: 1.4 }}>
+              <div style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: 700, color: i === activeEnv ? env.color : "rgba(255,255,255,0.35)", lineHeight: 1.4 }}>
                 {env.title}
               </div>
             </button>
@@ -499,17 +506,17 @@ export default function PartnerRoomLanding() {
             <div style={{ padding: "32px 32px", background: `${env.color}05`, border: `1px solid ${env.color}20`, borderTop: "none" }}>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 36, marginBottom: 28 }}>
                 <div>
-                  <div style={{ fontSize: 8, letterSpacing: "0.16em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>Focus</div>
-                  <p style={{ fontSize: 13, color: "rgba(255,255,255,0.58)", lineHeight: 1.7, marginBottom: 20 }}>{env.focus}</p>
-                  <div style={{ fontSize: 8, letterSpacing: "0.16em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>Action Pathway</div>
-                  <div style={{ fontSize: 12, color: env.color, fontWeight: 600 }}>{env.pathway}</div>
+                  <div style={{ fontSize: 11, letterSpacing: "0.12em", color: "rgba(255,255,255,0.28)", textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>Focus</div>
+                  <p style={{ fontSize: 14, color: "rgba(255,255,255,0.6)", lineHeight: 1.7, marginBottom: 20 }}>{env.focus}</p>
+                  <div style={{ fontSize: 11, letterSpacing: "0.12em", color: "rgba(255,255,255,0.28)", textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>Action Pathway</div>
+                  <div style={{ fontSize: 13, color: env.color, fontWeight: 600 }}>{env.pathway}</div>
                 </div>
                 <div>
-                  <div style={{ fontSize: 8, letterSpacing: "0.16em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>Signal Examples</div>
+                  <div style={{ fontSize: 11, letterSpacing: "0.12em", color: "rgba(255,255,255,0.28)", textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>Signal Examples</div>
                   {env.signals.map((sig, j) => (
                     <div key={j} style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 7 }}>
                       <div style={{ width: 14, height: 1, background: `${env.color}45`, flexShrink: 0 }} />
-                      <span style={{ fontSize: 12, color: "rgba(255,255,255,0.48)" }}>{sig}</span>
+                      <span style={{ fontSize: 13, color: "rgba(255,255,255,0.52)" }}>{sig}</span>
                     </div>
                   ))}
                 </div>
@@ -521,8 +528,8 @@ export default function PartnerRoomLanding() {
                   { label: "Partner Opportunity",   value: env.partnerOpportunity,  color: "#3b82f6" },
                 ].map(block => (
                   <div key={block.label} style={{ padding: "18px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)", borderTop: `2px solid ${block.color}` }}>
-                    <div style={{ fontSize: 8, letterSpacing: "0.14em", color: block.color, textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>{block.label}</div>
-                    <div style={{ fontSize: 12, color: "rgba(255,255,255,0.48)", lineHeight: 1.6 }}>{block.value}</div>
+                    <div style={{ fontSize: 11, letterSpacing: "0.1em", color: block.color, textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>{block.label}</div>
+                    <div style={{ fontSize: 13, color: "rgba(255,255,255,0.52)", lineHeight: 1.6 }}>{block.value}</div>
                   </div>
                 ))}
               </div>
@@ -531,7 +538,7 @@ export default function PartnerRoomLanding() {
                   <Link href={env.demoLink}>
                     <div style={{
                       display: "inline-flex", alignItems: "center", gap: 8, padding: "11px 22px",
-                      fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase",
+                      fontSize: 12, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase",
                       cursor: "pointer", background: env.color, color: "#080c14", transition: "opacity 0.15s",
                     }}
                     onMouseEnter={e => { (e.currentTarget as HTMLElement).style.opacity = "0.85"; }}
@@ -549,7 +556,7 @@ export default function PartnerRoomLanding() {
 
       {/* ── PARTNER PATHS ── */}
       <div id="partner-paths" style={{ marginBottom: 72 }}>
-        <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 28 }}>
+        <div style={{ fontSize: 11, letterSpacing: "0.16em", color: "rgba(255,255,255,0.28)", textTransform: "uppercase", fontWeight: 700, marginBottom: 28 }}>
           Choose your entry point
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
@@ -563,12 +570,12 @@ export default function PartnerRoomLanding() {
               padding: "32px 24px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)",
               borderTop: `2px solid ${card.color}`, display: "flex", flexDirection: "column",
             }}>
-              <div style={{ fontSize: 7.5, letterSpacing: "0.2em", color: card.color, textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>{card.sub}</div>
+              <div style={{ fontSize: 11, letterSpacing: "0.14em", color: card.color, textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>{card.sub}</div>
               <div style={{ fontSize: 15, fontWeight: 700, color: "#fff", marginBottom: 14, lineHeight: 1.3, flex: 1 }}>{card.title}</div>
-              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", lineHeight: 1.65, marginBottom: 22 }}>{card.desc}</div>
+              <div style={{ fontSize: 13, color: "rgba(255,255,255,0.44)", lineHeight: 1.65, marginBottom: 22 }}>{card.desc}</div>
               <Link href={card.href}>
                 <div style={{
-                  fontSize: 9.5, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase",
+                  fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase",
                   color: card.color, cursor: "pointer", transition: "opacity 0.15s",
                 }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.opacity = "0.65"; }}
@@ -593,7 +600,7 @@ export default function PartnerRoomLanding() {
         display: "flex", flexDirection: "column", gap: 24,
       }}>
         <div>
-          <div style={{ fontSize: 9, letterSpacing: "0.2em", color: "rgba(201,168,76,0.6)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
+          <div style={{ fontSize: 11, letterSpacing: "0.16em", color: "rgba(201,168,76,0.65)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
             Next Step
           </div>
           <div style={{ fontSize: 20, fontWeight: 700, color: "#fff", letterSpacing: "-0.01em" }}>
@@ -603,7 +610,7 @@ export default function PartnerRoomLanding() {
         <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
           <Link href="/partner-room/dual-view-demo">
             <div style={{
-              padding: "12px 24px", fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase",
+              padding: "12px 24px", fontSize: 12, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase",
               cursor: "pointer", background: "#c9a84c", color: "#080c14", border: "1px solid #c9a84c", transition: "all 0.15s",
             }}
             onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "#d4b35e"; }}
