@@ -1,0 +1,1728 @@
+# RTBX Travel Partner Room V2
+
+## Sprint 3 — Travel Operating Systems, Scenarios and Playbooks
+
+You are working on the existing **RTBX Travel Partner Room V2** application.
+
+Sprint 1 should have stabilised the repository, routes, branding, runtime and build integrity.
+
+Sprint 2 should have aligned the Travel application to the shared RTBX architecture:
+
+* RTBX Intelligence Engine
+* Connect → Understand → Decide → Act → Learn
+* Six intelligence layers
+* Integration Hub
+* Signal Registry
+* Decision Spine
+* Playbook Engine
+* Prompt & Nudge Engine
+* Central Comms OS
+* Evidence Ledger
+* Outcome Ledger
+* Build & Configure
+* Execution Centre
+
+Do not repeat those sprints unless a blocker prevents Sprint 3 from being completed.
+
+This sprint is focused on:
+
+* Operating-system prioritisation
+* Scenario quality
+* Playbook completeness
+* Accountability
+* Escalation
+* Evidence
+* Outcome measurement
+* Maturity transparency
+
+This is not a rebuild.
+
+---
+
+# 1. Sprint objective
+
+Strengthen RTBX Travel by ensuring that:
+
+1. The site leads with three commercially meaningful operating systems
+2. Safety and Guest Welfare operates as a cross-cutting control
+3. Marketplace and Loyalty Activation is positioned as an expansion capability
+4. Every visible scenario is linked to a complete governed playbook
+5. Every scenario has an accountable role
+6. Every scenario has explicit escalation logic
+7. Every scenario has evidence and outcome requirements
+8. Every scenario has an honest maturity status
+9. Scenario, playbook and operating-system data are connected through shared IDs
+10. Decorative or incomplete scenarios are removed from primary presentation
+
+The core standard is:
+
+> No scenario should appear in the Travel site unless RTBX can explain what triggered it, what decision was required, who was accountable, what action occurred, what evidence was captured and what outcome was measured.
+
+---
+
+# 2. Non-negotiable constraints
+
+## Preserve
+
+Preserve the existing strongest Travel scenarios and proof surfaces:
+
+* Repeat guest room not ready
+* Distressed guest
+* Service backlog
+* Maintenance defect
+* Transport disruption
+* Premium guest opportunity
+* Guest Demo
+* Operator Demo
+* Dual View Demo
+* Validation Replay
+* Scenario Builder
+* Decision Spine
+* Travel Operations Centre
+* Product Proof
+* Signal Capture
+* Existing operating-system pages
+* Existing Travel playbook content
+* Existing Travel roles
+* Existing governance logic
+* Existing evidence and outcome concepts
+
+## Do not
+
+* Do not rebuild the application
+* Do not add large numbers of new scenarios
+* Do not create new operating-system categories
+* Do not add production integrations
+* Do not create a new backend
+* Do not redesign the full UI
+* Do not change pricing
+* Do not introduce unsupported customer claims
+* Do not represent synthetic data as production data
+* Do not add separate engines for scenarios or playbooks
+* Do not duplicate the shared RTBX Core
+* Do not create a new page where an existing page can be improved
+* Do not begin Sprint 4 Build & Configure functionality
+* Do not begin Sprint 5 partner-commercial restructuring
+* Do not begin Sprint 6 full UX and release QA
+
+Where existing scenarios are incomplete, strengthen them rather than replacing them.
+
+---
+
+# 3. Priority Travel operating systems
+
+The Travel site should lead with three priority operating systems.
+
+---
+
+## 3.1 Guest Experience OS
+
+### Purpose
+
+Identify meaningful guest moments and coordinate timely, relevant and governed responses.
+
+### Primary users
+
+* Front Office
+* Guest Services
+* Concierge
+* Duty Manager
+* Housekeeping
+* Property leadership
+
+### Typical signals
+
+* Arrival status
+* Room readiness
+* Guest request
+* Repeat request
+* Guest profile
+* Loyalty status
+* Sentiment
+* Delay
+* Disruption
+* Service recovery requirement
+
+### Core RTBX capabilities
+
+* Integration Hub
+* Signal Registry
+* Context and Moment Layer
+* Decision Spine
+* Playbook Engine
+* Prompt & Nudge Engine
+* Central Comms OS
+* Evidence Ledger
+* Outcome Ledger
+
+### Primary outcomes
+
+* Faster guest response
+* Improved service consistency
+* Better recovery
+* Reduced missed moments
+* Clear ownership
+* Better guest communication
+* Stronger repeat-guest recognition
+
+---
+
+## 3.2 Service Recovery and Staff Response OS
+
+### Purpose
+
+Convert operational exceptions, delays and service failures into governed and accountable action.
+
+### Primary users
+
+* Duty Manager
+* Operations Manager
+* Housekeeping Manager
+* Maintenance
+* Guest Services
+* Department leaders
+* General Manager
+
+### Typical signals
+
+* SLA breach
+* Task backlog
+* Repeat complaint
+* Unresolved maintenance issue
+* Delayed room
+* Service queue
+* Staffing pressure
+* Escalation threshold
+* Negative sentiment
+* Incomplete handoff
+
+### Core outcomes
+
+* Reduced response delay
+* Improved escalation discipline
+* Clear accountability
+* Fewer unresolved requests
+* Stronger staff handoffs
+* Complete evidence
+* Better recovery decisions
+
+---
+
+## 3.3 Operator Intelligence OS
+
+### Purpose
+
+Provide property and group leaders with visibility over active moments, operational decisions, actions, outcomes and recurring patterns.
+
+### Primary users
+
+* General Manager
+* Regional Operations
+* Group Operations
+* Transformation
+* Risk
+* Guest Experience leadership
+* Property owners
+* Partner leadership
+
+### Typical signals
+
+* Open actions
+* SLA breaches
+* Escalation volume
+* Repeated defects
+* Recovery cost
+* Response time
+* Outcome quality
+* Evidence completion
+* Staff adoption
+* Property patterns
+
+### Core outcomes
+
+* Better operating visibility
+* Faster decision-making
+* Clear accountability
+* Repeat issue detection
+* Cross-property learning
+* Improved playbooks
+* Evidence-based performance review
+
+---
+
+# 4. Cross-cutting operating system
+
+## Safety and Guest Welfare OS
+
+Do not remove this system.
+
+Position it as a cross-cutting governance and escalation capability supporting every Travel operating system.
+
+It should provide:
+
+* Human approval requirements
+* Welfare escalation
+* Security escalation
+* High-risk decision controls
+* Restricted communication pathways
+* Evidence requirements
+* Safeguarding controls
+* Privacy boundaries
+* Emergency or critical-response pathways
+* Clear AI limitations
+
+It may retain a dedicated page or section, but it should not compete visually with the three initial commercial operating-system wedges.
+
+The site should explain:
+
+> Safety and Guest Welfare controls sit across all Travel operating systems and become active whenever risk, distress, vulnerability or human-impact thresholds are detected.
+
+---
+
+# 5. Expansion operating system
+
+## Marketplace and Loyalty Activation OS
+
+Preserve the current architecture and scenarios where they are credible.
+
+Position this as a later-stage expansion capability activated after RTBX has established:
+
+* Trusted signals
+* Operational adoption
+* Customer permission
+* Accurate context
+* Reliable governance
+* Proven response workflows
+* Outcome measurement
+
+It should not lead the first hotel pilot.
+
+The page should state that marketplace or loyalty activation is only appropriate where:
+
+* The guest has provided relevant permission
+* The context is accurate
+* The offer is appropriate
+* Operational delivery is available
+* The action does not interfere with safety, service recovery or guest trust
+* Value can be attributed and measured
+
+---
+
+# 6. Operating-system hierarchy
+
+Create or update a canonical operating-system data source.
+
+Suggested location:
+
+```text
+src/data/travelOperatingSystems.ts
+```
+
+Each operating system should contain:
+
+```ts
+type TravelOperatingSystem = {
+  id: string;
+  name: string;
+  position: "lead" | "cross-cutting" | "expansion";
+  summary: string;
+  problem: string;
+  primaryUsers: string[];
+  signalIds: string[];
+  scenarioIds: string[];
+  playbookIds: string[];
+  governanceSources: string[];
+  coreCapabilities: string[];
+  evidenceRequirements: string[];
+  outcomeMetrics: string[];
+  maturityStatus: MaturityStatus;
+};
+```
+
+Use the current codebase conventions.
+
+Do not over-engineer the model.
+
+---
+
+# 7. Canonical scenario contract
+
+Create or update one canonical scenario source.
+
+Suggested location:
+
+```text
+src/data/travelScenarios.ts
+```
+
+Every published scenario must use the following contract.
+
+```ts
+type TravelScenario = {
+  id: string;
+  name: string;
+  summary: string;
+
+  operatingSystemId: string;
+  secondaryOperatingSystemIds?: string[];
+
+  maturityStatus:
+    | "working-proof"
+    | "prototype"
+    | "simulation"
+    | "connector-ready"
+    | "integrated"
+    | "production"
+    | "planned";
+
+  trigger: {
+    type: string;
+    description: string;
+    threshold?: string;
+  };
+
+  signals: {
+    id: string;
+    source: string;
+    name: string;
+    status:
+      | "simulated"
+      | "manual"
+      | "demonstrated"
+      | "connector-ready"
+      | "integrated"
+      | "planned";
+    dataRequired: string[];
+  }[];
+
+  context: {
+    relevantFacts: string[];
+    riskOrOpportunity: string;
+    confidence?: string;
+  };
+
+  governance: {
+    sources: string[];
+    rules: string[];
+    permissions: string[];
+    humanApprovalRequired: boolean;
+    approvalRole?: string;
+    prohibitedActions?: string[];
+  };
+
+  decision: {
+    decisionRequired: string;
+    recommendedDecision: string;
+    accountableRoleId: string;
+    decisionDeadline?: string;
+  };
+
+  playbookId: string;
+
+  roles: {
+    accountableRoleId: string;
+    supportingRoleIds: string[];
+    informedRoleIds?: string[];
+  };
+
+  actions: {
+    step: number;
+    action: string;
+    ownerRoleId: string;
+    timing: string;
+    channelOrSystem?: string;
+    approvalRequired?: boolean;
+    evidenceRequired?: string[];
+  }[];
+
+  communications: {
+    audience: string;
+    purpose: string;
+    channel: string;
+    approvalRequired: boolean;
+    messageType:
+      | "draft"
+      | "recommendation"
+      | "internal-notification"
+      | "guest-message"
+      | "escalation"
+      | "confirmation";
+  }[];
+
+  escalation: {
+    trigger: string;
+    threshold: string;
+    escalateToRoleId: string;
+    action: string;
+    maximumDelay?: string;
+  }[];
+
+  evidenceRequirements: {
+    evidenceType: string;
+    required: boolean;
+    ownerRoleId: string;
+    completionRule: string;
+  }[];
+
+  outcomes: {
+    metric: string;
+    target?: string;
+    measure: string;
+    ownerRoleId?: string;
+  }[];
+
+  learning: {
+    reviewTrigger: string;
+    patternToDetect: string;
+    improvementAction: string;
+  };
+
+  proof: {
+    proofType:
+      | "working-interface"
+      | "synthetic-replay"
+      | "prototype"
+      | "technical-test"
+      | "customer-pilot"
+      | "production";
+    source: string;
+    limitations: string[];
+  };
+};
+```
+
+Adjust the exact type structure to the existing application.
+
+The contract should remain readable and maintainable.
+
+---
+
+# 8. Canonical playbook contract
+
+Create or update one canonical playbook source.
+
+Suggested location:
+
+```text
+src/data/travelPlaybooks.ts
+```
+
+Every scenario must link to one specific playbook ID.
+
+Each playbook should include:
+
+```ts
+type TravelPlaybook = {
+  id: string;
+  name: string;
+  operatingSystemId: string;
+  summary: string;
+  purpose: string;
+
+  entryConditions: string[];
+  exclusionConditions?: string[];
+
+  governanceSources: string[];
+  accountableRoleId: string;
+  supportingRoleIds: string[];
+
+  decisionRules: {
+    rule: string;
+    outcome: string;
+  }[];
+
+  steps: {
+    step: number;
+    title: string;
+    action: string;
+    ownerRoleId: string;
+    timing: string;
+    systemOrChannel?: string;
+    approvalRequired?: boolean;
+    evidenceRequired?: string[];
+  }[];
+
+  communicationTemplates: {
+    id: string;
+    audience: string;
+    channel: string;
+    purpose: string;
+    approvalRequired: boolean;
+  }[];
+
+  escalationRules: {
+    condition: string;
+    threshold: string;
+    escalateToRoleId: string;
+    response: string;
+  }[];
+
+  completionCriteria: string[];
+  evidenceRequirements: string[];
+  outcomeMetrics: string[];
+  learningRules: string[];
+
+  maturityStatus: MaturityStatus;
+};
+```
+
+Do not create playbooks that merely repeat scenario summaries.
+
+A playbook must describe an ordered, governed and accountable response.
+
+---
+
+# 9. Canonical role register
+
+Create or update:
+
+```text
+src/data/travelRoles.ts
+```
+
+Each role should contain:
+
+```ts
+type TravelRole = {
+  id: string;
+  name: string;
+  level: "frontline" | "manager" | "property" | "regional" | "group" | "partner";
+  responsibilities: string[];
+  decisionRights: string[];
+  escalationRights: string[];
+  evidenceResponsibilities: string[];
+  communicationPermissions: string[];
+};
+```
+
+At minimum, rationalise roles such as:
+
+* Front Office
+* Guest Services
+* Concierge
+* Housekeeping
+* Maintenance
+* Duty Manager
+* Operations Manager
+* Safety or Security Lead
+* General Manager
+* Regional Operations
+* Group Operations
+* Transformation Lead
+* Partner or service provider
+
+Avoid role-name drift across scenarios.
+
+Do not use different titles for the same accountable function unless property configuration requires it.
+
+---
+
+# 10. Required core scenario upgrades
+
+Strengthen the six existing scenarios.
+
+Do not replace them with entirely new scenarios.
+
+---
+
+## 10.1 Repeat guest room not ready
+
+### Primary operating system
+
+Guest Experience OS
+
+### Secondary operating system
+
+Service Recovery and Staff Response OS
+
+### Required trigger
+
+A recognised repeat guest is approaching arrival or has arrived, and the assigned room is not ready within the configured readiness threshold.
+
+### Required signals
+
+* Reservation
+* Arrival time
+* Room status
+* Guest profile
+* Loyalty or repeat-guest status
+* Housekeeping status
+* Available alternatives
+* Guest communication channel
+
+### Governance
+
+* Property room-allocation rules
+* Guest privacy rules
+* Upgrade authority
+* Compensation limits
+* Approval thresholds
+* Communication standards
+
+### Accountable role
+
+Duty Manager or configured equivalent
+
+### Required playbook
+
+A complete pre-arrival or arrival recovery playbook.
+
+### Required actions
+
+At minimum:
+
+1. Confirm signal accuracy
+2. Assess room-readiness timing
+3. Check alternative room options
+4. Determine approval requirement
+5. Assign operational owner
+6. Prepare staff prompt
+7. Prepare guest communication
+8. Provide interim support or recovery
+9. Confirm room readiness
+10. Record evidence and outcome
+
+### Escalation
+
+Escalate when:
+
+* Delay exceeds threshold
+* No alternative room exists
+* Premium or vulnerable guest status applies
+* Guest sentiment deteriorates
+* Recovery authority exceeds role permissions
+
+### Outcomes
+
+* Guest contacted before avoidable uncertainty
+* Room or alternative provided
+* Recovery completed
+* Response time recorded
+* Guest outcome recorded
+* Repeat failure pattern identified
+
+---
+
+## 10.2 Distressed guest
+
+### Primary operating system
+
+Safety and Guest Welfare OS
+
+### Secondary operating system
+
+Guest Experience OS
+
+### Required trigger
+
+A guest displays or communicates distress, vulnerability, safety concern or welfare risk.
+
+### Required signals
+
+* Guest message
+* Staff observation
+* Repeated help request
+* Sentiment or keyword flag
+* Security report
+* Welfare concern
+* Location context
+* Previous related incident where permitted
+
+### Governance
+
+* Human review required
+* No autonomous diagnosis
+* No autonomous emergency decision
+* Privacy and restricted-data controls
+* Welfare escalation policy
+* Security procedures
+* Emergency service threshold
+* Evidence restrictions
+
+### Accountable role
+
+Duty Manager, Safety Lead or configured responsible role
+
+### Required playbook
+
+A governed guest welfare and escalation playbook.
+
+### Required actions
+
+At minimum:
+
+1. Confirm immediate safety
+2. Route to accountable human
+3. Restrict inappropriate automated communication
+4. Assess required support
+5. Activate security, welfare or emergency pathway if required
+6. Record minimum necessary evidence
+7. Confirm handoff
+8. Record resolution status
+9. Conduct controlled post-incident review
+
+### Escalation
+
+Explicitly define:
+
+* Immediate danger
+* Medical concern
+* Child or vulnerable-person concern
+* Threat to others
+* Missing person
+* Security requirement
+* Emergency-service involvement
+
+### Outcomes
+
+* Appropriate human intervention
+* Safe handoff
+* Communication control maintained
+* Required evidence completed
+* Incident reviewed
+* Privacy boundaries maintained
+
+---
+
+## 10.3 Service backlog
+
+### Primary operating system
+
+Service Recovery and Staff Response OS
+
+### Secondary operating system
+
+Operator Intelligence OS
+
+### Required trigger
+
+Service requests, housekeeping tasks or operating actions exceed a configured volume, age or SLA threshold.
+
+### Required signals
+
+* Open task count
+* Task age
+* Request type
+* Staffing level
+* Occupancy
+* Priority requests
+* Repeat requests
+* Queue growth
+* Escalation history
+
+### Accountable role
+
+Operations Manager or relevant department manager
+
+### Required playbook
+
+Operational backlog recovery playbook.
+
+### Required actions
+
+At minimum:
+
+1. Validate backlog
+2. Categorise urgency
+3. Identify guest-impacting tasks
+4. Reallocate capacity
+5. Assign owners
+6. Notify affected roles
+7. Communicate with affected guests where required
+8. Escalate unresolved critical tasks
+9. Record completion
+10. Review recurring capacity pattern
+
+### Outcomes
+
+* Backlog reduced
+* High-priority tasks addressed
+* Guest communication completed
+* Breaches recorded
+* Capacity issue identified
+* Future threshold or staffing review triggered
+
+---
+
+## 10.4 Maintenance defect
+
+### Primary operating system
+
+Service Recovery and Staff Response OS
+
+### Secondary operating systems
+
+* Guest Experience OS
+* Safety and Guest Welfare OS where risk applies
+* Operator Intelligence OS
+
+### Required trigger
+
+A maintenance defect affects a guest, room, service or safety condition.
+
+### Required signals
+
+* Maintenance report
+* Guest complaint
+* Room status
+* Asset type
+* Safety classification
+* Availability of alternative room
+* Repair ETA
+* Repeat defect history
+
+### Accountable role
+
+Duty Manager for guest recovery and Maintenance Lead for remediation
+
+Clearly identify one overall accountable role.
+
+### Required playbook
+
+Maintenance defect and guest-recovery playbook.
+
+### Required actions
+
+At minimum:
+
+1. Classify defect
+2. Determine safety impact
+3. Isolate asset or room where required
+4. Assign maintenance response
+5. Assess guest impact
+6. Approve relocation or recovery
+7. Communicate with the guest
+8. Confirm repair
+9. Capture evidence
+10. Review repeated defect pattern
+
+### Outcomes
+
+* Risk controlled
+* Guest impact addressed
+* Repair completed
+* Evidence recorded
+* Room or asset status updated
+* Repeat-defect intelligence created
+
+---
+
+## 10.5 Transport disruption
+
+### Primary operating system
+
+Guest Experience OS
+
+### Secondary operating systems
+
+* Service Recovery and Staff Response OS
+* Operator Intelligence OS
+
+### Required trigger
+
+A transport disruption materially affects expected guest arrival, departure, staffing or service delivery.
+
+### Required signals
+
+* Transport alert
+* Flight or rail disruption
+* Expected arrival
+* Booking status
+* Transfer booking
+* Staffing schedule
+* Guest communication channel
+* Property capacity
+
+### Accountable role
+
+Guest Services or Duty Manager depending on impact
+
+### Required playbook
+
+Transport disruption and arrival-management playbook.
+
+### Required actions
+
+At minimum:
+
+1. Verify disruption
+2. Identify affected guests or operations
+3. Assess timing and service impact
+4. Update arrival or transfer plan
+5. Notify operational roles
+6. Prepare guest communication
+7. Adjust relevant reservations or services
+8. Escalate high-impact cases
+9. Record outcome
+10. Review recurring disruption impact
+
+### Outcomes
+
+* Guest informed
+* Arrival plan updated
+* Internal teams aligned
+* Avoidable service failure reduced
+* Impact recorded
+* Pattern available for future planning
+
+---
+
+## 10.6 Premium guest opportunity
+
+### Primary operating system
+
+Marketplace and Loyalty Activation OS
+
+### Secondary operating system
+
+Guest Experience OS
+
+### Required trigger
+
+A permitted guest context indicates a relevant service or experience opportunity that can be delivered without disrupting guest trust.
+
+### Required signals
+
+* Permission status
+* Guest profile
+* Current context
+* Available inventory
+* Loyalty status
+* Property service capacity
+* Timing
+* Previous response
+* Suitability constraints
+
+### Governance
+
+* Consent
+* Privacy
+* Frequency controls
+* Suitability
+* Brand standards
+* Inventory validation
+* Human approval where required
+* Exclusion during distress or service-recovery moments
+
+### Accountable role
+
+Guest Experience, Concierge or configured commercial owner
+
+### Required playbook
+
+Governed guest opportunity and service-activation playbook.
+
+### Required actions
+
+At minimum:
+
+1. Confirm permission
+2. Confirm context accuracy
+3. Confirm inventory or delivery capacity
+4. Exclude conflicting service or welfare moments
+5. Select appropriate communication
+6. Route for approval where required
+7. Deliver message or staff prompt
+8. Record response
+9. Attribute value where appropriate
+10. Review relevance and frequency
+
+### Outcomes
+
+* Relevant offer or service delivered
+* Consent respected
+* No inappropriate activation
+* Response recorded
+* Attributable value measured where valid
+* Guest trust maintained
+
+---
+
+# 11. Scenario page requirements
+
+Update the canonical scenario page so every visible scenario shows:
+
+## Overview
+
+* Scenario name
+* Operating system
+* Maturity status
+* Problem being solved
+
+## Trigger and signals
+
+* Trigger
+* Signal sources
+* Signal status
+* Required context
+
+## Decision and governance
+
+* Governance source
+* Decision required
+* Accountable role
+* Human approval
+* Prohibited or restricted actions
+
+## Playbook
+
+* Linked playbook
+* Ordered actions
+* Owners
+* Timing
+* Channels
+
+## Escalation
+
+* Trigger
+* Threshold
+* Escalation owner
+* Escalation action
+
+## Evidence and outcomes
+
+* Evidence requirements
+* Completion criteria
+* Outcome metrics
+* Learning rule
+
+## Proof status
+
+* Working interface
+* Synthetic replay
+* Prototype
+* Integration limitation
+* Production engineering required
+
+Do not show every detail simultaneously if it creates excessive card density.
+
+Use progressive disclosure, tabs, accordions or structured sections.
+
+---
+
+# 12. Playbook Library requirements
+
+The Playbook Library must no longer appear as a list of generic response names.
+
+For every visible playbook, show:
+
+* Playbook name
+* Linked operating system
+* Linked scenarios
+* Accountable role
+* Entry conditions
+* Governance sources
+* Number of action steps
+* Human approval requirement
+* Escalation rules
+* Evidence requirements
+* Outcome metrics
+* Maturity status
+
+Provide a structured playbook detail view using existing routing or component patterns.
+
+Do not create duplicate playbook pages for the same playbook.
+
+---
+
+# 13. Scenario-to-playbook integrity
+
+Add validation ensuring:
+
+* Every published scenario has a `playbookId`
+* Every `playbookId` resolves to an existing playbook
+* Every playbook references at least one scenario where applicable
+* Every scenario references a valid operating system
+* Every accountable role exists
+* Every action owner exists
+* Every escalation role exists
+* Every required evidence owner exists
+* Every maturity status uses an approved value
+
+The validation should fail clearly during development or CI.
+
+---
+
+# 14. Decision Spine integration
+
+Update scenario and playbook presentation to show how decisions are governed through the shared Decision Spine.
+
+For each scenario, display:
+
+```text
+Signal
+→ Context
+→ Governance source
+→ Decision rule
+→ Accountable role
+→ Approval
+→ Action
+→ Evidence
+→ Outcome
+```
+
+Do not create a separate Travel Decision Engine.
+
+Where a decision is simulated, label it accordingly.
+
+---
+
+# 15. Prompt & Nudge Engine integration
+
+Every scenario should distinguish:
+
+* Operational prompt
+* Recommended action
+* Staff nudge
+* Approval request
+* Escalation notification
+* Guest-facing draft
+* Internal communication
+* Automated system notification
+
+For each communication, indicate:
+
+* Recipient
+* Purpose
+* Channel
+* Approval requirement
+* Whether content is generated, templated or manual
+* Whether it is simulated
+
+Do not suggest that high-risk communications are autonomously sent.
+
+---
+
+# 16. Central Comms OS integration
+
+Show how communications are coordinated across:
+
+* Guest
+* Front Office
+* Housekeeping
+* Maintenance
+* Duty Manager
+* General Manager
+* Safety or Security
+* Regional or group operations
+* External partner where applicable
+
+The Central Comms OS should demonstrate:
+
+* One source of context
+* Role-appropriate messaging
+* Controlled escalation
+* Communication evidence
+* Reduced duplicate or conflicting messages
+
+Do not redesign the full communications interface.
+
+---
+
+# 17. Evidence Ledger requirements
+
+Every scenario must define evidence requirements.
+
+Examples include:
+
+* Signal received
+* Source verified
+* Decision recorded
+* Approval recorded
+* Task assigned
+* Communication sent or approved
+* Guest acknowledgement
+* Repair evidence
+* Resolution confirmation
+* Escalation record
+* Outcome recorded
+* Review completed
+
+Each evidence requirement should define:
+
+* Evidence type
+* Owner
+* Required or optional
+* Completion rule
+* Visibility
+* Retention or privacy consideration where relevant
+
+Do not implement an immutable production ledger in this sprint.
+
+Represent the current evidence capability honestly.
+
+---
+
+# 18. Outcome Ledger requirements
+
+Every scenario must include measurable outcomes.
+
+Outcome fields may include:
+
+* Time to acknowledge
+* Time to assign
+* Time to resolve
+* SLA met
+* Escalation required
+* Guest contacted
+* Guest recovery completed
+* Repeat request avoided
+* Safety handoff completed
+* Evidence complete
+* Guest outcome
+* Staff adoption
+* Cost or value
+* Repeat issue detected
+
+Every outcome should identify:
+
+* Metric
+* Measurement method
+* Target where approved
+* Data source
+* Maturity
+* Outcome owner
+
+Do not invent commercial performance figures.
+
+Where targets are not approved, use:
+
+* Customer-configured
+* Pilot-defined
+* Indicative
+* To be established during alignment
+
+---
+
+# 19. Operator Intelligence integration
+
+Connect scenario outcomes to the Operator Intelligence OS.
+
+The Operator view should be able to show, using synthetic data where required:
+
+* Active scenarios
+* Scenario volume
+* Response time
+* SLA breaches
+* Escalations
+* Evidence completion
+* Outcome completion
+* Repeat issues
+* Playbook performance
+* Operating-system performance
+* Property patterns
+
+Do not add unsupported analytics claims.
+
+Clearly label simulated data.
+
+---
+
+# 20. Scenario Builder alignment
+
+Update the Scenario Builder so its fields align with the canonical scenario contract.
+
+At minimum, the builder should collect or display:
+
+* Scenario name
+* Operating system
+* Trigger
+* Signals
+* Governance source
+* Decision required
+* Accountable role
+* Supporting roles
+* Linked playbook
+* Actions
+* Communication pathway
+* Escalation
+* Evidence
+* Outcomes
+* Maturity
+
+If the builder is not fully persistent, label it as a prototype.
+
+Do not implement full production configuration persistence in this sprint.
+
+---
+
+# 21. Demo alignment
+
+Update the Guest, Operator and Dual View demos so they reference the same scenario and playbook data where practical.
+
+The same scenario should not use conflicting:
+
+* Role names
+* Trigger descriptions
+* Governance
+* Actions
+* Outcome status
+* Maturity
+
+## Guest view
+
+Show the guest-facing consequence of the governed workflow.
+
+## Operator view
+
+Show the operational decision, owner, action and evidence.
+
+## Dual view
+
+Show how one shared scenario coordinates both experiences.
+
+Do not maintain separate unconnected scenario descriptions across each demo.
+
+---
+
+# 22. Maturity standards
+
+Apply the approved maturity standard.
+
+## Working Proof
+
+A functioning interactive interface demonstrating the intended workflow.
+
+## Prototype
+
+A partially configured capability not connected to the full runtime.
+
+## Simulation
+
+A workflow using synthetic signals, decisions, communications, evidence or outcomes.
+
+## Connector-ready
+
+Only where:
+
+* Interface contract exists
+* Field mapping exists
+* Authentication approach exists
+* Test harness exists
+* Error handling is defined
+
+## Integrated
+
+Only where data has been exchanged with a named external system.
+
+## Production
+
+Only where the capability is deployed with:
+
+* Production authentication
+* Monitoring
+* Data controls
+* Customer-approved governance
+* Reliability controls
+* Operational support
+
+Every visible core scenario must have a maturity status.
+
+---
+
+# 23. Content quality standards
+
+Avoid:
+
+* Generic claims
+* Repeated architecture paragraphs
+* Decorative scenario cards
+* Long unstructured text blocks
+* Unclear role ownership
+* Vague escalation language
+* “AI decides” language without governance
+* “Live” claims unsupported by integration evidence
+* Outcome claims without measurement
+* Unapproved commercial metrics
+
+Use:
+
+* Direct operational language
+* Explicit accountability
+* Clear thresholds
+* Ordered actions
+* Visible governance
+* Honest maturity
+* Measurable outcomes
+* Cross-role coordination
+
+---
+
+# 24. Required validation scripts
+
+Add or update validation covering:
+
+## Operating systems
+
+* Required priority operating systems exist
+* Position is one of lead, cross-cutting or expansion
+* Every scenario references a valid operating system
+
+## Scenarios
+
+* Required fields are present
+* Scenario IDs are unique
+* Maturity values are valid
+* Accountable role exists
+* Linked playbook exists
+* At least one evidence requirement exists
+* At least one outcome exists
+
+## Playbooks
+
+* Playbook IDs are unique
+* Operating system exists
+* Accountable role exists
+* Steps are ordered
+* Every step has an owner
+* Escalation roles exist
+* Completion criteria exist
+* Evidence requirements exist
+
+## Roles
+
+* Role IDs are unique
+* All role references resolve
+* No orphaned role IDs exist
+
+## Cross-surface consistency
+
+Where demos use a scenario ID:
+
+* Scenario exists
+* Playbook exists
+* Operating system exists
+* Maturity is consistent
+
+---
+
+# 25. Technical verification
+
+Run:
+
+* Dependency installation
+* Typecheck
+* Lint
+* Existing tests
+* Architecture consistency test
+* Operating-system validation
+* Scenario validation
+* Playbook validation
+* Role validation
+* Route smoke tests
+* Internal-link tests
+* Legacy terminology check
+* Asset checks
+* Production build
+
+Also verify:
+
+* No scenario page crashes
+* Every scenario links to a valid playbook
+* Every playbook renders
+* Every role reference resolves
+* Every maturity badge renders
+* Guest, Operator and Dual View demos remain functional
+* Navigation remains intact
+* No Sprint 1 or Sprint 2 architecture regression was introduced
+
+Do not claim a test passed unless it was run successfully.
+
+---
+
+# 26. Required sprint outputs
+
+At completion, provide:
+
+## A. Executive summary
+
+Explain:
+
+* What operating systems were prioritised
+* What scenarios were strengthened
+* What playbooks were created or updated
+* What was preserved
+* What was deferred
+
+## B. Operating-system register
+
+For each operating system:
+
+* Name
+* Position
+* Primary problem
+* Primary users
+* Linked scenarios
+* Linked playbooks
+* Shared RTBX capabilities
+* Maturity
+
+## C. Scenario register
+
+For each visible scenario:
+
+* Scenario ID
+* Operating system
+* Trigger
+* Accountable role
+* Playbook
+* Escalation
+* Evidence
+* Outcome
+* Maturity
+* Proof source
+
+## D. Playbook register
+
+For each playbook:
+
+* Playbook ID
+* Operating system
+* Linked scenarios
+* Accountable role
+* Number of steps
+* Approval requirements
+* Escalation rules
+* Evidence requirements
+* Outcome metrics
+* Maturity
+
+## E. Role register
+
+Include:
+
+* Role ID
+* Role name
+* Decision rights
+* Escalation rights
+* Evidence responsibilities
+* Communication permissions
+
+## F. Changed-file register
+
+For every changed file:
+
+* Path
+* Change
+* Reason
+* Risk level
+
+## G. Verification report
+
+Provide exact results for:
+
+* Install
+* Typecheck
+* Lint
+* Tests
+* Operating-system validation
+* Scenario validation
+* Playbook validation
+* Role validation
+* Route tests
+* Link tests
+* Legacy terminology check
+* Asset checks
+* Production build
+
+## H. Deferred work
+
+### Sprint 4
+
+* Functional Build & Configure
+* Configuration persistence
+* Scenario activation
+* Runtime execution linkage
+* End-to-end workflow state
+* Evidence and outcome persistence
+
+### Sprint 5
+
+* Partner ownership
+* Ecosystem responsibilities
+* Commercial consolidation
+* Pilot package
+* Expansion pathway
+* Revenue model clarity
+
+### Sprint 6
+
+* Readability
+* Accessibility
+* Responsive behaviour
+* Final QA
+* Release gate
+* Commercial claim verification
+
+## I. Git summary
+
+Include:
+
+* Branch
+* Commits
+* Working-tree status
+* Conflicts
+* Uncommitted files
+* Whether safe to merge
+
+---
+
+# 27. Acceptance criteria
+
+Sprint 3 is complete only when:
+
+* Three priority operating systems lead the Travel proposition
+* Safety and Guest Welfare is positioned as a cross-cutting control
+* Marketplace and Loyalty Activation is positioned as expansion
+* Every visible core scenario has an explicit trigger
+* Every visible core scenario has signal sources
+* Every visible core scenario has governance sources
+* Every visible core scenario has a decision requirement
+* Every visible core scenario has one accountable role
+* Every visible core scenario links to a valid playbook
+* Every playbook has ordered actions
+* Every playbook has action owners
+* Every scenario has a communication pathway
+* Every scenario has explicit escalation logic
+* Every scenario has evidence requirements
+* Every scenario has measurable outcomes
+* Every scenario has a learning rule
+* Every scenario has an approved maturity status
+* Scenario, playbook, role and operating-system IDs resolve
+* Guest, Operator and Dual View demos remain functional
+* The Decision Spine remains shared RTBX Core
+* The Playbook Engine remains shared RTBX Core
+* The Prompt & Nudge Engine remains shared RTBX Core
+* Central Comms OS remains shared RTBX Core
+* Evidence and Outcome Ledgers remain shared RTBX Core
+* No unsupported production integration claims are introduced
+* No unnecessary new pages are created
+* Typecheck and production build are run
+* All failures are reported honestly
+
+---
+
+# 28. Final instruction
+
+The purpose of Sprint 3 is to make the Travel site operationally believable.
+
+The result should show that RTBX does not merely identify an interesting Travel moment.
+
+It:
+
+1. Connects the signal
+2. Understands the context
+3. Applies governance
+4. Assigns accountability
+5. Activates the correct playbook
+6. Coordinates action and communication
+7. Escalates when required
+8. Captures evidence
+9. Measures the outcome
+10. Improves future responses
+
+Preserve what already works.
+
+Do not begin Sprint 4.
+
+At completion, stop and provide the full Sprint 3 report.
