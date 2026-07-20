@@ -210,7 +210,7 @@ export default function PartnerOperatorDemo() {
   return (
     <PartnerRoomLayout>
       {/* Header */}
-      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "56px 60px 40px" }}>
+      <div className="rtbx-page-pad" style={{ maxWidth: 1400, margin: "0 auto", padding: "40px 60px 40px" }}>
         <div style={{ fontSize: 8, letterSpacing: "0.22em", color: P.amber, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>
           OPERATOR RESPONSE DEMO
         </div>
@@ -221,7 +221,7 @@ export default function PartnerOperatorDemo() {
       </div>
 
       {/* Context callout */}
-      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px 0" }}>
+      <div className="rtbx-page-pad" style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px 0" }}>
         <div style={{ padding: "14px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderLeft: "3px solid #c9a84c", marginBottom: 24 }}>
           <p style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", lineHeight: 1.7, margin: 0 }}>
             This is the operator view of the RTBX Execution Centre — Travel Environment. Every moment shown is a governed response: signals classified, governance applied, role assigned. The operator sees context, not raw data — a clear action, not an alert.
@@ -237,8 +237,8 @@ export default function PartnerOperatorDemo() {
           <div style={{ fontSize: 9, color: "rgba(255,255,255,0.3)" }}>Values below are illustrative. Not from a live deployment.</div>
         </div>
       </div>
-      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px 32px" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 12 }}>
+      <div className="rtbx-page-pad" style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px 32px" }}>
+        <div className="rtbx-kpi-grid" style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 12 }}>
           {KPI.map(k => (
             <div key={k.label} style={{ background: P.navy, border: `1px solid ${P.border}`, padding: "16px 20px" }}>
               <div style={{ fontSize: 7.5, letterSpacing: "0.14em", color: P.dimmed, textTransform: "uppercase", fontWeight: 700, marginBottom: 6 }}>{k.label}</div>
@@ -249,7 +249,7 @@ export default function PartnerOperatorDemo() {
       </div>
 
       {/* Main: Queue + Detail */}
-      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px 80px", display: "grid", gridTemplateColumns: "380px 1fr", gap: 20, alignItems: "flex-start" }}>
+      <div className="rtbx-ops-layout rtbx-page-pad" style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px 80px", display: "grid", gridTemplateColumns: "380px 1fr", gap: 20, alignItems: "flex-start" }}>
 
         {/* Moment Queue */}
         <div style={{ background: P.navy, border: `1px solid ${P.border}` }}>
@@ -257,20 +257,26 @@ export default function PartnerOperatorDemo() {
             <span style={{ fontSize: 8, letterSpacing: "0.18em", color: P.dimmed, textTransform: "uppercase", fontWeight: 700 }}>Moment Queue</span>
             <span style={{ fontSize: 9, fontWeight: 700, color: P.orange, padding: "2px 8px", background: `${P.orange}10`, border: `1px solid ${P.orange}30` }}>6 OPEN</span>
           </div>
-          <div>
+          <div role="list">
             {MOMENTS.map(m => {
               const isSelected = m.id === selectedId;
               const col = PRIORITY_COLOR[m.priority];
               return (
-                <div
+                <button
                   key={m.id}
+                  role="listitem"
+                  type="button"
                   onClick={() => setSelectedId(m.id)}
+                  aria-pressed={isSelected}
+                  aria-label={`${m.priority} priority: ${m.title}. ${m.area}. ${m.timeOpen} ago.`}
                   style={{
+                    display: "block", width: "100%", textAlign: "left",
                     padding: "16px 20px", cursor: "pointer",
                     background: isSelected ? `${P.amber}06` : "transparent",
                     borderLeft: `3px solid ${isSelected ? P.amber : "transparent"}`,
                     borderBottom: `1px solid ${P.border}`,
-                    transition: "all 0.12s",
+                    borderTop: "none", borderRight: "none",
+                    transition: "all 0.12s", color: "inherit",
                   }}
                   onMouseEnter={e => { if (!isSelected) (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.02)"; }}
                   onMouseLeave={e => { if (!isSelected) (e.currentTarget as HTMLElement).style.background = "transparent"; }}
@@ -288,7 +294,7 @@ export default function PartnerOperatorDemo() {
                   <div style={{ fontSize: 9.5, color: P.muted, lineHeight: 1.5, overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" as const }}>
                     {m.suggestedAction}
                   </div>
-                </div>
+                </button>
               );
             })}
           </div>
@@ -312,7 +318,7 @@ export default function PartnerOperatorDemo() {
             </div>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 14 }}>
+          <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 14 }}>
             {/* What happened */}
             <div style={{ background: P.navy, border: `1px solid ${P.border}`, padding: "18px 22px" }}>
               <div style={{ fontSize: 7.5, letterSpacing: "0.14em", color: P.dimmed, textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>What Happened</div>
@@ -336,7 +342,7 @@ export default function PartnerOperatorDemo() {
           </div>
 
           {/* 8-field governed response */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 14 }}>
+          <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 14 }}>
             <div style={{ background: P.navy, border: `1px solid ${P.border}`, padding: "18px 22px" }}>
               <div style={{ fontSize: 7.5, letterSpacing: "0.14em", color: P.dimmed, textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>Context</div>
               <div style={{ fontSize: 11, color: P.muted, lineHeight: 1.7 }}>{selected.detail.context}</div>
@@ -346,7 +352,7 @@ export default function PartnerOperatorDemo() {
               <div style={{ fontSize: 11, color: P.muted, lineHeight: 1.7 }}>{selected.detail.decision}</div>
             </div>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 14 }}>
+          <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 14 }}>
             <div style={{ background: P.navy, border: `1px solid ${P.amber}25`, padding: "18px 22px" }}>
               <div style={{ fontSize: 7.5, letterSpacing: "0.14em", color: P.amber, textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>Role</div>
               <div style={{ fontSize: 11, color: P.muted, lineHeight: 1.7 }}>{selected.detail.role}</div>
@@ -356,7 +362,7 @@ export default function PartnerOperatorDemo() {
               <div style={{ fontSize: 11, color: P.muted, lineHeight: 1.7 }}>{selected.detail.action}</div>
             </div>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 14 }}>
+          <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 14 }}>
             <div style={{ background: P.navy, border: `1px solid ${P.border}`, padding: "18px 22px" }}>
               <div style={{ fontSize: 7.5, letterSpacing: "0.14em", color: P.dimmed, textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>Comms</div>
               <div style={{ fontSize: 11, color: P.muted, lineHeight: 1.7 }}>{selected.detail.comms}</div>
@@ -371,7 +377,7 @@ export default function PartnerOperatorDemo() {
             <div style={{ fontSize: 11, color: P.muted, lineHeight: 1.7 }}>{selected.detail.outcome}</div>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 14 }}>
+          <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 14 }}>
             {/* Recommended action */}
             <div style={{ background: P.navy, border: `1px solid ${P.amber}25`, padding: "18px 22px" }}>
               <div style={{ fontSize: 7.5, letterSpacing: "0.14em", color: P.amber, textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>Recommended Action</div>
@@ -384,7 +390,7 @@ export default function PartnerOperatorDemo() {
             </div>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+          <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
             {/* Assign to */}
             <div style={{ background: P.navy, border: `1px solid ${P.border}`, padding: "18px 22px" }}>
               <div style={{ fontSize: 7.5, letterSpacing: "0.14em", color: P.dimmed, textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>Assign To</div>

@@ -4,6 +4,38 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ── Global focus ring ─────────────────────────────────────────────────────── */
+/* Remove the :focus ring but keep :focus-visible for keyboard users */
+:focus { outline: none; }
+:focus-visible {
+  outline: 2px solid #c9a84c;
+  outline-offset: 2px;
+}
+/* For dark inputs/selects, use a slightly brighter ring */
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #c9a84c;
+  outline-offset: 0;
+}
+
+/* ── Touch target minimum ──────────────────────────────────────────────────── */
+/* Ensure any button or role=button has at least 44px touch target */
+button { min-height: 36px; }
+
+/* ── Reduced-motion guard ──────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Responsive grid utilities ─────────────────────────────────────────────── */
 @media (max-width: 720px) {
   .rtbx-stack-row {
     grid-template-columns: 1fr !important;
@@ -11,6 +43,75 @@
   .rtbx-stack-row > div {
     border-left: none !important;
   }
+}
+
+/* Mobile responsive: collapse 2-col grids */
+@media (max-width: 640px) {
+  .rtbx-grid-2 {
+    grid-template-columns: 1fr !important;
+  }
+  .rtbx-grid-3 {
+    grid-template-columns: 1fr !important;
+  }
+  .rtbx-grid-4 {
+    grid-template-columns: 1fr !important;
+  }
+  /* Wide padding → narrow on mobile */
+  .rtbx-page-pad {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+  /* Hide desktop-only description text in nav */
+  .rtbx-nav-desc {
+    display: none !important;
+  }
+  /* Mobile: overflow tables get horizontal scroll */
+  .rtbx-table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  /* Mobile: dual view stacks */
+  .rtbx-dual-view {
+    flex-direction: column !important;
+    gap: 24px !important;
+  }
+  /* Mobile: phone frame centred */
+  .rtbx-demo-area {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 32px !important;
+  }
+  /* Mobile: operator queue + detail stack */
+  .rtbx-ops-layout {
+    grid-template-columns: 1fr !important;
+  }
+  /* Mobile: KPI grid 2-col */
+  .rtbx-kpi-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+/* ── Mobile nav ────────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .rtbx-hamburger {
+    display: flex !important;
+  }
+  .rtbx-desktop-nav {
+    display: none !important;
+  }
+}
+
+/* ── Screen-reader only utility ────────────────────────────────────────────── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
 @theme inline {

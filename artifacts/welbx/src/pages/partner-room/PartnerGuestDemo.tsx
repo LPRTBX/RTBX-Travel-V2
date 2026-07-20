@@ -257,7 +257,7 @@ export default function PartnerGuestDemo() {
   return (
     <PartnerRoomLayout>
       {/* Header */}
-      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "56px 60px 36px" }}>
+      <div className="rtbx-page-pad" style={{ maxWidth: 1400, margin: "0 auto", padding: "40px 60px 36px" }}>
         <div style={{ fontSize: 8, letterSpacing: "0.22em", color: P.amber, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>
           Guest Experience Demo
         </div>
@@ -270,7 +270,7 @@ export default function PartnerGuestDemo() {
       </div>
 
       {/* Context callout */}
-      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px 0" }}>
+      <div className="rtbx-page-pad" style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px 0" }}>
         <div style={{ padding: "14px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderLeft: "3px solid #3b82f6", marginBottom: 24 }}>
           <p style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", lineHeight: 1.7, margin: 0 }}>
             The guest never interacts directly with RTBX. What the guest sees is the output of coordinated RTBX action — a message that arrived at the right moment, a problem resolved before they noticed it, a recommendation that felt personal. RTBX Core runs behind the scenes; WELBX is the experience layer guests interact with.
@@ -279,7 +279,7 @@ export default function PartnerGuestDemo() {
       </div>
 
       {/* Stage tabs */}
-      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px 32px" }}>
+      <div className="rtbx-page-pad" style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px 32px" }}>
         <div style={{ display: "flex", gap: 2, overflowX: "auto" }}>
           {STAGES.map((s, i) => (
             <button
@@ -305,7 +305,7 @@ export default function PartnerGuestDemo() {
       </div>
 
       {/* Demo area */}
-      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px 80px", display: "flex", gap: 56, alignItems: "flex-start" }}>
+      <div className="rtbx-demo-area rtbx-page-pad" style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px 80px", display: "flex", gap: 56, alignItems: "flex-start" }}>
 
         {/* Left: Phone */}
         <div style={{ flexShrink: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: 24 }}>
@@ -354,7 +354,7 @@ export default function PartnerGuestDemo() {
           </div>
 
           {/* 4 quadrants */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2, marginBottom: 32 }}>
+          <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2, marginBottom: 32 }}>
             {QUAD_LABELS.map((label, i) => (
               <div key={label} style={{
                 padding: "20px 22px",

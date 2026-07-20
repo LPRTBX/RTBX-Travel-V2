@@ -521,18 +521,28 @@ function ExecTracePanel({
             </div>
           )}
         </div>
-        <div style={{ display: "flex", gap: 4 }}>
+        <div role="group" aria-label="View mode" style={{ display: "flex", gap: 4 }}>
           {(["operator", "guest", "dual"] as ExecView[]).map(v => (
-            <div key={v} onClick={() => setView(v)} style={{
-              padding: "5px 12px", fontSize: 9, fontWeight: 700, cursor: "pointer", textTransform: "uppercase",
-              color: view === v ? "#080c14" : "rgba(255,255,255,0.4)",
-              background: view === v ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.03)",
-              border: `1px solid ${view === v ? "rgba(255,255,255,0.6)" : "rgba(255,255,255,0.1)"}`,
-            }}>{v === "dual" ? "Dual" : v === "guest" ? "Guest" : "Operator"}</div>
+            <button
+              key={v}
+              type="button"
+              onClick={() => setView(v)}
+              aria-pressed={view === v}
+              style={{
+                padding: "5px 12px", fontSize: 9, fontWeight: 700, cursor: "pointer", textTransform: "uppercase",
+                color: view === v ? "#080c14" : "rgba(255,255,255,0.4)",
+                background: view === v ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.03)",
+                border: `1px solid ${view === v ? "rgba(255,255,255,0.6)" : "rgba(255,255,255,0.1)"}`,
+              }}
+            >{v === "dual" ? "Dual" : v === "guest" ? "Guest" : "Operator"}</button>
           ))}
-          <div onClick={reset} style={{ padding: "5px 12px", fontSize: 9, fontWeight: 700, cursor: "pointer", color: "rgba(255,255,255,0.35)", border: "1px solid rgba(255,255,255,0.1)" }}>
+          <button
+            type="button"
+            onClick={reset}
+            style={{ padding: "5px 12px", fontSize: 9, fontWeight: 700, cursor: "pointer", color: "rgba(255,255,255,0.35)", border: "1px solid rgba(255,255,255,0.1)", background: "transparent" }}
+          >
             Reset
-          </div>
+          </button>
         </div>
       </div>
 
@@ -568,7 +578,7 @@ function ExecTracePanel({
       {/* Main panel */}
       <div style={{ padding: "16px 20px", background: "rgba(255,255,255,0.015)", border: "1px solid rgba(255,255,255,0.06)" }}>
         {view === "dual" ? (
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+          <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
             <div>
               <div style={{ fontSize: 8.5, letterSpacing: "0.12em", color: "rgba(255,255,255,0.35)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>Operator View</div>
               <OperatorPanel />

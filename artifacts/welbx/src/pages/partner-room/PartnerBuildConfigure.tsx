@@ -69,56 +69,78 @@ function SLabel({ children }: { children: string }) {
   );
 }
 
-function FieldLabel({ children, required }: { children: string; required?: boolean }) {
+function FieldLabel({ children, required, htmlFor }: { children: string; required?: boolean; htmlFor?: string }) {
   return (
-    <label style={{ display: "block", fontSize: 10.5, fontWeight: 700, color: "rgba(255,255,255,0.55)", marginBottom: 5, letterSpacing: "0.02em" }}>
-      {children}{required && <span style={{ color: C.gold, marginLeft: 3 }}>*</span>}
+    <label
+      htmlFor={htmlFor}
+      style={{ display: "block", fontSize: 10.5, fontWeight: 700, color: "rgba(255,255,255,0.55)", marginBottom: 5, letterSpacing: "0.02em" }}
+    >
+      {children}
+      {required && <span style={{ color: C.gold, marginLeft: 3 }} aria-label="required">*</span>}
     </label>
   );
 }
 
-function TextInput({ value, onChange, placeholder }: { value: string; onChange: (v: string) => void; placeholder?: string }) {
+function TextInput({ value, onChange, placeholder, id, required, "aria-describedby": describedBy }: {
+  value: string; onChange: (v: string) => void; placeholder?: string;
+  id?: string; required?: boolean; "aria-describedby"?: string;
+}) {
   return (
     <input
+      id={id}
       type="text"
       value={value}
       onChange={e => onChange(e.target.value)}
       placeholder={placeholder}
+      required={required}
+      aria-required={required}
+      aria-describedby={describedBy}
       style={{
         width: "100%", padding: "9px 12px", background: "rgba(255,255,255,0.03)",
         border: "1px solid rgba(255,255,255,0.12)", color: "#fff", fontSize: 12.5,
-        outline: "none", boxSizing: "border-box",
+        boxSizing: "border-box",
       }}
     />
   );
 }
 
-function NumberInput({ value, onChange, min, max }: { value: number; onChange: (v: number) => void; min?: number; max?: number }) {
+function NumberInput({ value, onChange, min, max, id, required }: {
+  value: number; onChange: (v: number) => void; min?: number; max?: number;
+  id?: string; required?: boolean;
+}) {
   return (
     <input
+      id={id}
       type="number"
       value={value}
       onChange={e => onChange(Number(e.target.value))}
       min={min}
       max={max}
+      required={required}
+      aria-required={required}
       style={{
         width: "100%", padding: "9px 12px", background: "rgba(255,255,255,0.03)",
         border: "1px solid rgba(255,255,255,0.12)", color: "#fff", fontSize: 12.5,
-        outline: "none", boxSizing: "border-box",
+        boxSizing: "border-box",
       }}
     />
   );
 }
 
-function StyledSelect({ value, onChange, options }: { value: string; onChange: (v: string) => void; options: { value: string; label: string }[] }) {
+function StyledSelect({ value, onChange, options, id, "aria-label": ariaLabel }: {
+  value: string; onChange: (v: string) => void; options: { value: string; label: string }[];
+  id?: string; "aria-label"?: string;
+}) {
   return (
     <select
+      id={id}
       value={value}
       onChange={e => onChange(e.target.value)}
+      aria-label={ariaLabel}
       style={{
         width: "100%", padding: "9px 12px", background: "#0e1320",
         border: "1px solid rgba(255,255,255,0.12)", color: "#fff", fontSize: 12,
-        outline: "none", cursor: "pointer", appearance: "none",
+        cursor: "pointer", appearance: "none",
       }}
     >
       {options.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
@@ -128,18 +150,27 @@ function StyledSelect({ value, onChange, options }: { value: string; onChange: (
 
 function Toggle({ active, onChange, label, sub }: { active: boolean; onChange: (v: boolean) => void; label: string; sub?: string }) {
   return (
-    <div
+    <button
+      type="button"
+      role="switch"
+      aria-checked={active}
       onClick={() => onChange(!active)}
-      style={{ display: "flex", alignItems: "center", gap: 12, cursor: "pointer", padding: "10px 14px", background: active ? "rgba(201,168,76,0.06)" : "rgba(255,255,255,0.02)", border: `1px solid ${active ? "rgba(201,168,76,0.25)" : "rgba(255,255,255,0.06)"}`, userSelect: "none" }}
+      style={{
+        display: "flex", alignItems: "center", gap: 12, cursor: "pointer",
+        padding: "10px 14px", width: "100%", textAlign: "left",
+        background: active ? "rgba(201,168,76,0.06)" : "rgba(255,255,255,0.02)",
+        border: `1px solid ${active ? "rgba(201,168,76,0.25)" : "rgba(255,255,255,0.06)"}`,
+        userSelect: "none", color: "inherit",
+      }}
     >
-      <div style={{ width: 34, height: 18, background: active ? C.gold : "rgba(255,255,255,0.12)", borderRadius: 9, position: "relative", flexShrink: 0, transition: "background 0.15s" }}>
+      <div aria-hidden="true" style={{ width: 34, height: 18, background: active ? C.gold : "rgba(255,255,255,0.12)", borderRadius: 9, position: "relative", flexShrink: 0, transition: "background 0.15s" }}>
         <div style={{ position: "absolute", top: 2, left: active ? 18 : 2, width: 14, height: 14, background: "#fff", borderRadius: 7, transition: "left 0.15s" }} />
       </div>
       <div>
         <div style={{ fontSize: 12, fontWeight: 700, color: active ? "#fff" : "rgba(255,255,255,0.45)" }}>{label}</div>
         {sub && <div style={{ fontSize: 10, color: "rgba(255,255,255,0.3)", marginTop: 1 }}>{sub}</div>}
       </div>
-    </div>
+    </button>
   );
 }
 
@@ -172,20 +203,22 @@ function StageHeader({ title, description }: { title: string; description: strin
 
 function ProgressBar({ current, onNavigate }: { current: number; onNavigate: (i: number) => void }) {
   return (
-    <div style={{ marginBottom: 32, overflowX: "auto" }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 0, minWidth: 720 }}>
+    <nav aria-label="Configuration stages" style={{ marginBottom: 32, overflowX: "auto" }}>
+      <ol style={{ display: "flex", alignItems: "center", gap: 0, minWidth: 600, listStyle: "none", margin: 0, padding: 0 }}>
         {STAGES.map((s, i) => {
-          const done    = i < current;
-          const active  = i === current;
-          const future  = i > current;
+          const done   = i < current;
+          const active = i === current;
           return (
-            <div key={s.id} style={{ display: "flex", alignItems: "center", flex: i < STAGES.length - 1 ? "1 1 0" : "0 0 auto" }}>
-              <div
+            <li key={s.id} style={{ display: "flex", alignItems: "center", flex: i < STAGES.length - 1 ? "1 1 0" : "0 0 auto" }}>
+              <button
+                type="button"
                 onClick={() => onNavigate(i)}
-                title={s.label}
+                aria-label={`Stage ${s.num}: ${s.label}${done ? " (complete)" : active ? " (current)" : ""}`}
+                aria-current={active ? "step" : undefined}
                 style={{
                   display: "flex", flexDirection: "column", alignItems: "center", gap: 4, cursor: "pointer",
                   padding: "8px 6px", minWidth: 58, flexShrink: 0,
+                  background: "transparent", border: "none", color: "inherit",
                 }}
               >
                 <div style={{
@@ -200,16 +233,15 @@ function ProgressBar({ current, onNavigate }: { current: number; onNavigate: (i:
                 <div style={{ fontSize: 8.5, fontWeight: active ? 800 : 600, color: active ? C.gold : done ? C.green : "rgba(255,255,255,0.3)", textAlign: "center", whiteSpace: "nowrap", letterSpacing: "0.01em" }}>
                   {s.shortLabel}
                 </div>
-              </div>
+              </button>
               {i < STAGES.length - 1 && (
-                <div style={{ flex: 1, height: 1, background: done ? "rgba(16,185,129,0.3)" : "rgba(255,255,255,0.08)", minWidth: 8 }} />
+                <div aria-hidden="true" style={{ flex: 1, height: 1, background: done ? "rgba(16,185,129,0.3)" : "rgba(255,255,255,0.08)", minWidth: 8 }} />
               )}
-            </div>
+            </li>
           );
-          void future; // suppress unused warning
         })}
-      </div>
-    </div>
+      </ol>
+    </nav>
   );
 }
 
@@ -239,38 +271,38 @@ function Stage1({ draft, setDraft }: { draft: TravelDeploymentConfig; setDraft: 
   return (
     <div>
       <StageHeader title="Environment" description="Define the property context this deployment operates within. These details determine the operating frame for all signals, roles and governance." />
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px 28px" }}>
+      <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px 28px" }}>
         <div>
-          <FieldLabel required>Deployment name</FieldLabel>
-          <TextInput value={draft.deploymentName} onChange={v => upd("deploymentName", v)} placeholder="e.g. Harbour Hotel Melbourne — Pilot" />
+          <FieldLabel required htmlFor="deploy-name">Deployment name</FieldLabel>
+          <TextInput id="deploy-name" value={draft.deploymentName} onChange={v => upd("deploymentName", v)} placeholder="e.g. Harbour Hotel Melbourne — Pilot" required />
         </div>
         <div>
-          <FieldLabel required>Organisation name</FieldLabel>
-          <TextInput value={draft.organisationName} onChange={v => upd("organisationName", v)} placeholder="e.g. Harbour Hotel Group" />
+          <FieldLabel required htmlFor="org-name">Organisation name</FieldLabel>
+          <TextInput id="org-name" value={draft.organisationName} onChange={v => upd("organisationName", v)} placeholder="e.g. Harbour Hotel Group" required />
         </div>
         <div>
-          <FieldLabel required>Property type</FieldLabel>
-          <StyledSelect value={draft.propertyType} onChange={v => upd("propertyType", v)} options={PROPERTY_TYPES} />
+          <FieldLabel required htmlFor="property-type">Property type</FieldLabel>
+          <StyledSelect id="property-type" value={draft.propertyType} onChange={v => upd("propertyType", v)} options={PROPERTY_TYPES} />
         </div>
         <div>
-          <FieldLabel required>Room / unit count</FieldLabel>
-          <NumberInput value={draft.roomCount} onChange={v => upd("roomCount", v)} min={1} max={9999} />
+          <FieldLabel required htmlFor="room-count">Room / unit count</FieldLabel>
+          <NumberInput id="room-count" value={draft.roomCount} onChange={v => upd("roomCount", v)} min={1} max={9999} required />
         </div>
         <div>
-          <FieldLabel>Region</FieldLabel>
-          <TextInput value={draft.region} onChange={v => upd("region", v)} placeholder="e.g. Melbourne, Victoria, Australia" />
+          <FieldLabel htmlFor="region">Region</FieldLabel>
+          <TextInput id="region" value={draft.region} onChange={v => upd("region", v)} placeholder="e.g. Melbourne, Victoria, Australia" />
         </div>
         <div>
-          <FieldLabel>Timezone</FieldLabel>
-          <StyledSelect value={draft.timezone} onChange={v => upd("timezone", v)} options={TIMEZONES} />
+          <FieldLabel htmlFor="timezone">Timezone</FieldLabel>
+          <StyledSelect id="timezone" value={draft.timezone} onChange={v => upd("timezone", v)} options={TIMEZONES} />
         </div>
         <div>
-          <FieldLabel>Operating model</FieldLabel>
-          <StyledSelect value={draft.operatingModel} onChange={v => upd("operatingModel", v)} options={OPERATING_MODELS} />
+          <FieldLabel htmlFor="operating-model">Operating model</FieldLabel>
+          <StyledSelect id="operating-model" value={draft.operatingModel} onChange={v => upd("operatingModel", v)} options={OPERATING_MODELS} />
         </div>
         <div>
-          <FieldLabel>Deployment mode</FieldLabel>
-          <StyledSelect value={draft.deploymentMode} onChange={v => upd("deploymentMode", v)} options={DEPLOY_MODES} />
+          <FieldLabel htmlFor="deploy-mode">Deployment mode</FieldLabel>
+          <StyledSelect id="deploy-mode" value={draft.deploymentMode} onChange={v => upd("deploymentMode", v)} options={DEPLOY_MODES} />
         </div>
       </div>
     </div>
@@ -312,7 +344,7 @@ function Stage2({ draft, setDraft }: { draft: TravelDeploymentConfig; setDraft: 
           <SLabel>{category}</SLabel>
           <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
             {systems.map(sys => (
-              <div key={sys.id} style={{ display: "grid", gridTemplateColumns: "1fr 200px 1fr", gap: 16, alignItems: "center", padding: "12px 16px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
+              <div key={sys.id} className="rtbx-grid-3" style={{ display: "grid", gridTemplateColumns: "1fr 200px 1fr", gap: 16, alignItems: "center", padding: "12px 16px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
                 <div>
                   <div style={{ fontSize: 12.5, fontWeight: 700, color: "#fff" }}>{sys.name}</div>
                 </div>
@@ -320,13 +352,15 @@ function Stage2({ draft, setDraft }: { draft: TravelDeploymentConfig; setDraft: 
                   value={sys.maturity}
                   onChange={v => updSystem(sys.id, "maturity", v as SystemMaturity)}
                   options={MATURITY_OPTS}
+                  aria-label={`${sys.name} maturity level`}
                 />
                 <input
                   type="text"
                   value={sys.notes ?? ""}
                   onChange={e => updSystem(sys.id, "notes" as keyof SystemConfig, e.target.value)}
                   placeholder="Notes (optional)"
-                  style={{ padding: "8px 10px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.5)", fontSize: 11, outline: "none" }}
+                  aria-label={`Notes for ${sys.name}`}
+                  style={{ padding: "8px 10px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.5)", fontSize: 11 }}
                 />
               </div>
             ))}
@@ -356,28 +390,35 @@ function Stage3({ draft, setDraft }: { draft: TravelDeploymentConfig; setDraft: 
           const roleDef = TRAVEL_ROLES.find(r => r.id === dr.roleId);
           if (!roleDef) return null;
           return (
-            <div key={dr.roleId} style={{ display: "grid", gridTemplateColumns: "1fr 220px", gap: 0, background: "rgba(255,255,255,0.02)", border: `1px solid ${dr.active ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.04)"}` }}>
-              <div
+            <div key={dr.roleId} className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 220px", gap: 0, background: "rgba(255,255,255,0.02)", border: `1px solid ${dr.active ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.04)"}` }}>
+              <button
+                type="button"
+                role="switch"
+                aria-checked={dr.active}
                 onClick={() => updRole(dr.roleId, "active", !dr.active)}
-                style={{ display: "flex", alignItems: "center", gap: 12, padding: "13px 16px", cursor: "pointer" }}
+                style={{ display: "flex", alignItems: "center", gap: 12, padding: "13px 16px", cursor: "pointer", background: "transparent", border: "none", color: "inherit", textAlign: "left" }}
               >
-                <div style={{ width: 28, height: 16, background: dr.active ? C.gold : "rgba(255,255,255,0.1)", borderRadius: 8, position: "relative", flexShrink: 0, transition: "background 0.15s" }}>
+                <div aria-hidden="true" style={{ width: 28, height: 16, background: dr.active ? C.gold : "rgba(255,255,255,0.1)", borderRadius: 8, position: "relative", flexShrink: 0, transition: "background 0.15s" }}>
                   <div style={{ position: "absolute", top: 2, left: dr.active ? 14 : 2, width: 12, height: 12, background: "#fff", borderRadius: 6, transition: "left 0.15s" }} />
                 </div>
                 <div>
                   <span style={{ fontSize: 12.5, fontWeight: 700, color: dr.active ? "#fff" : "rgba(255,255,255,0.35)" }}>{roleDef.name}</span>
-                  <Badge label={roleDef.level} color={dr.active ? "rgba(255,255,255,0.3)" : "rgba(255,255,255,0.15)"} />
+                  {" "}<Badge label={roleDef.level} color={dr.active ? "rgba(255,255,255,0.3)" : "rgba(255,255,255,0.15)"} />
                 </div>
-              </div>
+              </button>
               <div style={{ padding: "10px 12px", borderLeft: "1px solid rgba(255,255,255,0.04)" }}>
-                <input
-                  type="text"
-                  value={dr.localTitle ?? ""}
-                  onChange={e => updRole(dr.roleId, "localTitle", e.target.value)}
-                  placeholder="Local title (optional)"
-                  disabled={!dr.active}
-                  style={{ width: "100%", padding: "7px 10px", background: dr.active ? "rgba(255,255,255,0.03)" : "transparent", border: `1px solid ${dr.active ? "rgba(255,255,255,0.1)" : "transparent"}`, color: "rgba(255,255,255,0.5)", fontSize: 11, outline: "none", boxSizing: "border-box" }}
-                />
+                <label style={{ display: "block" }}>
+                  <span className="sr-only">Local title for {roleDef.name}</span>
+                  <input
+                    type="text"
+                    value={dr.localTitle ?? ""}
+                    onChange={e => updRole(dr.roleId, "localTitle", e.target.value)}
+                    placeholder="Local title (optional)"
+                    disabled={!dr.active}
+                    aria-label={`Local title for ${roleDef.name} (optional)`}
+                    style={{ width: "100%", padding: "7px 10px", background: dr.active ? "rgba(255,255,255,0.03)" : "transparent", border: `1px solid ${dr.active ? "rgba(255,255,255,0.1)" : "transparent"}`, color: "rgba(255,255,255,0.5)", fontSize: 11, boxSizing: "border-box" }}
+                  />
+                </label>
               </div>
             </div>
           );
@@ -440,12 +481,18 @@ function Stage4({ draft, setDraft }: { draft: TravelDeploymentConfig; setDraft: 
                     </div>
                   )}
                 </div>
-                <div
+                <button
+                  type="button"
+                  role="switch"
+                  aria-checked={isActive}
+                  aria-label={`${os.name} — ${isActive ? "active, click to deactivate" : "inactive, click to activate"}`}
                   onClick={() => updOS(os.id, !isActive)}
-                  style={{ width: 38, height: 20, background: isActive ? C.gold : "rgba(255,255,255,0.12)", borderRadius: 10, position: "relative", cursor: "pointer", flexShrink: 0, transition: "background 0.15s", marginTop: 2 }}
+                  style={{ width: 38, height: 38, background: "transparent", border: "none", cursor: "pointer", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", padding: 0 }}
                 >
-                  <div style={{ position: "absolute", top: 2, left: isActive ? 20 : 2, width: 16, height: 16, background: "#fff", borderRadius: 8, transition: "left 0.15s" }} />
-                </div>
+                  <div aria-hidden="true" style={{ width: 38, height: 20, background: isActive ? C.gold : "rgba(255,255,255,0.12)", borderRadius: 10, position: "relative", transition: "background 0.15s" }}>
+                    <div style={{ position: "absolute", top: 2, left: isActive ? 20 : 2, width: 16, height: 16, background: "#fff", borderRadius: 8, transition: "left 0.15s" }} />
+                  </div>
+                </button>
               </div>
             </div>
           );
@@ -491,7 +538,8 @@ function Stage5({ draft, setDraft }: { draft: TravelDeploymentConfig; setDraft: 
               <select
                 value={gov.source}
                 onChange={e => updGov(gov.id, "source", e.target.value as GovernanceRuleSource)}
-                style={{ padding: "4px 8px", background: "#0e1320", border: `1px solid ${GOVERNANCE_SOURCE_COLORS[gov.source]}40`, color: GOVERNANCE_SOURCE_COLORS[gov.source], fontSize: 10, outline: "none", cursor: "pointer" }}
+                aria-label={`Source for ${gov.label}`}
+                style={{ padding: "4px 8px", background: "#0e1320", border: `1px solid ${GOVERNANCE_SOURCE_COLORS[gov.source]}40`, color: GOVERNANCE_SOURCE_COLORS[gov.source], fontSize: 10, cursor: "pointer" }}
               >
                 {SOURCE_OPTS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
               </select>
@@ -604,12 +652,18 @@ function Stage6({ draft, setDraft }: { draft: TravelDeploymentConfig; setDraft: 
                     </div>
                   )}
                 </div>
-                <div
+                <button
+                  type="button"
+                  role="switch"
+                  aria-checked={ds.active}
+                  aria-label={`${scenario.title} — ${ds.active ? "active, click to deactivate" : "inactive, click to activate"}`}
                   onClick={() => updScenario(ds.scenarioId, "active", !ds.active)}
-                  style={{ width: 38, height: 20, background: ds.active ? C.gold : "rgba(255,255,255,0.12)", borderRadius: 10, position: "relative", cursor: "pointer", flexShrink: 0, transition: "background 0.15s", marginTop: 2 }}
+                  style={{ background: "transparent", border: "none", cursor: "pointer", flexShrink: 0, padding: 0, display: "flex", alignItems: "center", justifyContent: "center", minWidth: 44, minHeight: 44 }}
                 >
-                  <div style={{ position: "absolute", top: 2, left: ds.active ? 20 : 2, width: 16, height: 16, background: "#fff", borderRadius: 8, transition: "left 0.15s" }} />
-                </div>
+                  <div aria-hidden="true" style={{ width: 38, height: 20, background: ds.active ? C.gold : "rgba(255,255,255,0.12)", borderRadius: 10, position: "relative", transition: "background 0.15s" }}>
+                    <div style={{ position: "absolute", top: 2, left: ds.active ? 20 : 2, width: 16, height: 16, background: "#fff", borderRadius: 8, transition: "left 0.15s" }} />
+                  </div>
+                </button>
               </div>
             </div>
           );
@@ -660,18 +714,19 @@ function Stage7({ draft, setDraft }: { draft: TravelDeploymentConfig; setDraft: 
                 </label>
               </div>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
+            <div className="rtbx-grid-3" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
               <div>
-                <FieldLabel>Audience</FieldLabel>
-                <TextInput value={comm.audience} onChange={v => updComm(comm.id, "audience", v)} />
+                <FieldLabel htmlFor={`comm-audience-${comm.id}`}>Audience</FieldLabel>
+                <TextInput id={`comm-audience-${comm.id}`} value={comm.audience} onChange={v => updComm(comm.id, "audience", v)} />
               </div>
               <div>
-                <FieldLabel>Channel</FieldLabel>
-                <TextInput value={comm.channel} onChange={v => updComm(comm.id, "channel", v)} />
+                <FieldLabel htmlFor={`comm-channel-${comm.id}`}>Channel</FieldLabel>
+                <TextInput id={`comm-channel-${comm.id}`} value={comm.channel} onChange={v => updComm(comm.id, "channel", v)} />
               </div>
               <div>
-                <FieldLabel>Generation mode</FieldLabel>
+                <FieldLabel htmlFor={`comm-mode-${comm.id}`}>Generation mode</FieldLabel>
                 <StyledSelect
+                  id={`comm-mode-${comm.id}`}
                   value={comm.generationMode}
                   onChange={v => updComm(comm.id, "generationMode", v as CommunicationGenerationMode)}
                   options={MODE_OPTS}
@@ -714,50 +769,64 @@ function Stage8({ draft, setDraft }: { draft: TravelDeploymentConfig; setDraft: 
       <StageHeader title="Evidence & Outcomes" description="Configure the evidence requirements and outcome metrics for this deployment. Required evidence blocks scenario closure. Outcome targets define what successful resolution looks like — they are never claimed as guarantees." />
 
       <SLabel>Evidence requirements</SLabel>
-      <div style={{ display: "flex", flexDirection: "column", gap: 2, marginBottom: 28 }}>
-        {draft.evidence.map(ev => (
-          <div key={ev.id} style={{ display: "grid", gridTemplateColumns: "2fr 120px 180px 2fr", gap: 12, alignItems: "center", padding: "10px 14px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
-            <div style={{ fontSize: 11.5, fontWeight: 700, color: "#fff" }}>{ev.evidenceType}</div>
-            <div style={{ display: "flex", alignItems: "center", gap: 7, cursor: "pointer" }} onClick={() => updEv(ev.id, "required", !ev.required)}>
-              <div style={{ width: 28, height: 16, background: ev.required ? C.gold : "rgba(255,255,255,0.1)", borderRadius: 8, position: "relative", flexShrink: 0 }}>
-                <div style={{ position: "absolute", top: 2, left: ev.required ? 14 : 2, width: 12, height: 12, background: "#fff", borderRadius: 6, transition: "left 0.15s" }} />
-              </div>
-              <span style={{ fontSize: 10, color: ev.required ? C.gold : "rgba(255,255,255,0.3)" }}>{ev.required ? "Required" : "Optional"}</span>
+      <div className="rtbx-table-scroll" style={{ marginBottom: 28 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 2, minWidth: 560 }}>
+          {draft.evidence.map(ev => (
+            <div key={ev.id} style={{ display: "grid", gridTemplateColumns: "2fr 120px 180px 2fr", gap: 12, alignItems: "center", padding: "10px 14px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
+              <div style={{ fontSize: 11.5, fontWeight: 700, color: "#fff" }}>{ev.evidenceType}</div>
+              <button
+                type="button"
+                role="switch"
+                aria-checked={ev.required}
+                aria-label={`${ev.evidenceType} — ${ev.required ? "required" : "optional"}`}
+                onClick={() => updEv(ev.id, "required", !ev.required)}
+                style={{ display: "flex", alignItems: "center", gap: 7, cursor: "pointer", background: "transparent", border: "none", color: "inherit", padding: "4px 0" }}
+              >
+                <div aria-hidden="true" style={{ width: 28, height: 16, background: ev.required ? C.gold : "rgba(255,255,255,0.1)", borderRadius: 8, position: "relative", flexShrink: 0 }}>
+                  <div style={{ position: "absolute", top: 2, left: ev.required ? 14 : 2, width: 12, height: 12, background: "#fff", borderRadius: 6, transition: "left 0.15s" }} />
+                </div>
+                <span style={{ fontSize: 10, color: ev.required ? C.gold : "rgba(255,255,255,0.3)" }}>{ev.required ? "Required" : "Optional"}</span>
+              </button>
+              <select
+                value={ev.ownerRoleId}
+                onChange={e => updEv(ev.id, "ownerRoleId", e.target.value)}
+                aria-label={`Owner role for ${ev.evidenceType}`}
+                style={{ padding: "6px 8px", background: "#0e1320", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", fontSize: 10.5 }}
+              >
+                {activeRoles.map(r => <option key={r.value} value={r.value}>{r.label}</option>)}
+              </select>
+              <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.35)" }}>{ev.completionRule}</div>
             </div>
-            <select
-              value={ev.ownerRoleId}
-              onChange={e => updEv(ev.id, "ownerRoleId", e.target.value)}
-              style={{ padding: "6px 8px", background: "#0e1320", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", fontSize: 10.5, outline: "none" }}
-            >
-              {activeRoles.map(r => <option key={r.value} value={r.value}>{r.label}</option>)}
-            </select>
-            <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.35)" }}>{ev.completionRule}</div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       <SLabel>Outcome metrics</SLabel>
-      <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-        {draft.outcomes.map(out => (
-          <div key={out.id} style={{ display: "grid", gridTemplateColumns: "2fr 180px 160px 2fr", gap: 12, alignItems: "center", padding: "10px 14px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
-            <div style={{ fontSize: 11.5, fontWeight: 700, color: "#fff" }}>{out.metric}</div>
-            <select
-              value={out.targetType}
-              onChange={e => updOut(out.id, "targetType", e.target.value as OutcomeTargetType)}
-              style={{ padding: "6px 8px", background: "#0e1320", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", fontSize: 10.5, outline: "none" }}
-            >
-              {TARGET_OPTS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
-            </select>
-            <input
-              type="text"
-              value={out.targetValue ?? ""}
-              onChange={e => updOut(out.id, "targetValue", e.target.value)}
-              placeholder="Target value (optional)"
-              style={{ padding: "6px 8px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.08)", color: "#fff", fontSize: 10.5, outline: "none" }}
-            />
-            <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.35)" }}>{out.measurementMethod}</div>
-          </div>
-        ))}
+      <div className="rtbx-table-scroll">
+        <div style={{ display: "flex", flexDirection: "column", gap: 2, minWidth: 560 }}>
+          {draft.outcomes.map(out => (
+            <div key={out.id} style={{ display: "grid", gridTemplateColumns: "2fr 180px 160px 2fr", gap: 12, alignItems: "center", padding: "10px 14px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
+              <div style={{ fontSize: 11.5, fontWeight: 700, color: "#fff" }}>{out.metric}</div>
+              <select
+                value={out.targetType}
+                onChange={e => updOut(out.id, "targetType", e.target.value as OutcomeTargetType)}
+                aria-label={`Target type for ${out.metric}`}
+                style={{ padding: "6px 8px", background: "#0e1320", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", fontSize: 10.5 }}
+              >
+                {TARGET_OPTS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+              </select>
+              <input
+                type="text"
+                value={out.targetValue ?? ""}
+                onChange={e => updOut(out.id, "targetValue", e.target.value)}
+                placeholder="Target value (optional)"
+                aria-label={`Target value for ${out.metric}`}
+                style={{ padding: "6px 8px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.08)", color: "#fff", fontSize: 10.5 }}
+              />
+              <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.35)" }}>{out.measurementMethod}</div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -805,7 +874,7 @@ function Stage9({ draft, onActivate }: { draft: TravelDeploymentConfig; onActiva
       </div>
 
       {/* Summary grid */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 24 }}>
+      <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 24 }}>
         {/* Environment */}
         <div style={{ padding: "16px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
           <SLabel>Environment</SLabel>
@@ -871,19 +940,27 @@ function Stage9({ draft, onActivate }: { draft: TravelDeploymentConfig; onActiva
             <div style={{ fontSize: 13, fontWeight: 800, color: canActivate ? "#fff" : "rgba(255,255,255,0.35)", marginBottom: 4 }}>
               {canActivate ? "Ready to activate this Travel environment" : "Complete all required sections before activating"}
             </div>
-            <p style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", margin: 0, lineHeight: 1.6 }}>
-              Stores synthetic deployment configuration locally · Not a production environment
+            <p id="activate-description" style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", margin: 0, lineHeight: 1.6 }}>
+              {canActivate
+                ? "Stores synthetic deployment configuration locally · Not a production environment"
+                : readiness === "Incomplete"
+                  ? "Required fields are missing — fill Deployment name, Organisation name and required governance rules, then return to this stage."
+                  : readiness === "Blocked"
+                    ? "Active scenarios have unmet prerequisites — resolve blocked scenarios in Stage 4 and Stage 6 before activating."
+                    : "Complete all required sections before activating."}
             </p>
           </div>
           <button
             onClick={canActivate ? onActivate : undefined}
             disabled={!canActivate}
+            aria-disabled={!canActivate}
+            aria-describedby="activate-description"
             style={{
               padding: "12px 28px", fontSize: 11, fontWeight: 800, letterSpacing: "0.08em",
-              textTransform: "uppercase", border: "none", cursor: canActivate ? "pointer" : "default",
+              textTransform: "uppercase", border: "none", cursor: canActivate ? "pointer" : "not-allowed",
               background: canActivate ? C.gold : "rgba(255,255,255,0.06)",
               color: canActivate ? "#080c14" : "rgba(255,255,255,0.2)",
-              whiteSpace: "nowrap",
+              whiteSpace: "nowrap", minHeight: 44,
             }}
           >
             Activate Travel Environment →
@@ -961,17 +1038,68 @@ function NavFooter({
   );
 }
 
+// ── Reset confirmation dialog ──────────────────────────────────────────────────
+
+function ResetConfirmDialog({ onConfirm, onCancel }: { onConfirm: () => void; onCancel: () => void }) {
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="reset-dialog-title"
+      aria-describedby="reset-dialog-desc"
+      style={{
+        position: "fixed", inset: 0, zIndex: 200,
+        display: "flex", alignItems: "center", justifyContent: "center",
+        background: "rgba(0,0,0,0.75)", padding: 24,
+      }}
+    >
+      <div style={{ maxWidth: 480, width: "100%", background: "#0d1220", border: "1px solid rgba(239,68,68,0.3)", padding: "28px 32px" }}>
+        <div id="reset-dialog-title" style={{ fontSize: 16, fontWeight: 800, color: "#fff", marginBottom: 10 }}>Reset configuration?</div>
+        <p id="reset-dialog-desc" style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.7, marginBottom: 24, margin: "0 0 24px" }}>
+          This will clear your current draft and restore all fields to the default state. Any unsaved changes will be lost. This cannot be undone.
+        </p>
+        <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
+          <button
+            type="button"
+            onClick={onCancel}
+            autoFocus
+            style={{ padding: "10px 20px", fontSize: 10.5, fontWeight: 700, background: "transparent", border: "1px solid rgba(255,255,255,0.2)", color: "rgba(255,255,255,0.6)", cursor: "pointer" }}
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            onClick={onConfirm}
+            style={{ padding: "10px 20px", fontSize: 10.5, fontWeight: 700, background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.4)", color: C.red, cursor: "pointer" }}
+          >
+            Reset to defaults
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── Main component ─────────────────────────────────────────────────────────────
 
 export default function PartnerBuildConfigure() {
-  const { activeDeployment, activateDeployment } = useDeployment();
+  const { activeDeployment, activateDeployment, resetDeployment } = useDeployment();
   const [stage, setStage]   = useState(0);
   const [draft, setDraft]   = useState<TravelDeploymentConfig>(() => activeDeployment ?? DEFAULT_DEPLOYMENT);
   const [activated, setActivated] = useState(false);
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
 
   function handleActivate() {
     activateDeployment(draft);
     setActivated(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function handleReset() {
+    setDraft(DEFAULT_DEPLOYMENT);
+    resetDeployment();
+    setStage(0);
+    setShowResetConfirm(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
@@ -981,14 +1109,17 @@ export default function PartnerBuildConfigure() {
 
   return (
     <PartnerRoomLayout>
-      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "72px 32px 140px" }}>
+      {showResetConfirm && (
+        <ResetConfirmDialog onConfirm={handleReset} onCancel={() => setShowResetConfirm(false)} />
+      )}
+      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "48px 20px 120px" }}>
 
         {/* Header */}
         <div style={{ marginBottom: 36 }}>
           <div style={{ fontSize: 8.5, letterSpacing: "0.2em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
             RTBX Travel · Build &amp; Configure
           </div>
-          <h1 style={{ fontSize: 36, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 14, maxWidth: 720 }}>
+          <h1 style={{ fontSize: 32, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 14, maxWidth: 720 }}>
             Configure Your Travel Deployment
           </h1>
           <p style={{ fontSize: 13.5, color: C.muted, lineHeight: 1.8, maxWidth: 680, margin: 0 }}>
@@ -1003,9 +1134,18 @@ export default function PartnerBuildConfigure() {
               <span style={{ color: C.green, fontWeight: 700 }}>Active deployment: </span>
               {activeDeployment.deploymentName} · {activeDeployment.scenarios.filter(s => s.active).length} scenarios · {activeDeployment.deploymentStatus}
             </div>
-            <Link href="/partner-room/operations">
-              <span style={{ fontSize: 10, color: C.green, fontWeight: 700, cursor: "pointer", letterSpacing: "0.04em" }}>Open Execution Centre →</span>
-            </Link>
+            <div style={{ display: "flex", gap: 8 }}>
+              <Link href="/partner-room/operations">
+                <span style={{ fontSize: 10, color: C.green, fontWeight: 700, cursor: "pointer", letterSpacing: "0.04em" }}>Open Execution Centre →</span>
+              </Link>
+              <button
+                type="button"
+                onClick={() => setShowResetConfirm(true)}
+                style={{ fontSize: 10, color: "rgba(255,255,255,0.4)", background: "transparent", border: "1px solid rgba(255,255,255,0.12)", cursor: "pointer", padding: "4px 12px", fontWeight: 700 }}
+              >
+                Reset
+              </button>
+            </div>
           </div>
         )}
 

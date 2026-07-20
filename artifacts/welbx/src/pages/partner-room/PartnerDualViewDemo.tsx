@@ -266,7 +266,7 @@ export default function PartnerDualViewDemo() {
   return (
     <PartnerRoomLayout>
       {/* Header */}
-      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "48px 60px 32px" }}>
+      <div className="rtbx-page-pad" style={{ maxWidth: 1400, margin: "0 auto", padding: "40px 60px 32px" }}>
         <div style={{ fontSize: 8, letterSpacing: "0.22em", color: P.amber, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>DUAL VIEW DEMO</div>
         <h1 style={{ fontSize: 34, fontWeight: 800, color: P.white, letterSpacing: "-0.02em", marginBottom: 10 }}>RTBX Orchestration — Dual View Demo</h1>
         <p style={{ fontSize: 13, color: P.muted, maxWidth: 520, lineHeight: 1.7, margin: 0 }}>
@@ -275,7 +275,7 @@ export default function PartnerDualViewDemo() {
       </div>
 
       {/* Context callout */}
-      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px 0" }}>
+      <div className="rtbx-page-pad" style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px 0" }}>
         <div style={{ padding: "14px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderLeft: "3px solid #c9a84c", marginBottom: 20 }}>
           <p style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", lineHeight: 1.7, margin: 0 }}>
             RTBX Core orchestrates both sides of the moment simultaneously. The guest experiences a seamless response. The operator sees a governed action with full context. Neither side is aware of the other — RTBX coordinates both through the Central Comms OS and the Travel Operating System.
@@ -284,7 +284,7 @@ export default function PartnerDualViewDemo() {
       </div>
 
       {/* Scenario selector */}
-      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px 24px" }}>
+      <div className="rtbx-page-pad" style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px 24px" }}>
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
           {SCENARIOS.map(s => (
             <button
@@ -304,10 +304,10 @@ export default function PartnerDualViewDemo() {
       </div>
 
       {/* Step progress */}
-      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px 20px" }}>
-        <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
+      <div className="rtbx-page-pad" style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px 20px" }}>
+        <div style={{ display: "flex", gap: 4, alignItems: "center", overflowX: "auto" }}>
           {STEP_LABELS.map((label, i) => (
-            <div key={i} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 4, cursor: "pointer" }} onClick={() => setStepIdx(i)}>
+            <button key={i} type="button" onClick={() => setStepIdx(i)} aria-current={i === stepIdx ? "step" : undefined} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 4, cursor: "pointer", background: "transparent", border: "none", padding: "4px 0", minWidth: 80 }}>
               <div style={{
                 width: "100%", height: 3, background: i <= stepIdx ? P.amber : "rgba(255,255,255,0.08)",
                 transition: "background 0.3s",
@@ -315,23 +315,23 @@ export default function PartnerDualViewDemo() {
               <div style={{ fontSize: 7.5, color: i === stepIdx ? P.amber : P.dimmed, fontWeight: i === stepIdx ? 700 : 400, letterSpacing: "0.04em", textAlign: "center", lineHeight: 1.3 }}>
                 {i + 1}. {label}
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </div>
 
       {/* Dual view */}
-      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px 24px", display: "flex", gap: 24, alignItems: "flex-start" }}>
+      <div className="rtbx-dual-view rtbx-page-pad" style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px 24px", display: "flex", gap: 24, alignItems: "flex-start" }}>
         <MiniPhone step={step} scenario={scenarioId} />
         <SignalFlow step={stepIdx} currentStep={stepIdx} />
         <OperatorPanel step={step} />
       </div>
 
       {/* System record */}
-      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px 24px" }}>
+      <div className="rtbx-page-pad" style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px 24px" }}>
         <div style={{ background: P.navy, border: `1px solid ${P.border}`, padding: "16px 22px" }}>
           <div style={{ fontSize: 7.5, letterSpacing: "0.14em", color: P.dimmed, textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>System Records</div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16 }}>
+          <div className="rtbx-kpi-grid" style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16 }}>
             {[
               { label: "Moment Type", value: step.systemType },
               { label: "Response Time", value: step.systemTime ?? "—" },
