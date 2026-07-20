@@ -230,6 +230,13 @@ export default function PartnerOperatorDemo() {
       </div>
 
       {/* KPI Strip */}
+      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px 8px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
+          <div style={{ fontSize: 7.5, letterSpacing: "0.14em", color: P.dimmed, textTransform: "uppercase", fontWeight: 700 }}>Demo indicators</div>
+          <div style={{ padding: "2px 8px", fontSize: 7.5, fontWeight: 700, color: P.amber, border: `1px solid ${P.amber}40`, background: `${P.amber}08`, letterSpacing: "0.08em" }}>SYNTHETIC DEMO DATA</div>
+          <div style={{ fontSize: 9, color: "rgba(255,255,255,0.3)" }}>Values below are illustrative. Not from a live deployment.</div>
+        </div>
+      </div>
       <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px 32px" }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 12 }}>
           {KPI.map(k => (

@@ -772,7 +772,7 @@ export default function PartnerOperationsCentre() {
             </div>
             <div style={{ padding: "14px 18px", background: "rgba(255,255,255,0.015)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: "2px solid rgba(201,168,76,0.4)" }}>
               <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.5)", lineHeight: 1.65, margin: 0 }}>
-                This is the RTBX Execution Centre configured for the Travel environment. Every live moment, decision, communication and outcome record flows through this interface. Operators see only what they are authorised to see; every action is governed and evidenced.
+                This is the RTBX Execution Centre configured for the Travel environment — running on synthetic demonstration data. Every moment, decision, communication and outcome record in this demonstration flows through this interface. Operators see only what they are authorised to see; every action is governed and evidenced.
               </p>
             </div>
           </div>
