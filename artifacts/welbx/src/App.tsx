@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { PartnerContentProvider } from "@/context/PartnerContentContext";
 import { PartnerAccessGate } from "@/components/PartnerAccessGate";
+import { DeploymentProvider } from "@/context/DeploymentContext";
 
 import PartnerRoomLanding from "@/pages/partner-room/PartnerRoomLanding";
 import PartnerOverview from "@/pages/partner-room/PartnerOverview";
@@ -150,16 +151,18 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <PartnerContentProvider>
-          <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-            <PartnerAccessGate>
-              <div className="min-h-[100dvh] bg-background">
-                <Router />
-              </div>
-            </PartnerAccessGate>
-          </WouterRouter>
-          <Toaster />
-        </PartnerContentProvider>
+        <DeploymentProvider>
+          <PartnerContentProvider>
+            <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+              <PartnerAccessGate>
+                <div className="min-h-[100dvh] bg-background">
+                  <Router />
+                </div>
+              </PartnerAccessGate>
+            </WouterRouter>
+            <Toaster />
+          </PartnerContentProvider>
+        </DeploymentProvider>
       </TooltipProvider>
     </QueryClientProvider>
   );
