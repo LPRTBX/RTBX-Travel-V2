@@ -1,0 +1,1375 @@
+You are working on the existing RTBX Travel Partner Room V2 application.
+
+The previous sprints should already have completed:
+
+Sprint 1 — Repository stabilisation
+Canonical application confirmed
+Legacy source isolated
+Routes stabilised
+Runtime and package management aligned
+Baseline technical checks established
+Sprint 2 — Shared RTBX Core alignment
+RTBX Intelligence Engine aligned
+Connect → Understand → Decide → Act → Learn implemented consistently
+Six intelligence layers aligned
+Shared RTBX Core separated from Travel configuration
+Sprint 3 — Operating systems, scenarios and playbooks
+Priority Travel operating systems established
+Scenario, playbook and role models completed
+Accountability, escalation, evidence and outcomes connected
+Scenario validation implemented
+Sprint 4 — Build, Configure and Execute
+Guided configuration flow created
+Synthetic deployment configuration implemented
+Execution Centre connected to active deployment state
+End-to-end scenarios demonstrated
+Evidence, outcomes and learning supported
+Sprint 5 — Partner, pilot and commercial pathway
+Hotel pilot proposition established
+Partner ecosystem structured
+RTBX, customer and partner ownership clarified
+Commercial pathway consolidated
+Pilot readiness and expansion pathway defined
+
+Do not repeat or redesign these completed areas unless a specific defect must be corrected.
+
+This is the final:
+
+UX refinement
+Readability
+Accessibility
+Responsive QA
+Content consistency
+Proof verification
+Technical integrity
+Release-gate sprint
+
+This is not a product-expansion sprint.
+
+1. Sprint objective
+
+Prepare RTBX Travel Partner Room V2 for credible external use with hotel operators, technology partners, deployment partners and prospective pilot customers.
+
+The final application must be:
+
+Easy to understand
+Easy to navigate
+Readable
+Consistent with RTBX Main
+Honest about product maturity
+Technically stable
+Responsive on common screen sizes
+Accessible through keyboard and touch
+Free from broken routes and dead-end flows
+Ready for a partner walkthrough
+
+The goal is not to add more content.
+
+The goal is to ensure that the substantial product already created is clear, coherent and reliable.
+
+2. Non-negotiable constraints
+Preserve
+
+Preserve:
+
+Existing shared RTBX architecture
+Existing Travel operating systems
+Existing scenarios and playbooks
+Existing Build & Configure flow
+Existing Execution Centre
+Existing Guest, Operator and Dual View demos
+Existing pilot and commercial pathway
+Existing Partner Ecosystem
+Existing proof maturity model
+Existing data models
+Existing routes unless consolidation is required
+Existing commercial value
+Existing visual identity where readable and effective
+Do not
+Do not rebuild the application
+Do not introduce a new design system
+Do not add new operating systems
+Do not add new scenarios
+Do not add new commercial models
+Do not add new architecture layers
+Do not build production integrations
+Do not build a production backend
+Do not introduce enterprise authentication
+Do not add major new pages
+Do not increase copy volume
+Do not add more cards where content can be simplified
+Do not change approved architecture terminology
+Do not overstate maturity
+Do not describe simulated data as live customer data
+Do not remove working proof without a documented reason
+
+This sprint should primarily refine, consolidate, test and validate.
+
+3. Final user journeys
+
+The application must support five clear user journeys.
+
+Journey 1 — Understand RTBX Travel
+Partner Room
+→ Overview
+→ Operating Model
+→ Travel Operating Systems
+→ Working Proof
+
+The user should understand:
+
+What RTBX Travel is
+Where it sits
+What it connects
+What it decides
+What it activates
+What evidence and outcomes it records
+What is currently demonstrated
+Journey 2 — See the product operate
+Product Proof
+→ Guest View
+→ Operator View
+→ Dual View
+→ Validation Replay
+
+The user should understand:
+
+What the guest experiences
+What the operator sees
+How one governed workflow coordinates both
+What is simulated
+What production engineering remains
+Journey 3 — Configure and execute
+Build & Configure
+→ Review and Activate
+→ Execution Centre
+→ Launch Scenario
+→ Complete Playbook
+→ Review Evidence
+→ Record Outcome
+→ Review Learning
+
+The user should be able to complete this journey without broken state, unclear controls or dead ends.
+
+Journey 4 — Understand the pilot
+Pilot Model
+→ Pilot Readiness
+→ Working Proof
+→ Commercial Pathway
+→ Next Step
+
+The user should understand:
+
+What the first pilot includes
+Which scenarios it uses
+Who participates
+What it measures
+What it proves
+What is needed for production
+Journey 5 — Explore a partnership
+Partner Ecosystem
+→ Responsibility Matrix
+→ Integration Model
+→ Commercial Pathway
+→ Partner Model Discussion
+
+The user should understand:
+
+What RTBX owns
+What the customer owns
+What the partner owns
+How the partnership works
+How commercial value may be structured
+4. Page-purpose audit
+
+Review every active canonical route.
+
+For each page, confirm:
+
+Primary audience
+Single page purpose
+Required user action
+Relationship to RTBX Core
+Relationship to Travel configuration
+Proof maturity
+Logical next page
+Whether the page duplicates another page
+
+Create or update:
+
+docs/final-page-register.md
+
+Include:
+
+Route	Purpose	Audience	Primary CTA	Maturity	Keep / simplify / merge / redirect
+
+No active page should exist without a clear purpose.
+
+5. Readability standards
+
+The site previously contained extensive very small typography.
+
+Complete a full typography audit.
+
+Required minimums
+
+Use the existing design system while applying these general standards:
+
+Content type	Target
+Main body text	16px minimum
+Supporting body text	14px minimum
+Navigation	14px minimum
+Buttons	14px minimum
+Form controls	14px minimum
+Card metadata	12px minimum
+Status labels	12px minimum
+Legal or technical notes	12px minimum
+
+Do not use text below 12px for meaningful user-facing content.
+
+Decorative micro-labels should be removed or increased where they carry meaning.
+
+Line-height
+
+Use approximately:
+
+1.45–1.65 for body content
+1.2–1.35 for headings
+Line length
+
+Avoid excessively wide paragraphs.
+
+Aim for approximately:
+
+55–80 characters per line for long-form content
+Required changes
+Replace page-specific inline font sizes with shared tokens where practical
+Remove unreadable 8px, 9px and 10px text
+Increase low-contrast supporting text
+Increase spacing between headings and body content
+Ensure status labels remain readable
+Ensure tables do not require tiny text to fit
+Allow content to wrap rather than shrink excessively
+6. Visual hierarchy
+
+Every page should clearly distinguish:
+
+Page title
+Page purpose
+Primary content
+Supporting content
+Proof or maturity status
+Primary action
+Secondary action
+Required hierarchy rules
+One dominant heading per page
+One clear opening proposition
+No more than one primary CTA in the same visual area
+Avoid equal weight across every card
+Lead with the most important commercial or operational point
+Reduce repeated architecture banners
+Avoid displaying the complete six-layer model on every page
+Link back to the Operating Model where deeper architecture is needed
+Use progressive disclosure for technical details
+Keep Travel configuration visually distinct from shared RTBX Core
+Keep production limitations visible without allowing warnings to dominate every screen
+7. Card-density reduction
+
+Audit all pages for:
+
+Too many cards
+Repeated labels
+Repeated architecture descriptions
+Long lists displayed simultaneously
+Deep nested cards
+Excessive status badges
+Multiple CTA buttons competing within one section
+Required actions
+
+Where appropriate:
+
+Merge duplicate cards
+Use tabs
+Use accordions
+Use expandable detail panels
+Use a summary first, then technical detail
+Replace card walls with structured lists
+Move secondary content into contextual detail panels
+Remove decorative cards that do not communicate a decision, action or outcome
+
+Do not remove essential product depth.
+
+Improve how that depth is revealed.
+
+8. Navigation refinement
+
+Review the primary navigation and all dropdowns.
+
+Required primary structure
+Start
+Partner Room
+Overview
+Operator Brief
+Next Step
+Platform
+Operating Model
+Travel Intelligence
+Travel Operating Systems
+Integration
+Configure and Execute
+Build & Configure
+Execution Centre
+Decision Spine
+Communications
+Evidence and Outcomes
+Proof
+Product Proof
+Validation
+Guest View
+Operator View
+Dual View
+Pilot and Partnership
+Pilot Model
+Deployment
+Partner Ecosystem
+Commercial Pathway
+Resource Library
+
+This may be adapted to the current navigation implementation, but the hierarchy must remain clear.
+
+Navigation requirements
+Dropdowns must open by click, keyboard and touch
+Hover must not be the only interaction
+Escape should close open menus
+Focus should return appropriately
+Current page should be identifiable
+Mobile navigation must be usable without horizontal overflow
+Long submenu lists should be grouped or shortened
+No dead navigation items
+No duplicate labels pointing to different content
+Alias routes should not appear as separate navigation entries
+Protected or restricted pages should not appear accessible when they are not
+9. Mobile and responsive behaviour
+
+Test at minimum:
+
+320px width
+375px width
+390px width
+768px width
+1024px width
+1280px width
+1440px width
+Mobile requirements
+No horizontal page scrolling
+No clipped headings
+No inaccessible menu items
+No controls smaller than reasonable touch targets
+Forms remain usable
+Build & Configure stages remain understandable
+Execution Centre does not collapse into unreadable tables
+Cards stack logically
+Timelines remain usable
+Tables become scrollable or change to mobile records
+Dialogs fit within viewport
+Sticky elements do not cover content
+CTA buttons remain visible and usable
+Guest and Operator views remain distinct
+Dual View becomes a meaningful stacked comparison
+Touch targets
+
+Aim for at least:
+
+Approximately 44px target height for important interactive controls
+10. Accessibility
+
+Complete an accessibility pass aligned to practical WCAG 2.2 AA expectations.
+
+Keyboard
+
+Verify:
+
+All interactive elements are reachable
+Focus order is logical
+Focus is visible
+Menus are keyboard-accessible
+Dialogs trap focus appropriately
+Escape closes dialogs and menus
+Buttons are actual buttons
+Links are actual links
+Custom controls support keyboard interaction
+Semantics
+
+Verify:
+
+One primary h1 per page
+Heading hierarchy is logical
+Landmarks are used appropriately
+Forms have labels
+Errors are associated with fields
+Required fields are identified
+Status changes are announced where practical
+Tables have headings
+Lists use semantic list elements
+Interactive cards have understandable accessible names
+Colour and contrast
+
+Verify:
+
+Body text contrast
+Supporting-text contrast
+Button contrast
+Badge contrast
+Focus-ring contrast
+Disabled state visibility
+Error and warning states
+Information is not communicated through colour alone
+Motion
+Respect reduced-motion preferences
+Avoid essential information being available only through animation
+Reduce unnecessary animated background effects
+Ensure loading animation does not prevent progress
+Images and icons
+Meaningful images have useful alternative text
+Decorative images are ignored by assistive technology
+Icon-only buttons have accessible labels
+11. Forms and configuration UX
+
+Complete a full review of Build & Configure.
+
+Required improvements
+Clear stage names
+Visible progress
+Save state visible
+Back and next controls consistent
+Validation errors displayed at field and stage level
+Disabled activation explains why it is disabled
+Required versus optional fields clear
+System statuses understandable
+Local demonstration persistence clearly disclosed
+Reset action requires confirmation
+Import errors are readable
+Export action provides confirmation
+Review stage identifies blockers
+Activation provides a clear success state
+User can return to edit configuration
+Avoid
+Silent validation failure
+Generic “Something went wrong”
+Losing data when moving between stages
+Hidden dependencies
+Enabling a scenario without required roles
+Enabling production-style statuses by default
+Overloading one step with excessive fields
+12. Execution Centre UX
+
+Review the complete runtime workflow.
+
+Required clarity
+
+The user must be able to identify:
+
+Active deployment
+Active scenario
+Current RTBX stage
+Current status
+Accountable role
+Required next action
+Approval requirement
+Escalation status
+Evidence completion
+Outcome status
+Learning status
+Required controls
+
+Controls should:
+
+Only appear when relevant
+Explain blocked states
+Use consistent labels
+Prevent invalid transitions
+Confirm consequential actions
+Show successful state updates
+Preserve state after navigation
+Avoid duplicate actions
+Required runtime trace
+
+Keep the sequence visible:
+
+Connect → Understand → Decide → Act → Learn
+
+The current stage should be obvious.
+
+Do not require users to interpret multiple unrelated status indicators.
+
+13. Guest, Operator and Dual View QA
+Guest View
+
+Confirm that it shows only:
+
+Appropriate update
+Approved communication
+Relevant action
+Confirmation
+Resolution
+
+It must not expose:
+
+Internal decision notes
+Staff names where inappropriate
+Staff-performance information
+Restricted welfare data
+Internal escalation logic
+Risk classifications
+Internal evidence
+Operator View
+
+Confirm that it shows:
+
+Signal
+Context
+Decision
+Accountable role
+Playbook
+Actions
+Communications
+Escalations
+Evidence
+Outcomes
+Dual View
+
+Confirm:
+
+Both views use the same execution ID
+Both views reflect the same runtime state
+Guest and operator timestamps make sense
+No conflicting messages appear
+Mobile layout remains understandable
+The relationship between internal action and guest experience is clear
+14. Scenario and playbook QA
+
+Review every visible scenario and playbook.
+
+Scenario requirements
+
+Every scenario must display or provide access to:
+
+Trigger
+Signals
+Signal maturity
+Relevant context
+Governance source
+Decision requirement
+Accountable role
+Supporting roles
+Linked playbook
+Communication pathway
+Escalation logic
+Evidence requirements
+Outcomes
+Learning rule
+Maturity status
+Proof limitations
+Playbook requirements
+
+Every playbook must include:
+
+Entry conditions
+Accountable role
+Ordered steps
+Step owners
+Approval requirements
+Communication points
+Escalation rules
+Evidence requirements
+Completion criteria
+Outcomes
+Maturity
+QA requirements
+No scenario without a valid playbook
+No invalid role reference
+No orphaned playbook
+No duplicate scenario ID
+No missing evidence owner
+No missing outcome
+No unapproved maturity value
+No decorative scenario without operational detail
+15. Proof and maturity verification
+
+Review every active page for maturity claims.
+
+Use only:
+
+Working Proof
+Prototype
+Simulation
+Connector-ready
+Integrated
+Production
+Planned
+Required evidence
+Working Proof
+
+Must have a functioning interface or workflow.
+
+Prototype
+
+Must have a visible partial capability.
+
+Simulation
+
+Must use synthetic or controlled demonstration data.
+
+Connector-ready
+
+Must have:
+
+Interface contract
+Field mapping
+Authentication approach
+Test harness
+Error handling definition
+Integrated
+
+Must have evidence of data exchange with a named system.
+
+Production
+
+Must have:
+
+Production authentication
+Monitoring
+Data controls
+Reliability controls
+Support model
+Customer-approved governance
+Required audit
+
+Create:
+
+docs/proof-and-claims-register.md
+
+Include:
+
+Claim	Page	Maturity	Evidence	Limitation	Approved
+
+Correct or remove any claim that is unsupported.
+
+16. Integration claim QA
+
+Review every integration reference.
+
+Every named or category-level integration must show:
+
+System
+Purpose
+Direction
+Interface type
+Ownership
+Maturity
+Proof status
+Limitation
+
+Do not use:
+
+Live
+Connected
+Real-time
+Integrated
+Production-ready
+
+without supporting evidence.
+
+Use accurate alternatives:
+
+Simulated
+Demonstrated
+Mapped
+Planned
+Customer-specific
+Connector-ready where criteria are met
+17. Commercial claim QA
+
+Review:
+
+Commercial Pathway
+Pilot Model
+Proof Calculator
+Commercial Case
+Revenue Model
+Deployment Model
+Partner Ecosystem
+Resource Library
+
+Every figure must identify its status:
+
+RTBX-approved
+Customer-provided
+Partner-provided
+External source
+Indicative assumption
+Demonstration input
+Pilot target
+To be validated
+Unapproved
+Required actions
+Remove unlabeled financial values
+Remove implied guarantees
+Clarify pricing components that are optional
+Clarify that pilot scope is subject to agreement
+Clarify that outcome targets require baselines
+Ensure calculator outputs are not presented as guaranteed
+Ensure sensitive commercial information is appropriately restricted
+Ensure investor-only information does not appear in general partner navigation
+18. Resource Library QA
+
+For every document or resource, display:
+
+Title
+Audience
+Owner
+Version
+Last reviewed date
+Confidentiality
+Maturity
+Commercial status where relevant
+Working link or route
+
+Use categories:
+
+General partner
+Pilot partner
+Technical partner
+Deployment partner
+Commercially restricted
+Internal only
+Required security boundary
+
+A client-side code gate is not sufficient for genuinely confidential information.
+
+For this release:
+
+Remove internal-only documents from general access
+Remove commercially sensitive investor documents from client bundles
+Or clearly exclude them from the release build
+
+Do not merely hide sensitive documents through CSS or navigation.
+
+19. Loading, error and empty states
+
+Every major asynchronous or stateful surface must have:
+
+Loading state
+Clear progress indicator
+Meaningful label
+No permanent spinner
+Accessible status where practical
+Empty state
+Explanation of why no data is present
+Clear next action
+Link to configure or load demonstration data
+Error state
+Plain-language error
+Context
+Recovery action
+Retry where appropriate
+No exposure of internal stack traces
+
+Review:
+
+Deployment loading
+Configuration loading
+Local-storage errors
+Import errors
+Scenario execution errors
+Missing route data
+Missing playbook references
+Resource loading
+Missing content configuration
+20. Route and link integrity
+
+Complete a full route audit.
+
+Verify:
+
+Every canonical route renders
+Every navigation link resolves
+Every CTA resolves
+Every scenario link resolves
+Every playbook link resolves
+Every resource link resolves
+Every redirect reaches the intended canonical route
+Root / behaviour is intentional
+No page relies accidentally on wildcard fallback
+No archived component is reachable
+No legacy WELBX route is reachable
+No dead-end page exists
+Back navigation behaves reasonably
+External links use safe target attributes where applicable
+
+Create or update automated route and link tests.
+
+21. Metadata and brand integrity
+
+Verify:
+
+Page title
+Application title
+Meta description
+Open Graph title
+Open Graph description
+Favicon
+Manifest
+Theme colour
+Social preview information
+Footer
+Loading screen
+Error screen
+Browser tab title
+
+All must use current RTBX Travel branding.
+
+Remove active references to:
+
+WELBX
+BXOS
+NEXUS
+Obsolete Travel architecture
+Outdated version labels
+22. Performance
+
+Complete a practical front-end performance pass.
+
+Review:
+
+Initial bundle size
+Large route bundles
+Duplicate libraries
+Unused imports
+Oversized images
+Repeated architecture data
+Excessive render loops
+Unnecessary state updates
+Local-storage writes
+Large static data loaded on every route
+Required actions
+Lazy-load appropriate large routes
+Optimise local images
+Remove confirmed dead imports
+Avoid loading all resource content on every page
+Memoise only where justified
+Keep configuration and runtime state reliable
+Do not pursue aggressive optimisation that introduces risk
+
+Report before-and-after build output where available.
+
+23. Security and privacy baseline
+
+This is not a penetration-testing sprint, but complete a practical front-end security review.
+
+Verify:
+
+No secrets in client code
+No real credentials in repository
+No production customer data
+No sensitive data in default local storage
+Imported JSON is validated
+User-generated text is rendered safely
+External links are safe
+Client-side access gate limitations remain disclosed
+Restricted resources are not bundled publicly
+Error output does not expose sensitive environment information
+Environment variables used in client code are intended to be public
+
+Create or update:
+
+docs/release-security-boundary.md
+
+Document:
+
+What the release protects
+What it does not protect
+Data types used
+Local persistence
+Production authentication required
+Production data controls required
+Production logging and monitoring required
+24. Automated test requirements
+
+Ensure the following test areas exist and run.
+
+Architecture
+Five engine stages
+Correct order
+Six intelligence layers
+Correct order
+Required Core capabilities
+Data integrity
+Operating-system IDs
+Scenario IDs
+Playbook IDs
+Role IDs
+Cross-references
+Maturity values
+Configuration
+Default deployment
+New deployment
+Validation
+Persistence
+Reset
+Activation
+Runtime
+Scenario launch
+Valid state transitions
+Invalid transitions blocked
+Approval enforcement
+Escalation
+Evidence blocking closure
+Outcome recording
+Learning output
+Cross-view
+Shared execution state
+Guest-data restrictions
+Operator completeness
+Dual-view consistency
+Commercial and partner
+Partner lanes
+Ownership data
+Pilot stages
+Commercial status labels
+Restricted-resource rules
+Routing
+Canonical routes
+Redirects
+Internal links
+CTA links
+No legacy routes
+Accessibility where supported
+Basic automated accessibility scan
+Form labels
+Heading structure
+Button names
+Image alternative text
+Obvious contrast failures
+
+Automated accessibility testing does not replace manual testing.
+
+25. Manual browser QA
+
+Complete a documented manual walkthrough.
+
+Use at least:
+
+Chromium desktop
+Mobile viewport in Chromium
+Another browser where available
+
+Test:
+
+Partner Room
+Hero clarity
+Primary CTA
+Navigation
+Proof status
+Pilot path
+Operating Model
+Five-step engine
+Six layers
+Core versus Travel distinction
+Mobile rendering
+Build & Configure
+Full configuration journey
+Validation
+Refresh
+Reset
+Export
+Activation
+Execution Centre
+Default deployment
+Scenario launch
+Approval
+Action completion
+Escalation
+Evidence
+Outcome
+Learning
+Proof views
+Guest
+Operator
+Dual
+Validation Replay
+Commercial journey
+Pilot Model
+Partner Ecosystem
+Commercial Pathway
+Next Step
+
+Document defects with:
+
+Route
+Browser
+Screen size
+Reproduction steps
+Severity
+Resolution
+26. Severity framework
+
+Use:
+
+Blocker
+Application cannot build
+App cannot load
+Primary journey cannot complete
+Data loss
+Confidential content exposed
+False production claim
+Critical route broken
+High
+Core feature unusable
+Scenario cannot complete
+Mobile navigation unusable
+Accessibility prevents key use
+Major misleading claim
+Important CTA broken
+Medium
+Significant readability issue
+Inconsistent content
+Layout defect
+Secondary route problem
+Confusing status or label
+Low
+Minor spacing
+Cosmetic inconsistency
+Non-blocking copy improvement
+
+All Blocker and High issues must be resolved before release.
+
+Medium issues must either be resolved or explicitly accepted.
+
+27. Release checklist
+
+Create:
+
+docs/release-checklist.md
+
+The checklist must include:
+
+Product
+Architecture aligned
+Operating systems valid
+Scenarios valid
+Playbooks valid
+Build & Configure functional
+Execution Centre functional
+Pilot pathway clear
+Partner pathway clear
+Proof
+Maturity claims reviewed
+Integration claims reviewed
+Commercial claims reviewed
+Synthetic data disclosed
+Production boundaries disclosed
+UX
+Typography reviewed
+Navigation reviewed
+Mobile reviewed
+Forms reviewed
+Empty and error states reviewed
+CTAs reviewed
+Accessibility
+Keyboard walkthrough
+Focus states
+Heading order
+Form labels
+Contrast
+Reduced motion
+Alternative text
+Technical
+Install
+Typecheck
+Lint
+Tests
+Route tests
+Link tests
+Asset checks
+Production build
+Preview smoke test
+Security
+No secrets
+No production data
+Restricted documents removed
+Access limitations documented
+Imported configuration validated
+Release
+Version updated
+Release notes written
+Git working tree clean
+Branch safe to merge
+Deployment preview verified
+28. Release notes
+
+Create:
+
+docs/release-notes-v2.md
+
+Include:
+
+Product purpose
+Major capabilities
+Working proof available
+Pilot proposition
+Known limitations
+Production engineering still required
+Supported demonstration scenarios
+Supported browsers tested
+Release date
+Version
+Commit
+
+Do not use promotional language that overstates maturity.
+
+29. Technical verification
+
+Run the exact canonical project commands for:
+
+Dependency installation
+Typecheck
+Lint
+Unit tests
+Architecture validation
+Operating-system validation
+Scenario validation
+Playbook validation
+Role validation
+Deployment validation
+Runtime validation
+State-transition tests
+Cross-view tests
+Partner validation
+Pilot validation
+Commercial validation
+Route smoke tests
+Internal-link tests
+Legacy terminology check
+Asset checks
+Accessibility checks where available
+Production build
+Production preview smoke test
+
+Record:
+
+Command
+Result
+Duration where available
+Warning count
+Error count
+Relevant output
+
+Do not state that a check passed unless it was actually run.
+
+Do not hide warnings.
+
+Classify warnings as:
+
+Release blocker
+Accepted known issue
+Deferred technical debt
+30. Required Sprint 6 report
+
+At completion, provide:
+
+A. Executive verdict
+
+Use one:
+
+Ready for external partner walkthrough
+Ready with documented limitations
+Not ready — blockers remain
+
+Explain the verdict.
+
+B. Page-by-page QA register
+
+For every active canonical route:
+
+Purpose
+Audience
+UX status
+Readability status
+Mobile status
+Accessibility status
+Proof status
+Issues resolved
+Issues remaining
+C. Defect register
+
+Include:
+
+Defect ID
+Route
+Severity
+Description
+Reproduction
+Resolution
+Status
+D. Readability report
+
+Include:
+
+Typography changes
+Removed micro-text
+Contrast changes
+Card-density changes
+Navigation changes
+Remaining concerns
+E. Accessibility report
+
+Include:
+
+Keyboard results
+Focus results
+Semantic results
+Contrast results
+Form results
+Motion results
+Known limitations
+F. Proof and claims register
+
+Include:
+
+Claim
+Page
+Maturity
+Evidence
+Limitation
+Approval status
+G. Technical verification report
+
+Provide exact results for every required command and test.
+
+H. Responsive QA report
+
+Include results for:
+
+320px
+375px
+390px
+768px
+1024px
+1280px
+1440px
+I. Security and privacy report
+
+Include:
+
+Secrets review
+Local-storage review
+Data review
+Resource-access review
+Import validation
+Remaining production requirements
+J. Known limitations
+
+Clearly identify:
+
+Synthetic data
+Local persistence
+No production customer integrations
+No enterprise authentication
+No durable production audit store
+No production communications dispatch
+No multi-tenant production controls
+No confirmed customer pilot outcomes
+Indicative commercial assumptions
+
+Only include limitations that actually apply.
+
+K. Changed-file register
+
+For each changed file:
+
+Path
+Change
+Reason
+Risk level
+L. Git summary
+
+Include:
+
+Branch
+Commits
+Current commit
+Working-tree status
+Conflicts
+Uncommitted files
+Whether safe to merge
+Whether safe to deploy as a demonstration environment
+31. Acceptance criteria
+
+Sprint 6 is complete only when:
+
+The product can be understood from the Partner Room
+RTBX Main and RTBX Travel clearly represent one shared platform
+Hotels and resorts remain the primary commercial entry point
+The first pilot is clear
+Navigation is understandable
+Primary user journeys have no dead ends
+Body text is readable
+Meaningful text is not below 12px
+Main body copy is generally at least 16px
+Contrast is adequate
+Mobile navigation works
+Build & Configure works on mobile and desktop
+Execution Centre works on mobile and desktop
+Guest, Operator and Dual Views remain coherent
+Keyboard navigation works for primary journeys
+Focus states are visible
+Forms have labels and readable errors
+Scenario and playbook relationships remain valid
+Mandatory evidence blocks closure
+Runtime state remains consistent
+Proof maturity claims are supported
+Integration claims are supported
+Commercial figures have status labels
+Synthetic data is clearly disclosed
+Sensitive documents are not publicly exposed
+No secrets are present
+No production customer data is present
+All canonical routes resolve
+All CTAs resolve
+No legacy WELBX content is reachable
+No critical assets are missing
+Typecheck passes or any blocker is explicitly reported
+Tests pass or any blocker is explicitly reported
+Production build passes
+Production preview is smoke-tested
+All Blocker and High defects are closed
+Release notes are complete
+Release checklist is complete
+Final Git state is documented
+Final instruction
+
+This is the final release-quality sprint.
+
+Do not add new product scope.
+
+Do not make speculative architectural changes.
+
+Do not create additional pages simply to improve appearance.
+
+Focus on making the existing RTBX Travel product:
+
+Clear
+Readable
+Credible
+Consistent
+Accessible
+Technically reliable
+Honest about maturity
+Ready to demonstrate
+
+At completion, stop and provide the complete Sprint 6 report with a clear verdict:
+
+Ready for external partner walkthrough,
+Ready with documented limitations, or
+Not ready — blockers remain.

@@ -1,141 +1,214 @@
-import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
+/**
+ * PartnerNextStep.tsx — Sprint 5
+ *
+ * Canonical next-step engagement page.
+ *
+ * Four specific engagement options, each with:
+ * - Intended audience
+ * - Purpose
+ * - What will be covered
+ * - Required participants
+ * - Expected output
+ *
+ * Does not use vague "Contact us" language as the only action.
+ */
 
-const NEXT_STEPS = [
+import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
+import { Link } from "wouter";
+
+const C = { muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,255,0.22)", gold: "#c9a84c", green: "#10b981", blue: "#3b82f6" };
+
+function SectionLabel({ children }: { children: string }) {
+  return <div style={{ fontSize: 8.5, letterSpacing: "0.2em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>{children}</div>;
+}
+
+const ENGAGEMENTS = [
   {
-    label: "Request Briefing",
-    color: "#c9a84c",
-    desc: "Request a direct executive briefing — 30 to 45 minutes, tailored to your organisation, role and commercial context. No pitch. No commitment.",
-    subject: "RTBX Travel Partner Briefing",
-    cta: "Request Briefing",
-    recommended: true,
+    id: "operating-alignment",
+    label: "01",
+    name: "Operating Alignment Session",
+    color: C.gold,
+    tagline: "For operators wanting to identify the first use case",
+    audience: "Chief Operating Officer, General Manager, Guest Experience Director, Operations Director",
+    purpose: "Identify the right operational starting point for an RTBX Travel engagement. Understand the first moment, the first signal and the first operating-system wedge.",
+    covered: [
+      "Current operational challenges and signal availability",
+      "RTBX operating model and intelligence engine overview",
+      "First operating-system selection",
+      "Initial scenario and role mapping",
+      "What a pilot would look like for this environment",
+    ],
+    participants: ["Executive sponsor or decision-maker", "General Manager or operations lead", "Technology or systems contact"],
+    output: "Operating model alignment summary, first scenario candidates, initial pilot scope",
+    cta: { label: "Request an Operating Alignment Session →", href: "mailto:lance@rtbx.com.au?subject=Operating Alignment Session — RTBX Travel" },
   },
   {
-    label: "Pilot Conversation",
-    color: "#10b981",
-    desc: "Start a structured conversation about scoping a pilot in your environment — environment type, timeline, integration scope and success metrics.",
-    subject: "RTBX Travel Pilot Conversation",
-    cta: "Start Pilot Conversation",
-    recommended: false,
+    id: "integration-technical",
+    label: "02",
+    name: "Integration and Technical Workshop",
+    color: C.blue,
+    tagline: "For technology or system partners",
+    audience: "Technology or Systems Leader, Digital or Transformation Director, Systems Integrator, PMS or CRM partner team",
+    purpose: "Map signal sources, interface types and integration maturity for a specific deployment environment. Define ownership, authentication and failure responsibilities.",
+    covered: [
+      "RTBX Integration Hub and signal mapping model",
+      "Review of existing system interfaces",
+      "Integration maturity classification (planned / mapped / mocked / tested)",
+      "Signal-to-context assembly approach",
+      "Authentication, data governance and failure ownership",
+      "Connector feasibility and priority order",
+    ],
+    participants: ["Technical lead from RTBX", "IT or technology leader from customer", "PMS or source-system technical contact"],
+    output: "Integration responsibility matrix, maturity map, priority connector list, technical scoping document",
+    cta: { label: "Request an Integration and Technical Workshop →", href: "mailto:lance@rtbx.com.au?subject=Integration and Technical Workshop — RTBX Travel" },
   },
   {
-    label: "Partner Conversation",
+    id: "pilot-design",
+    label: "03",
+    name: "Pilot Design Session",
+    color: C.green,
+    tagline: "For a customer ready to define scope, roles, scenarios and outcomes",
+    audience: "Executive sponsor, Pilot owner, General Manager, Guest Experience Director, Transformation lead",
+    purpose: "Define the full pilot scope — environment, operating systems, scenarios, roles, governance, systems, success measures and readiness plan — before configuration begins.",
+    covered: [
+      "Pilot environment and property scope",
+      "Operating system selection and activation order",
+      "Scenario and playbook selection (from existing library)",
+      "Role mapping and accountability structure",
+      "Governance rules and approval requirements",
+      "Systems and signal maturity assessment",
+      "Success measures and evidence framework",
+      "Pilot readiness checklist review",
+    ],
+    participants: ["Executive sponsor", "Pilot owner", "Operations and department heads", "Technology lead", "RTBX team"],
+    output: "Signed pilot scope, governance alignment, role map, system maturity map, success measures, readiness plan",
+    cta: { label: "Request a Pilot Design Session →", href: "mailto:lance@rtbx.com.au?subject=Pilot Design Session — RTBX Travel" },
+  },
+  {
+    id: "partner-model",
+    label: "04",
+    name: "Partner Model Discussion",
     color: "#a78bfa",
-    desc: "Discuss a commercial, technology or strategic partnership — distribution, integration, investment or co-deployment.",
-    subject: "RTBX Travel Partner Conversation",
-    cta: "Start Partner Conversation",
-    recommended: false,
-  },
-  {
-    label: "Integration Conversation",
-    color: "#3b82f6",
-    desc: "Connect your existing PMS, CRM, POS, workforce or loyalty system — technical scope, API access and integration timeline.",
-    subject: "RTBX Travel Integration Discussion",
-    cta: "Start Integration Conversation",
-    recommended: false,
-  },
-  {
-    label: "Funding Conversation",
-    color: "#f97316",
-    desc: "Discuss category investment, strategic funding or co-deployment capital for RTBX Travel — series, structure and opportunity scope.",
-    subject: "RTBX Travel Funding Discussion",
-    cta: "Start Funding Conversation",
-    recommended: false,
+    tagline: "For distribution, delivery or intervention partners",
+    audience: "Hotel technology consultants, systems integrators, distribution networks, intervention service providers, advisory firms",
+    purpose: "Define the right partner lane, commercial model and engagement pathway for a distribution, implementation or intervention partner.",
+    covered: [
+      "RTBX partner ecosystem structure and six partner lanes",
+      "Partner ownership and contribution model",
+      "Commercial model options for your partner type",
+      "First customer or pilot pathway",
+      "Partner selection criteria review",
+      "Partnership pathway stages",
+    ],
+    participants: ["Partner commercial or business development lead", "Technical contact where relevant", "RTBX partner team"],
+    output: "Partner lane alignment, commercial model outline, first customer or pilot pathway, next steps for partnership formalisation",
+    cta: { label: "Request a Partner Model Discussion →", href: "mailto:lance@rtbx.com.au?subject=Partner Model Discussion — RTBX Travel" },
   },
 ];
 
 export default function PartnerNextStep() {
   return (
     <PartnerRoomLayout>
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "72px 32px 140px" }}>
+      <div style={{ maxWidth: 1160, margin: "0 auto", padding: "72px 32px 140px" }}>
 
-        {/* Header */}
-        <div style={{ marginBottom: 64 }}>
-          <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
-            Partner Room · Next Step
-          </div>
-          <div style={{ fontSize: 32, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", marginBottom: 14 }}>
-            Next Step
-          </div>
-          <p style={{ fontSize: 14, color: "rgba(255,255,255,0.42)", lineHeight: 1.75, maxWidth: 600 }}>
-            Choose the conversation that fits your context. Every path leads to a direct, structured engagement —
-            no general enquiry forms, no waiting rooms.
+        {/* ── HEADER ── */}
+        <div style={{ marginBottom: 48 }}>
+          <SectionLabel>RTBX Travel · Next Step</SectionLabel>
+          <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 14, maxWidth: 760 }}>
+            What's the right conversation for you?
+          </h1>
+          <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.8, maxWidth: 700 }}>
+            The right engagement depends on your role and what you're trying to solve. Choose one of four structured conversations — each has a specific audience, purpose, agenda and output.
           </p>
         </div>
 
-        {/* Recommended — prominent first card */}
-        <div style={{ marginBottom: 32 }}>
-          <a href={`mailto:lance@rtbx.com.au?subject=${encodeURIComponent(NEXT_STEPS[0].subject)}`} style={{ textDecoration: "none" }}>
-            <div style={{
-              padding: "40px 40px",
-              background: "rgba(201,168,76,0.05)",
-              border: "1px solid rgba(201,168,76,0.2)",
-              borderTop: "2px solid #c9a84c",
-              display: "flex", alignItems: "center", justifyContent: "space-between", gap: 32,
-              cursor: "pointer", transition: "all 0.15s",
-            }}
-            onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(201,168,76,0.09)"; el.style.borderColor = "rgba(201,168,76,0.4)"; }}
-            onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(201,168,76,0.05)"; el.style.borderColor = "rgba(201,168,76,0.2)"; }}
-            >
-              <div style={{ flex: 1 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
-                  <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#c9a84c" }}>
-                    {NEXT_STEPS[0].label}
-                  </div>
-                  <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#c9a84c", border: "1px solid rgba(201,168,76,0.35)", padding: "2px 8px" }}>
-                    Recommended
-                  </div>
-                </div>
-                <p style={{ fontSize: 13.5, color: "rgba(255,255,255,0.48)", lineHeight: 1.7, margin: 0, maxWidth: 560 }}>
-                  {NEXT_STEPS[0].desc}
-                </p>
-              </div>
-              <div style={{
-                padding: "14px 32px", fontSize: 10, fontWeight: 700, letterSpacing: "0.1em",
-                textTransform: "uppercase", background: "#c9a84c", color: "#080c14",
-                whiteSpace: "nowrap", flexShrink: 0,
-              }}>
-                {NEXT_STEPS[0].cta} →
-              </div>
-            </div>
-          </a>
-        </div>
-
-        {/* Other options */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
-          {NEXT_STEPS.slice(1).map(step => (
-            <a key={step.label} href={`mailto:lance@rtbx.com.au?subject=${encodeURIComponent(step.subject)}`} style={{ textDecoration: "none" }}>
-              <div style={{
-                padding: "28px 24px",
-                background: "rgba(255,255,255,0.02)",
-                border: "1px solid rgba(255,255,255,0.06)",
-                borderTop: `2px solid ${step.color}`,
-                display: "flex", flexDirection: "column",
-                cursor: "pointer", transition: "all 0.15s", height: "100%",
-              }}
-              onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = `${step.color}08`; el.style.borderColor = `${step.color}35`; }}
-              onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(255,255,255,0.02)"; el.style.borderColor = "rgba(255,255,255,0.06)"; }}
-              >
-                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: step.color, marginBottom: 14, lineHeight: 1.3 }}>
-                  {step.label}
-                </div>
-                <p style={{ fontSize: 12, color: "rgba(255,255,255,0.35)", lineHeight: 1.6, flex: 1, marginBottom: 22 }}>
-                  {step.desc}
-                </p>
-                <div style={{ fontSize: 9.5, color: step.color, fontWeight: 700, letterSpacing: "0.08em" }}>
-                  {step.cta} →
-                </div>
+        {/* ── ENGAGEMENT QUICK NAV ── */}
+        <div style={{ display: "flex", gap: 4, flexWrap: "wrap", marginBottom: 48 }}>
+          {ENGAGEMENTS.map(eng => (
+            <a key={eng.id} href={`#${eng.id}`} style={{ textDecoration: "none" }}>
+              <div style={{ padding: "7px 14px", fontSize: 9.5, fontWeight: 700, color: eng.color, border: `1px solid ${eng.color}40`, background: `${eng.color}08`, cursor: "pointer" }}>
+                {eng.label} {eng.name}
               </div>
             </a>
           ))}
         </div>
 
-        {/* Contact note */}
-        <div style={{ marginTop: 48, padding: "20px 28px", background: "rgba(255,255,255,0.015)", border: "1px solid rgba(255,255,255,0.05)", display: "flex", alignItems: "center", gap: 16 }}>
-          <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.22)" }}>Contact</div>
-          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.28)", lineHeight: 1.6 }}>
-            All conversations are with Lance — founder, RTBX Group. Every engagement is structured, confidential and directly relevant to your context.
-            <span style={{ color: "rgba(255,255,255,0.45)", marginLeft: 8 }}>lance@rtbx.com.au</span>
+        {/* ── ENGAGEMENTS ── */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+          {ENGAGEMENTS.map(eng => (
+            <div key={eng.id} id={eng.id} style={{ scrollMarginTop: 90, padding: "28px 28px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: `4px solid ${eng.color}` }}>
+              <div style={{ display: "flex", alignItems: "flex-start", gap: 16, marginBottom: 16, flexWrap: "wrap" }}>
+                <div style={{ width: 36, height: 36, borderRadius: "50%", background: `${eng.color}12`, border: `1px solid ${eng.color}40`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 800, color: eng.color, flexShrink: 0 }}>
+                  {eng.label}
+                </div>
+                <div>
+                  <div style={{ fontSize: 18, fontWeight: 800, color: "#fff", marginBottom: 3 }}>{eng.name}</div>
+                  <div style={{ fontSize: 11, color: eng.color, fontStyle: "italic" }}>{eng.tagline}</div>
+                </div>
+              </div>
+
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "12px 24px", marginBottom: 20 }}>
+                <div>
+                  <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 700, marginBottom: 6 }}>Intended audience</div>
+                  <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.6)", lineHeight: 1.6 }}>{eng.audience}</div>
+                </div>
+                <div>
+                  <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 700, marginBottom: 6 }}>Purpose</div>
+                  <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.6)", lineHeight: 1.6 }}>{eng.purpose}</div>
+                </div>
+                <div>
+                  <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 700, marginBottom: 6 }}>What will be covered</div>
+                  {eng.covered.map((item, i) => (
+                    <div key={i} style={{ fontSize: 10, color: "rgba(255,255,255,0.6)", padding: "2px 0" }}>
+                      <span style={{ color: eng.color, marginRight: 6 }}>·</span>{item}
+                    </div>
+                  ))}
+                </div>
+                <div>
+                  <div>
+                    <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 700, marginBottom: 6 }}>Required participants</div>
+                    {eng.participants.map((p, i) => (
+                      <div key={i} style={{ fontSize: 10, color: "rgba(255,255,255,0.6)", padding: "2px 0" }}>
+                        <span style={{ color: "rgba(255,255,255,0.3)", marginRight: 6 }}>·</span>{p}
+                      </div>
+                    ))}
+                  </div>
+                  <div style={{ marginTop: 12 }}>
+                    <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 700, marginBottom: 6 }}>Expected output</div>
+                    <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.55)", lineHeight: 1.6 }}>{eng.output}</div>
+                  </div>
+                </div>
+              </div>
+
+              <a href={eng.cta.href} style={{ textDecoration: "none" }}>
+                <div style={{ display: "inline-flex", alignItems: "center", padding: "10px 20px", background: `${eng.color}10`, border: `1px solid ${eng.color}40`, fontSize: 10, fontWeight: 700, color: eng.color, cursor: "pointer" }}>
+                  {eng.cta.label}
+                </div>
+              </a>
+            </div>
+          ))}
+        </div>
+
+        {/* ── WORKING PROOF ── */}
+        <div style={{ marginTop: 48, padding: "22px 24px", background: "rgba(201,168,76,0.04)", border: "1px solid rgba(201,168,76,0.2)" }}>
+          <div style={{ fontSize: 13, fontWeight: 800, color: "#fff", marginBottom: 8 }}>Not ready for a conversation yet?</div>
+          <p style={{ fontSize: 11.5, color: C.muted, lineHeight: 1.65, marginBottom: 16 }}>
+            Explore the working proof first. The Execution Centre, Build & Configure and the scenario library are all available to try directly.
+          </p>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            <Link href="/partner-room/operations"><div style={{ padding: "9px 18px", background: C.gold, fontSize: 10, fontWeight: 700, color: "#080c14", cursor: "pointer" }}>Try the Execution Centre →</div></Link>
+            <Link href="/partner-room/build-configure"><div style={{ padding: "9px 18px", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.12)", fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.65)", cursor: "pointer" }}>Build & Configure →</div></Link>
+            <Link href="/partner-room/pilot-model"><div style={{ padding: "9px 18px", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.12)", fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.55)", cursor: "pointer" }}>Review the Pilot Model →</div></Link>
           </div>
+        </div>
+
+        {/* ── FOOTER LINKS ── */}
+        <div style={{ marginTop: 40, borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 28, display: "flex", gap: 8, flexWrap: "wrap" }}>
+          {[
+            { label: "Partner Ecosystem", href: "/partner-room/partner-ecosystem" },
+            { label: "Pilot Model", href: "/partner-room/pilot-model" },
+            { label: "Commercial Pathway", href: "/partner-room/commercial" },
+          ].map(b => <Link key={b.href} href={b.href}><div style={{ padding: "8px 16px", border: "1px solid rgba(255,255,255,0.1)", fontSize: 9.5, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", cursor: "pointer" }}>{b.label} →</div></Link>)}
         </div>
 
       </div>

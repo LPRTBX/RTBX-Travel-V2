@@ -1,0 +1,1579 @@
+ou are working on the existing RTBX Travel Partner Room V2 application.
+
+The previous sprints should already have completed:
+
+Sprint 1 — Repository and architecture stabilisation
+Canonical application confirmed
+Legacy WELBX source isolated
+Routes stabilised
+Runtime and package management aligned
+Baseline build, route and link validation added
+Sprint 2 — Shared RTBX Core alignment
+RTBX Intelligence Engine aligned
+Connect → Understand → Decide → Act → Learn implemented consistently
+Six intelligence layers aligned
+Shared RTBX Core separated from Travel configuration
+Canonical architecture terminology established
+Sprint 3 — Operating systems, scenarios and playbooks
+Priority Travel operating systems established
+Canonical scenario, playbook and role models created
+Scenarios linked to governance, roles, evidence and outcomes
+Scenario and playbook validation implemented
+Sprint 4 — Build, Configure and Execute
+Guided deployment configuration created
+Systems, roles, governance and scenarios configurable
+Active deployment state established
+Execution Centre connected to deployment configuration
+At least three scenarios capable of end-to-end simulation
+Evidence, outcomes and learning demonstrated
+
+Do not repeat previous sprints unless a specific blocker requires a limited corrective change.
+
+This sprint focuses on:
+
+The first hotel pilot
+Partner ecosystem structure
+Integration responsibilities
+Deployment responsibilities
+Commercial pathway
+Commercial page consolidation
+Pilot success measures
+Expansion pathways
+Honest commercial and proof boundaries
+Clear calls to action for current Travel partners
+
+This is not a redesign, production integration or financial-modelling sprint.
+
+1. Sprint objective
+
+Turn the RTBX Travel Partner Room into a commercially credible partner and pilot environment.
+
+A prospective hotel operator, technology provider, implementation partner or strategic partner must be able to understand:
+
+What RTBX Travel solves
+Where RTBX sits within the existing Travel technology environment
+What RTBX owns
+What the customer owns
+What a technology or deployment partner owns
+What is required to run a pilot
+What the pilot will prove
+How deployment expands after the pilot
+How commercial value may be created
+What the correct next engagement step is
+
+The primary commercial pathway must be:
+
+Explore → Align → Configure → Pilot → Prove → Deploy → Expand
+
+The site should lead with a controlled hotel or resort pilot rather than attempting to sell the entire Travel industry at once.
+
+2. Core commercial proposition
+
+The site must consistently communicate:
+
+RTBX Travel connects existing hotel systems, operational signals, roles, policies and communications. It applies context and governance, activates the correct playbook, coordinates accountable action, captures evidence and measures outcomes.
+
+RTBX Travel is not:
+
+A replacement property management system
+A replacement task-management platform
+A generic chatbot
+A standalone guest application
+A new CRM
+A generic dashboard
+An ungoverned automated decision system
+
+RTBX is the intelligence, governance and execution layer across the existing operating environment.
+
+3. Non-negotiable constraints
+Preserve
+
+Preserve:
+
+Existing RTBX Core architecture
+Travel operating systems
+Existing six scenarios
+Existing playbooks
+Existing role model
+Existing Build & Configure flow
+Existing Execution Centre
+Existing Guest, Operator and Dual View demonstrations
+Existing Pilot Model content where accurate
+Existing Commercial content where accurate
+Existing Partner Ecosystem content where valuable
+Existing Brief and Resource Library
+Existing proof and maturity standards
+Existing design system and navigation structure
+Existing commercial assumptions unless explicitly identified as unapproved or contradictory
+Do not
+Do not rebuild the application
+Do not add a new design system
+Do not add new operating-system categories
+Do not add large numbers of scenarios
+Do not implement production integrations
+Do not build a new backend
+Do not add enterprise authentication
+Do not invent partner agreements
+Do not invent customer commitments
+Do not invent approved pricing
+Do not invent market traction
+Do not describe simulation as deployment
+Do not describe planned connectors as integrations
+Do not create duplicate pilot pages
+Do not create duplicate commercial pages
+Do not expose sensitive investor-only information in the general Partner Room
+Do not begin Sprint 6 full UX and release QA
+
+Where financial or commercial figures are not approved, clearly label them as indicative, configurable or subject to agreement.
+
+4. Primary market and first buyer
+
+The site should lead with:
+
+Primary environment
+Hotels
+Resorts
+Multi-property hotel groups
+
+Other Travel environments may remain as expansion opportunities:
+
+Holiday parks
+Corporate Travel
+Events and venues
+Destination tourism
+Broader partner ecosystems
+
+Do not give every Travel environment equal weight in the initial commercial journey.
+
+Primary buyers and sponsors
+
+Represent the most likely buyer and sponsor roles:
+
+Chief Operating Officer
+Group or Regional Operations Director
+General Manager
+Guest Experience Director
+Digital or Transformation Director
+Technology or Systems Leader
+Risk, Safety or Service Excellence Leader
+Property owner or operating group
+Initial operating-system wedge
+
+Lead with:
+
+Guest Experience OS
+Service Recovery and Staff Response OS
+Operator Intelligence OS
+
+Use Safety and Guest Welfare as a cross-cutting control.
+
+Position Marketplace and Loyalty Activation as an expansion operating system after operational trust and permission are established.
+
+5. Canonical partnership structure
+
+Create or update a canonical partner data source.
+
+Suggested location:
+
+src/data/travelPartnerEcosystem.ts
+
+Use the current project conventions.
+
+Each partner category should include:
+
+type TravelPartnerLane = {
+  id: string;
+  name: string;
+  summary: string;
+  partnerTypes: string[];
+  partnerContribution: string[];
+  rtbxContribution: string[];
+  customerContribution: string[];
+  connectionRequirements: string[];
+  commercialModels: string[];
+  maturityStatus: MaturityStatus;
+  examples?: string[];
+};
+
+Avoid unnecessary abstraction.
+
+6. Partner ecosystem lanes
+
+The Partner Ecosystem page must organise partnerships into the following lanes.
+
+6.1 Signal partners
+
+Partners that provide operational, guest or environmental signals.
+
+Examples:
+
+Property management systems
+Reservation platforms
+Housekeeping systems
+Task-management platforms
+CRM and loyalty systems
+Maintenance systems
+Guest messaging platforms
+Transport and disruption data
+Building and IoT platforms
+RTBX owns
+Integration Hub
+Signal mapping
+Signal Registry
+Context assembly
+Moment detection
+Decision and action orchestration
+Evidence and outcome linkage
+Partner owns
+Source-system functionality
+Source-system data access
+API or interface availability
+System authentication
+Platform-specific technical support
+Customer owns
+Data-access approval
+System credentials
+Data governance
+System configuration
+Operational use approval
+6.2 Governance partners
+
+Partners that contribute specialist policies, standards or decision controls.
+
+Examples:
+
+Hotel brand owners
+Safety specialists
+Welfare and safeguarding specialists
+Privacy and legal advisers
+Risk and insurance partners
+Industry standards bodies
+RTBX owns
+Decision Spine
+Rule representation
+Threshold configuration
+Approval logic
+Accountability routing
+Decision records
+Evidence requirements
+Governance partner owns
+Specialist standards
+Policy interpretation
+Approved decision guidance
+Domain-specific escalation advice
+Review of high-risk controls
+Customer owns
+Final policy approval
+Property-specific procedures
+Local legal and operational requirements
+Assigned accountable roles
+6.3 Intervention partners
+
+Partners that deliver a service or intervention after RTBX identifies a need.
+
+Examples:
+
+Maintenance providers
+Security services
+Welfare or medical support
+Transport providers
+Guest experience providers
+Local service providers
+Experience and activity partners
+RTBX owns
+Triggering and routing
+Context package
+Governance checks
+Communication coordination
+Evidence and outcome record
+Escalation logic
+Intervention partner owns
+Service delivery
+Resource availability
+Service standards
+Delivery evidence
+Service-level performance
+Customer owns
+Partner approval
+Commercial relationship
+Operating authority
+On-property coordination
+6.4 Technology partners
+
+Examples:
+
+Cloud infrastructure
+Identity and access
+Communications platforms
+AI model providers
+Integration platforms
+Observability and monitoring
+Data infrastructure
+
+Clarify that these partners support RTBX infrastructure or deployment but do not own the RTBX intelligence and operating-system model.
+
+6.5 Deployment partners
+
+Examples:
+
+Hotel technology consultants
+Systems integrators
+Transformation advisers
+Training and change partners
+Regional implementation partners
+Managed-service providers
+RTBX owns
+Platform architecture
+Configuration model
+Operating systems
+Scenarios
+Playbooks
+Governance structure
+Proof framework
+Deployment standards
+Deployment partner owns
+Implementation services
+Customer coordination
+System discovery
+Configuration support
+Training
+Change management
+Local rollout assistance
+6.6 Distribution partners
+
+Examples:
+
+Hotel groups
+Travel technology channels
+Industry associations
+PMS and CRM partner networks
+Property-management groups
+Advisory and consulting networks
+
+Clarify the difference between:
+
+Referral
+Reseller
+Implementation
+Strategic partnership
+Co-developed offering
+Embedded distribution
+
+Do not imply that any relationship exists unless it has been confirmed.
+
+7. RTBX ownership boundary
+
+Create a clear visual or structured section titled:
+
+What RTBX owns
+
+Include:
+
+RTBX Intelligence Engine
+Connect → Understand → Decide → Act → Learn
+Six intelligence layers
+Integration Hub
+Signal Registry
+Context and Moment Layer
+Decision Spine
+Playbook Engine
+Prompt & Nudge Engine
+Central Comms OS
+Evidence Ledger
+Outcome Ledger
+Build & Configure
+Execution Centre
+Cross-system orchestration
+Travel operating-system configuration
+Scenario and playbook framework
+Learning and value model
+
+Avoid suggesting that RTBX owns underlying customer systems or third-party services.
+
+8. Customer ownership boundary
+
+Create a clear section titled:
+
+What the customer owns
+
+Include:
+
+Existing systems and vendor contracts
+Customer data
+Property policies
+Brand standards
+Local procedures
+Role assignments
+Approval authority
+Operational decisions
+Data-access permissions
+Intervention-provider relationships
+Final deployment governance
+Pilot approval
+Production security requirements
+
+The site must reinforce that RTBX supports accountable human operations rather than removing customer control.
+
+9. Partner ownership boundary
+
+Create a clear section titled:
+
+What the partner owns
+
+The answer depends on partner type.
+
+Use a structured matrix including:
+
+Partner type	Partner owns	RTBX owns	Customer owns
+Signal partner	Source platform and access interface	Mapping, context and orchestration	Permission and source-system governance
+Governance partner	Specialist standard or policy advice	Decision Spine implementation	Final rule approval
+Intervention partner	Service delivery	Trigger, routing and evidence flow	Provider relationship and authority
+Technology partner	Supporting technical capability	RTBX product and operating logic	Commercial and security approval
+Deployment partner	Implementation service	Platform standards and configuration model	Internal change and deployment decisions
+Distribution partner	Market access or channel	RTBX platform and enablement	Purchase and deployment agreement
+10. Canonical pilot proposition
+
+Use one clear first-pilot proposition.
+
+Recommended pilot
+
+Hotel Moment Response and Service Recovery Pilot
+
+The pilot should activate:
+
+Guest Experience OS
+Service Recovery and Staff Response OS
+Operator Intelligence OS
+Safety and Guest Welfare controls
+Primary scenarios
+
+Use the three Sprint 4 end-to-end scenarios:
+
+Repeat guest room not ready
+Service backlog
+Maintenance defect
+
+Optional fourth scenario:
+
+Transport disruption
+
+Do not lead the first pilot with Marketplace and Loyalty Activation.
+
+11. Pilot scope
+
+Create or update the canonical Pilot Model page.
+
+The page should include:
+
+Pilot environment
+One to five properties
+One hotel group or operating partner
+Defined property roles
+Defined source systems
+Selected communication channels
+Synthetic, manual or demonstrated connector status
+Agreed governance rules
+Agreed outcome measures
+
+Do not hardcode a property count where commercial approval is required. Use a configurable range.
+
+Pilot duration
+
+Present duration as configurable and subject to agreement.
+
+Where an indicative duration is shown, clearly label it:
+
+Indicative pilot structure — final duration agreed during alignment.
+
+Pilot users
+
+Examples:
+
+General Manager
+Duty Manager
+Front Office
+Guest Services
+Housekeeping
+Maintenance
+Regional Operations
+Transformation or project lead
+Pilot components
+Environment discovery
+System and signal mapping
+Governance alignment
+Role configuration
+Scenario activation
+Playbook configuration
+Communications setup
+Simulation and staff walkthrough
+Controlled pilot operation
+Evidence and outcome review
+Expansion recommendation
+12. Pilot delivery stages
+
+Align the pilot with:
+
+Explore
+Understand the customer environment
+Identify the operational problem
+Review existing systems
+Confirm the first operating-system wedge
+Confirm decision-makers
+Align
+Agree pilot scope
+Confirm governance
+Confirm roles
+Confirm systems and connection maturity
+Confirm proof requirements
+Confirm success measures
+Configure
+Configure the Travel environment
+Activate operating systems
+Map roles
+Configure rules
+Select scenarios
+Activate playbooks
+Configure communications
+Configure evidence and outcomes
+Pilot
+Run agreed workflows
+Support staff adoption
+Monitor active scenarios
+Record decisions, actions and evidence
+Identify operating issues
+Prove
+Review evidence
+Review outcomes
+Compare performance with agreed baseline
+Identify repeat patterns
+Confirm technical and operational feasibility
+Deploy
+Complete production engineering
+Implement authentication and data controls
+Implement approved integrations
+Establish support and service levels
+Expand users and properties
+Expand
+Add operating systems
+Add properties
+Add scenarios
+Add partner services
+Add approved loyalty or marketplace activation
+Improve playbooks through learning
+13. Pilot success framework
+
+Do not invent performance results.
+
+Create a framework that identifies the measures to be agreed during alignment.
+
+Operational measures
+Signal captured successfully
+Signal-to-owner time
+Time to acknowledge
+Time to assign
+Time to resolve
+SLA performance
+Escalation accuracy
+Playbook completion
+Evidence completion
+Role accountability
+Guest measures
+Guest contacted
+Communication timeliness
+Recovery completed
+Avoidable uncertainty reduced
+Guest outcome recorded
+Repeat issue avoided where measurable
+Staff measures
+Workflow adoption
+Role clarity
+Handoff quality
+Reduced duplicate communication
+Manager visibility
+Staff feedback
+Governance measures
+Correct rule applied
+Required approval completed
+Restricted communication controlled
+Escalation completed correctly
+Evidence and decision trace complete
+Value measures
+Time saved
+Reduced unresolved work
+Reduced repeat incidents
+Improved recovery consistency
+Avoided service failure
+Attributable revenue where valid
+Reduced operating friction
+
+Each measure must show a target type:
+
+Customer baseline
+Pilot target
+Indicative target
+To be agreed
+Not yet measured
+14. Pilot readiness checklist
+
+Add a reusable checklist covering:
+
+Customer readiness
+Executive sponsor confirmed
+Pilot owner confirmed
+Property leadership confirmed
+Participating roles confirmed
+Data and system approvals confirmed
+Governance owner confirmed
+Technical readiness
+Systems identified
+Signal sources mapped
+Integration maturity classified
+Synthetic fallbacks agreed
+Communication channels agreed
+Security requirements identified
+Operational readiness
+Scenarios approved
+Playbooks approved
+Accountable roles mapped
+Escalation pathways approved
+Staff walkthrough completed
+Support model confirmed
+Measurement readiness
+Baseline identified
+Pilot measures approved
+Evidence requirements agreed
+Outcome owners confirmed
+Review cadence agreed
+
+Use readiness states:
+
+Not started
+In progress
+Ready
+Blocked
+Requires production engineering
+15. Deployment package
+
+Create or update a clear deployment package showing what is included.
+
+Alignment package
+Discovery workshop
+Operating-system selection
+Systems and signal map
+Governance map
+Role and accountability map
+Pilot plan
+Outcome framework
+Configuration package
+Travel environment configuration
+Scenario selection
+Playbook configuration
+Role mapping
+Communication configuration
+Evidence and outcome configuration
+Pilot package
+Working proof environment
+Scenario simulation
+Staff walkthrough
+Controlled activation
+Pilot support
+Evidence and outcome review
+Production deployment package
+
+Only describe at a requirements level:
+
+Production integrations
+Authentication
+Permissions
+Data controls
+Monitoring
+Audit storage
+Support model
+Service levels
+Change and training
+
+Do not imply these production components already exist where they do not.
+
+16. Commercial pathway
+
+Consolidate commercial content around a clear model.
+
+The primary Commercial page should explain potential commercial components without inventing approved pricing.
+
+Potential commercial components
+Alignment and discovery fee
+Configuration and implementation fee
+Platform licence
+Property or deployment licence
+Connector or integration fee
+Managed intelligence or support service
+Training and change support
+Expansion operating-system licence
+Partner service revenue
+Transaction or revenue share where attributable and approved
+
+Each component must be labelled as:
+
+Approved
+Indicative
+Configurable
+Subject to proposal
+Partner-specific
+Customer-specific
+
+Do not show all commercial components as mandatory.
+
+17. Commercial page consolidation
+
+Review the canonical route register and consolidate the purpose of:
+
+Commercial
+Commercial Model
+Commercial Unit
+Proof Calculator
+Revenue Model
+Commercial Case
+
+Do not necessarily delete all routes during this sprint.
+
+Establish one canonical Commercial Pathway page.
+
+Use secondary pages or documents only where they serve a distinct audience.
+
+Recommended structure
+Canonical Commercial page
+Commercial principles
+Pilot commercial structure
+Deployment commercial structure
+Expansion commercial structure
+Partner commercial models
+Value framework
+Assumption and approval status
+Next step
+Commercial Model
+
+Either:
+
+Merge into the canonical page, or
+Retain as a controlled technical appendix
+Commercial Unit
+
+Move into an appendix or internal resource unless it provides essential buyer clarity.
+
+Proof Calculator
+
+Retain as an indicative tool only where:
+
+Inputs are transparent
+Defaults are labelled
+Outputs are not represented as guaranteed
+Customer data can replace assumptions
+Results can be reset
+Methodology is explained
+Revenue Model
+
+Keep controlled where it includes sensitive company assumptions.
+
+Commercial Case
+
+Use as an evidence and value appendix.
+
+18. Commercial status and evidence
+
+Every commercial figure or claim must identify its source status.
+
+Use categories such as:
+
+Customer-provided
+RTBX-approved
+Partner-provided
+External source
+Indicative assumption
+Demonstration input
+Pilot target
+Unapproved
+To be validated
+
+Do not use unlabeled figures.
+
+Add a reusable component or data attribute for commercial-status labelling where practical.
+
+19. Partner commercial models
+
+Explain credible structures without committing RTBX to a specific agreement.
+
+Referral
+
+Partner introduces a qualified customer.
+
+Potential model:
+
+Referral fee
+Fixed introduction fee
+Percentage of first-year contract
+
+Label as subject to agreement.
+
+Reseller
+
+Partner sells RTBX under agreed commercial terms.
+
+Potential model:
+
+Wholesale licence
+Reseller margin
+Market or territory conditions
+
+Do not imply exclusivity.
+
+Implementation partner
+
+Partner delivers configuration, integration, training or rollout services.
+
+Potential model:
+
+Partner charges customer for services
+RTBX charges platform and licence fees
+Joint delivery package
+Strategic technology partner
+
+Partner provides signals, distribution or embedded technology.
+
+Potential model:
+
+Joint proposition
+Connector fee
+Co-selling
+Shared deployment revenue
+Usage or transaction economics
+Intervention or marketplace partner
+
+Potential model:
+
+Service fee
+Qualified lead fee
+Transaction fee
+Revenue share
+
+Only use where attribution, permission and governance are credible.
+
+20. Partner selection criteria
+
+Add criteria explaining what makes a strong RTBX Travel partner.
+
+Strategic fit
+Solves a real Travel operational problem
+Complements rather than duplicates RTBX
+Supports the current hotel wedge
+Has a credible customer or distribution pathway
+Technical fit
+Provides reliable data or service interfaces
+Supports appropriate security
+Can define ownership and support responsibilities
+Can support testing and failure handling
+Governance fit
+Accepts accountable human decision-making
+Supports privacy and evidence requirements
+Has clear escalation responsibilities
+Does not require misleading automation claims
+Commercial fit
+Clear customer value
+Clear ownership
+Clear revenue logic
+Scalable deployment pathway
+No unresolved channel conflict
+21. Integration responsibility matrix
+
+Create or update a reusable matrix for each selected integration.
+
+Required fields:
+
+Field	Description
+System	Source or destination system
+Provider	Named provider where approved
+Purpose	Why RTBX connects
+Signals received	Data entering RTBX
+Actions sent	Data or action leaving RTBX
+Interface	API, webhook, MCP, file, manual or planned
+Authentication owner	Who provides and manages access
+Mapping owner	Who maps source data to RTBX
+Customer responsibility	Approval, credentials and configuration
+Partner responsibility	Interface and support
+RTBX responsibility	Connection, context and orchestration
+Failure owner	Who responds to an interface failure
+Maturity	Planned, mapped, mocked, tested, integrated or production
+Proof	Test, log, screenshot, customer deployment or none
+
+Do not use “connector-ready” unless the Sprint 2 proof standard is met.
+
+22. Deployment responsibility matrix
+
+Create a clear responsibility model across:
+
+RTBX
+Customer
+Technology partner
+Deployment partner
+Intervention partner
+
+Cover:
+
+Discovery
+System access
+Governance approval
+Configuration
+Integration
+Testing
+Training
+Operational activation
+Support
+Evidence review
+Outcome review
+Expansion
+
+Use a RACI-style structure only where it improves clarity.
+
+Do not make the model unnecessarily corporate or complex.
+
+23. Expansion pathway
+
+After pilot proof, show a credible expansion sequence.
+
+Stage 1 — Expand scenarios
+
+Add additional scenarios within the same operating systems.
+
+Stage 2 — Expand roles
+
+Include more departments, properties or regional leadership.
+
+Stage 3 — Expand properties
+
+Move from one property to multi-property deployment.
+
+Stage 4 — Expand operating systems
+
+Activate additional capability such as:
+
+Safety and Guest Welfare
+Broader Operator Intelligence
+Marketplace and Loyalty Activation
+Stage 5 — Expand integrations
+
+Replace synthetic or manual sources with approved production connectors.
+
+Stage 6 — Expand partners
+
+Activate intervention, service, distribution or technology partners.
+
+Stage 7 — Cross-property learning
+
+Only position this as production capability after appropriate:
+
+Data boundaries
+Privacy controls
+Customer permissions
+Governance
+Technical infrastructure
+
+Do not suggest that customer data is automatically shared across deployments.
+
+24. Page requirements
+/partner-ecosystem
+
+Make this the canonical ecosystem page.
+
+Required sections:
+
+Why RTBX uses an ecosystem model
+Six partner lanes
+What RTBX owns
+What customers own
+What partners own
+Integration responsibility
+Deployment responsibility
+Commercial model options
+Partner selection criteria
+Partnership pathway
+Next step
+/pilot-model
+
+Make this the canonical pilot page.
+
+Required sections:
+
+Pilot proposition
+Target buyer
+Scope
+Operating systems
+Scenarios
+Users
+Systems
+Governance
+Delivery stages
+Success framework
+Readiness checklist
+Production engineering boundary
+Expansion pathway
+Next step
+/commercial
+
+Make this the canonical commercial pathway page.
+
+Required sections:
+
+Commercial principles
+Pilot structure
+Deployment structure
+Expansion structure
+Partner commercial models
+Value framework
+Assumption status
+What is included
+What requires proposal
+Next step
+/deployments
+
+Align deployment environments to:
+
+Primary deployment: hotels and resorts
+Secondary expansion: hotel groups and holiday parks
+Future environments: corporate Travel, events and destinations
+
+Do not present every environment as equally deployment-ready.
+
+/rollout-model
+
+Align rollout to:
+
+Pilot property → Proven property model → Multi-property deployment → Additional operating systems → Partner ecosystem expansion
+
+Clearly separate:
+
+Demonstration
+Pilot
+Production deployment
+Scale deployment
+/next-step
+
+Create a clear engagement choice.
+
+Recommended options:
+
+Operating Alignment Session
+
+For operators wanting to identify the first use case.
+
+Integration and Technical Workshop
+
+For technology or system partners.
+
+Pilot Design Session
+
+For a customer ready to define scope, roles, scenarios and outcomes.
+
+Partner Model Discussion
+
+For distribution, delivery or intervention partners.
+
+Each option must state:
+
+Intended audience
+Purpose
+What will be covered
+Required participants
+Expected output
+
+Do not use vague “Contact us” language as the only action.
+
+/brief-library
+
+Review the Resource Library and apply:
+
+Audience
+Owner
+Version
+Confidentiality
+Maturity
+Last reviewed date
+Commercial-status label where relevant
+
+Classify documents as:
+
+General partner
+Pilot partner
+Technical partner
+Deployment partner
+Commercially restricted
+Internal only
+
+Do not expose internal-only or sensitive commercial documents through an unsecured client-side gate.
+
+25. Commercial proof boundaries
+
+The site must clearly distinguish:
+
+Demonstrated
+Interactive deployment configuration
+Scenario execution
+Playbook activation
+Role-based views
+Evidence and outcome flows
+Architecturally defined
+Integration patterns
+Partner responsibilities
+Production controls
+Scale model
+Pilot-dependent
+Staff adoption
+Operational outcomes
+Customer-specific value
+Integration feasibility
+Property-level performance
+Production engineering required
+External system integrations
+Enterprise authentication
+Production communication dispatch
+Durable audit storage
+Monitoring and support
+Multi-tenant data controls
+Service levels
+
+Do not allow commercial pages to overstate product maturity.
+
+26. Value framework
+
+Create or update a structured value framework.
+
+Operational value
+Faster acknowledgement
+Faster assignment
+Better escalation
+Reduced unresolved actions
+Improved handoffs
+Better management visibility
+Guest value
+Better communication
+Faster recovery
+Reduced uncertainty
+More consistent service
+Appropriate personalisation
+Governance value
+Decision traceability
+Clear accountability
+Controlled communication
+Complete evidence
+Reliable escalation
+Better assurance
+Workforce value
+Role clarity
+Reduced searching
+Reduced duplicate communication
+More consistent playbook use
+Better support for frontline decisions
+Commercial value
+Avoided service failure
+Reduced repeat work
+Improved retention where measurable
+Attributable activation where valid
+Improved property or group performance
+
+Every claimed value must be linked to:
+
+Evidence source
+Outcome metric
+Target status
+Maturity
+27. Data and content structure
+
+Create or update canonical data sources such as:
+
+src/data/travelPartnerEcosystem.ts
+src/data/travelPilotModel.ts
+src/data/travelCommercialModel.ts
+src/data/travelDeploymentPathway.ts
+
+Use the current application conventions.
+
+Avoid repeating commercial and partner content separately across multiple pages.
+
+Suggested types:
+
+type PilotStage = {
+  id: string;
+  name: string;
+  purpose: string;
+  activities: string[];
+  outputs: string[];
+  ownerGroups: string[];
+  readinessRequirements: string[];
+};
+
+type CommercialComponent = {
+  id: string;
+  name: string;
+  summary: string;
+  appliesTo: string[];
+  status:
+    | "approved"
+    | "indicative"
+    | "configurable"
+    | "subject-to-proposal"
+    | "partner-specific"
+    | "customer-specific";
+  evidenceSource?: string;
+};
+
+type PartnerResponsibility = {
+  activity: string;
+  rtbx: string[];
+  customer: string[];
+  partner: string[];
+};
+
+Do not over-engineer the data model.
+
+28. Calls to action
+
+Use clear progression.
+
+Partner Room
+
+Primary CTA:
+
+Explore the Hotel Pilot
+
+Secondary CTA:
+
+See Working Proof
+
+Pilot Model
+
+Primary CTA:
+
+Design a Pilot
+
+Secondary CTA:
+
+Review Pilot Readiness
+
+Partner Ecosystem
+
+Primary CTA:
+
+Explore a Partner Model
+
+Secondary CTA:
+
+Review Responsibilities
+
+Commercial Pathway
+
+Primary CTA:
+
+Define the Commercial Structure
+
+Secondary CTA:
+
+Review the Value Framework
+
+Next Step
+
+Primary CTA depends on the chosen engagement path.
+
+Avoid conflicting CTAs across pages.
+
+29. Navigation
+
+Do not perform a full navigation redesign.
+
+Ensure the primary pilot and partner journey is easy to follow:
+
+Partner Room
+→ Operating Model
+→ Working Proof
+→ Pilot Model
+→ Partner Ecosystem
+→ Commercial Pathway
+→ Next Step
+
+Preserve contextual access to:
+
+Build & Configure
+Execution Centre
+Scenario Library
+Resource Library
+
+Remove duplicate commercial or partnership items from primary navigation where they create confusion.
+
+Do not delete working routes without preserving redirects.
+
+30. Required validation
+
+Add validation covering:
+
+Partner ecosystem
+Required partner lanes exist
+Each lane defines RTBX, customer and partner responsibilities
+Maturity values are valid
+Unsupported named partnerships are not presented as active
+Pilot model
+Pilot stages follow the canonical seven-stage pathway
+Pilot scenarios reference valid scenario IDs
+Pilot operating systems reference valid operating-system IDs
+Pilot roles reference valid role IDs
+Success measures use approved target statuses
+Readiness states use approved values
+Commercial model
+Commercial components use approved status labels
+Figures have source or assumption status
+Unapproved figures are not presented as committed
+Restricted documents are not exposed through general navigation
+Integration responsibility
+Every integration has ownership
+Every integration has maturity
+Every integration has a proof status
+Connector-ready claims meet the approved definition
+31. Required tests
+
+Add or update tests appropriate to the existing stack.
+
+Partner tests
+Six partner lanes render
+Ownership matrices contain RTBX, customer and partner responsibility
+Unsupported partnership status is not shown
+Partner CTA routes resolve
+Pilot tests
+Pilot pathway renders in the correct order
+Pilot scenarios resolve
+Readiness checklist works
+Blocked readiness is visible
+Pilot measures use approved status values
+Commercial tests
+Commercial components use approved labels
+Unapproved figures display warnings
+Proof Calculator assumptions remain visible
+Sensitive resources are excluded from general access
+Navigation tests
+Pilot journey has no dead end
+Commercial routes resolve
+Partner routes resolve
+Canonical routes are used
+Legacy aliases redirect correctly
+32. Technical verification
+
+Run:
+
+Dependency installation
+Typecheck
+Lint
+Existing tests
+Architecture validation
+Operating-system validation
+Scenario validation
+Playbook validation
+Role validation
+Deployment validation
+Partner ecosystem validation
+Pilot model validation
+Commercial model validation
+Route smoke tests
+Internal-link tests
+Legacy terminology check
+Asset checks
+Production build
+
+Manually verify:
+
+Partner Ecosystem works on desktop and mobile
+Pilot Model works on desktop and mobile
+Commercial Pathway is understandable
+Ownership boundaries are clear
+Pilot proposition is clear
+The first buyer is identifiable
+The first three scenarios are clear
+No unsupported integrations are presented as live
+No unapproved commercial figure appears committed
+Restricted documents are not publicly exposed
+Calls to action lead to the correct next step
+Build & Configure and Execution Centre remain functional
+No regression from Sprints 1–4 was introduced
+
+Do not report a check as passed unless it was actually run.
+
+33. Required Sprint 5 report
+
+At completion, provide:
+
+A. Executive summary
+
+Explain:
+
+What partner model was established
+What pilot proposition was established
+What commercial content was consolidated
+What was preserved
+What was deferred
+What remains indicative or unapproved
+B. Partner ecosystem register
+
+For each partner lane:
+
+Partner type
+Partner contribution
+RTBX contribution
+Customer contribution
+Technical requirements
+Commercial options
+Maturity
+Proof status
+C. Pilot register
+
+Include:
+
+Pilot proposition
+Environment
+Operating systems
+Scenarios
+Users
+Systems
+Governance
+Stages
+Success measures
+Readiness requirements
+Production boundary
+Expansion pathway
+D. Commercial register
+
+For every commercial component:
+
+Component
+Applies to
+Status
+Source
+Approval state
+Customer or partner dependency
+E. Responsibility matrix
+
+Document:
+
+Integration responsibilities
+Deployment responsibilities
+Governance responsibilities
+Operational responsibilities
+Support responsibilities
+F. Page-change register
+
+For every changed page:
+
+Route
+Purpose
+Change
+Duplicated content removed
+Commercial or partner status added
+Unresolved issue
+G. Changed-file register
+
+For each changed file:
+
+Path
+Change
+Reason
+Risk level
+H. Verification report
+
+Provide exact results for:
+
+Install
+Typecheck
+Lint
+Tests
+Partner validation
+Pilot validation
+Commercial validation
+Route tests
+Link tests
+Legacy terminology check
+Asset checks
+Production build
+I. Known limitations
+
+Clearly state applicable limitations, including:
+
+No confirmed partner agreement
+No production integrations
+No customer pilot results
+Indicative commercial assumptions
+Client-side or prototype access restrictions
+Production engineering still required
+J. Deferred work
+Sprint 6
+Full page-by-page UX and readability refinement
+Accessibility
+Typography and contrast
+Mobile behaviour
+Card-density reduction
+Final content consistency
+Proof-claim verification
+Technical release gate
+Final partner walkthrough
+K. Git summary
+
+Include:
+
+Branch
+Commits
+Working-tree status
+Conflicts
+Uncommitted files
+Whether safe to merge
+34. Acceptance criteria
+
+Sprint 5 is complete only when:
+
+Hotels and resorts are the primary initial market
+The first buyer is clear
+The first operating-system wedge is clear
+One canonical hotel pilot proposition exists
+The pilot uses the agreed lead operating systems
+The pilot uses the existing core scenarios
+The pilot pathway follows Explore → Align → Configure → Pilot → Prove → Deploy → Expand
+Pilot users are defined
+Pilot systems are defined
+Pilot governance is defined
+Pilot success measures are defined without invented results
+Pilot readiness can be assessed
+Six partner lanes are defined
+RTBX ownership is clear
+Customer ownership is clear
+Partner ownership is clear
+Integration responsibilities are clear
+Deployment responsibilities are clear
+Commercial-model options are clear
+No partnership is represented as confirmed unless supported
+Commercial pages are consolidated around one canonical pathway
+Commercial figures have status and source labels
+Unapproved figures are not represented as commitments
+Marketplace and Loyalty remains an expansion pathway
+Production engineering boundaries are visible
+The expansion pathway is credible
+Calls to action are specific
+Sensitive internal resources are appropriately controlled
+Build & Configure remains functional
+Execution Centre remains functional
+No previous architecture is duplicated
+Typecheck and production build are run
+All failures are reported honestly
+Final instruction
+
+Sprint 5 must make the commercial pathway believable without overstating maturity.
+
+The completed Partner Room should answer:
+
+What does RTBX own? What does the customer own? What does the partner own? What will the first pilot activate? What will it prove? What is required to move into production? How can deployment and commercial value expand after proof?
+
+Preserve the existing Travel product strength.
+
+Do not begin Sprint 6.
+
+At completion, stop and provide the full Sprint 5 report.

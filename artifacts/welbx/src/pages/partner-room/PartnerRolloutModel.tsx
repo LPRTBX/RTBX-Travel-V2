@@ -1,110 +1,202 @@
-import { useEffect } from "react";
+/**
+ * PartnerRolloutModel.tsx — Sprint 5
+ *
+ * Rollout model page aligned to canonical four-stage pathway:
+ * Pilot property → Proven property model → Multi-property deployment → Additional operating systems → Partner ecosystem expansion
+ *
+ * Clearly separates: Demonstration / Pilot / Production deployment / Scale deployment.
+ */
+
 import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
+import { EXPANSION_STAGES } from "@/data/travelPilotModel";
 
-const C = { gold: "#c9a84c", green: "#10b981", blue: "#3b82f6", purple: "#a78bfa", orange: "#f97316", muted: "rgba(255,255,255,0.45)", dim: "rgba(255,255,255,0.22)" };
+const C = { muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,255,0.22)", gold: "#c9a84c", green: "#10b981", blue: "#3b82f6", red: "#ef4444" };
 
-const ARCHETYPE = [
-  { num: "01", label: "Pilot Properties", color: C.gold, desc: "One or a small number of properties run a structured pilot — signal validation, staff pathway setup, shadow mode before going live." },
-  { num: "02", label: "Initial Portfolio", color: C.gold, desc: "Pilot outcomes are reviewed. The licence extends to an initial portfolio within the same owner or network." },
-  { num: "03", label: "Regional Rollout", color: C.blue, desc: "Deployment extends across a region — shared governance, shared playbooks, regional intelligence begins to compound." },
-  { num: "04", label: "Network Rollout", color: C.blue, desc: "Full network activation. Every property in the estate runs on the same Operating Systems, governed the same way." },
-  { num: "05", label: "Additional Operating Systems", color: C.purple, desc: "Beyond the initial Operating Systems, additional systems are activated — Marketplace & Loyalty, Safety & Welfare, Operator Intelligence." },
-  { num: "06", label: "Portfolio Intelligence", color: C.purple, desc: "Cross-property patterns, benchmarking and managed intelligence reporting activate once enough properties are live." },
-  { num: "07", label: "Partner / Marketplace Activation", color: C.green, desc: "Marketplace, loyalty and local-service partners are activated across the estate, creating a new partner revenue layer." },
-];
+function SectionLabel({ children }: { children: string }) {
+  return <div style={{ fontSize: 8.5, letterSpacing: "0.2em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>{children}</div>;
+}
+function H2({ children }: { children: string }) {
+  return <h2 style={{ fontSize: 24, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", marginBottom: 10 }}>{children}</h2>;
+}
 
 const STAGES = [
-  { id: "discovery-configuration", label: "Discovery and Configuration", color: C.gold, desc: "Signal sources mapped, governance rules set, playbooks and comms configured for the target property or portfolio.", href: "/partner-room/build-configure" },
-  { id: "pilot-model", label: "Pilot Model", color: C.gold, desc: "8-phase structured pilot pathway with week timing, success metrics and governance sign-off before scaling.", href: "/partner-room/pilot-model" },
+  {
+    id: "demonstration",
+    label: "Demonstration",
+    sublabel: "What exists today",
+    color: "#3b82f6",
+    description: "RTBX Travel is working in an interactive simulation environment. Deployment configuration, scenario execution, governance, evidence and outcomes can all be demonstrated without a live hotel connection.",
+    includes: [
+      "Interactive Build & Configure flow",
+      "All six scenarios running end-to-end",
+      "Operator, Guest and Dual View",
+      "Evidence capture and outcome recording",
+      "Learning output generation",
+      "Synthetic signal data — no live system connected",
+    ],
+    excludes: [
+      "Live system integrations",
+      "Production data or guest records",
+      "Staff adoption",
+    ],
+    cta: { label: "Try Build & Configure →", href: "/partner-room/build-configure" },
+  },
+  {
+    id: "pilot",
+    label: "Pilot",
+    sublabel: "Controlled working deployment",
+    color: C.gold,
+    description: "A controlled pilot at one to five hotel properties, running agreed scenarios with real staff participation. Signals come from actual or mapped source systems. Evidence and outcomes are captured and reviewed against agreed success measures.",
+    includes: [
+      "One to five properties — one hotel group",
+      "Three lead operating systems activated",
+      "Three primary scenarios end-to-end",
+      "Real staff roles and governance rules",
+      "Agreed evidence and outcome framework",
+      "Synthetic or manual signal sources — not full production integrations",
+    ],
+    excludes: [
+      "Production system connectors (unless specifically approved)",
+      "Enterprise authentication",
+      "Multi-tenant data controls",
+      "Production monitoring and SLAs",
+    ],
+    cta: { label: "Design a Pilot →", href: "/partner-room/next-step#pilot-design" },
+  },
+  {
+    id: "production-deployment",
+    label: "Production Deployment",
+    sublabel: "Approved live environment",
+    color: C.green,
+    description: "After the pilot is proven, production deployment replaces synthetic signal sources with approved connectors, implements authentication and data controls, and establishes a supported operational environment.",
+    includes: [
+      "Approved production integrations",
+      "Enterprise authentication and access control",
+      "Production communication dispatch",
+      "Durable audit and evidence storage",
+      "Support model and service levels",
+      "Expanded user base",
+    ],
+    excludes: [
+      "Cross-property data sharing without appropriate controls",
+      "Marketplace activation without approved governance",
+    ],
+    cta: { label: "See Production Boundary →", href: "/partner-room/pilot-model#production-boundary" },
+  },
+  {
+    id: "scale-deployment",
+    label: "Scale Deployment",
+    sublabel: "Multi-property, partner ecosystem",
+    color: "#a78bfa",
+    description: "Scale deployment adds properties, operating systems, partner services and — where commercially approved — marketplace and loyalty activation. Cross-property learning is introduced only with appropriate data controls and governance.",
+    includes: [
+      "Multi-property rollout",
+      "Additional operating systems",
+      "Partner ecosystem activation",
+      "Cross-property operational intelligence",
+      "Marketplace and Loyalty Activation (where approved)",
+      "Learning model improvement from multi-property evidence",
+    ],
+    excludes: [
+      "Automatic data sharing across customers",
+      "Unapproved commercial arrangements",
+    ],
+    cta: { label: "See Expansion Pathway →", href: "/partner-room/pilot-model#expansion-pathway" },
+  },
 ];
 
 export default function PartnerRolloutModel() {
-  useEffect(() => {
-    const scrollToHash = () => {
-      const hash = window.location.hash.replace("#", "");
-      if (!hash) return;
-      const el = document.getElementById(hash);
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-    };
-    scrollToHash();
-    window.addEventListener("hashchange", scrollToHash);
-    return () => window.removeEventListener("hashchange", scrollToHash);
-  }, []);
-
   return (
     <PartnerRoomLayout>
-      <div style={{ maxWidth: 1120, margin: "0 auto", padding: "72px 32px 140px" }}>
+      <div style={{ maxWidth: 1160, margin: "0 auto", padding: "72px 32px 140px" }}>
 
+        {/* ── HEADER ── */}
         <div style={{ marginBottom: 48 }}>
-          <div style={{ fontSize: 8.5, letterSpacing: "0.2em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>Deployment</div>
-          <h1 style={{ fontSize: 34, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.15, marginBottom: 18, maxWidth: 760 }}>
-            Property Activation &amp; Portfolio Rollout
+          <SectionLabel>RTBX Travel · Rollout Model</SectionLabel>
+          <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 14, maxWidth: 760 }}>
+            RTBX Travel Rollout Model
           </h1>
-          <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.8, maxWidth: 720 }}>
-            Travel scales through property replication, operating-system expansion and portfolio intelligence.
+          <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.8, maxWidth: 700, marginBottom: 20 }}>
+            From a working demonstration, through a controlled pilot, to production deployment and multi-property scale. Each stage has a clear boundary. Do not describe a previous stage as the next one.
           </p>
-        </div>
-
-        {/* Discovery / Pilot recap */}
-        <div className="rtbx-stack-row" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2, marginBottom: 56 }}>
-          {STAGES.map(s => (
-            <div key={s.id} id={s.id} style={{ padding: "26px 24px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: `2px solid ${s.color}`, scrollMarginTop: 100 }}>
-              <div style={{ fontSize: 12, fontWeight: 700, color: s.color, marginBottom: 10 }}>{s.label}</div>
-              <p style={{ fontSize: 12, color: C.muted, lineHeight: 1.7, marginBottom: 16 }}>{s.desc}</p>
-              <Link href={s.href}><div style={{ display: "inline-block", fontSize: 9.5, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: s.color, border: `1px solid ${s.color}45`, padding: "8px 16px", cursor: "pointer" }}>Open →</div></Link>
-            </div>
-          ))}
-        </div>
-
-        {/* Rollout archetype */}
-        <div style={{ marginBottom: 24 }}>
-          <div id="property-activation" style={{ scrollMarginTop: 100, fontSize: 17, fontWeight: 800, color: "#fff", marginBottom: 6 }}>Rollout Archetype</div>
-          <div id="portfolio-rollout" style={{ scrollMarginTop: 100, fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: C.dim, marginBottom: 20 }}>
-            Illustrative — not a contracted rollout commitment
+          <div style={{ display: "flex", gap: 0, flexWrap: "wrap" }}>
+            {STAGES.map((s, i) => (
+              <div key={s.id} style={{ display: "flex", alignItems: "center" }}>
+                <div style={{ padding: "6px 14px", fontSize: 9.5, fontWeight: 700, color: s.color, border: `1px solid ${s.color}50`, background: `${s.color}08` }}>{s.label}</div>
+                {i < STAGES.length - 1 && <div style={{ fontSize: 11, color: "rgba(255,255,255,0.2)", padding: "0 4px" }}>→</div>}
+              </div>
+            ))}
           </div>
         </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 2, marginBottom: 56 }}>
-          {ARCHETYPE.map((a, i) => (
-            <div key={a.num} className="rtbx-stack-row" style={{ display: "grid", gridTemplateColumns: "44px 240px 1fr", border: "1px solid rgba(255,255,255,0.06)", background: i % 2 === 0 ? "transparent" : "rgba(255,255,255,0.01)" }}>
-              <div style={{ padding: "16px 0 16px 16px", fontSize: 10, fontWeight: 800, color: a.color, opacity: 0.6 }}>{a.num}</div>
-              <div style={{ padding: "16px 16px", fontSize: 12, fontWeight: 700, color: a.color, borderLeft: "1px solid rgba(255,255,255,0.04)" }}>{a.label}</div>
-              <div style={{ padding: "16px 16px", fontSize: 11.5, color: C.muted, lineHeight: 1.65, borderLeft: "1px solid rgba(255,255,255,0.04)" }}>{a.desc}</div>
-            </div>
-          ))}
+
+        {/* ── FOUR STAGES ── */}
+        <div id="rollout-stages" style={{ marginBottom: 56, scrollMarginTop: 90 }}>
+          <SectionLabel>01 · Stages</SectionLabel>
+          <H2>Four rollout stages</H2>
+          <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+            {STAGES.map(stage => (
+              <div key={stage.id} style={{ padding: "22px 24px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: `4px solid ${stage.color}` }}>
+                <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, marginBottom: 12, flexWrap: "wrap" }}>
+                  <div>
+                    <div style={{ fontSize: 8.5, color: stage.color, textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700, marginBottom: 3 }}>{stage.sublabel}</div>
+                    <div style={{ fontSize: 17, fontWeight: 800, color: "#fff" }}>{stage.label}</div>
+                  </div>
+                  <Link href={stage.cta.href}>
+                    <div style={{ padding: "6px 14px", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.1)", fontSize: 9, fontWeight: 700, color: "rgba(255,255,255,0.5)", cursor: "pointer", flexShrink: 0 }}>{stage.cta.label}</div>
+                  </Link>
+                </div>
+                <p style={{ fontSize: 11.5, color: C.muted, lineHeight: 1.7, marginBottom: 16, maxWidth: 760 }}>{stage.description}</p>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px 24px" }}>
+                  <div>
+                    <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 700, marginBottom: 6 }}>Includes</div>
+                    {stage.includes.map((item, i) => (
+                      <div key={i} style={{ fontSize: 10, color: "rgba(255,255,255,0.6)", padding: "2px 0" }}>
+                        <span style={{ color: stage.color, marginRight: 6 }}>✓</span>{item}
+                      </div>
+                    ))}
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 700, marginBottom: 6 }}>Does not include</div>
+                    {stage.excludes.map((item, i) => (
+                      <div key={i} style={{ fontSize: 10, color: "rgba(255,255,255,0.45)", padding: "2px 0" }}>
+                        <span style={{ color: "rgba(255,255,255,0.25)", marginRight: 6 }}>·</span>{item}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div style={{ marginBottom: 56, padding: "20px 24px", background: "rgba(201,168,76,0.04)", border: "1px solid rgba(201,168,76,0.2)" }}>
-          <p style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", lineHeight: 1.7, margin: 0, fontStyle: "italic" }}>
-            "Travel scales through property replication, operating-system expansion and portfolio intelligence."
+        {/* ── EXPANSION PATHWAY ── */}
+        <div id="expansion" style={{ marginBottom: 48, scrollMarginTop: 90 }}>
+          <SectionLabel>02 · Expansion</SectionLabel>
+          <H2>Expansion after production deployment</H2>
+          <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, maxWidth: 760, marginBottom: 16 }}>
+            Seven expansion stages after the pilot is proven. Each requires a defined maturity gate before activation.
           </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2 }}>
+            {EXPANSION_STAGES.map((stage, i) => (
+              <div key={stage.id} style={{ padding: "14px 16px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: `2px solid ${i === 0 ? C.gold : "rgba(255,255,255,0.12)"}` }}>
+                <div style={{ fontSize: 11, fontWeight: 800, color: "#fff", marginBottom: 5 }}>{stage.label}</div>
+                <div style={{ fontSize: 10.5, color: C.muted, lineHeight: 1.6, marginBottom: 6 }}>{stage.description}</div>
+                <div style={{ fontSize: 9, color: "rgba(255,255,255,0.3)", fontStyle: "italic" }}>Gate: {stage.maturityGate}</div>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div id="managed-intelligence" style={{ scrollMarginTop: 100, marginBottom: 12, fontSize: 17, fontWeight: 800, color: "#fff" }}>Managed Intelligence &amp; Scenarios</div>
-        <div className="rtbx-stack-row" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2, marginBottom: 32 }}>
-          <Link href="/partner-room/operations">
-            <div style={{ padding: "24px 22px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: `2px solid ${C.purple}`, cursor: "pointer" }}>
-              <div style={{ fontSize: 12, fontWeight: 700, color: C.purple, marginBottom: 8 }}>Managed Intelligence</div>
-              <p style={{ fontSize: 11.5, color: C.muted, lineHeight: 1.6, margin: 0 }}>Action Centre, Outcome Ledger, Evidence Ledger and Value Dashboard — the reporting layer for an active deployment.</p>
-            </div>
-          </Link>
-          <Link href="/partner-room/travel-scenarios">
-            <div style={{ padding: "24px 22px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: `2px solid ${C.blue}`, cursor: "pointer" }}>
-              <div style={{ fontSize: 12, fontWeight: 700, color: C.blue, marginBottom: 8 }}>Scenarios</div>
-              <p style={{ fontSize: 11.5, color: C.muted, lineHeight: 1.6, margin: 0 }}>Six governed scenarios walking through signal, governance, action, evidence and value end to end.</p>
-            </div>
-          </Link>
-        </div>
-
-        <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 32, display: "flex", gap: 10, flexWrap: "wrap" }}>
+        {/* ── FOOTER LINKS ── */}
+        <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 28, display: "flex", gap: 8, flexWrap: "wrap" }}>
           {[
-            { label: "Commercial Unit", href: "/partner-room/commercial-unit" },
-            { label: "Pilot Model (resource)", href: "/partner-room/resources/travel-pilot-model" },
-            { label: "GTM Plan", href: "/partner-room/resources/travel-gtm-plan" },
-          ].map(b => (
-            <Link key={b.href} href={b.href}><div style={{ padding: "9px 18px", border: "1px solid rgba(255,255,255,0.12)", fontSize: 9.5, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", cursor: "pointer" }}>{b.label} →</div></Link>
-          ))}
+            { label: "Pilot Model", href: "/partner-room/pilot-model" },
+            { label: "Deployments", href: "/partner-room/deployments" },
+            { label: "Commercial Pathway", href: "/partner-room/commercial" },
+          ].map(b => <Link key={b.href} href={b.href}><div style={{ padding: "8px 16px", border: "1px solid rgba(255,255,255,0.1)", fontSize: 9.5, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", cursor: "pointer" }}>{b.label} →</div></Link>)}
         </div>
+
       </div>
     </PartnerRoomLayout>
   );

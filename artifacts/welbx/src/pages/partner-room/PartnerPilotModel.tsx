@@ -1,236 +1,413 @@
+/**
+ * PartnerPilotModel.tsx — Sprint 5
+ *
+ * Canonical pilot model page for RTBX Travel.
+ *
+ * Sources from travelPilotModel.ts, travelScenarios.ts and travelOperatingSystems.ts.
+ * Does not invent performance results. Success measures identify what will be agreed during alignment.
+ * All durations are indicative.
+ */
+
+import { useState } from "react";
+import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
-import { PartnerCTAFooter } from "@/components/PartnerCTAFooter";
-import { PartnerProofBanner } from "@/components/PartnerProofBanner";
-import { usePartnerContent } from "@/context/PartnerContentContext";
-import { DEPLOYMENT_PATHWAY } from "@/data/rtbxArchitecture";
+import {
+  PILOT_PROPOSITION,
+  PILOT_OPERATING_SYSTEMS,
+  PILOT_SCENARIOS,
+  PILOT_USERS,
+  PILOT_STAGES,
+  PILOT_SUCCESS_MEASURES,
+  READINESS_CHECKLIST,
+  READINESS_STATE_LABELS,
+  DEPLOYMENT_PACKAGE,
+  EXPANSION_STAGES,
+  type ReadinessState,
+  type SuccessMeasureTargetType,
+} from "@/data/travelPilotModel";
+import { TRAVEL_SCENARIOS } from "@/data/travelScenarios";
+import { TRAVEL_OPERATING_SYSTEMS } from "@/data/travelOperatingSystems";
 
-const DEFAULT_PILOT_PHASES = [
-  {
-    num: "01",
-    title: "Partner Alignment",
-    duration: "Week 1",
-    desc: "Executive alignment on pilot scope, property selection, and success metrics. Stakeholder briefing with operations and technology leads. Pilot agreement signed. [Explore & Align stage]",
-    color: "#c9a84c",
-  },
-  {
-    num: "02",
-    title: "Signal Source Audit",
-    duration: "Week 1–2",
-    desc: "Review of existing data sources available at the pilot property — PMS, housekeeping software, guest app, CRM, and IoT where present. Integration surface mapped and documented. [Configure stage]",
-    color: "#c9a84c",
-  },
-  {
-    num: "03",
-    title: "Integration Sprint",
-    duration: "Week 2–3",
-    desc: "Technical integration of priority signal sources. Push-webhook configuration for each confirmed source. RTBX Core signal layer activated and receiving approved data from the property. [Pilot stage]",
-    color: "#3b82f6",
-  },
-  {
-    num: "04",
-    title: "Moment Library Configuration",
-    duration: "Week 3",
-    desc: "Pilot moment library configured for the property context. Urgency thresholds reviewed with operations team. Playbooks mapped to existing staff roles and communication channels.",
-    color: "#3b82f6",
-  },
-  {
-    num: "05",
-    title: "Shadow Mode",
-    duration: "Week 4",
-    desc: "RTBX Travel runs in parallel with existing operations — detecting, classifying, and routing moments without displacing existing workflows. Output compared against actual operational decisions made during the same period.",
-    color: "#a78bfa",
-  },
-  {
-    num: "06",
-    title: "Live Activation",
-    duration: "Week 5–6",
-    desc: "RTBX Travel goes live as the moment-to-action operating layer for agreed moment categories. Staff briefed and supported by the RTBX Travel team. Moment detection, routing, and outcome recording active.",
-    color: "#a78bfa",
-  },
-  {
-    num: "07",
-    title: "Performance Review",
-    duration: "Week 7",
-    desc: "Mid-pilot review against agreed KPI metrics. Playbook adjustments made based on live data. Moment library expanded if early performance justifies it.",
-    color: "#10b981",
-  },
-  {
-    num: "08",
-    title: "Pilot Outcome Report",
-    duration: "Week 8",
-    desc: "Full pilot outcome report produced — moment detection rate, response times, resolution quality, commercial activation rate, and learning cycle completions. Basis for full deployment discussion.",
-    color: "#10b981",
-  },
-];
+// ── Style constants ───────────────────────────────────────────────────────────
 
-const DEFAULT_SUCCESS_CRITERIA = [
-  "Moment detection rate meets pilot target across all configured moment categories — validation metric",
-  "Median response time from signal to routed action meets operating benchmark — pilot target",
-  "VIP arrival protocol executed without incident for flagged arrivals during the pilot period",
-  "At least three service recovery moments resolved before guest departure",
-  "At least one commercial activation moment (dining, upsell, or ancillary) acted on per day",
-  "All triggered playbooks generating a complete outcome record with learning entry",
-  "Operations team satisfaction score above threshold at end-of-pilot review",
-];
+const C = { muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,255,0.22)", gold: "#c9a84c", green: "#10b981", blue: "#3b82f6", red: "#ef4444" };
 
-const READINESS_CHECKLIST = [
-  "Executive sponsor confirmed",
-  "Pilot property or property group identified",
-  "Operations lead nominated",
-  "Technology / integration lead nominated",
-  "Priority signal sources mapped",
-  "Priority moment categories selected",
-  "Staff workflow pathway confirmed",
-  "Baseline measures agreed",
-  "Review cadence agreed",
-  "Pilot decision date confirmed",
-];
+const READINESS_COLORS: Record<ReadinessState, string> = {
+  "not-started":                   "rgba(255,255,255,0.25)",
+  "in-progress":                   "#3b82f6",
+  "ready":                         "#10b981",
+  "blocked":                       "#ef4444",
+  "requires-production-engineering": "#f97316",
+};
+
+const TARGET_COLORS: Record<SuccessMeasureTargetType, string> = {
+  "customer-baseline": "#3b82f6",
+  "pilot-target":      "#c9a84c",
+  "indicative-target": "#a78bfa",
+  "to-be-agreed":      "rgba(255,255,255,0.35)",
+  "not-yet-measured":  "rgba(255,255,255,0.2)",
+};
+
+function SectionLabel({ children }: { children: string }) {
+  return <div style={{ fontSize: 8.5, letterSpacing: "0.2em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>{children}</div>;
+}
+function H2({ children }: { children: string }) {
+  return <h2 style={{ fontSize: 24, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", marginBottom: 10 }}>{children}</h2>;
+}
 
 export default function PartnerPilotModel() {
-  const { content } = usePartnerContent();
-  const pilotModel = content?.pilotModel;
+  const [readinessStates, setReadinessStates] = useState<Record<string, ReadinessState>>(
+    () => Object.fromEntries(READINESS_CHECKLIST.map(item => [item.id, item.defaultState]))
+  );
 
-  const phases = pilotModel?.phases ?? DEFAULT_PILOT_PHASES;
-  const successCriteria = pilotModel?.successCriteria ?? DEFAULT_SUCCESS_CRITERIA;
-  const headline = pilotModel?.headline ?? "Eight Weeks to a Proven\nOperating Layer";
-  const subheadline = pilotModel?.subheadline ?? "The RTBX Travel pilot is structured as a compressed, high-evidence engagement. It is designed to prove the value of the moment-to-action operating layer in a live property environment — with measurable outcomes at every stage and a clear performance record at the end.";
+  const categories = Array.from(new Set(READINESS_CHECKLIST.map(i => i.category)));
+  const measureCategories = Array.from(new Set(PILOT_SUCCESS_MEASURES.map(m => m.category)));
+
+  const nextState = (s: ReadinessState): ReadinessState => {
+    const order: ReadinessState[] = ["not-started", "in-progress", "ready", "blocked", "requires-production-engineering"];
+    const idx = order.indexOf(s);
+    return order[(idx + 1) % order.length];
+  };
 
   return (
     <PartnerRoomLayout>
-      <div style={{ maxWidth: 1000, margin: "0 auto", padding: "72px 32px 120px" }}>
+      <div style={{ maxWidth: 1160, margin: "0 auto", padding: "72px 32px 140px" }}>
 
-        {/* Header */}
+        {/* ── HEADER ── */}
         <div style={{ marginBottom: 48 }}>
-          <div style={{ fontSize: 9, letterSpacing: "0.22em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>
-            Pilot Model
-          </div>
-          <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 24, maxWidth: 680 }}>
-            {headline.split("\n").map((line, i) => (
-              <span key={i}>{i > 0 && <br />}{line}</span>
-            ))}
+          <SectionLabel>RTBX Travel · Pilot Model</SectionLabel>
+          <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 14, maxWidth: 760 }}>
+            {PILOT_PROPOSITION.name}
           </h1>
-          <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 660 }}>
-            {subheadline}
+          <div style={{ fontSize: 20, fontWeight: 300, color: C.gold, marginBottom: 16, fontStyle: "italic" }}>
+            {PILOT_PROPOSITION.tagline}
+          </div>
+          <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.8, maxWidth: 700, marginBottom: 20 }}>
+            {PILOT_PROPOSITION.summary}
           </p>
+          <div style={{ display: "inline-flex", gap: 6, flexWrap: "wrap" }}>
+            <div style={{ padding: "6px 14px", background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.25)", fontSize: 10, fontWeight: 700, color: C.gold }}>
+              Primary market: {PILOT_PROPOSITION.primaryMarket}
+            </div>
+            <div style={{ padding: "6px 14px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.1)", fontSize: 10, color: "rgba(255,255,255,0.4)", fontStyle: "italic" }}>
+              {PILOT_PROPOSITION.durationNote}
+            </div>
+          </div>
         </div>
 
-        {/* Proof banner */}
-        <PartnerProofBanner />
-
-        {/* Seven-Stage Deployment Pathway */}
-        <div style={{ marginBottom: 56 }}>
-          <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 20 }}>
-            Seven-Stage Deployment Pathway
-          </div>
-          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 6, marginBottom: 24 }}>
-            {DEPLOYMENT_PATHWAY.map((stage, i, arr) => (
-              <div key={stage.id} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                <div style={{
-                  padding: "10px 14px",
-                  background: stage.id === "pilot" ? "rgba(201,168,76,0.1)" : "rgba(255,255,255,0.02)",
-                  border: `1px solid ${stage.id === "pilot" ? "rgba(201,168,76,0.4)" : "rgba(255,255,255,0.1)"}`,
-                  borderLeft: stage.id === "pilot" ? "2px solid #c9a84c" : undefined,
-                }}>
-                  <div style={{ fontSize: 9, fontWeight: 700, color: stage.id === "pilot" ? "#c9a84c" : "rgba(255,255,255,0.55)", letterSpacing: "0.08em", textTransform: "uppercase" }}>{stage.label}</div>
-                  <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", marginTop: 2 }}>{stage.summary.split(".")[0]}</div>
-                </div>
-                {i < arr.length - 1 && <span style={{ fontSize: 12, color: "rgba(255,255,255,0.18)" }}>→</span>}
+        {/* ── TARGET BUYER ── */}
+        <div id="target-buyer" style={{ marginBottom: 48, scrollMarginTop: 90 }}>
+          <SectionLabel>01 · Buyer</SectionLabel>
+          <H2>Target buyer and sponsor</H2>
+          <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, maxWidth: 760, marginBottom: 16 }}>
+            The first pilot is led from the top. These are the most likely decision-makers and sponsors for an initial RTBX Travel engagement.
+          </p>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
+            {PILOT_PROPOSITION.primaryBuyers.map((buyer, i) => (
+              <div key={i} style={{ padding: "8px 14px", background: i === 0 ? "rgba(201,168,76,0.06)" : "rgba(255,255,255,0.02)", border: `1px solid ${i === 0 ? "rgba(201,168,76,0.3)" : "rgba(255,255,255,0.1)"}`, fontSize: 10.5, fontWeight: i === 0 ? 700 : 500, color: i === 0 ? C.gold : "rgba(255,255,255,0.6)" }}>
+                {buyer}
               </div>
             ))}
           </div>
-          <div style={{ padding: "14px 18px", background: "rgba(255,255,255,0.015)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: "2px solid rgba(201,168,76,0.4)" }}>
-            <p style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", lineHeight: 1.65, margin: 0 }}>
-              RTBX Core remains consistent through every stage. What changes at each stage is the Travel environment — which systems are connected, which operating systems are activated, which governance rules are configured, which roles are assigned, and which outcome targets are set.
+        </div>
+
+        {/* ── SCOPE ── */}
+        <div id="scope" style={{ marginBottom: 48, scrollMarginTop: 90 }}>
+          <SectionLabel>02 · Scope</SectionLabel>
+          <H2>Pilot scope</H2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2, marginBottom: 12 }}>
+            <div style={{ padding: "16px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
+              <div style={{ fontSize: 8.5, color: C.dim, textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 700, marginBottom: 8 }}>Environment</div>
+              <div style={{ fontSize: 12, fontWeight: 800, color: "#fff", marginBottom: 4 }}>{PILOT_PROPOSITION.targetEnvironment}</div>
+              <div style={{ fontSize: 10, color: C.muted }}>Hotels and resorts — primary market</div>
+            </div>
+            <div style={{ padding: "16px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
+              <div style={{ fontSize: 8.5, color: C.dim, textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 700, marginBottom: 8 }}>Pilot users</div>
+              {PILOT_USERS.slice(0, 5).map((u, i) => <div key={i} style={{ fontSize: 10, color: "rgba(255,255,255,0.6)", padding: "2px 0" }}>· {u}</div>)}
+              {PILOT_USERS.length > 5 && <div style={{ fontSize: 9.5, color: "rgba(255,255,255,0.3)" }}>+ {PILOT_USERS.length - 5} more</div>}
+            </div>
+            <div style={{ padding: "16px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
+              <div style={{ fontSize: 8.5, color: C.dim, textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 700, marginBottom: 8 }}>Duration</div>
+              <div style={{ fontSize: 11, color: "rgba(255,255,255,0.55)", lineHeight: 1.6, fontStyle: "italic" }}>{PILOT_PROPOSITION.durationNote}</div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── OPERATING SYSTEMS ── */}
+        <div id="operating-systems" style={{ marginBottom: 48, scrollMarginTop: 90 }}>
+          <SectionLabel>03 · Operating Systems</SectionLabel>
+          <H2>Pilot operating systems</H2>
+          <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, maxWidth: 760, marginBottom: 16 }}>
+            The pilot activates three lead operating systems and uses Safety and Guest Welfare as a cross-cutting control. Marketplace and Loyalty is an expansion operating system — not activated in the initial pilot.
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+            {PILOT_OPERATING_SYSTEMS.map(pos => {
+              const os = TRAVEL_OPERATING_SYSTEMS.find(o => o.id === pos.id);
+              const roleColor = pos.role === "primary-wedge" ? C.gold : pos.role === "cross-cutting-control" ? "#ef4444" : "rgba(255,255,255,0.25)";
+              const roleLabel = pos.role === "primary-wedge" ? "Primary wedge" : pos.role === "cross-cutting-control" ? "Cross-cutting control" : "Expansion — not in initial pilot";
+              return (
+                <div key={pos.id} style={{ display: "flex", alignItems: "flex-start", gap: 16, padding: "14px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: `3px solid ${roleColor}` }}>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 12, fontWeight: 800, color: "#fff", marginBottom: 3 }}>{os?.name ?? pos.id}</div>
+                    <div style={{ fontSize: 10, color: C.muted }}>{pos.note}</div>
+                  </div>
+                  <div style={{ padding: "3px 9px", fontSize: 8.5, fontWeight: 700, color: roleColor, border: `1px solid ${roleColor}50`, flexShrink: 0 }}>{roleLabel}</div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* ── SCENARIOS ── */}
+        <div id="scenarios" style={{ marginBottom: 48, scrollMarginTop: 90 }}>
+          <SectionLabel>04 · Scenarios</SectionLabel>
+          <H2>Pilot scenarios</H2>
+          <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, maxWidth: 760, marginBottom: 16 }}>
+            Three primary end-to-end scenarios, with one optional fourth. All scenarios use the existing Sprint 4 simulation environment.
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+            {PILOT_SCENARIOS.map(ps => {
+              const sc = TRAVEL_SCENARIOS.find(s => s.id === ps.scenarioId);
+              return (
+                <div key={ps.scenarioId} style={{ display: "flex", alignItems: "center", gap: 16, padding: "13px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: `3px solid ${ps.role === "primary" ? C.gold : "rgba(255,255,255,0.2)"}` }}>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: "#fff" }}>{sc?.title ?? ps.scenarioId}</div>
+                    <div style={{ fontSize: 10, color: C.muted }}>{ps.note}</div>
+                  </div>
+                  <div style={{ display: "flex", gap: 6 }}>
+                    <div style={{ padding: "3px 9px", fontSize: 8.5, fontWeight: 700, color: ps.role === "primary" ? C.gold : "rgba(255,255,255,0.3)", border: `1px solid ${ps.role === "primary" ? "rgba(201,168,76,0.4)" : "rgba(255,255,255,0.1)"}` }}>
+                      {ps.role === "primary" ? "PRIMARY" : "OPTIONAL"}
+                    </div>
+                    <Link href={`/partner-room/travel-scenarios#${ps.scenarioId}`}>
+                      <div style={{ padding: "3px 9px", fontSize: 8.5, fontWeight: 700, color: "rgba(255,255,255,0.4)", border: "1px solid rgba(255,255,255,0.1)", cursor: "pointer" }}>VIEW →</div>
+                    </Link>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* ── PILOT COMPONENTS ── */}
+        <div id="pilot-components" style={{ marginBottom: 48, scrollMarginTop: 90 }}>
+          <SectionLabel>05 · Components</SectionLabel>
+          <H2>Pilot components</H2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2 }}>
+            {DEPLOYMENT_PACKAGE.filter(p => !p.productionOnly).map(pkg => (
+              <div key={pkg.id} style={{ padding: "16px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
+                <div style={{ fontSize: 11, fontWeight: 800, color: "#fff", marginBottom: 10 }}>{pkg.name}</div>
+                {pkg.items.map((item, i) => (
+                  <div key={i} style={{ fontSize: 10, color: "rgba(255,255,255,0.6)", padding: "3px 0", borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
+                    <span style={{ color: C.gold, marginRight: 6 }}>◦</span>{item}
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── DELIVERY STAGES ── */}
+        <div id="delivery-stages" style={{ marginBottom: 56, scrollMarginTop: 90 }}>
+          <SectionLabel>06 · Delivery Stages</SectionLabel>
+          <H2>Explore → Align → Configure → Pilot → Prove → Deploy → Expand</H2>
+          <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, maxWidth: 760, marginBottom: 20 }}>
+            Seven delivery stages from initial exploration to production deployment and expansion. Each stage has defined activities, outputs, owner groups and readiness requirements.
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+            {PILOT_STAGES.map((stage, i) => (
+              <details key={stage.id} open={i < 3} style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: `3px solid ${i < 5 ? C.gold : "rgba(255,255,255,0.2)"}` }}>
+                <summary style={{ padding: "14px 20px", cursor: "pointer", listStyle: "none", display: "flex", alignItems: "center", gap: 14 }}>
+                  <div style={{ width: 28, height: 28, borderRadius: "50%", background: "rgba(201,168,76,0.1)", border: "1px solid rgba(201,168,76,0.3)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 800, color: C.gold, flexShrink: 0 }}>
+                    {stage.label}
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 14, fontWeight: 800, color: "#fff" }}>{stage.name}</div>
+                    <div style={{ fontSize: 10, color: C.muted }}>{stage.purpose}</div>
+                  </div>
+                </summary>
+                <div style={{ padding: "0 20px 18px 62px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px 20px" }}>
+                  <div>
+                    <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 700, marginBottom: 6 }}>Activities</div>
+                    {stage.activities.map((a, j) => <div key={j} style={{ fontSize: 10, color: "rgba(255,255,255,0.6)", padding: "2px 0" }}>· {a}</div>)}
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 700, marginBottom: 6 }}>Outputs</div>
+                    {stage.outputs.map((o, j) => <div key={j} style={{ fontSize: 10, color: "rgba(255,255,255,0.6)", padding: "2px 0" }}>· {o}</div>)}
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 700, marginBottom: 6 }}>Owner groups</div>
+                    {stage.ownerGroups.map((o, j) => <div key={j} style={{ fontSize: 10, color: "rgba(255,255,255,0.55)", padding: "2px 0" }}>· {o}</div>)}
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 700, marginBottom: 6 }}>Readiness requirements</div>
+                    {stage.readinessRequirements.map((r, j) => <div key={j} style={{ fontSize: 10, color: "rgba(255,255,255,0.55)", padding: "2px 0" }}>· {r}</div>)}
+                  </div>
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
+
+        {/* ── SUCCESS FRAMEWORK ── */}
+        <div id="success-framework" style={{ marginBottom: 56, scrollMarginTop: 90 }}>
+          <SectionLabel>07 · Success Framework</SectionLabel>
+          <H2>Pilot success framework</H2>
+          <div style={{ padding: "12px 16px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", marginBottom: 16 }}>
+            <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.5)", margin: 0, lineHeight: 1.65 }}>
+              This framework identifies the measures to be agreed during alignment. No performance results are invented. Target types indicate how each measure will be established.
             </p>
           </div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 16 }}>
+            {(Object.entries({
+              "customer-baseline": "Customer baseline",
+              "pilot-target":      "Pilot target",
+              "indicative-target": "Indicative target",
+              "to-be-agreed":      "To be agreed",
+              "not-yet-measured":  "Not yet measured",
+            }) as [SuccessMeasureTargetType, string][]).map(([status, label]) => (
+              <div key={status} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 9.5, color: "rgba(255,255,255,0.4)" }}>
+                <div style={{ width: 8, height: 8, borderRadius: "50%", background: TARGET_COLORS[status] }} />
+                {label}
+              </div>
+            ))}
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            {measureCategories.map(cat => {
+              const measures = PILOT_SUCCESS_MEASURES.filter(m => m.category === cat);
+              return (
+                <div key={cat}>
+                  <div style={{ fontSize: 11, fontWeight: 800, color: "#fff", marginBottom: 8 }}>{cat} measures</div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 1 }}>
+                    {measures.map(m => (
+                      <div key={m.id} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, padding: "7px 12px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
+                        <div>
+                          <span style={{ fontSize: 10.5, color: "rgba(255,255,255,0.65)" }}>{m.label}</span>
+                          {m.note && <span style={{ fontSize: 9, color: "rgba(255,255,255,0.3)", fontStyle: "italic", marginLeft: 8 }}>{m.note}</span>}
+                        </div>
+                        <div style={{ padding: "2px 8px", fontSize: 8.5, fontWeight: 700, color: TARGET_COLORS[m.targetType], border: `1px solid ${TARGET_COLORS[m.targetType]}50`, flexShrink: 0 }}>
+                          {m.targetType.replace(/-/g, " ")}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
 
-        {/* Phases */}
-        <div style={{ marginBottom: 80 }}>
-          <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 28 }}>
-            Pilot Phases
+        {/* ── READINESS CHECKLIST ── */}
+        <div id="readiness-checklist" style={{ marginBottom: 56, scrollMarginTop: 90 }}>
+          <SectionLabel>08 · Readiness</SectionLabel>
+          <H2>Pilot readiness checklist</H2>
+          <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, maxWidth: 760, marginBottom: 12 }}>
+            Click any item to cycle its readiness state. This is a working interactive assessment tool — no data is saved between sessions.
+          </p>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 16 }}>
+            {(Object.entries(READINESS_STATE_LABELS) as [ReadinessState, string][]).map(([state, label]) => (
+              <div key={state} style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 9.5, color: "rgba(255,255,255,0.4)" }}>
+                <div style={{ width: 8, height: 8, borderRadius: "50%", background: READINESS_COLORS[state] }} />{label}
+              </div>
+            ))}
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2 }}>
-            {phases.map((phase: typeof DEFAULT_PILOT_PHASES[0]) => (
-              <div key={phase.num} style={{
-                padding: "28px 28px",
-                background: "rgba(255,255,255,0.02)",
-                border: "1px solid rgba(255,255,255,0.06)",
-                borderLeft: `2px solid ${phase.color}`,
-                display: "grid",
-                gridTemplateColumns: "52px 1fr",
-                gap: 16,
-              }}>
-                <div>
-                  <div style={{ fontSize: 18, fontWeight: 800, color: phase.color, opacity: 0.5, letterSpacing: "-0.01em" }}>{phase.num}</div>
-                  <div style={{ fontSize: 8.5, letterSpacing: "0.1em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginTop: 4 }}>{phase.duration}</div>
-                </div>
-                <div>
-                  <div style={{ fontSize: 13.5, fontWeight: 700, color: "#fff", marginBottom: 10 }}>{phase.title}</div>
-                  <div style={{ fontSize: 12, color: "rgba(255,255,255,0.42)", lineHeight: 1.7 }}>{phase.desc}</div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 12 }}>
+            {categories.map(cat => (
+              <div key={cat}>
+                <div style={{ fontSize: 10, fontWeight: 800, color: "#fff", marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.06em" }}>{cat} readiness</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 1 }}>
+                  {READINESS_CHECKLIST.filter(i => i.category === cat).map(item => {
+                    const state = readinessStates[item.id];
+                    return (
+                      <div
+                        key={item.id}
+                        onClick={() => setReadinessStates(prev => ({ ...prev, [item.id]: nextState(prev[item.id]) }))}
+                        style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)", borderLeft: `3px solid ${READINESS_COLORS[state]}`, cursor: "pointer" }}
+                      >
+                        <div style={{ width: 10, height: 10, borderRadius: "50%", background: READINESS_COLORS[state], flexShrink: 0 }} />
+                        <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.7)", flex: 1 }}>{item.label}</div>
+                        <div style={{ fontSize: 8.5, fontWeight: 700, color: READINESS_COLORS[state], flexShrink: 0 }}>{READINESS_STATE_LABELS[state]}</div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Pilot Readiness Checklist */}
-        <div style={{ marginBottom: 80 }}>
-          <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 28 }}>
-            Pilot Readiness Checklist
-          </div>
-          <div style={{ border: "1px solid rgba(255,255,255,0.07)", overflow: "hidden" }}>
-            {READINESS_CHECKLIST.map((item, i) => (
-              <div key={i} style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 20,
-                padding: "16px 28px",
-                borderBottom: i < READINESS_CHECKLIST.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none",
-                background: i % 2 === 0 ? "transparent" : "rgba(255,255,255,0.01)",
-              }}>
-                <div style={{
-                  width: 18,
-                  height: 18,
-                  border: "1px solid rgba(201,168,76,0.35)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexShrink: 0,
-                }}>
-                  <div style={{ width: 6, height: 6, background: "rgba(201,168,76,0.2)" }} />
+        {/* ── PRODUCTION BOUNDARY ── */}
+        <div id="production-boundary" style={{ marginBottom: 48, scrollMarginTop: 90 }}>
+          <SectionLabel>09 · Production Boundary</SectionLabel>
+          <H2>Production engineering boundary</H2>
+          <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, maxWidth: 760, marginBottom: 16 }}>
+            The pilot proves the operating model and governance approach. Moving from pilot to production requires additional engineering that is outside the pilot scope.
+          </p>
+          {DEPLOYMENT_PACKAGE.filter(p => p.productionOnly).map(pkg => (
+            <div key={pkg.id} style={{ padding: "18px 20px", background: "rgba(249,115,22,0.04)", border: "1px solid rgba(249,115,22,0.2)", marginBottom: 12 }}>
+              <div style={{ fontSize: 11, fontWeight: 800, color: "#f97316", marginBottom: 6 }}>{pkg.name}</div>
+              <div style={{ fontSize: 10, color: "rgba(255,255,255,0.4)", fontStyle: "italic", marginBottom: 10 }}>{pkg.productionNote}</div>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
+                {pkg.items.map((item, i) => (
+                  <div key={i} style={{ padding: "4px 10px", fontSize: 9.5, color: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.1)" }}>{item}</div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* ── EXPANSION PATHWAY ── */}
+        <div id="expansion-pathway" style={{ marginBottom: 48, scrollMarginTop: 90 }}>
+          <SectionLabel>10 · Expansion</SectionLabel>
+          <H2>Expansion pathway after pilot proof</H2>
+          <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, maxWidth: 760, marginBottom: 20 }}>
+            Seven expansion stages after the pilot is proven. Each stage has a defined maturity gate before activation.
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+            {EXPANSION_STAGES.map((stage, i) => (
+              <div key={stage.id} style={{ padding: "14px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: `3px solid ${i === 0 ? C.gold : "rgba(255,255,255,0.12)"}` }}>
+                <div style={{ fontSize: 12, fontWeight: 800, color: "#fff", marginBottom: 4 }}>{stage.label}</div>
+                <div style={{ fontSize: 10.5, color: C.muted, lineHeight: 1.6, marginBottom: 8 }}>{stage.description}</div>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 6 }}>
+                  {stage.examples.map((ex, j) => (
+                    <div key={j} style={{ padding: "2px 8px", fontSize: 9, color: "rgba(255,255,255,0.45)", border: "1px solid rgba(255,255,255,0.08)" }}>{ex}</div>
+                  ))}
                 </div>
-                <div style={{ fontSize: 13, color: "rgba(255,255,255,0.58)", lineHeight: 1.55 }}>{item}</div>
+                <div style={{ fontSize: 9, color: "rgba(255,255,255,0.3)", fontStyle: "italic" }}>Gate: {stage.maturityGate}</div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Success criteria */}
-        <div style={{ marginBottom: 0 }}>
-          <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 28 }}>
-            Validation Metrics
-          </div>
-          <div style={{ border: "1px solid rgba(255,255,255,0.07)", overflow: "hidden" }}>
-            {successCriteria.map((criterion: string, i: number) => (
-              <div key={i} style={{
-                display: "flex",
-                alignItems: "flex-start",
-                gap: 20,
-                padding: "18px 28px",
-                borderBottom: i < successCriteria.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none",
-                background: i % 2 === 0 ? "transparent" : "rgba(255,255,255,0.01)",
-              }}>
-                <div style={{ width: 20, height: 20, border: "1px solid rgba(201,168,76,0.4)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
-                  <div style={{ fontSize: 9, fontWeight: 700, color: "#c9a84c" }}>{String(i + 1).padStart(2, "0")}</div>
-                </div>
-                <div style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", lineHeight: 1.65 }}>{criterion}</div>
-              </div>
-            ))}
+        {/* ── NEXT STEP ── */}
+        <div id="next-step" style={{ marginBottom: 40, scrollMarginTop: 90 }}>
+          <SectionLabel>11 · Engage</SectionLabel>
+          <H2>Design a pilot</H2>
+          <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, maxWidth: 700, marginBottom: 24 }}>
+            Ready to scope the first pilot? A Pilot Design Session defines the environment, operating systems, scenarios, roles, governance and success measures before configuration begins.
+          </p>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            <Link href="/partner-room/next-step#pilot-design">
+              <div style={{ padding: "12px 22px", background: C.gold, fontSize: 11, fontWeight: 700, color: "#080c14", cursor: "pointer" }}>Design a Pilot →</div>
+            </Link>
+            <Link href="/partner-room/next-step#readiness">
+              <div style={{ padding: "12px 22px", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.15)", fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.7)", cursor: "pointer" }}>Review Pilot Readiness →</div>
+            </Link>
+            <Link href="/partner-room/build-configure">
+              <div style={{ padding: "12px 22px", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.5)", cursor: "pointer" }}>Try Build & Configure →</div>
+            </Link>
           </div>
         </div>
 
-        <PartnerCTAFooter />
+        {/* ── FOOTER LINKS ── */}
+        <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 28, display: "flex", gap: 8, flexWrap: "wrap" }}>
+          {[
+            { label: "Partner Ecosystem", href: "/partner-room/partner-ecosystem" },
+            { label: "Commercial Pathway", href: "/partner-room/commercial" },
+            { label: "Execution Centre", href: "/partner-room/operations" },
+            { label: "Travel Operating Systems", href: "/partner-room/travel-operating-systems" },
+          ].map(b => <Link key={b.href} href={b.href}><div style={{ padding: "8px 16px", border: "1px solid rgba(255,255,255,0.1)", fontSize: 9.5, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", cursor: "pointer" }}>{b.label} →</div></Link>)}
+        </div>
+
       </div>
     </PartnerRoomLayout>
   );
