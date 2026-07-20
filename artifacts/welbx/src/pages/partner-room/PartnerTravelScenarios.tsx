@@ -1,9 +1,379 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
-import { TRAVEL_SCENARIOS, ALL_SCENARIO_ROLES, SCENARIO_LABELS, type TravelScenario, type TravelScenarioRole } from "@/data/travelScenarios";
+import {
+  TRAVEL_SCENARIOS, ALL_SCENARIO_ROLES, SCENARIO_LABELS,
+  MATURITY_LABELS, MATURITY_COLORS,
+  type TravelScenario, type TravelScenarioRole, type MaturityStatus,
+} from "@/data/travelScenarios";
+import { TRAVEL_OPERATING_SYSTEMS } from "@/data/travelOperatingSystems";
+import { getTravelRole } from "@/data/travelRoles";
 
-const C = { gold: "#c9a84c", green: "#10b981", blue: "#3b82f6", orange: "#f97316", red: "#ef4444", purple: "#a78bfa", muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,255,0.22)" };
+const C = {
+  gold: "#c9a84c", green: "#10b981", blue: "#3b82f6",
+  orange: "#f97316", red: "#ef4444", purple: "#a78bfa",
+  muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,255,0.22)",
+};
+
+// ── Shared badge ────────────────────────────────────────────────────────────
+
+function Badge({ children, color }: { children: string; color: string }) {
+  return (
+    <span style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color, border: `1px solid ${color}45`, background: `${color}0c`, padding: "2px 8px", display: "inline-block" }}>
+      {children}
+    </span>
+  );
+}
+
+function MaturityBadge({ status }: { status: MaturityStatus }) {
+  const color = MATURITY_COLORS[status];
+  return <Badge color={color}>{MATURITY_LABELS[status]}</Badge>;
+}
+
+// ── Canonical Detail Panel ───────────────────────────────────────────────────
+
+type DetailTab = "overview" | "trigger" | "governance" | "escalation" | "evidence" | "proof";
+
+const DETAIL_TABS: { id: DetailTab; label: string }[] = [
+  { id: "overview",    label: "Overview" },
+  { id: "trigger",     label: "Trigger & Signals" },
+  { id: "governance",  label: "Governance & Decision" },
+  { id: "escalation",  label: "Escalation" },
+  { id: "evidence",    label: "Evidence & Outcomes" },
+  { id: "proof",       label: "Proof Status" },
+];
+
+function roleName(id: string): string {
+  const role = getTravelRole(id);
+  return role ? role.name : id;
+}
+
+function osName(id: string): string {
+  const os = TRAVEL_OPERATING_SYSTEMS.find(o => o.id === id);
+  return os ? os.name : id;
+}
+
+function FieldBlock({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div style={{ marginBottom: 14 }}>
+      <div style={{ fontSize: 8.5, letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 700, color: C.dim, marginBottom: 6 }}>{label}</div>
+      {children}
+    </div>
+  );
+}
+
+function TextValue({ children }: { children: string }) {
+  return <p style={{ fontSize: 12, color: "rgba(255,255,255,0.65)", lineHeight: 1.7, margin: 0 }}>{children}</p>;
+}
+
+function TagList({ items, color = "rgba(255,255,255,0.12)" }: { items: string[]; color?: string }) {
+  return (
+    <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
+      {items.map(item => (
+        <span key={item} style={{ fontSize: 10.5, color: "rgba(255,255,255,0.6)", padding: "4px 10px", background: "rgba(255,255,255,0.02)", border: `1px solid ${color}` }}>
+          {item}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function ScenarioDetailPanel({ scenario }: { scenario: TravelScenario }) {
+  const [tab, setTab] = useState<DetailTab>("overview");
+
+  return (
+    <div style={{ marginBottom: 0, background: "rgba(255,255,255,0.015)", border: "1px solid rgba(255,255,255,0.06)", borderTop: "none" }}>
+      {/* Tab bar */}
+      <div style={{ display: "flex", borderBottom: "1px solid rgba(255,255,255,0.07)", overflowX: "auto" }}>
+        {DETAIL_TABS.map(t => (
+          <div key={t.id} onClick={() => setTab(t.id)} style={{
+            padding: "10px 16px", fontSize: 9.5, fontWeight: 700, letterSpacing: "0.06em",
+            textTransform: "uppercase", cursor: "pointer", whiteSpace: "nowrap",
+            color: tab === t.id ? C.gold : "rgba(255,255,255,0.3)",
+            borderBottom: tab === t.id ? `2px solid ${C.gold}` : "2px solid transparent",
+            background: tab === t.id ? "rgba(201,168,76,0.04)" : "transparent",
+          }}>
+            {t.label}
+          </div>
+        ))}
+      </div>
+
+      {/* Tab content */}
+      <div style={{ padding: "20px 24px" }}>
+
+        {tab === "overview" && (
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
+            <div>
+              <FieldBlock label="Primary Operating System">
+                <TextValue>{osName(scenario.operatingSystemId)}</TextValue>
+              </FieldBlock>
+              {scenario.secondaryOperatingSystemIds && scenario.secondaryOperatingSystemIds.length > 0 && (
+                <FieldBlock label="Secondary Operating Systems">
+                  <TagList items={scenario.secondaryOperatingSystemIds.map(osName)} />
+                </FieldBlock>
+              )}
+              <FieldBlock label="Maturity">
+                <MaturityBadge status={scenario.maturityStatus} />
+              </FieldBlock>
+              <FieldBlock label="Accountable Role">
+                <TextValue>{roleName(scenario.rolesConfig.accountableRoleId)}</TextValue>
+              </FieldBlock>
+            </div>
+            <div>
+              <FieldBlock label="Supporting Roles">
+                <TagList items={scenario.rolesConfig.supportingRoleIds.map(roleName)} />
+              </FieldBlock>
+              <FieldBlock label="Linked Playbook">
+                <TextValue>{scenario.playbook}</TextValue>
+                <div style={{ fontSize: 9.5, color: "rgba(255,255,255,0.3)", marginTop: 4 }}>ID: {scenario.playbookId}</div>
+              </FieldBlock>
+              <FieldBlock label="Context">
+                <TextValue>{scenario.context.riskOrOpportunity}</TextValue>
+                {scenario.context.confidence && (
+                  <div style={{ fontSize: 10.5, color: C.blue, marginTop: 6 }}>{scenario.context.confidence}</div>
+                )}
+              </FieldBlock>
+            </div>
+          </div>
+        )}
+
+        {tab === "trigger" && (
+          <div>
+            <FieldBlock label="Trigger Type">
+              <TextValue>{scenario.trigger.type}</TextValue>
+            </FieldBlock>
+            <FieldBlock label="Trigger Description">
+              <TextValue>{scenario.trigger.description}</TextValue>
+            </FieldBlock>
+            {scenario.trigger.threshold && (
+              <FieldBlock label="Threshold">
+                <div style={{ padding: "10px 14px", background: "rgba(249,115,22,0.05)", border: "1px solid rgba(249,115,22,0.2)", fontSize: 12, color: "rgba(255,255,255,0.7)" }}>
+                  {scenario.trigger.threshold}
+                </div>
+              </FieldBlock>
+            )}
+            <FieldBlock label="Signal Sources">
+              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                {scenario.signalDetails.map(sig => (
+                  <div key={sig.id} style={{ display: "grid", gridTemplateColumns: "1fr 1fr auto", gap: 10, padding: "8px 12px", background: "rgba(59,130,246,0.04)", border: "1px solid rgba(59,130,246,0.15)" }}>
+                    <div>
+                      <div style={{ fontSize: 11, fontWeight: 700, color: "#fff", marginBottom: 2 }}>{sig.name}</div>
+                      <div style={{ fontSize: 9.5, color: "rgba(255,255,255,0.35)" }}>Source: {sig.source}</div>
+                    </div>
+                    <div style={{ fontSize: 10, color: "rgba(255,255,255,0.45)", lineHeight: 1.5 }}>
+                      {sig.dataRequired.join(", ")}
+                    </div>
+                    <Badge color={C.blue}>{sig.status}</Badge>
+                  </div>
+                ))}
+              </div>
+            </FieldBlock>
+            <FieldBlock label="Relevant Context">
+              <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+                {scenario.context.relevantFacts.map(fact => (
+                  <div key={fact} style={{ display: "flex", gap: 8, fontSize: 11.5, color: "rgba(255,255,255,0.55)", lineHeight: 1.6 }}>
+                    <span style={{ color: C.gold, flexShrink: 0 }}>●</span>{fact}
+                  </div>
+                ))}
+              </div>
+            </FieldBlock>
+          </div>
+        )}
+
+        {tab === "governance" && (
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
+            <div>
+              <FieldBlock label="Governance Sources">
+                <TagList items={scenario.governanceConfig.sources} color="rgba(255,255,255,0.15)" />
+              </FieldBlock>
+              <FieldBlock label="Governance Rules">
+                <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+                  {scenario.governanceConfig.rules.map(rule => (
+                    <div key={rule} style={{ display: "flex", gap: 8, fontSize: 11.5, color: "rgba(255,255,255,0.6)", lineHeight: 1.6 }}>
+                      <span style={{ color: C.gold, flexShrink: 0 }}>▸</span>{rule}
+                    </div>
+                  ))}
+                </div>
+              </FieldBlock>
+              {scenario.governanceConfig.prohibitedActions && (
+                <FieldBlock label="Prohibited Actions">
+                  <div style={{ padding: "10px 14px", background: "rgba(239,68,68,0.04)", border: "1px solid rgba(239,68,68,0.2)" }}>
+                    {scenario.governanceConfig.prohibitedActions.map(a => (
+                      <div key={a} style={{ fontSize: 11, color: "rgba(255,255,255,0.55)", marginBottom: 5, lineHeight: 1.55 }}>✗ {a}</div>
+                    ))}
+                  </div>
+                </FieldBlock>
+              )}
+            </div>
+            <div>
+              <FieldBlock label="Decision Required">
+                <TextValue>{scenario.decision.decisionRequired}</TextValue>
+              </FieldBlock>
+              <FieldBlock label="Recommended Decision">
+                <TextValue>{scenario.decision.recommendedDecision}</TextValue>
+              </FieldBlock>
+              <FieldBlock label="Accountable Role">
+                <div style={{ padding: "10px 14px", background: "rgba(201,168,76,0.05)", border: "1px solid rgba(201,168,76,0.2)", borderLeft: "3px solid #c9a84c" }}>
+                  <div style={{ fontSize: 13, fontWeight: 800, color: "#fff" }}>{roleName(scenario.decision.accountableRoleId)}</div>
+                  {scenario.decision.decisionDeadline && (
+                    <div style={{ fontSize: 10, color: "rgba(255,255,255,0.4)", marginTop: 4 }}>Deadline: {scenario.decision.decisionDeadline}</div>
+                  )}
+                </div>
+              </FieldBlock>
+              <FieldBlock label="Human Approval Required">
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <span style={{ fontSize: 14, color: scenario.governanceConfig.humanApprovalRequired ? C.orange : C.green }}>
+                    {scenario.governanceConfig.humanApprovalRequired ? "●" : "○"}
+                  </span>
+                  <span style={{ fontSize: 12, color: "rgba(255,255,255,0.65)" }}>
+                    {scenario.governanceConfig.humanApprovalRequired
+                      ? `Yes — ${scenario.governanceConfig.approvalRole ? roleName(scenario.governanceConfig.approvalRole) : "approval role required"}`
+                      : "Standard authority — no additional approval"}
+                  </span>
+                </div>
+              </FieldBlock>
+            </div>
+          </div>
+        )}
+
+        {tab === "escalation" && (
+          <div>
+            {scenario.escalation.length === 0 ? (
+              <p style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", fontStyle: "italic" }}>No formal escalation rules defined for this scenario.</p>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {scenario.escalation.map((esc, i) => (
+                  <div key={i} style={{ padding: "16px 18px", background: "rgba(249,115,22,0.04)", border: "1px solid rgba(249,115,22,0.2)", borderLeft: "3px solid #f97316" }}>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 10 }}>
+                      <div>
+                        <div style={{ fontSize: 8.5, letterSpacing: "0.1em", textTransform: "uppercase", color: C.orange, fontWeight: 700, marginBottom: 4 }}>Trigger</div>
+                        <div style={{ fontSize: 12, color: "rgba(255,255,255,0.7)" }}>{esc.trigger}</div>
+                      </div>
+                      <div>
+                        <div style={{ fontSize: 8.5, letterSpacing: "0.1em", textTransform: "uppercase", color: C.orange, fontWeight: 700, marginBottom: 4 }}>Threshold</div>
+                        <div style={{ fontSize: 12, color: "rgba(255,255,255,0.7)" }}>{esc.threshold}</div>
+                      </div>
+                    </div>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+                      <div>
+                        <div style={{ fontSize: 8.5, letterSpacing: "0.1em", textTransform: "uppercase", color: C.orange, fontWeight: 700, marginBottom: 4 }}>Escalate to</div>
+                        <div style={{ fontSize: 12, fontWeight: 700, color: "#fff" }}>{roleName(esc.escalateToRoleId)}</div>
+                        {esc.maximumDelay && <div style={{ fontSize: 9.5, color: "rgba(255,255,255,0.35)", marginTop: 2 }}>Max delay: {esc.maximumDelay}</div>}
+                      </div>
+                      <div>
+                        <div style={{ fontSize: 8.5, letterSpacing: "0.1em", textTransform: "uppercase", color: C.orange, fontWeight: 700, marginBottom: 4 }}>Required Action</div>
+                        <div style={{ fontSize: 11.5, color: "rgba(255,255,255,0.6)", lineHeight: 1.6 }}>{esc.action}</div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+            <div style={{ marginTop: 20 }}>
+              <FieldBlock label="Playbook Steps Overview">
+                <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                  {scenario.actionSteps.slice(0, 5).map(step => (
+                    <div key={step.step} style={{ display: "flex", gap: 10, padding: "7px 12px", background: "rgba(255,255,255,0.015)", border: "1px solid rgba(255,255,255,0.06)" }}>
+                      <span style={{ fontSize: 9, fontWeight: 800, color: C.gold, flexShrink: 0, paddingTop: 1 }}>{step.step}</span>
+                      <div style={{ flex: 1 }}>
+                        <span style={{ fontSize: 11.5, color: "rgba(255,255,255,0.65)" }}>{step.action}</span>
+                        <span style={{ fontSize: 9.5, color: "rgba(255,255,255,0.3)", marginLeft: 8 }}>— {roleName(step.ownerRoleId)} · {step.timing}</span>
+                      </div>
+                      {step.approvalRequired && <Badge color={C.orange}>Approval</Badge>}
+                    </div>
+                  ))}
+                  {scenario.actionSteps.length > 5 && (
+                    <div style={{ fontSize: 10, color: "rgba(255,255,255,0.3)", fontStyle: "italic", padding: "4px 12px" }}>
+                      + {scenario.actionSteps.length - 5} more steps in the full playbook
+                    </div>
+                  )}
+                </div>
+              </FieldBlock>
+            </div>
+          </div>
+        )}
+
+        {tab === "evidence" && (
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
+            <div>
+              <FieldBlock label="Evidence Requirements">
+                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                  {scenario.evidenceRequirements.map(ev => (
+                    <div key={ev.evidenceType} style={{ padding: "10px 14px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)" }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
+                        <div style={{ fontSize: 11.5, fontWeight: 700, color: "#fff", flex: 1 }}>{ev.evidenceType}</div>
+                        <Badge color={ev.required ? C.gold : "rgba(255,255,255,0.3)"}>{ev.required ? "Required" : "Optional"}</Badge>
+                      </div>
+                      <div style={{ fontSize: 9.5, color: "rgba(255,255,255,0.4)", marginTop: 4 }}>
+                        Owner: {roleName(ev.ownerRoleId)} · {ev.completionRule}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </FieldBlock>
+            </div>
+            <div>
+              <FieldBlock label="Outcome Metrics">
+                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                  {scenario.outcomes.map(out => (
+                    <div key={out.metric} style={{ padding: "10px 14px", background: "rgba(16,185,129,0.04)", border: "1px solid rgba(16,185,129,0.15)" }}>
+                      <div style={{ fontSize: 11.5, fontWeight: 700, color: "#fff", marginBottom: 3 }}>{out.metric}</div>
+                      <div style={{ fontSize: 10, color: "rgba(255,255,255,0.45)", lineHeight: 1.55 }}>
+                        {out.measure}
+                        {out.target && <span style={{ color: C.green }}> · Target: {out.target}</span>}
+                      </div>
+                      {out.ownerRoleId && (
+                        <div style={{ fontSize: 9.5, color: "rgba(255,255,255,0.3)", marginTop: 3 }}>Owner: {roleName(out.ownerRoleId)}</div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </FieldBlock>
+              <FieldBlock label="Learning Rule">
+                <div style={{ padding: "12px 14px", background: "rgba(167,139,250,0.05)", border: "1px solid rgba(167,139,250,0.2)", borderLeft: "2px solid #a78bfa" }}>
+                  <div style={{ fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: C.purple, marginBottom: 6 }}>Review Trigger</div>
+                  <div style={{ fontSize: 11, color: "rgba(255,255,255,0.6)", marginBottom: 8, lineHeight: 1.6 }}>{scenario.learningConfig.reviewTrigger}</div>
+                  <div style={{ fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: C.purple, marginBottom: 6 }}>Improvement Action</div>
+                  <div style={{ fontSize: 11, color: "rgba(255,255,255,0.6)", lineHeight: 1.6 }}>{scenario.learningConfig.improvementAction}</div>
+                </div>
+              </FieldBlock>
+            </div>
+          </div>
+        )}
+
+        {tab === "proof" && (
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
+            <div>
+              <FieldBlock label="Proof Type">
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <MaturityBadge status={scenario.maturityStatus} />
+                  <span style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", textTransform: "capitalize" }}>{scenario.proof.proofType.replace(/-/g, " ")}</span>
+                </div>
+              </FieldBlock>
+              <FieldBlock label="Proof Source">
+                <TextValue>{scenario.proof.source}</TextValue>
+              </FieldBlock>
+            </div>
+            <div>
+              <FieldBlock label="Limitations — What This Proof Does Not Confirm">
+                <div style={{ padding: "12px 14px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.08)" }}>
+                  {scenario.proof.limitations.map(lim => (
+                    <div key={lim} style={{ display: "flex", gap: 8, fontSize: 11, color: "rgba(255,255,255,0.5)", lineHeight: 1.6, marginBottom: 5 }}>
+                      <span style={{ color: "rgba(255,255,255,0.25)", flexShrink: 0 }}>–</span>{lim}
+                    </div>
+                  ))}
+                </div>
+              </FieldBlock>
+            </div>
+          </div>
+        )}
+
+      </div>
+    </div>
+  );
+}
+
+// ── Existing ScenarioRunner ──────────────────────────────────────────────────
 
 type NodeId = "input" | "signal" | "moment" | "governance" | "playbook" | "role" | "communication" | "action" | "evidence" | "outcome" | "value" | "learning";
 
@@ -22,17 +392,9 @@ const NODES: { id: NodeId; label: string }[] = [
   { id: "learning",      label: "Learning" },
 ];
 
-function Badge({ children, color }: { children: string; color: string }) {
-  return (
-    <span style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color, border: `1px solid ${color}45`, background: `${color}0c`, padding: "2px 8px", display: "inline-block" }}>
-      {children}
-    </span>
-  );
-}
-
 function ScenarioRunner({ scenario }: { scenario: TravelScenario }) {
   const [started, setStarted] = useState(false);
-  const [reachedIdx, setReachedIdx] = useState(0); // furthest unlocked node index
+  const [reachedIdx, setReachedIdx] = useState(0);
   const [activeIdx, setActiveIdx] = useState(0);
   const [roleView, setRoleView] = useState<TravelScenarioRole>(scenario.roles[0]);
   const [commsSent, setCommsSent] = useState<Record<string, boolean>>({});
@@ -46,9 +408,7 @@ function ScenarioRunner({ scenario }: { scenario: TravelScenario }) {
   };
 
   const start = () => { setStarted(true); setReachedIdx(1); setActiveIdx(1); };
-
   const goto = (idx: number) => { if (idx <= reachedIdx) setActiveIdx(idx); };
-
   const advance = () => {
     const next = Math.min(activeIdx + 1, NODES.length - 1);
     setReachedIdx(r => Math.max(r, next));
@@ -57,20 +417,26 @@ function ScenarioRunner({ scenario }: { scenario: TravelScenario }) {
 
   const sendComm = (id: string) => setCommsSent(prev => ({ ...prev, [id]: true }));
   const allCommsSent = scenario.comms.every(c => commsSent[c.id]);
-
   const activeNode = NODES[activeIdx].id;
 
   return (
     <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderTop: `2px solid ${C.gold}`, padding: "28px 30px", marginBottom: 4 }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 16, marginBottom: 14, flexWrap: "wrap" }}>
         <div>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6, flexWrap: "wrap" }}>
             <span style={{ fontSize: 10, fontWeight: 800, color: "rgba(255,255,255,0.25)" }}>{scenario.num}</span>
             <h3 style={{ fontSize: 17, fontWeight: 800, color: "#fff", margin: 0, letterSpacing: "-0.01em" }}>{scenario.title}</h3>
             <Badge color={C.gold}>{SCENARIO_LABELS.demo}</Badge>
             <Badge color="rgba(255,255,255,0.4)">{SCENARIO_LABELS.synthetic}</Badge>
+            <MaturityBadge status={scenario.maturityStatus} />
           </div>
-          <div style={{ fontSize: 11, color: C.gold, fontWeight: 600 }}>{scenario.category}</div>
+          <div style={{ fontSize: 11, color: C.gold, fontWeight: 600, marginBottom: 4 }}>{scenario.category}</div>
+          <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.4)" }}>
+            {osName(scenario.operatingSystemId)}
+            {scenario.secondaryOperatingSystemIds && scenario.secondaryOperatingSystemIds.length > 0 && (
+              <span> · {scenario.secondaryOperatingSystemIds.map(osName).join(" · ")}</span>
+            )}
+          </div>
         </div>
         {started && (
           <div onClick={reset} style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", border: "1px solid rgba(255,255,255,0.15)", padding: "8px 16px", cursor: "pointer", whiteSpace: "nowrap" }}>
@@ -81,9 +447,13 @@ function ScenarioRunner({ scenario }: { scenario: TravelScenario }) {
 
       {!started ? (
         <div>
-          <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.5)", lineHeight: 1.7, marginBottom: 18, maxWidth: 680 }}>
+          <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.5)", lineHeight: 1.7, marginBottom: 12, maxWidth: 680 }}>
             Existing system: <strong style={{ color: "rgba(255,255,255,0.7)" }}>{scenario.existingSystem}</strong>. Signals: {scenario.signals.join(", ")}.
           </p>
+          <div style={{ padding: "10px 14px", background: "rgba(201,168,76,0.04)", border: "1px solid rgba(201,168,76,0.2)", marginBottom: 18, maxWidth: 680 }}>
+            <span style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: C.gold }}>Trigger: </span>
+            <span style={{ fontSize: 11.5, color: "rgba(255,255,255,0.6)" }}>{scenario.trigger.description}</span>
+          </div>
           <div onClick={start} style={{ display: "inline-block", padding: "11px 24px", background: C.gold, color: "#080c14", fontSize: 10.5, fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", cursor: "pointer" }}>
             ▶ Start scenario
           </div>
@@ -286,7 +656,11 @@ function ScenarioRunner({ scenario }: { scenario: TravelScenario }) {
             {activeNode === "learning" && (
               <div>
                 <div style={{ fontSize: 8.5, letterSpacing: "0.14em", textTransform: "uppercase", color: C.dim, fontWeight: 700, marginBottom: 8 }}>Learning</div>
-                <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.6)", lineHeight: 1.7, margin: 0 }}>{scenario.learning}</p>
+                <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.6)", lineHeight: 1.7, margin: "0 0 12px" }}>{scenario.learning}</p>
+                <div style={{ padding: "10px 14px", background: "rgba(167,139,250,0.05)", border: "1px solid rgba(167,139,250,0.2)", borderLeft: "2px solid #a78bfa" }}>
+                  <div style={{ fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: C.purple, marginBottom: 5 }}>Pattern to detect</div>
+                  <div style={{ fontSize: 11, color: "rgba(255,255,255,0.55)", lineHeight: 1.6 }}>{scenario.learningConfig.patternToDetect}</div>
+                </div>
               </div>
             )}
           </div>
@@ -302,6 +676,8 @@ function ScenarioRunner({ scenario }: { scenario: TravelScenario }) {
   );
 }
 
+// ── Page ─────────────────────────────────────────────────────────────────────
+
 export default function PartnerTravelScenarios() {
   const [activeScenarioId, setActiveScenarioId] = useState(TRAVEL_SCENARIOS[0].id);
   const activeScenario = TRAVEL_SCENARIOS.find(s => s.id === activeScenarioId)!;
@@ -316,7 +692,7 @@ export default function PartnerTravelScenarios() {
             RTBX Travel Scenarios
           </h1>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 700, marginBottom: 16 }}>
-            See how signals move through governance, communication, action, evidence and value.
+            Every scenario shows what triggered it, what decision was required, who was accountable, what action occurred, what evidence was captured and what outcome was measured.
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
             <Badge color={C.gold}>{SCENARIO_LABELS.demo}</Badge>
@@ -327,20 +703,35 @@ export default function PartnerTravelScenarios() {
         </div>
 
         {/* scenario picker */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 4, marginBottom: 32 }}>
-          {TRAVEL_SCENARIOS.map(s => (
-            <div key={s.id} onClick={() => setActiveScenarioId(s.id)} style={{
-              padding: "14px 16px", cursor: "pointer",
-              background: activeScenarioId === s.id ? "rgba(201,168,76,0.08)" : "rgba(255,255,255,0.02)",
-              border: `1px solid ${activeScenarioId === s.id ? "rgba(201,168,76,0.4)" : "rgba(255,255,255,0.07)"}`,
-              borderTop: `2px solid ${activeScenarioId === s.id ? C.gold : "transparent"}`,
-            }}>
-              <div style={{ fontSize: 8, fontWeight: 800, color: "rgba(255,255,255,0.25)", marginBottom: 4 }}>{s.num}</div>
-              <div style={{ fontSize: 12, fontWeight: 700, color: activeScenarioId === s.id ? "#fff" : "rgba(255,255,255,0.6)" }}>{s.title}</div>
-            </div>
-          ))}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 4, marginBottom: 0 }}>
+          {TRAVEL_SCENARIOS.map(s => {
+            const osObj = TRAVEL_OPERATING_SYSTEMS.find(o => o.id === s.operatingSystemId);
+            return (
+              <div key={s.id} onClick={() => setActiveScenarioId(s.id)} style={{
+                padding: "14px 16px", cursor: "pointer",
+                background: activeScenarioId === s.id ? "rgba(201,168,76,0.08)" : "rgba(255,255,255,0.02)",
+                border: `1px solid ${activeScenarioId === s.id ? "rgba(201,168,76,0.4)" : "rgba(255,255,255,0.07)"}`,
+                borderTop: `2px solid ${activeScenarioId === s.id ? C.gold : "transparent"}`,
+              }}>
+                <div style={{ fontSize: 8, fontWeight: 800, color: "rgba(255,255,255,0.25)", marginBottom: 4 }}>{s.num}</div>
+                <div style={{ fontSize: 12, fontWeight: 700, color: activeScenarioId === s.id ? "#fff" : "rgba(255,255,255,0.6)", marginBottom: 5 }}>{s.title}</div>
+                <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
+                  <MaturityBadge status={s.maturityStatus} />
+                  {osObj && (
+                    <span style={{ fontSize: 7.5, color: osObj.color, border: `1px solid ${osObj.color}35`, padding: "2px 6px", fontWeight: 700, letterSpacing: "0.04em" }}>
+                      {osObj.name.replace(" OS", "")}
+                    </span>
+                  )}
+                </div>
+              </div>
+            );
+          })}
         </div>
 
+        {/* Canonical detail panel — sits between picker and ScenarioRunner */}
+        <ScenarioDetailPanel key={`detail-${activeScenario.id}`} scenario={activeScenario} />
+
+        {/* Interactive ScenarioRunner — preserved exactly */}
         <ScenarioRunner key={activeScenario.id} scenario={activeScenario} />
 
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", marginTop: 48, paddingTop: 32, display: "flex", gap: 10, flexWrap: "wrap" }}>

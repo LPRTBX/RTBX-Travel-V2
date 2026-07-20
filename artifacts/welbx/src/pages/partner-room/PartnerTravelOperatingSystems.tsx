@@ -9,7 +9,11 @@ import {
   TRAVEL_DEPLOYMENT_PHASES,
   TRAVEL_DEPLOYMENT_STATEMENT,
   TRAVEL_EXPANSION_STATEMENT,
+  OS_POSITION_LABELS,
+  OS_POSITION_COLORS,
+  type TravelOSPosition,
 } from "@/data/travelOperatingSystems";
+import { MATURITY_LABELS, MATURITY_COLORS, type MaturityStatus } from "@/data/travelScenarios";
 
 const C = { gold: "#c9a84c", muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,255,0.22)" };
 
@@ -28,8 +32,117 @@ const FieldRow = ({ label, items }: { label: string; items: string[] }) => (
   </div>
 );
 
+function PositionBadge({ position }: { position: TravelOSPosition }) {
+  const color = OS_POSITION_COLORS[position];
+  const label = OS_POSITION_LABELS[position];
+  return (
+    <span style={{
+      fontSize: 7.5, fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase",
+      color, border: `1px solid ${color}45`, background: `${color}10`,
+      padding: "2px 8px", display: "inline-block", marginLeft: 8,
+    }}>
+      {label}
+    </span>
+  );
+}
+
+function MaturityBadge({ status }: { status: MaturityStatus }) {
+  const color = MATURITY_COLORS[status];
+  const label = MATURITY_LABELS[status];
+  return (
+    <span style={{
+      fontSize: 7.5, fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase",
+      color, border: `1px solid ${color}40`, background: `${color}0d`,
+      padding: "2px 8px", display: "inline-block", marginLeft: 8,
+    }}>
+      {label}
+    </span>
+  );
+}
+
+function OsCatalogueSection({
+  title,
+  subtitle,
+  oses,
+  openId,
+  setOpenId,
+}: {
+  title: string;
+  subtitle: string;
+  oses: typeof TRAVEL_OPERATING_SYSTEMS;
+  openId: string | null;
+  setOpenId: (id: string | null) => void;
+}) {
+  return (
+    <div style={{ marginBottom: 32 }}>
+      <div style={{ marginBottom: 14 }}>
+        <div style={{ fontSize: 13, fontWeight: 800, color: "#fff", marginBottom: 4 }}>{title}</div>
+        <div style={{ fontSize: 11.5, color: "rgba(255,255,255,0.4)", lineHeight: 1.55 }}>{subtitle}</div>
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+        {oses.map(os => {
+          const isOpen = openId === os.id;
+          return (
+            <div key={os.id} id={os.id} style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: `3px solid ${os.color}`, scrollMarginTop: 90 }}>
+              <div
+                onClick={() => setOpenId(isOpen ? null : os.id)}
+                style={{ padding: "18px 22px", display: "flex", alignItems: "center", justifyContent: "space-between", cursor: "pointer" }}
+              >
+                <div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 0, marginBottom: 4, flexWrap: "wrap" }}>
+                    <span style={{ fontSize: 14.5, fontWeight: 800, color: "#fff" }}>{os.name}</span>
+                    <PositionBadge position={os.position} />
+                    <MaturityBadge status={os.maturityStatus} />
+                  </div>
+                  <div style={{ fontSize: 11.5, color: "rgba(255,255,255,0.45)", lineHeight: 1.55 }}>{os.problem}</div>
+                </div>
+                <div style={{ fontSize: 16, color: os.color, flexShrink: 0, marginLeft: 16 }}>{isOpen ? "\u2212" : "+"}</div>
+              </div>
+              {isOpen && (
+                <div style={{ padding: "0 22px 22px" }}>
+                  <div style={{ padding: "10px 14px", background: "rgba(255,255,255,0.015)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: `2px solid ${os.color}`, marginBottom: 14 }}>
+                    <p style={{ fontSize: 12, color: "rgba(255,255,255,0.65)", lineHeight: 1.7, margin: 0, fontWeight: 500 }}>{os.purpose}</p>
+                  </div>
+                  <FieldRow label="Primary users" items={os.primaryUsers} />
+                  <FieldRow label="Governance" items={os.governanceSources.length > 0 ? os.governanceSources : os.governance} />
+                  {os.scenarioIds.length > 0 && <FieldRow label="Linked scenarios" items={os.scenarioIds} />}
+                  {os.playbookIds.length > 0 && <FieldRow label="Linked playbooks" items={os.playbookIds} />}
+                  <FieldRow label="Input systems" items={os.inputSystems} />
+                  <FieldRow label="Signals" items={os.signals} />
+                  <FieldRow label="Moments" items={os.moments} />
+                  <FieldRow label="Actions" items={os.actions} />
+                  <FieldRow label="Outcomes" items={os.outcomes} />
+                  {os.evidenceRequirements.length > 0 && <FieldRow label="Evidence required" items={os.evidenceRequirements.slice(0, 3)} />}
+                  {os.outcomeMetrics.length > 0 && <FieldRow label="Outcome metrics" items={os.outcomeMetrics.slice(0, 3)} />}
+                  <FieldRow label="Pilot entry" items={[os.pilotEntryPoint]} />
+                  <FieldRow label="Expansion pathway" items={[os.expansionPathway]} />
+
+                  <div style={{ marginTop: 16 }}>
+                    <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", marginBottom: 8 }}>Modules Available</div>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                      {os.modules.map(m => (
+                        <div key={m} style={{ padding: "6px 12px", fontSize: 10.5, color: "rgba(255,255,255,0.65)", background: "rgba(255,255,255,0.02)", border: `1px solid ${os.color}33` }}>
+                          {m}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 export default function PartnerTravelOperatingSystems() {
   const [openId, setOpenId] = useState<string | null>(TRAVEL_OPERATING_SYSTEMS[0].id);
+
+  const leadOses = TRAVEL_OPERATING_SYSTEMS.filter(os => os.position === "lead");
+  const crossCuttingOses = TRAVEL_OPERATING_SYSTEMS.filter(os => os.position === "cross-cutting");
+  const expansionOses = TRAVEL_OPERATING_SYSTEMS.filter(os => os.position === "expansion");
 
   return (
     <PartnerRoomLayout>
@@ -42,7 +155,7 @@ export default function PartnerTravelOperatingSystems() {
             RTBX Travel Operating Systems
           </h1>
           <p style={{ fontSize: 15, color: C.muted, lineHeight: 1.75, maxWidth: 720 }}>
-            Purpose-built operating systems running on one shared RTBX Core.
+            Purpose-built operating systems running on one shared RTBX Core — prioritised by pilot readiness and commercial impact.
           </p>
         </div>
 
@@ -53,7 +166,70 @@ export default function PartnerTravelOperatingSystems() {
           </p>
         </div>
 
-        {/* How a Travel OS is Built */}
+        {/* ── OS PRIORITY OVERVIEW ── */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 2, marginBottom: 40 }}>
+          {[
+            { label: "Lead Operating Systems", desc: "Three commercially meaningful OSes that front every Travel pilot.", position: "lead" as TravelOSPosition, color: "#3b82f6", count: leadOses.length },
+            { label: "Cross-Cutting Control", desc: "Safety and Guest Welfare sits across every OS — activates on any risk or welfare threshold.", position: "cross-cutting" as TravelOSPosition, color: "#ef4444", count: crossCuttingOses.length },
+            { label: "Expansion Capability", desc: "Marketplace and Loyalty activates after trust, signals and governance are proven.", position: "expansion" as TravelOSPosition, color: "#c9a84c", count: expansionOses.length },
+          ].map(item => (
+            <div key={item.label} style={{ padding: "20px 22px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: `2px solid ${item.color}` }}>
+              <div style={{ fontSize: 8, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: item.color, marginBottom: 8 }}>{item.label}</div>
+              <div style={{ fontSize: 26, fontWeight: 800, color: "#fff", marginBottom: 8 }}>{item.count}</div>
+              <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", lineHeight: 1.6 }}>{item.desc}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* ── CROSS-CUTTING NOTICE ── */}
+        <div style={{ padding: "14px 20px", background: "rgba(239,68,68,0.04)", border: "1px solid rgba(239,68,68,0.2)", borderLeft: "3px solid #ef4444", marginBottom: 32 }}>
+          <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.7)", lineHeight: 1.75, margin: 0 }}>
+            <strong style={{ color: "#ef4444" }}>Safety and Guest Welfare controls sit across all Travel operating systems</strong> and become active whenever risk, distress, vulnerability or human-impact thresholds are detected.
+            No commercial or operational action may proceed during an active welfare or safety event.
+          </p>
+        </div>
+
+        {/* ── EXPANSION NOTICE ── */}
+        <div style={{ padding: "14px 20px", background: "rgba(201,168,76,0.04)", border: "1px solid rgba(201,168,76,0.18)", borderLeft: "3px solid #c9a84c", marginBottom: 40 }}>
+          <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.7)", lineHeight: 1.75, margin: 0 }}>
+            <strong style={{ color: "#c9a84c" }}>Marketplace and Loyalty Activation is an expansion capability</strong> — not a pilot entry point. It activates after RTBX has established trusted signals, operational adoption, customer permission, accurate context, reliable governance and proven response workflows.
+          </p>
+        </div>
+
+        {/* ── CATALOGUE ── */}
+        <div style={{ marginBottom: 56 }}>
+          <SectionLabel>Catalogue</SectionLabel>
+          <H2>Travel Operating Systems</H2>
+          <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, marginBottom: 28, maxWidth: 760 }}>
+            {TRAVEL_OPERATING_SYSTEMS.length} operating systems organised by position. Expand any system to see its full purpose, users, governance, scenarios, playbooks, evidence requirements, outcome metrics and rollout path.
+          </p>
+
+          <OsCatalogueSection
+            title="Lead Operating Systems"
+            subtitle="These three OSes front the Travel pilot and address the highest-volume, highest-trust commercial problems."
+            oses={leadOses}
+            openId={openId}
+            setOpenId={setOpenId}
+          />
+
+          <OsCatalogueSection
+            title="Cross-Cutting Control"
+            subtitle="Safety and Guest Welfare governs every Travel OS and becomes active on any risk, distress, vulnerability or human-impact threshold."
+            oses={crossCuttingOses}
+            openId={openId}
+            setOpenId={setOpenId}
+          />
+
+          <OsCatalogueSection
+            title="Expansion Capability"
+            subtitle="Marketplace and Loyalty Activation follows once lead OSes are proven — never leads a pilot."
+            oses={expansionOses}
+            openId={openId}
+            setOpenId={setOpenId}
+          />
+        </div>
+
+        {/* ── How a Travel OS is Built ── */}
         <div style={{ marginBottom: 40 }}>
           <SectionLabel>Architecture Pattern</SectionLabel>
           <H2>How a Travel Operating System Is Built</H2>
@@ -106,61 +282,6 @@ export default function PartnerTravelOperatingSystems() {
           </div>
         </div>
 
-        {/* ── CATALOGUE (expandable sections) ── */}
-        <div style={{ marginBottom: 56 }}>
-          <SectionLabel>Catalogue</SectionLabel>
-          <H2>Travel Operating Systems</H2>
-          <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, marginBottom: 20, maxWidth: 760 }}>
-            {TRAVEL_OPERATING_SYSTEMS.length} operating systems, each with a fixed module set. Expand a system to see its full purpose, users, systems, signals, moments, governance, playbooks, communications, actions, outcomes, value measures and rollout path.
-          </p>
-          <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-            {TRAVEL_OPERATING_SYSTEMS.map(os => {
-              const isOpen = openId === os.id;
-              return (
-                <div key={os.id} id={os.id} style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: `3px solid ${os.color}`, scrollMarginTop: 90 }}>
-                  <div
-                    onClick={() => setOpenId(isOpen ? null : os.id)}
-                    style={{ padding: "18px 22px", display: "flex", alignItems: "center", justifyContent: "space-between", cursor: "pointer" }}
-                  >
-                    <div>
-                      <div style={{ fontSize: 14.5, fontWeight: 800, color: "#fff", marginBottom: 4 }}>{os.name}</div>
-                      <div style={{ fontSize: 11.5, color: "rgba(255,255,255,0.45)" }}>{os.purpose}</div>
-                    </div>
-                    <div style={{ fontSize: 16, color: os.color, flexShrink: 0, marginLeft: 16 }}>{isOpen ? "\u2212" : "+"}</div>
-                  </div>
-                  {isOpen && (
-                    <div style={{ padding: "0 22px 22px" }}>
-                      <FieldRow label="Primary users" items={os.primaryUsers} />
-                      <FieldRow label="Input systems" items={os.inputSystems} />
-                      <FieldRow label="Signals" items={os.signals} />
-                      <FieldRow label="Moments" items={os.moments} />
-                      <FieldRow label="Governance" items={os.governance} />
-                      <FieldRow label="Playbooks" items={os.playbooks} />
-                      <FieldRow label="Communications" items={os.communications} />
-                      <FieldRow label="Actions" items={os.actions} />
-                      <FieldRow label="Outcomes" items={os.outcomes} />
-                      <FieldRow label="Value measures" items={os.valueMeasures} />
-                      <FieldRow label="Pilot entry point" items={[os.pilotEntryPoint]} />
-                      <FieldRow label="Expansion pathway" items={[os.expansionPathway]} />
-
-                      <div style={{ marginTop: 16 }}>
-                        <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", marginBottom: 8 }}>Modules Available</div>
-                        <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-                          {os.modules.map(m => (
-                            <div key={m} style={{ padding: "6px 12px", fontSize: 10.5, color: "rgba(255,255,255,0.65)", background: "rgba(255,255,255,0.02)", border: `1px solid ${os.color}33` }}>
-                              {m}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
         {/* ── OPTIONAL SPECIALIST EXTENSIONS ── */}
         <div style={{ marginBottom: 56 }}>
           <SectionLabel>Future / Optional</SectionLabel>
@@ -181,7 +302,7 @@ export default function PartnerTravelOperatingSystems() {
           </div>
         </div>
 
-        {/* ── MODULE MATRIX (role coverage) ── */}
+        {/* ── MODULE MATRIX ── */}
         <div style={{ marginBottom: 56 }}>
           <SectionLabel>Coverage</SectionLabel>
           <H2>Module Matrix</H2>
@@ -193,6 +314,7 @@ export default function PartnerTravelOperatingSystems() {
               <thead>
                 <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.1)" }}>
                   <th style={{ textAlign: "left", padding: "8px 10px", color: "rgba(255,255,255,0.35)", fontWeight: 700, letterSpacing: "0.04em", textTransform: "uppercase", fontSize: 8.5 }}>Operating System</th>
+                  <th style={{ textAlign: "left", padding: "8px 10px", color: "rgba(255,255,255,0.35)", fontWeight: 700, letterSpacing: "0.04em", textTransform: "uppercase", fontSize: 8.5 }}>Position</th>
                   {TRAVEL_ROLE_COLUMNS.map(role => (
                     <th key={role} style={{ textAlign: "center", padding: "8px 10px", color: "rgba(255,255,255,0.35)", fontWeight: 700, letterSpacing: "0.04em", textTransform: "uppercase", fontSize: 8.5 }}>{role}</th>
                   ))}
@@ -202,6 +324,9 @@ export default function PartnerTravelOperatingSystems() {
                 {TRAVEL_OPERATING_SYSTEMS.map(os => (
                   <tr key={os.id} style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
                     <td style={{ padding: "10px", fontWeight: 700, color: os.color, whiteSpace: "nowrap" }}>{os.name}</td>
+                    <td style={{ padding: "10px", fontSize: 9.5, color: OS_POSITION_COLORS[os.position], fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", whiteSpace: "nowrap" }}>
+                      {OS_POSITION_LABELS[os.position]}
+                    </td>
                     {TRAVEL_ROLE_COLUMNS.map(role => (
                       <td key={role} style={{ padding: "10px", textAlign: "center", color: os.primaryUsers.includes(role) ? os.color : "rgba(255,255,255,0.12)", fontWeight: 700 }}>
                         {os.primaryUsers.includes(role) ? "\u25CF" : "\u00B7"}

@@ -3,3 +3,4 @@
 - [RTBX brand hierarchy](rtbx-brand-hierarchy.md) — RTBX Group > RTBX Core > RTBX Travel > WELBX; Partner Room now branded RTBX Travel; WELBX reserved for guest-facing layer only
 - [Sprint 2 terminology baseline](sprint2-terminology.md) — canonical terms, nav 5-group structure, WELBX-as-guest-layer distinction, check:legacy advisory count
 - [Travel Intelligence data model](travel-intelligence-data-model.md) — central data file backs the Travel Intelligence page; new taxonomies/roles go there, not inline in the page
+- [Sprint 3 data model decisions](sprint3-data-model.md) — legacy scenario fields preserved; canonical S3 fields added alongside; travelPlaybooks.ts and travelRoles.ts are new; playbooks.ts untouched

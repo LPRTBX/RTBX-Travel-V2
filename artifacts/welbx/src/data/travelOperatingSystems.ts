@@ -11,14 +11,38 @@
  * RTBX Core systems are packaged, scoped and rolled out for Travel.
  */
 
+import type { MaturityStatus } from "./travelScenarios";
+
 export type TravelRoleColumn = "Guest" | "Frontline" | "Manager" | "Operator" | "Partner" | "Executive";
+
+/** Position in the Travel OS hierarchy — drives UI ordering and presentation. */
+export type TravelOSPosition = "lead" | "cross-cutting" | "expansion";
 
 export interface TravelOperatingSystem {
   id: string;
   name: string;
+  /** Visual accent colour used in the UI. */
   color: string;
+  /** Position in the Travel proposition: 3 lead OSes front the pilot; Safety is cross-cutting; Marketplace is expansion. */
+  position: TravelOSPosition;
+  /** The operating problem this OS solves. */
+  problem: string;
   purpose: string;
   primaryUsers: TravelRoleColumn[];
+  /** Cross-references to canonical signal types. */
+  signalIds: string[];
+  /** Canonical scenario IDs covered by this OS. */
+  scenarioIds: string[];
+  /** Canonical playbook IDs belonging to this OS. */
+  playbookIds: string[];
+  /** Governance documents and policies governing this OS. */
+  governanceSources: string[];
+  /** Evidence types this OS must capture. */
+  evidenceRequirements: string[];
+  /** Measurable outcome metrics for this OS. */
+  outcomeMetrics: string[];
+  /** Honest maturity status of this OS in the current build. */
+  maturityStatus: MaturityStatus;
   inputSystems: string[];
   signals: string[];
   moments: string[];
@@ -34,12 +58,34 @@ export interface TravelOperatingSystem {
 }
 
 export const TRAVEL_OPERATING_SYSTEMS: TravelOperatingSystem[] = [
+  // ── LEAD OS 1 ────────────────────────────────────────────────────────────
   {
     id: "guest-experience-os",
     name: "Guest Experience OS",
     color: "#3b82f6",
+    position: "lead",
+    problem: "Hotels miss meaningful guest moments because signals are fragmented across PMS, housekeeping, loyalty and guest apps — leaving staff without the right information at the right time.",
     purpose: "Coordinate guest needs, experience signals and service response across the stay.",
     primaryUsers: ["Guest", "Frontline", "Manager", "Operator"],
+    signalIds: ["arrival-status", "room-readiness", "guest-request", "repeat-request", "loyalty-status", "sentiment", "delay", "disruption"],
+    scenarioIds: ["repeat-guest-room-not-ready", "transport-disruption"],
+    playbookIds: ["pb-repeat-guest-room-not-ready", "pb-transport-disruption"],
+    governanceSources: ["Guest Service Recovery Policy", "Loyalty Treatment Standard", "Room Readiness SOP", "Guest Privacy Policy"],
+    evidenceRequirements: [
+      "Signal receipt and verification",
+      "Guest communication delivery",
+      "Action decision and approval",
+      "Resolution confirmation",
+      "Guest outcome record",
+    ],
+    outcomeMetrics: [
+      "Time from signal to guest acknowledgement",
+      "Time from signal to resolution",
+      "Whether escalation was required",
+      "Guest outcome recorded",
+      "Repeat pattern detected",
+    ],
+    maturityStatus: "working-proof",
     inputSystems: ["PMS", "Guest App / WELBX", "CRM / Loyalty Platform"],
     signals: ["Guest frustration", "Room readiness delay", "Guest sentiment shift", "Special occasion flag"],
     moments: ["Service Recovery Moment", "Loyalty Protection Moment", "Post-Stay Recovery Moment"],
@@ -62,12 +108,36 @@ export const TRAVEL_OPERATING_SYSTEMS: TravelOperatingSystem[] = [
     pilotEntryPoint: "Pre-Arrival Readiness + In-Stay Request Coordination on a single property.",
     expansionPathway: "Add Guest Sentiment and Loyalty Recognition once request routing is stable, then Post-Stay Follow-Up for full-stay coverage.",
   },
+
+  // ── LEAD OS 2 ────────────────────────────────────────────────────────────
   {
     id: "service-recovery-staff-response-os",
     name: "Service Recovery & Staff Response OS",
     color: "#10b981",
+    position: "lead",
+    problem: "Service failures, maintenance issues and staff backlogs escalate unpredictably because there is no governed, accountable recovery pathway — leaving the response to individual initiative.",
     purpose: "Turn guest issues and staff pressure into governed recovery pathways.",
     primaryUsers: ["Frontline", "Manager", "Operator"],
+    signalIds: ["sla-breach", "task-backlog", "repeat-complaint", "maintenance-issue", "delayed-room", "service-queue", "staffing-pressure", "escalation-threshold"],
+    scenarioIds: ["service-backlog", "maintenance-defect"],
+    playbookIds: ["pb-service-backlog", "pb-maintenance-defect"],
+    governanceSources: ["Guest Service Recovery Policy", "Compensation Approval Matrix", "Complaint Escalation SOP", "Room Safety and Maintenance SOP", "Staffing Escalation Protocol"],
+    evidenceRequirements: [
+      "Reallocation decision and approval",
+      "Task assignment and completion",
+      "Defect report and safety assessment",
+      "Repair completion record",
+      "SLA breach log",
+      "Guest communication record",
+    ],
+    outcomeMetrics: [
+      "Time from backlog alert to clearance",
+      "SLA breaches recorded",
+      "Guest-impacting tasks addressed",
+      "Defects repaired or isolated",
+      "Repeat pattern detected",
+    ],
+    maturityStatus: "working-proof",
     inputSystems: ["Staff Task / Comms App", "PMS", "Housekeeping Software"],
     signals: ["Repeat complaint", "Queue build-up", "Staffing pressure", "Service disruption"],
     moments: ["Service Recovery Moment", "Operational Pressure Moment", "Staff Support Moment"],
@@ -90,40 +160,35 @@ export const TRAVEL_OPERATING_SYSTEMS: TravelOperatingSystem[] = [
     pilotEntryPoint: "Service Recovery + Duty Manager Routing paired with Guest Experience OS on day one.",
     expansionPathway: "Add Queue / Backlog Detection and Compensation Rules as escalation volume and complexity grow.",
   },
-  {
-    id: "marketplace-loyalty-activation-os",
-    name: "Marketplace & Loyalty Activation OS",
-    color: "#c9a84c",
-    purpose: "Identify relevant commercial and loyalty moments without compromising the guest experience.",
-    primaryUsers: ["Guest", "Frontline", "Partner", "Operator", "Executive"],
-    inputSystems: ["POS", "CRM / Loyalty Platform", "Local Partner Network"],
-    signals: ["Upsell opportunity", "Local experience interest", "Dining interest", "Loyalty activation"],
-    moments: ["Commercial Opportunity Moment", "Partner Activation Moment", "Loyalty Protection Moment"],
-    governance: ["Loyalty Treatment Standard", "Partner Approval Standard"],
-    playbooks: ["Upsell Offer", "Local Experience Referral", "Partner Referral"],
-    communications: ["Guest offer messages", "Partner referral confirmations"],
-    actions: ["Offer presented", "Referral routed", "Booking confirmed"],
-    outcomes: ["Commercial conversion", "Partner activated", "Loyalty protection"],
-    valueMeasures: ["Ancillary revenue", "Partner conversion", "Loyalty activation"],
-    modules: [
-      "Local Experience Activation",
-      "Transport Activation",
-      "Dining and Wellness Offers",
-      "Loyalty Prompting",
-      "Ancillary Revenue",
-      "Partner Routing",
-      "Conversion Tracking",
-      "Partner Quality Feedback",
-    ],
-    pilotEntryPoint: "Dining and Wellness Offers + Loyalty Prompting once Guest Experience OS is proven.",
-    expansionPathway: "Layer in Local Experience Activation and Partner Routing as the approved partner network grows.",
-  },
+
+  // ── LEAD OS 3 ────────────────────────────────────────────────────────────
   {
     id: "operator-intelligence-os",
     name: "Operator Intelligence OS",
     color: "#a78bfa",
+    position: "lead",
+    problem: "Property and group leaders lack consolidated, real-time visibility over active scenarios, decisions, response quality and recurring patterns — making it hard to manage performance or prevent repeat failures.",
     purpose: "Give property and group operators live intelligence across response, value and consistency.",
     primaryUsers: ["Manager", "Operator", "Executive"],
+    signalIds: ["open-actions", "sla-breaches", "escalation-volume", "repeated-defects", "response-time", "evidence-completion"],
+    scenarioIds: ["service-backlog"],
+    playbookIds: ["pb-service-backlog"],
+    governanceSources: ["Complaint Escalation SOP", "Room Readiness SOP", "Service Level Standard"],
+    evidenceRequirements: [
+      "Active scenario summary",
+      "Response time log",
+      "Escalation records",
+      "Evidence completion status",
+      "Outcome records",
+    ],
+    outcomeMetrics: [
+      "Active scenarios by type",
+      "Average response time",
+      "SLA breach count",
+      "Evidence completion rate",
+      "Repeat issue frequency",
+    ],
+    maturityStatus: "working-proof",
     inputSystems: ["PMS", "Staff Task / Comms App", "Assurance / Outcome Registry"],
     signals: ["Response time drift", "Playbook effectiveness", "Staffing pressure", "Guest pattern cluster"],
     moments: ["Operational Pressure Moment", "Reputation Risk Moment"],
@@ -147,12 +212,37 @@ export const TRAVEL_OPERATING_SYSTEMS: TravelOperatingSystem[] = [
     pilotEntryPoint: "Property Dashboard + Response Performance as soon as the first operating system is live.",
     expansionPathway: "Add Portfolio Dashboard and Benchmarking once multiple properties are running the same operating systems.",
   },
+
+  // ── CROSS-CUTTING OS ─────────────────────────────────────────────────────
   {
     id: "safety-guest-welfare-os",
     name: "Safety & Guest Welfare OS",
     color: "#ef4444",
-    purpose: "Support governed response to guest welfare, staff safety and critical incidents.",
+    position: "cross-cutting",
+    problem: "Welfare, safety and high-risk escalation moments require human control and explicit governance — they cannot be managed through standard service recovery pathways or automated decisions.",
+    purpose: "Support governed response to guest welfare, staff safety and critical incidents — active across all Travel operating systems whenever risk, distress, vulnerability or human-impact thresholds are detected.",
     primaryUsers: ["Frontline", "Manager", "Operator", "Executive"],
+    signalIds: ["guest-distress", "welfare-concern", "security-concern", "medical-request", "vulnerability-flag"],
+    scenarioIds: ["distressed-guest"],
+    playbookIds: ["pb-distressed-guest"],
+    governanceSources: ["Guest Safety Procedure", "Medical Assistance Procedure", "Critical Incident Procedure", "Privacy and Consent Rules", "Emergency Service Threshold Policy", "Guest Welfare Procedure"],
+    evidenceRequirements: [
+      "Welfare signal record",
+      "Escalation notification and owner",
+      "Assessment and decision record",
+      "Pathway activation",
+      "Handoff confirmation",
+      "Resolution signed off by Duty Manager",
+      "Post-incident review record",
+    ],
+    outcomeMetrics: [
+      "Time from signal to Duty Manager escalation",
+      "Human intervention confirmed",
+      "Safe handoff completed",
+      "Evidence complete",
+      "Post-incident review completed",
+    ],
+    maturityStatus: "working-proof",
     inputSystems: ["Staff Task / Comms App", "Sensor / IoT & Building Management", "Guest App / WELBX"],
     signals: ["Guest distress", "Medical assistance request", "Security concern", "Staff safety concern"],
     moments: ["Guest Welfare Moment", "Safety Escalation Moment", "Staff Support Moment"],
@@ -174,6 +264,59 @@ export const TRAVEL_OPERATING_SYSTEMS: TravelOperatingSystem[] = [
     ],
     pilotEntryPoint: "Guest Distress + Medical Assistance as a mandatory pairing wherever the platform runs live.",
     expansionPathway: "Add Vulnerable Guest Support and Post-Incident Review as escalation history accumulates.",
+  },
+
+  // ── EXPANSION OS ─────────────────────────────────────────────────────────
+  {
+    id: "marketplace-loyalty-activation-os",
+    name: "Marketplace & Loyalty Activation OS",
+    color: "#c9a84c",
+    position: "expansion",
+    problem: "Commercial and loyalty opportunities are poorly timed or irrelevant because they are not grounded in accurate real-time context — creating trust risk rather than value.",
+    purpose: "Identify relevant commercial and loyalty moments without compromising the guest experience — activated only after trust, signal accuracy and governance are established.",
+    primaryUsers: ["Guest", "Frontline", "Partner", "Operator", "Executive"],
+    signalIds: ["permission-status", "loyalty-status", "available-inventory", "timing-signal", "previous-response"],
+    scenarioIds: ["premium-guest-opportunity"],
+    playbookIds: ["pb-premium-guest-opportunity"],
+    governanceSources: ["Loyalty Treatment Standard", "Partner Commercial Policy", "Privacy and Consent Rules", "Brand Standards"],
+    evidenceRequirements: [
+      "Consent confirmation",
+      "Context confirmation (no active welfare or recovery event)",
+      "Inventory confirmation",
+      "Approval record",
+      "Offer delivery record",
+      "Guest response record",
+      "Value attribution record",
+    ],
+    outcomeMetrics: [
+      "Offer delivered with consent confirmed",
+      "Guest response: accepted / declined / no response",
+      "Confirmed booking (yes/no)",
+      "Trust concern raised (yes/no)",
+      "Frequency compliance",
+    ],
+    maturityStatus: "prototype",
+    inputSystems: ["POS", "CRM / Loyalty Platform", "Local Partner Network"],
+    signals: ["Upsell opportunity", "Local experience interest", "Dining interest", "Loyalty activation"],
+    moments: ["Commercial Opportunity Moment", "Partner Activation Moment", "Loyalty Protection Moment"],
+    governance: ["Loyalty Treatment Standard", "Partner Approval Standard"],
+    playbooks: ["Upsell Offer", "Local Experience Referral", "Partner Referral"],
+    communications: ["Guest offer messages", "Partner referral confirmations"],
+    actions: ["Offer presented", "Referral routed", "Booking confirmed"],
+    outcomes: ["Commercial conversion", "Partner activated", "Loyalty protection"],
+    valueMeasures: ["Ancillary revenue", "Partner conversion", "Loyalty activation"],
+    modules: [
+      "Local Experience Activation",
+      "Transport Activation",
+      "Dining and Wellness Offers",
+      "Loyalty Prompting",
+      "Ancillary Revenue",
+      "Partner Routing",
+      "Conversion Tracking",
+      "Partner Quality Feedback",
+    ],
+    pilotEntryPoint: "Dining and Wellness Offers + Loyalty Prompting once Guest Experience OS is proven.",
+    expansionPathway: "Layer in Local Experience Activation and Partner Routing as the approved partner network grows.",
   },
 ];
 
@@ -225,3 +368,16 @@ export const TRAVEL_DEPLOYMENT_STATEMENT =
 
 export const TRAVEL_EXPANSION_STATEMENT =
   "RTBX Travel expands through more properties, more operating systems, more modules and deeper intelligence.";
+
+/** OS position labels for UI display. */
+export const OS_POSITION_LABELS: Record<string, string> = {
+  lead: "Lead OS",
+  "cross-cutting": "Cross-Cutting Control",
+  expansion: "Expansion Capability",
+};
+
+export const OS_POSITION_COLORS: Record<string, string> = {
+  lead: "#3b82f6",
+  "cross-cutting": "#ef4444",
+  expansion: "#c9a84c",
+};
