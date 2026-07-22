@@ -319,7 +319,7 @@ export default function PartnerProductProof() {
           </div>
         </div>
 
-        {/* Live MVP Preview — featured above proof modes */}
+        {/* Working Demonstration Preview — featured above proof modes */}
         <div style={{ marginBottom: 48 }}>
           <div style={{ fontSize: 11, letterSpacing: "0.14em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>
             Working Product Preview
@@ -340,7 +340,7 @@ export default function PartnerProductProof() {
                 <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                     <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#c9a84c" }} />
-                    <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#c9a84c" }}>Live MVP Preview</span>
+                    <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#c9a84c" }}>Working Demonstration Preview</span>
                   </div>
                   <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.3)", border: "1px solid rgba(255,255,255,0.1)", padding: "2px 8px" }}>Working Product</div>
                 </div>
@@ -351,7 +351,7 @@ export default function PartnerProductProof() {
                   This MVP shows the first RTBX Travel product loop: a staff, guest or operator signal is captured, converted into a classified moment, assigned to the right person, supported with a guest-facing WELBX message, escalated if required, logged for assurance and reported as pilot evidence.
                 </p>
                 <div style={{ fontSize: 12, color: "rgba(255,255,255,0.28)", fontStyle: "italic" }}>
-                  The Partner Room explains the RTBX Travel model. The Live MVP Preview shows the first working product loop. This is not the full Travel OS — it is the first deployable wedge: Moment Response.
+                  The Partner Room explains the RTBX Travel model. The Working Demonstration Preview shows the first working product loop. This is not the full Travel OS — it is the first deployable wedge: Moment Response.
                 </div>
               </div>
               <div style={{
@@ -359,7 +359,7 @@ export default function PartnerProductProof() {
                 textTransform: "uppercase", color: "#c9a84c", border: "1px solid rgba(201,168,76,0.4)",
                 whiteSpace: "nowrap", flexShrink: 0,
               }}>
-                Open Live MVP ↗
+                Open Working Demonstration ↗
               </div>
             </div>
           </a>
@@ -414,7 +414,7 @@ export default function PartnerProductProof() {
             </p>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
-            {/* Card 1: Live MVP */}
+            {/* Card 1: Working Demonstration */}
             <a href="https://replit.com/@LP1313/rtbx-travel-moment-response-mvp" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
               <div style={{
                 padding: "28px 24px", background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.2)",
@@ -426,13 +426,13 @@ export default function PartnerProductProof() {
               >
                 <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 14 }}>
                   <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#c9a84c", flexShrink: 0 }} />
-                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#c9a84c" }}>Live MVP</div>
+                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#c9a84c" }}>Working Demonstration</div>
                 </div>
-                <div style={{ fontSize: 14, fontWeight: 800, color: "#fff", marginBottom: 12, lineHeight: 1.3 }}>Live MVP Preview — Moment Response</div>
+                <div style={{ fontSize: 14, fontWeight: 800, color: "#fff", marginBottom: 12, lineHeight: 1.3 }}>Working Demonstration Preview — Moment Response</div>
                 <p style={{ fontSize: 13, color: "rgba(255,255,255,0.42)", lineHeight: 1.65, flex: 1, marginBottom: 20 }}>
                   The first deployable RTBX Travel product loop. Signal captured, classified, assigned, WELBX message sent, escalated if required, logged and reported.
                 </p>
-                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#c9a84c" }}>Open Live MVP ↗</div>
+                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#c9a84c" }}>Open Working Demonstration ↗</div>
               </div>
             </a>
             {/* Card 2: Pilot Expansion */}

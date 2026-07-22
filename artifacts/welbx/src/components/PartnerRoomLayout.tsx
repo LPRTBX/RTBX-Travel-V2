@@ -53,7 +53,7 @@ const NAV_GROUPS: NavGroup[] = [
     items: [
       { label: "Pilot Model",       path: "/partner-room/pilot-model" },
       { label: "Deployment",        path: "/partner-room/rollout-model" },
-      { label: "Commercial",        path: "/partner-room/commercial-unit" },
+      { label: "Commercial",        path: "/partner-room/commercial" },
       { label: "Partner Ecosystem", path: "/partner-room/partner-ecosystem" },
       { label: "Resource Library",  path: "/partner-room/brief-library" },
       { label: "Next Step",         path: "/partner-room/next-step" },
@@ -163,7 +163,7 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
                 className="rtbx-nav-desc"
                 style={{ fontSize: 8, letterSpacing: "0.16em", color: "rgba(255,255,255,0.18)", textTransform: "uppercase", fontWeight: 600 }}
               >
-                RTBX Travel is powered by RTBX Core · WELBX is the guest-facing experience layer
+                RTBX Travel is powered by RTBX Core — real-time signal-to-action infrastructure for travel and hospitality
               </span>
               <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                 <div style={{ width: 4, height: 4, borderRadius: "50%", background: "#c9a84c" }} aria-hidden="true" />
@@ -276,9 +276,9 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
                     }}
                     style={{
                       padding: "11px 16px",
-                      fontSize: 9.5,
+                      fontSize: 12,
                       fontWeight: 700,
-                      letterSpacing: "0.08em",
+                      letterSpacing: "0.06em",
                       textTransform: "uppercase" as const,
                       color: isGroupActive ? "#fff" : "rgba(255,255,255,0.38)",
                       border: "none",

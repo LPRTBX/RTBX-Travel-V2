@@ -223,9 +223,25 @@ function ExecTracePanel({
     setExec(recordOutcome(exec, id, status));
   };
 
+  // Track which approval-required communications have been explicitly approved by
+  // a human action (not auto-recorded). Key: commId, value: approving role label.
+  const [approvedComms, setApprovedComms] = useState<Record<string, string>>({});
+
+  const handleApproveComm = (id: string, role: string) => {
+    setApprovedComms(prev => ({ ...prev, [id]: role }));
+  };
+
   const handleSendComm = (id: string) => {
     if (!exec) return;
-    setExec(sendCommunication(exec, id, "duty-manager"));
+    const comm = exec.communications.find(c => c.id === id);
+    if (!comm) return;
+    // Approval gate: do not auto-approve. approvedBy must come from explicit human action.
+    if (comm.approvalRequired && !approvedComms[id]) {
+      setBlockMessage("This communication requires approval before it can be sent. Use the Approve button first.");
+      setTimeout(() => setBlockMessage(null), 4000);
+      return;
+    }
+    setExec(sendCommunication(exec, id, approvedComms[id]));
   };
 
   const handleEscalate = () => {
@@ -355,21 +371,55 @@ function ExecTracePanel({
         {currentStep === 3 && (
           <div>
             <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700, marginBottom: 8 }}>Communications</div>
-            {exec.communications.map(c => (
-              <div key={c.id} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, padding: "8px 0", borderBottom: "1px solid rgba(255,255,255,0.04)", flexWrap: "wrap" }}>
-                <div>
-                  <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.7)" }}>{c.purpose}</div>
-                  <div style={{ fontSize: 9.5, color: "rgba(255,255,255,0.35)" }}>{c.channel} → {c.audience} {c.approvalRequired && "· Approval required"}</div>
+            {exec.communications.map(c => {
+              const isApproved = !!approvedComms[c.id];
+              const needsApproval = c.approvalRequired && !isApproved;
+              const approvalRole = scenario.governanceConfig.approvalRole ?? "duty-manager";
+              return (
+                <div key={c.id} style={{ padding: "10px 0", borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: 13, color: "rgba(255,255,255,0.7)" }}>{c.purpose}</div>
+                      <div style={{ fontSize: 12, color: "rgba(255,255,255,0.35)" }}>{c.channel} → {c.audience}</div>
+                      {c.approvalRequired && (
+                        <div style={{ fontSize: 12, color: isApproved ? C.green : "#f97316", marginTop: 3 }}>
+                          {isApproved ? `✓ Approved by ${approvedComms[c.id]}` : `Requires ${approvalRole} approval before delivery`}
+                        </div>
+                      )}
+                    </div>
+                    {!c.sent ? (
+                      <div style={{ display: "flex", gap: 6, alignItems: "center", flexShrink: 0 }}>
+                        {c.approvalRequired && !isApproved && (
+                          <button
+                            onClick={() => handleApproveComm(c.id, approvalRole)}
+                            style={{ padding: "6px 14px", fontSize: 12, fontWeight: 700, background: "rgba(249,115,22,0.1)", border: "1px solid rgba(249,115,22,0.35)", color: "#f97316", cursor: "pointer", minHeight: 44 }}
+                          >
+                            Approve
+                          </button>
+                        )}
+                        <button
+                          onClick={() => handleSendComm(c.id)}
+                          disabled={needsApproval}
+                          title={needsApproval ? `${approvalRole} approval required before sending` : undefined}
+                          aria-disabled={needsApproval}
+                          style={{
+                            padding: "6px 14px", fontSize: 12, fontWeight: 700, minHeight: 44,
+                            background: needsApproval ? "rgba(255,255,255,0.04)" : "rgba(201,168,76,0.1)",
+                            border: `1px solid ${needsApproval ? "rgba(255,255,255,0.1)" : "rgba(201,168,76,0.3)"}`,
+                            color: needsApproval ? "rgba(255,255,255,0.25)" : C.gold,
+                            cursor: needsApproval ? "not-allowed" : "pointer",
+                          }}
+                        >
+                          Send →
+                        </button>
+                      </div>
+                    ) : (
+                      <div style={{ fontSize: 12, fontWeight: 700, color: C.green, flexShrink: 0 }}>✓ Sent {new Date(c.sentAt!).toLocaleTimeString()}</div>
+                    )}
+                  </div>
                 </div>
-                {!c.sent ? (
-                  <button onClick={() => handleSendComm(c.id)} style={{ padding: "5px 14px", fontSize: 9, fontWeight: 700, background: "rgba(201,168,76,0.1)", border: "1px solid rgba(201,168,76,0.3)", color: C.gold, cursor: "pointer" }}>
-                    Send →
-                  </button>
-                ) : (
-                  <div style={{ fontSize: 9, fontWeight: 700, color: C.green }}>✓ Sent {new Date(c.sentAt!).toLocaleTimeString()}</div>
-                )}
-              </div>
-            ))}
+              );
+            })}
             {exec.escalations.length > 0 && (
               <div style={{ marginTop: 12, padding: "10px 14px", background: "rgba(239,68,68,0.06)", border: "1px solid rgba(239,68,68,0.2)" }}>
                 <div style={{ fontSize: 8.5, color: C.red, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 6 }}>Active Escalation</div>

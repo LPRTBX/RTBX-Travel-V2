@@ -10,7 +10,11 @@
 import { describe, it, expect } from "vitest";
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join, extname } from "node:path";
-import { createExecution, transitionExecution, captureEvidence } from "./runtimeEngine";
+import {
+  createExecution, transitionExecution, captureEvidence,
+  sendCommunication, getAvailableActions, canTransition,
+  type ScenarioExecution,
+} from "./runtimeEngine";
 import { DEFAULT_DEPLOYMENT } from "../data/travelDeploymentConfig";
 import { TRAVEL_SCENARIOS } from "../data/travelScenarios";
 import { TRAVEL_PLAYBOOKS } from "../data/travelPlaybooks";
@@ -361,6 +365,35 @@ describe("Accessibility — static analysis of partner room pages", () => {
     expect(violations.length).toBeLessThanOrEqual(10);
   });
 
+  it("no visible runtime action leads to a transition the state machine rejects", () => {
+    // This is the regression test for the decision-required → escalated mismatch.
+    // getAvailableActions must never return an action whose toState is rejected by canTransition.
+    const ALL_STATES = [
+      "signal-received", "understanding", "decision-required",
+      "approval-required", "in-action", "escalated", "resolved", "closed",
+    ] as const;
+    const violations: string[] = [];
+    for (const state of ALL_STATES) {
+      const exec = { ...createExecution({ deployment: DEFAULT_DEPLOYMENT, scenario, playbook }), state };
+      const actions = getAvailableActions(exec, scenario);
+      for (const action of actions) {
+        if (!action.toState) continue;
+        const check = canTransition(exec, action.toState, scenario);
+        if (!check.allowed) {
+          violations.push(`State '${state}': action '${action.label}' → '${action.toState}' rejected: ${check.reason}`);
+        }
+      }
+    }
+    if (violations.length > 0) console.error("State machine violations:\n" + violations.join("\n"));
+    expect(violations).toHaveLength(0);
+  });
+
+  it("decision-required state does not offer direct escalation (regression: decision-required → escalated was invalid)", () => {
+    const exec = { ...createExecution({ deployment: DEFAULT_DEPLOYMENT, scenario, playbook }), state: "decision-required" as const };
+    const actions = getAvailableActions(exec, scenario);
+    expect(actions.find(a => a.toState === "escalated")).toBeUndefined();
+  });
+
   it("interactive elements use accessible role or semantic HTML (not only div onClick)", () => {
     const findings: string[] = [];
     for (const file of PARTNER_ROOM_FILES) {
@@ -378,5 +411,78 @@ describe("Accessibility — static analysis of partner room pages", () => {
     // The partner room uses inline-styled divs for keyboard-inaccessible demo controls
     // Task #24 (Prevent accessibility regressions from shipping silently) will address this
     expect(findings.length).toBeLessThanOrEqual(30);
+  });
+});
+
+// ── Communication Approval Gate ───────────────────────────────────────────────
+
+describe("Communication Approval Gate", () => {
+  /** Minimal ScenarioExecution with a single communication for isolation testing. */
+  function makeExecWithComm(approvalRequired: boolean, welfare = false): ScenarioExecution {
+    return {
+      id: "test-exec",
+      scenarioId: "test",
+      scenarioTitle: "Test",
+      deploymentId: "test",
+      deploymentName: "Test Deployment",
+      state: "in-action",
+      stateHistory: [{ state: "signal-received" as const, timestamp: new Date().toISOString() }],
+      startedAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      evidence: [],
+      outcomes: [],
+      communications: [{
+        id: "comm-1",
+        audience: "Guest",
+        channel: "Guest App",
+        purpose: "Test message",
+        approvalRequired,
+        sent: false,
+        isGuestFacing: true,
+      }],
+      escalations: [],
+      isWelfareScenario: welfare,
+      isSynthetic: true,
+      syntheticLabel: "local synthetic demonstration data",
+    };
+  }
+
+  it("approval-required communication cannot be sent without approvedBy", () => {
+    const exec = makeExecWithComm(true);
+    expect(() => sendCommunication(exec, "comm-1")).toThrow(/requires approval/i);
+    expect(() => sendCommunication(exec, "comm-1", undefined)).toThrow(/requires approval/i);
+  });
+
+  it("approval-required communication can be sent with an explicit approvedBy role", () => {
+    const exec = makeExecWithComm(true);
+    const updated = sendCommunication(exec, "comm-1", "duty-manager");
+    const comm = updated.communications.find(c => c.id === "comm-1")!;
+    expect(comm.sent).toBe(true);
+    expect(comm.approvedBy).toBe("duty-manager");
+    expect(comm.sentAt).toBeTruthy();
+  });
+
+  it("non-approval-required communication can be sent without approvedBy", () => {
+    const exec = makeExecWithComm(false);
+    const updated = sendCommunication(exec, "comm-1");
+    expect(updated.communications.find(c => c.id === "comm-1")!.sent).toBe(true);
+  });
+
+  it("welfare scenario communication cannot bypass approval (approvalRequired=true must be enforced)", () => {
+    const exec = makeExecWithComm(true, true /* isWelfareScenario */);
+    // Must throw — cannot auto-approve a welfare communication
+    expect(() => sendCommunication(exec, "comm-1")).toThrow(/requires approval/i);
+    // With explicit approver: allowed
+    const updated = sendCommunication(exec, "comm-1", "duty-manager");
+    expect(updated.communications[0].sent).toBe(true);
+    expect(updated.communications[0].approvedBy).toBe("duty-manager");
+  });
+
+  it("sendCommunication is a no-op for an unknown communication ID", () => {
+    const exec = makeExecWithComm(false);
+    const result = sendCommunication(exec, "non-existent");
+    // Returns same execution unchanged
+    expect(result.communications).toEqual(exec.communications);
+    expect(result.communications[0].sent).toBe(false);
   });
 });

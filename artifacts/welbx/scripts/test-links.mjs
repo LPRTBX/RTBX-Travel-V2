@@ -3,13 +3,13 @@
  * test-links.mjs
  * Extracts all internal Link href= and path= values from active source
  * and verifies they point to a canonical route defined in App.tsx.
+ * Also validates hash anchors against a whitelist of known approved IDs.
  *
  * Usage: node scripts/test-links.mjs
  */
 
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join, extname } from "node:path";
-import { fileURLToPath } from "node:url";
 
 const __dirname = new URL(".", import.meta.url).pathname;
 const root = join(__dirname, "..");
@@ -46,40 +46,99 @@ while ((m = redirectRegex.exec(appContent)) !== null) {
   canonicalRoutes.add(m[1].split("#")[0]);
 }
 
+// ── Known valid hash anchors ──────────────────────────────────────────────────
+// Anchors that resolve to real DOM sections (either static IDs or dynamically
+// rendered but always-present in the target page). Update this list when new
+// anchored sections are added.
+const APPROVED_HASHES = new Set([
+  // Partner Ecosystem
+  "integration-responsibility",
+  // Pilot Model
+  "readiness-checklist",
+  // Landing page
+  "proof-layers",
+  "environments",
+  "partner-paths",
+  // Outcome ledger section
+  "outcome-ledger",
+  // Operating model sections
+  "signal-layer",
+  "intelligence-layer",
+  "action-layer",
+  "assurance-layer",
+  "learning-layer",
+  // Product proof sections
+  "demo",
+  "evidence",
+  "outcomes",
+  "communications",
+  // Commercial sections
+  "pricing",
+  "model",
+  // Pilot model sections
+  "pilot-design",
+]);
+
 const files = walkFiles(srcDir);
 
-// Extract href/path strings from active source
-const hrefRegex = /href=["']([/][^"']+)["']|path=["']([/][^"']+)["']/g;
+// Extract href/path strings including hash from active source
+const hrefRegex = /href=["']([/][^"'\s]+)["']|path=["']([/][^"'\s]+)["']/g;
 
-const broken = [];
+const brokenRoutes = [];
+const unknownHashes = [];
 let checkedCount = 0;
 
 for (const file of files) {
   const content = readFileSync(file, "utf8");
   let match;
   while ((match = hrefRegex.exec(content)) !== null) {
-    const href = (match[1] || match[2]).split("#")[0]; // strip hash
-    if (!href.startsWith("/")) continue;
-    if (href === "/") continue; // root redirect is handled
-    if (href.startsWith("/partner-room") || href.startsWith("/story") || href.startsWith("/travel")) {
-      checkedCount++;
-      if (!canonicalRoutes.has(href)) {
-        broken.push({ file: file.replace(root + "/", ""), href });
-      }
+    const full = match[1] || match[2];
+    if (!full.startsWith("/")) continue;
+    if (full === "/") continue;
+
+    const [basePath, hash] = full.split("#");
+
+    const isPartnerRoomPath = basePath.startsWith("/partner-room") || basePath.startsWith("/story") || basePath.startsWith("/travel");
+    if (!isPartnerRoomPath) continue;
+
+    checkedCount++;
+
+    // Check base route exists
+    if (!canonicalRoutes.has(basePath)) {
+      brokenRoutes.push({ file: file.replace(root + "/", ""), href: full });
+    }
+
+    // Check hash anchor if present
+    if (hash && !APPROVED_HASHES.has(hash)) {
+      unknownHashes.push({ file: file.replace(root + "/", ""), href: full, hash });
     }
   }
 }
 
-const deduped = [...new Map(broken.map(b => [`${b.href}:${b.file}`, b])).values()];
+const dedupedRoutes  = [...new Map(brokenRoutes.map(b => [`${b.href}:${b.file}`, b])).values()];
+const dedupedHashes  = [...new Map(unknownHashes.map(b => [`${b.hash}:${b.file}`, b])).values()];
 
 console.log(`\n🔗 test:links — checked ${checkedCount} internal links across active source\n`);
 
-if (deduped.length === 0) {
-  console.log("✅ All internal links resolve to canonical routes.");
-  process.exit(0);
+let exitCode = 0;
+
+if (dedupedRoutes.length === 0) {
+  console.log("✅ All internal base routes resolve to canonical routes.");
 } else {
-  console.log(`⚠️  ${deduped.length} link(s) not found in route table (may be hash-only anchors or valid aliases):\n`);
-  for (const b of deduped) console.log(`   ${b.href}  →  ${b.file}`);
-  // Advisory only — do not exit(1) since hash anchors are intentional
-  process.exit(0);
+  console.log(`❌ ${dedupedRoutes.length} base route(s) not found in route table:\n`);
+  for (const b of dedupedRoutes) console.log(`   ${b.href}  →  ${b.file}`);
+  exitCode = 1;
 }
+
+if (dedupedHashes.length === 0) {
+  console.log("✅ All hash anchors are in the approved list.");
+} else {
+  console.log(`\n⚠️  ${dedupedHashes.length} hash anchor(s) not in approved list (advisory):\n`);
+  for (const b of dedupedHashes) {
+    console.log(`   #${b.hash}  →  ${b.file}`);
+  }
+  console.log("\n  Add confirmed IDs to APPROVED_HASHES in test-links.mjs if they resolve correctly.");
+  // Hash mismatches are advisory — do not fail the check
+}
+
+process.exit(exitCode);

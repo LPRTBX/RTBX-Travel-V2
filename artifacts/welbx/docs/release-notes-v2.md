@@ -1,8 +1,8 @@
 # RTBX Travel Partner Room — Release Notes v2.0
 
-**Release:** Sprint 5 final  
+**Release:** Post-Sprint-6 QA correction pass  
 **Version:** 2.0  
-**Date:** July 2025  
+**Date:** July 22, 2026  
 **Environment:** Demonstration (not production)  
 **Commit:** Sprint 5 — Tasks #18–22  
 

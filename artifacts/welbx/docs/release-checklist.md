@@ -1,7 +1,7 @@
 # RTBX Travel Partner Room — Release Checklist v2.0
 
-**Release:** Sprint 5 final  
-**Date:** July 2025  
+**Release:** Post-Sprint-6 QA correction pass  
+**Date:** July 22, 2026  
 **Approver:** RTBX  
 **Status:** ✅ Ready for demonstration release
 

@@ -58,6 +58,10 @@ export interface RuntimeCommunication {
   channel: string;
   purpose: string;
   approvalRequired: boolean;
+  /** Role that approved this communication. Required before send when approvalRequired=true. */
+  approvedBy?: string;
+  /** Present when a send attempt was blocked due to missing approval. */
+  approvalBlockedReason?: string;
   sent: boolean;
   sentAt?: string;
   /** True if this communication is shown in Guest View. */
@@ -321,12 +325,31 @@ export function recordOutcome(
   };
 }
 
-/** Mark a communication as sent. */
+/**
+ * Mark a communication as sent.
+ *
+ * Approval gate: if `approvalRequired` is true, `approvedBy` must be provided.
+ * Welfare and distressed-guest communications always enforce this gate.
+ * Calling without `approvedBy` on an approval-required communication throws —
+ * the UI must record a human approval action before calling this function.
+ */
 export function sendCommunication(
   exec: ScenarioExecution,
   commId: string,
   approvedBy?: string,
 ): ScenarioExecution {
+  const comm = exec.communications.find(c => c.id === commId);
+  if (!comm) return exec; // no-op if id not found
+
+  // Enforce approval gate — cannot automatically bypass with a default role
+  if (comm.approvalRequired && !approvedBy) {
+    throw new Error(
+      `Communication '${commId}' requires approval before sending. ` +
+      `Provide approvedBy with the approving role. ` +
+      `Welfare and distressed-guest communications always require explicit human approval.`
+    );
+  }
+
   const now = new Date().toISOString();
   return {
     ...exec,
@@ -505,7 +528,10 @@ export function getAvailableActions(
       } else {
         actions.push({ id: "to-action", label: "Apply Decision Rule", toState: "in-action", description: "Decision applied within governance. Assign owner and act." });
       }
-      actions.push({ id: "escalate", label: "Escalate Now", toState: "escalated", description: "Escalate immediately — trigger exceeds authority threshold." });
+      // NOTE: Direct escalation from decision-required is NOT a valid transition.
+      // The state machine requires decision-required → approval-required → escalated.
+      // "Escalate Now" was removed to prevent the UI from offering a transition
+      // that canTransition() would reject.
       break;
     }
 

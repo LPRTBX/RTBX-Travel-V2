@@ -389,7 +389,7 @@ export default function PartnerPilotModel() {
             <Link href="/partner-room/next-step#pilot-design">
               <div style={{ padding: "12px 22px", background: C.gold, fontSize: 12, fontWeight: 700, color: "#080c14", cursor: "pointer" }}>Design a Pilot →</div>
             </Link>
-            <Link href="/partner-room/next-step#readiness">
+            <Link href="/partner-room/pilot-model#readiness-checklist">
               <div style={{ padding: "12px 22px", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.15)", fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.7)", cursor: "pointer" }}>Review Pilot Readiness →</div>
             </Link>
             <Link href="/partner-room/build-configure">

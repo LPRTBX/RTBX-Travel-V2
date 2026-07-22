@@ -1,9 +1,9 @@
-# RTBX Travel Partner Room — Sprint 5 Verification Report
+# RTBX Travel Partner Room — Sprint 6 Correction Pass Report
 
 **Report type:** Sprint 6 (S5 Tests, Docs & Technical Verification)  
 **Task:** #22 — S5: Tests, Docs & Technical Verification  
 **Prepared by:** RTBX Agent  
-**Date:** July 2025  
+**Date:** July 22, 2026  
 **Environment:** RTBX Travel Partner Room — demonstration release  
 **Application version:** v2.0  
 
@@ -371,4 +371,4 @@ The RTBX Travel Partner Room v2.0 is approved for demonstration release. It corr
 
 ---
 
-*End of Sprint 5 Verification Report*
+*End of Sprint 6 Correction Pass Report*

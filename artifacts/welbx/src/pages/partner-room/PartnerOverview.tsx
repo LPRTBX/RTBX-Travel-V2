@@ -79,7 +79,7 @@ Each OS groups specific modules around its problem domain. Every OS depends on R
 
 This is not a claim that the site is a fully integrated production platform. Each demonstration is labelled with its current status: working interface in this environment, synthetic scenario using representative data, architecturally defined but not yet connected, or requiring a pilot to validate at full signal volume.
 
-The Live MVP Preview (available from the Product Proof section) demonstrates the first deployable wedge — Moment Response — as a working product.`,
+The Working Demonstration Preview (available from the Product Proof section) demonstrates the first deployable wedge — Moment Response — as a working product.`,
   },
   {
     num: "09",

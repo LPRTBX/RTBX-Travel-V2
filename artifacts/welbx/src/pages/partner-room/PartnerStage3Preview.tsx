@@ -100,7 +100,7 @@ export default function PartnerStage3Preview() {
               letterSpacing: "0.1em", textTransform: "uppercase", color: "#c9a84c",
               border: "1px solid rgba(201,168,76,0.25)", padding: "7px 14px", cursor: "pointer",
             }}>
-              ← View Live MVP Preview ↗
+              ← View Working Demonstration Preview ↗
             </div>
           </a>
         </div>
@@ -296,7 +296,7 @@ export default function PartnerStage3Preview() {
           <div style={{ fontSize: 8, letterSpacing: "0.18em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>Related</div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
             {[
-              { label: "Live MVP Preview ↗", href: MVP_URL, ext: true, color: "#c9a84c" },
+              { label: "Working Demonstration Preview ↗", href: MVP_URL, ext: true, color: "#c9a84c" },
               { label: "Pilot Expansion Preview", href: "/partner-room/product-proof/pilot-expansion-preview", ext: false, color: "" },
               { label: "Signal Capture", href: "/partner-room/product-proof/signal-capture", ext: false, color: "" },
               { label: "Product Proof", href: "/partner-room/product-proof", ext: false, color: "" },

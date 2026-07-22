@@ -74,13 +74,13 @@ const PROOF_LAYERS = [
     label: "Partner Overview",
     navLabel: "Partner Room",
     color: "#c9a84c",
-    desc: "What RTBX Travel is, how RTBX Core powers it, and where WELBX fits as the guest-facing experience layer.",
+    desc: "What RTBX Travel is, how RTBX Core powers it, and the signal-to-action engine behind every deployment.",
     links: [
-      { label: "Partner Overview",              href: "/partner-room/overview" },
-      { label: "What is RTBX Travel?",          href: "/partner-room/overview" },
-      { label: "Powered by RTBX Core",          href: "/partner-room/overview" },
-      { label: "WELBX Guest Experience Layer",  href: "/partner-room/guest-demo", blue: true },
-      { label: "Who this room is for",          href: "/partner-room/overview" },
+      { label: "Partner Overview",           href: "/partner-room/overview" },
+      { label: "What is RTBX Travel?",       href: "/partner-room/overview" },
+      { label: "Powered by RTBX Core",       href: "/partner-room/overview" },
+      { label: "Guest Experience Demo",      href: "/partner-room/guest-demo", blue: true },
+      { label: "Who this room is for",       href: "/partner-room/overview" },
     ],
     cta: "Enter Partner Room",
     ctaHref: "/partner-room",
@@ -106,7 +106,7 @@ const PROOF_LAYERS = [
     label: "Product Proof",
     navLabel: "Product Proof",
     color: "#3b82f6",
-    desc: "Live demos, moment economy, decision logic, intervention library and communications — the product operating in real time.",
+    desc: "Working interactive demonstrations: moment economy, decision logic, intervention library and communications — the engine running in demonstration mode.",
     links: [
       { label: "Demo Room",                     href: "/partner-room/product-proof" },
       { label: "Dual View Demo",                href: "/partner-room/product-proof" },
@@ -162,7 +162,7 @@ function GhostBtn({ href, children, ext = false }: { href: string; children: Rea
   const inner = (
     <div style={{
       padding: "10px 20px",
-      fontSize: 11,
+      fontSize: 13,
       fontWeight: 700,
       letterSpacing: "0.08em",
       textTransform: "uppercase" as const,
@@ -196,25 +196,24 @@ export default function PartnerRoomLanding() {
 
       {/* ── HERO ── */}
       <div style={{ marginBottom: 80 }}>
-        {/* Brand hierarchy strip — concise context setter */}
+        {/* Brand hierarchy strip — RTBX Group → RTBX Core → RTBX Travel */}
         <div style={{ display: "flex", gap: 0, marginBottom: 32, flexWrap: "wrap" }}>
           {[
-            { label: "RTBX Group",  sub: "Parent ecosystem",       dim: true,  blue: false },
-            { label: "RTBX Core",   sub: "Signal-to-action engine", dim: false, blue: false },
-            { label: "RTBX Travel", sub: "Travel vertical",         dim: false, blue: false },
-            { label: "WELBX",       sub: "Guest experience layer",  dim: false, blue: true  },
+            { label: "RTBX Group",  sub: "Parent ecosystem",         dim: true  },
+            { label: "RTBX Core",   sub: "Signal-to-action engine",  dim: false },
+            { label: "RTBX Travel", sub: "Travel operating systems",  dim: false },
           ].map((item, i, arr) => (
             <div key={item.label} style={{ display: "flex", alignItems: "center" }}>
               <div style={{
                 padding: "6px 16px",
-                background: item.blue ? "rgba(59,130,246,0.06)" : "rgba(255,255,255,0.02)",
-                border: `1px solid ${item.blue ? "rgba(59,130,246,0.2)" : item.dim ? "rgba(255,255,255,0.05)" : "rgba(201,168,76,0.15)"}`,
+                background: "rgba(255,255,255,0.02)",
+                border: `1px solid ${item.dim ? "rgba(255,255,255,0.05)" : "rgba(201,168,76,0.15)"}`,
                 borderRight: "none",
               }}>
-                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: item.blue ? "#3b82f6" : item.dim ? "rgba(255,255,255,0.32)" : "#c9a84c" }}>
+                <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: item.dim ? "rgba(255,255,255,0.32)" : "#c9a84c" }}>
                   {item.label}
                 </div>
-                <div style={{ fontSize: 11, color: "rgba(255,255,255,0.28)", letterSpacing: "0.04em", marginTop: 2 }}>{item.sub}</div>
+                <div style={{ fontSize: 12, color: "rgba(255,255,255,0.28)", letterSpacing: "0.04em", marginTop: 2 }}>{item.sub}</div>
               </div>
               {i < arr.length - 1 && <div style={{ width: 16, height: 1, background: "rgba(255,255,255,0.08)", flexShrink: 0 }} />}
             </div>
@@ -235,7 +234,7 @@ export default function PartnerRoomLanding() {
           RTBX Travel turns live signals across hotels, resorts, holiday parks and experience environments into guided action, escalation, assurance and measurable value.
         </p>
         <p style={{ fontSize: 13, color: "rgba(255,255,255,0.28)", lineHeight: 1.6, maxWidth: 560, marginBottom: 28, letterSpacing: "0.01em" }}>
-          RTBX Travel is powered by RTBX Core. WELBX is the guest-facing experience layer.
+          RTBX Travel is powered by RTBX Core — the same signal-to-action infrastructure across every travel and hospitality environment.
         </p>
 
         {/* Operating platform statement */}
@@ -287,9 +286,9 @@ export default function PartnerRoomLanding() {
 
       {/* ── WHAT IT IS / IS NOT ── */}
       <div style={{ marginBottom: 72 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2 }}>
+        <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2 }}>
           <div style={{ padding: "32px 28px", background: "rgba(255,255,255,0.015)", border: "1px solid rgba(255,255,255,0.06)" }}>
-            <div style={{ fontSize: 11, letterSpacing: "0.14em", color: "rgba(255,255,255,0.32)", textTransform: "uppercase", fontWeight: 700, marginBottom: 20 }}>This is not</div>
+            <div style={{ fontSize: 12, letterSpacing: "0.14em", color: "rgba(255,255,255,0.32)", textTransform: "uppercase", fontWeight: 700, marginBottom: 20 }}>This is not</div>
             {THIS_IS_NOT.map(item => (
               <div key={item} style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
                 <div style={{ width: 14, height: 1, background: "rgba(239,68,68,0.35)", flexShrink: 0 }} />
@@ -298,7 +297,7 @@ export default function PartnerRoomLanding() {
             ))}
           </div>
           <div style={{ padding: "32px 28px", background: "rgba(201,168,76,0.025)", border: "1px solid rgba(201,168,76,0.1)", borderLeft: "2px solid rgba(201,168,76,0.35)" }}>
-            <div style={{ fontSize: 11, letterSpacing: "0.14em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 20 }}>This is</div>
+            <div style={{ fontSize: 12, letterSpacing: "0.14em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 20 }}>This is</div>
             {THIS_IS.map(item => (
               <div key={item} style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
                 <div style={{ width: 14, height: 1, background: "rgba(201,168,76,0.5)", flexShrink: 0 }} />
@@ -314,7 +313,7 @@ export default function PartnerRoomLanding() {
         <div style={{ fontSize: 11, letterSpacing: "0.16em", color: "rgba(255,255,255,0.28)", textTransform: "uppercase", fontWeight: 700, marginBottom: 20 }}>
           The Five-Step Engine — Connect to Learn
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 2 }}>
+        <div className="rtbx-grid-5" style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 2 }}>
           {ENGINE_STAGES.map((stage, i) => (
             <div key={stage.id} style={{
               padding: "20px 16px",
@@ -345,10 +344,10 @@ export default function PartnerRoomLanding() {
 
       {/* ── WORKING PRODUCT PROOF ── */}
       <div style={{ marginBottom: 56 }}>
-        <div style={{ fontSize: 11, letterSpacing: "0.14em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
+        <div style={{ fontSize: 12, letterSpacing: "0.14em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
           Working Product Proof
         </div>
-        <a href="https://replit.com/@LP1313/rtbx-travel-moment-response-mvp" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
+        <Link href="/partner-room/operations">
           <div style={{
             padding: "22px 28px",
             background: "rgba(201,168,76,0.04)",
@@ -364,29 +363,29 @@ export default function PartnerRoomLanding() {
               <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                   <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#c9a84c" }} />
-                  <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c" }}>Live MVP</span>
+                  <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c" }}>Working Demonstration</span>
                 </div>
-                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.25)", border: "1px solid rgba(255,255,255,0.08)", padding: "2px 7px" }}>Working Product</div>
+                <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.25)", border: "1px solid rgba(255,255,255,0.08)", padding: "2px 7px" }}>Deployed MVP Preview</div>
               </div>
               <div style={{ fontSize: 14, fontWeight: 700, color: "rgba(255,255,255,0.85)", letterSpacing: "-0.01em", marginBottom: 7 }}>
-                Live MVP Preview — Moment Response
+                Demonstrated Workflow — Moment Response
               </div>
               <p style={{ fontSize: 13, color: "rgba(255,255,255,0.38)", lineHeight: 1.65, maxWidth: 680, margin: "0 0 8px 0" }}>
-                The working product preview for the first deployable wedge: Moment Response. Signal captured, classified, assigned, WELBX message sent, escalated if required, logged for assurance and reported as pilot evidence.
+                The working demonstration for the first deployable wedge: Moment Response. Signal captured, classified, assigned, guest message sent, escalated if required, logged for assurance and reported as pilot evidence.
               </p>
               <div style={{ fontSize: 12, color: "rgba(255,255,255,0.22)", fontStyle: "italic" }}>
-                This is not the full Travel OS. It is the first deployable wedge: Moment Response.
+                This is not the full Travel platform. It is the first deployable wedge: Moment Response. All data is synthetic demonstration data.
               </div>
             </div>
             <div style={{
-              padding: "10px 20px", fontSize: 11, fontWeight: 700, letterSpacing: "0.08em",
+              padding: "10px 20px", fontSize: 12, fontWeight: 700, letterSpacing: "0.08em",
               textTransform: "uppercase", color: "rgba(201,168,76,0.75)", border: "1px solid rgba(201,168,76,0.28)",
               whiteSpace: "nowrap", flexShrink: 0,
             }}>
-              Open Live MVP ↗
+              Open Demonstration →
             </div>
           </div>
-        </a>
+        </Link>
       </div>
 
       {/* ── FIVE PROOF LAYERS ── */}
@@ -402,7 +401,7 @@ export default function PartnerRoomLanding() {
           Each layer gives a partner, operator or funder a different lens on the system — from positioning through to proof, validation and commercial next steps.
         </p>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 2 }}>
+        <div className="rtbx-grid-5" style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 2 }}>
           {PROOF_LAYERS.map(sec => (
             <div key={sec.num} style={{
               padding: "26px 22px",
@@ -471,33 +470,62 @@ export default function PartnerRoomLanding() {
           RTBX Travel · Deployment Environments
         </div>
         <div style={{ fontSize: 22, fontWeight: 700, color: "#fff", letterSpacing: "-0.01em", marginBottom: 10, maxWidth: 680 }}>
-          Five deployment environments. One operating system.
+          Five deployment environments. One shared RTBX platform.
         </div>
         <p style={{ fontSize: 14, color: "rgba(255,255,255,0.45)", lineHeight: 1.75, maxWidth: 620, marginBottom: 32 }}>
           RTBX Core applies the same signal-to-action infrastructure across every environment. The context changes — the execution logic remains the same.
         </p>
 
-        {/* Tab strip */}
-        <div style={{ display: "flex", gap: 2, marginBottom: 2 }}>
-          {DEPLOYMENT_ENVS.map((env, i) => (
+        {/* Tab strip — Hotels & Resorts is the lead environment; others are expansion */}
+        <div style={{ display: "flex", gap: 8, marginBottom: 2, flexWrap: "wrap" }}>
+          {/* Lead environment */}
+          <div style={{ flex: "0 0 auto", display: "flex", flexDirection: "column", minWidth: 140 }}>
+            <div style={{ fontSize: 9, letterSpacing: "0.14em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 4, paddingLeft: 4 }}>Lead</div>
             <button
-              key={env.id}
-              onClick={() => setActiveEnv(i)}
+              onClick={() => setActiveEnv(0)}
               style={{
-                flex: 1, padding: "13px 10px",
-                background: i === activeEnv ? `${env.color}10` : "rgba(255,255,255,0.02)",
-                border: `1px solid ${i === activeEnv ? env.color + "40" : "rgba(255,255,255,0.06)"}`,
-                borderBottom: i === activeEnv ? `2px solid ${env.color}` : "1px solid rgba(255,255,255,0.06)",
+                flex: 1, padding: "13px 14px",
+                background: activeEnv === 0 ? `${DEPLOYMENT_ENVS[0].color}10` : "rgba(255,255,255,0.02)",
+                border: `1px solid ${activeEnv === 0 ? DEPLOYMENT_ENVS[0].color + "40" : "rgba(255,255,255,0.06)"}`,
+                borderBottom: activeEnv === 0 ? `2px solid ${DEPLOYMENT_ENVS[0].color}` : "1px solid rgba(255,255,255,0.06)",
                 cursor: "pointer", textAlign: "center", transition: "all 0.15s",
               }}
-              onMouseEnter={e => { if (i !== activeEnv) { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(255,255,255,0.04)"; } }}
-              onMouseLeave={e => { if (i !== activeEnv) { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(255,255,255,0.02)"; } }}
+              onMouseEnter={e => { if (activeEnv !== 0) (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.04)"; }}
+              onMouseLeave={e => { if (activeEnv !== 0) (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.02)"; }}
             >
-              <div style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: 700, color: i === activeEnv ? env.color : "rgba(255,255,255,0.35)", lineHeight: 1.4 }}>
-                {env.title}
+              <div style={{ fontSize: 12, letterSpacing: "0.08em", textTransform: "uppercase", fontWeight: 700, color: activeEnv === 0 ? DEPLOYMENT_ENVS[0].color : "rgba(255,255,255,0.35)", lineHeight: 1.4 }}>
+                {DEPLOYMENT_ENVS[0].title}
               </div>
             </button>
-          ))}
+          </div>
+          {/* Expansion environments */}
+          <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 200 }}>
+            <div style={{ fontSize: 9, letterSpacing: "0.14em", color: "rgba(255,255,255,0.28)", textTransform: "uppercase", fontWeight: 700, marginBottom: 4, paddingLeft: 4 }}>Expansion Environments</div>
+            <div style={{ display: "flex", gap: 2, flex: 1 }}>
+              {DEPLOYMENT_ENVS.slice(1).map((env, j) => {
+                const i = j + 1;
+                return (
+                  <button
+                    key={env.id}
+                    onClick={() => setActiveEnv(i)}
+                    style={{
+                      flex: 1, padding: "13px 10px",
+                      background: i === activeEnv ? `${env.color}10` : "rgba(255,255,255,0.02)",
+                      border: `1px solid ${i === activeEnv ? env.color + "40" : "rgba(255,255,255,0.06)"}`,
+                      borderBottom: i === activeEnv ? `2px solid ${env.color}` : "1px solid rgba(255,255,255,0.06)",
+                      cursor: "pointer", textAlign: "center", transition: "all 0.15s",
+                    }}
+                    onMouseEnter={e => { if (i !== activeEnv) (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.04)"; }}
+                    onMouseLeave={e => { if (i !== activeEnv) (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.02)"; }}
+                  >
+                    <div style={{ fontSize: 11, letterSpacing: "0.08em", textTransform: "uppercase", fontWeight: 700, color: i === activeEnv ? env.color : "rgba(255,255,255,0.35)", lineHeight: 1.4 }}>
+                      {env.title}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </div>
 
         {(() => {
@@ -544,7 +572,7 @@ export default function PartnerRoomLanding() {
                     onMouseEnter={e => { (e.currentTarget as HTMLElement).style.opacity = "0.85"; }}
                     onMouseLeave={e => { (e.currentTarget as HTMLElement).style.opacity = "1"; }}
                     >
-                      Run Live Scenario →
+                      View Demonstration →
                     </div>
                   </Link>
                 </div>
@@ -559,7 +587,7 @@ export default function PartnerRoomLanding() {
         <div style={{ fontSize: 11, letterSpacing: "0.16em", color: "rgba(255,255,255,0.28)", textTransform: "uppercase", fontWeight: 700, marginBottom: 28 }}>
           Choose your entry point
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
+        <div className="rtbx-grid-4" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
           {[
             { sub: "FOR OPERATORS", title: "Operator / Hotel Group", desc: "Service recovery, staff consistency, escalation visibility and measurable operational execution.", cta: "Operator Brief", href: "/partner-room/operator-brief", color: "#c9a84c" },
             { sub: "FOR TECHNOLOGY PARTNERS", title: "Integration Partner", desc: "Connect PMS, CRM, POS, workforce and loyalty systems as live RTBX Core signal sources.", cta: "Integration Brief", href: "/partner-room/integration-brief", color: "#3b82f6" },

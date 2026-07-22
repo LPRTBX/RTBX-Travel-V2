@@ -251,7 +251,7 @@ button { min-height: 36px; }
   }
 
   html {
-    font-size: 14px;
+    font-size: 16px;
   }
 
   body {
@@ -264,7 +264,7 @@ button { min-height: 36px; }
 
 @layer utilities {
   .label-caps {
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 600;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -273,8 +273,44 @@ button { min-height: 36px; }
 
   .mono-value {
     font-family: var(--app-font-mono);
-    font-size: 11px;
+    font-size: 12px;
     letter-spacing: 0.04em;
+  }
+
+  /* ── Responsive grid utilities ─────────────────────────────────────────── */
+  /* Used by landing page and other multi-column sections.
+     At ≤640px: collapse to 1 column (hamburger nav already active).
+     At 641-1023px: partial collapse. */
+
+  @media (max-width: 1023px) {
+    .rtbx-grid-5 {
+      grid-template-columns: repeat(3, 1fr) !important;
+    }
+    .rtbx-grid-4 {
+      grid-template-columns: repeat(2, 1fr) !important;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .rtbx-grid-5,
+    .rtbx-grid-4,
+    .rtbx-grid-3,
+    .rtbx-grid-2 {
+      grid-template-columns: 1fr !important;
+    }
+    /* Prevent any fixed-width child from causing horizontal scroll */
+    .rtbx-grid-5 > *,
+    .rtbx-grid-4 > *,
+    .rtbx-grid-3 > *,
+    .rtbx-grid-2 > * {
+      min-width: 0;
+    }
+  }
+
+  /* Prevent page-level horizontal overflow at any viewport */
+  html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
   }
 
   .critical-glow {
