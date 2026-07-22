@@ -1,0 +1,42 @@
+NAVIGATION DROPDOWN CLIPPING — RELEASE BLOCKER
+
+The desktop navigation dropdowns are currently being constrained or clipped inside a small scrollable container. When a user clicks a navigation group title, some submenu items are hidden and must be scrolled within the dropdown box.
+
+Fix this behaviour across all navigation groups.
+
+Required behaviour:
+
+- Clicking a navigation group title opens the complete dropdown menu.
+- The dropdown must render above page content and must not be clipped by the header, navigation wrapper or any parent container.
+- Remove unintended overflow:hidden, overflow:auto or fixed-height constraints from dropdown ancestors.
+- Use an appropriate z-index and positioning strategy.
+- Render the dropdown through a portal if required to escape parent overflow or stacking contexts.
+- The dropdown should reposition horizontally when close to the viewport edge.
+- The dropdown must remain fully visible within the viewport.
+- Do not force users to scroll inside a small dropdown box during normal desktop use.
+- If a menu is genuinely taller than the viewport, use:
+  max-height: calc(100vh - header height - safe spacing)
+  overflow-y: auto
+  but only as a fallback for small-height screens.
+- Group or shorten overly long menus rather than relying on permanent internal scrolling.
+- Opening one dropdown must close any other open dropdown.
+- Clicking outside, pressing Escape or selecting a menu item must close the dropdown.
+- Keyboard focus must move logically through the submenu.
+- Focus must not become trapped.
+- On mobile, use expandable accordion groups rather than desktop floating dropdowns.
+- Mobile navigation must not place menu items inside a narrow horizontally scrolling box.
+- The current page and open navigation group must remain visually identifiable.
+
+Test every dropdown at:
+
+- 320px
+- 375px
+- 390px
+- 768px
+- 1024px
+- 1280px
+- 1440px
+
+Test at reduced browser heights as well as reduced widths.
+
+Confirm that all menu items are visible and selectable without hidden clipping, accidental horizontal scrolling or an unnecessarily small internal scroll region.

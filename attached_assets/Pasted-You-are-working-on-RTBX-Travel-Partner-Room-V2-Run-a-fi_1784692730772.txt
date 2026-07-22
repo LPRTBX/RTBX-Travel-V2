@@ -1,0 +1,268 @@
+You are working on RTBX Travel Partner Room V2.
+
+Run a final release correction pass only.
+
+Do not add new features, pages, operating systems, scenarios, playbooks, commercial models or architecture. Do not rebuild the application.
+
+The current product is substantial. This pass must resolve concrete QA blockers found in the post-Sprint-6 audit.
+
+1. TYPOGRAPHY AND READABILITY
+
+The active source currently contains more than 1,400 meaningful inline font-size declarations below 12px.
+
+Apply these minimums across all active reachable pages and shared components:
+
+- Main body copy: 16px
+- Supporting copy: 14px
+- Navigation: 14px
+- Buttons and controls: 14px
+- Metadata, status labels and meaningful captions: 12px
+- No meaningful user-facing text below 12px
+
+Update the global HTML base size from 14px to 16px.
+
+Replace repeated inline sizes with shared typography tokens or reusable components where practical.
+
+Do not alter archived source.
+
+At completion report before-and-after counts for font sizes below 12px and below 14px.
+
+2. RESPONSIVE LAYOUT
+
+Audit every active page at:
+
+- 320px
+- 375px
+- 390px
+- 768px
+- 1024px
+- 1280px
+- 1440px
+
+Fix all fixed multi-column grids that lack responsive behaviour.
+
+The following landing sections must explicitly collapse:
+
+- This Is / This Is Not
+- Five-Step Engine
+- Five Proof Layers
+- Deployment Environments
+- Partner Paths
+- Footer CTA areas
+
+Apply the same review across Operating Model, Travel Intelligence, Operating Systems, Scenarios, Build & Configure, Execution Centre, Partner Ecosystem, Pilot Model and Commercial Pathway.
+
+No horizontal page scrolling is permitted.
+
+Tables may use controlled horizontal scrolling where a card transformation is not practical.
+
+Important touch controls must be approximately 44px high.
+
+3. NAVIGATION AND LINKS
+
+Change the primary navigation Commercial destination from:
+
+/partner-room/commercial-unit
+
+to:
+
+/partner-room/commercial
+
+Fix the Partner Ecosystem “Review Responsibilities” CTA. It currently points to a nonexistent:
+
+/partner-room/next-step#responsibilities
+
+Point it to the correct responsibility section on Partner Ecosystem, using either:
+
+/partner-room/partner-ecosystem#integration-responsibility
+
+or a clear responsibility-matrix section created from the existing content.
+
+Fix the Pilot Model “Review Pilot Readiness” CTA. It currently points to nonexistent:
+
+/partner-room/next-step#readiness
+
+Change it to:
+
+/partner-room/pilot-model#readiness-checklist
+
+Update test-links.mjs to validate hash destinations, including dynamically generated approved IDs.
+
+4. BRAND AND ARCHITECTURE CLARITY
+
+Resolve WELBX positioning.
+
+Do not present WELBX as a fourth top-level platform or brand in the global header or landing hierarchy.
+
+The approved hierarchy is:
+
+RTBX Group
+→ RTBX Core
+→ RTBX Travel
+→ Travel operating systems and guest/operator experiences
+
+If WELBX is retained as an approved guest-facing channel, label it only as a subordinate guest delivery surface. It must not appear to be a separate platform, operating system or intelligence engine.
+
+Remove WELBX from:
+
+- Global header tagline
+- Top-level hero hierarchy
+- Any architecture wording that makes it equivalent to RTBX Travel
+
+Update active scenario and communications wording consistently.
+
+5. HOTEL-FIRST STORY
+
+Make hotels and resorts the unmistakable first commercial entry point.
+
+The landing-page narrative should flow:
+
+- Hotel operating problem
+- Shared RTBX platform
+- Three lead Travel operating systems
+- Working hotel proof
+- First pilot
+- Expansion after proof
+
+Move holiday parks, corporate Travel, events and destination tourism beneath an Expansion Environments section.
+
+Change:
+
+“Five deployment environments. One operating system.”
+
+to:
+
+“Five deployment environments. One shared RTBX platform.”
+
+Do not remove expansion environments or their demonstrations.
+
+6. PROOF LANGUAGE
+
+Remove contradictory use of:
+
+- Live MVP
+- Live demo
+- Run Live Scenario
+- Product operating in real time
+- Live signal sources
+
+unless the referenced capability is technically verified and externally accessible.
+
+Use:
+
+- Working interactive demonstration
+- Synthetic scenario
+- Deployed MVP preview
+- Demonstrated workflow
+- Production integration required
+
+Replace the Replit project/editor MVP link with the stable deployed MVP URL.
+
+Test that URL signed out, in incognito mode and on mobile.
+
+If a stable deployed URL is not available, remove the external CTA until it is.
+
+7. RUNTIME GOVERNANCE DEFECTS
+
+Fix the state-machine mismatch where “Escalate Now” is offered during decision-required but canTransition rejects decision-required → escalated.
+
+Either remove the action from that state or define and test a valid governed transition.
+
+Enforce communication approvals technically.
+
+For a communication with approvalRequired=true:
+
+- Sending must be blocked until an approval is recorded
+- The approving role must be stored
+- The UI must explain why Send is disabled
+- Welfare and distressed-guest communications must always require the appropriate human control
+
+Do not automatically record “duty-manager” as approver without an approval action.
+
+Add tests covering:
+
+- Approval-required communication cannot send early
+- Approved communication can send
+- Welfare communication cannot bypass approval
+- No visible runtime action leads to a transition the state machine rejects
+
+8. ACCESSIBILITY
+
+Replace active div-onClick controls with semantic controls.
+
+Prioritise:
+
+- Scenario selection
+- Filters
+- Evidence checkboxes
+- Outcome selectors
+- Configuration cards
+- Navigation controls
+
+Use native buttons, checkboxes or existing UI primitives.
+
+Ensure:
+
+- Keyboard access
+- Visible focus
+- Correct aria state
+- Escape closes menus
+- Mobile menus close after selection
+- Important controls meet touch-target requirements
+
+9. RELEASE AND VERSION CONSISTENCY
+
+Correct all release documents and visible version labels.
+
+Use one approved version consistently across:
+
+- Access gate
+- Footer
+- Release notes
+- Release checklist
+- Sprint report
+
+Correct:
+
+- Sprint 6 report title
+- Release date to the actual 2026 date
+- Current commit
+- Route counts
+- Last reviewed date
+
+Do not mark the release “Ready” until the corrected checks have been run.
+
+10. FINAL VERIFICATION
+
+Run and report:
+
+- Typecheck
+- Tests
+- Route tests
+- Hash-anchor link tests
+- Asset checks
+- Legacy terminology check
+- Runtime state tests
+- Communication approval tests
+- Responsive browser testing
+- Keyboard testing
+- Production build
+- Preview smoke test
+
+Provide:
+
+- Defect register
+- Changed-file register
+- Before-and-after typography counts
+- Responsive test results by viewport
+- Exact test output
+- Remaining limitations
+- Final verdict
+
+The only acceptable final verdicts are:
+
+- Ready for controlled external partner walkthrough
+- Ready with documented limitations
+- Not ready — blockers remain
+
+Stop after this correction pass. Do not begin any additional product sprint.
