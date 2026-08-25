@@ -1,0 +1,474 @@
+# RTBX Travel — Step 3: Navigation Behaviour Correction
+
+You are working on the existing RTBX Travel Partner Room.
+
+The RTBX Main architecture is now locked.
+
+WELBX has been removed from the active product architecture and should not be reintroduced.
+
+This task is limited to **navigation behaviour and navigation usability only**.
+
+Do not change:
+
+* RTBX architecture
+* Travel operating systems
+* scenarios
+* playbooks
+* runtime logic
+* commercial content
+* page content
+* typography outside the navigation
+* page layouts
+* proof language
+* resource structure
+
+Do not add new navigation sections.
+
+---
+
+# 1. Objective
+
+Make the Partner Room navigation predictable, discoverable and usable across desktop, tablet and mobile.
+
+The approved primary navigation groups remain:
+
+## Start
+
+* Partner Room
+* Overview
+* Operator Brief
+* Next Step
+
+## Platform
+
+* Operating Model
+* Travel Intelligence
+* Travel Operating Systems
+* Integration
+
+## Configure and Execute
+
+* Build & Configure
+* Execution Centre
+* Decision Spine
+* Communications
+* Evidence and Outcomes
+
+## Proof
+
+* Product Proof
+* Validation
+* Guest View
+* Operator View
+* Dual View
+
+## Pilot and Partnership
+
+* Pilot Model
+* Deployment
+* Partner Ecosystem
+* Commercial Pathway
+* Resource Library
+
+Do not expand this structure.
+
+---
+
+# 2. Desktop group-title behaviour
+
+The current desktop group buttons navigate immediately when clicked.
+
+That behaviour is incorrect.
+
+For example:
+
+**Platform ▼**
+
+must not immediately navigate to a Platform landing page.
+
+Instead:
+
+### First click
+
+Open the Platform dropdown.
+
+### Second interaction
+
+The user selects the specific destination they want.
+
+If a group overview page is still useful, expose it as the first explicit menu item:
+
+> Overview
+
+Do not make the group title perform two competing functions.
+
+---
+
+# 3. Required dropdown behaviour
+
+Desktop navigation groups must behave as actual menu triggers.
+
+Clicking:
+
+* Start
+* Platform
+* Configure and Execute
+* Proof
+* Pilot and Partnership
+
+must:
+
+1. Open that group
+2. Close any other open group
+3. Keep all submenu options visible
+4. Not navigate away
+5. Maintain an obvious open state
+
+Clicking the same open group again should close it.
+
+---
+
+# 4. Dropdown clipping
+
+The previous dropdown clipping correction must be preserved.
+
+Dropdowns must:
+
+* Render above page content
+* Not be clipped by the header
+* Not be clipped by parent overflow
+* Not sit inside a small permanently scrolling container
+* Remain within the viewport horizontally
+* Reposition when close to the right edge
+* Use an appropriate z-index
+* Use a portal if required
+
+Internal vertical scrolling should occur only where the menu genuinely exceeds available viewport height.
+
+Normal desktop users should see the complete menu without scrolling inside a small box.
+
+---
+
+# 5. Click-outside behaviour
+
+When a dropdown is open:
+
+* Clicking outside must close it
+* Selecting a menu item must close it
+* Pressing Escape must close it
+* Navigating to another page must close it
+* Opening another group must close the previous group
+
+Do not leave menus open after navigation.
+
+---
+
+# 6. Keyboard behaviour
+
+Every desktop group must be fully keyboard-accessible.
+
+Required behaviour:
+
+### Tab
+
+Moves focus through top-level group triggers.
+
+### Enter / Space
+
+Opens or closes the selected group.
+
+### Arrow Down
+
+When a group opens, move focus to the first menu item.
+
+### Arrow Down / Arrow Up
+
+Move between menu items.
+
+### Escape
+
+Close the dropdown and return focus to the group trigger.
+
+### Home / End
+
+Where practical:
+
+* Home moves to first menu item
+* End moves to last menu item
+
+Do not implement keyboard behaviour using brittle sibling traversal through nested `<div>` elements.
+
+Use semantic menu items or a reliable indexed menu model.
+
+---
+
+# 7. Semantic controls
+
+Top-level navigation triggers must be actual:
+
+```html
+<button>
+```
+
+Menu destinations must be actual links.
+
+Do not use clickable `<div>` elements for navigation.
+
+Use appropriate accessibility attributes such as:
+
+* `aria-expanded`
+* `aria-controls`
+* `aria-haspopup`
+
+where appropriate.
+
+The active route must remain visually identifiable.
+
+The currently open navigation group must also be visually identifiable.
+
+---
+
+# 8. Tablet breakpoint
+
+The existing desktop navigation remains active at widths that are too narrow.
+
+Review the breakpoint.
+
+The full five-group desktop navigation should not be forced into tablet-width headers.
+
+Use a breakpoint approximately within:
+
+**900px–1024px**
+
+based on the actual layout.
+
+Below the chosen breakpoint, use the mobile/tablet navigation.
+
+Do not use `overflow-x: hidden` to conceal navigation overflow.
+
+The navigation must genuinely fit.
+
+Test specifically at:
+
+* 768px
+* 820px
+* 900px
+* 1024px
+
+---
+
+# 9. Mobile and tablet navigation
+
+Below the desktop breakpoint, use the existing mobile menu pattern.
+
+The mobile navigation should behave as expandable groups.
+
+Example:
+
+```text
+Platform
+  Operating Model
+  Travel Intelligence
+  Travel Operating Systems
+  Integration
+```
+
+Required behaviour:
+
+* Tap group → expand group
+* Tap again → collapse
+* Only one group may remain open where this improves usability
+* Selecting a destination closes the full navigation drawer
+* Escape closes the drawer where a keyboard is present
+* Clicking outside closes the drawer where appropriate
+* Browser Back behaviour remains normal
+
+Do not use desktop floating dropdowns inside the mobile drawer.
+
+---
+
+# 10. Touch targets
+
+Important navigation controls must provide approximately:
+
+**44px minimum touch target**
+
+including:
+
+* hamburger button
+* close button
+* group triggers
+* submenu destinations
+* Next Step CTA
+
+Do not shrink text or controls simply to fit more navigation into one row.
+
+---
+
+# 11. Header simplification
+
+Do not redesign the header.
+
+However, ensure the header does not attempt to show excessive secondary information at widths where it creates crowding.
+
+The most important header elements are:
+
+* RTBX Travel
+* Partner Room context
+* Primary navigation
+* Next Step
+* Mobile menu trigger
+
+Secondary descriptive text may be hidden or shortened responsively if necessary.
+
+Do not introduce a new header architecture.
+
+---
+
+# 12. Canonical Commercial route
+
+Confirm the primary navigation item:
+
+**Commercial Pathway**
+
+routes to:
+
+```text
+/partner-room/commercial
+```
+
+It must not route primarily to:
+
+```text
+/partner-room/commercial-unit
+```
+
+`commercial-unit` may remain as a secondary appendix route if required.
+
+---
+
+# 13. Navigation route integrity
+
+Every visible navigation destination must:
+
+* Use a canonical route
+* Resolve without wildcard fallback
+* Not point to an alias where a canonical route exists
+* Not point to archived source
+* Not point to internal-only content
+* Not point to an inaccessible resource
+
+Alias routes may remain for backwards compatibility but should not appear in navigation.
+
+---
+
+# 14. Automated navigation tests
+
+Add or update focused navigation tests covering:
+
+## Desktop
+
+* Clicking a group opens it
+* Clicking a group does not navigate
+* Clicking again closes it
+* Opening another group closes the first
+* Clicking outside closes the menu
+* Escape closes the menu
+* Menu selection navigates
+* Menu selection closes the menu
+* Commercial Pathway uses canonical route
+
+## Keyboard
+
+* Top-level triggers receive focus
+* Enter opens
+* Space opens
+* Arrow Down focuses first item
+* Arrow navigation works
+* Escape returns focus to the group trigger
+
+## Mobile
+
+* Hamburger opens the drawer
+* Group expands
+* Group collapses
+* Destination selection closes drawer
+* All navigation destinations remain accessible
+
+---
+
+# 15. Manual viewport QA
+
+Manually verify navigation at:
+
+* 320px
+* 375px
+* 390px
+* 768px
+* 820px
+* 900px
+* 1024px
+* 1280px
+* 1440px
+
+Also test reduced viewport heights.
+
+For every viewport confirm:
+
+* No navigation clipping
+* No hidden submenu items
+* No unnecessary internal dropdown scrolling
+* No horizontal page scrolling caused by navigation
+* No overlapping header elements
+* All menu items selectable
+* Current page identifiable
+* Dropdown remains inside viewport
+
+---
+
+# 16. Completion report
+
+At completion report:
+
+## Desktop navigation
+
+* Previous click behaviour
+* New click behaviour
+* Dropdown positioning approach
+* Click-outside behaviour
+* Keyboard behaviour
+
+## Tablet/mobile
+
+* Previous breakpoint
+* New breakpoint
+* Mobile group behaviour
+* Touch-target changes
+
+## Routes
+
+* Canonical routes verified
+* Navigation aliases removed
+* Commercial route confirmed
+
+## Files changed
+
+List every file changed and why.
+
+## Verification
+
+Provide exact results for:
+
+* Navigation tests
+* Route tests
+* Link tests
+* Full test suite
+* Typecheck
+* Production build
+* Manual viewport tests
+
+Do not claim viewport QA unless it was actually performed in a rendered browser.
+
+Stop after navigation correction.
+
+Do not begin the typography/readability pass.
