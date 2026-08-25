@@ -1,0 +1,279 @@
+RTBX Travel — Guest Demo Action Branching Correction
+
+Work only on the existing Guest Experience Demo.
+
+Do not change navigation, global typography, RTBX architecture, scenarios outside this demo, commercial content or page structure.
+
+Current defect
+
+Each Guest Demo stage presents multiple guest action buttons, but every button within a stage currently renders the same phoneConfirm response.
+
+The existing model uses:
+
+phoneActions: string[]
+phoneConfirm: string
+
+This means the user’s selected action does not genuinely change the response pathway.
+
+Correct this.
+
+Objective
+
+Every guest option must produce a response specific to the selected action.
+
+The selected action should also update the related demonstration context where practical:
+
+* Guest confirmation
+* What RTBX Core Coordinates
+* What the Operator Receives
+* Value Created
+
+The purpose is to demonstrate:
+
+Moment → Guest choice → RTBX coordination → accountable operator response → value/outcome
+
+rather than a generic stage response.
+
+Data model
+
+Replace the stage-level phoneActions: string[] and single phoneConfirm structure with action-level objects.
+
+Use a structure similar to:
+
+type GuestAction = {
+  id: string;
+  label: string;
+  confirmation: string;
+  rtbxCoordinates: string;
+  operatorReceives: string;
+  valueCreated: string;
+};
+
+Each stage should contain:
+
+phoneActions: GuestAction[];
+
+Keep stage-level default explanatory content where useful.
+
+Do not over-engineer the model.
+
+Required action branching
+
+Arrival
+
+Check in digitally
+
+* Confirm digital check-in
+* Trigger room readiness/key delivery pathway
+* Operator sees check-in completion and room status
+
+Hold my bags
+
+* Confirm concierge bag-storage request
+* Route task to concierge
+* Operator sees ownership and collection requirement
+
+Find a quiet space
+
+* Confirm a suitable waiting-space option
+* Route availability/support request
+* Operator receives guest preference
+
+Ask a question
+
+* Open or simulate a guest-support/concierge handoff
+* Do not claim check-in or baggage action occurred
+
+Room Delay
+
+Notify me when ready
+
+* Subscribe guest to room-ready notification
+* Monitor room readiness
+* No unnecessary additional action
+
+Hold my bags
+
+* Route baggage storage only
+
+Use the lounge
+
+* Confirm or request lounge access only
+
+Speak to the team
+
+* Create human contact request with context
+
+Weather Change
+
+Indoor experiences nearby
+
+* Provide relevant indoor alternatives
+
+Reschedule outdoor activity
+
+* Trigger a rescheduling/partner workflow
+
+Local recommendations
+
+* Provide contextual local recommendations
+
+Keep my booking
+
+* Confirm booking remains unchanged and continue monitoring
+
+Dining Opportunity
+
+Dining suggestions
+
+* Return dining-specific suggestions
+
+Wellness & spa
+
+* Return wellness/spa pathway
+
+Transport & transfers
+
+* Return transport pathway
+
+Local experiences
+
+* Return local-experience pathway
+
+Guest Welfare
+
+This stage requires careful governance differentiation.
+
+Arrange a quiet space
+
+* Arrange or request a quiet space
+
+Speak to a staff member
+
+* Request appropriate human contact
+
+Come back to this later
+
+* Respect the choice
+* Do not escalate automatically
+* Allow discreet later follow-up only where configured
+
+I’m fine, thank you
+
+* Respect the guest’s response
+* Close the prompt
+* Do not arrange a quiet space
+* Do not automatically send staff
+* Do not escalate unless a separate mandatory safety threshold requires it
+
+Service Recovery
+
+Escalate to a manager
+
+* Trigger manager escalation and timer
+
+Request a room move
+
+* Trigger room availability/approval workflow
+
+Arrange a 5-minute fix
+
+* Route an urgent service or maintenance action
+
+It’s sorted — thank you
+
+* Close or resolve the issue
+* Capture guest confirmation
+* Do not escalate to a manager
+
+Checkout
+
+Express checkout
+
+* Confirm checkout
+
+Share feedback
+
+* Open or simulate feedback capture
+
+Book my next stay
+
+* Trigger repeat-stay/booking pathway
+
+Request a receipt
+
+* Confirm receipt delivery
+
+Right-hand context behaviour
+
+When no action has been selected:
+
+Display the existing stage-level overview.
+
+When a guest action is selected:
+
+Update at minimum:
+
+* What RTBX Core Coordinates
+* What the Operator Receives
+* Value Created
+
+to reflect that specific action.
+
+The Guest Sees panel may either remain the stage overview or update with action-specific copy if this improves clarity.
+
+Selected-state UX
+
+After selection:
+
+* Clearly display which option the guest chose
+* Show the action-specific confirmation
+* Keep “Try another option”
+* Returning to the option list must clear the selected action
+* Changing stages must clear the selected action
+
+Proof boundary
+
+This remains a synthetic interactive demonstration.
+
+Do not imply that:
+
+* a real PMS was updated
+* a real concierge task was created
+* a real message was sent
+* a real room was changed
+
+Use wording appropriate to demonstrated workflow where needed.
+
+Testing
+
+Add focused tests verifying:
+
+* Every stage has unique action IDs
+* Every action has its own confirmation
+* Every action has RTBX coordination content
+* Every action has operator-response content
+* Every action has value/outcome content
+* Selecting two different options within the same stage produces different responses
+* Guest Welfare “I’m fine” does not trigger quiet-space or staff-contact confirmation
+* Service Recovery “It’s sorted” does not trigger manager escalation
+* Checkout receipt does not produce generic checkout/rebooking confirmation
+
+Run:
+
+* focused tests
+* full tests
+* typecheck
+* production build
+
+Report:
+
+* files changed
+* previous data model
+* new data model
+* action count by stage
+* tests
+* typecheck
+* build result
+
+Stop after Guest Demo action branching.
