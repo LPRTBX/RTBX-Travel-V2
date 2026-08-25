@@ -61,10 +61,6 @@ button { min-height: 36px; }
     padding-left: 16px !important;
     padding-right: 16px !important;
   }
-  /* Hide desktop-only description text in nav */
-  .rtbx-nav-desc {
-    display: none !important;
-  }
   /* Mobile: overflow tables get horizontal scroll */
   .rtbx-table-scroll {
     overflow-x: auto;
@@ -91,13 +87,51 @@ button { min-height: 36px; }
   }
 }
 
-/* ── Mobile nav ────────────────────────────────────────────────────────────── */
-@media (max-width: 640px) {
+/* ── Tablet and mobile navigation ─────────────────────────────────────────── */
+/* The five-group desktop row fits at 1024px and above; smaller layouts use the
+   existing accordion drawer instead of horizontal overflow. */
+@media (max-width: 1023px) {
+  .rtbx-nav-desc {
+    display: none !important;
+  }
   .rtbx-hamburger {
     display: flex !important;
   }
   .rtbx-desktop-nav {
     display: none !important;
+  }
+}
+
+.rtbx-next-step {
+  display: flex;
+  min-height: 44px;
+  text-decoration: none;
+}
+
+@media (max-width: 480px) {
+  .rtbx-nav-topline {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+    gap: 8px !important;
+  }
+  .rtbx-brand-lockup {
+    gap: 4px !important;
+  }
+  .rtbx-brand-title {
+    font-size: 12px !important;
+    letter-spacing: 0.16em !important;
+  }
+  .rtbx-brand-context {
+    font-size: 6.5px !important;
+    letter-spacing: 0.12em !important;
+  }
+  .rtbx-nav-private {
+    display: none !important;
+  }
+  .rtbx-next-step > div {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    letter-spacing: 0.08em !important;
   }
 }
 
