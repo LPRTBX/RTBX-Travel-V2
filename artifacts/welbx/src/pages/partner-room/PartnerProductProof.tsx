@@ -79,7 +79,7 @@ const CORE_SYSTEMS = [
     matters: "Operators don't need to write protocols from scratch. The library gives them a tested, editable starting point for every scenario.",
   },
   {
-    label: "Central Communications Layer",
+    label: "Execution and Communication Layer",
     tag: "Interactive Demo",
     tagColor: "#10b981",
     href: "/partner-room/comms-demo",

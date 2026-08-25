@@ -95,12 +95,12 @@ export const STAGE_COLORS: Record<string, string> = {
 
 /** Layer accent colours (keyed by IntelligenceLayerId) */
 export const LAYER_COLORS: Record<string, string> = {
-  signal:     "#3b82f6",
-  moment:     "#10b981",
-  governance: "#c9a84c",
-  decision:   "#f97316",
-  comms:      "#22d3ee",
-  outcome:    "#a78bfa",
+  connection:              "#3b82f6",
+  "context-moment":        "#10b981",
+  "governance-decision":   "#c9a84c",
+  "execution-communication": "#f97316",
+  "evidence-outcome-value":  "#22d3ee",
+  "learning-intelligence":   "#a78bfa",
 };
 
 /** Shared inline-style tokens */

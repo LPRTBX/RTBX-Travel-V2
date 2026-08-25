@@ -92,7 +92,12 @@ export default function PartnerIntelligenceModel() {
           </p>
           <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
             {INTELLIGENCE_LAYERS.map(layer => {
-              const caps = CORE_CAPABILITIES.filter(c => c.layer === layer.id);
+              // Only canonical Core capabilities and Travel configuration appear as
+              // peer-level modules. Retained implementation details stay attached
+              // to their parent Core capability in the architecture source.
+              const caps = CORE_CAPABILITIES.filter(
+                (capability) => capability.layer === layer.id && !capability.parentCapabilityId,
+              );
               return (
                 <div key={layer.id} style={{ padding: "18px 20px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
                   <div style={{ fontSize: 13, fontWeight: 800, color: "#fff", marginBottom: 4 }}>{layer.label}</div>

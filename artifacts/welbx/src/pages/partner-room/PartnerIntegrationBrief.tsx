@@ -95,8 +95,8 @@ const INTEGRATION_CATEGORIES: { title: string; sub: string; desc: string; color:
 
 const FLOW_NODES = [
   { label: "Existing Systems",        sub: "PMS, HKP, CRM, POS, IoT" },
-  { label: "RTBX Core Signal Layer",  sub: "247 signal types, real-time or near-real-time" },
-  { label: "Signal Registry & Moment Layer", sub: "Pattern recognition and moment classification" },
+  { label: "RTBX Core Connection Layer",  sub: "247 signal types, real-time or near-real-time" },
+  { label: "Context and Moment Layer", sub: "Pattern recognition and moment classification" },
   { label: "Decision Spine",          sub: "Governed playbook execution" },
   { label: "Routed Action",           sub: "Execution Centre — communication routing" },
   { label: "Outcome Record",          sub: "Audit trail + learning cycle" },

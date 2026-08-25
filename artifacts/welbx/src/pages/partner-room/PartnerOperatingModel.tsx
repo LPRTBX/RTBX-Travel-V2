@@ -6,11 +6,10 @@ const C = { gold: "#c9a84c", muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,
 
 const HIERARCHY = [
   { label: "RTBX Core", sub: "Signal-to-action infrastructure" },
-  { label: "Travel Intelligence Pack", sub: "Signals, moments and governance tuned for travel" },
+  { label: "Travel Configuration", sub: "Signals, moments, governance, roles, playbooks, communications, evidence and outcomes tuned for travel" },
   { label: "Travel Operating Systems", sub: "Guest, Recovery, Marketplace, Intelligence, Welfare" },
-  { label: "Activated Modules", sub: "The specific modules switched on for this deployment" },
-  { label: "Hotel / Resort / Park Configuration", sub: "Property-specific rules, roles and channels" },
-  { label: "Active Travel Operating Environment", sub: "The live, running system for this property" },
+  { label: "Property Configuration", sub: "Property-specific rules, activated modules, roles and channels" },
+  { label: "Active Deployment", sub: "The active governed system for this property" },
 ];
 
 const PUBLIC_PROMISE = [

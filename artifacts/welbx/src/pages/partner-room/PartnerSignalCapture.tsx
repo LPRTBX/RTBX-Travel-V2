@@ -67,7 +67,7 @@ const SIGNAL_SOURCES = [
     color: "#22d3ee",
     explain: "RTBX can collect and classify signals from guest messages, staff updates, manager notes, unresolved replies, sentiment tags, escalation messages and service recovery follow-ups.",
     examples: ["Guest message", "Staff update", "Manager note", "Unresolved reply", "Sentiment tag", "Escalation message", "Service recovery follow-up"],
-    matters: "Message becomes signal → signal becomes moment → moment becomes action. This is where the Central Communications Layer becomes real.",
+    matters: "Message becomes signal → signal becomes moment → moment becomes action. This is where the Execution and Communication Layer becomes real.",
     mattersColor: "#22d3ee",
   },
   {

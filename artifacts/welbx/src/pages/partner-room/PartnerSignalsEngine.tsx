@@ -38,7 +38,7 @@ export default function PartnerSignalsEngine() {
             Travel Signal Registry
           </div>
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 24, maxWidth: 720 }}>
-            {"Travel Signal Registry — Travel Configuration of the RTBX Core Signal Layer".split("\n").map((line, i) => (
+            {"Travel Signal Registry — Travel Configuration of the RTBX Core Connection Layer".split("\n").map((line, i) => (
               <span key={i}>{i > 0 && <br />}{line}</span>
             ))}
           </h1>
@@ -50,7 +50,7 @@ export default function PartnerSignalsEngine() {
         {/* Positioning callout */}
         <div style={{ padding: "16px 20px", background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.18)", borderLeft: "3px solid #c9a84c", marginBottom: 32 }}>
           <p style={{ fontSize: 13, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, margin: 0, fontWeight: 600 }}>
-            The Travel Signal Registry is the Travel configuration of the RTBX Core Signal Layer. Every signal is classified, scored and mapped to the Context and Moment Layer — where it becomes part of a moment classification. No signal generates a response on its own.
+            The Travel Signal Registry is the Travel configuration of the RTBX Core Connection Layer. Every signal is classified, scored and mapped to the Context and Moment Layer — where it becomes part of a moment classification. No signal generates a response on its own.
           </p>
         </div>
 

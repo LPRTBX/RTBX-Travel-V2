@@ -82,7 +82,7 @@ const SECTIONS = [
       { label: "Signals Engine Brief", desc: "247+ configured signal types across 4 categories. Seven-step classification chain from raw event to moment creation.", href: "/partner-room/signals-engine", cta: "View Brief", color: "#3b82f6" },
       { label: "Decision & Action Layer", desc: "The intervention logic that governs which action is triggered at which threshold across which moment type.", href: "/partner-room/product-proof", cta: "View Layer", color: "#10b981" },
       { label: "Intervention Library", desc: "Pre-configured playbooks for guest recovery, welfare, commercial activation and service response moments.", href: "/partner-room/product-proof", cta: "View Library", color: "#a78bfa" },
-      { label: "Central Communications Layer", desc: "How RTBX Core routes the right message to guest, staff, manager and command layer per moment type.", href: "/partner-room/comms-demo", cta: "View Layer", color: "#f97316" },
+      { label: "Execution and Communication Layer", desc: "How RTBX Core routes the right message to guest, staff, manager and command layer per moment type.", href: "/partner-room/comms-demo", cta: "View Layer", color: "#f97316" },
       { label: "Registry & Assurance Layer", desc: "How every moment, action and outcome is logged as an auditable assurance record.", href: "/partner-room/product-proof", cta: "View Registry", color: "#22d3ee" },
     ],
   },

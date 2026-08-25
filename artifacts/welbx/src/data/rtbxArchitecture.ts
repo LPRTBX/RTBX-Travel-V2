@@ -8,7 +8,7 @@
  * Sections:
  *  1. MaturityStatus type
  *  2. Engine Stages (Connect → Understand → Decide → Act → Learn)
- *  3. Intelligence Layers (six layers)
+ *  3. Intelligence Layers (six shared RTBX intelligence layers)
  *  4. Core Capabilities (shared RTBX Core capabilities with layer/stage mappings)
  *  5. Deployment Pathway (seven-stage: Explore → … → Expand)
  *  6. Platform Hierarchy (five levels: Shared Core → Active Deployment)
@@ -56,9 +56,8 @@ export const ENGINE_STAGES: EngineStage[] = [
     label: "Connect",
     summary: "Ingest signals from every guest, staff, system and partner touchpoint.",
     coreCapabilities: [
-      "Integration Hub — unified connector layer across PMS, CRM, loyalty, apps and IoT",
-      "Signal ingestion pipeline — real-time and batch signal normalisation",
-      "Source registry — authoritative list of connected systems and their signal types",
+      "Integration Hub",
+      "Signal Registry",
     ],
     travelExamples: [
       "PMS check-in and departure feeds",
@@ -78,9 +77,7 @@ export const ENGINE_STAGES: EngineStage[] = [
     label: "Understand",
     summary: "Classify incoming signals into known moment types using Travel taxonomy.",
     coreCapabilities: [
-      "Signal Registry — scored and classified signal library",
-      "Moment Engine — pattern-matching against the canonical moment taxonomy",
-      "Context assembler — assembles signal clusters into a moment record",
+      "Signal Registry",
     ],
     travelExamples: [
       "Guest frustration signal → Service Recovery Moment",
@@ -99,10 +96,9 @@ export const ENGINE_STAGES: EngineStage[] = [
     label: "Decide",
     summary: "Apply governance rules to determine the permitted response path.",
     coreCapabilities: [
-      "Governance Engine — applies pre-approved governance sources to every moment",
-      "Decision Spine — structured decision tree from moment type to permitted action",
-      "Playbook Library — the response patterns available to a governed role owner",
-      "Escalation Router — routes moments requiring human approval to the correct role",
+      "Decision Spine",
+      "Playbook Engine",
+      "Build & Configure",
     ],
     travelExamples: [
       "Guest Service Recovery Policy gates compensation level",
@@ -122,10 +118,9 @@ export const ENGINE_STAGES: EngineStage[] = [
     label: "Act",
     summary: "Route the governed response to the correct human role owner via the right channel.",
     coreCapabilities: [
-      "Role Routing Engine — delivers moment to the named human owner",
-      "Central Comms OS — AI-assisted drafting and multi-channel delivery",
-      "Action Centre — live queue for role owners to action moments",
-      "Evidence Logger — captures signal, decision and action to the assurance record",
+      "Prompt & Nudge Engine",
+      "Central Comms OS",
+      "Execution Centre",
     ],
     travelExamples: [
       "Duty Manager receives welfare check prompt via staff app",
@@ -144,10 +139,8 @@ export const ENGINE_STAGES: EngineStage[] = [
     label: "Learn",
     summary: "Turn every actioned outcome into measurable, compounding value.",
     coreCapabilities: [
-      "Outcome Registry — records the result of every actioned moment",
-      "Value Engine — maps outcomes to financial and experience value measures",
-      "Learning Layer — improves signal classification and playbook selection over time",
-      "Intelligence Reporting — surfaces performance trends to operator and executive roles",
+      "Evidence Ledger",
+      "Outcome Ledger",
     ],
     travelExamples: [
       "Guest recovered → contribution to satisfaction movement",
@@ -167,12 +160,12 @@ export const ENGINE_STAGES: EngineStage[] = [
 // ── 3. INTELLIGENCE LAYERS ───────────────────────────────────────────────────
 
 export type IntelligenceLayerId =
-  | "signal"
-  | "moment"
-  | "governance"
-  | "decision"
-  | "comms"
-  | "outcome";
+  | "connection"
+  | "context-moment"
+  | "governance-decision"
+  | "execution-communication"
+  | "evidence-outcome-value"
+  | "learning-intelligence";
 
 export interface IntelligenceLayer {
   id: IntelligenceLayerId;
@@ -190,14 +183,12 @@ export interface IntelligenceLayer {
 
 export const INTELLIGENCE_LAYERS: IntelligenceLayer[] = [
   {
-    id: "signal",
-    label: "Signal Layer",
-    summary: "Captures, normalises and classifies every incoming signal across all sources.",
+    id: "connection",
+    label: "Connection Layer",
+    summary: "Connects RTBX Core to the systems, sources and touchpoints that produce relevant signals.",
     sharedCapabilities: [
-      "Multi-source signal ingestion",
-      "Real-time signal normalisation",
-      "Domain classification and scoring",
-      "Signal deduplication and prioritisation",
+      "Integration Hub",
+      "Signal Registry",
     ],
     travelExamples: [
       "Travel Signal Registry: 30+ representative signal types across Guest Experience, Operations, Safety & Welfare, Commercial and Partner domains",
@@ -207,14 +198,11 @@ export const INTELLIGENCE_LAYERS: IntelligenceLayer[] = [
     primaryStage: "connect",
   },
   {
-    id: "moment",
-    label: "Moment Layer",
-    summary: "Recognises which known moment type a signal cluster represents.",
+    id: "context-moment",
+    label: "Context and Moment Layer",
+    summary: "Builds context around connected signals and recognises the Travel moment they represent.",
     sharedCapabilities: [
-      "Pattern-based moment classification",
-      "Multi-signal cluster analysis",
-      "Risk level assignment",
-      "Value at stake estimation",
+      "Signal Registry",
     ],
     travelExamples: [
       "Travel Moment Taxonomy: 10 canonical moment types from Service Recovery to Post-Stay Recovery",
@@ -224,14 +212,13 @@ export const INTELLIGENCE_LAYERS: IntelligenceLayer[] = [
     primaryStage: "understand",
   },
   {
-    id: "governance",
-    label: "Governance Layer",
-    summary: "Applies pre-approved governance rules before any response is permitted.",
+    id: "governance-decision",
+    label: "Governance and Decision Layer",
+    summary: "Applies governance and determines the permitted response path for each classified moment.",
     sharedCapabilities: [
-      "Rule-based governance gating",
-      "Policy source registry",
-      "Audit trail per governance decision",
-      "Consent and privacy rule enforcement",
+      "Decision Spine",
+      "Playbook Engine",
+      "Build & Configure",
     ],
     travelExamples: [
       "Travel Governance Sources: 11 canonical policies including Guest Safety Procedure, Compensation Approval Matrix, Loyalty Treatment Standard",
@@ -241,48 +228,43 @@ export const INTELLIGENCE_LAYERS: IntelligenceLayer[] = [
     primaryStage: "decide",
   },
   {
-    id: "decision",
-    label: "Decision Layer",
-    summary: "Selects the permitted playbook and assigns the human role owner.",
+    id: "execution-communication",
+    label: "Execution and Communication Layer",
+    summary: "Coordinates the governed response through role owners, prompts, nudges and approved communications.",
     sharedCapabilities: [
-      "Decision Spine — structured decision tree",
-      "Playbook selection and matching",
-      "Role ownership assignment",
-      "Escalation routing",
+      "Prompt & Nudge Engine",
+      "Central Comms OS",
+      "Execution Centre",
     ],
     travelExamples: [
       "Travel Playbook Library: matched to moment type and governance clearance",
       "Travel Role Model: 12 roles with defined scope, approval authority and escalation triggers",
       "No autonomous decision — every response path terminates at a named human role",
     ],
-    primaryStage: "decide",
+    primaryStage: "act",
   },
   {
-    id: "comms",
-    label: "Communications Layer",
-    summary: "Delivers governed instructions and communications to the right person via the right channel.",
+    id: "evidence-outcome-value",
+    label: "Evidence, Outcome and Value Layer",
+    summary: "Records what happened, the outcome achieved and the value attributable to the governed response.",
     sharedCapabilities: [
-      "Multi-channel delivery (push, SMS, in-app, staff app)",
-      "AI-assisted message drafting",
-      "Human approval workflow for guest-facing communications",
-      "Tone and policy compliance enforcement",
+      "Evidence Ledger",
+      "Outcome Ledger",
     ],
     travelExamples: [
       "Central Comms OS routes instructions to staff roles and approved messages to guests",
       "WELBX is the guest-facing delivery channel",
       "AI drafts; human or pre-authorised policy approves send",
     ],
-    primaryStage: "act",
+    primaryStage: "learn",
   },
   {
-    id: "outcome",
-    label: "Outcome & Value Layer",
-    summary: "Records every actioned outcome and converts it into measurable, compounding value.",
+    id: "learning-intelligence",
+    label: "Learning and Intelligence Layer",
+    summary: "Turns evidenced outcomes into reusable intelligence that improves future configuration and governed responses.",
     sharedCapabilities: [
-      "Outcome Registry — canonical outcome taxonomy",
-      "Evidence Ledger — immutable action and outcome log",
-      "Value Engine — maps outcomes to financial and experience value",
-      "Intelligence Reporting — performance trends by role, property and portfolio",
+      "Evidence Ledger",
+      "Outcome Ledger",
     ],
     travelExamples: [
       "Travel Outcome Model: 12 canonical outcome types",
@@ -307,60 +289,51 @@ export interface CoreCapability {
   layer: IntelligenceLayerId;
   /** Which engine stage this capability operates in */
   stage: EngineStageId;
+  /** Implementation detail retained beneath a canonical shared RTBX Core capability. */
+  parentCapabilityId?: string;
 }
 
 export const CORE_CAPABILITIES: CoreCapability[] = [
-  // Signal Layer — RTBX Core
-  { id: "cap-integration-hub",     name: "Integration Hub",           description: "Unified connector layer across PMS, CRM, loyalty, apps and IoT.",    origin: "RTBX Core",             layer: "signal",    stage: "connect" },
-  { id: "cap-signal-ingestion",    name: "Signal Ingestion Pipeline",  description: "Real-time and batch signal normalisation across all connected sources.", origin: "RTBX Core",           layer: "signal",    stage: "connect" },
-  { id: "cap-source-registry",     name: "Source Registry",            description: "Authoritative registry of connected systems and their signal types.",  origin: "RTBX Core",             layer: "signal",    stage: "connect" },
+  // Canonical shared RTBX Core capabilities — the only peer-level Core modules.
+  { id: "cap-integration-hub",     name: "Integration Hub",          description: "Unified connector layer across PMS, CRM, loyalty, apps and IoT.", origin: "RTBX Core", layer: "connection", stage: "connect" },
+  { id: "cap-signal-registry",     name: "Signal Registry",          description: "Authoritative registry and classification surface for connected signal types.", origin: "RTBX Core", layer: "connection", stage: "connect" },
+  { id: "cap-decision-spine",      name: "Decision Spine",           description: "Structured decision tree from classified moment to permitted response path.", origin: "RTBX Core", layer: "governance-decision", stage: "decide" },
+  { id: "cap-playbook-engine",     name: "Playbook Engine",          description: "Selects and surfaces the governed response pattern for a classified moment.", origin: "RTBX Core", layer: "governance-decision", stage: "decide" },
+  { id: "cap-prompt-nudge-engine", name: "Prompt & Nudge Engine",    description: "Coordinates governed prompts and nudges for the named role owner.", origin: "RTBX Core", layer: "execution-communication", stage: "act" },
+  { id: "cap-central-comms-os",    name: "Central Comms OS",         description: "Coordinates approved multi-channel instructions and communications.", origin: "RTBX Core", layer: "execution-communication", stage: "act" },
+  { id: "cap-evidence-ledger",     name: "Evidence Ledger",          description: "Immutable record of signal, governance, action and outcome evidence.", origin: "RTBX Core", layer: "evidence-outcome-value", stage: "learn" },
+  { id: "cap-outcome-ledger",      name: "Outcome Ledger",           description: "Canonical record of outcomes and value measures from actioned moments.", origin: "RTBX Core", layer: "evidence-outcome-value", stage: "learn" },
+  { id: "cap-build-configure",     name: "Build & Configure",        description: "Shared surface for configuring governed capabilities for a deployment.", origin: "RTBX Core", layer: "governance-decision", stage: "decide" },
+  { id: "cap-execution-centre",    name: "Execution Centre",          description: "Shared operator surface for governed role-owned execution.", origin: "RTBX Core", layer: "execution-communication", stage: "act" },
 
-  // Signal Layer — Travel Configuration
-  { id: "cap-travel-signal-reg",   name: "Travel Signal Registry",     description: "Classified travel signal library: guest, operations, safety, commercial and partner domains.", origin: "Travel Configuration", layer: "signal", stage: "connect" },
+  // Retained implementation sub-capabilities — always subordinate to a Core capability.
+  { id: "cap-signal-ingestion",    name: "Signal Ingestion Pipeline", description: "Real-time and batch signal normalisation across connected sources.", origin: "RTBX Core", layer: "connection", stage: "connect", parentCapabilityId: "cap-integration-hub" },
+  { id: "cap-source-registry",     name: "Source Registry",           description: "Authoritative registry of connected systems and their signal types.", origin: "RTBX Core", layer: "connection", stage: "connect", parentCapabilityId: "cap-integration-hub" },
+  { id: "cap-moment-engine",       name: "Moment Engine",              description: "Pattern-based classification of signal clusters into known moment types.", origin: "RTBX Core", layer: "context-moment", stage: "understand", parentCapabilityId: "cap-signal-registry" },
+  { id: "cap-context-assembler",   name: "Context Assembler",          description: "Assembles multi-signal clusters into a structured moment record.", origin: "RTBX Core", layer: "context-moment", stage: "understand", parentCapabilityId: "cap-signal-registry" },
+  { id: "cap-governance-engine",   name: "Governance Engine",           description: "Applies pre-approved governance sources before any response is permitted.", origin: "RTBX Core", layer: "governance-decision", stage: "decide", parentCapabilityId: "cap-decision-spine" },
+  { id: "cap-policy-registry",     name: "Policy Source Registry",      description: "Canonical registry of governance sources and applicability.", origin: "RTBX Core", layer: "governance-decision", stage: "decide", parentCapabilityId: "cap-decision-spine" },
+  { id: "cap-audit-trail",         name: "Audit Trail",                 description: "Immutable governance decision log per moment.", origin: "RTBX Core", layer: "governance-decision", stage: "decide", parentCapabilityId: "cap-decision-spine" },
+  { id: "cap-consent-rules",       name: "Consent & Privacy Rules",      description: "Governs what data may be captured, stored and acted on under consent.", origin: "RTBX Core", layer: "governance-decision", stage: "decide", parentCapabilityId: "cap-decision-spine" },
+  { id: "cap-role-router",         name: "Role Routing Engine",          description: "Assigns moment ownership to the correct named human role.", origin: "RTBX Core", layer: "governance-decision", stage: "decide", parentCapabilityId: "cap-decision-spine" },
+  { id: "cap-escalation-router",   name: "Escalation Router",            description: "Routes moments requiring elevated approval to the correct path.", origin: "RTBX Core", layer: "governance-decision", stage: "decide", parentCapabilityId: "cap-decision-spine" },
+  { id: "cap-ai-drafting",         name: "AI Drafting Engine",            description: "AI-assisted message drafting within the governed communications workflow.", origin: "RTBX Core", layer: "execution-communication", stage: "act", parentCapabilityId: "cap-prompt-nudge-engine" },
+  { id: "cap-action-centre",       name: "Action Centre",                 description: "Role-owner queue for governed moments and actions.", origin: "RTBX Core", layer: "execution-communication", stage: "act", parentCapabilityId: "cap-execution-centre" },
+  { id: "cap-outcome-registry",    name: "Outcome Registry",               description: "Canonical taxonomy beneath the Outcome Ledger.", origin: "RTBX Core", layer: "evidence-outcome-value", stage: "learn", parentCapabilityId: "cap-outcome-ledger" },
+  { id: "cap-value-engine",        name: "Value Engine",                   description: "Maps actioned outcomes to financial and experience value measures.", origin: "RTBX Core", layer: "evidence-outcome-value", stage: "learn", parentCapabilityId: "cap-outcome-ledger" },
+  { id: "cap-learning-layer",      name: "Learning Layer",                 description: "Improves classification and playbook selection from evidenced outcome history.", origin: "RTBX Core", layer: "learning-intelligence", stage: "learn", parentCapabilityId: "cap-outcome-ledger" },
 
-  // Moment Layer — RTBX Core
-  { id: "cap-moment-engine",       name: "Moment Engine",              description: "Pattern-based classification of signal clusters into known moment types.", origin: "RTBX Core",          layer: "moment",    stage: "understand" },
-  { id: "cap-context-assembler",   name: "Context Assembler",          description: "Assembles multi-signal clusters into a structured moment record.",    origin: "RTBX Core",             layer: "moment",    stage: "understand" },
-
-  // Moment Layer — Travel Configuration
-  { id: "cap-travel-moment-tax",   name: "Travel Moment Taxonomy",     description: "10 canonical travel moment types from Service Recovery to Post-Stay Recovery.", origin: "Travel Configuration", layer: "moment", stage: "understand" },
-
-  // Governance Layer — RTBX Core
-  { id: "cap-governance-engine",   name: "Governance Engine",          description: "Applies pre-approved governance sources to every moment before action is permitted.", origin: "RTBX Core", layer: "governance", stage: "decide" },
-  { id: "cap-policy-registry",     name: "Policy Source Registry",     description: "Canonical registry of governance sources and their applicability.",  origin: "RTBX Core",             layer: "governance", stage: "decide" },
-  { id: "cap-audit-trail",         name: "Audit Trail",                description: "Immutable governance decision log per moment.",                       origin: "RTBX Core",             layer: "governance", stage: "decide" },
-  { id: "cap-consent-rules",       name: "Consent & Privacy Rules",    description: "Governs what data may be captured, stored and acted on under what consent.", origin: "RTBX Core",     layer: "governance", stage: "decide" },
-
-  // Governance Layer — Travel Configuration
-  { id: "cap-travel-governance",   name: "Travel Governance Sources",  description: "11 canonical travel policies: Guest Safety, Compensation Matrix, Loyalty Treatment Standard and more.", origin: "Travel Configuration", layer: "governance", stage: "decide" },
-
-  // Decision Layer — RTBX Core
-  { id: "cap-decision-spine",      name: "Decision Spine",             description: "Structured decision tree from moment type to permitted response action.", origin: "RTBX Core",         layer: "decision",  stage: "decide" },
-  { id: "cap-playbook-engine",     name: "Playbook Engine",            description: "Selects and surfaces the correct playbook for a governance-cleared moment.", origin: "RTBX Core",      layer: "decision",  stage: "decide" },
-  { id: "cap-role-router",         name: "Role Routing Engine",        description: "Assigns moment ownership to the correct named human role.",            origin: "RTBX Core",             layer: "decision",  stage: "decide" },
-  { id: "cap-escalation-router",   name: "Escalation Router",          description: "Routes moments requiring elevated approval to the correct escalation path.", origin: "RTBX Core",     layer: "decision",  stage: "decide" },
-
-  // Decision Layer — Travel Configuration
-  { id: "cap-travel-playbooks",    name: "Travel Playbook Library",    description: "Response patterns matched to travel moment types and governance clearance.", origin: "Travel Configuration", layer: "decision", stage: "decide" },
-  { id: "cap-travel-roles",        name: "Travel Role Model",          description: "12 travel roles with defined scope, approval authority and escalation triggers.", origin: "Travel Configuration", layer: "decision", stage: "decide" },
-
-  // Communications Layer — RTBX Core
-  { id: "cap-comms-os",            name: "Central Comms OS",           description: "Multi-channel delivery of governed instructions and AI-drafted communications.", origin: "RTBX Core",  layer: "comms",     stage: "act" },
-  { id: "cap-ai-drafting",         name: "AI Drafting Engine",         description: "AI-assisted message drafting with human or policy approval workflow.",  origin: "RTBX Core",            layer: "comms",     stage: "act" },
-  { id: "cap-action-centre",       name: "Action Centre",              description: "Live moment queue for role owners to act on governed responses.",       origin: "RTBX Core",             layer: "comms",     stage: "act" },
-
-  // Communications Layer — Travel Configuration
-  { id: "cap-welbx-channel",       name: "WELBX Guest Channel",        description: "Guest-facing delivery layer: push, SMS and in-app messages to guests.", origin: "Travel Configuration", layer: "comms", stage: "act" },
-
-  // Outcome Layer — RTBX Core
-  { id: "cap-outcome-registry",    name: "Outcome Registry",           description: "Canonical taxonomy of outcomes — the allowed resolutions for any actioned moment.", origin: "RTBX Core", layer: "outcome", stage: "learn" },
-  { id: "cap-evidence-ledger",     name: "Evidence Ledger",            description: "Immutable log of signal, governance decision, action and outcome per moment.", origin: "RTBX Core",   layer: "outcome",   stage: "learn" },
-  { id: "cap-value-engine",        name: "Value Engine",               description: "Maps actioned outcomes to financial and experience value measures.",   origin: "RTBX Core",             layer: "outcome",   stage: "learn" },
-  { id: "cap-learning-layer",      name: "Learning Layer",             description: "Improves signal classification and playbook selection from actioned outcome history.", origin: "RTBX Core", layer: "outcome", stage: "learn" },
-
-  // Outcome Layer — Travel Configuration
-  { id: "cap-travel-outcomes",     name: "Travel Outcome Model",       description: "12 canonical travel outcome types from Response Started to Post-Stay Outcome.", origin: "Travel Configuration", layer: "outcome", stage: "learn" },
-  { id: "cap-travel-value",        name: "Travel Value Model",         description: "Travel value categories: Guest Experience, Operational, Commercial and Safety.", origin: "Travel Configuration", layer: "outcome", stage: "learn" },
+  // Travel configuration — domain-specific, not shared Core modules.
+  { id: "cap-travel-signal-reg",   name: "Travel Signal Registry",     description: "Classified travel signal library across guest, operations, safety, commercial and partner domains.", origin: "Travel Configuration", layer: "connection", stage: "connect" },
+  { id: "cap-travel-moment-tax",   name: "Travel Moment Taxonomy",      description: "10 canonical travel moment types from Service Recovery to Post-Stay Recovery.", origin: "Travel Configuration", layer: "context-moment", stage: "understand" },
+  { id: "cap-travel-governance",   name: "Travel Governance Sources",   description: "11 canonical travel policies including Guest Safety and Compensation Approval.", origin: "Travel Configuration", layer: "governance-decision", stage: "decide" },
+  { id: "cap-travel-playbooks",    name: "Travel Playbook Library",     description: "Response patterns matched to travel moment types and governance clearance.", origin: "Travel Configuration", layer: "governance-decision", stage: "decide" },
+  { id: "cap-travel-roles",        name: "Travel Role Model",           description: "Travel roles with defined scope, approval authority and escalation triggers.", origin: "Travel Configuration", layer: "governance-decision", stage: "decide" },
+  { id: "cap-travel-comms",        name: "Travel Communications",       description: "Travel-specific communication channels, message types and approval rules.", origin: "Travel Configuration", layer: "execution-communication", stage: "act" },
+  { id: "cap-travel-evidence",     name: "Travel Evidence",              description: "Travel-specific evidence requirements and capture rules.", origin: "Travel Configuration", layer: "evidence-outcome-value", stage: "learn" },
+  { id: "cap-travel-outcomes",     name: "Travel Outcome Model",         description: "12 canonical travel outcome types from Response Started to Post-Stay Outcome.", origin: "Travel Configuration", layer: "evidence-outcome-value", stage: "learn" },
+  { id: "cap-travel-value",        name: "Travel Value Model",            description: "Travel value categories: Guest Experience, Operational, Commercial and Safety.", origin: "Travel Configuration", layer: "evidence-outcome-value", stage: "learn" },
+  { id: "cap-welbx-channel",       name: "WELBX Guest Channel",           description: "Subordinate guest-facing delivery surface for approved travel communications.", origin: "Travel Configuration", layer: "execution-communication", stage: "act" },
 ];
 
 // ── 5. DEPLOYMENT PATHWAY ────────────────────────────────────────────────────
@@ -494,18 +467,21 @@ export const PLATFORM_HIERARCHY: HierarchyLevel[] = [
     origin: "RTBX Core",
     examples: [
       "Integration Hub",
-      "Moment Engine",
-      "Governance Engine",
+      "Signal Registry",
       "Decision Spine",
+      "Playbook Engine",
+      "Prompt & Nudge Engine",
       "Central Comms OS",
-      "Outcome Registry",
-      "Value Engine",
+      "Evidence Ledger",
+      "Outcome Ledger",
+      "Build & Configure",
+      "Execution Centre",
     ],
   },
   {
     id: "travel-config",
-    label: "Travel Intelligence Pack",
-    summary: "Domain-specific configuration: signals, moments and governance tuned for travel and hospitality.",
+    label: "Travel Configuration",
+    summary: "Domain-specific configuration: signals, moments, governance, roles, playbooks, communications, evidence and outcomes tuned for travel and hospitality.",
     origin: "Travel Configuration",
     examples: [
       "Travel Signal Registry",
@@ -513,6 +489,8 @@ export const PLATFORM_HIERARCHY: HierarchyLevel[] = [
       "Travel Governance Sources",
       "Travel Playbook Library",
       "Travel Role Model",
+      "Travel Communications",
+      "Travel Evidence",
       "Travel Outcome Model",
     ],
   },
@@ -543,8 +521,8 @@ export const PLATFORM_HIERARCHY: HierarchyLevel[] = [
   },
   {
     id: "active-deployment",
-    label: "Active Travel Operating Environment",
-    summary: "The live, running system for a specific property — every signal flowing, every moment governed.",
+    label: "Active Deployment",
+    summary: "The active system for a specific property — every signal, moment, action and outcome governed in context.",
     origin: "Property Configuration",
     examples: [
       "Live moment queue",
