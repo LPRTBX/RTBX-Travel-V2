@@ -1,0 +1,615 @@
+RTBX Travel — Step 4: Typography and Readability Correction
+
+You are working on the existing RTBX Travel Partner Room.
+
+The following are now locked and must not be changed in this task:
+
+* RTBX Main architecture
+* WELBX removal
+* Guest Demo branching logic
+* Navigation behaviour
+* Travel operating systems
+* scenarios
+* playbooks
+* runtime logic
+* partner model
+* pilot model
+* commercial structure
+
+This task is limited to typography, readability, spacing and text hierarchy.
+
+Do not redesign the site.
+
+Do not add new pages.
+
+Do not add new content.
+
+Do not change the product architecture.
+
+Do not change the navigation structure.
+
+⸻
+
+1. Objective
+
+Make the existing RTBX Travel Partner Room easy to read at normal desktop, tablet and mobile viewing distances without losing its current premium visual identity.
+
+The current application still contains extensive micro-text.
+
+The target is:
+
+Less information visible at once where necessary — not smaller information.
+
+⸻
+
+2. Typography standards
+
+Apply the following minimums across all active user-facing pages and shared components.
+
+Main body copy
+
+Minimum:
+
+16px
+
+Use for:
+
+* primary explanatory paragraphs
+* page introductions
+* scenario explanations
+* operating-model descriptions
+* pilot and commercial content
+* main proof descriptions
+
+Supporting body copy
+
+Minimum:
+
+14px
+
+Use for:
+
+* secondary explanations
+* card descriptions
+* supporting operational detail
+* helper text
+* form guidance
+
+Navigation
+
+Minimum:
+
+14px
+
+Applies to:
+
+* desktop group labels
+* dropdown links
+* mobile navigation
+* breadcrumb-like navigation
+* footer navigation
+
+Buttons and interactive controls
+
+Minimum text size:
+
+14px
+
+Important touch targets should remain approximately:
+
+44px minimum target height
+
+Forms
+
+Minimum:
+
+14px
+
+Applies to:
+
+* labels
+* selected values
+* dropdown values
+* inputs
+* validation copy
+
+Metadata and labels
+
+Minimum:
+
+12px
+
+Use for:
+
+* status labels
+* maturity badges
+* eyebrow labels
+* timestamps
+* evidence labels
+* scenario metadata
+* technical metadata
+* small card headings
+
+No meaningful user-facing text should be below 12px.
+
+⸻
+
+3. Global typography system
+
+Inspect the current global CSS/theme and establish reusable typography tokens or classes.
+
+Do not continue solving typography with hundreds of page-level inline fontSize values.
+
+Create a small shared system equivalent to:
+
+--text-xs: 12px
+--text-sm: 14px
+--text-base: 16px
+--text-lg: 18px
+--text-xl: 20px
+
+Use the existing styling architecture.
+
+Do not introduce a second CSS framework.
+
+⸻
+
+4. Global base font
+
+Set the effective primary HTML/body base font to:
+
+16px
+
+Do not leave the global base at 14px and then attempt to compensate page by page.
+
+Ensure this does not unintentionally inflate icon sizes or layout dimensions.
+
+⸻
+
+5. Heading hierarchy
+
+Establish a consistent heading scale.
+
+Use the current visual identity, but ensure:
+
+Page H1
+
+Large, visually dominant and readable.
+
+Section H2
+
+Clearly separated from body content.
+
+Subsection H3
+
+Visible without appearing equal to the page title.
+
+Small headings
+
+No meaningful heading should use micro-text simply because it is presented in uppercase.
+
+Maintain appropriate line heights.
+
+Recommended:
+
+* headings: approximately 1.15–1.3
+* body: approximately 1.45–1.65
+
+⸻
+
+6. Uppercase labels
+
+The product uses many small uppercase labels.
+
+Preserve the style where useful, but increase legibility.
+
+Rules:
+
+* meaningful uppercase labels: minimum 12px
+* do not rely on 7px–10px uppercase tracking
+* reduce excessive letter-spacing where it makes reading harder
+* maintain clear contrast
+
+Examples include:
+
+* GUEST EXPERIENCE DEMO
+* WORKING PROOF
+* SIMULATION
+* ARRIVAL
+* VALUE CREATED
+* WHAT RTBX COORDINATES
+
+These can remain visually compact without being microscopic.
+
+⸻
+
+7. Contrast
+
+Audit supporting grey text on the dark background.
+
+Increase contrast where content is currently difficult to read.
+
+Prioritise:
+
+* page introduction paragraphs
+* card body copy
+* inactive tabs
+* scenario metadata
+* proof explanations
+* operator notes
+* configuration help text
+* resource descriptions
+
+Do not change the overall black/dark RTBX visual identity.
+
+Do not make every piece of text pure white.
+
+Use hierarchy through contrast, but keep all meaningful information comfortably readable.
+
+⸻
+
+8. Line length
+
+Long explanatory paragraphs should not span excessive widths.
+
+Where appropriate, use readable text widths approximately equivalent to:
+
+55–80 characters per line
+
+Do not constrain operational tables or diagrams using this rule.
+
+Prioritise:
+
+* Partner Room
+* Overview
+* Operating Model
+* Operator Brief
+* Pilot Model
+* Partner Ecosystem
+* Commercial Pathway
+* Resource descriptions
+
+⸻
+
+9. Spacing
+
+Improve vertical rhythm without redesigning sections.
+
+Audit:
+
+* heading-to-paragraph spacing
+* paragraph-to-card spacing
+* card internal padding
+* label-to-value spacing
+* section separation
+* form-field spacing
+* button groups
+* tab groups
+
+Avoid:
+
+* text touching borders
+* crowded labels
+* excessive giant empty areas
+* inconsistent spacing between similar components
+
+Use shared spacing values where practical.
+
+⸻
+
+10. Card readability
+
+The application uses many cards.
+
+For cards:
+
+* body copy minimum 14px
+* important card content preferably 16px
+* metadata minimum 12px
+* headings clearly separated
+* sufficient internal padding
+* avoid four or five tiny information rows where two clearer groups would work
+
+Do not remove card content in this pass unless it is an exact duplicate.
+
+This is a readability pass, not card consolidation.
+
+⸻
+
+11. Tables and dense operational views
+
+Do not solve dense tables by shrinking text.
+
+For dense areas such as:
+
+* Execution Centre
+* Operator Demo
+* Travel Scenarios
+* Integration views
+* Commercial models
+* role matrices
+* evidence tables
+
+use:
+
+* 12px minimum metadata
+* 14px operational values
+* 14–16px important decisions/actions
+* adequate row height
+* wrapping where appropriate
+* controlled horizontal scroll where required
+
+Never shrink text to 8px–10px simply to preserve a desktop table width.
+
+⸻
+
+12. Tabs
+
+Review tabs such as the Guest Demo seven-moment selector.
+
+Tab labels must remain readable.
+
+Minimum text:
+
+12px, preferably 14px where space permits.
+
+At narrow widths, prefer:
+
+* wrapping
+* controlled horizontal scrolling
+* compact labels
+
+rather than shrinking below readable size.
+
+Ensure active/inactive state remains obvious.
+
+⸻
+
+13. Build & Configure priority
+
+Give special attention to Build & Configure.
+
+Review:
+
+* step labels
+* field labels
+* helper text
+* selected values
+* maturity labels
+* validation errors
+* configuration cards
+* review summary
+* activation controls
+
+The configuration environment must feel like a usable product, not a dense technical prototype.
+
+⸻
+
+14. Execution Centre priority
+
+Give special attention to the Execution Centre.
+
+The following must be immediately readable:
+
+* Active deployment
+* Active scenario
+* Current stage
+* Accountable role
+* Required next action
+* Approval state
+* Escalation state
+* Evidence completion
+* Outcome
+* Learning
+
+These should receive stronger visual hierarchy than secondary metadata.
+
+Do not reduce important runtime information to small badges.
+
+⸻
+
+15. Guest, Operator and Dual View priority
+
+Guest View
+
+Maintain consumer-grade readability.
+
+The simulated phone experience should look like something a real guest could comfortably use.
+
+Do not use 9px–10px text inside the phone purely to fit more content.
+
+Operator View
+
+Increase clarity of:
+
+* decisions
+* roles
+* recommended actions
+* escalation
+* evidence
+
+Dual View
+
+Ensure both sides remain readable when displayed together.
+
+At narrower widths, rely on layout changes rather than smaller text.
+
+⸻
+
+16. Partner / commercial pages priority
+
+Prioritise:
+
+* Partner Room
+* Pilot Model
+* Partner Ecosystem
+* Commercial Pathway
+* Next Step
+
+These are the pages most likely to be read in a meeting or circulated internally.
+
+They should feel closer to a premium executive presentation than a dense internal dashboard.
+
+⸻
+
+17. Inline-style cleanup
+
+Audit active user-facing files for explicit inline font sizes.
+
+Reduce unnecessary usage substantially.
+
+Where multiple pages use the same size/purpose, move to shared classes/tokens.
+
+Do not perform a risky full CSS rewrite.
+
+Use incremental consolidation.
+
+⸻
+
+18. Required measurement
+
+Before changes, report:
+
+* number of active font-size declarations
+* number below 12px
+* number below 14px
+* number below 16px
+
+After changes, report the same counts.
+
+Target:
+
+* 0 meaningful active user-facing declarations below 12px
+* significant reduction in declarations below 14px
+* body copy consistently 16px or above
+
+If technical/decorative exceptions remain below 12px, list each exception and explain why it is non-meaningful.
+
+⸻
+
+19. Pages to inspect manually
+
+At minimum, manually inspect:
+
+* Partner Room
+* Overview
+* Operator Brief
+* Operating Model
+* Travel Intelligence
+* Travel Operating Systems
+* Integration
+* Build & Configure
+* Execution Centre
+* Travel Scenarios
+* Decision Spine
+* Communications
+* Product Proof
+* Validation
+* Guest View
+* Operator View
+* Dual View
+* Pilot Model
+* Partner Ecosystem
+* Commercial Pathway
+* Resource Library
+* Next Step
+
+Do not assume global typography changes automatically solve page-specific density.
+
+⸻
+
+20. Viewport QA
+
+Manually verify text readability at:
+
+* 320px
+* 375px
+* 390px
+* 768px
+* 1024px
+* 1280px
+* 1440px
+
+At every viewport confirm:
+
+* text does not become microscopic
+* headings wrap correctly
+* buttons remain readable
+* labels remain readable
+* tabs remain usable
+* form text remains usable
+* cards remain readable
+* tables do not solve overflow by shrinking text
+
+Do not report viewport QA unless it was performed in a rendered browser.
+
+⸻
+
+21. Accessibility considerations
+
+During this typography pass, also confirm:
+
+* zoom to 200% does not destroy the primary reading flow
+* text remains readable with browser zoom
+* information is not conveyed only through subtle colour differences
+* uppercase tracking remains legible
+* focus labels remain readable
+
+Do not undertake the broader semantic accessibility refactor yet unless a typography change directly touches it.
+
+⸻
+
+22. Completion report
+
+At completion provide:
+
+Typography metrics
+
+Before and after:
+
+* total explicit font-size declarations
+* below 12px
+* below 14px
+* below 16px
+
+Global changes
+
+* base font
+* shared typography tokens
+* line heights
+* contrast changes
+* spacing changes
+
+Page-specific changes
+
+List the main corrections for:
+
+* Partner Room
+* Build & Configure
+* Execution Centre
+* Guest View
+* Operator View
+* Dual View
+* Pilot Model
+* Partner Ecosystem
+* Commercial Pathway
+
+Exceptions
+
+List any active meaningful text remaining below 12px.
+
+There should normally be none.
+
+Verification
+
+Run and report:
+
+* focused typography/readability checks if added
+* full tests
+* typecheck
+* production build
+* manual viewport QA
+
+Stop after typography and readability correction.
+
+Do not begin responsive-layout restructuring or broader accessibility changes.
