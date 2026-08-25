@@ -8,33 +8,73 @@ const P = {
   dimmed: "rgba(255,255,255,0.22)", green: "#10b981",
 };
 
-interface Stage {
+export interface GuestAction {
+  id: string;
+  label: string;
+  confirmation: string;
+  rtbxCoordinates: string;
+  operatorReceives: string;
+  valueCreated: string;
+}
+
+export interface Stage {
   id: number;
   stage: string;
   label: string;
   phoneMessage: string;
   phoneSub: string;
-  phoneActions: string[];
-  phoneConfirm: string;
+  phoneActions: GuestAction[];
   guestSees: string;
   rtbxAutomates: string;
   operatorReceives: string;
   valueCreated: string;
 }
 
-const STAGES: Stage[] = [
+export const STAGES: Stage[] = [
   {
     id: 0,
     stage: "Arrival",
     label: "01 · Arrival",
     phoneMessage: "Welcome back, Sarah.",
     phoneSub: "Your room is being prepared. Let us know how we can help while you wait.",
-    phoneActions: ["Check in digitally", "Hold my bags", "Find a quiet space", "Ask a question"],
-    phoneConfirm: "You're checked in. Room 408 will be ready by 15:30 — we'll send your key directly. No need to visit the desk.",
+    phoneActions: [
+      {
+        id: "arrival-check-in",
+        label: "Check in digitally",
+        confirmation: "Demo response: Digital check-in is confirmed for this example. The configured room-readiness and key-delivery pathway is shown; no live check-in or key is issued.",
+        rtbxCoordinates: "The demonstrated pathway coordinates a digital check-in signal with room-readiness and key-delivery rules.",
+        operatorReceives: "The demonstrated operator view receives check-in completion, example Room 408 status and the next ownership cue.",
+        valueCreated: "Shows how arrival friction could be reduced without a desk queue while keeping the handoff accountable.",
+      },
+      {
+        id: "arrival-bags",
+        label: "Hold my bags",
+        confirmation: "Demo response: A concierge bag-storage request is acknowledged for this example; no real task is created.",
+        rtbxCoordinates: "The demonstrated pathway routes a baggage-storage request to the configured concierge workflow.",
+        operatorReceives: "The demonstrated operator view receives concierge ownership and the example collection requirement.",
+        valueCreated: "Shows how waiting-time friction could be reduced with clear ownership and a visible collection handoff.",
+      },
+      {
+        id: "arrival-quiet-space",
+        label: "Find a quiet space",
+        confirmation: "Demo response: A suitable waiting-space option is presented for this example; no real space is reserved.",
+        rtbxCoordinates: "The demonstrated pathway checks configured waiting-space availability and carries the guest preference forward.",
+        operatorReceives: "The demonstrated operator view receives the guest preference and the support or availability cue.",
+        valueCreated: "Shows how a more considerate arrival can be offered without making the guest repeat their preference.",
+      },
+      {
+        id: "arrival-question",
+        label: "Ask a question",
+        confirmation: "Demo response: A guest-support and concierge handoff is previewed with the question context; no check-in or baggage action occurs.",
+        rtbxCoordinates: "The demonstrated pathway packages the question for the configured support channel without selecting an unrelated arrival action.",
+        operatorReceives: "The demonstrated operator view receives the guest question and the suggested support owner.",
+        valueCreated: "Shows how a guest can reach the right support context without being routed through the desk.",
+      },
+    ],
     guestSees: "Warm digital check-in with practical options. No queue, no desk wait, no friction.",
-    rtbxAutomates: "Arrival signal classified from PMS + app access. Room readiness check triggered. Loyalty tier activated — Gold protocol applied.",
-    operatorReceives: "Front desk: guest context card — name, tier, flight origin, room status and recommended greeting script for this specific guest.",
-    valueCreated: "Arrival friction reduced. First-impression sentiment protected. Loyalty recognition delivered in under 30 seconds.",
+    rtbxAutomates: "Demo pathway: example arrival signal classified from PMS + app access data. Room-readiness rules and the relevant loyalty protocol are shown.",
+    operatorReceives: "Demo operator view: example guest context card with tier, flight origin, room status and a recommended greeting script.",
+    valueCreated: "Demonstrates reduced arrival friction, protected first-impression sentiment and accountable loyalty recognition.",
   },
   {
     id: 1,
@@ -42,12 +82,44 @@ const STAGES: Stage[] = [
     label: "02 · Room Delay",
     phoneMessage: "Your room is nearly ready.",
     phoneSub: "There's a 25-minute delay. Here's what we can arrange in the meantime.",
-    phoneActions: ["Notify me when ready", "Hold my bags", "Use the lounge", "Speak to the team"],
-    phoneConfirm: "Your bags are at concierge. Lounge access is arranged on Level 2. We'll notify you the moment your room is ready — expected 15:30.",
+    phoneActions: [
+      {
+        id: "delay-notify",
+        label: "Notify me when ready",
+        confirmation: "Demo response: You are subscribed to the room-ready notification pathway for this example; no live message is sent.",
+        rtbxCoordinates: "The demonstrated pathway monitors the example room-readiness signal and prepares the configured notification.",
+        operatorReceives: "The demonstrated operator view receives the notification preference and the example room-readiness status.",
+        valueCreated: "Shows how uncertainty can be reduced without asking the guest to keep checking or take another action.",
+      },
+      {
+        id: "delay-bags",
+        label: "Hold my bags",
+        confirmation: "Demo response: A baggage-storage request is routed for this example; no real concierge task is created and no room-ready action is implied.",
+        rtbxCoordinates: "The demonstrated pathway routes baggage storage only to the configured concierge workflow.",
+        operatorReceives: "The demonstrated operator view receives baggage ownership and the example collection requirement.",
+        valueCreated: "Shows a clear holding option while keeping baggage handling separate from room readiness.",
+      },
+      {
+        id: "delay-lounge",
+        label: "Use the lounge",
+        confirmation: "Demo response: A lounge-access request is acknowledged for this example; no access is activated.",
+        rtbxCoordinates: "The demonstrated pathway checks the configured lounge-access rule and carries the request context forward.",
+        operatorReceives: "The demonstrated operator view receives the lounge preference and the access-support cue.",
+        valueCreated: "Shows how a delay can become a more comfortable waiting experience without mixing unrelated tasks.",
+      },
+      {
+        id: "delay-team",
+        label: "Speak to the team",
+        confirmation: "Demo response: A human contact request is prepared with the room-delay context; no message or call is sent.",
+        rtbxCoordinates: "The demonstrated pathway packages the delay context for the configured human-support route.",
+        operatorReceives: "The demonstrated operator view receives the guest request, delay timing and suggested owner.",
+        valueCreated: "Shows accountable human contact without requiring the guest to repeat the delay details.",
+      },
+    ],
     guestSees: "A proactive update with timing and options — before they need to ask or complain.",
-    rtbxAutomates: "Room delay escalation timer set: 45 minutes. Housekeeping reprioritised for Room 408. Lounge access pre-activated on guest profile.",
-    operatorReceives: "Housekeeping: Room 408 to priority queue. Manager: 45-min escalation timer active — alert queued. Front desk: lounge access confirmed, bags held.",
-    valueCreated: "Complaint prevented. Recovery pathway opened before frustration. Review risk reduced. Escalation timer set and tracked.",
+    rtbxAutomates: "Demo pathway: example delay timer, housekeeping priority and lounge rules are shown as coordinated responses.",
+    operatorReceives: "Demo operator view: example room status, delay timing, ownership cue and selected waiting option.",
+    valueCreated: "Demonstrates how a recovery pathway can open before frustration while keeping ownership visible.",
   },
   {
     id: 2,
@@ -55,12 +127,44 @@ const STAGES: Stage[] = [
     label: "03 · Weather Change",
     phoneMessage: "The weather has changed this afternoon.",
     phoneSub: "Your outdoor activity may be affected. Here are some alternatives we've put together for you.",
-    phoneActions: ["Indoor experiences nearby", "Reschedule outdoor activity", "Local recommendations", "Keep my booking"],
-    phoneConfirm: "We've sent you a curated indoor guide based on your preferences. The activity team has been updated — no action needed on your end.",
+    phoneActions: [
+      {
+        id: "weather-indoor",
+        label: "Indoor experiences nearby",
+        confirmation: "Demo response: Relevant indoor alternatives are prepared for this example; no guide or partner message is sent.",
+        rtbxCoordinates: "The demonstrated pathway matches the weather context with example indoor options and the guest preference profile.",
+        operatorReceives: "The demonstrated operator view receives the indoor-preference signal and the example alternatives cue.",
+        valueCreated: "Shows how the experience can be protected before disappointment occurs while preserving guest choice.",
+      },
+      {
+        id: "weather-reschedule",
+        label: "Reschedule outdoor activity",
+        confirmation: "Demo response: A rescheduling workflow is previewed with the activity context; no booking is changed.",
+        rtbxCoordinates: "The demonstrated pathway packages a rescheduling request for the configured activity and partner workflow.",
+        operatorReceives: "The demonstrated operator view receives the activity context, weather signal and rescheduling ownership cue.",
+        valueCreated: "Shows how a disruption can become an accountable partner handoff instead of an unresolved guest problem.",
+      },
+      {
+        id: "weather-local",
+        label: "Local recommendations",
+        confirmation: "Demo response: Contextual local recommendations are prepared for this example; no recommendation is delivered.",
+        rtbxCoordinates: "The demonstrated pathway combines weather context, location and guest preferences to shape local options.",
+        operatorReceives: "The demonstrated operator view receives the local-interest preference and the recommendation pathway cue.",
+        valueCreated: "Shows how relevant local discovery can continue even when the original plan changes.",
+      },
+      {
+        id: "weather-keep-booking",
+        label: "Keep my booking",
+        confirmation: "Demo response: Your booking remains unchanged in this example and monitoring continues; no rescheduling occurs.",
+        rtbxCoordinates: "The demonstrated pathway preserves the booking state and keeps the weather-risk monitor active.",
+        operatorReceives: "The demonstrated operator view receives the keep-booking choice and continued-monitoring status.",
+        valueCreated: "Shows that guest agency is preserved when the best response is to wait and keep monitoring.",
+      },
+    ],
     guestSees: "Alternatives delivered before the guest steps outside and faces disappointment. Proactive, not reactive.",
-    rtbxAutomates: "Weather disruption classified as experience risk. Activity partner notified. Indoor alternatives generated from guest profile and local partner inventory.",
-    operatorReceives: "Activity team: weather flag + guest preference update. Partner: capacity check triggered. Concierge: indoor options list queued for immediate delivery.",
-    valueCreated: "Guest experience recovered before it was lost. Local partner revenue opportunity created. Marketplace activation logged and evidenced.",
+    rtbxAutomates: "Demo pathway: weather disruption classified as experience risk. Example activity, partner and indoor-alternative rules are shown.",
+    operatorReceives: "Demo operator view: weather flag, selected guest preference and the relevant activity or partner ownership cue.",
+    valueCreated: "Demonstrates experience recovery before it is lost while keeping partner opportunity and guest agency visible.",
   },
   {
     id: 3,
@@ -68,12 +172,44 @@ const STAGES: Stage[] = [
     label: "04 · Dining Opportunity",
     phoneMessage: "You have a free window before dinner.",
     phoneSub: "Based on your stay so far, here are a few options we thought you'd enjoy.",
-    phoneActions: ["Dining suggestions", "Wellness & spa", "Transport & transfers", "Local experiences"],
-    phoneConfirm: "Our concierge is sending you a personalised list now — curated to your profile and your available window before 20:00.",
+    phoneActions: [
+      {
+        id: "dining-suggestions",
+        label: "Dining suggestions",
+        confirmation: "Demo response: Dining suggestions are prepared for this example based on the available window; no list is sent.",
+        rtbxCoordinates: "The demonstrated pathway matches the dining opportunity with example venues, timing and preference signals.",
+        operatorReceives: "The demonstrated operator view receives the dining preference, available window and relevant concierge cue.",
+        valueCreated: "Shows how a timely dining prompt can create relevance without becoming a generic promotion.",
+      },
+      {
+        id: "dining-wellness",
+        label: "Wellness & spa",
+        confirmation: "Demo response: A wellness and spa pathway is prepared for this example; no appointment or partner request is created.",
+        rtbxCoordinates: "The demonstrated pathway matches the wellness preference with example availability and configured partner rules.",
+        operatorReceives: "The demonstrated operator view receives the wellness preference, timing and support ownership cue.",
+        valueCreated: "Shows how the same moment can support a wellness outcome rather than forcing a dining response.",
+      },
+      {
+        id: "dining-transport",
+        label: "Transport & transfers",
+        confirmation: "Demo response: A transport pathway is prepared with the timing context; no transfer is booked.",
+        rtbxCoordinates: "The demonstrated pathway carries the transport preference, timing and destination context to the configured route.",
+        operatorReceives: "The demonstrated operator view receives the transport request context and the suggested transfer owner.",
+        valueCreated: "Shows how coordination can reduce planning effort around a guest's available window.",
+      },
+      {
+        id: "dining-local",
+        label: "Local experiences",
+        confirmation: "Demo response: Local-experience options are prepared for this example; no partner availability is reserved.",
+        rtbxCoordinates: "The demonstrated pathway matches the guest profile and free window with example local-experience inventory.",
+        operatorReceives: "The demonstrated operator view receives the experience preference and partner-support cue.",
+        valueCreated: "Shows how relevant local discovery can create value without interrupting the guest's stay.",
+      },
+    ],
     guestSees: "A relevant, well-timed prompt — not a generic notification. Delivered at exactly the right moment based on their actual schedule.",
-    rtbxAutomates: "High-propensity commercial window detected from booking data + stay history + dwell pattern. F&B pathway triggered. Personalisation layer applied from loyalty profile.",
-    operatorReceives: "F&B team: commercial activation window open for Room 408 — Gold tier, wellness preference noted. POS: upsell flag. Concierge: personalised list to be sent immediately.",
-    valueCreated: "F&B revenue opportunity activated. Guest engaged during dwell period. Ancillary revenue and experience partner revenue created.",
+    rtbxAutomates: "Demo pathway: example commercial window detected from booking data, stay history and dwell pattern. The selected preference shapes the shown route.",
+    operatorReceives: "Demo operator view: example Room 408 context, Gold tier, selected preference and the relevant support or partner cue.",
+    valueCreated: "Demonstrates a timely, preference-led opportunity without implying a live booking or commercial activation.",
   },
   {
     id: 4,
@@ -81,12 +217,44 @@ const STAGES: Stage[] = [
     label: "05 · Guest Welfare Flag",
     phoneMessage: "We're here if you need anything.",
     phoneSub: "No need to explain — we can help discreetly and without any fuss.",
-    phoneActions: ["Arrange a quiet space", "Speak to a staff member", "Come back to this later", "I'm fine, thank you"],
-    phoneConfirm: "Understood. A quiet space has been arranged on your floor. A staff member will check in discreetly — you don't need to do anything.",
+    phoneActions: [
+      {
+        id: "welfare-quiet-space",
+        label: "Arrange a quiet space",
+        confirmation: "Demo response: A quiet-space request is prepared for this example; no real space is arranged.",
+        rtbxCoordinates: "The demonstrated pathway applies the configured privacy-safe support rule and carries the quiet-space preference forward.",
+        operatorReceives: "The demonstrated operator view receives a discreet support cue, the guest preference and the configured care protocol.",
+        valueCreated: "Shows how dignified support can be offered with clear governance and without requiring public disclosure.",
+      },
+      {
+        id: "welfare-staff",
+        label: "Speak to a staff member",
+        confirmation: "Demo response: A human-contact request is prepared with the welfare context; no staff message or contact is sent.",
+        rtbxCoordinates: "The demonstrated pathway selects the configured human-support route and preserves the context needed for a careful handoff.",
+        operatorReceives: "The demonstrated operator view receives a discreet human-contact cue and the appropriate care context.",
+        valueCreated: "Shows how the guest can choose human support while keeping the response governed and proportionate.",
+      },
+      {
+        id: "welfare-later",
+        label: "Come back to this later",
+        confirmation: "Demo response: Your choice is respected and no immediate escalation is opened; discreet later follow-up remains configurable.",
+        rtbxCoordinates: "The demonstrated pathway records the defer choice without automatically escalating or assigning a support action.",
+        operatorReceives: "The demonstrated operator view receives a deferred status and the configured follow-up boundary.",
+        valueCreated: "Shows restraint: the guest retains control while any later follow-up remains governed by configuration.",
+      },
+      {
+        id: "welfare-fine",
+        label: "I'm fine, thank you",
+        confirmation: "Demo response: The prompt closes and your response is respected. No automatic escalation is shown unless a separate mandatory safety threshold applies.",
+        rtbxCoordinates: "The demonstrated pathway records a self-resolved response and does not open an escalation pathway.",
+        operatorReceives: "The demonstrated operator view shows the prompt closed with no action assigned; a mandatory safety threshold remains separately governed.",
+        valueCreated: "Shows that guest agency and proportionality are preserved instead of turning a declined prompt into an intervention.",
+      },
+    ],
     guestSees: "Soft, dignified support — no intrusion, no stigma, no forms. Delivered at the right moment.",
-    rtbxAutomates: "Welfare signal classified using privacy-safe escalation model. Appropriate support pathway selected. No over-escalation. Quiet space pre-arranged based on signal confidence.",
-    operatorReceives: "Appropriate staff member: discreet welfare guidance card — role, action steps and care protocol. Manager on standby with context only if threshold is met.",
-    valueCreated: "Duty-of-care pathway created and evidenced. Guest supported without visibility. Welfare action logged with full assurance trail.",
+    rtbxAutomates: "Demo pathway: welfare signal classified using a privacy-safe escalation model. Example support and threshold rules are shown.",
+    operatorReceives: "Demo operator view: discreet welfare guidance card with role, action steps and care protocol; escalation remains threshold-governed.",
+    valueCreated: "Demonstrates a duty-of-care pathway with proportionality, privacy and an accountable assurance trail.",
   },
   {
     id: 5,
@@ -94,12 +262,44 @@ const STAGES: Stage[] = [
     label: "06 · Service Recovery",
     phoneMessage: "We noticed your room issue is still open.",
     phoneSub: "Let's resolve this properly. Choose how you'd like us to proceed.",
-    phoneActions: ["Escalate to a manager", "Request a room move", "Arrange a 5-minute fix", "It's sorted — thank you"],
-    phoneConfirm: "A manager has been alerted and will be with you in under 5 minutes. You won't need to re-explain anything — we've passed the full context.",
+    phoneActions: [
+      {
+        id: "recovery-manager",
+        label: "Escalate to a manager",
+        confirmation: "Demo response: A manager-escalation pathway and five-minute timer are previewed; no manager is alerted.",
+        rtbxCoordinates: "The demonstrated pathway packages the open-issue context and starts the configured manager-escalation timer in the example.",
+        operatorReceives: "The demonstrated operator view receives the issue context, ownership cue and example five-minute resolution timer.",
+        valueCreated: "Shows how unresolved service issues can gain visible ownership and a governed response clock.",
+      },
+      {
+        id: "recovery-room-move",
+        label: "Request a room move",
+        confirmation: "Demo response: A room-availability and approval workflow is previewed; no room is changed or reserved.",
+        rtbxCoordinates: "The demonstrated pathway carries the issue context into the configured room-availability and approval route.",
+        operatorReceives: "The demonstrated operator view receives the room-move request, issue context and approval ownership cue.",
+        valueCreated: "Shows how a room-move request can be governed without promising availability before approval.",
+      },
+      {
+        id: "recovery-quick-fix",
+        label: "Arrange a 5-minute fix",
+        confirmation: "Demo response: An urgent service or maintenance action is previewed with a five-minute target; no task is dispatched.",
+        rtbxCoordinates: "The demonstrated pathway routes the issue to the configured urgent service or maintenance owner.",
+        operatorReceives: "The demonstrated operator view receives the issue context, urgent-action cue and five-minute target.",
+        valueCreated: "Shows how a small fix can receive a clear owner and response target before frustration grows.",
+      },
+      {
+        id: "recovery-sorted",
+        label: "It's sorted — thank you",
+        confirmation: "Demo response: The issue is marked resolved for this example and your confirmation is captured. No additional response is shown.",
+        rtbxCoordinates: "The demonstrated pathway closes the open recovery loop and records guest confirmation without starting an escalation timer.",
+        operatorReceives: "The demonstrated operator view receives a resolved status and guest confirmation; no additional alert is generated.",
+        valueCreated: "Shows a proportionate close: the guest's confirmation resolves the example without unnecessary escalation.",
+      },
+    ],
     guestSees: "A clear resolution pathway, a committed timeframe and confidence that someone owns the problem.",
-    rtbxAutomates: "Unresolved issue reclassified as escalation risk. Owner assigned. Timer started: 5 minutes. Manager alert queued. Full context packaged — no re-briefing needed.",
-    operatorReceives: "Manager: escalation alert with full context — room number, issue type, time open, prior actions, guest tier. Owner assigned. Timer: 5 minutes to resolution.",
-    valueCreated: "Escalation pathway active. Ownership assigned and logged. Evidence trail created. Negative review risk significantly reduced.",
+    rtbxAutomates: "Demo pathway: the unresolved issue is classified as an example recovery risk. The selected response determines whether a timer, approval route or close is shown.",
+    operatorReceives: "Demo operator view: example room number, issue type, time open, prior actions, guest tier and selected ownership cue.",
+    valueCreated: "Demonstrates governed service recovery with proportional ownership, evidence and guest confirmation.",
   },
   {
     id: 6,
@@ -107,12 +307,44 @@ const STAGES: Stage[] = [
     label: "07 · Checkout",
     phoneMessage: "Thank you for staying, Sarah.",
     phoneSub: "Your checkout is ready. We'd love to hear how your stay went.",
-    phoneActions: ["Express checkout", "Share feedback", "Book my next stay", "Request a receipt"],
-    phoneConfirm: "You're checked out. Your receipt is on its way. Your feedback has been recorded — thank you. We look forward to welcoming you back.",
+    phoneActions: [
+      {
+        id: "checkout-express",
+        label: "Express checkout",
+        confirmation: "Demo response: Express checkout is confirmed for this example; no live checkout is processed.",
+        rtbxCoordinates: "The demonstrated pathway coordinates the checkout confirmation with the example stay and assurance record.",
+        operatorReceives: "The demonstrated operator view receives the example checkout status and any outstanding-stay context.",
+        valueCreated: "Shows how checkout friction could be reduced while preserving a clear assurance record.",
+      },
+      {
+        id: "checkout-feedback",
+        label: "Share feedback",
+        confirmation: "Demo response: A feedback-capture pathway is opened for this example; no feedback is submitted.",
+        rtbxCoordinates: "The demonstrated pathway prepares sentiment capture and the configured post-stay review route.",
+        operatorReceives: "The demonstrated operator view receives the feedback pathway cue and the relevant stay context.",
+        valueCreated: "Shows how the guest voice can enter an accountable learning loop at the end of the stay.",
+      },
+      {
+        id: "checkout-next-stay",
+        label: "Book my next stay",
+        confirmation: "Demo response: A repeat-stay booking pathway is previewed; no reservation or follow-up is created.",
+        rtbxCoordinates: "The demonstrated pathway carries the repeat-stay intent to the configured booking and loyalty route.",
+        operatorReceives: "The demonstrated operator view receives repeat-stay intent and the example follow-up ownership cue.",
+        valueCreated: "Shows how a positive stay can inform a relevant repeat-stay pathway without implying a booking.",
+      },
+      {
+        id: "checkout-receipt",
+        label: "Request a receipt",
+        confirmation: "Demo response: Receipt delivery is confirmed for this example; no real receipt is sent and no other checkout action is implied.",
+        rtbxCoordinates: "The demonstrated pathway prepares the receipt-delivery route only, separate from checkout, feedback and repeat-stay paths.",
+        operatorReceives: "The demonstrated operator view receives a receipt request and delivery-status cue only.",
+        valueCreated: "Shows a precise post-stay service response without adding an unrelated booking or feedback action.",
+      },
+    ],
     guestSees: "Frictionless checkout, a loyalty moment and a dignified farewell — no queue, no desk.",
-    rtbxAutomates: "Checkout signal triggers sentiment capture + loyalty pathway. Post-stay flag raised if sentiment below threshold. Repeat-stay opportunity queued for CRM activation.",
-    operatorReceives: "GM summary: stay outcome, guest sentiment signal, unresolved items (if any), loyalty re-engagement flag. Post-stay follow-up triggered if sentiment requires it.",
-    valueCreated: "Assurance record completed. Outcome evidenced. Repeat-stay opportunity created. CRM journey activated for this guest.",
+    rtbxAutomates: "Demo pathway: example checkout, sentiment and loyalty rules are shown; the selected action determines which route is prepared.",
+    operatorReceives: "Demo operator view: example stay outcome, sentiment cue, unresolved items and the selected post-stay ownership cue.",
+    valueCreated: "Demonstrates a precise end-of-stay response with an evidenced outcome and no implied live transaction.",
   },
 ];
 
@@ -120,8 +352,8 @@ const QUAD_COLORS = ["#c9a84c", "#3b82f6", "#10b981", "#a78bfa"];
 
 function PhoneFrame({ stage, selected, onSelect }: {
   stage: Stage;
-  selected: string | null;
-  onSelect: (a: string) => void;
+  selected: GuestAction | null;
+  onSelect: (a: GuestAction | null) => void;
 }) {
   return (
     <div style={{
@@ -184,7 +416,7 @@ function PhoneFrame({ stage, selected, onSelect }: {
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {stage.phoneActions.map(action => (
                 <button
-                  key={action}
+                  key={action.id}
                   onClick={() => onSelect(action)}
                   style={{
                     padding: "11px 14px",
@@ -199,7 +431,7 @@ function PhoneFrame({ stage, selected, onSelect }: {
                   onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "#e6e4e0"; }}
                   onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "#f0eeea"; }}
                 >
-                  {action}
+                  {action.label}
                 </button>
               ))}
             </div>
@@ -210,10 +442,13 @@ function PhoneFrame({ stage, selected, onSelect }: {
                 border: "1px solid rgba(16,185,129,0.3)", borderRadius: 10, marginBottom: 14,
               }}>
                 <div style={{ fontSize: 9, fontWeight: 700, color: "#10b981", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 5 }}>✓ Confirmed</div>
-                <div style={{ fontSize: 11, color: "#2d4a3e", lineHeight: 1.6 }}>{stage.phoneConfirm}</div>
+                <div style={{ fontSize: 9, fontWeight: 700, color: "#2d4a3e", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 6 }}>
+                  Guest choice: {selected.label}
+                </div>
+                <div style={{ fontSize: 11, color: "#2d4a3e", lineHeight: 1.6 }}>{selected.confirmation}</div>
               </div>
               <button
-                onClick={() => onSelect("")}
+                onClick={() => onSelect(null)}
                 style={{
                   padding: "8px 14px", background: "transparent",
                   border: "1px solid rgba(0,0,0,0.1)", borderRadius: 8,
@@ -244,7 +479,7 @@ const QUAD_LABELS = ["What the Guest Sees", "What RTBX Core Coordinates", "What 
 
 export default function PartnerGuestDemo() {
   const [stageIdx, setStageIdx] = useState(0);
-  const [selected, setSelected] = useState<string | null>(null);
+  const [selected, setSelected] = useState<GuestAction | null>(null);
   const stage = STAGES[stageIdx];
 
   function goTo(idx: number) {
@@ -252,7 +487,12 @@ export default function PartnerGuestDemo() {
     setSelected(null);
   }
 
-  const quadContent = [stage.guestSees, stage.rtbxAutomates, stage.operatorReceives, stage.valueCreated];
+  const quadContent = [
+    stage.guestSees,
+    selected?.rtbxCoordinates ?? stage.rtbxAutomates,
+    selected?.operatorReceives ?? stage.operatorReceives,
+    selected?.valueCreated ?? stage.valueCreated,
+  ];
 
   return (
     <PartnerRoomLayout>
@@ -309,7 +549,7 @@ export default function PartnerGuestDemo() {
 
         {/* Left: Phone */}
         <div style={{ flexShrink: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: 24 }}>
-          <PhoneFrame stage={stage} selected={selected} onSelect={s => setSelected(s || null)} />
+          <PhoneFrame stage={stage} selected={selected} onSelect={setSelected} />
           <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
             <button
               onClick={() => goTo(Math.max(0, stageIdx - 1))}
