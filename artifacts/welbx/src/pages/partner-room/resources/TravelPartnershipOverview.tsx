@@ -59,7 +59,7 @@ export default function TravelPartnershipOverview() {
               { label: "RTBX Group", sub: "Parent ecosystem", note: "Owns the infrastructure, IP and vertical strategy across all RTBX deployment verticals.", color: "rgba(255,255,255,0.3)" },
               { label: "RTBX Core", sub: "Signal-to-action engine", note: "The operating infrastructure that powers every RTBX vertical. Signal ingestion, moment classification, decision logic, action routing, assurance.", color: C.gold },
               { label: "RTBX Travel", sub: "Travel vertical", note: "Hotels, resorts, holiday parks, corporate travel, events and destination operators. Deploying RTBX Core across the full travel and hospitality ecosystem.", color: C.gold },
-              { label: "WELBX", sub: "Guest-facing layer only", note: "The zero-download, no-login guest interface. Surfaces support, recovery and experience options to guests. WELBX is part of RTBX Travel, not the parent brand.", color: C.blue },
+              { label: "Guest Experience", sub: "Guest-facing layer only", note: "The zero-download, no-login guest interface. Surfaces support, recovery and experience options to guests. It is part of RTBX Travel, not the parent brand.", color: C.blue },
             ].map(item => (
               <div key={item.label} style={{ padding: "22px 20px", background: "rgba(255,255,255,0.02)", border: `1px solid ${item.color}25`, borderTop: `2px solid ${item.color}` }}>
                 <div style={{ fontSize: 11, fontWeight: 800, color: item.color, letterSpacing: "0.06em", marginBottom: 4 }}>{item.label}</div>

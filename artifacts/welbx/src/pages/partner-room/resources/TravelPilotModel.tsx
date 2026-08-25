@@ -7,7 +7,7 @@ const PHASES = [
   { n: "01", label: "Operator Alignment", weeks: "Week 1", desc: "Define objectives, identify proof environments, assign operator contact. Agree on success metrics and governance model.", output: "Signed pilot brief. Moment map draft. Contact matrix." },
   { n: "02", label: "Moment Mapping", weeks: "Week 1–2", desc: "Map the guest journey, identify moment types, confirm signal sources (PMS, POS, staff systems, app touch points).", output: "Moment map. Signal source list. Priority moment types confirmed." },
   { n: "03", label: "Scenario Validation", weeks: "Week 2–3", desc: "Define 5–10 operating scenarios. Validate classification logic against real environment data. Staff briefed on pathway structure.", output: "Scenario set. Classification thresholds set. Staff briefing completed." },
-  { n: "04", label: "Staff & Guest Pathway Setup", weeks: "Week 3–4", desc: "Configure staff action cards. Set up WELBX guest interface. Test end-to-end pathway flow. Guest and staff test session.", output: "Staff pathway live. WELBX configured. Test run completed. Sign-off from operator." },
+  { n: "04", label: "Staff & Guest Pathway Setup", weeks: "Week 3–4", desc: "Configure staff action cards. Set up Guest Experience interface. Test end-to-end pathway flow. Guest and staff test session.", output: "Staff pathway live. Guest Experience configured. Test run completed. Sign-off from operator." },
   { n: "05", label: "Shadow Pilot", weeks: "Week 4–6", desc: "RTBX Core runs in parallel — signals captured, moments classified, pathways queued. No live delivery to guests or staff yet.", output: "Shadow pilot data. Signal validation. Moment creation accuracy report. Adjustment recommendations." },
   { n: "06", label: "Live Pilot", weeks: "Week 6–10", desc: "Full live operation. Real guests, real staff, real moments. All six moment types active. Recovery, welfare, commercial and concierge pathways running.", output: "Live operating data. Moment log. Staff response data. Guest feedback. Escalation record." },
   { n: "07", label: "Reporting & Value Proof", weeks: "Week 10–12", desc: "Full outcome report produced. Value proof against baseline metrics. Assurance records collated. Commercial conversion case prepared.", output: "Outcome report. Value proof document. Assurance record summary. Commercial conversion proposal." },
@@ -15,7 +15,7 @@ const PHASES = [
 ];
 
 const METRICS = [
-  { metric: "Guest engagement rate", target: ">60% of moments result in guest action", why: "Validates that WELBX pathways are finding the right moment at the right time" },
+  { metric: "Guest engagement rate", target: ">60% of moments result in guest action", why: "Validates that Guest Experience pathways are finding the right moment at the right time" },
   { metric: "Service recovery rate", target: ">80% of flagged issues resolved before escalation", why: "Core value proof — escalation prevented, outcome owned" },
   { metric: "Staff response completion", target: ">90% of routed actions completed within SLA", why: "Validates that staff pathway design is workable and followed" },
   { metric: "Escalations prevented", target: "Baseline comparison — target >30% reduction", why: "Direct evidence of operational risk reduction" },

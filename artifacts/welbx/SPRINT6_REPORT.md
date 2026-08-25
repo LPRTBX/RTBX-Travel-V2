@@ -301,7 +301,7 @@ Full security boundary: `docs/release-security-boundary.md`.
 | # | Limitation | Category | Plan |
 |---|---|---|---|
 | 1 | No production integrations connected | Architecture | Pilot Phase 2 |
-| 2 | Guest communications demonstrated only | Architecture | Production WELBX layer |
+| 2 | Guest communications demonstrated only | Architecture | Production Guest-facing Experience delivery layer |
 | 3 | Marketplace OS expansion-only | Deliberate | Post-pilot scope |
 | 4 | Client-side authentication only | Tech debt | Production engineering |
 | 5 | localStorage persistence only | Tech debt | Follow-up task |
@@ -317,7 +317,7 @@ Full security boundary: `docs/release-security-boundary.md`.
 
 | File | Type | Change |
 |---|---|---|
-| `scripts/check-legacy.mjs` | Updated | Excluded test files; broadened ALLOWED_PATTERNS for WELBX as canonical architectural term |
+| `scripts/check-legacy.mjs` | Updated | Excluded test files; aligned allowed terminology patterns with the canonical architecture |
 | `src/App.tsx` | Updated | Added `React.lazy` + `Suspense` for 24 secondary routes; kept 40 core routes eager |
 | `src/lib/validateCrossView.test.ts` | Created | 23 new tests: cross-view, guest restrictions, serialisation, accessibility static analysis |
 | `docs/final-page-register.md` | Created | 69 routes, navigation audit summary, validation results |

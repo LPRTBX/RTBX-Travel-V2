@@ -1,7 +1,7 @@
 - [WELBX architecture](welbx-architecture.md) — 32+ routes, sectioned sidebar, AppContext with property/role/period/search state, 3 new pages (LearningLayer, CausalTrace, ValueProof)
 - [IHG Pilot Story structure](ihg-pilot-story.md) — 3 story routes under /story, sidebar IHG PILOT section, AppShell suppresses sidebar for /story/* same as /presentation-mode/*
-- [RTBX brand hierarchy](rtbx-brand-hierarchy.md) — RTBX Group > RTBX Core > RTBX Travel > WELBX; Partner Room now branded RTBX Travel; WELBX reserved for guest-facing layer only
-- [Sprint 2 terminology baseline](sprint2-terminology.md) — canonical terms, nav 5-group structure, WELBX-as-guest-layer distinction, check:legacy advisory count
+- [RTBX brand hierarchy](rtbx-brand-hierarchy.md) — RTBX Group > RTBX Core > RTBX Travel; no named guest-layer brand is active in the product.
+- [Guest-channel terminology](guest-channel-terminology.md) — guest-facing delivery is configurable and sits in the Execution and Communication Layer.
 - [Travel Intelligence data model](travel-intelligence-data-model.md) — central data file backs the Travel Intelligence page; new taxonomies/roles go there, not inline in the page
 - [Sprint 3 data model decisions](sprint3-data-model.md) — legacy scenario fields preserved; canonical S3 fields added alongside; travelPlaybooks.ts and travelRoles.ts are new; playbooks.ts untouched
 - [Sprint 5 data model decisions](sprint5-data-model.md) — 4 new data files, CommercialStatus/IntegrationMaturity type guards, marketplace always expansion-only, connector-ready excluded by type

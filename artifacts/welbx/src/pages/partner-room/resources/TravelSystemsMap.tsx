@@ -9,15 +9,15 @@ const HEAD_SYSTEMS = [
     id: "guest-experience-os",
     label: "Guest Experience OS",
     color: "#3b82f6",
-    note: "WELBX-powered guest layer",
-    desc: "Everything the guest sees, chooses and experiences — from check-in support to checkout. WELBX is the delivery surface for this OS.",
+    note: "Guest-facing Experience layer",
+    desc: "Everything the guest sees, chooses and experiences — from check-in support to checkout. Guest Experience is the delivery surface for this OS.",
     modules: [
       { name: "Guest check-in pathways", desc: "Digital check-in, room delay options, bag hold, quiet space routing" },
       { name: "Guest welfare prompts", desc: "Privacy-safe welfare signal classification and discreet support pathways" },
       { name: "In-stay nudges", desc: "Experience, dining, transport and activity prompts at high-propensity moments" },
       { name: "Experience preferences", desc: "Profile-driven personalisation layer for moment delivery" },
       { name: "Post-stay sentiment", desc: "Checkout feedback, loyalty moment, repeat-stay pathway activation" },
-      { name: "WELBX interface", desc: "Zero-download, no-login guest-facing experience layer. Tablets, QR, SMS or embedded" },
+      { name: "Guest Experience interface", desc: "Zero-download, no-login guest-facing experience layer. Tablets, QR, SMS or embedded" },
     ],
   },
   {
@@ -144,7 +144,7 @@ export default function TravelSystemsMap() {
         <div style={{ marginBottom: 40, padding: "20px 22px", background: "rgba(201,168,76,0.04)", border: "1px solid rgba(201,168,76,0.15)" }}>
           <div style={{ fontSize: 8, letterSpacing: "0.14em", color: C.gold, textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>RTBX Core — Powers Every Head System</div>
           <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, margin: 0 }}>
-            All five head systems run on RTBX Core infrastructure — the same signal ingestion, moment classification, decision spine, action routing and assurance registry. WELBX appears only as the guest-facing delivery surface inside the Guest Experience OS. Every other layer is operator and partner-facing.
+            All five head systems run on RTBX Core infrastructure — the same signal ingestion, moment classification, decision spine, action routing and assurance registry. Guest Experience appears only as the guest-facing delivery surface inside the Guest Experience OS. Every other layer is operator and partner-facing.
           </p>
         </div>
 

@@ -175,7 +175,7 @@ export const DEFAULT_DEPLOYMENT: TravelDeploymentConfig = {
   systems: [
     { id: "sys-pms",           name: "Property Management System (PMS)",  category: "Core Operations",     maturity: "simulated",  notes: "Opera Cloud — connection simulated for demo" },
     { id: "sys-housekeeping",  name: "Housekeeping System",               category: "Core Operations",     maturity: "simulated",  notes: "Housekeeping tasks simulated via task queue" },
-    { id: "sys-guest-app",     name: "Guest App (WELBX)",                 category: "Guest Communication", maturity: "demonstrated", notes: "WELBX guest interface — working demo" },
+    { id: "sys-guest-app",     name: "Guest Interface",                   category: "Guest Communication", maturity: "demonstrated", notes: "Guest Interface — working demo" },
     { id: "sys-crm",           name: "CRM / Guest Profile",               category: "Guest Intelligence",  maturity: "manual",     notes: "Guest data entered manually for pilot" },
     { id: "sys-task",          name: "Task Management System",            category: "Core Operations",     maturity: "simulated",  notes: "Task queue simulated" },
     { id: "sys-loyalty",       name: "Loyalty Platform",                  category: "Guest Intelligence",  maturity: "manual",     notes: "Loyalty tier status supplied manually" },
@@ -272,12 +272,12 @@ export const DEFAULT_DEPLOYMENT: TravelDeploymentConfig = {
   ],
 
   communications: [
-    { id: "comm-01", communicationType: "Guest Acknowledgement",       audience: "Guest",           channel: "Guest App (WELBX)", approvalRequired: false, generationMode: "ai-draft-human-review",  distressedGuestRestricted: false },
-    { id: "comm-02", communicationType: "Recovery Offer",              audience: "Guest",           channel: "Guest App (WELBX)", approvalRequired: true,  generationMode: "template-human-review",  distressedGuestRestricted: false },
+    { id: "comm-01", communicationType: "Guest Acknowledgement",       audience: "Guest",           channel: "Approved Guest Channel", approvalRequired: false, generationMode: "ai-draft-human-review",  distressedGuestRestricted: false },
+    { id: "comm-02", communicationType: "Recovery Offer",              audience: "Guest",           channel: "Approved Guest Channel", approvalRequired: true,  generationMode: "template-human-review",  distressedGuestRestricted: false },
     { id: "comm-03", communicationType: "Internal Staff Prompt",       audience: "Frontline Staff", channel: "Staff App",         approvalRequired: false, generationMode: "ai-draft-human-review",  distressedGuestRestricted: false },
     { id: "comm-04", communicationType: "Manager Escalation Alert",    audience: "Duty Manager",    channel: "In-app Alert",      approvalRequired: false, generationMode: "ai-draft-human-review",  distressedGuestRestricted: false },
     { id: "comm-05", communicationType: "Welfare Escalation",          audience: "Duty Manager",    channel: "In-app Alert",      approvalRequired: false, generationMode: "human-authored",         distressedGuestRestricted: true  },
-    { id: "comm-06", communicationType: "Room Ready Notification",     audience: "Guest",           channel: "Guest App (WELBX)", approvalRequired: true,  generationMode: "template-human-review",  distressedGuestRestricted: false },
+    { id: "comm-06", communicationType: "Room Ready Notification",     audience: "Guest",           channel: "Approved Guest Channel", approvalRequired: true,  generationMode: "template-human-review",  distressedGuestRestricted: false },
     { id: "comm-07", communicationType: "Reallocation Briefing",       audience: "Staff",           channel: "Staff App",         approvalRequired: false, generationMode: "ai-draft-human-review",  distressedGuestRestricted: false },
   ],
 

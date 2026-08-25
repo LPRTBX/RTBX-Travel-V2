@@ -4,7 +4,7 @@
  * Validates the deployment configuration model and runtime engine against
  * the canonical Sprint 3 data. All checks must pass before Sprint 4 is complete.
  *
- * Run via: pnpm --filter @workspace/welbx test
+ * Run from this artifact directory: pnpm test
  */
 
 import { DEFAULT_DEPLOYMENT, SYSTEM_MATURITY_OPTIONS, type ScenarioExecutionState } from "../data/travelDeploymentConfig";

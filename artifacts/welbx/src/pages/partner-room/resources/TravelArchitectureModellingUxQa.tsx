@@ -25,7 +25,7 @@ const DATA_MODEL = [
 ];
 
 const ROLE_UX = [
-  { role: "Guest", color: "#3b82f6", sees: "WELBX guest-facing experience layer — support prompts, recovery options, in-stay nudges." },
+  { role: "Guest", color: "#3b82f6", sees: "Guest-facing Experience layer — support prompts, recovery options, in-stay nudges." },
   { role: "Staff", color: "#10b981", sees: "Task queue, action cards, escalation alerts, resolution timers." },
   { role: "Manager", color: "#c9a84c", sees: "Property-level moment dashboard, escalation breaches, team performance." },
   { role: "Executive", color: "#a78bfa", sees: "Portfolio-level value proof, recovery rate, assurance completeness." },

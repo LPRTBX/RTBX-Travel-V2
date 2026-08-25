@@ -58,7 +58,7 @@ export default function PartnerOperatorBrief() {
             The Execution Gap That RTBX Core Closes
           </h1>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 680 }}>
-            Travel operators do not lack data. They lack a governed operating layer between the signals their systems generate and the actions their teams take. That gap is where guest experience degrades, commercial value leaks, and operational cost accumulates. RTBX Core closes it — not by adding process, but by routing the right action to the right person before the moment passes. WELBX is the guest-facing experience layer guests interact with directly.
+            Travel operators do not lack data. They lack a governed operating layer between the signals their systems generate and the actions their teams take. That gap is where guest experience degrades, commercial value leaks, and operational cost accumulates. RTBX Core closes it — not by adding process, but by routing the right action to the right person before the moment passes. Guest Experience is the guest-facing layer guests interact with directly.
           </p>
         </div>
 

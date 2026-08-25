@@ -22,7 +22,7 @@ There is no governed execution layer between signal and action. No system asks: 
     heading: "The Role of RTBX",
     body: `RTBX Core is the shared signal-to-action infrastructure. It sits between the signals your property already generates and the actions your teams need to take. It does not replace any system. It reads them, classifies what they collectively mean, determines the governed response, and routes it to the right person.
 
-RTBX Travel is RTBX Core configured for travel and hospitality environments — guest moments, operational pressure, commercial activation, welfare obligations, and partner ecosystems. WELBX is the guest-facing experience layer: what guests interact with directly.`,
+RTBX Travel is RTBX Core configured for travel and hospitality environments — guest moments, operational pressure, commercial activation, welfare obligations, and partner ecosystems. Guest Experience is the guest-facing layer: what guests interact with directly.`,
   },
   {
     num: "04",
@@ -116,7 +116,7 @@ export default function PartnerOverview() {
             <span style={{ fontSize: 11, color: "rgba(255,255,255,0.2)" }}>→</span>
             <span style={{ fontSize: 12, fontWeight: 700, color: "#c9a84c" }}>RTBX Travel</span>
             <span style={{ fontSize: 11, color: "rgba(255,255,255,0.2)" }}>→</span>
-            <span style={{ fontSize: 12, fontWeight: 700, color: "#3b82f6" }}>WELBX</span>
+            <span style={{ fontSize: 12, fontWeight: 700, color: "#3b82f6" }}>Guest Experience</span>
             <Link href="/partner-room/operating-model">
               <span style={{ fontSize: 11, color: "rgba(255,255,255,0.3)", marginLeft: 8, cursor: "pointer", textDecoration: "underline" }}>Full Operating Model →</span>
             </Link>

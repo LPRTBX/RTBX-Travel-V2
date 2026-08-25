@@ -44,7 +44,7 @@ const DEMOS = [
     num: "04",
     title: "Moment-to-Value Demo",
     sub: "Follow a signal from detection through decision, response, outcome and value.",
-    desc: "Ten real hotel moments. Each one showing what RTBX Core classifies, routes and logs, with WELBX used for guest-facing communication.",
+    desc: "Ten real hotel moments. Each one showing what RTBX Core classifies, routes and logs, with Guest Channel used for guest-facing communication.",
     cta: "Open Moments Economy",
     path: "/partner-room/moments-economy",
     color: P.amber,
@@ -102,7 +102,7 @@ export default function PartnerLiveDemos() {
           Live UX Demos
         </h1>
         <p style={{ fontSize: 15, color: P.muted, maxWidth: 560, lineHeight: 1.75, margin: 0 }}>
-          See how RTBX Travel works across guest, operator and signal-to-action views, with WELBX appearing only as the guest-facing experience layer.
+          See how RTBX Travel works across guest, operator and signal-to-action views, with Guest Experience appearing only as the guest-facing experience layer.
         </p>
       </div>
 

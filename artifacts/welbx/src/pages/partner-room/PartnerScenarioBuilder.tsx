@@ -9,7 +9,7 @@ import { getTravelRole } from "@/data/travelRoles";
 const ENVS = ["Hotels & Resorts", "Holiday Parks & Outdoor Experiences", "Corporate Travel", "Events & Venues", "Destination & Tourism Operators"];
 const SCENARIOS = ["Arrival friction", "Service recovery", "Guest welfare", "Staff load", "Weather disruption", "Revenue activation", "VIP / high-value guest"];
 const RISKS = ["Level 1: Early signal", "Level 2: Escalated intervention", "Level 3: Critical assurance pathway"];
-const ROLES = ["Guest / WELBX View", "Operator View", "Command / Assurance View", "Partner / Funder View"];
+const ROLES = ["Guest / Guest View", "Operator View", "Command / Assurance View", "Partner / Funder View"];
 
 const RISK_COLORS: Record<string, string> = {
   "Level 1: Early signal": "#10b981",
@@ -34,7 +34,7 @@ const buildStages = (signal: string, classify: string, decide: string, execute: 
 const SCENARIO_DATA: Record<ScenarioKey, ScenarioData> = {
   "Arrival friction": {
     stages: buildStages(
-      "Check-in queue exceeded 8 min + 3 guests flagged sentiment drop in WELBX",
+      "Check-in queue exceeded 8 min + 3 guests flagged sentiment drop in Guest View",
       "ARRIVAL_FRICTION · Hospitality · Guest-facing impact detected",
       "Queue relief protocol: mobile check-in activation + lounge access offer",
       "Staff alerted · Mobile check-in link pushed to queue · Lounge opened",
@@ -51,10 +51,10 @@ const SCENARIO_DATA: Record<ScenarioKey, ScenarioData> = {
   },
   "Service recovery": {
     stages: buildStages(
-      "Guest sentiment score dropped to 1.9 in WELBX after room assignment",
+      "Guest sentiment score dropped to 1.9 in Guest View after room assignment",
       "SERVICE_RECOVERY · Hospitality · Guest dissatisfaction · L1",
       "Immediate proactive contact + room upgrade offer activated",
-      "Front desk alert issued. Room 614 (upgrade) reserved. WELBX message sent.",
+      "Front desk alert issued. Room 614 (upgrade) reserved. Guest Channel message sent.",
       "Guest accepted upgrade at 14:47. Staff completed at 14:53. Confirmed.",
       "A$420 value protected · Negative review prevented · Guest NPS: +2.5"
     ),
@@ -105,7 +105,7 @@ const SCENARIO_DATA: Record<ScenarioKey, ScenarioData> = {
       "Severe weather alert: 78 outdoor activities scheduled for next 4 hours",
       "WEATHER_DISRUPTION · Multi-guest impact · Activity disruption · L2",
       "Weather contingency protocol: alternative programming activated",
-      "28 guests contacted via WELBX. Indoor alternatives offered. Refunds queued.",
+      "28 guests contacted via Guest Channel. Indoor alternatives offered. Refunds queued.",
       "24 guests accepted alternatives. 4 refunds processed. Zero complaints.",
       "A$3,400 revenue protected · 24 bookings retained · 4 refunds issued (vs 28 potential)"
     ),
@@ -122,14 +122,14 @@ const SCENARIO_DATA: Record<ScenarioKey, ScenarioData> = {
       "High-intent signal: guest viewed spa 3× + added restaurant to wish list",
       "REVENUE_ACTIVATION · Commercial moment · High-value upsell · L1",
       "Personalised offer: spa + dining package at 15% to preferred guest segment",
-      "Offer pushed via WELBX. Booking link created. Expiry: 2 hours.",
+      "Offer pushed via Guest Channel. Booking link created. Expiry: 2 hours.",
       "Guest booked spa (12:30) + dinner (19:00). Confirmation sent.",
       "A$340 incremental revenue created · Zero marginal cost · Conversion: 1 interaction"
     ),
     roles: {
       guest: "\"Based on your interests — a spa afternoon followed by dinner at The Terrace, 15% off, available today only. Book in one tap.\"",
       operator: "REVENUE MOMENT: Guest in room 318 — high intent signal. Offer: Spa 12:30 + Dinner 19:00 (package, 15% off). Expires 16:00. Monitor.",
-      command: "Moment #2209 | REVENUE_ACTIVATION | CONVERTED | Revenue: A$340 | Conversion time: 18 min | Channel: WELBX | Zero staff interaction",
+      command: "Moment #2209 | REVENUE_ACTIVATION | CONVERTED | Revenue: A$340 | Conversion time: 18 min | Channel: Guest Channel | Zero staff interaction",
       partner: "Revenue activation triggers: ~180/month | Conversion rate: 34% | Avg revenue/conversion: A$280 | Monthly increment: ~A$17k/property",
     },
     riskModifier: (r) => r === "Level 3: Critical assurance pathway" ? "N/A for revenue — escalation path not applicable" : r === "Level 2: Escalated intervention" ? "VIP offer queue + concierge follow-up" : "Automated personalised offer push",
@@ -139,7 +139,7 @@ const SCENARIO_DATA: Record<ScenarioKey, ScenarioData> = {
       "VIP profile match: platinum loyalty tier + corporate account + suite booked",
       "VIP_GUEST · Priority class · Premium service mode activated · L1",
       "VIP welcome protocol: dedicated concierge, pre-arrival preferences loaded",
-      "Concierge briefed. Room personalised. WELBX welcome with named greeting sent.",
+      "Concierge briefed. Room personalised. Guest Channel welcome with named greeting sent.",
       "Guest checked in at 15:12. Preferences fulfilled. Concierge confirmed.",
       "A$1,800 LTV protected · Loyalty renewal probability: +42% · Corporate account: retained"
     ),
@@ -154,14 +154,14 @@ const SCENARIO_DATA: Record<ScenarioKey, ScenarioData> = {
 };
 
 const ROLE_KEYS: Record<string, keyof RoleContent> = {
-  "Guest / WELBX View": "guest",
+  "Guest / Guest View": "guest",
   "Operator View": "operator",
   "Command / Assurance View": "command",
   "Partner / Funder View": "partner",
 };
 
 const ROLE_COLORS: Record<string, string> = {
-  "Guest / WELBX View": "#3b82f6",
+  "Guest / Guest View": "#3b82f6",
   "Operator View": "#10b981",
   "Command / Assurance View": "#c9a84c",
   "Partner / Funder View": "#a78bfa",

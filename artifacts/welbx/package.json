@@ -1,5 +1,5 @@
 {
-  "name": "@workspace/welbx",
+  "name": "@workspace/rtbx-travel",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -12,6 +12,7 @@
     "test:routes": "node scripts/test-routes.mjs",
     "test:links": "node scripts/test-links.mjs",
     "check:legacy": "node scripts/check-legacy.mjs",
+    "check:terminology": "node scripts/check-legacy.mjs",
     "check:assets": "node scripts/check-assets.mjs"
   },
   "devDependencies": {

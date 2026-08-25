@@ -15,7 +15,7 @@ const MOATS = [
   { label: "Signal Library Depth", text: "247+ configured signal types, built for travel-specific environments. Not generic IoT or building management data. Guest, staff, operational and commercial signals." },
   { label: "Moment-Level Classification", text: "Not just alerting — RTBX Core classifies the type of moment, the escalation threshold and the appropriate response logic. The MVP starts with rules-based classification. Over time, RTBX Core becomes a governed decision system strengthened by approved integrations, operator playbooks and outcome data." },
   { label: "Assurance Registry", text: "Every action and outcome is logged. This creates duty-of-care evidence, operational proof and a reportable audit trail that no other travel tech product currently provides." },
-  { label: "WELBX Interface", text: "A zero-download, no-login guest interface that requires no adoption friction. The guest doesn't need an app. The interface meets them at the right moment." },
+  { label: "Guest Experience Interface", text: "A zero-download, no-login guest interface that requires no adoption friction. The guest doesn't need an app. The interface meets them at the right moment." },
   { label: "Deployment Speed", text: "A pilot can begin without heavy integration. Push-first signal model means signal capture starts immediately, with deeper integration layered in over time." },
   { label: "Multi-Vertical Architecture", text: "The same RTBX Core engine serves hotels, holiday parks, corporate travel, events and destinations. No competitor operates across all five verticals with a unified operating layer." },
 ];

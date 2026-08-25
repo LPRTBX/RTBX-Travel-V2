@@ -21,7 +21,7 @@ const FLOW_STEPS: FlowStep[] = [
       "Crowd flow anomaly detected — entry gate throughput 40% below expected at T-45 min to main program",
       "Catering shortfall signal — pre-event F&B stations running 28% below required capacity",
       "Access delay escalating — average queue time 22 min, rising, guest sentiment dropping",
-      "Sentiment signal: declining — WELBX engagement drop, complaint signal threshold approaching",
+      "Sentiment signal: declining — Guest Channel engagement drop, complaint signal threshold approaching",
       "Event schedule pressure — main program start locked at 20:00, no flex in timeline",
     ],
     roles: {
@@ -52,13 +52,13 @@ const FLOW_STEPS: FlowStep[] = [
     detail: [
       "Crowd flow action: open secondary gates B and C — staff redeployment from internal positions",
       "Catering alert: activate backup F&B stations 4 and 5, restock from reserve",
-      "Guest communication: proactive WELBX message — manage expectations, offer early access incentive",
+      "Guest communication: proactive Guest Channel message — manage expectations, offer early access incentive",
       "Staff redeployment: 8 internal staff redirected to gates, 4 to F&B backup stations",
       "Escalation path set: event director notified in 30 min if queue time not below 8 min",
       "VIP lane protected — guest tier separation maintained throughout intervention",
     ],
     roles: {
-      "Guest / Attendee": "Guests in queue receive a proactive WELBX message with an updated expected entry time and a complimentary welcome drink token as a goodwill gesture.",
+      "Guest / Attendee": "Guests in queue receive a proactive Guest Channel message with an updated expected entry time and a complimentary welcome drink token as a goodwill gesture.",
       "Operator": "Action card dispatched: open gates B+C now. Redeploy 8 staff. Activate F&B stations 4+5. Guest comms sent. VIP lane: protected. Timer: 30 min to director alert.",
       "Command / Assurance": "Decision record created. Actions queued: 5. Staff redeployment: 12 total. Guest comms: sent. Escalation timer: 30 min. Director: on standby.",
     },
@@ -69,7 +69,7 @@ const FLOW_STEPS: FlowStep[] = [
     detail: [
       "Gates B and C opened — staff redeployed, throughput recovering, queue time: 18 min → 11 min",
       "F&B stations 4 and 5 activated — restocked from reserve, operational at 19:28",
-      "Guest WELBX message sent — 2,840 attendees notified, welcome drink token delivered",
+      "Guest Channel message sent — 2,840 attendees notified, welcome drink token delivered",
       "Staff redeployment complete — 12 staff repositioned, gate throughput improving",
       "VIP lane confirmed — separate entrance maintained, zero VIP impact",
       "Event director status update sent — situation active, recovery in progress, no escalation required yet",
@@ -86,7 +86,7 @@ const FLOW_STEPS: FlowStep[] = [
     detail: [
       "Queue time recovered to 6 min by 19:48 — within 30-min escalation window",
       "Program started on time at 20:00 — no schedule impact",
-      "Guest sentiment signal recovered — complaint threshold not reached, WELBX: positive",
+      "Guest sentiment signal recovered — complaint threshold not reached, Guest Channel: positive",
       "F&B throughput normalised — stations 4 and 5 remain active through main program",
       "Event director not escalated — situation resolved within managed window",
       "Assurance record closed — actions evidenced, outcome confirmed, post-event review queued",

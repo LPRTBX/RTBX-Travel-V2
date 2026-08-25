@@ -61,7 +61,7 @@ export const ENGINE_STAGES: EngineStage[] = [
     ],
     travelExamples: [
       "PMS check-in and departure feeds",
-      "Guest app and WELBX interaction events",
+      "Guest Interface interaction events",
       "Housekeeping task completion status",
       "Staff communications app updates",
       "IoT and building management alerts",
@@ -193,7 +193,7 @@ export const INTELLIGENCE_LAYERS: IntelligenceLayer[] = [
     travelExamples: [
       "Travel Signal Registry: 30+ representative signal types across Guest Experience, Operations, Safety & Welfare, Commercial and Partner domains",
       "Sensor and IoT integration for physical environment signals",
-      "Guest app and WELBX interaction signals",
+      "Guest Interface interaction signals",
     ],
     primaryStage: "connect",
   },
@@ -239,6 +239,7 @@ export const INTELLIGENCE_LAYERS: IntelligenceLayer[] = [
     travelExamples: [
       "Travel Playbook Library: matched to moment type and governance clearance",
       "Travel Role Model: 12 roles with defined scope, approval authority and escalation triggers",
+      "Approved Guest Channel delivers governed guest-facing communications",
       "No autonomous decision — every response path terminates at a named human role",
     ],
     primaryStage: "act",
@@ -252,8 +253,8 @@ export const INTELLIGENCE_LAYERS: IntelligenceLayer[] = [
       "Outcome Ledger",
     ],
     travelExamples: [
-      "Central Comms OS routes instructions to staff roles and approved messages to guests",
-      "WELBX is the guest-facing delivery channel",
+      "Communication delivery and approval evidence is retained for each response",
+      "Central Comms OS records delivery status for approved staff and guest communications",
       "AI drafts; human or pre-authorised policy approves send",
     ],
     primaryStage: "learn",
@@ -333,7 +334,7 @@ export const CORE_CAPABILITIES: CoreCapability[] = [
   { id: "cap-travel-evidence",     name: "Travel Evidence",              description: "Travel-specific evidence requirements and capture rules.", origin: "Travel Configuration", layer: "evidence-outcome-value", stage: "learn" },
   { id: "cap-travel-outcomes",     name: "Travel Outcome Model",         description: "12 canonical travel outcome types from Response Started to Post-Stay Outcome.", origin: "Travel Configuration", layer: "evidence-outcome-value", stage: "learn" },
   { id: "cap-travel-value",        name: "Travel Value Model",            description: "Travel value categories: Guest Experience, Operational, Commercial and Safety.", origin: "Travel Configuration", layer: "evidence-outcome-value", stage: "learn" },
-  { id: "cap-welbx-channel",       name: "WELBX Guest Channel",           description: "Subordinate guest-facing delivery surface for approved travel communications.", origin: "Travel Configuration", layer: "execution-communication", stage: "act" },
+  { id: "cap-approved-guest-channel", name: "Approved Guest Channel",      description: "Subordinate guest-facing delivery surface for approved travel communications.", origin: "Travel Configuration", layer: "execution-communication", stage: "act" },
 ];
 
 // ── 5. DEPLOYMENT PATHWAY ────────────────────────────────────────────────────
@@ -556,14 +557,14 @@ export const CANONICAL_TERMINOLOGY: TerminologyEntry[] = [
     reason: "The Travel Intelligence Pack is a configuration layer, not a platform in its own right.",
   },
   {
-    prohibited: "WELBX platform",
-    canonical: "WELBX guest-facing layer",
-    reason: "WELBX is the guest-facing experience layer of RTBX Travel — not a standalone platform.",
+    prohibited: "Guest-facing platform",
+    canonical: "Guest-facing Experience",
+    reason: "The Guest-facing Experience is a delivery layer within RTBX Travel — not a standalone platform.",
   },
   {
-    prohibited: "WELBX operating system",
-    canonical: "WELBX guest-facing layer",
-    reason: "WELBX is not an operating system. The operating systems are Guest Experience OS, Service Recovery OS, etc.",
+    prohibited: "Guest-facing operating system",
+    canonical: "Guest-facing Experience",
+    reason: "The Guest-facing Experience is not an operating system. The operating systems are Guest Experience OS, Service Recovery OS, etc.",
   },
   {
     prohibited: "AI agent",

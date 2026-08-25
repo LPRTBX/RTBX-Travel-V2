@@ -14,14 +14,14 @@ RTBX Travel is the travel and hospitality operating vertical, powered by RTBX Co
 
 This repository contains the **RTBX Travel Partner Room** — a strategic partner and operator environment for reviewing the product, its operating architecture, commercial model and deployment pathway.
 
-WELBX is the guest-facing experience layer of RTBX Travel. It is not a separate platform.
+RTBX Travel supports configurable guest-facing experiences as part of its Execution and Communication Layer. It does not introduce a separate guest platform.
 
 ---
 
 ## Application structure
 
 ```
-artifacts/welbx/          # Active RTBX Travel Partner Room application
+artifacts/welbx/          # Active RTBX Travel Partner Room application (legacy directory name)
   src/
     App.tsx               # Router (wouter) — canonical route table
     main.tsx              # Entry point
@@ -32,11 +32,11 @@ artifacts/welbx/          # Active RTBX Travel Partner Room application
       StoryOperator.tsx
       StoryGuestStory.tsx
     archive/
-      legacy-welbx/       # Archived WELBX pages — NOT part of active routing
+        legacy-welbx/       # Archived historical pages — NOT part of active routing
     components/
       PartnerRoomLayout.tsx   # Partner Room nav, header, footer
       PartnerAccessGate.tsx   # Front-end MVP access gate
-      Sidebar.tsx             # Legacy WELBX sidebar (Story Lab use only)
+       Sidebar.tsx             # Legacy sidebar (Story Lab use only)
       GlobalSearch.tsx        # Global search index
     context/              # React context providers
     data/                 # Centralised data files (travelIntelligence.ts etc.)
@@ -66,15 +66,15 @@ Run all commands from the workspace root unless noted.
 | Command | Description |
 |---------|-------------|
 | `pnpm install` | Install all dependencies |
-| `pnpm --filter @workspace/welbx run dev` | Start development server |
-| `pnpm --filter @workspace/welbx run typecheck` | TypeScript typecheck |
-| `pnpm --filter @workspace/welbx run test` | Run tests (vitest) |
-| `pnpm --filter @workspace/welbx run test:routes` | Verify all App.tsx imports resolve |
-| `pnpm --filter @workspace/welbx run test:links` | Verify internal links resolve to routes |
-| `pnpm --filter @workspace/welbx run check:legacy` | Check for prohibited legacy terminology |
-| `pnpm --filter @workspace/welbx run check:assets` | Check public assets exist |
-| `pnpm --filter @workspace/welbx run build` | Production build |
-| `pnpm --filter @workspace/welbx run serve` | Preview production build |
+| `pnpm --filter @workspace/rtbx-travel run dev` | Start development server |
+| `pnpm --filter @workspace/rtbx-travel run typecheck` | TypeScript typecheck |
+| `pnpm --filter @workspace/rtbx-travel run test` | Run tests (vitest) |
+| `pnpm --filter @workspace/rtbx-travel run test:routes` | Verify all App.tsx imports resolve |
+| `pnpm --filter @workspace/rtbx-travel run test:links` | Verify internal links resolve to routes |
+| `pnpm --filter @workspace/rtbx-travel run check:terminology` | Check active terminology |
+| `pnpm --filter @workspace/rtbx-travel run check:assets` | Check public assets exist |
+| `pnpm --filter @workspace/rtbx-travel run build` | Production build |
+| `pnpm --filter @workspace/rtbx-travel run serve` | Preview production build |
 
 ### Shortcuts (from `artifacts/welbx/`)
 
@@ -103,7 +103,7 @@ pnpm run build
 
 ## Repository rules
 
-1. **Do not restore WELBX pages into active routing.** All legacy WELBX pages are in `src/archive/legacy-welbx/`. They must not be imported into production routes.
+1. **Do not restore archived historical pages into active routing.** The archive is not part of the current product and must not be imported into production routes.
 2. **Do not create duplicate routes.** Every product concept has one canonical route. See `docs/route-register.md`.
 3. **Do not represent simulated data as a production integration.** All demo content is synthetic. Use the proof boundary definitions in `docs/access-and-proof-boundaries.md`.
 4. **Do not add a new page where an existing canonical page can be extended.**

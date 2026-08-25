@@ -52,13 +52,13 @@ const FLOW_STEPS: FlowStep[] = [
     detail: [
       "Itinerary adjustment triggered — rescheduled arrival windows sent to all 3 accommodation partners",
       "Partner notification dispatched — activity provider and ferry operator notified via partner app",
-      "Guest communication prepared — updated itinerary sent to all 34 guests via WELBX",
+      "Guest communication prepared — updated itinerary sent to all 34 guests via Guest Channel",
       "Alternative activity offer queued — weather-appropriate indoor options for afternoon slot",
       "Ferry connection: alternative passage identified — 18:30 service, confirmed with operator",
       "Escalation threshold maintained — destination manager on standby if partner response not confirmed in 20 min",
     ],
     roles: {
-      "Guest / Traveller": "Guests on the delayed coach receive an updated itinerary via WELBX: new arrival times, alternative activity option and confirmation that all bookings are protected.",
+      "Guest / Traveller": "Guests on the delayed coach receive an updated itinerary via Guest Channel: new arrival times, alternative activity option and confirmation that all bookings are protected.",
       "Operator": "Action record: itinerary adjustments sent to 3 accommodation partners. Activity provider and ferry notified. Guest comms: 34 sent. Alternative: queued. Timer: 20 min.",
       "Command / Assurance": "Decision record created. Actions queued: 5. Partners contacted: 3. Guest comms: 34. Ferry alternative: confirmed. Escalation: standby at 20 min.",
     },
@@ -67,7 +67,7 @@ const FLOW_STEPS: FlowStep[] = [
     key: "execute", label: "Execute", color: "#10b981", icon: "◉",
     summary: "Actions delivered", status: "EXECUTING",
     detail: [
-      "Guest WELBX update sent — updated itinerary, revised arrival 16:40, alternative activity offered",
+      "Guest Channel update sent — updated itinerary, revised arrival 16:40, alternative activity offered",
       "Accommodation partners notified — all 3 confirmed adjusted arrival windows by 14:18",
       "Activity provider responded — afternoon session rescheduled to 17:00, capacity confirmed",
       "Ferry operator confirmed — 18:30 passage secured, 34 guest names transferred",
@@ -88,7 +88,7 @@ const FLOW_STEPS: FlowStep[] = [
       "Activity session completed at 17:00 — all guests attended, no no-shows",
       "Ferry connection secured — 34 guests boarded 18:30 passage, no missed connections",
       "Partner response confirmed — all 3 partners closed their coordination records",
-      "Guest sentiment recovered — no complaint signals across all 34 guests, WELBX: positive",
+      "Guest sentiment recovered — no complaint signals across all 34 guests, Guest Channel: positive",
       "Assurance record closed — full multi-partner coordination evidence trail complete",
     ],
     roles: {

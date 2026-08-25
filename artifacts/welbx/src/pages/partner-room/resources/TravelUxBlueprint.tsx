@@ -5,9 +5,9 @@ const C = { gold: "#c9a84c", muted: "rgba(255,255,255,0.45)", dim: "rgba(255,255
 
 const ROLES = [
   {
-    role: "Guest / WELBX View",
+    role: "Guest / Guest View",
     color: "#3b82f6",
-    tag: "WELBX-powered",
+    tag: "Guest-facing Experience",
     needs: "Immediate, friction-free support at the right moment — without needing an app, a login or a phone call.",
     action: "Selects from contextual options: check-in help, room issue, dining, welfare support, experience nudge, checkout.",
     signal: "Each selection creates a signal — moment type, action chosen, response received.",

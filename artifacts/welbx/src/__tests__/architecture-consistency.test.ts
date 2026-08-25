@@ -202,6 +202,19 @@ describe("Travel Configuration", () => {
       expect(travelConfigurationNames.has(name)).toBe(true);
     });
   }
+
+  it("places the approved guest channel beneath the Execution and Communication Layer", () => {
+    const guestChannel = CORE_CAPABILITIES.find(
+      (capability) => capability.id === "cap-approved-guest-channel",
+    );
+
+    expect(guestChannel).toMatchObject({
+      name: "Approved Guest Channel",
+      origin: "Travel Configuration",
+      layer: "execution-communication",
+      stage: "act",
+    });
+  });
 });
 
 describe("Platform Hierarchy", () => {
@@ -306,11 +319,11 @@ describe("Canonical Terminology — no prohibited terms in CANONICAL_TERMINOLOGY
     // Only check terms that are clearly prohibited (not partial matches like 'alert' which appear in context)
     const strictProhibited = [
       "RTBX Travel platform",
-      "WELBX platform",
-      "WELBX operating system",
+      "Travel Intelligence Pack platform",
+      "Guest-facing platform",
+      "Guest-facing operating system",
       "AI agent",
       "autonomous decision",
-      "signal-based AI",
     ];
     for (const term of strictProhibited) {
       expect(stageLabelText.includes(term), `prohibited term "${term}" in ENGINE_STAGES labels`).toBe(false);
@@ -321,11 +334,11 @@ describe("Canonical Terminology — no prohibited terms in CANONICAL_TERMINOLOGY
     const layerLabelText = INTELLIGENCE_LAYERS.map((l) => l.label + " " + l.summary).join(" ");
     const strictProhibited = [
       "RTBX Travel platform",
-      "WELBX platform",
-      "WELBX operating system",
+      "Travel Intelligence Pack platform",
+      "Guest-facing platform",
+      "Guest-facing operating system",
       "AI agent",
       "autonomous decision",
-      "signal-based AI",
     ];
     for (const term of strictProhibited) {
       expect(layerLabelText.includes(term), `prohibited term "${term}" in INTELLIGENCE_LAYERS labels`).toBe(false);

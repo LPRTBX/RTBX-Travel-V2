@@ -21,7 +21,7 @@ const FLOW_STEPS: FlowStep[] = [
       "Early arrival detected — flight data + booking cross-reference: 3 hrs ahead of check-in window",
       "Room readiness delay confirmed — housekeeping status: 35 min behind schedule",
       "Loyalty profile active: Platinum tier — LTV flag applied, elevated care threshold triggered",
-      "Sentiment risk rising — WELBX engagement signals declining during wait period",
+      "Sentiment risk rising — Guest Channel engagement signals declining during wait period",
       "Front desk load: elevated — 4 concurrent arrivals, response latency 11 min",
     ],
     roles: {
@@ -54,7 +54,7 @@ const FLOW_STEPS: FlowStep[] = [
       "Concierge lounge access activated — Level 2, refreshments and workspace available",
       "Room priority escalation to housekeeping — Room 812 moved to top of queue",
       "F&B gesture queued — complimentary tray to lounge delivered on activation",
-      "Luggage storage arranged — porter briefed, guest option sent via WELBX",
+      "Luggage storage arranged — porter briefed, guest option sent via Guest Channel",
       "Manager visibility threshold set — duty manager alerted if delay exceeds 40 min",
     ],
     roles: {
@@ -67,10 +67,10 @@ const FLOW_STEPS: FlowStep[] = [
     key: "execute", label: "Execute", color: "#10b981", icon: "◉",
     summary: "Actions delivered", status: "EXECUTING",
     detail: [
-      "Guest WELBX message sent — welcome, lounge invitation, estimated room time: 14:45",
+      "Guest Channel message sent — welcome, lounge invitation, estimated room time: 14:45",
       "Concierge lounge access confirmed — guest acknowledged, arrived at lounge 14:12",
       "Housekeeping priority set — Room 812 reassigned to lead team, estimated ready: 14:40",
-      "F&B tray delivered to lounge — 14:18, guest confirmed receipt via WELBX",
+      "F&B tray delivered to lounge — 14:18, guest confirmed receipt via Guest Channel",
       "Luggage stored — porter completed, storage receipt sent to guest app",
       "Front desk briefed — guided script loaded, next update due 14:30",
     ],
@@ -86,7 +86,7 @@ const FLOW_STEPS: FlowStep[] = [
     detail: [
       "Room 812 ready at 14:38 — 2 minutes before 40-min escalation threshold",
       "Guest checked in successfully — digital key sent, acknowledged 14:42",
-      "Recovery confirmed — guest sentiment signal recovered to 4.6 via WELBX",
+      "Recovery confirmed — guest sentiment signal recovered to 4.6 via Guest Channel",
       "No negative review signal detected — post-arrival monitoring window active 24 hrs",
       "Staff response logged — concierge J. Martinez: action time 6 min, outcome: positive",
       "Assurance record closed — all actions evidenced, outcome confirmed, file complete",

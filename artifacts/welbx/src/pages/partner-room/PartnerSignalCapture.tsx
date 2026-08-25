@@ -26,11 +26,11 @@ const SIGNAL_SOURCES = [
     num: "02",
     label: "Guest-Facing Signals",
     color: "#3b82f6",
-    explain: "Guests can create signals through the WELBX guest-facing experience layer. This can start through QR codes, SMS/web links, in-room QR, tablet/kiosk, email link or guest message prompt. No app download is required.",
+    explain: "Guests can create signals through the guest-facing experience layer. This can start through QR codes, SMS/web links, in-room QR, tablet/kiosk, email link or guest message prompt. No app download is required.",
     examples: ["My room is not ready", "I need help", "Something is wrong", "I want local activity options", "I am unhappy with my stay", "Post-stay sentiment", "Check-in friction", "Support request"],
-    matters: "This gives RTBX a direct human-facing signal layer while keeping WELBX positioned only as the guest-facing experience layer.",
+    matters: "This gives RTBX a direct human-facing signal layer while keeping the guest-facing experience focused on guest interactions.",
     mattersColor: "#3b82f6",
-    welbxNote: true,
+    guestExperienceNote: true,
   },
   {
     num: "03",
@@ -168,8 +168,8 @@ function SignalSourceCard({ source }: { source: typeof SIGNAL_SOURCES[0] }) {
       </div>
       <div style={{ fontSize: 12.5, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", marginBottom: 14, lineHeight: 1.3, paddingRight: source.pilotOnly ? 40 : 0 }}>
         {source.label}
-        {source.welbxNote && (
-          <span style={{ fontSize: 8, fontWeight: 700, color: "#3b82f6", marginLeft: 8, letterSpacing: "0.1em", verticalAlign: "middle" }}>WELBX</span>
+        {source.guestExperienceNote && (
+          <span style={{ fontSize: 8, fontWeight: 700, color: "#3b82f6", marginLeft: 8, letterSpacing: "0.1em", verticalAlign: "middle" }}>Guest Experience</span>
         )}
       </div>
       <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.38)", lineHeight: 1.65, marginBottom: 18 }}>
@@ -321,7 +321,7 @@ export default function PartnerSignalCapture() {
             <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase", fontWeight: 700, marginBottom: 6 }}>Section 02</div>
             <div style={{ fontSize: 18, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", marginBottom: 8 }}>Seven Signal Sources</div>
             <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.3)", lineHeight: 1.65, maxWidth: 600, margin: 0 }}>
-              Sources marked <span style={{ color: "#10b981", fontWeight: 700 }}>Pilot Phase</span> are not required for MVP. Sources marked <span style={{ color: "#3b82f6", fontWeight: 700 }}>WELBX</span> operate through the guest-facing experience layer.
+              Sources marked <span style={{ color: "#10b981", fontWeight: 700 }}>Pilot Phase</span> are not required for MVP. Sources marked <span style={{ color: "#3b82f6", fontWeight: 700 }}>Guest Experience</span> operate through the guest-facing experience layer.
             </p>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>

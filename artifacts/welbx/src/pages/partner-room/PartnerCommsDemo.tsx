@@ -14,14 +14,14 @@ interface Message { recipient: string; role: string; color: string; channel: str
 const SCENARIO_MESSAGES: Record<string, { headline: string; trigger: string; messages: Message[] }> = {
   "Room not ready at check-in": {
     headline: "SERVICE_RECOVERY · Room readiness delay · L1",
-    trigger: "WELBX check-in signal: guest arrived, room not ready, queue > 8 min",
+    trigger: "Guest Channel check-in signal: guest arrived, room not ready, queue > 8 min",
     messages: [
-      { recipient: "Guest", role: "WELBX App", color: "#3b82f6", channel: "WELBX Push", content: "Your room is nearly ready — we've reserved a comfortable spot in our lounge with complimentary refreshments. We'll send your key directly when ready.", time: "14:02", status: "delivered" },
+      { recipient: "Guest", role: "Guest View", color: "#3b82f6", channel: "Guest Channel Push", content: "Your room is nearly ready — we've reserved a comfortable spot in our lounge with complimentary refreshments. We'll send your key directly when ready.", time: "14:02", status: "delivered" },
       { recipient: "Front Desk", role: "Staff App", color: "#10b981", channel: "Staff Task", content: "ROOM DELAY: Guest [Chen, R.] — Room 412. Arrival: 14:00. Status: not ready. Assign lounge. Update every 10 min. Deadline: 14:30.", time: "14:02", status: "actioned" },
       { recipient: "Housekeeping", role: "Staff App", color: "#10b981", channel: "Priority Task", content: "PRIORITY: Room 412 — guest waiting at front desk. All other rooms on hold. Complete by 14:20.", time: "14:02", status: "actioned" },
       { recipient: "Duty Manager", role: "Manager Console", color: "#f97316", channel: "Dashboard Alert", content: "Room delay: Chen, R. · Room 412 · Guest waiting since 14:00 · Lounge offered · Escalation threshold: 14:30 · No action required yet.", time: "14:03", status: "sent" },
       { recipient: "Command", role: "Assurance Dashboard", color: "#c9a84c", channel: "Live Record", content: "Moment #4821 | SERVICE_RECOVERY | STATUS: ACTIVE | Guest: Chen, R. | Delay: 14 min | Lounge: confirmed | Escalation timer: 27 min remaining", time: "14:03", status: "delivered" },
-      { recipient: "Guest (completion)", role: "WELBX App", color: "#3b82f6", channel: "WELBX Push", content: "Your room is ready — key sent to your phone. Room 412, Level 4. We hope you enjoy your stay.", time: "14:22", status: "delivered" },
+      { recipient: "Guest (completion)", role: "Guest View", color: "#3b82f6", channel: "Guest Channel Push", content: "Your room is ready — key sent to your phone. Room 412, Level 4. We hope you enjoy your stay.", time: "14:22", status: "delivered" },
     ],
   },
   "Guest welfare concern — elderly guest, no activity": {
@@ -30,7 +30,7 @@ const SCENARIO_MESSAGES: Record<string, { headline: string; trigger: string; mes
     messages: [
       { recipient: "Welfare Officer", role: "Staff App", color: "#10b981", channel: "Priority Task", content: "WELFARE CHECK: Room 208 — Ms. Harper, solo guest, Day 3. No activity logged since 11pm last night. Discreet wellness check required. Record outcome.", time: "10:15", status: "actioned" },
       { recipient: "Duty Manager", role: "Manager Console", color: "#f97316", channel: "Dashboard Alert", content: "WELFARE PROTOCOL ACTIVE: Room 208 · Ms. Harper · Solo, Day 3 · Inactivity 11+ hrs · Check assigned to Maria T. · Standby for outcome.", time: "10:16", status: "sent" },
-      { recipient: "Guest", role: "WELBX App", color: "#3b82f6", channel: "Courtesy Message", content: "Good morning Ms. Harper — we wanted to check you're comfortable and have everything you need. Would you like breakfast delivered to your room?", time: "10:17", status: "delivered" },
+      { recipient: "Guest", role: "Guest View", color: "#3b82f6", channel: "Courtesy Message", content: "Good morning Ms. Harper — we wanted to check you're comfortable and have everything you need. Would you like breakfast delivered to your room?", time: "10:17", status: "delivered" },
       { recipient: "Command", role: "Assurance Dashboard", color: "#c9a84c", channel: "Live Record", content: "Moment #5503 | GUEST_WELFARE | L2 | STATUS: ACTIVE | Room 208 | Welfare check: assigned | Channel: multi | Timer: active", time: "10:16", status: "delivered" },
       { recipient: "Welfare Officer", role: "Staff App", color: "#10b981", channel: "Completion Confirm", content: "Welfare check complete: Ms. Harper confirmed safe and well. Offered mobility assistance. Guest accepted room service breakfast. Record closed.", time: "10:28", status: "actioned" },
       { recipient: "Command", role: "Assurance Dashboard", color: "#c9a84c", channel: "Closure Record", content: "Moment #5503 | RESOLVED | Time: 12 min | Staff: Maria T. | Outcome: guest safe, assistance offered | Record: complete | No escalation", time: "10:28", status: "actioned" },
@@ -43,7 +43,7 @@ const SCENARIO_MESSAGES: Record<string, { headline: string; trigger: string; mes
       { recipient: "Original Assignee", role: "Staff App", color: "#10b981", channel: "Escalation Reminder", content: "REMINDER: Guest request Room 318 — F&B delivery. Unactioned 14 min. Respond immediately or reassign.", time: "15:34", status: "sent" },
       { recipient: "Shift Supervisor", role: "Manager Console", color: "#f97316", channel: "Escalation Alert", content: "ESCALATION: Room 318 F&B request unactioned 14 min. Assigned: Tom B. (unresponsive). Reassign now or guest impact likely.", time: "15:34", status: "escalated" },
       { recipient: "Backup Staff", role: "Staff App", color: "#10b981", channel: "Reassignment Task", content: "REASSIGNED: Room 318 F&B — original owner unresponsive. Pick up immediately. Guest has been waiting 14 min. Apologise on delivery.", time: "15:35", status: "actioned" },
-      { recipient: "Guest", role: "WELBX App", color: "#3b82f6", channel: "Apology Push", content: "We apologise for the delay with your order — we're with you in 5 minutes and have added a complimentary item to your delivery.", time: "15:35", status: "delivered" },
+      { recipient: "Guest", role: "Guest View", color: "#3b82f6", channel: "Apology Push", content: "We apologise for the delay with your order — we're with you in 5 minutes and have added a complimentary item to your delivery.", time: "15:35", status: "delivered" },
       { recipient: "Duty Manager", role: "Manager Console", color: "#f97316", channel: "Staffing Alert", content: "STAFF ALERT: Tom B. unresponsive to guest request. Second missed task this shift. Review performance. Guest impact: apologised + comp.", time: "15:36", status: "sent" },
       { recipient: "Command", role: "Assurance Dashboard", color: "#c9a84c", channel: "Live Record", content: "Moment #6701 | STAFF_TIMEOUT | L2 | ESCALATED | Original owner: Tom B. | Reassigned: Anika S. | Guest: compensated | Record: complete", time: "15:38", status: "actioned" },
     ],
@@ -55,7 +55,7 @@ const SCENARIO_MESSAGES: Record<string, { headline: string; trigger: string; mes
       { recipient: "Concierge (James M.)", role: "Staff App", color: "#10b981", channel: "VIP Brief", content: "VIP ARRIVAL: Mr. Harrison, Suite 901, ETA 15:00. Preferences: quiet room, firm pillow, still water, no housekeeping after 9pm. Personal greeting required.", time: "13:00", status: "actioned" },
       { recipient: "F&B", role: "Staff App", color: "#10b981", channel: "Pre-arrival Setup", content: "SUITE SETUP: Suite 901 — still water (x4), firm pillow swap completed, room preference notes loaded. Ready by 14:30.", time: "13:01", status: "actioned" },
       { recipient: "Duty Manager", role: "Manager Console", color: "#f97316", channel: "VIP Notification", content: "VIP IN HOUSE: Mr. Harrison · Platinum · Suite 901 · Corporate: Meridian Group · Concierge: James M. · No service disruptions on floor 9.", time: "13:02", status: "sent" },
-      { recipient: "Mr. Harrison", role: "WELBX App", color: "#3b82f6", channel: "Welcome Message", content: "Welcome back, Mr. Harrison. Your suite is ready with your preferences. James, your dedicated concierge, is available directly through this app.", time: "15:05", status: "delivered" },
+      { recipient: "Mr. Harrison", role: "Guest View", color: "#3b82f6", channel: "Welcome Message", content: "Welcome back, Mr. Harrison. Your suite is ready with your preferences. James, your dedicated concierge, is available directly through this app.", time: "15:05", status: "delivered" },
       { recipient: "Command", role: "Assurance Dashboard", color: "#c9a84c", channel: "Live Record", content: "Moment #1104 | VIP_ARRIVAL | ACTIVE | Suite 901 | Concierge: James M. | Corporate: Meridian | Preferences: loaded | Status: on-track", time: "13:02", status: "delivered" },
       { recipient: "Corporate Account", role: "Account Dashboard", color: "#a78bfa", channel: "Account Update", content: "MERIDIAN GROUP: Mr. Harrison checked in Suite 901. VIP protocol active. Service standard: platinum. Account manager: notified.", time: "15:06", status: "sent" },
     ],
@@ -64,12 +64,12 @@ const SCENARIO_MESSAGES: Record<string, { headline: string; trigger: string; mes
     headline: "WEATHER_DISRUPTION · Multi-guest impact · L2",
     trigger: "Severe weather alert: 78 outdoor activities affected, 14:00–18:00",
     messages: [
-      { recipient: "All Affected Guests", role: "WELBX Broadcast", color: "#3b82f6", channel: "WELBX Push", content: "Due to weather conditions, outdoor activities from 14:00–18:00 have moved indoors. Tap to select an alternative or request a reschedule or refund.", time: "13:45", status: "delivered" },
+      { recipient: "All Affected Guests", role: "Guest Channel Broadcast", color: "#3b82f6", channel: "Guest Channel Push", content: "Due to weather conditions, outdoor activities from 14:00–18:00 have moved indoors. Tap to select an alternative or request a reschedule or refund.", time: "13:45", status: "delivered" },
       { recipient: "Activities Team", role: "Staff App", color: "#10b981", channel: "Operations Brief", content: "WEATHER PROTOCOL: All outdoor sessions 14:00–18:00 cancelled. Indoor venue open (capacity: 40). Priority rebooking for families with children.", time: "13:44", status: "actioned" },
       { recipient: "F&B Manager", role: "Staff App", color: "#10b981", channel: "Capacity Alert", content: "ALERT: 78 guests indoors from 14:00. Open Terrace Bar + overflow café. Extra staffing approved by duty manager.", time: "13:44", status: "actioned" },
       { recipient: "Duty Manager", role: "Manager Console", color: "#f97316", channel: "Operations Alert", content: "WEATHER EVENT: 78 bookings affected. Comms sent. Indoor: 24 accepted. Refunds: 4 queued. Revenue protected: A$3,400 est. Monitor until 18:00.", time: "13:46", status: "sent" },
       { recipient: "Command", role: "Assurance Dashboard", color: "#c9a84c", channel: "Live Record", content: "Moment #7840 | WEATHER_DISRUPTION | L2 | Guests: 78 | Alternatives accepted: 24 | Refunds: 4 | Revenue protected: A$3,400 | STATUS: ACTIVE", time: "13:46", status: "delivered" },
-      { recipient: "Affected Guests (follow-up)", role: "WELBX App", color: "#3b82f6", channel: "Resolution Push", content: "We hope you enjoyed the indoor experience. As a thank-you for your patience, we've added a complimentary activity voucher for your next visit.", time: "18:10", status: "delivered" },
+      { recipient: "Affected Guests (follow-up)", role: "Guest View", color: "#3b82f6", channel: "Resolution Push", content: "We hope you enjoyed the indoor experience. As a thank-you for your patience, we've added a complimentary activity voucher for your next visit.", time: "18:10", status: "delivered" },
     ],
   },
 };

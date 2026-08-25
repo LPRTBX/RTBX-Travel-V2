@@ -148,7 +148,7 @@ RTBX Travel proposes an **8–12 week proof pilot** with a hotel or resort partn
 | # | Limitation | Impact | Resolution |
 |---|---|---|---|
 | 1 | No production integrations connected | All signals are simulated or manually entered | Pilot Phase 2 with approved integration partners |
-| 2 | Guest communications not sent | Guest messages are demonstrated, not dispatched | Production engineering — WELBX guest layer connection |
+| 2 | Guest communications not sent | Guest messages are demonstrated, not dispatched | Production engineering — Guest-facing Experience delivery-layer connection |
 | 3 | Marketplace activation not in pilot | Expansion-only OS | Post-pilot expansion phase |
 | 4 | Client-side authentication only | No login-gating for restricted documents | Production auth engineering (server-side) |
 | 5 | Single-bundle SPA (1,612 KB) | All partner room routes in one bundle | Lazy loading partially implemented; further splitting for scale |
@@ -215,7 +215,7 @@ All 7 canonical scenarios are supported in this release. See the Proof and Claim
 2. **Pilot Model** — 7-stage deployment pathway, success framework, readiness checklist, expansion stages
 3. **Commercial Framework** — CommercialStatus type system, value framework, proof boundaries, partner commercial models
 4. **Integration Responsibility Matrix** — 8 integration records, deployment responsibility matrix, connector-ready prohibition
-5. **Navigation** — Sidebar restructured (5 groups), brand cleanup to RTBX Travel, WELBX reserved for guest layer
+5. **Navigation** — Sidebar restructured (5 groups), brand cleanup to RTBX Travel, Guest-facing Experience terminology standardised
 6. **Typography & Density** — Heading hierarchy, card density, spacing standardised
 7. **Responsive** — Mobile viewport, accessibility forms UX
 8. **Content QA** — SYNTHETIC DEMO DATA label on KPI strip, Execution Centre copy corrected, claims register created

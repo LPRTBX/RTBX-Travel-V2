@@ -107,7 +107,7 @@ function getDecision(delay: "Under 15 min" | "Over 15 min", children: boolean, w
     return {
       classification: "WEATHER_DISRUPTION · Family · Outdoor activity risk · L1",
       decision: "Weather contingency — indoor family alternatives activated",
-      intervention: "Indoor family activities opened · WELBX message with alternatives sent · Outdoor sessions rescheduled",
+      intervention: "Indoor family activities opened · Guest Channel message with alternatives sent · Outdoor sessions rescheduled",
       owner: "Activities Team + Front Desk",
       escalation: "Escalate if weather worsens or guest sentiment drops below threshold",
       assurance: "Activity change logged · Guest acceptance recorded · Refund option open",
@@ -117,7 +117,7 @@ function getDecision(delay: "Under 15 min" | "Over 15 min", children: boolean, w
   return {
     classification: "ARRIVAL_FRICTION · Standard · Minor delay · L1",
     decision: "Proactive communication — friendly update + drinks voucher",
-    intervention: "WELBX message sent with ETA + drinks voucher (A$15) · No staff reassignment required",
+    intervention: "Guest Channel message sent with ETA + drinks voucher (A$15) · No staff reassignment required",
     owner: "Front Desk (standard)",
     escalation: "Escalate if delay exceeds 15 min or guest makes direct complaint",
     assurance: "Delay noted · Voucher issued · No further action unless escalated",

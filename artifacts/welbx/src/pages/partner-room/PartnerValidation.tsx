@@ -61,7 +61,7 @@ export default function PartnerValidation() {
                 </div>
                 <div style={{ fontSize: 15, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", marginBottom: 6 }}>Moment Response MVP</div>
                 <p style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", lineHeight: 1.65, maxWidth: 620, margin: 0 }}>
-                  Use the MVP to validate the push-first pilot workflow before integrations are added. Signal captured → classified → assigned → WELBX guest message → escalated → logged → pilot evidence.
+                  Use the MVP to validate the push-first pilot workflow before integrations are added. Signal captured → classified → assigned → guest-facing message → escalated → logged → pilot evidence.
                 </p>
               </div>
               <div style={{

@@ -1,7 +1,7 @@
 /**
  * Sprint 3 data integrity tests.
  *
- * Run with: pnpm --filter @workspace/welbx test
+ * Run from this artifact directory: pnpm test
  *
  * All tests must pass before Sprint 3 is considered complete.
  * Tests validate cross-file referential integrity across:

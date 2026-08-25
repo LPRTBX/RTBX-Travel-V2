@@ -15,10 +15,10 @@ paths = [ "/" ]
 localPort = 23549
 
 [services.development]
-run = "pnpm --filter @workspace/welbx run dev"
+run = "pnpm --filter @workspace/rtbx-travel run dev"
 
 [services.production]
-build = [ "pnpm", "--filter", "@workspace/welbx", "run", "build" ]
+build = [ "pnpm", "--filter", "@workspace/rtbx-travel", "run", "build" ]
 publicDir = "artifacts/welbx/dist/public"
 serve = "static"
 

@@ -37,7 +37,7 @@ export default function Landing() {
         }}
       >
         <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.32em", color: "#fff", textTransform: "uppercase" }}>
-          WELBX
+          Guest Experience
         </div>
         <div style={{ fontSize: 8, letterSpacing: "0.14em", color: "hsl(215 16% 22%)", textTransform: "uppercase", fontWeight: 600 }}>
           Behavioural Infrastructure
@@ -53,7 +53,7 @@ export default function Landing() {
             fontSize: 8.5, fontWeight: 700, letterSpacing: "0.28em",
             color: "#c9a84c", textTransform: "uppercase", marginBottom: 28,
           }}>
-            WHY WELBX EXISTS
+            WHY GUEST EXPERIENCE EXISTS
           </motion.div>
 
           {/* Hero headline */}
@@ -73,7 +73,7 @@ export default function Landing() {
             color: "hsl(215 16% 52%)", letterSpacing: "-0.01em", lineHeight: 1.5,
             margin: 0, marginBottom: 64, maxWidth: 600,
           }}>
-            WELBX is the Behavioural Infrastructure layer between signal and action.
+            Guest Experience is the Behavioural Infrastructure layer between signal and action.
           </motion.p>
 
           {/* Divider */}
@@ -176,7 +176,7 @@ export default function Landing() {
               {/* Spacer */}
               <div style={{ marginTop: 48 }} />
 
-              {/* What WELBX does */}
+              {/* What Guest Experience does */}
               <motion.div {...fadeUp(0.8)} style={{
                 padding: "28px 28px",
                 border: "1px solid hsl(220 13% 10%)",
@@ -187,13 +187,13 @@ export default function Landing() {
                   fontSize: 8, fontWeight: 700, letterSpacing: "0.22em",
                   color: "#c9a84c", textTransform: "uppercase", marginBottom: 14,
                 }}>
-                  What WELBX Does
+                  What Guest Experience Does
                 </div>
                 <p style={{
                   margin: 0, fontSize: 13, color: "hsl(215 16% 52%)",
                   lineHeight: 1.75, letterSpacing: "0.01em",
                 }}>
-                  WELBX occupies the space between knowing and doing. It turns operational signals into governed actions — consistently, at scale, without loss of institutional intelligence.
+                  Guest Experience occupies the space between knowing and doing. It turns operational signals into governed actions — consistently, at scale, without loss of institutional intelligence.
                 </p>
               </motion.div>
             </motion.div>
@@ -255,10 +255,10 @@ export default function Landing() {
         }}
       >
         <div style={{ fontSize: 8, letterSpacing: "0.1em", color: "hsl(215 16% 18%)" }}>
-          WELBX · Behavioural Infrastructure · Operating Framework
+          Guest Experience · Behavioural Infrastructure · Operating Framework
         </div>
         <div style={{ fontSize: 8, letterSpacing: "0.08em", color: "hsl(215 16% 16%)" }}>
-          WELBX · Confidential
+          Guest Experience · Confidential
         </div>
       </motion.footer>
 

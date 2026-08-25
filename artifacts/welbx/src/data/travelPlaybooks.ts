@@ -161,7 +161,7 @@ export const TRAVEL_PLAYBOOKS: TravelPlaybook[] = [
         action: "Front Office sends the approved guest acknowledgement — confirming awareness of the delay and offering lounge access or an alternative.",
         ownerRoleId: "front-office",
         timing: "Before guest arrival or within 2 minutes of arrival detection",
-        systemOrChannel: "Guest App (WELBX) · Front desk",
+        systemOrChannel: "Approved Guest Channel · Front desk",
         evidenceRequired: ["Guest communication delivery record"],
       },
       {
@@ -197,10 +197,10 @@ export const TRAVEL_PLAYBOOKS: TravelPlaybook[] = [
       },
     ],
     communicationTemplates: [
-      { id: "ct-rg-1", audience: "Guest", channel: "Guest App (WELBX)", purpose: "Acknowledge delay and offer lounge access", approvalRequired: false },
+      { id: "ct-rg-1", audience: "Guest", channel: "Approved Guest Channel", purpose: "Acknowledge delay and offer lounge access", approvalRequired: false },
       { id: "ct-rg-2", audience: "Housekeeping", channel: "Housekeeping App", purpose: "Priority room preparation prompt", approvalRequired: false },
       { id: "ct-rg-3", audience: "Duty Manager", channel: "In-app alert", purpose: "Escalation notification — threshold breach or premium guest", approvalRequired: false },
-      { id: "ct-rg-4", audience: "Guest", channel: "Guest App (WELBX)", purpose: "Room ready notification and follow-up", approvalRequired: true },
+      { id: "ct-rg-4", audience: "Guest", channel: "Approved Guest Channel", purpose: "Room ready notification and follow-up", approvalRequired: true },
     ],
     escalationRules: [
       {
@@ -838,7 +838,7 @@ export const TRAVEL_PLAYBOOKS: TravelPlaybook[] = [
         action: "RTBX generates an approved guest disruption notice. Guest Services reviews before sending. Wording is honest and avoids overstating certainty.",
         ownerRoleId: "guest-services",
         timing: "Within 15 minutes",
-        systemOrChannel: "Guest App (WELBX)",
+        systemOrChannel: "Approved Guest Channel",
         evidenceRequired: ["Guest notification delivery record"],
       },
       {
@@ -884,7 +884,7 @@ export const TRAVEL_PLAYBOOKS: TravelPlaybook[] = [
       },
     ],
     communicationTemplates: [
-      { id: "ct-td-1", audience: "Affected guest", channel: "Guest App (WELBX)", purpose: "Disruption notice with honest assessment and options", approvalRequired: false },
+      { id: "ct-td-1", audience: "Affected guest", channel: "Approved Guest Channel", purpose: "Disruption notice with honest assessment and options", approvalRequired: false },
       { id: "ct-td-2", audience: "Partner transport provider", channel: "Partner channel", purpose: "Alternative transport activation request", approvalRequired: true },
       { id: "ct-td-3", audience: "Duty Manager", channel: "In-app briefing", purpose: "Disruption status and operational impact", approvalRequired: false },
       { id: "ct-td-4", audience: "Housekeeping and Front Office", channel: "Staff console", purpose: "Revised arrival timing and service impact", approvalRequired: false },
@@ -1027,7 +1027,7 @@ export const TRAVEL_PLAYBOOKS: TravelPlaybook[] = [
         action: "Concierge delivers the approved guest message or acts on the approved staff prompt. No autonomous delivery.",
         ownerRoleId: "concierge",
         timing: "Within 12 minutes of approval",
-        systemOrChannel: "Guest App (WELBX) · Front desk",
+        systemOrChannel: "Approved Guest Channel · Front desk",
         evidenceRequired: ["Offer delivery record"],
       },
       {
@@ -1058,7 +1058,7 @@ export const TRAVEL_PLAYBOOKS: TravelPlaybook[] = [
       },
     ],
     communicationTemplates: [
-      { id: "ct-pg-1", audience: "Guest", channel: "Guest App (WELBX)", purpose: "Approved personalised offer or service recommendation", approvalRequired: true },
+      { id: "ct-pg-1", audience: "Guest", channel: "Approved Guest Channel", purpose: "Approved personalised offer or service recommendation", approvalRequired: true },
       { id: "ct-pg-2", audience: "Partner provider", channel: "Partner channel", purpose: "Partner activation request with booking details", approvalRequired: true },
       { id: "ct-pg-3", audience: "Revenue and Loyalty Lead", channel: "In-app briefing", purpose: "Commercial opportunity brief", approvalRequired: false },
     ],

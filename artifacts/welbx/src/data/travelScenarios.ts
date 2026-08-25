@@ -234,7 +234,7 @@ export const TRAVEL_SCENARIOS: TravelScenario[] = [
       { id: "sig-rg-3", source: "Housekeeping App", name: "Room status", status: "simulated", dataRequired: ["room_number", "status", "assigned_housekeeper"] },
       { id: "sig-rg-4", source: "CRM / Loyalty Platform", name: "Guest profile and loyalty status", status: "simulated", dataRequired: ["guest_id", "loyalty_tier", "stay_count", "preferences"] },
       { id: "sig-rg-5", source: "PMS", name: "Available alternative rooms", status: "simulated", dataRequired: ["available_room_numbers", "categories"] },
-      { id: "sig-rg-6", source: "Guest App / WELBX", name: "Guest communication channel", status: "demonstrated", dataRequired: ["guest_device_token", "channel_preference"] },
+      { id: "sig-rg-6", source: "Guest Interface", name: "Guest communication channel", status: "demonstrated", dataRequired: ["guest_device_token", "channel_preference"] },
     ],
 
     context: {
@@ -297,10 +297,10 @@ export const TRAVEL_SCENARIOS: TravelScenario[] = [
     ],
 
     communicationDetails: [
-      { audience: "Guest", purpose: "Acknowledge delay and offer lounge access", channel: "Guest App (WELBX)", approvalRequired: false, messageType: "guest-message" },
+      { audience: "Guest", purpose: "Acknowledge delay and offer lounge access", channel: "Approved Guest Channel", approvalRequired: false, messageType: "guest-message" },
       { audience: "Housekeeping", purpose: "Priority room preparation prompt", channel: "Housekeeping App", approvalRequired: false, messageType: "internal-notification" },
       { audience: "Duty Manager", purpose: "Escalation notification", channel: "In-app alert", approvalRequired: false, messageType: "escalation" },
-      { audience: "Guest", purpose: "Room ready — follow-up confirmation", channel: "Guest App (WELBX)", approvalRequired: true, messageType: "guest-message" },
+      { audience: "Guest", purpose: "Room ready — follow-up confirmation", channel: "Approved Guest Channel", approvalRequired: true, messageType: "guest-message" },
     ],
 
     escalation: [
@@ -399,7 +399,7 @@ export const TRAVEL_SCENARIOS: TravelScenario[] = [
     },
 
     signalDetails: [
-      { id: "sig-dg-1", source: "Guest App / WELBX", name: "Guest message — distress keywords", status: "simulated", dataRequired: ["message_content", "guest_id", "timestamp"] },
+      { id: "sig-dg-1", source: "Guest Interface", name: "Guest message — distress keywords", status: "simulated", dataRequired: ["message_content", "guest_id", "timestamp"] },
       { id: "sig-dg-2", source: "Staff Console", name: "Staff welfare observation", status: "manual", dataRequired: ["staff_id", "observation_description", "location"] },
       { id: "sig-dg-3", source: "Front Desk Console", name: "Repeated help request", status: "simulated", dataRequired: ["request_count", "request_type", "time_window"] },
       { id: "sig-dg-4", source: "Security System", name: "Security report or concern", status: "planned", dataRequired: ["report_type", "location", "time"] },
@@ -906,7 +906,7 @@ export const TRAVEL_SCENARIOS: TravelScenario[] = [
       { id: "sig-td-1", source: "Flight and Transfer Tracking", name: "Transport disruption alert", status: "simulated", dataRequired: ["flight_number", "disruption_type", "revised_eta"] },
       { id: "sig-td-2", source: "PMS / Booking System", name: "Affected guest bookings", status: "simulated", dataRequired: ["guest_ids", "booking_ids", "arrival_window"] },
       { id: "sig-td-3", source: "Partner Channel", name: "Transfer booking status", status: "manual", dataRequired: ["transfer_booking_id", "partner_id", "status"] },
-      { id: "sig-td-4", source: "Guest App / WELBX", name: "Guest communication channel", status: "demonstrated", dataRequired: ["guest_device_token", "channel_preference"] },
+      { id: "sig-td-4", source: "Guest Interface", name: "Guest communication channel", status: "demonstrated", dataRequired: ["guest_device_token", "channel_preference"] },
     ],
 
     context: {
@@ -960,7 +960,7 @@ export const TRAVEL_SCENARIOS: TravelScenario[] = [
       { step: 3, action: "Assess revised arrival windows and service impact", ownerRoleId: "guest-services", timing: "Within 10 minutes", channelOrSystem: "PMS · Housekeeping App" },
       { step: 4, action: "Identify alternative transport from approved partner network", ownerRoleId: "concierge", timing: "Within 15 minutes", channelOrSystem: "Partner channel", evidenceRequired: ["Alternative plan record"] },
       { step: 5, action: "Notify operational roles of revised arrival timing", ownerRoleId: "guest-services", timing: "Within 15 minutes", channelOrSystem: "In-app briefing · Staff console", evidenceRequired: ["Internal notification record"] },
-      { step: 6, action: "Send approved guest disruption notice — honest, no overclaiming", ownerRoleId: "guest-services", timing: "Within 15 minutes", channelOrSystem: "Guest App (WELBX)", evidenceRequired: ["Guest notification delivery record"] },
+      { step: 6, action: "Send approved guest disruption notice — honest, no overclaiming", ownerRoleId: "guest-services", timing: "Within 15 minutes", channelOrSystem: "Approved Guest Channel", evidenceRequired: ["Guest notification delivery record"] },
       { step: 7, action: "Activate approved partner transport and confirm booking", ownerRoleId: "concierge", timing: "Within 20 minutes", channelOrSystem: "Partner channel", approvalRequired: true, evidenceRequired: ["Partner activation confirmation"] },
       { step: 8, action: "Escalate high-impact cases to Duty Manager", ownerRoleId: "duty-manager", timing: "Immediately on identification", channelOrSystem: "In-app escalation", evidenceRequired: ["Escalation record"] },
       { step: 9, action: "Record final outcome: guest informed, alternative confirmed, arrival updated", ownerRoleId: "guest-services", timing: "On guest arrival confirmation", channelOrSystem: "Evidence Ledger", evidenceRequired: ["Full outcome record"] },
@@ -968,7 +968,7 @@ export const TRAVEL_SCENARIOS: TravelScenario[] = [
     ],
 
     communicationDetails: [
-      { audience: "Affected guest", purpose: "Disruption notice with honest assessment", channel: "Guest App (WELBX)", approvalRequired: false, messageType: "guest-message" },
+      { audience: "Affected guest", purpose: "Disruption notice with honest assessment", channel: "Approved Guest Channel", approvalRequired: false, messageType: "guest-message" },
       { audience: "Partner transport provider", purpose: "Alternative transport activation request", channel: "Partner channel", approvalRequired: true, messageType: "recommendation" },
       { audience: "Duty Manager", purpose: "Disruption status and operational impact briefing", channel: "In-app briefing", approvalRequired: false, messageType: "internal-notification" },
       { audience: "Housekeeping and Front Office", purpose: "Revised arrival timing and service adjustments", channel: "Staff console", approvalRequired: false, messageType: "internal-notification" },
@@ -1123,14 +1123,14 @@ export const TRAVEL_SCENARIOS: TravelScenario[] = [
       { step: 4, action: "Exclude conflicting welfare or service-recovery moments", ownerRoleId: "revenue-loyalty-lead", timing: "Within 5 minutes", channelOrSystem: "RTBX Context Layer" },
       { step: 5, action: "Select and approve communication type, channel and message", ownerRoleId: "revenue-loyalty-lead", timing: "Within 8 minutes", approvalRequired: true, evidenceRequired: ["Communication approval record"] },
       { step: 6, action: "Confirm partner activation if required", ownerRoleId: "concierge", timing: "Before guest delivery", channelOrSystem: "Partner channel", approvalRequired: true, evidenceRequired: ["Partner confirmation"] },
-      { step: 7, action: "Deliver approved guest message or staff prompt", ownerRoleId: "concierge", timing: "Within 12 minutes of approval", channelOrSystem: "Guest App (WELBX) · Front desk", evidenceRequired: ["Offer delivery record"] },
+      { step: 7, action: "Deliver approved guest message or staff prompt", ownerRoleId: "concierge", timing: "Within 12 minutes of approval", channelOrSystem: "Approved Guest Channel · Front desk", evidenceRequired: ["Offer delivery record"] },
       { step: 8, action: "Record guest response: accepted, declined or no response", ownerRoleId: "concierge", timing: "On response or after offer expiry", channelOrSystem: "CRM · Partner channel", evidenceRequired: ["Guest response record"] },
       { step: 9, action: "Attribute value where a confirmed booking results", ownerRoleId: "revenue-loyalty-lead", timing: "On confirmed booking", channelOrSystem: "POS · Loyalty Platform", evidenceRequired: ["Value attribution record (if applicable)"] },
       { step: 10, action: "Review offer relevance and frequency controls", ownerRoleId: "revenue-loyalty-lead", timing: "Within 48 hours", evidenceRequired: ["Offer review note"] },
     ],
 
     communicationDetails: [
-      { audience: "Guest", purpose: "Approved personalised offer or service recommendation", channel: "Guest App (WELBX)", approvalRequired: true, messageType: "guest-message" },
+      { audience: "Guest", purpose: "Approved personalised offer or service recommendation", channel: "Approved Guest Channel", approvalRequired: true, messageType: "guest-message" },
       { audience: "Partner provider", purpose: "Activation request with booking details", channel: "Partner channel", approvalRequired: true, messageType: "recommendation" },
       { audience: "Revenue and Loyalty Lead", purpose: "Commercial opportunity brief", channel: "In-app briefing", approvalRequired: false, messageType: "internal-notification" },
     ],

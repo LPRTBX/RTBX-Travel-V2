@@ -10,7 +10,7 @@
 
 ## Purpose
 
-This register lists every canonical route in the RTBX Travel Partner Room (`artifacts/welbx`), its component, its primary section, its audience, and its navigation status. It is the source of truth for navigation audits and link validation.
+This register lists every canonical route in the RTBX Travel Partner Room, its component, its primary section, its audience, and its navigation status. It is the source of truth for navigation audits and link validation.
 
 ---
 

@@ -83,7 +83,7 @@ const CORE_SYSTEMS = [
     tag: "Interactive Demo",
     tagColor: "#10b981",
     href: "/partner-room/comms-demo",
-    does: "Routes structured messages to the right recipient at the right time — guest via WELBX, staff via task app, manager via dashboard, command via record.",
+    does: "Routes structured messages to the right recipient at the right time — guest via Guest Channel, staff via task app, manager via dashboard, command via record.",
     matters: "The right message to the right person in real time is what separates a resolved moment from an escalated one.",
   },
   {
@@ -348,7 +348,7 @@ export default function PartnerProductProof() {
                   RTBX Travel — Moment Response MVP
                 </div>
                 <p style={{ fontSize: 13, color: "rgba(255,255,255,0.5)", lineHeight: 1.65, maxWidth: 720, margin: "0 0 8px 0" }}>
-                  This MVP shows the first RTBX Travel product loop: a staff, guest or operator signal is captured, converted into a classified moment, assigned to the right person, supported with a guest-facing WELBX message, escalated if required, logged for assurance and reported as pilot evidence.
+                  This MVP shows the first RTBX Travel product loop: a staff, guest or operator signal is captured, converted into a classified moment, assigned to the right person, supported with a guest-facing message, escalated if required, logged for assurance and reported as pilot evidence.
                 </p>
                 <div style={{ fontSize: 12, color: "rgba(255,255,255,0.28)", fontStyle: "italic" }}>
                   The Partner Room explains the RTBX Travel model. The Working Demonstration Preview shows the first working product loop. This is not the full Travel OS — it is the first deployable wedge: Moment Response.
@@ -430,7 +430,7 @@ export default function PartnerProductProof() {
                 </div>
                 <div style={{ fontSize: 14, fontWeight: 800, color: "#fff", marginBottom: 12, lineHeight: 1.3 }}>Working Demonstration Preview — Moment Response</div>
                 <p style={{ fontSize: 13, color: "rgba(255,255,255,0.42)", lineHeight: 1.65, flex: 1, marginBottom: 20 }}>
-                  The first deployable RTBX Travel product loop. Signal captured, classified, assigned, WELBX message sent, escalated if required, logged and reported.
+                  The first deployable RTBX Travel product loop. Signal captured, classified, assigned, guest-facing message sent, escalated if required, logged and reported.
                 </p>
                 <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#c9a84c" }}>Open Working Demonstration ↗</div>
               </div>

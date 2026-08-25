@@ -1,7 +1,7 @@
 /**
  * Sprint 4 data integrity and runtime engine tests.
  *
- * Run with: pnpm --filter @workspace/welbx test
+ * Run from this artifact directory: pnpm test
  *
  * Tests validate:
  * - DEFAULT_DEPLOYMENT integrity (referential cross-checks against Sprint 3 data)

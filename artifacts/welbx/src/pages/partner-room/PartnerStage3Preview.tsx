@@ -12,7 +12,7 @@ const SITES = [
 ];
 
 const SIGNAL_STREAMS = [
-  { label: "Guest signals",                    color: "#3b82f6",  count: "64 active",  desc: "Guest-entered inputs via WELBX QR, SMS link, kiosk or staff relay" },
+  { label: "Guest signals",                    color: "#3b82f6",  count: "64 active",  desc: "Guest-entered inputs via Guest Channel QR, SMS link, kiosk or staff relay" },
   { label: "Staff signals",                    color: "#c9a84c",  count: "38 active",  desc: "Staff-entered operational moments through dashboard, mobile or manager console" },
   { label: "PMS / booking signals",            color: "#a78bfa",  count: "22 active",  desc: "Arrival times, room status, loyalty flags, special requests — via approved integration" },
   { label: "Task / housekeeping signals",      color: "#f97316",  count: "17 active",  desc: "Room readiness, cleaning delays, maintenance alerts — via approved task system feed" },

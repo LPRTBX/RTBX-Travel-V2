@@ -22,7 +22,7 @@ const FLOW_STEPS: FlowStep[] = [
       "Corporate profile active — Meridian Group, policy tier: Managed, duty-of-care flag: active",
       "Meeting schedule loaded — 3 back-to-back meetings from 09:00, workspace required",
       "Policy constraint flagged — accommodation cap, approved vendor list, expense rules active",
-      "Traveller distress indicator — WELBX engagement: declining, app activity: low",
+      "Traveller distress indicator — Guest Channel engagement: declining, app activity: low",
     ],
     roles: {
       "Guest / Traveller": "The app has received the flight delay notification and cross-referenced the corporate booking. A priority support message is queued pending classification.",
@@ -54,7 +54,7 @@ const FLOW_STEPS: FlowStep[] = [
       "Policy-compliant room offer prepared — within approved accommodation tier",
       "Workspace confirmed — business centre or room workspace, available immediately",
       "Transport option queued — taxi pre-approved within policy, ready on request",
-      "Meal credit activated — within policy allowance, delivered via WELBX",
+      "Meal credit activated — within policy allowance, delivered via Guest Channel",
       "Escalation threshold: if DOC not resolved in 60 min, corporate travel manager alerted",
     ],
     roles: {
@@ -67,7 +67,7 @@ const FLOW_STEPS: FlowStep[] = [
     key: "execute", label: "Execute", color: "#10b981", icon: "◉",
     summary: "Actions delivered", status: "EXECUTING",
     detail: [
-      "WELBX message sent — express check-in instructions, workspace details, meal credit: A$45",
+      "Guest Channel message sent — express check-in instructions, workspace details, meal credit: A$45",
       "Front desk briefed — Reynolds, D. flagged as priority, express lane prepared",
       "Room 420 ready and confirmed — housekeeping priority completed at 08:42",
       "Business centre pre-opened — reserved session logged, keycard access activated",

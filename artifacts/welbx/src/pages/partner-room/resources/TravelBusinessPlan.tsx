@@ -18,7 +18,7 @@ const MOATS = [
   { label: "Decision Spine", desc: "Intervention logic that applies the right response threshold across guest, welfare, recovery and commercial moment types." },
   { label: "Assurance Registry", desc: "Every moment, action and outcome logged. Evidence for operators, funders, regulators and guests." },
   { label: "Deployment Speed", desc: "Push-first, no-heavy-integration entry. A pilot can start in weeks, not months." },
-  { label: "WELBX Guest Layer", desc: "Zero-download, no-login guest-facing experience layer used to surface support, recovery and experience options." },
+  { label: "Guest Experience Layer", desc: "Zero-download, no-login guest-facing experience layer used to surface support, recovery and experience options." },
 ];
 
 const ROADMAP = [
@@ -28,7 +28,7 @@ const ROADMAP = [
 ];
 
 const STACK = [
-  { label: "Guest Experience OS", sub: "WELBX-powered", items: ["Check-in pathways", "Welfare prompts", "In-stay nudges", "Post-stay sentiment"] },
+  { label: "Guest Experience OS", sub: "Guest-facing Experience", items: ["Check-in pathways", "Welfare prompts", "In-stay nudges", "Post-stay sentiment"] },
   { label: "Service Recovery OS", sub: "Staff & operator", items: ["Moment classification", "Staff action routing", "Recovery playbooks", "Escalation rules"] },
   { label: "Marketplace & Loyalty OS", sub: "Commercial", items: ["Local experience offers", "Dining activation", "Partner marketplace", "Repeat-stay pathways"] },
   { label: "Operator Intelligence OS", sub: "Command layer", items: ["Moment registry", "Signal registry", "Value proof", "Environment health"] },
@@ -55,7 +55,7 @@ export default function TravelBusinessPlan() {
           <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>Executive Summary</div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2 }}>
             {[
-              { label: "What RTBX Travel is", text: "A real-time signal-to-action infrastructure layer deployed across the travel and hospitality sector. Powered by RTBX Core. Surfaced to guests via WELBX." },
+              { label: "What RTBX Travel is", text: "A real-time signal-to-action infrastructure layer deployed across the travel and hospitality sector. Powered by RTBX Core. Surfaced to guests via Guest Experience." },
               { label: "What problem it solves", text: "Operators have PMS, booking engines, CRMs, dashboards and SOPs. They do not have a real-time execution system that acts when a signal becomes a moment." },
               { label: "How it makes money", text: "Platform licensing, property deployment fees, marketplace revenue share, loyalty activation fees, intelligence reporting and partner distribution models." },
               { label: "Who the partners are", text: "Operators, integration platforms, distributors, marketplace partners, strategic co-owners and funders. Each with a distinct commercial pathway." },

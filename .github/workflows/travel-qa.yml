@@ -39,30 +39,27 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Typecheck
-        run: pnpm --filter @workspace/welbx run typecheck
+        run: pnpm --filter @workspace/rtbx-travel run typecheck
 
       - name: Lint
         # NOTE: lint script not yet configured (Sprint 1 baseline — deferred to Sprint 2)
-        run: pnpm --filter @workspace/welbx run lint
+        run: pnpm --filter @workspace/rtbx-travel run lint
         continue-on-error: true
 
       - name: Run tests
-        run: pnpm --filter @workspace/welbx run test
+        run: pnpm --filter @workspace/rtbx-travel run test
 
-      - name: Check legacy terminology
-        # NOTE: 361 legacy term occurrences remain as of Sprint 1 baseline.
-        # Sprint 2 will reduce this to zero. This check is advisory until then.
-        run: pnpm --filter @workspace/welbx run check:legacy
-        continue-on-error: true
+      - name: Check active terminology
+        run: pnpm --filter @workspace/rtbx-travel run check:terminology
 
       - name: Test routes
-        run: pnpm --filter @workspace/welbx run test:routes
+        run: pnpm --filter @workspace/rtbx-travel run test:routes
 
       - name: Test internal links
-        run: pnpm --filter @workspace/welbx run test:links
+        run: pnpm --filter @workspace/rtbx-travel run test:links
 
       - name: Check assets
-        run: pnpm --filter @workspace/welbx run check:assets
+        run: pnpm --filter @workspace/rtbx-travel run check:assets
 
       - name: Production build
-        run: pnpm --filter @workspace/welbx run build
+        run: pnpm --filter @workspace/rtbx-travel run build
