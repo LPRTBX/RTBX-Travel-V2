@@ -1,0 +1,876 @@
+# RTBX Travel — Step 8: Commercial & Resource Access Boundaries
+
+You are working on the existing RTBX Travel Partner Room.
+
+The following are locked and must not be changed in this task:
+
+* RTBX Main architecture
+* WELBX removal
+* Guest Demo branching
+* navigation behaviour
+* typography/readability
+* responsive/mobile layout
+* proof / AI / maturity language
+* scenario library vs Execution Centre separation
+* Travel operating systems
+* canonical scenarios
+* canonical playbooks
+* canonical roles
+* pilot model
+* partner ecosystem
+* commercial model structure
+
+This task is limited to:
+
+* external vs internal content boundaries
+* partner-room resource classification
+* commercially sensitive content
+* route exposure
+* client-bundle exposure
+* access-gate honesty
+* safe external sharing
+
+Do not redesign pages.
+
+Do not change approved commercial logic.
+
+Do not build enterprise authentication.
+
+Do not add new commercial content.
+
+---
+
+# 1. Objective
+
+Ensure the external RTBX Travel Partner Room contains only material appropriate for a prospective:
+
+* hotel operator
+* pilot customer
+* technology partner
+* deployment partner
+* strategic commercial partner
+
+Internal-only, investor-only and commercially sensitive material must not be exposed merely because it is hidden behind:
+
+* navigation
+* CSS
+* route obscurity
+* a client-side access code
+
+The principle is:
+
+> If content is sensitive, it must not be shipped in the external client bundle unless there is a genuine server-side access control.
+
+---
+
+# 2. Current access-boundary principle
+
+The existing Partner Room access code is a **demonstration gate**, not a security boundary.
+
+Therefore:
+
+* do not call the environment secure
+* do not call it confidential unless the content itself is safe to expose
+* do not assume hidden routes are protected
+* do not assume unlinked pages are private
+* do not assume route knowledge protects sensitive content
+
+Use a label such as:
+
+> **Controlled Partner Preview**
+
+or:
+
+> **Partner Review Environment**
+
+Avoid:
+
+> Private
+
+unless true security exists.
+
+---
+
+# 3. Resource classification
+
+Review every resource, commercial page and route and classify it as one of:
+
+## General Partner
+
+Safe for a broad prospective partner.
+
+Examples:
+
+* Partner Overview
+* Operating Model
+* Pilot Model
+* Partner Ecosystem
+* Working Proof
+* Commercial Pathway at high level
+
+## Pilot Partner
+
+Appropriate after pilot interest exists.
+
+Examples:
+
+* Pilot scope
+* readiness framework
+* deployment responsibilities
+* configuration requirements
+* measurement framework
+
+## Technical Partner
+
+Appropriate for system/integration discussion.
+
+Examples:
+
+* systems map
+* integration architecture
+* connector responsibilities
+* technical maturity
+* architecture overview
+
+## Deployment Partner
+
+Appropriate for implementation/change partners.
+
+Examples:
+
+* rollout model
+* responsibility matrix
+* configuration workflow
+* training/change scope
+
+## Commercially Restricted
+
+Should not be generally available.
+
+Examples:
+
+* detailed unit economics
+* negotiation assumptions
+* partner margin assumptions
+* confidential pricing logic
+* commercially sensitive revenue split logic
+
+## Internal Only
+
+Must not ship in the external Partner Room.
+
+Examples:
+
+* Business Plan
+* Go-to-Market Plan
+* internal Revenue Model
+* internal commercial forecasts
+* investor assumptions
+* funding strategy
+* internal operating notes
+* unapproved market assumptions
+* internal architecture notes not intended for partners
+
+---
+
+# 4. Audit all active routes
+
+Review all active routes including:
+
+* Commercial
+* Commercial Model
+* Commercial Unit
+* Revenue Model
+* Commercial Case
+* Proof Calculator
+* Business Plan
+* Go-to-Market Plan
+* Brief Library
+* resource subroutes
+* technical resource routes
+* Story Lab
+* any hidden/internal resources
+
+For each route document:
+
+* route
+* classification
+* audience
+* sensitivity
+* current navigation exposure
+* current bundle exposure
+* keep/remove/restrict decision
+
+Create:
+
+```text id="f3vpc8"
+docs/access-boundary-register.md
+```
+
+Use a table:
+
+| Route / Resource | Classification | Audience | Sensitive? | In External Bundle? | Action |
+| ---------------- | -------------- | -------- | ---------- | ------------------- | ------ |
+
+---
+
+# 5. External release rule
+
+For the external Partner Room build:
+
+Include only:
+
+* General Partner
+* Pilot Partner
+* Technical Partner
+* Deployment Partner
+
+where appropriate.
+
+Commercially Restricted and Internal Only material must:
+
+* be excluded from the external client bundle
+* or be moved to a genuinely server-protected environment
+
+Do not merely remove them from navigation.
+
+---
+
+# 6. Business Plan
+
+If the current Business Plan route/resource exists:
+
+Classify as:
+
+> **Internal Only**
+
+Required action:
+
+* remove from external navigation
+* remove from external route tree
+* remove from external client bundle
+* preserve source internally if required
+
+Do not leave it reachable by guessing the route.
+
+---
+
+# 7. Go-to-Market Plan
+
+Classify:
+
+> **Internal Only**
+
+Required action:
+
+* remove from external Partner Room release
+* preserve internally if useful
+* do not expose GTM assumptions through client source
+
+---
+
+# 8. Revenue Model
+
+Review the content carefully.
+
+If it contains:
+
+* internal forecasts
+* revenue assumptions
+* sales projections
+* margin expectations
+* internal partner economics
+
+classify:
+
+> **Internal Only** or **Commercially Restricted**
+
+Do not ship it externally.
+
+If a public-facing commercial model is required, use the canonical Commercial Pathway page instead.
+
+---
+
+# 9. Commercial Unit
+
+Review `/commercial-unit`.
+
+If it contains detailed unit economics or internal assumptions:
+
+* remove from primary navigation
+* exclude from external release
+* retain internally only if needed
+
+If some content is genuinely partner-safe, move the appropriate summary into the canonical `/commercial` page.
+
+Do not maintain duplicate commercial truths.
+
+---
+
+# 10. Commercial Model
+
+Review `/commercial-model`.
+
+If it overlaps materially with `/commercial`:
+
+Use `/commercial` as the canonical external page.
+
+Then:
+
+* redirect `/commercial-model` to `/commercial`
+* or classify the detailed version as internal/controlled
+
+Do not expose two competing commercial stories.
+
+---
+
+# 11. Commercial Case
+
+This may remain external only if it:
+
+* explains value logic
+* uses approved assumptions
+* labels indicative figures
+* avoids internal forecasts
+* does not expose investor material
+
+If it contains sensitive company assumptions, classify it accordingly.
+
+---
+
+# 12. Proof Calculator
+
+The calculator may remain external if:
+
+* all inputs are visible
+* default inputs are clearly labelled
+* outputs are indicative
+* no guaranteed result is implied
+* methodology is disclosed
+* user can reset assumptions
+
+Required label:
+
+> **Indicative value modelling tool — outputs depend on customer inputs and assumptions.**
+
+Do not expose hidden internal assumptions.
+
+---
+
+# 13. Partner commercial structure
+
+The external Commercial Pathway may safely describe:
+
+* alignment/discovery fee
+* implementation/configuration fee
+* platform licence
+* property/deployment licence
+* connector/integration fee
+* support or managed service
+* expansion operating-system licence
+* partner service economics where appropriate
+
+But every commercial element must be labelled as:
+
+* Indicative
+* Subject to proposal
+* Customer-specific
+* Partner-specific
+* Approved
+
+Do not expose internal margin structure unless explicitly approved.
+
+---
+
+# 14. Investor content
+
+Search the external Travel repository for:
+
+* investor
+* investment
+* SAFE
+* valuation
+* pre-money
+* funding
+* raise
+* cap table
+* runway
+* financial forecast
+* investor room
+* data room
+
+If any active partner-facing route contains investor-style material:
+
+* remove it from the Travel external release
+* do not redirect general partners into investor content
+* preserve it only in the appropriate RTBX Main/Hub environment
+
+The Travel Partner Room is not an investor room.
+
+---
+
+# 15. Resource Library
+
+Update the Resource Library so each document displays:
+
+* audience
+* classification
+* owner
+* version
+* last reviewed
+* maturity
+* commercial status where relevant
+
+Only render resources the current external environment is allowed to expose.
+
+Do not show a locked card for an internal document if the underlying file is still bundled.
+
+The file itself must be absent from the external build.
+
+---
+
+# 16. External/internal data structure
+
+Create a canonical resource classification data source if practical.
+
+Example:
+
+```ts id="65v36w"
+type ResourceAccessLevel =
+  | "general-partner"
+  | "pilot-partner"
+  | "technical-partner"
+  | "deployment-partner"
+  | "commercially-restricted"
+  | "internal-only";
+```
+
+Each resource should declare its access level.
+
+External builds should filter at build/route inclusion level, not just visual rendering.
+
+---
+
+# 17. Build-time separation
+
+Preferred approach:
+
+Create a clear external Partner Room build boundary.
+
+Possible approaches:
+
+* environment-based route inclusion
+* separate resource manifest
+* external-safe export list
+* route generation from classified resources
+
+Do not introduce heavy infrastructure.
+
+The important outcome is:
+
+> Internal-only content must not be importable/reachable in the external client build.
+
+---
+
+# 18. Route removal vs redirect
+
+Use these rules:
+
+## Internal Only
+
+Do not redirect to the hidden content.
+
+Instead:
+
+* remove route from external build
+* route should resolve to not-found or safe general page
+
+## Duplicate external commercial page
+
+Redirect to canonical `/commercial`.
+
+## Restricted but partner-safe after specific approval
+
+If no server-side control exists:
+
+* do not ship it yet
+
+Do not simulate security with a client check.
+
+---
+
+# 19. Story Lab
+
+Review the Story Lab.
+
+If it is primarily:
+
+* internal narrative testing
+* presentation experimentation
+* legacy product storytelling
+
+classify:
+
+> Internal Only
+
+Remove it from the external Partner Room journey.
+
+If there is a clear externally useful story component, move only that content into the appropriate existing Partner Room page.
+
+Do not preserve an entire alternate story environment unless it has a distinct external purpose.
+
+---
+
+# 20. Client-side gate language
+
+Review all language around the access code.
+
+Do not say:
+
+* secure
+* protected
+* confidential access
+* private room
+
+unless technically true.
+
+Use:
+
+> **Controlled Partner Preview**
+
+Add a short disclosure in technical/resource context:
+
+> Access control in this demonstration environment is designed for guided partner review and is not a production security boundary.
+
+Do not put a legal-style warning on every page.
+
+One clear boundary statement is enough.
+
+---
+
+# 21. Default data
+
+Review bundled synthetic data.
+
+Confirm it contains no:
+
+* real customer data
+* personal information
+* real partner confidential data
+* credentials
+* API keys
+* internal funding information
+* real negotiation notes
+
+Synthetic property names and scenarios should remain clearly synthetic.
+
+---
+
+# 22. Environment variables and secrets
+
+Search for:
+
+* API keys
+* tokens
+* passwords
+* access codes
+* private URLs
+* secrets
+* credentials
+
+Confirm:
+
+* no production secret exists client-side
+* no confidential environment variable is compiled into frontend JS
+* the demo access code is treated as non-secret
+
+Do not log secrets in build output.
+
+---
+
+# 23. Downloadable files
+
+Review all files under:
+
+* public/
+* assets/
+* downloads/
+* resources/
+* generated PDFs
+* JSON
+* CSV
+* docs exposed by URL
+
+Ensure internal-only resources are physically absent from the external build.
+
+Do not assume “not linked” means safe.
+
+---
+
+# 24. Commercial figure review
+
+For all externally retained commercial content:
+
+Every figure should have a status.
+
+Examples:
+
+* Indicative
+* Approved
+* Customer-configured
+* Partner-specific
+* Subject to proposal
+* Demonstration assumption
+
+Remove or move any figure whose source/approval is unclear.
+
+---
+
+# 25. Resource versioning
+
+For externally retained resources:
+
+Use one consistent release identity.
+
+Example:
+
+> **RTBX Travel Partner Preview v2.0 — August 2026**
+
+Ensure document metadata is not obviously stale.
+
+Update:
+
+* version
+* last reviewed
+* owner
+* audience
+
+Do not rewrite the document itself unless metadata is incorrect.
+
+---
+
+# 26. Resource links
+
+Verify every external resource link:
+
+* resolves
+* file exists
+* classification permits exposure
+* file title matches content
+* no internal directory path leaks
+* no broken download
+
+Remove links to internal resources entirely.
+
+---
+
+# 27. External bundle scan
+
+After changes, inspect the built client output.
+
+Search the production bundle for terms associated with internal-only content:
+
+* Business Plan
+* Go-to-Market
+* Revenue Model
+* funding
+* valuation
+* SAFE
+* investor
+* runway
+* pre-money
+* confidential margin
+
+Investigate each occurrence.
+
+The goal is not necessarily zero occurrences for every generic word, but zero leaked internal material.
+
+---
+
+# 28. Access-boundary tests
+
+Add focused tests validating:
+
+* internal-only resources are absent from external resource manifest
+* internal-only routes are not registered in external route tree
+* commercially restricted resources are not externally bundled
+* canonical Commercial page remains accessible
+* Proof Calculator remains accessible only if approved
+* Partner Resource Library contains only approved classifications
+
+---
+
+# 29. Route tests
+
+Verify external release behaviour for:
+
+* `/commercial`
+* `/commercial-model`
+* `/commercial-unit`
+* `/revenue-model`
+* Business Plan route
+* GTM route
+* Story Lab routes
+* resource routes
+
+Expected behaviour must match classification.
+
+Document redirects.
+
+---
+
+# 30. Resource manifest
+
+Create a clean external resource manifest.
+
+Suggested fields:
+
+```ts id="8n0gz7"
+type PartnerResource = {
+  id: string;
+  title: string;
+  audience: string;
+  accessLevel: ResourceAccessLevel;
+  version: string;
+  lastReviewed: string;
+  owner: string;
+  routeOrFile: string;
+  maturity?: string;
+  commercialStatus?: string;
+};
+```
+
+Use one canonical source rather than manually duplicating resource metadata.
+
+---
+
+# 31. Final external Partner Room contents
+
+At completion, the external Partner Room should comfortably contain:
+
+## Product
+
+* Overview
+* Operating Model
+* Travel Intelligence
+* Travel Operating Systems
+* Integration
+* Build & Configure
+* Execution Centre
+
+## Proof
+
+* Product Proof
+* Scenario Library
+* Guest View
+* Operator View
+* Dual View
+* Validation Replay
+
+## Pilot and partnership
+
+* Pilot Model
+* Partner Ecosystem
+* Commercial Pathway
+* Deployment pathway
+* Next Step
+
+## Resources
+
+Only approved:
+
+* general partner
+* pilot
+* technical
+* deployment resources
+
+Internal business strategy must not sit beside these.
+
+---
+
+# 32. Internal content preservation
+
+Do not destroy useful internal content.
+
+Move it to a clearly isolated internal location where practical, such as:
+
+```text id="285lxx"
+src/internal/
+docs/internal/
+```
+
+or preserve through Git history.
+
+The external application must not import from those locations.
+
+---
+
+# 33. Completion report
+
+At completion provide:
+
+## Classification summary
+
+Count:
+
+* General Partner
+* Pilot Partner
+* Technical Partner
+* Deployment Partner
+* Commercially Restricted
+* Internal Only
+
+## Removed from external bundle
+
+List:
+
+* routes
+* resources
+* files
+
+## Redirected
+
+List duplicate external routes redirected to canonical pages.
+
+## Commercial exposure
+
+Confirm what commercial content remains externally available.
+
+## Access gate
+
+Confirm final language and limitations.
+
+## Bundle scan
+
+Report internal-term scan findings.
+
+## Files changed
+
+List all changed files.
+
+## Documentation
+
+Confirm:
+
+```text id="grlyc7"
+docs/access-boundary-register.md
+```
+
+created/updated.
+
+## Verification
+
+Run/report:
+
+* access-boundary tests
+* resource-manifest tests
+* route tests
+* bundle scan
+* link tests
+* full test suite
+* typecheck
+* production build
+
+Stop after Step 8.
+
+Do not begin final release QA.
