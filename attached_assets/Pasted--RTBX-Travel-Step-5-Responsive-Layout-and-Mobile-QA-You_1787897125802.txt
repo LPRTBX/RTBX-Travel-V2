@@ -1,0 +1,939 @@
+# RTBX Travel — Step 5: Responsive Layout and Mobile QA
+
+You are working on the existing RTBX Travel Partner Room.
+
+The following are already locked and must not be changed in this task:
+
+* RTBX Main architecture
+* WELBX removal
+* Guest Demo branching logic
+* Navigation behaviour
+* Typography and readability standards
+* Travel operating systems
+* scenarios
+* playbooks
+* runtime logic
+* pilot model
+* partner model
+* commercial structure
+
+This task is limited to:
+
+* responsive layout
+* mobile behaviour
+* tablet behaviour
+* overflow
+* stacking
+* grid collapse
+* table handling
+* component resizing
+* viewport QA
+
+Do not redesign the product.
+
+Do not add new content.
+
+Do not rewrite copy.
+
+Do not change navigation structure or behaviour.
+
+Do not change the RTBX architecture.
+
+---
+
+# 1. Objective
+
+Ensure the RTBX Travel Partner Room works cleanly and intentionally across:
+
+* phone
+* tablet
+* laptop
+* desktop
+* wide desktop
+
+The current application contains many fixed multi-column grids and dense operational layouts.
+
+The goal is:
+
+> Preserve product depth while adapting the layout intelligently to the available screen width.
+
+Do not solve responsive issues by:
+
+* shrinking text below approved typography standards
+* hiding important content
+* using `overflow-x: hidden` to conceal clipping
+* cutting off cards
+* forcing desktop layouts onto tablets
+* creating tiny controls
+
+---
+
+# 2. Required viewport set
+
+Manually test the rendered application at:
+
+* 320px
+* 375px
+* 390px
+* 768px
+* 820px
+* 900px
+* 1024px
+* 1280px
+* 1440px
+
+Also test reduced viewport heights on desktop and tablet.
+
+Record actual results.
+
+Do not claim a viewport passed unless it was manually inspected in a rendered browser.
+
+---
+
+# 3. Global responsive rules
+
+Review the active layout system.
+
+The application should generally behave as:
+
+## Mobile
+
+320–639px
+
+* single-column primary layout
+* stacked cards
+* mobile navigation
+* full-width controls
+* readable horizontal tabs
+* no clipped content
+
+## Large mobile / small tablet
+
+640–767px
+
+* mostly single column
+* two-column layout only where genuinely readable
+* mobile/tablet navigation
+
+## Tablet
+
+768–1023px
+
+* one or two columns depending on content
+* avoid five- or four-column grids
+* use tablet navigation behaviour established in Step 3
+* operational panels may stack
+
+## Desktop
+
+1024px+
+
+* desktop multi-column layouts may apply
+* preserve readable widths
+* avoid unnecessarily wide text blocks
+
+Adjust these ranges to the existing implementation where necessary, but the result must remain usable.
+
+---
+
+# 4. Remove overflow masking
+
+Search global CSS and active layout components for patterns such as:
+
+```css
+overflow-x: hidden;
+```
+
+Do not rely on this rule to hide layout failures.
+
+Where horizontal overflow is caused by an actual layout defect:
+
+* fix the grid
+* allow wrapping
+* stack components
+* adjust min-width
+* add controlled local scrolling only where appropriate
+
+Global `overflow-x: hidden` may remain only where there is a legitimate non-content reason and it does not conceal active UI.
+
+Document any retained usage.
+
+---
+
+# 5. Grid audit
+
+Audit all active `gridTemplateColumns`, CSS grid definitions and fixed flex layouts.
+
+Identify layouts using:
+
+* 5 columns
+* 4 columns
+* 3 columns
+* fixed 2-column layouts
+
+Every major grid must have an explicit responsive strategy.
+
+Do not assume browser compression is sufficient.
+
+Use existing responsive classes/tokens or introduce small shared layout utilities where practical.
+
+---
+
+# 6. Partner Room landing page
+
+Audit every section.
+
+## Hero
+
+Ensure:
+
+* title wraps naturally
+* supporting copy remains readable
+* CTAs stack cleanly on mobile
+* badges do not overflow
+* no horizontal scroll
+
+## “This Is / This Is Not”
+
+Desktop:
+
+* two columns acceptable
+
+Mobile/tablet:
+
+* stack to one column
+
+## Five-step engine
+
+Desktop:
+
+* five stages may remain horizontal
+
+Tablet:
+
+* use 2–3 columns or controlled sequence
+
+Mobile:
+
+* stack vertically or use a readable step sequence
+
+Do not squeeze five columns into 320–390px.
+
+## Operating systems
+
+Lead systems should remain visually clear.
+
+Recommended mobile order:
+
+1. Guest Experience OS
+2. Service Recovery and Staff Response OS
+3. Operator Intelligence OS
+4. Safety and Guest Welfare
+5. Marketplace and Loyalty Activation
+
+## Deployment environments
+
+Hotels & Resorts must remain the lead environment.
+
+Expansion environments should stack cleanly.
+
+## Partner paths
+
+Four partner-entry cards must stack or become a readable 2×2 layout on appropriate tablet widths.
+
+---
+
+# 7. Operating Model
+
+The Operating Model is architecture-heavy.
+
+Ensure:
+
+* five-step engine remains readable
+* six intelligence layers do not compress excessively
+* Core → Travel → Operating System → Property → Deployment hierarchy remains obvious
+* arrows/lines do not break on narrow screens
+* diagrams can convert from horizontal to vertical on mobile
+
+Do not shrink architecture labels to fit.
+
+---
+
+# 8. Travel Intelligence and Operating Systems
+
+Audit:
+
+* architecture cards
+* layer maps
+* signal/context matrices
+* operating-system cards
+* capability relationships
+
+At mobile widths:
+
+* cards should stack
+* diagrams should become vertical where necessary
+* text and labels must remain readable
+* no content should disappear off the right edge
+
+---
+
+# 9. Build & Configure
+
+This is a critical responsive product surface.
+
+Review all nine configuration stages.
+
+Ensure:
+
+## Stepper
+
+Desktop:
+
+* full horizontal stepper may remain
+
+Tablet:
+
+* compact stepper or wrapped layout
+
+Mobile:
+
+* current step + progress indicator is preferable to nine compressed labels
+
+Do not force all nine labels horizontally.
+
+## Forms
+
+* inputs full width where appropriate
+* labels remain above fields
+* no clipped dropdowns
+* switches and controls remain accessible
+* helper text wraps
+* validation messages remain readable
+
+## Cards
+
+* selected-system cards
+* role cards
+* operating-system cards
+* scenario cards
+
+must stack or use responsive 2-column layouts.
+
+## Review and Activate
+
+Summary sections must not become tiny grids.
+
+Use stacked sections on mobile.
+
+---
+
+# 10. Execution Centre
+
+This is the most important responsive runtime surface.
+
+Audit:
+
+* deployment context
+* signal panels
+* moment panels
+* decision
+* playbook
+* communications
+* escalation
+* evidence
+* outcomes
+* learning
+
+## Desktop
+
+Multi-panel layout is acceptable.
+
+## Tablet
+
+Prioritise:
+
+1. Current state
+2. Required action
+3. Decision
+4. Playbook
+5. Evidence/outcome
+
+Secondary metadata may move below.
+
+## Mobile
+
+Use a clear stacked order.
+
+The user should always be able to see:
+
+* active scenario
+* current RTBX stage
+* accountable role
+* required next action
+* approval status
+
+without scrolling through several unrelated panels first.
+
+Do not shrink runtime panels to preserve the desktop dashboard layout.
+
+---
+
+# 11. Runtime five-step trace
+
+The:
+
+**Connect → Understand → Decide → Act → Learn**
+
+trace must adapt.
+
+Desktop:
+
+* horizontal is acceptable
+
+Mobile:
+
+* vertical or compact progressive trace
+
+The current active stage must remain obvious.
+
+Do not allow labels to overlap or truncate.
+
+---
+
+# 12. Travel Scenarios
+
+Scenario cards and scenario detail views require specific responsive handling.
+
+Ensure:
+
+* scenario selectors wrap or scroll intentionally
+* detail cards stack
+* governance, roles, playbook, evidence and outcome sections remain readable
+* action sequences retain order
+* no fixed table requires microscopic text
+
+If the scenario page is now an explorer/library, optimise it for exploration rather than dashboard density.
+
+---
+
+# 13. Guest Experience Demo
+
+This page needs careful responsive treatment because it combines:
+
+* stage tabs
+* simulated phone
+* right-hand RTBX/operator/value panels
+
+## Desktop
+
+Phone + context panels may remain side by side.
+
+## Tablet
+
+Use either:
+
+* phone beside stacked context panels, or
+* stacked full-width layout
+
+## Mobile
+
+Recommended order:
+
+1. Stage selector
+2. Phone experience
+3. Action-specific confirmation
+4. What RTBX coordinates
+5. What operator receives
+6. Value created
+
+The phone mockup must:
+
+* fit within viewport
+* not require page horizontal scroll
+* retain realistic proportions
+* keep buttons large enough to tap
+* keep text readable
+
+Do not scale the entire phone to an unreadably tiny size.
+
+---
+
+# 14. Operator Demo
+
+At smaller widths:
+
+* prioritise decision and action
+* stack supporting panels
+* keep status and ownership visible
+* avoid dashboard compression
+* allow dense data to move into expandable sections where existing patterns support it
+
+Do not hide important operational information solely for mobile.
+
+---
+
+# 15. Dual View
+
+Desktop:
+
+* guest/operator side-by-side is useful
+
+Tablet:
+
+* side-by-side only if each remains readable
+
+Mobile:
+
+* stack
+
+Recommended mobile order:
+
+1. Shared scenario context
+2. Operator View
+3. Guest View
+4. Shared outcome
+
+Make the relationship between the two experiences explicit.
+
+Do not render two unusably narrow columns on mobile.
+
+---
+
+# 16. Decision Spine
+
+Ensure:
+
+* decision sequence remains readable
+* rule/threshold/approval cards stack
+* arrows do not break
+* tables adapt
+* role and governance information remains visible
+
+Convert horizontal process diagrams to vertical where necessary.
+
+---
+
+# 17. Communications
+
+Audit:
+
+* message cards
+* approval controls
+* channel labels
+* sender/recipient detail
+* communication workflow
+
+Mobile must clearly show:
+
+* who receives the message
+* channel
+* approval state
+* action
+
+without requiring horizontal scrolling.
+
+---
+
+# 18. Product Proof and Validation
+
+These pages often use comparison grids.
+
+At mobile widths:
+
+* proof categories stack
+* maturity labels remain aligned
+* limitations remain visible
+* comparison tables become stacked cards where practical
+* long evidence descriptions wrap
+
+Do not hide limitations on mobile.
+
+---
+
+# 19. Pilot Model
+
+Audit:
+
+* seven-stage pathway
+* pilot scope
+* success measures
+* readiness checklist
+* production boundary
+* expansion pathway
+
+The seven-stage pathway should become vertical or compact on mobile.
+
+Readiness tables/cards should stack.
+
+Primary CTA must remain obvious.
+
+---
+
+# 20. Partner Ecosystem
+
+Audit:
+
+* six partner lanes
+* ownership matrix
+* integration responsibility matrix
+* deployment responsibility
+* commercial options
+
+Large matrices should use:
+
+* stacked responsive cards, or
+* controlled local horizontal scroll with sticky row labels where appropriate
+
+Do not make matrix text tiny.
+
+On mobile, ownership clarity matters more than preserving the desktop table format.
+
+---
+
+# 21. Commercial Pathway
+
+Audit:
+
+* commercial components
+* status labels
+* value framework
+* pilot/deployment/expansion structure
+* partner commercial models
+
+Ensure:
+
+* cards stack
+* figures do not clip
+* labels remain readable
+* disclaimers wrap
+* calculators remain usable
+* input controls remain large enough
+
+---
+
+# 22. Resource Library
+
+Ensure:
+
+* document cards stack cleanly
+* metadata wraps
+* action buttons remain accessible
+* long titles do not overflow
+* category filters remain usable on mobile
+
+Do not truncate critical document titles beyond recognition.
+
+---
+
+# 23. Tables
+
+For every active table, classify it as:
+
+## A. Can become cards
+
+Use stacked record cards on mobile.
+
+## B. Requires comparison
+
+Use controlled local horizontal scroll.
+
+## C. Can collapse columns
+
+Hide only genuinely secondary columns while preserving access to their information.
+
+Do not globally apply:
+
+```css
+font-size: 9px;
+```
+
+to make tables fit.
+
+---
+
+# 24. Tabs and segmented controls
+
+Audit all tabs.
+
+On mobile, use one of:
+
+* wrap
+* controlled horizontal scroll
+* dropdown/select
+* compact segmented control
+
+Do not allow:
+
+* clipped tab labels
+* invisible tabs
+* unreadable compressed labels
+
+Guest Demo seven-stage navigation is a priority.
+
+---
+
+# 25. Dialogs, drawers and overlays
+
+Check:
+
+* navigation drawer
+* configuration modals
+* scenario detail dialogs
+* confirmation dialogs
+* import/export dialogs
+* dropdown menus
+
+Ensure:
+
+* width fits viewport
+* height fits viewport
+* content can scroll internally where necessary
+* close controls remain visible
+* keyboard/touch access remains intact
+* overlays do not render partially offscreen
+
+---
+
+# 26. Sticky and fixed UI
+
+Audit all:
+
+* fixed headers
+* sticky tabs
+* sticky action bars
+* floating buttons
+* fixed overlays
+
+At mobile widths ensure they do not:
+
+* cover form fields
+* obscure CTA buttons
+* hide headings
+* block scrollable content
+
+Account for browser safe areas where relevant.
+
+---
+
+# 27. Images, diagrams and phone frames
+
+Ensure:
+
+* max-width: 100% where appropriate
+* aspect ratio preserved
+* no image forces horizontal overflow
+* diagrams remain legible
+* phone mockups scale within sensible limits
+* no important visual content is clipped
+
+---
+
+# 28. Responsive spacing
+
+Do not use identical desktop spacing on mobile.
+
+Reduce:
+
+* giant section padding
+* oversized hero gaps
+* excessive card margins
+
+while maintaining readability.
+
+Do not make mobile excessively dense.
+
+Use existing spacing tokens or responsive spacing utilities.
+
+---
+
+# 29. Responsive utilities
+
+Where repeated patterns exist, create or refine a small shared responsive utility system.
+
+Examples may include:
+
+* responsive 2-column grid
+* responsive 3-column grid
+* responsive 4-column grid
+* responsive 5-step layout
+* mobile stack
+* tablet stack
+* responsive card grid
+* scrollable-table wrapper
+
+Do not create hundreds of one-off media-query overrides.
+
+Do not introduce a second styling system.
+
+---
+
+# 30. Automated checks
+
+Add a lightweight static responsive audit where useful.
+
+It may detect:
+
+* fixed multi-column grids without responsive classes
+* hard-coded min-widths above mobile viewport
+* page-level horizontal overflow risks
+* images without max-width constraints
+
+Static checks cannot replace browser QA.
+
+---
+
+# 31. Manual QA protocol
+
+For every required viewport:
+
+1. Load Partner Room
+2. Open navigation
+3. Visit Operating Model
+4. Visit Build & Configure
+5. Open Execution Centre
+6. Run Guest Demo
+7. Open Operator Demo
+8. Open Dual View
+9. Open Pilot Model
+10. Open Partner Ecosystem
+11. Open Commercial Pathway
+
+At each page confirm:
+
+* no page horizontal scrolling
+* no clipped cards
+* no clipped text
+* no overlapping controls
+* no hidden CTAs
+* no impossible-to-use tables
+* no compressed desktop layout
+* no unreadable phone simulation
+* no broken diagrams
+
+Record actual defects.
+
+---
+
+# 32. Browser QA
+
+Use available browsers where practical.
+
+At minimum:
+
+* Chromium desktop
+* Chromium mobile emulation
+
+If Safari/iOS testing is available, test the Guest Demo and navigation there as well.
+
+Do not state Safari was tested if it was not.
+
+---
+
+# 33. Severity
+
+Use:
+
+## Blocker
+
+* primary flow unusable
+* page cannot scroll correctly
+* content hidden
+* controls inaccessible
+
+## High
+
+* major layout break
+* navigation overlap
+* unusable Build & Configure
+* unreadable Execution Centre
+* Guest Demo phone unusable
+
+## Medium
+
+* awkward wrapping
+* excessive empty space
+* noncritical panel ordering
+
+## Low
+
+* minor alignment/spacing
+
+Resolve all Blocker and High responsive issues.
+
+---
+
+# 34. Required completion report
+
+At completion provide:
+
+## Responsive architecture
+
+* breakpoints used
+* shared responsive utilities created/updated
+* global overflow changes
+* table strategy
+
+## Page-by-page findings
+
+For at least:
+
+* Partner Room
+* Operating Model
+* Build & Configure
+* Execution Centre
+* Travel Scenarios
+* Guest Demo
+* Operator Demo
+* Dual View
+* Pilot Model
+* Partner Ecosystem
+* Commercial Pathway
+
+report:
+
+* issue found
+* correction
+* mobile behaviour
+* tablet behaviour
+
+## Viewport matrix
+
+Provide results for:
+
+| Viewport | Result | Defects |
+| -------- | ------ | ------- |
+| 320px    |        |         |
+| 375px    |        |         |
+| 390px    |        |         |
+| 768px    |        |         |
+| 820px    |        |         |
+| 900px    |        |         |
+| 1024px   |        |         |
+| 1280px   |        |         |
+| 1440px   |        |         |
+
+## Metrics
+
+Report:
+
+* responsive grid issues before
+* responsive grid issues after
+* horizontal overflow defects before/after
+* fixed-width issues corrected
+
+## Verification
+
+Run and report:
+
+* responsive/static checks
+* full test suite
+* typecheck
+* production build
+* rendered browser viewport QA
+
+Do not claim rendered QA unless it was actually completed.
+
+Stop after Step 5.
+
+Do not begin proof-language cleanup or broader accessibility work.
