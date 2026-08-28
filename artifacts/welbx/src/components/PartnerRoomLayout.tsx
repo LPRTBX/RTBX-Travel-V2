@@ -250,21 +250,21 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
           }}>
             <a href="/partner-room" onClick={(e) => { e.preventDefault(); navigateFromMenu("/partner-room"); }}>
               <div className="rtbx-brand-lockup" style={{ display: "flex", alignItems: "baseline", gap: 8, cursor: "pointer" }}>
-                <span className="rtbx-brand-title" style={{ fontSize: 14, fontWeight: 800, letterSpacing: "0.24em", color: "#fff", textTransform: "uppercase" }}>RTBX Travel</span>
-                <span className="rtbx-brand-context" style={{ fontSize: 7.5, letterSpacing: "0.2em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, paddingBottom: 1 }}>Partner Room</span>
+                <span className="rtbx-brand-title" style={{ fontSize: 16, fontWeight: 800, letterSpacing: "0.2em", color: "#fff", textTransform: "uppercase" }}>RTBX Travel</span>
+                <span className="rtbx-brand-context" style={{ fontSize: 12, letterSpacing: "0.14em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, paddingBottom: 1 }}>Partner Room</span>
               </div>
             </a>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               {/* Desktop-only tagline */}
               <span
                 className="rtbx-nav-desc"
-                style={{ fontSize: 8, letterSpacing: "0.16em", color: "rgba(255,255,255,0.18)", textTransform: "uppercase", fontWeight: 600 }}
+                style={{ fontSize: 12, letterSpacing: "0.1em", color: "rgba(255,255,255,0.46)", textTransform: "uppercase", fontWeight: 600 }}
               >
                 RTBX Travel is powered by RTBX Core — real-time signal-to-action infrastructure for travel and hospitality
               </span>
               <div className="rtbx-nav-private" style={{ display: "flex", alignItems: "center", gap: 6 }}>
                 <div style={{ width: 4, height: 4, borderRadius: "50%", background: "#c9a84c" }} aria-hidden="true" />
-                <span style={{ fontSize: 7.5, letterSpacing: "0.18em", color: "rgba(201,168,76,0.6)", textTransform: "uppercase", fontWeight: 700 }}>Private</span>
+                <span style={{ fontSize: 12, letterSpacing: "0.12em", color: "rgba(201,168,76,0.82)", textTransform: "uppercase", fontWeight: 700 }}>Private</span>
               </div>
               <a
                 className="rtbx-next-step"
@@ -274,7 +274,7 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
                 <div
                   style={{
                     padding: "6px 14px",
-                    fontSize: 9,
+                    fontSize: 14,
                     fontWeight: 700,
                     letterSpacing: "0.12em",
                     textTransform: "uppercase",
@@ -387,7 +387,7 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
                     }}
                     style={{
                       padding: "11px 16px",
-                      fontSize: 12,
+                      fontSize: 14,
                       fontWeight: 700,
                       letterSpacing: "0.06em",
                       textTransform: "uppercase" as const,
@@ -481,7 +481,7 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
                               }}
                               style={{
                                 padding: "10px 16px",
-                                fontSize: 10,
+                                fontSize: 14,
                                 fontWeight: 600,
                                 letterSpacing: "0.02em",
                                 color: itemActive ? "#c9a84c" : "rgba(255,255,255,0.62)",
@@ -542,8 +542,8 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
                         justifyContent: "space-between",
                         width: "100%",
                         padding: "12px 20px",
-                        fontSize: 9,
-                        letterSpacing: "0.18em",
+                         fontSize: 14,
+                         letterSpacing: "0.08em",
                         color: isGroupActive ? "#c9a84c" : "rgba(201,168,76,0.5)",
                         textTransform: "uppercase",
                         fontWeight: 700,
@@ -586,7 +586,7 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
                           }}
                             style={{
                               padding: "10px 28px",
-                              fontSize: 12,
+                               fontSize: 14,
                               fontWeight: itemActive ? 700 : 500,
                               color: itemActive ? "#c9a84c" : "rgba(255,255,255,0.7)",
                               cursor: "pointer",
@@ -612,7 +612,7 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
       </header>
 
       {/* Page content */}
-      <main style={{ flex: 1 }}>
+       <main className="rtbx-readable-content" style={{ flex: 1 }}>
         {children}
       </main>
 
@@ -624,7 +624,7 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
         flexDirection: "column",
         gap: 8,
       }}>
-        <p style={{ fontSize: 8.5, letterSpacing: "0.03em", color: "rgba(255,255,255,0.22)", margin: 0, lineHeight: 1.5, maxWidth: 900 }}>
+         <p style={{ fontSize: 16, letterSpacing: "0.01em", color: "rgba(255,255,255,0.62)", margin: 0, lineHeight: 1.55, maxWidth: 900 }}>
           Travel Partner Room materials are provided for strategic partner and operator review and should not be redistributed without RTBX approval.
         </p>
         <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
@@ -635,8 +635,8 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
             `Powered by RTBX Core`,
           ].map((item, i, arr) => (
             <span key={item} style={{ display: "flex", alignItems: "center", gap: 16 }}>
-              <span style={{ fontSize: 8.5, letterSpacing: "0.12em", color: "rgba(255,255,255,0.15)", textTransform: "uppercase", fontWeight: 600 }}>{item}</span>
-              {i < arr.length - 1 && <span aria-hidden="true" style={{ fontSize: 9, color: "rgba(255,255,255,0.08)" }}>·</span>}
+               <span style={{ fontSize: 12, letterSpacing: "0.08em", color: "rgba(255,255,255,0.48)", textTransform: "uppercase", fontWeight: 600 }}>{item}</span>
+               {i < arr.length - 1 && <span aria-hidden="true" style={{ fontSize: 12, color: "rgba(255,255,255,0.3)" }}>·</span>}
             </span>
           ))}
         </div>

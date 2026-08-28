@@ -184,11 +184,13 @@ function App() {
         <DeploymentProvider>
           <PartnerContentProvider>
             <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-              <PartnerAccessGate>
-                <div className="min-h-[100dvh] bg-background">
-                  <Router />
-                </div>
-              </PartnerAccessGate>
+              <div className="rtbx-readable-content">
+                <PartnerAccessGate>
+                  <div className="min-h-[100dvh] bg-background">
+                    <Router />
+                  </div>
+                </PartnerAccessGate>
+              </div>
             </WouterRouter>
             <Toaster />
           </PartnerContentProvider>
