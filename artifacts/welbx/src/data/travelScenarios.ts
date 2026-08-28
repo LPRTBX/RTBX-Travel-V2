@@ -1,5 +1,5 @@
 /**
- * RTBX Travel Live Scenarios — Canonical Contract.
+ * RTBX Travel Synthetic Scenarios — Canonical Contract.
  *
  * Sprint 3 upgrade: every scenario now carries the full canonical field set
  * (operatingSystemId, trigger, context, governance, decision, rolesConfig,

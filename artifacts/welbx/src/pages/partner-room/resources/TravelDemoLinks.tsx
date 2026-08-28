@@ -3,25 +3,25 @@ import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 
 const C = { gold: "#c9a84c", muted: "rgba(255,255,255,0.45)", dim: "rgba(255,255,255,0.22)", green: "#10b981" };
 
-const MVP_URL = "https://replit.com/@LP1313/rtbx-travel-moment-response-mvp";
+const WORKING_PROOF_PATH = "/partner-room/guest-demo";
 
 const SECTIONS = [
   {
-    label: "Live Product",
-    tag: "Working MVP",
+    label: "Working Proof",
+    tag: "Simulation",
     tagColor: "#c9a84c",
-    desc: "The first working RTBX Travel product loop — not a demo, not a simulation. A real deployable MVP.",
+    desc: "The first interactive RTBX Travel product loop, demonstrated with synthetic inputs and no connected dispatch.",
     items: [
-      { label: "RTBX Travel Moment Response MVP", desc: "Staff, guest or operator signal is captured → classified moment → owner assigned → guest-facing message → escalated if needed → logged for assurance → pilot report updated. The first deployable wedge: Moment Response.", href: MVP_URL, cta: "Open Working Demonstration ↗", color: "#c9a84c", ext: true },
+      { label: "RTBX Travel Moment Response", desc: "A synthetic signal is captured → classified → assigned to a named owner → a guest-facing message is drafted → escalation and assurance logging are demonstrated.", href: WORKING_PROOF_PATH, cta: "Open Working Proof", color: "#c9a84c", ext: false },
     ],
   },
   {
     label: "Demo Pathways",
     tag: "Deployment Timeline",
     tagColor: "#a78bfa",
-    desc: "Three views across the RTBX Travel deployment timeline — what is live now, what the pilot becomes with approved integrations, and what Stage 3 looks like at scale.",
+    desc: "Three views across the RTBX Travel pathway — the current Working Proof and Planned pilot and Stage 3 states.",
     items: [
-      { label: "Working Demonstration Preview — Moment Response", desc: "The first deployable product loop. Signal captured, classified, assigned, guest-facing message sent, escalated if required, logged and reported as pilot evidence.", href: MVP_URL, cta: "Open Working Demonstration ↗", color: "#c9a84c", ext: true },
+      { label: "Moment Response Working Proof", desc: "Interactive, synthetic capture, classification, assignment, drafted communication, escalation and assurance logging.", href: WORKING_PROOF_PATH, cta: "Open Working Proof", color: "#c9a84c", ext: false },
       { label: "Integration-Assisted Pilot Preview", desc: "How the Moment Response workflow becomes faster and more automated when PMS, task, messaging, weather and marketplace integrations are approved and connected.", href: "/partner-room/product-proof/pilot-expansion-preview", cta: "View Pilot Expansion", color: "#10b981" },
       { label: "Stage 3 Operating Layer Preview", desc: "Multi-site signal visibility, pattern insights, action routing, assurance reporting, value proof and marketplace activation. What RTBX Travel becomes at scale.", href: "/partner-room/product-proof/stage-3-operating-layer", cta: "View Stage 3 Preview", color: "#a78bfa" },
     ],
@@ -30,12 +30,12 @@ const SECTIONS = [
     label: "Product Proof Demos",
     tag: "Interactive",
     tagColor: "#c9a84c",
-    desc: "Core interactive demos — each one shows a live operating capability of RTBX Travel.",
+    desc: "Core interactive demos — each one shows Working Proof or Simulation behavior, not a connected production capability.",
     items: [
       { label: "Scenario Builder", desc: "Choose environment, scenario, risk level and role. Step through full Signal → Classify → Decide → Execute → Assure → Value flow.", href: "/partner-room/scenario-builder", cta: "Open Builder", color: "#c9a84c" },
-      { label: "Dual View Demo", desc: "Same moment seen from guest, operator and command layer simultaneously — live synchronised perspectives.", href: "/partner-room/dual-view-demo", cta: "Open Dual View", color: "#3b82f6" },
+      { label: "Dual View Demo", desc: "Same simulated moment seen from guest, operator and command layer through synchronised perspectives.", href: "/partner-room/dual-view-demo", cta: "Open Dual View", color: "#3b82f6" },
       { label: "Communications Routing Demo", desc: "Select a scenario — watch RTBX Core route the right message to the right person across the right channel.", href: "/partner-room/comms-demo", cta: "Open Demo", color: "#10b981" },
-      { label: "Decision Spine Demo", desc: "Toggle live inputs — watch classification, decision, intervention and assurance path update in real time.", href: "/partner-room/decision-spine", cta: "Open Demo", color: "#f97316" },
+      { label: "Decision Spine Demo", desc: "Toggle synthetic inputs and watch the illustrative classification, decision, intervention and assurance path update immediately.", href: "/partner-room/decision-spine", cta: "Open Demo", color: "#f97316" },
       { label: "Proof of Value Calculator", desc: "Adjust property size, environment type and signal volume. Get an indicative monthly value estimate.", href: "/partner-room/proof-calculator", cta: "Open Calculator", color: "#22d3ee" },
     ],
   },
@@ -43,12 +43,12 @@ const SECTIONS = [
     label: "Deployment Scenario Demos",
     tag: "Scenarios",
     tagColor: "#10b981",
-    desc: "One complete operating scenario per deployment environment — from first signal to resolved outcome and value evidenced.",
+    desc: "One fictional scenario per deployment environment — from synthetic signal to modelled outcome and indicative value.",
     items: [
       { label: "Hotels & Resorts Demo", desc: "High-value guest, early arrival, room delay 35 min. Full Signal → Classify → Decide → Execute → Assure → Value cycle.", href: "/partner-room/deployments/hotels-resorts/demo", cta: "Run Scenario", color: "#c9a84c" },
       { label: "Holiday Parks & Outdoor Demo", desc: "Family arrival after a long drive. Cabin not ready, children unsettled. Weather change. Full recovery cycle.", href: "/partner-room/holiday-park-demo", cta: "Run Scenario", color: "#10b981" },
       { label: "Corporate Travel Demo", desc: "Business traveller, duty-of-care flag, back-to-back meetings. Silent intervention pathway.", href: "/partner-room/deployments/corporate-travel/demo", cta: "Run Scenario", color: "#3b82f6" },
-      { label: "Events & Venues Demo", desc: "Crowd flow anomaly, catering shortfall, 40 minutes to program. Real-time staff coordination.", href: "/partner-room/deployments/events-venues/demo", cta: "Run Scenario", color: "#a78bfa" },
+      { label: "Events & Venues Demo", desc: "Crowd flow anomaly, catering shortfall, 40 minutes to program. Simulated staff-coordination pathway.", href: "/partner-room/deployments/events-venues/demo", cta: "Run Scenario", color: "#a78bfa" },
       { label: "Destination & Tourism Demo", desc: "34 guests, transport delay 80 min, 3-partner cascade. Itinerary recovery across the destination.", href: "/partner-room/deployments/destination-tourism/demo", cta: "Run Scenario", color: "#22d3ee" },
     ],
   },
@@ -58,8 +58,8 @@ const SECTIONS = [
     tagColor: "#a78bfa",
     desc: "See what each stakeholder sees — guest, operator, manager. Role-based journey walkthroughs.",
     items: [
-      { label: "Live Guest Story", desc: "Seven guest journey stages from arrival to checkout. Each stage: what the guest sees, RTBX automation, operator receives, value created.", href: "/partner-room/guest-demo", cta: "Start Story", color: "#a78bfa" },
-      { label: "Operator Deep Dive Walkthrough", desc: "A detailed operator walkthrough of RTBX Core in a hotel context — signal detection through to resolution and assurance.", href: "/story/operator-deep-dive", cta: "Open Walkthrough", color: "#3b82f6" },
+      { label: "Interactive Guest Story", desc: "Seven simulated guest-journey stages showing interface states, governed operator prompts and indicative value.", href: "/partner-room/guest-demo", cta: "Start Story", color: "#a78bfa" },
+      { label: "Operator Deep Dive Walkthrough", desc: "A simulated operator walkthrough in a fictional hotel context — from synthetic signal to recommended response and illustrative assurance fields.", href: "/story/operator-deep-dive", cta: "Open Walkthrough", color: "#3b82f6" },
     ],
   },
   {
@@ -68,8 +68,8 @@ const SECTIONS = [
     tagColor: "#f97316",
     desc: "Scenario replay, shadow pilot and validation lab — for partners who want to stress-test the system.",
     items: [
-      { label: "Validation Lab", desc: "Configure a scenario, run it through RTBX Core and review the full outcome log.", href: "/partner-room/validation", cta: "Open Lab", color: "#10b981" },
-      { label: "Scenario Replay Lab", desc: "Replay a recorded operating scenario step by step — signal, classification, decision, action, outcome.", href: "/partner-room/validation-replay", cta: "Run Replay", color: "#f97316" },
+      { label: "Validation Lab", desc: "Configure synthetic inputs, run the rules-based simulation and review illustrative outcome fields.", href: "/partner-room/validation", cta: "Open Lab", color: "#10b981" },
+      { label: "Scenario Replay Lab", desc: "Replay a fictional scenario step by step — synthetic signal, rules-based classification, recommendation and modelled outcome.", href: "/partner-room/validation-replay", cta: "Run Replay", color: "#f97316" },
     ],
   },
   {
@@ -98,7 +98,7 @@ export default function TravelDemoLinks() {
           <div style={{ fontSize: 8.5, letterSpacing: "0.2em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>Partner Resource · Demo Links</div>
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 14, maxWidth: 680 }}>RTBX Travel — Demo Directory</h1>
           <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.75, maxWidth: 600, margin: 0 }}>
-            Every link on this page opens either a live MVP, an interactive demo or a clearly labelled pilot/stage preview. No placeholder pages.
+            Every link opens either the current Working Proof, a Simulation or a clearly labelled Planned preview. Demos use synthetic inputs and do not dispatch actions or prove production outcomes.
           </p>
           <div style={{ marginTop: 14, padding: "10px 16px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", display: "inline-flex", gap: 8, alignItems: "center" }}>
             <div style={{ width: 6, height: 6, borderRadius: "50%", background: C.green }} />

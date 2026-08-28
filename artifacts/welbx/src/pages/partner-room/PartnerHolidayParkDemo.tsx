@@ -8,87 +8,87 @@ const FLOW_STEPS = [
     label: "Signal",
     color: "#3b82f6",
     icon: "◎",
-    summary: "Live data received",
+    summary: "Illustrative synthetic signal",
     detail: [
-      "Late arrival detected — GPS + booking data cross-referenced",
-      "Weather disruption logged — local conditions API flagged",
-      "Cabin readiness delay confirmed — housekeeping status: 38 mins behind",
-      "Family profile active — 2 adults, 2 children under 8",
-      "Low patience moment scored — arrival window exceeded by 42 minutes",
+      "Illustrative late-arrival signal — hypothetical booking and location inputs",
+      "Illustrative weather disruption — no local conditions API is connected",
+      "Modelled cabin-readiness delay — hypothetical housekeeping status: 38 mins behind",
+      "Synthetic family profile — 2 adults, 2 children under 8",
+      "Rules-based patience classification — illustrative arrival window exceeded by 42 minutes",
     ],
-    status: "DETECTED",
+    status: "SIMULATED",
   },
   {
     key: "classify",
     label: "Classify",
     color: "#a78bfa",
     icon: "◈",
-    summary: "Moment identified",
+    summary: "Rules-based classification proposed",
     detail: [
-      "High-risk welcome moment — confidence: 94%",
-      "Service recovery opportunity — first impression window active",
-      "Family support pathway triggered — child welfare protocol engaged",
-      "Escalation risk: elevated — monitor threshold set to 15 mins",
-      "Moment category: Arrival Support / Service Recovery",
+      "Proposed high-risk welcome classification — illustrative confidence: 94%",
+      "Proposed service-recovery pathway — no workflow is activated",
+      "Proposed family-support pathway — no welfare protocol is engaged",
+      "Illustrative escalation threshold: 15 minutes for human review",
+      "Proposed moment category: Arrival Support / Service Recovery",
     ],
-    status: "CLASSIFIED",
+    status: "PROPOSED",
   },
   {
     key: "decide",
     label: "Decide",
     color: "#c9a84c",
     icon: "◇",
-    summary: "Response selected",
+    summary: "Response draft proposed",
     detail: [
-      "Trigger proactive arrival support message — personalised to family",
-      "Notify front desk — recommended response script prepared",
-      "Offer activity alternative — kids' activity zone + weather cover",
-      "Queue food & beverage option — park café discount code generated",
-      "Local partner option surfaced — indoor experience within 5km",
-      "Escalate if cabin delay exceeds 60 minutes — auto-trigger set",
+      "Proposed proactive arrival-support message — draft only",
+      "Proposed front-desk response script — awaiting human review",
+      "Proposed activity alternative — illustrative kids' zone and weather cover",
+      "Proposed food and beverage option — no discount code generated",
+      "Illustrative local-partner option — no partner inventory queried",
+      "Proposed escalation if cabin delay exceeds 60 minutes — human decision required",
     ],
-    status: "DECIDED",
+    status: "DRAFT",
   },
   {
     key: "execute",
     label: "Execute",
     color: "#10b981",
     icon: "◉",
-    summary: "Actions delivered",
+    summary: "Proposed actions (not dispatched)",
     detail: [
-      "Guest message sent — warm, practical, no apology language",
-      "Staff briefed — front desk receives recommended next step",
-      "Activity suggestion delivered — kids' zone location + map link",
-      "Café offer activated — discount applied to family profile",
-      "Operator dashboard updated — moment logged, timer running",
-      "Partner experience queued — local indoor venue option ready if needed",
+      "Guest message draft shown — no message dispatched",
+      "Proposed staff brief — no front-desk notification sent",
+      "Illustrative activity suggestion — no map link delivered",
+      "Proposed café offer — no discount applied",
+      "Modelled operator record — no dashboard or external system updated",
+      "Illustrative partner option — no venue contact or booking queued",
     ],
-    status: "EXECUTING",
+    status: "NOT DISPATCHED",
   },
   {
     key: "assure",
     label: "Assure",
     color: "#22d3ee",
     icon: "◍",
-    summary: "Value protected",
+    summary: "Modelled outcome hypothesis",
     detail: [
-      "Action completed — guest acknowledged support offer",
-      "Recovery offer logged — café visit recorded 18 mins post-arrival",
-      "Guest sentiment checked — no complaint signal detected",
-      "Delay reason recorded — housekeeping schedule updated",
-      "Escalation prevented — cabin ready before 60-min threshold",
-      "Partner value created — local experience opportunity logged",
+      "Illustrative completed outcome — no guest acknowledgement recorded",
+      "Modelled recovery offer — no café visit recorded",
+      "Proposed sentiment check — no complaint signal assessed",
+      "Illustrative delay reason — no housekeeping schedule updated",
+      "Modelled escalation avoidance — not measured or proven",
+      "Proposed partner opportunity — no monetary outcome occurs",
     ],
-    status: "ASSURED",
+    status: "MODELLED",
   },
 ];
 
 const PROOF_POINTS = [
-  { label: "Escalation prevented", color: "#10b981" },
-  { label: "Review risk reduced", color: "#10b981" },
-  { label: "Staff response made consistent", color: "#c9a84c" },
-  { label: "Guest experience recovered", color: "#c9a84c" },
-  { label: "Partner / local experience opportunity created", color: "#3b82f6" },
+  { label: "Modelled escalation-avoidance hypothesis", color: "#10b981" },
+  { label: "Proposed review-risk reduction", color: "#10b981" },
+  { label: "Illustrative consistent staff response", color: "#c9a84c" },
+  { label: "Proposed guest-experience recovery", color: "#c9a84c" },
+  { label: "Illustrative partner opportunity", color: "#3b82f6" },
 ];
 
 export default function PartnerHolidayParkDemo() {
@@ -123,15 +123,20 @@ export default function PartnerHolidayParkDemo() {
         {/* Header */}
         <div style={{ marginBottom: 60 }}>
           <div style={{ fontSize: 9, letterSpacing: "0.22em", color: "#10b981", textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>
-            Live Operating Flow · Holiday Parks & Outdoor Experiences
+            Working Proof · Simulated Holiday Park Flow
           </div>
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 20, maxWidth: 720 }}>
             The arrival that almost went wrong —<br />
             <span style={{ color: "#10b981" }}>and didn't.</span>
           </h1>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 640 }}>
-            A family arrives at a holiday park after a long drive. Weather has changed, the cabin is not ready, children are unsettled, and the guest is at risk of frustration before the stay has properly begun. This is what RTBX Travel does in that moment, with Guest Channel carrying the guest-facing message.
+            A simulated family-arrival scenario: weather has changed, the cabin is not ready and children are unsettled. This working proof shows proposed RTBX Travel decision support, not a live guest or operator workflow.
           </p>
+        </div>
+
+        <div style={{ padding: "18px 22px", background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.24)", borderLeft: "3px solid #c9a84c", marginBottom: 32, maxWidth: 820 }}>
+          <div style={{ fontSize: 9, letterSpacing: "0.16em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>Working Proof Boundary</div>
+          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.62)", lineHeight: 1.65 }}>Rules-based classification using synthetic scenario inputs only. Every response is a proposed draft; nothing is dispatched, no external system is updated, and accountable humans retain all operational, welfare and commercial decisions.</div>
         </div>
 
         {/* Scenario context strip */}
@@ -164,7 +169,7 @@ export default function PartnerHolidayParkDemo() {
         {/* Flow step selector */}
         <div style={{ marginBottom: 32 }}>
           <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>
-            Operating Flow · Step {activeStep + 1} of {FLOW_STEPS.length}
+            Simulated Operating Flow · Step {activeStep + 1} of {FLOW_STEPS.length}
           </div>
           <div style={{ display: "flex", gap: 2 }}>
             {FLOW_STEPS.map((s, i) => (
@@ -312,7 +317,7 @@ export default function PartnerHolidayParkDemo() {
         {/* Proof of value — always visible */}
         <div style={{ marginBottom: 60 }}>
           <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 20 }}>
-            Proof of Value
+            Illustrative Value Hypotheses
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 2 }}>
             {PROOF_POINTS.map((pt, i) => (
@@ -343,9 +348,9 @@ export default function PartnerHolidayParkDemo() {
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 24 }}>
             {[
-              { role: "Operator", color: "#c9a84c", points: ["Consistent staff response without training overhead", "Escalation prevention logged with cause and outcome", "Guest sentiment protection at the highest-risk moment"] },
-              { role: "Guest", color: "#10b981", points: ["Acknowledged before they need to complain", "Practical support delivered without friction", "Stay salvaged before the first impression is lost"] },
-              { role: "Partner", color: "#3b82f6", points: ["Local experience opportunity surfaced at the right moment", "Café and activity options activated contextually", "Partner revenue generated from a recovery moment"] },
+               { role: "Operator", color: "#c9a84c", points: ["Proposed consistent staff response", "Illustrative escalation record for human review", "Hypothesis for protecting sentiment at a high-risk moment"] },
+               { role: "Guest", color: "#10b981", points: ["Proposed acknowledgement draft", "Illustrative practical-support options", "Modelled recovery before a first impression is lost"] },
+               { role: "Partner", color: "#3b82f6", points: ["Illustrative local-experience option", "Proposed café and activity options", "No partner revenue is generated or measured in this proof"] },
             ].map(group => (
               <div key={group.role}>
                 <div style={{ fontSize: 9, letterSpacing: "0.16em", color: group.color, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>
@@ -382,7 +387,7 @@ export default function PartnerHolidayParkDemo() {
             onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "#d4b35e"; }}
             onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "#c9a84c"; }}
             >
-              See Live Dual View Demo
+              See Simulated Dual View Demo
             </div>
           </Link>
           <Link href="/partner-room/demo-paths">

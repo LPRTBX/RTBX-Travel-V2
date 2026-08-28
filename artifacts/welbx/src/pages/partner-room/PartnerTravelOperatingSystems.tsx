@@ -14,6 +14,7 @@ import {
   type TravelOSPosition,
 } from "@/data/travelOperatingSystems";
 import { MATURITY_LABELS, MATURITY_COLORS, type MaturityStatus } from "@/data/travelScenarios";
+import { CURRENT_PROOF_BOUNDARY } from "@/lib/proofLanguage";
 
 const C = { gold: "#c9a84c", muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,255,0.22)" };
 
@@ -110,15 +111,15 @@ function OsCatalogueSection({
                   <FieldRow label="Input systems" items={os.inputSystems} />
                   <FieldRow label="Signals" items={os.signals} />
                   <FieldRow label="Moments" items={os.moments} />
-                  <FieldRow label="Actions" items={os.actions} />
-                  <FieldRow label="Outcomes" items={os.outcomes} />
+                  <FieldRow label="Draft actions" items={os.actions} />
+                  <FieldRow label="Illustrative outcomes" items={os.outcomes} />
                   {os.evidenceRequirements.length > 0 && <FieldRow label="Evidence required" items={os.evidenceRequirements.slice(0, 3)} />}
-                  {os.outcomeMetrics.length > 0 && <FieldRow label="Outcome metrics" items={os.outcomeMetrics.slice(0, 3)} />}
+                  {os.outcomeMetrics.length > 0 && <FieldRow label="Proposed metrics" items={os.outcomeMetrics.slice(0, 3)} />}
                   <FieldRow label="Pilot entry" items={[os.pilotEntryPoint]} />
                   <FieldRow label="Expansion pathway" items={[os.expansionPathway]} />
 
                   <div style={{ marginTop: 16 }}>
-                    <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", marginBottom: 8 }}>Modules Available</div>
+                     <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", marginBottom: 8 }}>Proposed Modules</div>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
                       {os.modules.map(m => (
                         <div key={m} style={{ padding: "6px 12px", fontSize: 10.5, color: "rgba(255,255,255,0.65)", background: "rgba(255,255,255,0.02)", border: `1px solid ${os.color}33` }}>
@@ -155,23 +156,33 @@ export default function PartnerTravelOperatingSystems() {
             RTBX Travel Operating Systems
           </h1>
           <p style={{ fontSize: 15, color: C.muted, lineHeight: 1.75, maxWidth: 720 }}>
-            Purpose-built operating systems running on one shared RTBX Core — prioritised by pilot readiness and commercial impact.
+            Proposed operating-system configurations modelled on one shared RTBX Core — prioritised for future pilot learning and potential commercial relevance.
+          </p>
+        </div>
+
+        {/* ── WORKING PROOF BOUNDARY ── */}
+        <div style={{ padding: "18px 22px", background: "rgba(59,130,246,0.05)", border: "1px solid rgba(59,130,246,0.24)", borderLeft: "3px solid #3b82f6", marginBottom: 40 }}>
+          <div style={{ fontSize: 9, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: "#60a5fa", marginBottom: 8 }}>
+            Working Proof / Simulation
+          </div>
+          <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, margin: 0 }}>
+            {CURRENT_PROOF_BOUNDARY.notice} Current data is synthetic; classifications and suggestions are rules-based drafts only. There is no dispatch, incident coordination, commercial delivery or external-system update. All proposed actions require approval and execution by a named accountable person. Outcomes and value remain unmeasured.
           </p>
         </div>
 
         {/* ── POSITIONING ── */}
         <div style={{ padding: "18px 22px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderLeft: "3px solid #c9a84c", marginBottom: 40 }}>
           <p style={{ fontSize: 13.5, color: "rgba(255,255,255,0.72)", lineHeight: 1.8, margin: 0, fontWeight: 600 }}>
-            RTBX Core provides the shared execution architecture. RTBX Travel extends the core through tailored operating systems. Each operating system groups vertical-specific modules around a major hotel or travel operating problem.
+            RTBX Core provides the proposed shared architecture. RTBX Travel models how tailored operating systems could extend it. Each configuration groups vertical-specific modules around a major hotel or travel operating problem.
           </p>
         </div>
 
         {/* ── OS PRIORITY OVERVIEW ── */}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 2, marginBottom: 40 }}>
           {[
-            { label: "Lead Operating Systems", desc: "Three commercially meaningful OSes that front every Travel pilot.", position: "lead" as TravelOSPosition, color: "#3b82f6", count: leadOses.length },
-            { label: "Cross-Cutting Control", desc: "Safety and Guest Welfare sits across every OS — activates on any risk or welfare threshold.", position: "cross-cutting" as TravelOSPosition, color: "#ef4444", count: crossCuttingOses.length },
-            { label: "Expansion Capability", desc: "Marketplace and Loyalty activates after trust, signals and governance are proven.", position: "expansion" as TravelOSPosition, color: "#c9a84c", count: expansionOses.length },
+            { label: "Lead Operating Systems", desc: "Three proposed OS configurations for consideration in a future Travel pilot.", position: "lead" as TravelOSPosition, color: "#3b82f6", count: leadOses.length },
+            { label: "Cross-Cutting Control", desc: "Safety and Guest Welfare is modelled across every OS; any threshold would require named human review.", position: "cross-cutting" as TravelOSPosition, color: "#ef4444", count: crossCuttingOses.length },
+            { label: "Expansion Capability", desc: "Marketplace and Loyalty is planned only after trust, signals and governance are evidenced.", position: "expansion" as TravelOSPosition, color: "#c9a84c", count: expansionOses.length },
           ].map(item => (
             <div key={item.label} style={{ padding: "20px 22px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: `2px solid ${item.color}` }}>
               <div style={{ fontSize: 8, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: item.color, marginBottom: 8 }}>{item.label}</div>
@@ -184,15 +195,14 @@ export default function PartnerTravelOperatingSystems() {
         {/* ── CROSS-CUTTING NOTICE ── */}
         <div style={{ padding: "14px 20px", background: "rgba(239,68,68,0.04)", border: "1px solid rgba(239,68,68,0.2)", borderLeft: "3px solid #ef4444", marginBottom: 32 }}>
           <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.7)", lineHeight: 1.75, margin: 0 }}>
-            <strong style={{ color: "#ef4444" }}>Safety and Guest Welfare controls sit across all Travel operating systems</strong> and become active whenever risk, distress, vulnerability or human-impact thresholds are detected.
-            No commercial or operational action may proceed during an active welfare or safety event.
+            <strong style={{ color: "#ef4444" }}>Safety and Guest Welfare controls are proposed across all Travel operating systems.</strong> In a future deployment, a modelled risk, distress, vulnerability or human-impact threshold would pause commercial suggestions and require assessment, approval and action by a named accountable person. This simulation does not dispatch welfare checks or coordinate incidents.
           </p>
         </div>
 
         {/* ── EXPANSION NOTICE ── */}
         <div style={{ padding: "14px 20px", background: "rgba(201,168,76,0.04)", border: "1px solid rgba(201,168,76,0.18)", borderLeft: "3px solid #c9a84c", marginBottom: 40 }}>
           <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.7)", lineHeight: 1.75, margin: 0 }}>
-            <strong style={{ color: "#c9a84c" }}>Marketplace and Loyalty Activation is an expansion capability</strong> — not a pilot entry point. It activates after RTBX has established trusted signals, operational adoption, customer permission, accurate context, reliable governance and proven response workflows.
+            <strong style={{ color: "#c9a84c" }}>Marketplace and Loyalty Activation is a planned expansion capability</strong> — not a current pilot entry point. Future use would depend on evidenced signal accuracy, operational adoption, customer permission, governance and approved response workflows. Current offers, referrals and bookings are illustrative drafts; nothing is delivered or confirmed externally.
           </p>
         </div>
 
@@ -206,7 +216,7 @@ export default function PartnerTravelOperatingSystems() {
 
           <OsCatalogueSection
             title="Lead Operating Systems"
-            subtitle="These three OSes front the Travel pilot and address the highest-volume, highest-trust commercial problems."
+            subtitle="These three proposed OSes are candidates for a future Travel pilot and model high-volume operating problems."
             oses={leadOses}
             openId={openId}
             setOpenId={setOpenId}
@@ -214,7 +224,7 @@ export default function PartnerTravelOperatingSystems() {
 
           <OsCatalogueSection
             title="Cross-Cutting Control"
-            subtitle="Safety and Guest Welfare governs every Travel OS and becomes active on any risk, distress, vulnerability or human-impact threshold."
+            subtitle="Safety and Guest Welfare is a proposed control for every Travel OS; modelled thresholds require named human assessment and do not trigger dispatch."
             oses={crossCuttingOses}
             openId={openId}
             setOpenId={setOpenId}
@@ -222,7 +232,7 @@ export default function PartnerTravelOperatingSystems() {
 
           <OsCatalogueSection
             title="Expansion Capability"
-            subtitle="Marketplace and Loyalty Activation follows once lead OSes are proven — never leads a pilot."
+            subtitle="Marketplace and Loyalty Activation is planned only after lead OSes are evidenced and would not lead an initial pilot."
             oses={expansionOses}
             openId={openId}
             setOpenId={setOpenId}
@@ -234,7 +244,7 @@ export default function PartnerTravelOperatingSystems() {
           <SectionLabel>Architecture Pattern</SectionLabel>
           <H2>How a Travel Operating System Is Built</H2>
           <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, marginBottom: 24, maxWidth: 700 }}>
-            Each Travel Operating System is the product of three layers combined. No OS is a standalone platform — each depends on RTBX Core capabilities and Travel Intelligence configuration.
+            Each proposed Travel Operating System models three layers combined. No OS is represented as a standalone production platform; each would depend on future RTBX Core capabilities and Travel Intelligence configuration.
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 12, marginBottom: 20 }}>
             {[
@@ -287,7 +297,7 @@ export default function PartnerTravelOperatingSystems() {
           <SectionLabel>Future / Optional</SectionLabel>
           <H2>Specialist Extensions</H2>
           <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, marginBottom: 20, maxWidth: 700 }}>
-            Shown as future/optional extensions, not core operating systems — activated only for properties or portfolios with the matching operating context.
+            Shown as future/optional extensions, not core operating systems — proposed only for properties or portfolios with the matching operating context.
           </p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 1 }}>
             {TRAVEL_SPECIALIST_EXTENSIONS.map(ext => (

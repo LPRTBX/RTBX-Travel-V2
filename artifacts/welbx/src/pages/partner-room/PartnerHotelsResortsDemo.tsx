@@ -16,7 +16,7 @@ interface FlowStep {
 const FLOW_STEPS: FlowStep[] = [
   {
     key: "signal", label: "Signal", color: "#3b82f6", icon: "◎",
-    summary: "Live data received", status: "DETECTED",
+    summary: "Synthetic signal received", status: "DETECTED",
     detail: [
       "Early arrival detected — flight data + booking cross-reference: 3 hrs ahead of check-in window",
       "Room readiness delay confirmed — housekeeping status: 35 min behind schedule",
@@ -35,94 +35,94 @@ const FLOW_STEPS: FlowStep[] = [
     summary: "Moment identified", status: "CLASSIFIED",
     detail: [
       "HIGH_VALUE_ARRIVAL_RECOVERY · Hotels & Resorts · Loyalty tier: Platinum · L2",
-      "Classification confidence: 96% — multiple confirming signals across booking, loyalty and sentiment",
+      "Illustrative rules match: 96% — synthetic booking, loyalty and sentiment inputs",
       "Moment priority: elevated — Platinum tier triggers enhanced care protocol",
       "Escalation threshold set: 40 minutes — auto-manager alert if unresolved",
       "Linked playbooks: arrival-recovery-premium + loyalty-care-platinum",
     ],
     roles: {
-      "Guest / Traveller": "The system has recognised this as a high-priority arrival moment — the guest will receive premium recovery support, not a standard delay message.",
-      "Operator": "Classification confirmed: Platinum arrival, room delay, recovery required. Playbook selected: arrival-recovery-premium. Action window: 40 min before escalation.",
-      "Command / Assurance": "Moment #3214 | HIGH_VALUE_ARRIVAL_RECOVERY | L2 | Confidence: 96% | Playbook: arrival-recovery-premium | Timer set: 40 min",
+      "Guest / Traveller": "Rules classify this synthetic scenario as a high-priority arrival moment and propose a premium-support draft for human review.",
+      "Operator": "Rules-based classification: Platinum arrival and room delay. Proposed playbook: arrival-recovery-premium. A named operator remains accountable.",
+      "Command / Assurance": "SIMULATION #3214 | RULES-BASED CLASSIFICATION | L2 | Illustrative match: 96% | Human approval required",
     },
   },
   {
     key: "decide", label: "Decide", color: COLOR, icon: "◇",
-    summary: "Response selected", status: "DECIDED",
+    summary: "Response proposed", status: "PROPOSED",
     detail: [
-      "Proactive Platinum welcome message — personalised, no apology language, practical options offered",
-      "Concierge lounge access activated — Level 2, refreshments and workspace available",
-      "Room priority escalation to housekeeping — Room 812 moved to top of queue",
-      "F&B gesture queued — complimentary tray to lounge delivered on activation",
-      "Luggage storage arranged — porter briefed, guest option sent via Guest Channel",
-      "Manager visibility threshold set — duty manager alerted if delay exceeds 40 min",
+      "Platinum welcome draft — personalised practical options for human approval",
+      "Concierge lounge access proposed — availability requires staff confirmation",
+      "Room priority proposal — no housekeeping task dispatched",
+      "F&B gesture proposed — no order or delivery created",
+      "Luggage storage option drafted — no porter task or guest message sent",
+      "Proposed manager threshold — a human could alert the duty manager after 40 min",
     ],
     roles: {
-      "Guest / Traveller": "Guest receives a warm message with immediate practical options: lounge access, refreshments, luggage storage, estimated room ready time.",
-      "Operator": "Front desk receives guided action card: greet Ms. Yamamoto, direct to concierge lounge, confirm F&B tray, update every 10 min. Escalate at 40 min.",
-      "Command / Assurance": "Decision record created. Playbook activated: arrival-recovery-premium. Actions queued: 4. Escalation timer: 40 min. Owner: Concierge (J. Martinez).",
+      "Guest / Traveller": "A draft message shows proposed lounge, refreshment, luggage and room-time options. Nothing is sent or activated.",
+      "Operator": "Illustrative action card for front-desk review. Confirm every option before acting; no task is dispatched.",
+      "Command / Assurance": "Proposed decision record | Draft actions: 4 | Owner model: Concierge | Human approval required",
     },
   },
   {
     key: "execute", label: "Execute", color: "#10b981", icon: "◉",
-    summary: "Actions delivered", status: "EXECUTING",
+    summary: "Actions modelled", status: "SIMULATED",
     detail: [
-      "Guest Channel message sent — welcome, lounge invitation, estimated room time: 14:45",
-      "Concierge lounge access confirmed — guest acknowledged, arrived at lounge 14:12",
-      "Housekeeping priority set — Room 812 reassigned to lead team, estimated ready: 14:40",
-      "F&B tray delivered to lounge — 14:18, guest confirmed receipt via Guest Channel",
-      "Luggage stored — porter completed, storage receipt sent to guest app",
-      "Front desk briefed — guided script loaded, next update due 14:30",
+      "Guest Channel draft shown — welcome, lounge invitation, estimated room time: 14:45; no message dispatched",
+      "Lounge-access state modelled at 14:12 — no access update made",
+      "Housekeeping priority modelled — no room assignment or task dispatched",
+      "F&B tray state modelled at 14:18 — no order or delivery occurred",
+      "Luggage-storage state modelled — no porter task or receipt sent",
+      "Front-desk draft brief shown — no staff system updated",
     ],
     roles: {
-      "Guest / Traveller": "\"Welcome, Ms. Yamamoto — your room is being prepared as a priority. The concierge lounge on Level 2 is ready for you. We'll send your key directly when ready — estimated 14:45.\"",
-      "Operator": "ACTION LOG: Lounge access confirmed 14:12. F&B tray delivered 14:18. Luggage stored. Room 812: priority assigned. Next update: 14:30. No escalation yet.",
-      "Command / Assurance": "Moment #3214 | STATUS: EXECUTING | Lounge: confirmed | F&B: delivered | Luggage: stored | Room: priority set | Timer: 22 min remaining",
+      "Guest / Traveller": "DRAFT — \"Welcome, Ms. Yamamoto. We propose lounge access while your room is prepared, subject to staff confirmation. Illustrative estimate: 14:45.\"",
+      "Operator": "SIMULATION: Proposed lounge, F&B, luggage and room-priority states shown. No message, task, order or external update occurs.",
+      "Command / Assurance": "SIMULATION #3214 | Proposed states only | No external updates | Human operator accountable",
     },
   },
   {
     key: "assure", label: "Assure", color: "#22d3ee", icon: "◍",
-    summary: "Outcome confirmed", status: "ASSURED",
+    summary: "Outcome modelled", status: "MODELLED",
     detail: [
-      "Room 812 ready at 14:38 — 2 minutes before 40-min escalation threshold",
-      "Guest checked in successfully — digital key sent, acknowledged 14:42",
-      "Recovery confirmed — guest sentiment signal recovered to 4.6 via Guest Channel",
-      "No negative review signal detected — post-arrival monitoring window active 24 hrs",
-      "Staff response logged — concierge J. Martinez: action time 6 min, outcome: positive",
-      "Assurance record closed — all actions evidenced, outcome confirmed, file complete",
+      "Modelled outcome: Room 812 could be ready at 14:38",
+      "Modelled check-in state at 14:42 — no digital key sent",
+      "Illustrative sentiment value: 4.6 — not measured from a guest channel",
+      "Review-risk state modelled — no review platform is connected",
+      "Illustrative staff timing: 6 min — requires pilot measurement",
+      "Illustrative assurance record shown — pilot validation is Planned",
     ],
     roles: {
-      "Guest / Traveller": "Room ready notification received. Digital key sent directly to phone. Guest gave 5-star in-stay rating within 2 hours of check-in.",
-      "Operator": "RESOLVED: Room 812 ready 14:38. Guest checked in 14:42. Sentiment: 4.6. No escalation reached. Concierge time: 6 min. Record: complete.",
-      "Command / Assurance": "Moment #3214 | RESOLVED | Resolution: 28 min | Escalation: prevented | Sentiment: recovered | LTV: protected | Record: closed | Evidence: complete",
+      "Guest / Traveller": "Illustrative outcome only: a room-ready draft and digital-key option with potentially improved arrival experience.",
+      "Operator": "MODELLED: Room, check-in, sentiment, escalation and timing outcomes require real pilot evidence.",
+      "Command / Assurance": "SIMULATION #3214 | Outcome modelled | No measured sentiment, loyalty or escalation result",
     },
   },
   {
     key: "value", label: "Value", color: COLOR, icon: "◆",
-    summary: "Value captured", status: "RECORDED",
+    summary: "Value modelled", status: "INDICATIVE",
     detail: [
-      "Estimated value protected: A$680 — recovery of high-value stay, LTV maintained",
-      "Negative review risk eliminated — Platinum guest, 28-min resolution, no complaint filed",
-      "Staff efficiency: 6 min active concierge time vs 22 min unguided average",
-      "Escalation prevented — duty manager intervention not required",
-      "Loyalty renewal signal — Platinum tier guest post-stay: re-booking rate +38%",
-      "Assurance record created — complete evidence trail, logged to partner dashboard",
+      "Indicative value: A$680 assumption for pilot evaluation; not measured",
+      "Potential review-risk reduction — no complaint or review outcome verified",
+      "Indicative timing: 6 min guided vs 22 min benchmark; pilot measurement Planned",
+      "Potential escalation reduction — not an achieved outcome",
+      "Illustrative loyalty hypothesis: +38% re-booking assumption, not a measured signal",
+      "Illustrative assurance record — partner-dashboard logging is Planned",
     ],
     roles: {
-      "Guest / Traveller": "Stay recovered before it was lost. Platinum treatment maintained. Guest left with a positive first impression despite a delayed room.",
-      "Operator": "Recovery: 28 min | Value protected: A$680 | Staff time: 6 min | Review risk: eliminated | Escalation: prevented | LTV: maintained.",
-      "Command / Assurance": "Value record #3214 | Protected: A$680 | LTV: maintained | Escalation: 0 | Assurance: complete | Repeatability: 94% protocol match rate",
+      "Guest / Traveller": "Illustrative value state: potentially improved arrival support despite a delayed room.",
+      "Operator": "INDICATIVE MODEL: A$680 assumption | Staff timing, review risk and loyalty effect require pilot measurement",
+      "Command / Assurance": "MODEL #3214 | Indicative value only | No measured loyalty, assurance or repeatability outcome",
     },
   },
 ];
 
 const PROOF_POINTS = [
-  { label: "Risk reduced", desc: "Sentiment risk intercepted before complaint", color: "#10b981" },
-  { label: "Escalation prevented", desc: "Duty manager not required — 28 min resolution", color: "#10b981" },
-  { label: "Revenue protected", desc: "A$680 estimated value and LTV maintained", color: COLOR },
-  { label: "Staff time saved", desc: "6 min guided vs 22 min unguided response", color: COLOR },
-  { label: "Assurance record", desc: "Complete evidence trail created and logged", color: "#a78bfa" },
-  { label: "Experience recovered", desc: "Platinum sentiment recovered to 4.6 in-stay", color: "#3b82f6" },
+  { label: "Modelled risk", desc: "Proposed sentiment-risk intervention", color: "#10b981" },
+  { label: "Modelled escalation", desc: "Illustrative 40-min human review point", color: "#10b981" },
+  { label: "Indicative value", desc: "A$680 stay-value assumption; not measured", color: COLOR },
+  { label: "Planned metric", desc: "Guided response timing for pilot evaluation", color: COLOR },
+  { label: "Illustrative assurance", desc: "Proposed evidence trail", color: "#a78bfa" },
+  { label: "Modelled experience", desc: "Illustrative sentiment only; not measured", color: "#3b82f6" },
 ];
 
 export default function PartnerHotelsResortsDemo() {
@@ -150,15 +150,16 @@ export default function PartnerHotelsResortsDemo() {
         {/* Header */}
         <div style={{ marginBottom: 48 }}>
           <div style={{ fontSize: 9, letterSpacing: "0.22em", color: COLOR, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>
-            Live Operating Flow · Hotels & Resorts
+            Simulated Operating Flow · Hotels & Resorts
           </div>
           <h1 style={{ fontSize: 36, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 18, maxWidth: 680 }}>
             A high-value guest arrives early.<br />
-            <span style={{ color: COLOR }}>The system responds before she reaches the desk.</span>
+            <span style={{ color: COLOR }}>A proposed response shown for review.</span>
           </h1>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.48)", lineHeight: 1.8, maxWidth: 620 }}>
-            A Platinum loyalty guest arrives 3 hours ahead of check-in after a long-haul flight. The room is not ready, the front desk is under load and sentiment risk is rising. This is how RTBX Core handles it.
+            A synthetic scenario illustrates how RTBX Core could present a rules-based response to an early arrival and room delay for accountable human review.
           </p>
+          <div style={{ marginTop: 18, padding: "12px 16px", border: `1px solid ${COLOR}30`, borderLeft: `3px solid ${COLOR}`, fontSize: 11, color: "rgba(255,255,255,0.55)", lineHeight: 1.6, maxWidth: 760 }}><strong style={{ color: COLOR }}>Working Proof · Simulation boundary:</strong> Classification is rules-based and communications are drafts. No message, task, order, guest-service action, dispatch or external-system update occurs. Humans remain accountable; integrations and pilots are Planned.</div>
         </div>
 
         {/* Scenario context */}
@@ -178,7 +179,7 @@ export default function PartnerHotelsResortsDemo() {
         {/* Flow selector */}
         <div style={{ marginBottom: 28 }}>
           <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>
-            Operating Flow · Step {activeStep + 1} of {FLOW_STEPS.length}
+            Simulated Operating Flow · Step {activeStep + 1} of {FLOW_STEPS.length}
           </div>
           <div style={{ display: "flex", gap: 2 }}>
             {FLOW_STEPS.map((s, i) => (
@@ -245,7 +246,7 @@ export default function PartnerHotelsResortsDemo() {
 
         {/* Proof of value */}
         <div style={{ marginBottom: 48 }}>
-          <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 18 }}>Proof of Value</div>
+          <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 18 }}>Modelled Proof of Value</div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
             {PROOF_POINTS.map((pt, i) => (
               <div key={i} style={{ padding: "18px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: `2px solid ${pt.color}` }}>

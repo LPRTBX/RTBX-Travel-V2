@@ -8,11 +8,11 @@ const ROLES = [
     role: "Guest / Guest View",
     color: "#3b82f6",
     tag: "Guest-facing Experience",
-    needs: "Immediate, friction-free support at the right moment — without needing an app, a login or a phone call.",
-    action: "Selects from contextual options: check-in help, room issue, dining, welfare support, experience nudge, checkout.",
-    signal: "Each selection creates a signal — moment type, action chosen, response received.",
-    systemUpdate: "Moment classified and routed. Staff notified. Escalation timer set if needed. Assurance record opened.",
-    value: "Guest experience recovered or enhanced. Loyalty protected. Escalation risk reduced.",
+    needs: "Planned support hypothesis at an appropriate moment, subject to approved journey design and integration.",
+    action: "Would select from proposed contextual options: check-in help, room issue, dining, welfare support, experience nudge or checkout.",
+    signal: "A future approved selection could provide a signal for measurement — no live signal is captured here.",
+    systemUpdate: "A proposed moment could be classified and drafted for routing after approval and integration.",
+    value: "Potential guest-experience and loyalty hypothesis, contingent on pilot measurement.",
   },
   {
     role: "Frontline Staff View",
@@ -21,58 +21,58 @@ const ROLES = [
     needs: "Clear, immediate instruction — not a dashboard to search. One guided action per moment.",
     action: "Receives moment card: guest context, issue type, recommended action, escalation timer, completion confirmation.",
     signal: "Response time, action completed, outcome confirmed, escalation triggered or resolved.",
-    systemUpdate: "Staff action logged. Assurance record updated. Manager alert cancelled if resolved. Timer stopped.",
-    value: "Staff response time reduced. Escalation prevented. Duty-of-care pathway evidenced.",
+    systemUpdate: "A future approved staff action could be logged; this working proof sends no staff notifications.",
+    value: "Potential response-time and duty-of-care hypothesis, contingent on deployment and measurement.",
   },
   {
     role: "Operator / Manager View",
     color: "#c9a84c",
     tag: "Command layer",
-    needs: "Live visibility of service risk, recovery progress and unresolved moments across the property.",
-    action: "Reviews moment registry, assigns owners, monitors escalation timers, approves recovery actions.",
-    signal: "Escalation patterns, staff response rates, unresolved moment count, sentiment trend by section.",
-    systemUpdate: "Assignment logged. Priority updated. Alert cleared or escalated. Outcome report updated.",
-    value: "Operational risk managed in real time. Staff performance visible. Escalation rate tracked.",
+    needs: "Planned visibility of service-risk hypotheses, subject to operator approval, integration and measurement.",
+    action: "Could review a future moment registry and approve actions; human accountability remains required.",
+    signal: "Potential future measures: escalation patterns, staff response rates and unresolved-moment counts.",
+    systemUpdate: "Future assignments and reports would require approved integration; no records are updated here.",
+    value: "Potential operational-risk insight, to be tested and measured in an approved pilot.",
   },
   {
     role: "Executive / Command View",
     color: "#a78bfa",
     tag: "Strategic layer",
-    needs: "Pattern intelligence, value proof, property performance comparison and assurance evidence.",
+    needs: "Planned pattern intelligence and value hypotheses, contingent on approved measurement.",
     action: "Reviews environment health score, recovery rate, revenue moments surfaced, assurance records, portfolio comparison.",
     signal: "Environment health score, escalation rate, revenue per moment activated, assurance record completeness.",
-    systemUpdate: "Executive report generated. Board-level value proof updated. Pilot outcome data compiled.",
-    value: "Investment case evidenced. Operational performance visible at group level. Assurance position protected.",
+    systemUpdate: "Future reporting could be generated from approved, integrated and measured pilot data.",
+    value: "Potential investment-case evidence, not current proof or measured performance.",
   },
   {
     role: "Integration Partner View",
     color: "#3b82f6",
     tag: "Technology layer",
     needs: "Clear API surface, signal schema, moment event feed and outcome data for their own product enrichment.",
-    action: "Connects their PMS, POS, CRM or workforce platform. Provides signal data. Receives moment triggers and outcome events.",
-    signal: "Signal volume delivered, moment triggers received, API uptime, integration health.",
-    systemUpdate: "Signal registry updated. Integration health logged. Partner dashboard shows activation volume.",
-    value: "Their platform enriched with moment intelligence. Revenue share on signal-driven outcomes.",
+    action: "Could connect PMS, POS, CRM or workforce platforms following approval and integration.",
+    signal: "Future candidate measures include signal volume, API uptime and integration health.",
+    systemUpdate: "No integration or registry update occurs in this proof; future updates require approved implementation.",
+    value: "Potential enrichment and revenue-share model, contingent on integration and measured outcomes.",
   },
   {
     role: "Marketplace Partner View",
     color: "#10b981",
     tag: "Activation layer",
     needs: "Reach guests at the exact moment they are ready to buy — not via push notification or mass marketing.",
-    action: "Provides experience, dining, transport or local offer inventory. RTBX Travel routes activation at the right moment.",
-    signal: "Offer impression, guest selection, booking or transaction confirmation.",
-    systemUpdate: "Marketplace activation logged. Transaction recorded. Revenue share calculated. Partner dashboard updated.",
-    value: "Revenue created at the right moment. Offer delivered to the right guest at the right time.",
+    action: "Could provide offer inventory for a future approved marketplace integration.",
+    signal: "Future measures could include offer impressions, selections and confirmed transactions.",
+    systemUpdate: "No offer is activated, transaction recorded or revenue share calculated in this proof.",
+    value: "Potential offer and revenue hypothesis, contingent on approval, integration and measurement.",
   },
   {
     role: "Funder / Investor View",
     color: "#f97316",
     tag: "Capital layer",
     needs: "Commercial model clarity, deployment evidence, revenue proof, moat depth and exit pathway logic.",
-    action: "Reviews business plan, revenue model, pilot outcomes, partner pipeline, moat analysis and exit pathways.",
-    signal: "Pilot conversion rate, revenue per property, deployment rate, partner pipeline velocity.",
-    systemUpdate: "Investment thesis updated. Board report compiled. Funding round materials prepared.",
-    value: "Investable infrastructure business with recurring revenue, deployment leverage and multiple exit pathways.",
+    action: "Could review planned business and pilot materials as they are approved and measured.",
+    signal: "Future candidate measures include pilot conversion, revenue per property and deployment rate.",
+    systemUpdate: "No investment thesis, board report or funding materials are updated by this working proof.",
+    value: "Forward-looking business-model hypothesis, not an established revenue or deployment claim.",
   },
 ];
 
@@ -90,6 +90,10 @@ export default function TravelUxBlueprint() {
               "RTBX Travel makes execution visible by showing what each person sees, does and creates."
             </p>
           </div>
+        </div>
+        <div style={{ padding: "16px 20px", background: "rgba(201,168,76,0.05)", border: "1px solid rgba(201,168,76,0.2)", borderLeft: "3px solid #c9a84c", marginBottom: 28, maxWidth: 900 }}>
+          <div style={{ fontSize: 9, color: C.gold, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 7 }}>Working Proof Boundary</div>
+          <div style={{ fontSize: 11.5, color: C.muted, lineHeight: 1.6 }}>This blueprint is a synthetic future-state simulation. Any live workflow, pilot, signal, offer, integration, transaction or revenue outcome is contingent on approval, implementation, integration and measurement. No dispatches or external updates occur here, and named people retain accountability.</div>
         </div>
 
         {/* Column headers */}
@@ -117,9 +121,9 @@ export default function TravelUxBlueprint() {
 
         {/* System update note */}
         <div style={{ marginTop: 24, padding: "18px 22px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
-          <div style={{ fontSize: 8, letterSpacing: "0.14em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>What RTBX Core Creates at Every Stage</div>
+          <div style={{ fontSize: 8, letterSpacing: "0.14em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>Proposed Future-State Outputs</div>
           <div style={{ display: "flex", gap: 28, flexWrap: "wrap" }}>
-            {["Signal classified", "Moment created", "Action routed", "Owner assigned", "Timer tracked", "Assurance record opened", "Outcome logged", "Value evidenced"].map(item => (
+            {["Signal classification draft", "Proposed moment", "Proposed action route", "Human owner assignment", "Potential timer", "Proposed assurance record", "Future outcome measurement", "Value hypothesis"].map(item => (
               <div key={item} style={{ display: "flex", alignItems: "center", gap: 7 }}>
                 <div style={{ width: 6, height: 6, borderRadius: "50%", background: "rgba(201,168,76,0.4)", flexShrink: 0 }} />
                 <span style={{ fontSize: 11.5, color: C.muted }}>{item}</span>

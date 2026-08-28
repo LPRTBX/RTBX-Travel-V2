@@ -10,13 +10,13 @@ const P = {
 };
 
 const STEP_LABELS = [
-  "Signal appears",
-  "Moment detected",
-  "Guest sees support option",
-  "Operator receives recommended action",
-  "Action is assigned",
-  "Outcome is recorded",
-  "Value is created or protected",
+  "Synthetic signal",
+  "Rules classification",
+  "Draft support option",
+  "Recommendation shown",
+  "Assignment modelled",
+  "Outcome modelled",
+  "Value modelled",
 ];
 
 interface StepContent {
@@ -49,8 +49,8 @@ const SCENARIOS: DualScenario[] = [
       { guestMsg: "Your room is nearly ready.", guestSub: "Would you like us to notify you, hold your bags or arrange a quiet space while you wait?", guestActions: ["Notify me when ready", "Hold my bags", "Arrange a quiet space", "Speak to the team"], operatorTitle: "Guest interface activated", operatorSignals: ["Guest presented with 4 options", "Response window: open", "Loyalty tier: Silver"], operatorAction: "Await guest response. Prepare room priority flag.", systemType: "Check-in Friction", systemTime: "1.1s", systemValue: "Frustration pre-empted" },
       { guestMsg: "Your room is nearly ready.", guestSub: "Would you like us to notify you, hold your bags or arrange a quiet space while you wait?", guestActions: ["Notify me when ready", "Hold my bags", "Arrange a quiet space", "Speak to the team"], operatorTitle: "Action recommended to front desk", operatorSignals: ["Guest selected: Notify me", "Room priority: elevated", "Housekeeping alert: sent"], operatorAction: "Expedite room 412. Assign desk agent for guest notification call.", operatorOwner: "Front Desk Coordinator", systemType: "Check-in Friction", systemTime: "2.8s", systemValue: "Recovery path active" },
       { guestMsg: "Your room is nearly ready.", guestSub: "We'll notify you the moment your room is ready.", guestSelected: "Notify me when ready", operatorTitle: "Assigned: Front Desk Coordinator", operatorSignals: ["Room 412 priority: active", "Housekeeping ETA: 9 min", "Guest notification: queued"], operatorAction: "Room 412 expedited. Guest to be notified when cleared.", operatorOwner: "Front Desk Coordinator", systemType: "Check-in Friction", systemTime: "5.2s", systemValue: "Escalation avoided" },
-      { guestMsg: "Your room is ready. Welcome, Ms Chen.", guestSub: "Room 412 is prepared and ready for you. Please head to the desk.", guestSelected: "Notify me when ready", operatorTitle: "Outcome: Room cleared in 8 minutes", operatorSignals: ["Room cleared: 8 min", "Guest notified: ✓", "Guest arrived: satisfied"], operatorAction: "Moment resolved. Outcome recorded. No escalation.", systemType: "Check-in Friction", systemTime: "8 min total", systemValue: "No complaint lodged" },
-      { guestMsg: "Your room is ready. Welcome, Ms Chen.", guestSub: "Room 412 is prepared and ready for you. Please head to the desk.", guestSelected: "Notify me when ready", operatorTitle: "Value recorded", operatorSignals: ["Guest satisfied: ✓", "No escalation: ✓", "Loyalty points retained: ✓"], operatorAction: "Pattern recorded for future check-in friction prevention.", systemType: "Check-in Friction", systemTime: "8 min", systemValue: "Complaint avoided · Loyalty retained · Learning captured" },
+      { guestMsg: "Draft follow-up: room readiness could be confirmed by the desk.", guestSub: "This unsent draft proposes Room 412 details after a named operator reviews them.", guestSelected: "Notify me when ready", operatorTitle: "Modelled outcome review", operatorSignals: ["Modelled readiness timing: 8 min", "Draft notification: not sent", "Outcome: not measured"], operatorAction: "Moment is not resolved. A named operator could review an illustrative outcome.", systemType: "Check-in Friction", systemTime: "Modelled 8 min", systemValue: "Indicative complaint-risk reduction only" },
+      { guestMsg: "Draft follow-up: room readiness could be confirmed by the desk.", guestSub: "This unsent draft proposes Room 412 details after a named operator reviews them.", guestSelected: "Notify me when ready", operatorTitle: "Indicative value model", operatorSignals: ["Satisfaction: not measured", "Escalation: not determined", "Loyalty: not measured"], operatorAction: "A modelled pattern could inform future review; no learning record is captured.", systemType: "Check-in Friction", systemTime: "Modelled 8 min", systemValue: "Indicative value only · not created or protected" },
     ],
   },
   {
@@ -62,8 +62,8 @@ const SCENARIOS: DualScenario[] = [
       { guestMsg: "We noticed your room issue has been logged.", guestSub: "Would you prefer a quick fix, a room move request or a manager follow-up?", guestActions: ["Quick fix", "Room move request", "Manager follow-up", "Not urgent"], operatorTitle: "Guest recovery options presented", operatorSignals: ["4 options shown", "Guest engaged: confirmed", "Duty manager: alerted"], operatorAction: "Await guest preference. Prepare room move option.", systemType: "Room Issue Recovery", systemTime: "1.3s", systemValue: "Guest agency given" },
       { guestMsg: "We noticed your room issue has been logged.", guestSub: "We'll arrange a room move and send a team member to assist.", guestSelected: "Room move request", operatorTitle: "Guest selected: room move request", operatorSignals: ["Preference: room move", "Available rooms: 3", "Upgrade eligible: ✓"], operatorAction: "Identify suitable room. Assign duty manager to contact guest.", operatorOwner: "Duty Manager", systemType: "Room Issue Recovery", systemTime: "3.1s", systemValue: "Recovery path: room move" },
       { guestMsg: "We noticed your room issue has been logged.", guestSub: "A team member will be with you shortly to assist with your room move.", guestSelected: "Room move request", operatorTitle: "Duty Manager assigned", operatorSignals: ["Room 618: available", "Upgrade applied: complimentary", "Guest contact: in 4 min"], operatorAction: "Contact guest in person. Offer room 618 with complimentary upgrade.", operatorOwner: "Duty Manager", systemType: "Room Issue Recovery", systemTime: "6 min", systemValue: "Service recovery active" },
-      { guestMsg: "Room move arranged. Welcome to Room 618.", guestSub: "We hope this makes the rest of your stay more comfortable.", guestSelected: "Room move request", operatorTitle: "Outcome: guest satisfied, room move complete", operatorSignals: ["Room move: ✓", "Guest satisfied: ✓", "No escalation: ✓", "Upgrade applied: ✓"], operatorAction: "Moment resolved. Recovery offer accepted. Pattern logged.", systemType: "Room Issue Recovery", systemTime: "18 min total", systemValue: "Loyalty protected" },
-      { guestMsg: "Room move arranged. Welcome to Room 618.", guestSub: "We hope this makes the rest of your stay more comfortable.", guestSelected: "Room move request", operatorTitle: "Value captured", operatorSignals: ["Loyalty protected: ✓", "Review risk reduced: ✓", "Recovery logged: ✓"], operatorAction: "Pattern contributes to future issue detection improvement.", systemType: "Room Issue Recovery", systemTime: "18 min", systemValue: "Review risk reduced · Loyalty retained · Revenue protected" },
+      { guestMsg: "Draft: a room-move option could be discussed.", guestSub: "A named Duty Manager would review any room-move decision; this draft is not sent.", guestSelected: "Room move request", operatorTitle: "Modelled recovery review", operatorSignals: ["Room move: proposed", "Satisfaction: not measured", "Escalation: not determined", "Upgrade: proposed only"], operatorAction: "Moment is not resolved. A named human could review a proposed recovery option.", systemType: "Room Issue Recovery", systemTime: "Modelled 18 min", systemValue: "Indicative loyalty consideration only" },
+      { guestMsg: "Draft: a room-move option could be discussed.", guestSub: "A named Duty Manager would review any room-move decision; this draft is not sent.", guestSelected: "Room move request", operatorTitle: "Indicative value model", operatorSignals: ["Loyalty: not measured", "Review risk: not measured", "Recovery record: not created"], operatorAction: "A modelled pattern could inform future review; no learning record is captured.", systemType: "Room Issue Recovery", systemTime: "Modelled 18 min", systemValue: "Indicative value only · not protected or created" },
     ],
   },
   {
@@ -75,8 +75,8 @@ const SCENARIOS: DualScenario[] = [
       { guestMsg: "Welcome, Mr Hartmann.", guestSub: "Your suite is being prepared. While you wait, would you like us to arrange anything?", guestActions: ["Champagne on arrival", "Newspaper & quiet", "Access to bar early", "Nothing needed"], operatorTitle: "VIP pre-arrival interface activated", operatorSignals: ["Guest greeted via app/kiosk", "Preference options: 4", "Profile: champagne flag active"], operatorAction: "Housekeeping expedited. Escort to lobby arranged. Amenity prep started.", systemType: "VIP Arrival Risk", systemTime: "1.2s", systemValue: "Expectation managed" },
       { guestMsg: "Welcome, Mr Hartmann.", guestSub: "Your suite is being prepared. Your champagne will be ready on arrival.", guestSelected: "Champagne on arrival", operatorTitle: "Guest preference confirmed: champagne", operatorSignals: ["Amenity: champagne requested", "Room 847: housekeeping expedited", "Escort: arranged"], operatorAction: "Confirm champagne with F&B. Assign escort from lobby in 8 minutes.", operatorOwner: "Front Office Manager", systemType: "VIP Arrival Risk", systemTime: "2.1s", systemValue: "Recovery in progress" },
       { guestMsg: "Welcome, Mr Hartmann.", guestSub: "Your suite is ready. An escort will meet you at the main entrance.", guestSelected: "Champagne on arrival", operatorTitle: "Front Office Manager assigned", operatorSignals: ["Room cleared: 4 min before arrival", "Escort: lobby, confirmed", "Champagne: prepared"], operatorAction: "Personal escort ready. Champagne staged. Suite confirmed clear.", operatorOwner: "Front Office Manager", systemType: "VIP Arrival Risk", systemTime: "9 min", systemValue: "VIP experience protected" },
-      { guestMsg: "Thank you for staying with us, Mr Hartmann.", guestSub: "We hope your arrival was seamless. Your suite is ready.", guestSelected: "Champagne on arrival", operatorTitle: "Outcome: flawless VIP arrival", operatorSignals: ["Guest arrived: ✓", "Suite cleared 4 min early: ✓", "Amenity delivered: ✓", "No complaint: ✓"], operatorAction: "Moment resolved. Outcome: exemplary service recovery.", systemType: "VIP Arrival Risk", systemTime: "12 min", systemValue: "Brand standard met" },
-      { guestMsg: "Thank you for staying with us, Mr Hartmann.", guestSub: "We hope your arrival was seamless. Your suite is ready.", guestSelected: "Champagne on arrival", operatorTitle: "Value recorded", operatorSignals: ["VIP experience: protected", "Loyalty tier: retained", "Pattern: logged for future"], operatorAction: "Detection-to-resolution in 12 minutes. VIP standard maintained.", systemType: "VIP Arrival Risk", systemTime: "12 min", systemValue: "Complaint avoided · Loyalty retained · Staff confidence built" },
+      { guestMsg: "Draft thank-you: a named operator could review a VIP-arrival follow-up.", guestSub: "This proposed message is not sent and does not confirm suite readiness.", guestSelected: "Champagne on arrival", operatorTitle: "Modelled VIP outcome review", operatorSignals: ["Arrival: not measured", "Suite readiness: proposed", "Amenity: not delivered", "Complaint: not determined"], operatorAction: "Moment is not resolved. A named human retains responsibility for any real response.", systemType: "VIP Arrival Risk", systemTime: "Modelled 12 min", systemValue: "Indicative service-standard consideration only" },
+      { guestMsg: "Draft thank-you: a named operator could review a VIP-arrival follow-up.", guestSub: "This proposed message is not sent and does not confirm suite readiness.", guestSelected: "Champagne on arrival", operatorTitle: "Indicative value model", operatorSignals: ["VIP experience: not measured", "Loyalty: not measured", "Pattern: not recorded"], operatorAction: "A modelled timing path is shown only; no resolution or value outcome is recorded.", systemType: "VIP Arrival Risk", systemTime: "Modelled 12 min", systemValue: "Indicative value only · not created or protected" },
     ],
   },
   {
@@ -86,10 +86,10 @@ const SCENARIOS: DualScenario[] = [
       { guestMsg: null, operatorTitle: "Signal: guest activation window", operatorSignals: ["Calendar gap: 2 hrs before 20:00", "In-room: confirmed", "Wellness preference: active"], operatorAction: "Signal Registry detecting partner activation opportunity.", systemType: "Pre-moment", systemValue: "Activation window detected" },
       { guestMsg: null, operatorTitle: "Moment: Dining Activation Window", operatorSignals: ["Confidence: 81%", "Partner opportunity: wellness + dining", "Guest tier: Gold"], operatorAction: "Concierge and partner activation channel alerted.", systemType: "Dining Activation", systemTime: "0.8s", systemValue: "Commercial opportunity open" },
       { guestMsg: "You have a free window before dinner.", guestSub: "Would you like nearby dining, wellness, transport or local experience options?", guestActions: ["Dining suggestions", "Wellness & spa", "Transport & transfers", "Local experiences"], operatorTitle: "Guest activation interface served", operatorSignals: ["Options: 4", "Guest engaged: confirmed", "Spa availability: checked"], operatorAction: "Spa and dining options pre-loaded. Partner offer flagged.", systemType: "Dining Activation", systemTime: "1.4s", systemValue: "Upsell window active" },
-      { guestMsg: "You have a free window before dinner.", guestSub: "Your spa session has been arranged at 17:30. Enjoy.", guestSelected: "Wellness & spa", operatorTitle: "Guest selected: wellness & spa", operatorSignals: ["Preference: spa", "Slot: 17:30 available", "Partner: in-house spa"], operatorAction: "Spa booking confirmed. Concierge to notify guest.", operatorOwner: "Concierge / Spa Desk", systemType: "Dining Activation", systemTime: "2.6s", systemValue: "Partner revenue created" },
-      { guestMsg: "Your spa session is confirmed for 17:30.", guestSub: "Head to the wellness floor 5 minutes before. No check-in needed.", guestSelected: "Wellness & spa", operatorTitle: "Concierge confirmed booking", operatorSignals: ["Spa: 17:30 confirmed", "Room notification: sent", "Partner booking: logged"], operatorAction: "Booking complete. Revenue from ancillary captured.", operatorOwner: "Spa Desk", systemType: "Dining Activation", systemTime: "5 min", systemValue: "Ancillary revenue created" },
-      { guestMsg: "Your spa session is confirmed for 17:30.", guestSub: "We hope you enjoy it. Let us know if you need anything else.", guestSelected: "Wellness & spa", operatorTitle: "Outcome: spa booking completed", operatorSignals: ["Booking: ✓", "Guest satisfaction: high", "Revenue: ancillary captured"], operatorAction: "Moment resolved. Revenue logged. Pattern contributes to future activation triggers.", systemType: "Dining Activation", systemTime: "5 min total", systemValue: "Revenue created" },
-      { guestMsg: "Your spa session is confirmed for 17:30.", guestSub: "We hope you enjoy it. Let us know if you need anything else.", guestSelected: "Wellness & spa", operatorTitle: "Value captured", operatorSignals: ["Ancillary revenue: recorded", "Partner value: created", "Guest experience: enhanced"], operatorAction: "Wellness partner and concierge credited with activation.", systemType: "Dining Activation", systemTime: "5 min", systemValue: "Revenue created · Partner value activated · Guest loyalty enhanced" },
+      { guestMsg: "Draft: you could consider wellness and spa options.", guestSub: "A named Concierge or Spa Desk member would review availability; this is not a booking confirmation.", guestSelected: "Wellness & spa", operatorTitle: "Proposed wellness option", operatorSignals: ["Preference: synthetic", "Slot: illustrative", "Partner: proposed"], operatorAction: "A named Concierge could review a proposed spa option. No booking or notification is created.", operatorOwner: "Concierge / Spa Desk", systemType: "Dining Activation", systemTime: "Modelled 2.6s", systemValue: "Indicative partner-value hypothesis only" },
+      { guestMsg: "Draft: a 17:30 spa option could be considered.", guestSub: "Human approval and availability review would be required; no booking or check-in instruction is created.", guestSelected: "Wellness & spa", operatorTitle: "Proposed booking review", operatorSignals: ["Spa time: illustrative", "Guest notification: not sent", "Partner booking: not created"], operatorAction: "Booking is not complete. Ancillary value is modelled, not captured.", operatorOwner: "Spa Desk", systemType: "Dining Activation", systemTime: "Modelled 5 min", systemValue: "Indicative ancillary value only · not created" },
+      { guestMsg: "Draft: a 17:30 spa option could be considered.", guestSub: "Human approval and availability review would be required; no booking or check-in instruction is created.", guestSelected: "Wellness & spa", operatorTitle: "Modelled spa outcome", operatorSignals: ["Booking: not created", "Guest satisfaction: not measured", "Revenue: not captured"], operatorAction: "Moment is not resolved. No revenue is logged and no learning record is created.", systemType: "Dining Activation", systemTime: "Modelled 5 min", systemValue: "Indicative revenue hypothesis only · not created" },
+      { guestMsg: "Draft: a 17:30 spa option could be considered.", guestSub: "Human approval and availability review would be required; no booking or check-in instruction is created.", guestSelected: "Wellness & spa", operatorTitle: "Indicative value model", operatorSignals: ["Ancillary value: not measured", "Partner value: not created", "Guest experience: not measured"], operatorAction: "No partner or concierge credit is created; this is an illustrative activation model.", systemType: "Dining Activation", systemTime: "Modelled 5 min", systemValue: "Indicative value only · not created" },
     ],
   },
   {
@@ -101,8 +101,8 @@ const SCENARIOS: DualScenario[] = [
       { guestMsg: "Need a quieter option or extra support during your stay?", guestSub: "We can help discreetly. No need to explain.", guestActions: ["Arrange a quiet space", "Speak to a staff member", "Come back to this later", "I'm fine, thank you"], operatorTitle: "Discreet support interface served", operatorSignals: ["Options: 4", "Interface: low-profile", "No public escalation"], operatorAction: "Duty manager on standby. No visible alert to other staff.", systemType: "Guest Wellbeing Need", systemTime: "1.1s", systemValue: "Privacy protected" },
       { guestMsg: "Need a quieter option or extra support during your stay?", guestSub: "A quiet space has been arranged. You'll receive a message with details.", guestSelected: "Arrange a quiet space", operatorTitle: "Guest selected: quiet space", operatorSignals: ["Preference: quiet space", "Availability: reading room", "Duty manager: alerted"], operatorAction: "Reading room reserved. Duty manager to quietly notify guest.", operatorOwner: "Duty Manager", systemType: "Guest Wellbeing Need", systemTime: "2.2s", systemValue: "Wellbeing protected" },
       { guestMsg: "A quiet space has been arranged for you.", guestSub: "The reading lounge on level 2 is reserved. No check-in needed.", guestSelected: "Arrange a quiet space", operatorTitle: "Duty Manager assigned — discreet", operatorSignals: ["Reading room: reserved", "Guest notification: sent", "No public escalation: ✓"], operatorAction: "Quiet room arranged. Duty manager following up privately.", operatorOwner: "Duty Manager", systemType: "Guest Wellbeing Need", systemTime: "4 min", systemValue: "Privacy and comfort maintained" },
-      { guestMsg: "A quiet space has been arranged for you.", guestSub: "We're here if you need anything else. No pressure at all.", guestSelected: "Arrange a quiet space", operatorTitle: "Outcome: guest supported discreetly", operatorSignals: ["Guest: settled", "No escalation: ✓", "No complaint: ✓"], operatorAction: "Moment resolved. Guest wellbeing note logged privately.", systemType: "Guest Wellbeing Need", systemTime: "6 min total", systemValue: "Wellbeing protected" },
-      { guestMsg: "A quiet space has been arranged for you.", guestSub: "We're here if you need anything else. No pressure at all.", guestSelected: "Arrange a quiet space", operatorTitle: "Value recorded", operatorSignals: ["Wellbeing: protected", "Privacy: maintained", "Loyalty: retained"], operatorAction: "Discreet support pattern improves future detection sensitivity.", systemType: "Guest Wellbeing Need", systemTime: "6 min", systemValue: "Guest trust built · Loyalty retained · No complaint lodged" },
+      { guestMsg: "Draft: a quiet-space option could be discussed.", guestSub: "A named Duty Manager must approve any support response; this draft is not sent.", guestSelected: "Arrange a quiet space", operatorTitle: "Modelled wellbeing review", operatorSignals: ["Guest wellbeing: not measured", "Escalation: not determined", "Complaint: not determined"], operatorAction: "Moment is not resolved. No wellbeing note is logged.", systemType: "Guest Wellbeing Need", systemTime: "Modelled 6 min", systemValue: "Indicative wellbeing consideration only" },
+      { guestMsg: "Draft: a quiet-space option could be discussed.", guestSub: "A named Duty Manager must approve any support response; this draft is not sent.", guestSelected: "Arrange a quiet space", operatorTitle: "Indicative value model", operatorSignals: ["Wellbeing: not measured", "Privacy: not measured", "Loyalty: not measured"], operatorAction: "This model does not change detection sensitivity or create a record.", systemType: "Guest Wellbeing Need", systemTime: "Modelled 6 min", systemValue: "Indicative trust consideration only · not created" },
     ],
   },
   {
@@ -151,13 +151,14 @@ function MiniPhone({ step, scenario }: { step: StepContent; scenario: string }) 
               {step.guestSelected ? (
                 <div>
                   <div style={{ padding: "10px 12px", background: "#eef7f2", border: "1px solid rgba(16,185,129,0.3)", borderRadius: 8, marginBottom: 10 }}>
-                    <div style={{ fontSize: 7.5, color: "#10b981", fontWeight: 700, marginBottom: 3 }}>✓ Confirmed</div>
+                    <div style={{ fontSize: 7.5, color: "#10b981", fontWeight: 700, marginBottom: 3 }}>Draft state</div>
                     <div style={{ fontSize: 9.5, color: "#2d4a3e", lineHeight: 1.5 }}>{step.guestSub}</div>
                   </div>
-                  <div style={{ padding: "6px 10px", background: "#f5f5f5", border: "1px solid rgba(0,0,0,0.08)", borderRadius: 6, fontSize: 8.5, color: "#6b6b8a" }}>Selected: {step.guestSelected}</div>
+                  <div style={{ padding: "6px 10px", background: "#f5f5f5", border: "1px solid rgba(0,0,0,0.08)", borderRadius: 6, fontSize: 8.5, color: "#6b6b8a" }}>Illustrative selection: {step.guestSelected}</div>
                 </div>
               ) : (
                 <div>
+                  <div style={{ fontSize: 7.5, fontWeight: 700, color: "#c9a84c", marginBottom: 5 }}>UNSENT DRAFT</div>
                   <div style={{ fontSize: 11.5, fontWeight: 700, color: "#1a1a2e", marginBottom: 5, lineHeight: 1.3 }}>{step.guestMsg}</div>
                   <div style={{ fontSize: 9.5, color: "#4a4a6a", marginBottom: 12, lineHeight: 1.5 }}>{step.guestSub}</div>
                   {step.guestActions?.slice(0, 3).map(a => (
@@ -168,7 +169,7 @@ function MiniPhone({ step, scenario }: { step: StepContent; scenario: string }) 
                   )}
                 </div>
               )}
-              <div style={{ position: "absolute", bottom: 14, left: 14, right: 14, textAlign: "center", fontSize: 7.5, color: "#b0b0cc", fontStyle: "italic" }}>No app. No login. In the moment.</div>
+              <div style={{ position: "absolute", bottom: 14, left: 14, right: 14, textAlign: "center", fontSize: 7.5, color: "#b0b0cc", fontStyle: "italic" }}>Illustrative interface · no delivery</div>
             </div>
           )}
         </div>
@@ -180,7 +181,7 @@ function MiniPhone({ step, scenario }: { step: StepContent; scenario: string }) 
 function SignalFlow({ step, currentStep }: { step: number; currentStep: number }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, paddingTop: 40 }}>
-      <div style={{ fontSize: 7, letterSpacing: "0.16em", color: P.dimmed, textTransform: "uppercase", fontWeight: 700, writingMode: "vertical-rl", transform: "rotate(180deg)", marginBottom: 8 }}>RTBX CORE ORCHESTRATES</div>
+      <div style={{ fontSize: 7, letterSpacing: "0.16em", color: P.dimmed, textTransform: "uppercase", fontWeight: 700, writingMode: "vertical-rl", transform: "rotate(180deg)", marginBottom: 8 }}>MODELLED ORCHESTRATION</div>
       {[0,1,2,3,4,5,6].map(i => (
         <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 2 }}>
           <div style={{ width: 8, height: 8, borderRadius: "50%", background: i <= currentStep ? P.amber : "rgba(255,255,255,0.1)", transition: "background 0.3s" }} />
@@ -196,21 +197,21 @@ function OperatorPanel({ step }: { step: StepContent }) {
     <div style={{ flex: 1 }}>
       <div style={{ fontSize: 7.5, letterSpacing: "0.14em", color: P.dimmed, textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>OPERATOR SIDE</div>
       <div style={{ background: P.navy, border: `1px solid ${P.border}`, padding: "18px 22px", marginBottom: 12 }}>
-        <div style={{ fontSize: 7.5, letterSpacing: "0.12em", color: P.amber, textTransform: "uppercase", fontWeight: 700, marginBottom: 6 }}>Active Moment</div>
-        <div style={{ fontSize: 15, fontWeight: 800, color: P.white, marginBottom: 8 }}>{step.operatorTitle}</div>
+        <div style={{ fontSize: 7.5, letterSpacing: "0.12em", color: P.amber, textTransform: "uppercase", fontWeight: 700, marginBottom: 6 }}>Illustrative Moment State</div>
+        <div style={{ fontSize: 15, fontWeight: 800, color: P.white, marginBottom: 8 }}>Modelled: {step.operatorTitle}</div>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
           {step.operatorSignals.map(s => (
-            <span key={s} style={{ fontSize: 9, color: P.blue, padding: "3px 8px", background: `${P.blue}10`, border: `1px solid ${P.blue}20` }}>{s}</span>
+            <span key={s} style={{ fontSize: 9, color: P.blue, padding: "3px 8px", background: `${P.blue}10`, border: `1px solid ${P.blue}20` }}>Synthetic: {s}</span>
           ))}
         </div>
       </div>
       <div style={{ background: P.navy, border: `1px solid ${P.amber}25`, padding: "16px 22px", marginBottom: 12 }}>
         <div style={{ fontSize: 7.5, letterSpacing: "0.12em", color: P.amber, textTransform: "uppercase", fontWeight: 700, marginBottom: 6 }}>Recommended Action</div>
-        <div style={{ fontSize: 11, color: P.muted, lineHeight: 1.7 }}>{step.operatorAction}</div>
-        {step.operatorOwner && <div style={{ marginTop: 8, fontSize: 9.5, color: P.green }}>→ {step.operatorOwner}</div>}
+        <div style={{ fontSize: 11, color: P.muted, lineHeight: 1.7 }}>Illustrative only — {step.operatorAction}</div>
+        {step.operatorOwner && <div style={{ marginTop: 8, fontSize: 9.5, color: P.green }}>Accountable human role → {step.operatorOwner}</div>}
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8 }}>
-        {["Assign", "Defer", "Escalate"].map((btn, i) => (
+        {["Model assignment", "Model deferral", "Model escalation"].map((btn, i) => (
           <div key={btn} style={{
             padding: "9px", background: i === 0 ? `${P.amber}10` : "transparent",
             border: `1px solid ${i === 0 ? `${P.amber}40` : P.border}`,
@@ -270,7 +271,7 @@ export default function PartnerDualViewDemo() {
         <div style={{ fontSize: 8, letterSpacing: "0.22em", color: P.amber, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>DUAL VIEW DEMO</div>
         <h1 style={{ fontSize: 34, fontWeight: 800, color: P.white, letterSpacing: "-0.02em", marginBottom: 10 }}>RTBX Orchestration — Dual View Demo</h1>
         <p style={{ fontSize: 13, color: P.muted, maxWidth: 520, lineHeight: 1.7, margin: 0 }}>
-          The same moment shown from two perspectives. Step through the signal-to-value chain on both the guest and operator side.
+          The same simulated moment shown from two perspectives. Step through the illustrative signal-to-value chain on both the guest and operator side.
         </p>
       </div>
 
@@ -278,7 +279,7 @@ export default function PartnerDualViewDemo() {
       <div className="rtbx-page-pad" style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px 0" }}>
         <div style={{ padding: "14px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderLeft: "3px solid #c9a84c", marginBottom: 20 }}>
           <p style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", lineHeight: 1.7, margin: 0 }}>
-            RTBX Core orchestrates both sides of the moment simultaneously. The guest experiences a seamless response. The operator sees a governed action with full context. Neither side is aware of the other — RTBX coordinates both through the Central Comms OS and the Travel Operating System.
+            <strong style={{ color: P.amber }}>Working Proof · Simulation boundary:</strong> synthetic inputs are classified with deterministic rules. Draft communications are never sent or delivered; assignments, actions, evidence and outcomes are illustrative, and value is modelled rather than measured. No external system is updated. Named human operators retain accountability.
           </p>
         </div>
       </div>
@@ -330,18 +331,18 @@ export default function PartnerDualViewDemo() {
       {/* System record */}
       <div className="rtbx-page-pad" style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px 24px" }}>
         <div style={{ background: P.navy, border: `1px solid ${P.border}`, padding: "16px 22px" }}>
-          <div style={{ fontSize: 7.5, letterSpacing: "0.14em", color: P.dimmed, textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>System Records</div>
+          <div style={{ fontSize: 7.5, letterSpacing: "0.14em", color: P.dimmed, textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>Illustrative Local Trace</div>
           <div className="rtbx-kpi-grid" style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16 }}>
             {[
               { label: "Moment Type", value: step.systemType },
-              { label: "Response Time", value: step.systemTime ?? "—" },
-              { label: "Owner", value: step.operatorOwner ?? "Unassigned" },
-              { label: "Action", value: stepIdx >= 4 ? "Assigned" : stepIdx >= 2 ? "In progress" : "Classifying" },
-              { label: "Value Created", value: step.systemValue },
+              { label: "Illustrative timing", value: step.systemTime ?? "—" },
+              { label: "Accountable role", value: step.operatorOwner ?? "Named operator to assign" },
+              { label: "Modelled action state", value: stepIdx >= 4 ? "Assignment shown" : stepIdx >= 2 ? "Recommendation shown" : "Rules classification" },
+              { label: "Modelled value", value: step.systemValue },
             ].map(r => (
               <div key={r.label}>
                 <div style={{ fontSize: 7, letterSpacing: "0.14em", color: P.dimmed, textTransform: "uppercase", marginBottom: 4 }}>{r.label}</div>
-                <div style={{ fontSize: 10.5, color: P.muted, lineHeight: 1.5 }}>{r.value}</div>
+                <div style={{ fontSize: 10.5, color: P.muted, lineHeight: 1.5 }}>{r.label === "Moment Type" ? r.value : `Illustrative: ${r.value}`}</div>
               </div>
             ))}
           </div>

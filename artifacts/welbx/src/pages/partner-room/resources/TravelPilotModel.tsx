@@ -4,33 +4,33 @@ import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 const C = { gold: "#c9a84c", muted: "rgba(255,255,255,0.45)", dim: "rgba(255,255,255,0.22)", green: "#10b981" };
 
 const PHASES = [
-  { n: "01", label: "Operator Alignment", weeks: "Week 1", desc: "Define objectives, identify proof environments, assign operator contact. Agree on success metrics and governance model.", output: "Signed pilot brief. Moment map draft. Contact matrix." },
-  { n: "02", label: "Moment Mapping", weeks: "Week 1–2", desc: "Map the guest journey, identify moment types, confirm signal sources (PMS, POS, staff systems, app touch points).", output: "Moment map. Signal source list. Priority moment types confirmed." },
-  { n: "03", label: "Scenario Validation", weeks: "Week 2–3", desc: "Define 5–10 operating scenarios. Validate classification logic against real environment data. Staff briefed on pathway structure.", output: "Scenario set. Classification thresholds set. Staff briefing completed." },
-  { n: "04", label: "Staff & Guest Pathway Setup", weeks: "Week 3–4", desc: "Configure staff action cards. Set up Guest Experience interface. Test end-to-end pathway flow. Guest and staff test session.", output: "Staff pathway live. Guest Experience configured. Test run completed. Sign-off from operator." },
-  { n: "05", label: "Shadow Pilot", weeks: "Week 4–6", desc: "RTBX Core runs in parallel — signals captured, moments classified, pathways queued. No live delivery to guests or staff yet.", output: "Shadow pilot data. Signal validation. Moment creation accuracy report. Adjustment recommendations." },
-  { n: "06", label: "Live Pilot", weeks: "Week 6–10", desc: "Full live operation. Real guests, real staff, real moments. All six moment types active. Recovery, welfare, commercial and concierge pathways running.", output: "Live operating data. Moment log. Staff response data. Guest feedback. Escalation record." },
-  { n: "07", label: "Reporting & Value Proof", weeks: "Week 10–12", desc: "Full outcome report produced. Value proof against baseline metrics. Assurance records collated. Commercial conversion case prepared.", output: "Outcome report. Value proof document. Assurance record summary. Commercial conversion proposal." },
-  { n: "08", label: "Expansion Recommendation", weeks: "Post-pilot", desc: "Expand to full estate, add a second environment type, or formalise strategic partnership. Conversion to annual agreement.", output: "Expansion plan. Annual agreement terms. Partner pathway defined." },
+  { n: "01", label: "Proposed Operator Alignment", weeks: "Week 1", desc: "Propose objectives, proof environments, operator contact and governance for approval.", output: "Draft pilot brief, moment map and contact matrix." },
+  { n: "02", label: "Proposed Moment Mapping", weeks: "Week 1–2", desc: "Propose a guest journey, moment types and candidate signal sources, subject to integration approval.", output: "Draft moment map and candidate signal-source list." },
+  { n: "03", label: "Proposed Scenario Validation", weeks: "Week 2–3", desc: "Propose 5–10 operating scenarios and test illustrative classification logic; no real-environment validation is implied.", output: "Draft scenario set, thresholds and briefing materials." },
+  { n: "04", label: "Staff & Guest Pathway Setup", weeks: "Week 3–4", desc: "Propose staff action cards and a Guest Experience interface for approved testing. Test a simulated end-to-end pathway.", output: "Proposed pathway configuration and test plan, subject to operator sign-off." },
+  { n: "05", label: "Proposed Shadow Pilot", weeks: "Week 4–6", desc: "A future approved shadow pilot could run in parallel using agreed inputs; no live delivery occurs.", output: "Potential measurement data and adjustment recommendations, subject to approval." },
+  { n: "06", label: "Proposed Live Pilot", weeks: "Week 6–10", desc: "Future live operation only if approved and integrated. Scope, guest/staff participation and pathways remain contingent on governance, with named operators accountable for every action.", output: "Potential measured operating data, subject to approved pilot execution." },
+  { n: "07", label: "Reporting & Value Measurement", weeks: "Week 10–12", desc: "A future outcome report would compare approved baseline metrics. Any value or conversion case remains contingent on measurement.", output: "Proposed outcome report and measurement summary." },
+  { n: "08", label: "Future Expansion Decision", weeks: "Post-pilot", desc: "Any expansion, additional environment or annual agreement follows approved pilot evidence and commercial agreement.", output: "Potential expansion recommendation and proposed terms." },
 ];
 
 const METRICS = [
-  { metric: "Guest engagement rate", target: ">60% of moments result in guest action", why: "Validates that Guest Experience pathways are finding the right moment at the right time" },
-  { metric: "Service recovery rate", target: ">80% of flagged issues resolved before escalation", why: "Core value proof — escalation prevented, outcome owned" },
-  { metric: "Staff response completion", target: ">90% of routed actions completed within SLA", why: "Validates that staff pathway design is workable and followed" },
-  { metric: "Escalations prevented", target: "Baseline comparison — target >30% reduction", why: "Direct evidence of operational risk reduction" },
-  { metric: "Revenue moments surfaced", target: "Count + conversion rate vs baseline", why: "Commercial activation evidence for marketplace and F&B partners" },
-  { metric: "Guest sentiment movement", target: "Pre/post pilot comparison", why: "Guest experience improvement evidence" },
-  { metric: "Assurance records created", target: "100% of resolved moments logged", why: "Duty-of-care and governance evidence" },
-  { metric: "Operator time saved", target: "Staff hours per shift comparison", why: "Efficiency value evidence for operator ROI case" },
+  { metric: "Guest engagement rate", target: "Illustrative target: >60%", why: "Potential measure for whether an approved pathway reaches an appropriate moment" },
+  { metric: "Service recovery rate", target: "Illustrative target: >80%", why: "Potential measure, not proof, of a recovery hypothesis" },
+  { metric: "Staff response completion", target: "Illustrative target: >90%", why: "Potential measure for an approved staff-pathway design" },
+  { metric: "Escalation reduction hypothesis", target: "Illustrative baseline comparison: >30%", why: "Potential operational-risk measure requiring pilot evidence" },
+  { metric: "Revenue opportunity signals", target: "Illustrative count + conversion comparison", why: "Potential marketplace/F&B measure after approved integration" },
+  { metric: "Guest sentiment movement", target: "Proposed pre/post comparison", why: "Potential guest-experience measure" },
+  { metric: "Assurance record coverage", target: "Illustrative target: 100%", why: "Potential duty-of-care and governance measure" },
+  { metric: "Operator time hypothesis", target: "Proposed staff-hours comparison", why: "Potential efficiency measure for an ROI hypothesis" },
 ];
 
 const PILOT_ENVS = [
-  { label: "Hotels & Resorts", color: "#c9a84c", best: "Highest signal density, clearest early value. First proof environment.", demo: "/partner-room/deployments/hotels-resorts/demo" },
-  { label: "Holiday Parks", color: "#10b981", best: "Welfare and weather signals create immediately visible value. Family guest complexity.", demo: "/partner-room/holiday-park-demo" },
-  { label: "Corporate Travel", color: "#3b82f6", best: "Repeat guest recognition + duty-of-care. Low integration overhead per guest.", demo: "/partner-room/deployments/corporate-travel/demo" },
+  { label: "Hotels & Resorts", color: "#c9a84c", best: "Proposed first proof environment based on assumed signal density; value remains to be measured.", demo: "/partner-room/deployments/hotels-resorts/demo" },
+  { label: "Holiday Parks", color: "#10b981", best: "Proposed environment for testing welfare and weather signal hypotheses.", demo: "/partner-room/holiday-park-demo" },
+  { label: "Corporate Travel", color: "#3b82f6", best: "Proposed environment for repeat-guest and duty-of-care hypotheses; integration effort remains unvalidated.", demo: "/partner-room/deployments/corporate-travel/demo" },
   { label: "Events & Venues", color: "#a78bfa", best: "High-density, high-risk. Welfare and safety signals create auditable value.", demo: "/partner-room/deployments/events-venues/demo" },
-  { label: "Destination", color: "#22d3ee", best: "Marketplace + partner ecosystem. Typically a Year 2 pilot after hotel/park proof.", demo: "/partner-room/deployments/destination-tourism/demo" },
+  { label: "Destination", color: "#22d3ee", best: "Future marketplace and partner-ecosystem hypothesis, contingent on approved and measured earlier pilots.", demo: "/partner-room/deployments/destination-tourism/demo" },
 ];
 
 export default function TravelPilotModel() {
@@ -55,6 +55,10 @@ export default function TravelPilotModel() {
               </div>
             ))}
           </div>
+        </div>
+        <div style={{ padding: "16px 20px", background: "rgba(201,168,76,0.05)", border: "1px solid rgba(201,168,76,0.2)", borderLeft: "3px solid #c9a84c", marginBottom: 28 }}>
+          <div style={{ fontSize: 9, color: C.gold, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 7 }}>Planned Pilot Model</div>
+          <div style={{ fontSize: 11.5, color: C.muted, lineHeight: 1.6 }}>Timing, fees, targets and outcomes are illustrative planning assumptions, not live commitments or proven results. Any pilot, integration, guest/staff interaction, measurement or commercial conversion requires approval and agreed governance.</div>
         </div>
 
         {/* 8 phases */}

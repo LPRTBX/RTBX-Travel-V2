@@ -73,22 +73,22 @@ function getDecision(delay: "Under 15 min" | "Over 15 min", children: boolean, w
   if (delay === "Over 15 min" && isHigh && isComplex) {
     return {
       classification: "ARRIVAL_DISRUPTION · Critical · Multi-factor · L3",
-      decision: "Emergency relief protocol — family welfare priority + full compensation pre-approved",
-      intervention: "Duty manager personal contact · Temporary accommodation activated · Activity vouchers + meal comp issued immediately",
+      decision: "Illustrative emergency relief recommendation — family welfare priority + compensation subject to named human approval",
+      intervention: "Draft duty-manager contact · Modelled temporary accommodation and voucher options · Nothing activated or issued",
       owner: "Duty Manager (personal ownership)",
-      escalation: "General Manager notified · Corporate account manager on standby · Legal hold protocol initiated",
-      assurance: "Full incident record · Evidence trail · GM sign-off required · Guest outcome documented",
+      escalation: "Illustrative escalation to General Manager and corporate account manager · No notification sent",
+      assurance: "Illustrative incident record and evidence requirements · GM sign-off would be required · No outcome recorded",
       riskColor: "#ef4444",
     };
   }
   if (delay === "Over 15 min" && (isHigh || (isMed && children))) {
     return {
       classification: "ARRIVAL_FRICTION · Escalated · Family impact · L2",
-      decision: "Escalated family relief — manager contact + full activity package + F&B comp",
-      intervention: "Manager personally greets family · Kids activity pack issued · Full cabin fee waived for Day 1 · Priority cabin assignment",
+      decision: "Illustrative family-relief recommendation — manager contact, activity package and F&B compensation for approval",
+      intervention: "Modelled manager greeting, activity pack, fee waiver and priority cabin assignment · Nothing issued",
       owner: "Shift Manager + Front Desk Lead",
-      escalation: "Operations manager alerted in 15 min if unresolved · Review at EOD",
-      assurance: "Moment record created · Manager sign-off required · Compensation log attached",
+      escalation: "Rules would propose Operations Manager review at 15 min · No alert sent",
+      assurance: "Illustrative moment record and compensation-log requirements · Manager sign-off required",
       riskColor: "#f97316",
     };
   }
@@ -96,31 +96,31 @@ function getDecision(delay: "Under 15 min" | "Over 15 min", children: boolean, w
     return {
       classification: "ARRIVAL_FRICTION · Standard · Delay 15m+ · L1",
       decision: "Proactive delay management — comfort provisions + activity voucher",
-      intervention: "Welcome pack delivered to waiting area · Activity voucher (A$40) issued · ETA communicated every 10 min",
+      intervention: "Draft welcome-pack, A$40 voucher and ten-minute ETA communication options · Nothing delivered or issued",
       owner: "Front Desk (senior staff)",
       escalation: "Duty manager alert if delay exceeds 30 min or sentiment drops",
-      assurance: "Delay logged · Voucher recorded · Resolution confirmation required",
+      assurance: "Illustrative delay and voucher evidence requirements · Resolution would require human confirmation",
       riskColor: "#f97316",
     };
   }
   if (weather && children) {
     return {
       classification: "WEATHER_DISRUPTION · Family · Outdoor activity risk · L1",
-      decision: "Weather contingency — indoor family alternatives activated",
-      intervention: "Indoor family activities opened · Guest Channel message with alternatives sent · Outdoor sessions rescheduled",
+      decision: "Illustrative weather-contingency recommendation — indoor family alternatives for human approval",
+      intervention: "Draft indoor-activity, guest-message and rescheduling options · Nothing opened, sent or rescheduled",
       owner: "Activities Team + Front Desk",
       escalation: "Escalate if weather worsens or guest sentiment drops below threshold",
-      assurance: "Activity change logged · Guest acceptance recorded · Refund option open",
+      assurance: "Illustrative activity-change, guest-acceptance and refund evidence requirements",
       riskColor: "#3b82f6",
     };
   }
   return {
     classification: "ARRIVAL_FRICTION · Standard · Minor delay · L1",
     decision: "Proactive communication — friendly update + drinks voucher",
-    intervention: "Guest Channel message sent with ETA + drinks voucher (A$15) · No staff reassignment required",
+    intervention: "Guest Channel draft shown with ETA + modelled drinks voucher (A$15) · Operator confirmation required; no message dispatched",
     owner: "Front Desk (standard)",
     escalation: "Escalate if delay exceeds 15 min or guest makes direct complaint",
-    assurance: "Delay noted · Voucher issued · No further action unless escalated",
+    assurance: "Illustrative delay and voucher evidence requirements · No outcome recorded",
     riskColor: "#10b981",
   };
 }
@@ -146,7 +146,7 @@ export default function PartnerDecisionSpine() {
             Decision Spine Demo
           </div>
           <p style={{ fontSize: 13, color: "rgba(255,255,255,0.38)", lineHeight: 1.7, maxWidth: 560 }}>
-            Scenario: Holiday Park family arrival disruption. Adjust the inputs — RTBX Core responds with the correct classification, decision, intervention and assurance path.
+            Scenario: Holiday Park family arrival disruption. Adjust synthetic inputs to see a deterministic, rules-based classification and illustrative recommendation.
           </p>
         </div>
 
@@ -156,20 +156,20 @@ export default function PartnerDecisionSpine() {
             The RTBX Core Decision Spine — Travel Configuration
           </div>
           <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.5)", lineHeight: 1.7, maxWidth: 640, marginBottom: 28 }}>
-            Every moment runs through this chain before any action is taken. Travel policies configure the shared Decision Spine — they are not a separate system.
+            This diagram illustrates the intended chain before any real action. Travel policies would configure the shared Decision Spine; this Working Proof does not execute it.
           </p>
           <div style={{ display: "flex", flexDirection: "column", gap: 0, maxWidth: 780 }}>
             {[
-              { n: "01", label: "Signal", desc: "Signals are captured and classified by the Travel Signal Registry. Multiple signals combine into a signal cluster." },
-              { n: "02", label: "Context", desc: "Signal cluster assembled into a moment record by the Context and Moment Layer. Guest profile, property rules and history are applied." },
-              { n: "03", label: "Governance Source", desc: "Applicable Travel governance sources identified — e.g. Guest Service Recovery Policy, Compensation Approval Matrix, Critical Incident Procedure." },
-              { n: "04", label: "Rule Applied", desc: "The relevant governance rule determines what response is permitted — and what is not." },
-              { n: "05", label: "Threshold Evaluated", desc: "Risk level and value at stake are checked against configured thresholds. High-risk moments trigger an elevated approval path." },
-              { n: "06", label: "Permission Granted", desc: "Response path approved by governance — or escalated if the required permission level exceeds the current role's authority." },
-              { n: "07", label: "Human Approval (where required)", desc: "Compensation, welfare, legal and safety decisions always require named human approval. AI may not approve these responses." },
-              { n: "08", label: "Accountable Role Assigned", desc: "A named human role owns the response — never an autonomous system. The role is determined by the moment type and governance rule." },
-              { n: "09", label: "Decision Executed", desc: "The role owner acts on the governed recommendation. The action is delivered through the Central Comms OS to the right channel." },
-              { n: "10", label: "Evidence Required", desc: "Every decision is logged to the Evidence Ledger: timestamp, governance source, role owner, action taken, and outcome recorded." },
+              { n: "01", label: "Synthetic Signal", desc: "Synthetic signals are combined for deterministic, rules-based classification in this demonstration." },
+              { n: "02", label: "Illustrative Context", desc: "The local model assembles synthetic context without reading guest, property or external-system data." },
+              { n: "03", label: "Governance Source", desc: "The model identifies an applicable policy source, such as a recovery policy or approval matrix." },
+              { n: "04", label: "Rule Evaluated", desc: "A deterministic rule models what response could be permitted." },
+              { n: "05", label: "Threshold Modelled", desc: "Synthetic risk and modelled value are compared with configured demonstration thresholds." },
+              { n: "06", label: "Permission Path Proposed", desc: "The model proposes a permission or escalation path; it does not grant operational authority." },
+              { n: "07", label: "Human Approval Required", desc: "A named human retains approval accountability. The demonstration cannot approve a real response." },
+              { n: "08", label: "Accountable Role Proposed", desc: "A named human role is shown as accountable; no autonomous system owns or performs the response." },
+              { n: "09", label: "Draft Action Prepared", desc: "An illustrative recommendation and unsent communication draft are prepared for human review." },
+              { n: "10", label: "Evidence Requirements", desc: "The demonstration shows illustrative evidence requirements; it does not create an evidence record or record an outcome." },
             ].map((item, i, arr) => (
               <div key={item.n} style={{ display: "flex", alignItems: "flex-start", gap: 16 }}>
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: 24, flexShrink: 0 }}>
@@ -194,7 +194,7 @@ export default function PartnerDecisionSpine() {
             Travel Policies Configure the Shared Decision Spine
           </div>
           <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.5)", lineHeight: 1.7, maxWidth: 640, marginBottom: 24 }}>
-            These Travel governance sources are applied to every moment before a decision is permitted. They are Travel configurations of RTBX Core governance — not standalone rules.
+            These are illustrative governance sources that could configure the shared Decision Spine in a future governed deployment.
           </p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2 }}>
             {[
@@ -211,11 +211,17 @@ export default function PartnerDecisionSpine() {
           </div>
         </div>
 
+        <div style={{ padding: "14px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderLeft: "3px solid #c9a84c", marginBottom: 24 }}>
+          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", lineHeight: 1.7 }}>
+            <strong style={{ color: "#c9a84c" }}>Working Proof · Simulation boundary:</strong> controls below change synthetic inputs in local state only. Classification is deterministic and rules-based. Recommendations, interventions, evidence and outcomes are illustrative; communications remain unsent drafts, value is not measured, and no external system is updated. Named humans retain approval and action accountability.
+          </div>
+        </div>
+
         {/* Interactive demo */}
         <div style={{ display: "grid", gridTemplateColumns: "340px 1fr", gap: 2 }}>
           {/* Inputs */}
           <div>
-            <div style={{ fontSize: 9, letterSpacing: "0.18em", color: "rgba(255,255,255,0.28)", textTransform: "uppercase", fontWeight: 700, marginBottom: 14, paddingLeft: 2 }}>Scenario Inputs</div>
+            <div style={{ fontSize: 9, letterSpacing: "0.18em", color: "rgba(255,255,255,0.28)", textTransform: "uppercase", fontWeight: 700, marginBottom: 14, paddingLeft: 2 }}>Synthetic Scenario Inputs</div>
             <Select
               label="Cabin delay"
               options={["Under 15 min", "Over 15 min"]}
@@ -253,9 +259,9 @@ export default function PartnerDecisionSpine() {
           <div style={{ padding: "28px 28px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: `2px solid ${result.riskColor}` }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 24 }}>
               <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: result.riskColor, border: `1px solid ${result.riskColor}40`, padding: "4px 12px" }}>
-                {result.classification.split("·").pop()?.trim()}
+                Rules result · {result.classification.split("·").pop()?.trim()}
               </div>
-              <div style={{ fontSize: 10, color: "rgba(255,255,255,0.3)", letterSpacing: "0.06em" }}>RTBX Core Decision Output</div>
+              <div style={{ fontSize: 10, color: "rgba(255,255,255,0.3)", letterSpacing: "0.06em" }}>Illustrative rules-based output</div>
             </div>
 
             <ResultRow label="Classification"       value={result.classification}  color={result.riskColor} />
@@ -268,7 +274,7 @@ export default function PartnerDecisionSpine() {
             <div style={{ marginTop: 24, padding: "14px 16px", background: `${result.riskColor}08`, border: `1px solid ${result.riskColor}20`, display: "flex", gap: 12, alignItems: "flex-start" }}>
               <div style={{ width: 6, height: 6, borderRadius: "50%", background: result.riskColor, flexShrink: 0, marginTop: 3 }} />
               <div style={{ fontSize: 11, color: "rgba(255,255,255,0.38)", lineHeight: 1.6 }}>
-                This decision was selected from the RTBX Core playbook in &lt;200ms. Every input combination produces a governed, auditable response — no manual triage required.
+                This local demonstration deterministically selects an illustrative playbook response. A named human must review, approve and carry out any real action; no timing, execution or outcome is claimed.
               </div>
             </div>
           </div>

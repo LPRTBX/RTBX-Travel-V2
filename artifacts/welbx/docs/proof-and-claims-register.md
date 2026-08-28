@@ -2,9 +2,9 @@
 
 **Document type:** Internal QA reference — not for external distribution  
 **Owner:** RTBX  
-**Version:** 0.5 (Sprint 5)  
-**Last reviewed:** July 2025  
-**Status:** Working — updated with every Sprint
+**Version:** 0.6 (Step 6)
+**Last reviewed:** August 28, 2026
+**Status:** Current — demonstration claims and proof boundaries
 
 ---
 
@@ -20,12 +20,12 @@ Every significant maturity claim, integration reference and commercial figure ac
 
 | Label | Meaning |
 |---|---|
-| Working Proof | Demonstrated in the Partner Room — interactive, real logic, simulated signals |
+| Working Proof | Demonstrated in the Partner Room — interactive logic with synthetic signals |
 | Prototype | Logic is built; signals are injected manually; communications are not sent |
 | Simulation | Scenario replayed with synthetic data; no live system connected |
-| Connector-ready | Interface specification written; integration not yet connected |
-| Integrated | Integration is connected in a staging or pilot environment |
-| Production | Connected and operating in a live production environment |
+| Connector-ready | Interface contract and implementation evidence exist; external system is not yet connected |
+| Integrated | A named external system has exchanged data in an approved pilot or staging environment, with evidence |
+| Production | A named external system is approved and operating in a customer production environment, with evidence |
 | Planned | Architecture or design exists; implementation not yet started |
 
 ---
@@ -158,10 +158,10 @@ The following maturity labels appear in the Partner Room and are approved for us
 | Working Proof | Scenarios, Playbooks, Operator/Guest Views | Yes |
 | Prototype | PartnerTravelScenarios (proof type) | Yes |
 | Simulation | Scenarios 05, 06; Operator Demo KPI; Proof Calculator | Yes |
-| Planned | Integrations, Expansion OSes, some partner lanes | Yes |
-| Mapped | Integration records (PMS, Housekeeping, CRM, Maintenance, Guest Messaging) | Yes |
-| Architecturally defined | Partner Ecosystem, Rollout Model, Value Framework items | Yes |
-| Pilot-dependent | Value Framework items where outcome requires pilot data | Yes |
+| Connector-ready | Only where interface-contract evidence meets the canonical proof standard | Conditional |
+| Integrated | No current active claims | No current evidence |
+| Production | No current active claims | No current evidence |
+| Planned | Integrations, expansion operating systems and partner lanes | Yes |
 
 ## Prohibited Labels
 
@@ -174,7 +174,16 @@ The following labels must NOT be used without confirmed evidence:
 | Live data | No live system is connected in the Partner Room |
 | Guaranteed | No financial or operational outcome is guaranteed |
 | Approved pricing | No commercial pricing has been approved |
-| Connector-ready | Removed from IntegrationMaturity type in Sprint 5 — use Mapped or Planned instead |
+| Connector-ready without interface-contract evidence | Would overstate integration readiness |
+
+## Step 6 Evidence and Limitations
+
+- The current product state is **Working Proof** supported by **Simulation** evidence.
+- Active integration records contain no `Integrated` or `Production` status. Internal implementation states such as mapped, mocked and tested do not establish external connectivity.
+- Scenario results, KPI cards, welfare outcomes and financial figures are synthetic, illustrative or modelled. They are not customer, guest, pilot or production results.
+- The current Working Proof is rules-based. AI is positioned as Planned assistance for interpretation, confidence, recommendations and drafting, with rules-based fallback and named human accountability.
+- Guest communications, staff tasks, partner activations, compensation, emergency actions and record closure are not dispatched by the demonstration.
+- The former external Replit MVP URL returned HTTP 404 during the Step 6 review and has been removed from active CTAs. The verified internal Working Proof route is `/partner-room/guest-demo`.
 
 ---
 
@@ -186,3 +195,4 @@ The following labels must NOT be used without confirmed evidence:
 | Sprint 4 | Runtime engine, evidence ledger, outcome ledger, value dashboard. Working Proof labels on runtime. |
 | Sprint 5 | Partner ecosystem, pilot model, commercial model, integration responsibility matrix. CommercialStatus and CommercialSourceStatus type system. All commercial components labelled. Marketplace expansion-only enforced. |
 | Sprint 5 QA | Execution Centre "live moment" text corrected to "demonstration". Operator demo KPI strip labelled SYNTHETIC DEMO DATA. This register created. |
+| Step 6 | Canonical proof taxonomy applied to high-risk active copy; external MVP CTA removed; AI, integration, welfare, value and simulated-outcome boundaries clarified; automated guardrails added. |

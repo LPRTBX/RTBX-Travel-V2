@@ -507,7 +507,7 @@ function ScenarioRunner({ scenario }: { scenario: TravelScenario }) {
             )}
             {activeNode === "signal" && (
               <div>
-                <div style={{ fontSize: 8.5, letterSpacing: "0.14em", textTransform: "uppercase", color: C.dim, fontWeight: 700, marginBottom: 8 }}>Incoming Signal <Badge color={C.blue}>{SCENARIO_LABELS.aiAssisted}</Badge></div>
+                <div style={{ fontSize: 8.5, letterSpacing: "0.14em", textTransform: "uppercase", color: C.dim, fontWeight: 700, marginBottom: 8 }}>Synthetic Signal</div>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
                   {scenario.signals.map(s => <div key={s} style={{ fontSize: 11, color: "rgba(255,255,255,0.6)", padding: "6px 12px", background: "rgba(59,130,246,0.06)", border: "1px solid rgba(59,130,246,0.2)" }}>{s}</div>)}
                 </div>
@@ -515,7 +515,7 @@ function ScenarioRunner({ scenario }: { scenario: TravelScenario }) {
             )}
             {activeNode === "moment" && (
               <div>
-                <div style={{ fontSize: 8.5, letterSpacing: "0.14em", textTransform: "uppercase", color: C.dim, fontWeight: 700, marginBottom: 8 }}>Moment · AI Classification <Badge color={C.blue}>{SCENARIO_LABELS.aiAssisted}</Badge></div>
+                <div style={{ fontSize: 8.5, letterSpacing: "0.14em", textTransform: "uppercase", color: C.dim, fontWeight: 700, marginBottom: 8 }}>Moment Classification <Badge color={C.blue}>Rules-based</Badge></div>
                 <div style={{ fontSize: 14, fontWeight: 800, color: "#fff", marginBottom: 8 }}>{scenario.moment}</div>
                 <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.5)", lineHeight: 1.6, margin: 0 }}>{scenario.momentClassification}</p>
               </div>
@@ -530,7 +530,7 @@ function ScenarioRunner({ scenario }: { scenario: TravelScenario }) {
             )}
             {activeNode === "playbook" && (
               <div>
-                <div style={{ fontSize: 8.5, letterSpacing: "0.14em", textTransform: "uppercase", color: C.dim, fontWeight: 700, marginBottom: 8 }}>Recommended Playbook <Badge color={C.blue}>{SCENARIO_LABELS.aiAssisted}</Badge></div>
+                <div style={{ fontSize: 8.5, letterSpacing: "0.14em", textTransform: "uppercase", color: C.dim, fontWeight: 700, marginBottom: 8 }}>Recommended Playbook <Badge color={C.blue}>Rules-based</Badge></div>
                 <div style={{ fontSize: 14, fontWeight: 800, color: "#fff" }}>{scenario.playbook}</div>
                 {scenario.aiBoundary && (
                   <div style={{ marginTop: 12, padding: "12px 16px", background: "rgba(239,68,68,0.06)", border: "1px solid rgba(239,68,68,0.25)" }}>
@@ -574,7 +574,7 @@ function ScenarioRunner({ scenario }: { scenario: TravelScenario }) {
                           color: sent ? C.green : "#080c14", background: sent ? "transparent" : C.gold,
                           border: sent ? `1px solid ${C.green}50` : "none",
                         }}>
-                          {sent ? "✓ Sent" : "Send demo communication"}
+                          {sent ? "✓ Draft previewed" : "Preview demo draft"}
                         </div>
                       </div>
                     );
@@ -607,13 +607,13 @@ function ScenarioRunner({ scenario }: { scenario: TravelScenario }) {
                   background: actionConfirmed ? "transparent" : (!scenario.requiresEscalation || escalated) ? C.gold : "rgba(255,255,255,0.04)",
                   border: actionConfirmed ? `1px solid ${C.green}50` : "none",
                 }}>
-                  {actionConfirmed ? "✓ Action confirmed" : scenario.actionLabel}
+                  {actionConfirmed ? "✓ Simulated action recorded" : `Simulate: ${scenario.actionLabel}`}
                 </div>
               </div>
             )}
             {activeNode === "evidence" && (
               <div>
-                <div style={{ fontSize: 8.5, letterSpacing: "0.14em", textTransform: "uppercase", color: C.dim, fontWeight: 700, marginBottom: 8 }}>Evidence Captured</div>
+                <div style={{ fontSize: 8.5, letterSpacing: "0.14em", textTransform: "uppercase", color: C.dim, fontWeight: 700, marginBottom: 8 }}>Illustrative Evidence</div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                   {scenario.evidence.map(e => (
                     <div key={e} style={{ fontSize: 11.5, color: "rgba(255,255,255,0.55)", display: "flex", gap: 8 }}>
@@ -621,12 +621,12 @@ function ScenarioRunner({ scenario }: { scenario: TravelScenario }) {
                     </div>
                   ))}
                 </div>
-                {!allCommsSent && <p style={{ fontSize: 10.5, color: "rgba(255,255,255,0.3)", fontStyle: "italic", marginTop: 12 }}>Some demo communications have not been sent yet — return to the Communication step to complete the trail.</p>}
+                {!allCommsSent && <p style={{ fontSize: 10.5, color: "rgba(255,255,255,0.3)", fontStyle: "italic", marginTop: 12 }}>Some communication drafts have not been previewed yet — return to the Communication step to complete the simulated trail.</p>}
               </div>
             )}
             {activeNode === "outcome" && (
               <div>
-                <div style={{ fontSize: 8.5, letterSpacing: "0.14em", textTransform: "uppercase", color: C.dim, fontWeight: 700, marginBottom: 8 }}>Outcome</div>
+                <div style={{ fontSize: 8.5, letterSpacing: "0.14em", textTransform: "uppercase", color: C.dim, fontWeight: 700, marginBottom: 8 }}>Illustrative Outcome</div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 14 }}>
                   {scenario.outcome.map(o => (
                     <div key={o} style={{ fontSize: 11.5, color: outcomeCompleted ? "rgba(255,255,255,0.6)" : "rgba(255,255,255,0.35)", display: "flex", gap: 8 }}>
@@ -640,7 +640,7 @@ function ScenarioRunner({ scenario }: { scenario: TravelScenario }) {
                   color: outcomeCompleted ? C.green : "#080c14", background: outcomeCompleted ? "transparent" : C.gold,
                   border: outcomeCompleted ? `1px solid ${C.green}50` : "none",
                 }}>
-                  {outcomeCompleted ? "✓ Outcome completed" : "Complete outcome"}
+                  {outcomeCompleted ? "✓ Simulated outcome recorded" : "Record simulated outcome"}
                 </div>
               </div>
             )}
@@ -692,13 +692,18 @@ export default function PartnerTravelScenarios() {
             RTBX Travel Scenarios
           </h1>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 700, marginBottom: 16 }}>
-            Every scenario shows what triggered it, what decision was required, who was accountable, what action occurred, what evidence was captured and what outcome was measured.
+            Every scenario demonstrates a synthetic trigger, recommended decision, accountable role, proposed action, illustrative evidence and modelled outcome.
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
             <Badge color={C.gold}>{SCENARIO_LABELS.demo}</Badge>
             <Badge color="rgba(255,255,255,0.4)">{SCENARIO_LABELS.synthetic}</Badge>
             <Badge color={C.orange}>{SCENARIO_LABELS.approval}</Badge>
-            <Badge color={C.blue}>{SCENARIO_LABELS.aiAssisted}</Badge>
+            <Badge color={C.blue}>Rules-based</Badge>
+          </div>
+          <div style={{ marginTop: 16, padding: "12px 16px", border: "1px solid rgba(201,168,76,0.25)", borderLeft: "3px solid #c9a84c", background: "rgba(201,168,76,0.04)", maxWidth: 760 }}>
+            <p style={{ margin: 0, fontSize: 11.5, color: "rgba(255,255,255,0.58)", lineHeight: 1.65 }}>
+              <strong style={{ color: C.gold }}>Simulation boundary:</strong> controls on this page only change local demonstration state. No communication, staff task, partner activation, welfare or emergency action, compensation, booking or external-system record is dispatched or completed.
+            </p>
           </div>
         </div>
 

@@ -12,7 +12,7 @@ const DEPLOYMENT_ENVS = [
     color: "#c9a84c",
     focus: "Guest recovery, staff nudges, in-stay support, service moments, loyalty and concierge.",
     signals: ["Room readiness delay", "Service request spike", "Guest sentiment drop", "Loyalty profile trigger", "Staff response gap"],
-    pathway: "Signal → Classify → Route to right team → Action delivered → Outcome logged",
+    pathway: "Synthetic signal → Rules classify → Recommendation shown → Draft prepared → Outcome modelled",
     operatorValue: "Consistent service recovery without manual oversight. Every missed moment is caught.",
     guestValue: "Support arrives before the complaint forms. The stay recovers invisibly.",
     partnerOpportunity: "Loyalty activation, F&B moments, in-room upgrade offers, concierge experiences.",
@@ -48,7 +48,7 @@ const DEPLOYMENT_ENVS = [
     color: "#a78bfa",
     focus: "Crowd flow, incident response, accessibility, welfare, service recovery and operational coordination.",
     signals: ["Crowd density alert", "Accessibility need flagged", "Incident proximity signal", "Service queue spike", "Welfare check trigger"],
-    pathway: "Signal → Classify → Coordinate response → Dispatch → Confirm resolution",
+    pathway: "Signal → Classify → Recommend response → Human confirmation → Record outcome",
     operatorValue: "Incidents caught early. Staff coordinated in real time. Liability reduced.",
     guestValue: "Support is visible when it matters. Issues resolved before they escalate.",
     partnerOpportunity: "Accessibility services, crowd management, F&B surge response, safety partners.",
@@ -155,7 +155,7 @@ const PROOF_LAYERS = [
 ];
 
 const THIS_IS_NOT = ["A guest app", "A reporting dashboard", "A replacement PMS", "Another staff portal"];
-const THIS_IS     = ["A real-time execution layer", "A signal-to-action system", "A governed response engine", "A partner value platform"];
+const THIS_IS     = ["A governed execution model", "A signal-to-action system", "A governed response engine", "A partner value platform"];
 
 
 function GhostBtn({ href, children, ext = false }: { href: string; children: React.ReactNode; ext?: boolean }) {
@@ -228,10 +228,10 @@ export default function PartnerRoomLanding() {
           <span style={{ color: "#c9a84c" }}>Partner Room</span>
         </h1>
         <p style={{ fontSize: 17, color: "rgba(255,255,255,0.55)", lineHeight: 1.7, maxWidth: 680, marginBottom: 14, fontWeight: 400 }}>
-          Real-time guest, operator and service-moment infrastructure — powered by RTBX Core.
+          Governed guest, operator and service-moment infrastructure — powered by RTBX Core.
         </p>
         <p style={{ fontSize: 15, color: "rgba(255,255,255,0.42)", lineHeight: 1.75, maxWidth: 640, marginBottom: 14 }}>
-          RTBX Travel turns live signals across hotels, resorts, holiday parks and experience environments into guided action, escalation, assurance and measurable value.
+          RTBX Travel demonstrates how captured signals across hotels, resorts, holiday parks and experience environments can become guided action, escalation, assurance and measurable value.
         </p>
         <p style={{ fontSize: 13, color: "rgba(255,255,255,0.28)", lineHeight: 1.6, maxWidth: 560, marginBottom: 28, letterSpacing: "0.01em" }}>
           RTBX Travel is powered by RTBX Core — the same signal-to-action infrastructure across every travel and hospitality environment.
@@ -345,7 +345,7 @@ export default function PartnerRoomLanding() {
       {/* ── WORKING PRODUCT PROOF ── */}
       <div style={{ marginBottom: 56 }}>
         <div style={{ fontSize: 12, letterSpacing: "0.14em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
-          Working Product Proof
+          Working Proof
         </div>
         <Link href="/partner-room/operations">
           <div style={{
@@ -365,13 +365,13 @@ export default function PartnerRoomLanding() {
                   <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#c9a84c" }} />
                   <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c" }}>Working Demonstration</span>
                 </div>
-                <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.25)", border: "1px solid rgba(255,255,255,0.08)", padding: "2px 7px" }}>Deployed MVP Preview</div>
+                <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.25)", border: "1px solid rgba(255,255,255,0.08)", padding: "2px 7px" }}>Simulation</div>
               </div>
               <div style={{ fontSize: 14, fontWeight: 700, color: "rgba(255,255,255,0.85)", letterSpacing: "-0.01em", marginBottom: 7 }}>
                 Demonstrated Workflow — Moment Response
               </div>
               <p style={{ fontSize: 13, color: "rgba(255,255,255,0.38)", lineHeight: 1.65, maxWidth: 680, margin: "0 0 8px 0" }}>
-                The working demonstration for the first deployable wedge: Moment Response. Signal captured, classified, assigned, guest message sent, escalated if required, logged for assurance and reported as pilot evidence.
+                The internal Working Proof for Moment Response. A synthetic signal is captured and classified; assignment, drafted guest communication, escalation, assurance logging and indicative reporting are demonstrated without external dispatch.
               </p>
               <div style={{ fontSize: 12, color: "rgba(255,255,255,0.22)", fontStyle: "italic" }}>
                 This is not the full Travel platform. It is the first deployable wedge: Moment Response. All data is synthetic demonstration data.

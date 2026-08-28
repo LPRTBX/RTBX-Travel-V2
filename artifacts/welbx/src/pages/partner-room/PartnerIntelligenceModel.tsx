@@ -12,6 +12,7 @@ import {
   TRAVEL_INTEGRATION_MAP,
   type TravelSignalDomain,
 } from "@/data/travelIntelligence";
+import { CURRENT_PROOF_BOUNDARY } from "@/lib/proofLanguage";
 
 const C = {
   gold: "#c9a84c", muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,255,0.28)",
@@ -39,12 +40,12 @@ const H2 = ({ children }: { children: string }) => (
 const SYSTEMS_FLOW = ["Travel Signals", "Travel Moments", "Governed Playbooks", "Travel Roles", "Central Comms", "Actions", "Outcomes", "Travel Intelligence"];
 
 const PACK_COMPONENTS = [
-  { label: "Travel Signal Registry",  color: C.blue,   desc: "Every guest, staff, operator and system signal relevant to a travel environment, classified and scored.", href: "/partner-room/signals-engine" },
-  { label: "Travel Moment Intelligence",    color: C.gold,   desc: "Recognises which of the known travel moment types a signal cluster belongs to. Travel configuration of the shared Context and Moment Layer.", href: "/partner-room/moments-economy" },
+  { label: "Travel Signal Registry",  color: C.blue,   desc: "Synthetic guest, staff, operator and system inputs relevant to a travel environment, classified and scored by deterministic rules.", href: "/partner-room/signals-engine" },
+  { label: "Travel Moment Intelligence",    color: C.gold,   desc: "Deterministic rules classify which modelled travel moment type a synthetic signal cluster belongs to. Travel configuration of the shared Context and Moment Layer.", href: "/partner-room/moments-economy" },
   { label: "Travel Governance",       color: C.purple, desc: "The pre-approved rules that decide what is allowed to happen in response to a moment.", href: "/partner-room/decision-spine" },
   { label: "Travel Playbook Library", color: C.green,  desc: "The response patterns available to a role owner once governance has cleared a moment.", href: "/partner-room/decision-spine" },
   { label: "Travel Role Routing",     color: C.cyan,   desc: "Ensures the right human role — never an autonomous system — owns the response.", href: "/partner-room/operator-demo" },
-  { label: "Travel Central Comms & AI Assistants", color: C.orange, desc: "AI-assisted drafting and routing of the communication or instruction, with a human owner approving delivery.", href: "/partner-room/comms-demo" },
+  { label: "Travel Central Comms & Planned AI Assistants", color: C.orange, desc: "Planned AI may propose drafts and routing for a named human owner to review. Deterministic rules remain the fallback; this proof sends nothing.", href: "/partner-room/comms-demo" },
 ];
 
 export default function PartnerIntelligenceModel() {
@@ -62,6 +63,19 @@ export default function PartnerIntelligenceModel() {
           </h1>
           <p style={{ fontSize: 15, color: C.muted, lineHeight: 1.75, maxWidth: 720 }}>
             The RTBX Core operating platform configured for guest, staff, operator and partner moments.
+          </p>
+        </div>
+
+        {/* ── CANONICAL PROOF BOUNDARY ── */}
+        <div style={{ padding: "20px 22px", background: "rgba(201,168,76,0.05)", border: "1px solid rgba(201,168,76,0.22)", borderLeft: "3px solid #c9a84c", marginBottom: 40 }}>
+          <div style={{ fontSize: 11, letterSpacing: "0.12em", color: C.gold, textTransform: "uppercase", fontWeight: 800, marginBottom: 8 }}>
+            {CURRENT_PROOF_BOUNDARY.maturity} · {CURRENT_PROOF_BOUNDARY.evidence}
+          </div>
+          <p style={{ fontSize: 13, color: "rgba(255,255,255,0.72)", lineHeight: 1.7, margin: "0 0 8px" }}>
+            {CURRENT_PROOF_BOUNDARY.notice}
+          </p>
+          <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.65, margin: 0 }}>
+            Current inputs are synthetic, outcomes are modelled, and value is indicative and unmeasured. Current classification is deterministic and rules-based. AI is Planned only, with deterministic fallback and named human accountability. No dispatch, booking, compensation, emergency-service contact or external update occurs.
           </p>
         </div>
 
@@ -88,7 +102,7 @@ export default function PartnerIntelligenceModel() {
           <SectionLabel>Six-Layer Position Map</SectionLabel>
           <H2>Every Travel Element Mapped to the RTBX Core Architecture</H2>
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.65, marginBottom: 24, maxWidth: 700 }}>
-            Every capability in the Travel Intelligence Pack has a position in the RTBX Core six-layer architecture. Each item is labelled as Shared Core, Travel Configuration, or Property Configuration.
+            Every modelled capability in the Travel Intelligence Pack has a position in the RTBX Core six-layer architecture. Each item is labelled as Shared Core, Travel Configuration, or Property Configuration.
           </p>
           <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
             {INTELLIGENCE_LAYERS.map(layer => {
@@ -136,7 +150,7 @@ export default function PartnerIntelligenceModel() {
         {/* ── SHARED ARCHITECTURE STATEMENT ── */}
         <div style={{ padding: "18px 22px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderLeft: "3px solid #c9a84c", marginBottom: 40 }}>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, margin: 0, fontWeight: 600 }}>
-            The architecture is shared. Travel Intelligence changes what RTBX understands, recommends, communicates and measures inside the travel environment.
+            The architecture is shared. This simulation models what Travel Intelligence could classify, recommend, communicate and measure inside the travel environment.
           </p>
         </div>
 
@@ -165,7 +179,7 @@ export default function PartnerIntelligenceModel() {
           <SectionLabel>Data Model · 01</SectionLabel>
           <H2>Travel Signal Taxonomy</H2>
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.65, marginBottom: 20, maxWidth: 700 }}>
-            {TRAVEL_SIGNAL_TAXONOMY.length} representative signals across {domains.length} domains. The full configured library runs to hundreds of signal types per deployment — see the Signals Engine for live examples.
+            {TRAVEL_SIGNAL_TAXONOMY.length} representative synthetic inputs across {domains.length} domains. The configured taxonomy could extend to hundreds of signal types in a future deployment — see the Signals Engine for simulated examples.
           </p>
           {domains.map(domain => (
             <div key={domain} style={{ marginBottom: 18 }}>
@@ -189,7 +203,7 @@ export default function PartnerIntelligenceModel() {
           <SectionLabel>Data Model · 02</SectionLabel>
           <H2>Travel Moment Taxonomy</H2>
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.65, marginBottom: 20, maxWidth: 700 }}>
-            {TRAVEL_MOMENT_TAXONOMY.length} moment types. Each carries its own risk level, governance sources, playbooks, owner and AI boundary.
+            {TRAVEL_MOMENT_TAXONOMY.length} modelled moment types. Deterministic rules assign risk, governance, proposed playbooks and a named human owner. Planned AI is optional and always falls back to those rules.
           </p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2 }}>
             {TRAVEL_MOMENT_TAXONOMY.map(m => (
@@ -205,8 +219,8 @@ export default function PartnerIntelligenceModel() {
                   <div style={{ gridColumn: "1 / -1" }}><span style={{ color: "rgba(255,255,255,0.3)" }}>Escalation: </span>{m.escalationThreshold}</div>
                   <div style={{ gridColumn: "1 / -1" }}><span style={{ color: "rgba(255,255,255,0.3)" }}>Governance: </span>{m.governanceSources.join(", ")}</div>
                   <div style={{ gridColumn: "1 / -1" }}><span style={{ color: "rgba(255,255,255,0.3)" }}>Playbooks: </span>{m.likelyPlaybooks.join(", ")}</div>
-                  <div style={{ gridColumn: "1 / -1" }}><span style={{ color: "rgba(255,255,255,0.3)" }}>AI may: </span>{m.aiSupportAllowed.join(", ")}</div>
-                  <div style={{ gridColumn: "1 / -1" }}><span style={{ color: "rgba(255,255,255,0.3)" }}>Outcomes: </span>{m.outcomeMeasures.join(", ")}</div>
+                  <div style={{ gridColumn: "1 / -1" }}><span style={{ color: "rgba(255,255,255,0.3)" }}>Planned AI may propose: </span>{m.aiSupportAllowed.join(", ")}</div>
+                  <div style={{ gridColumn: "1 / -1" }}><span style={{ color: "rgba(255,255,255,0.3)" }}>Modelled outcomes: </span>{m.outcomeMeasures.join(", ")}</div>
                 </div>
               </div>
             ))}
@@ -266,10 +280,10 @@ export default function PartnerIntelligenceModel() {
         {/* ── AI ASSISTANT MODEL / BOUNDARY ── */}
         <div style={{ marginBottom: 56 }}>
           <SectionLabel>Data Model · 05</SectionLabel>
-          <H2>Travel AI Assistant Model</H2>
+          <H2>Planned Travel AI Assistant Model</H2>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2, marginBottom: 20 }}>
             <div style={{ padding: "20px 22px", background: "rgba(16,185,129,0.04)", border: "1px solid rgba(16,185,129,0.18)" }}>
-              <div style={{ fontSize: 11, letterSpacing: "0.1em", color: C.green, textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>AI May</div>
+              <div style={{ fontSize: 11, letterSpacing: "0.1em", color: C.green, textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>Planned AI May Propose</div>
               {TRAVEL_AI_ASSISTANT_MODEL.allowed.map(item => (
                 <div key={item} style={{ display: "flex", gap: 10, marginBottom: 8, fontSize: 13, color: "rgba(255,255,255,0.72)" }}>
                   <span style={{ color: C.green }}>+</span>{item}
@@ -295,7 +309,10 @@ export default function PartnerIntelligenceModel() {
         {/* ── OUTCOME MODEL ── */}
         <div style={{ marginBottom: 56 }}>
           <SectionLabel>Data Model · 06</SectionLabel>
-          <H2>Travel Outcome Model</H2>
+          <H2>Modelled Travel Outcomes</H2>
+          <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.65, marginBottom: 20, maxWidth: 700 }}>
+            Simulation states only; they do not evidence real-world completion, conversion, activation or external action.
+          </p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
             {TRAVEL_OUTCOME_MODEL.map(o => (
               <div key={o.id} title={o.description} style={{ padding: "8px 13px", fontSize: 12, color: "rgba(255,255,255,0.65)", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.08)" }}>
@@ -308,7 +325,7 @@ export default function PartnerIntelligenceModel() {
         {/* ── VALUE MODEL ── */}
         <div style={{ marginBottom: 56 }}>
           <SectionLabel>Data Model · 07</SectionLabel>
-          <H2>Travel Value Model</H2>
+          <H2>Indicative, Unmeasured Travel Value Model</H2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
             {TRAVEL_VALUE_MODEL.map(cat => (
               <div key={cat.id} style={{ padding: "18px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
@@ -324,7 +341,7 @@ export default function PartnerIntelligenceModel() {
         {/* ── INTEGRATION MAP ── */}
         <div style={{ marginBottom: 56 }}>
           <SectionLabel>Data Model · 08</SectionLabel>
-          <H2>Travel Integration Map</H2>
+          <H2>Planned Travel Integration Map</H2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 1 }}>
             {TRAVEL_INTEGRATION_MAP.map(i => (
               <div key={i.id} style={{ padding: "14px 18px", background: "rgba(255,255,255,0.015)", border: "1px solid rgba(255,255,255,0.05)" }}>
@@ -339,7 +356,7 @@ export default function PartnerIntelligenceModel() {
         <div style={{ padding: "20px 22px", background: "rgba(201,168,76,0.04)", border: "1px solid rgba(201,168,76,0.15)", marginBottom: 48 }}>
           <div style={{ fontSize: 11, letterSpacing: "0.12em", color: C.gold, textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>Governed, Not Autonomous</div>
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.65, margin: 0 }}>
-            AI assists with classification, drafting and routing across every Travel Intelligence Pack component. It does not autonomously make safety, compensation, legal or welfare decisions — every response passes through Travel Governance to a named human role owner.
+            Current classification and routing are deterministic and rules-based. Planned AI could propose classifications, drafts or routing, but deterministic fallback and a named human owner remain accountable. This simulation does not dispatch tasks, make bookings or referrals, perform welfare checks, approve compensation, contact emergency services, close tasks or send external updates.
           </p>
         </div>
 

@@ -35,27 +35,34 @@ export default function PartnerTravelAiComms() {
             Prompt &amp; Nudge Engine and Central Comms OS
           </h1>
           <p style={{ fontSize: 15, color: C.muted, lineHeight: 1.75, maxWidth: 720 }}>
-            Governed AI assistants and communications coordinated across guest, staff and operator roles.
+            A deterministic Working Proof of governed draft communications across guest, staff and operator roles.
+          </p>
+        </div>
+
+        <div style={{ padding: "16px 20px", background: "rgba(239,68,68,0.06)", border: "1px solid rgba(239,68,68,0.22)", borderLeft: "3px solid #ef4444", maxWidth: 820, marginBottom: 16 }}>
+          <div style={{ fontSize: 9, letterSpacing: "0.14em", color: C.red, textTransform: "uppercase", fontWeight: 800, marginBottom: 7 }}>Working Proof + Simulation Boundary</div>
+          <p style={{ fontSize: 13, color: "rgba(255,255,255,0.76)", lineHeight: 1.7, margin: 0, fontWeight: 600 }}>
+            Current behaviour is deterministic and rules-based. Every communication below is a draft shown with synthetic data: nothing is delivered, externally routed, booked, activated, completed or logged. AI assistance and external integrations are Planned only. Deterministic rules remain the fallback, and a named human owner must approve and remains accountable for any real-world action.
           </p>
         </div>
 
         <div style={{ padding: "16px 20px", background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.18)", borderLeft: "3px solid #c9a84c", maxWidth: 700, marginBottom: 32 }}>
           <p style={{ fontSize: 13, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, margin: 0, fontWeight: 600 }}>
-            The Prompt & Nudge Engine drafts AI-assisted recommendations for staff and guests. The Central Comms OS routes every communication through the right channel to the right person. Every guest-facing message requires human approval or pre-authorised policy. High-risk communications — welfare, safety, compensation, legal — always require a named human owner.
+            The current Prompt &amp; Nudge Engine uses deterministic rules to show draft recommendations. Planned AI may assist with drafting later, but cannot replace the deterministic fallback or named human approval. This proof does not contact guests, staff, partners or external channels.
           </p>
         </div>
 
         {/* ── FLOW ── */}
         <div style={{ marginBottom: 56 }}>
-          <SectionLabel>Signal to Outcome</SectionLabel>
+          <SectionLabel>Modelled Signal to Illustrative Outcome</SectionLabel>
           <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 6 }}>
             {TRAVEL_AI_COMMS_FLOW.map((step, i, arr) => (
               <div key={step} style={{ display: "flex", alignItems: "center", gap: 6 }}>
                 <div style={{
                   padding: "8px 13px", fontSize: 10, fontWeight: 700,
-                  color: step.includes("AI Assistant") ? "#080c14" : "rgba(255,255,255,0.6)",
-                  background: step.includes("AI Assistant") ? "#c9a84c" : "rgba(255,255,255,0.03)",
-                  border: step.includes("AI Assistant") ? "1px solid #c9a84c" : "1px solid rgba(255,255,255,0.1)",
+                  color: step.includes("Planned AI") ? "#080c14" : "rgba(255,255,255,0.6)",
+                  background: step.includes("Planned AI") ? "#c9a84c" : "rgba(255,255,255,0.03)",
+                  border: step.includes("Planned AI") ? "1px solid #c9a84c" : "1px solid rgba(255,255,255,0.1)",
                 }}>
                   {step}
                 </div>
@@ -68,9 +75,9 @@ export default function PartnerTravelAiComms() {
         {/* ── TRAVEL AI ASSISTANTS ── */}
         <div style={{ marginBottom: 56 }}>
           <SectionLabel>01 · Interfaces</SectionLabel>
-          <H2>Travel AI Assistants</H2>
+          <H2>Planned Travel AI Assistants</H2>
           <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, marginBottom: 20, maxWidth: 760 }}>
-            {TRAVEL_AI_ASSISTANTS.length} role-scoped assistants. Each has a fixed boundary — what it may do, and what it must escalate or must never do.
+            {TRAVEL_AI_ASSISTANTS.length} proposed role-scoped assistants. These capabilities are Planned, not current; deterministic rules show the present drafts, while named humans own approval and accountability.
           </p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2 }}>
             {TRAVEL_AI_ASSISTANTS.map(a => (
@@ -79,7 +86,7 @@ export default function PartnerTravelAiComms() {
                 <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: a.color, marginBottom: 14 }}>{a.role}</div>
 
                 <div style={{ marginBottom: a.mustEscalate || a.mustNot ? 12 : 0 }}>
-                  <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: C.green, marginBottom: 6 }}>Can</div>
+                  <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: C.green, marginBottom: 6 }}>Planned Scope</div>
                   {a.can.map(item => (
                     <div key={item} style={{ fontSize: 11, color: "rgba(255,255,255,0.6)", marginBottom: 5, display: "flex", gap: 8 }}>
                       <span style={{ color: C.green }}>+</span>{item}
@@ -89,7 +96,7 @@ export default function PartnerTravelAiComms() {
 
                 {a.mustEscalate && (
                   <div>
-                    <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: C.red, marginBottom: 6 }}>Must Escalate</div>
+                    <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: C.red, marginBottom: 6 }}>Planned Escalation</div>
                     {a.mustEscalate.map(item => (
                       <div key={item} style={{ fontSize: 11, color: "rgba(255,255,255,0.6)", marginBottom: 5, display: "flex", gap: 8 }}>
                         <span style={{ color: C.red }}>!</span>{item}
@@ -115,8 +122,11 @@ export default function PartnerTravelAiComms() {
 
         {/* ── CENTRAL COMMS CHANNELS ── */}
         <div style={{ marginBottom: 56 }}>
-          <SectionLabel>02 · Reach</SectionLabel>
-          <H2>Central Comms Channels</H2>
+          <SectionLabel>02 · Proposed Reach</SectionLabel>
+          <H2>Illustrative Channel Targets</H2>
+          <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, marginBottom: 20, maxWidth: 760 }}>
+            Display labels only. No channel is connected and this Working Proof does not deliver or route communications externally.
+          </p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
             {TRAVEL_CENTRAL_COMMS_CHANNELS.map(ch => (
               <div key={ch.id} style={{ padding: "8px 13px", fontSize: 11, color: "rgba(255,255,255,0.62)", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.08)" }}>
@@ -131,7 +141,7 @@ export default function PartnerTravelAiComms() {
           <SectionLabel>03 · Registry</SectionLabel>
           <H2>Communication Registry</H2>
           <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, marginBottom: 20, maxWidth: 760 }}>
-            {TRAVEL_COMMUNICATION_REGISTRY.length} structured travel communication examples. Every communication is tied to a moment type, a governed approval rule, an escalation rule and an outcome requirement.
+            {TRAVEL_COMMUNICATION_REGISTRY.length} illustrative travel communication drafts. Each shows a proposed moment, named approval responsibility and modelled acceptance criterion; none represents delivery, response, completion or evidence.
           </p>
           <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
             {TRAVEL_COMMUNICATION_REGISTRY.map(c => {
@@ -155,8 +165,8 @@ export default function PartnerTravelAiComms() {
                         ["Audience", c.audience], ["Role", c.role], ["Channel", c.channel],
                         ["Tone", c.tone], ["Approval rule", c.approvalRule], ["Escalation rule", c.escalationRule],
                         ["Linked playbook", c.linkedPlaybook], ["Linked governance", c.linkedGovernance],
-                        ["Delivery status", c.deliveryStatus], ["Response status", c.responseStatus],
-                        ["Outcome requirement", c.outcomeRequirement],
+                        ["Draft status", c.deliveryStatus], ["Modelled response", c.responseStatus],
+                        ["Illustrative acceptance criterion", c.outcomeRequirement],
                       ].map(([label, val]) => (
                         <div key={label} style={{ fontSize: 10.5, color: "rgba(255,255,255,0.55)", lineHeight: 1.6 }}>
                           <span style={{ color: "rgba(255,255,255,0.3)", fontWeight: 700 }}>{label}: </span>{val}
@@ -176,15 +186,15 @@ export default function PartnerTravelAiComms() {
         {/* ── AI OPERATING MODEL ── */}
         <div style={{ marginBottom: 56 }}>
           <SectionLabel>04 · How It Runs</SectionLabel>
-          <H2>AI Operating Model</H2>
+          <H2>Current Rules + Planned AI Model</H2>
           <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 6, marginBottom: 20 }}>
             {TRAVEL_AI_OPERATING_MODEL_STAGES.map((stage, i, arr) => (
               <div key={stage} style={{ display: "flex", alignItems: "center", gap: 6 }}>
                 <div style={{
                   padding: "9px 14px", fontSize: 10, fontWeight: 700,
-                  color: stage === "Human Approval" ? "#080c14" : "rgba(255,255,255,0.65)",
-                  background: stage === "Human Approval" ? "#c9a84c" : "rgba(255,255,255,0.03)",
-                  border: stage === "Human Approval" ? "1px solid #c9a84c" : "1px solid rgba(255,255,255,0.1)",
+                  color: stage === "Named Human Approval" ? "#080c14" : "rgba(255,255,255,0.65)",
+                  background: stage === "Named Human Approval" ? "#c9a84c" : "rgba(255,255,255,0.03)",
+                  border: stage === "Named Human Approval" ? "1px solid #c9a84c" : "1px solid rgba(255,255,255,0.1)",
                 }}>
                   {stage}
                 </div>
@@ -202,18 +212,18 @@ export default function PartnerTravelAiComms() {
         {/* AI Boundary */}
         <div style={{ marginBottom: 56 }}>
           <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 20 }}>
-            AI Operating Boundary
+            Planned AI Operating Boundary
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2, marginBottom: 20 }}>
             <div style={{ padding: "22px 24px", background: "rgba(16,185,129,0.04)", border: "1px solid rgba(16,185,129,0.2)", borderTop: "2px solid #10b981" }}>
-              <div style={{ fontSize: 9, letterSpacing: "0.14em", color: "#10b981", textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>AI May</div>
+              <div style={{ fontSize: 9, letterSpacing: "0.14em", color: "#10b981", textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>Planned AI Scope</div>
               {[
-                "Classify signals and identify moment types",
-                "Draft guest-facing messages (requires human approval before send)",
-                "Recommend playbooks to role owners",
-                "Summarise moment context for the duty manager",
-                "Suggest escalation paths based on risk level",
-                "Coordinate multi-channel delivery routing",
+                "Assist with classification while deterministic rules remain available",
+                "Draft guest-facing copy for named human review",
+                "Recommend playbooks to accountable role owners",
+                "Summarise synthetic moment context for review",
+                "Suggest escalation paths without initiating them",
+                "Suggest channel targets without delivery or external routing",
               ].map(item => (
                 <div key={item} style={{ display: "flex", gap: 10, marginBottom: 10, fontSize: 12, color: "rgba(255,255,255,0.65)" }}>
                   <span style={{ color: "#10b981", flexShrink: 0 }}>+</span>{item}
@@ -221,14 +231,14 @@ export default function PartnerTravelAiComms() {
               ))}
             </div>
             <div style={{ padding: "22px 24px", background: "rgba(239,68,68,0.04)", border: "1px solid rgba(239,68,68,0.2)", borderTop: "2px solid #ef4444" }}>
-              <div style={{ fontSize: 9, letterSpacing: "0.14em", color: "#ef4444", textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>Requires Human Approval</div>
+              <div style={{ fontSize: 9, letterSpacing: "0.14em", color: "#ef4444", textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>Named Human Accountability</div>
               {[
-                "Send any guest-facing message (pre-authorised policy or human sign-off)",
+                "Approve and initiate any guest-facing communication outside this proof",
                 "Approve compensation or refund at any value",
                 "Make welfare, safety or duty-of-care decisions",
                 "Override configured governance thresholds",
                 "Act without a named accountable role owner",
-                "Send communications on behalf of named staff without authorisation",
+                "Contact external channels, staff or partners",
               ].map(item => (
                 <div key={item} style={{ display: "flex", gap: 10, marginBottom: 10, fontSize: 12, color: "rgba(255,255,255,0.65)" }}>
                   <span style={{ color: "#ef4444", flexShrink: 0 }}>—</span>{item}
@@ -238,7 +248,7 @@ export default function PartnerTravelAiComms() {
           </div>
           <div style={{ padding: "14px 18px", background: "rgba(201,168,76,0.04)", border: "1px solid rgba(201,168,76,0.15)", borderLeft: "3px solid #c9a84c" }}>
             <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.6)", lineHeight: 1.65, margin: 0 }}>
-              AI assists with classification, drafting and routing. It does not autonomously make safety, compensation, legal or welfare decisions. Every response passes through Travel Governance to a named human role owner.
+              AI assistance is Planned only. Current classifications and draft suggestions are deterministic, with a deterministic fallback retained for future assistance. The proof cannot act, deliver, confirm welfare or create evidence; a named human role owner approves and remains accountable outside the simulation.
             </p>
           </div>
         </div>

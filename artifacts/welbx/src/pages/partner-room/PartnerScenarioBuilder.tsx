@@ -23,133 +23,133 @@ interface RoleContent { guest: string; operator: string; command: string; partne
 interface ScenarioData { stages: StageContent[]; roles: RoleContent; riskModifier: (r: string) => string; }
 
 const buildStages = (signal: string, classify: string, decide: string, execute: string, assure: string, value: string): StageContent[] => [
-  { label: "Signal Detected",    core: signal,   action: "Signal flagged and queued",           owner: "RTBX Core (automated)",       log: "Signal event created · timestamp recorded" },
-  { label: "Moment Classified",  core: classify, action: "Moment category and level assigned",   owner: "RTBX Core · Classification engine", log: "Moment record created · category + level logged" },
-  { label: "Decision Selected",  core: decide,   action: "Playbook match found and triggered",   owner: "RTBX Core · Decision engine",  log: "Decision record created · playbook ID logged" },
-  { label: "Intervention Executed", core: execute, action: "Staff task and guest comms issued",  owner: "Assigned staff member",        log: "Intervention record · owner assigned · timer started" },
-  { label: "Outcome Assured",    core: assure,   action: "Completion confirmed and logged",       owner: "Staff + RTBX Core (verification)", log: "Outcome record · evidence attached · assurance complete" },
-  { label: "Value Captured",     core: value,    action: "Value metric calculated and stored",    owner: "RTBX Core · Analytics",        log: "Value record · KPI updated · partner report generated" },
+  { label: "Synthetic Signal", core: signal, action: "Illustrative signal enters the local simulation", owner: "Named operator (accountable)", log: "Illustrative trace entry only · no external record" },
+  { label: "Rules Classification", core: classify, action: "Deterministic rules model a category and level", owner: "Named operator (accountable)", log: "Illustrative classification trace only" },
+  { label: "Recommendation", core: decide, action: "Rules model a playbook recommendation for human review", owner: "Named decision owner (accountable)", log: "Illustrative recommendation trace only" },
+  { label: "Intervention Model", core: execute, action: "Draft task and communication are shown; nothing is dispatched", owner: "Named staff role (accountable)", log: "Illustrative intervention trace only" },
+  { label: "Outcome Model", core: assure, action: "Illustrative evidence and outcome are shown, not completed or measured", owner: "Named staff role (accountable)", log: "Illustrative assurance trace only" },
+  { label: "Value Model", core: value, action: "Indicative value is modelled, not measured or stored", owner: "Named operator (accountable)", log: "Illustrative value trace only · no partner report" },
 ];
 
 const SCENARIO_DATA: Record<ScenarioKey, ScenarioData> = {
   "Arrival friction": {
     stages: buildStages(
-      "Check-in queue exceeded 8 min + 3 guests flagged sentiment drop in Guest View",
-      "ARRIVAL_FRICTION · Hospitality · Guest-facing impact detected",
-      "Queue relief protocol: mobile check-in activation + lounge access offer",
-      "Staff alerted · Mobile check-in link pushed to queue · Lounge opened",
-      "11 of 13 guests used mobile check-in. Average queue reduced to 2 min.",
-      "A$1,240 estimated value protected · 3 reviews protected · 11 NPS points recovered"
+      "Synthetic input: modelled check-in queue above eight minutes and three fictional sentiment flags",
+      "Rules-based classification: ARRIVAL_FRICTION · Hospitality · illustrative guest-impact level",
+      "Recommendation: named Front Desk lead reviews mobile check-in and lounge options",
+      "Draft only: proposed staff prompt and guest communication remain local with no dispatch or external update",
+      "Modelled outcome: mobile check-in uptake and queue timing are illustrative and not measured",
+      "Indicative value hypothesis: A$1,240 · review and NPS effects are unmeasured"
     ),
     roles: {
-      guest: "\"While you wait — skip the queue with mobile check-in. Your room is ready and your key is on your phone.\"",
-      operator: "ACTION: Queue relief activated. Mobile check-in pushed to 13 guests. Lounge access open. Monitor until resolved.",
-      command: "Moment #3812 | ARRIVAL_FRICTION | L1 | STATUS: RESOLVING | Queue: 2 min avg | 11/13 guests mobile | Owner: Front Desk",
-      partner: "Arrival friction triggers: ~34/month | Mobile check-in activation rate: 84% | Value protected: ~A$42k/month | NPS recovery: consistent",
+      guest: "\"Unsent draft: a named Front Desk lead could offer mobile check-in or a lounge option after approval.\"",
+      operator: "Proposed response: named Front Desk lead reviews queue-relief options; no operational change or guest dispatch occurs.",
+      command: "Synthetic trace #3812 | rules-based ARRIVAL_FRICTION classification | modelled timing | named Front Desk lead accountable",
+      partner: "Modelled frequency and uptake assumptions | indicative value hypothesis | review and NPS effects unmeasured",
     },
-    riskModifier: (r) => r === "Level 3: Critical assurance pathway" ? "Emergency protocol + duty manager alert added" : r === "Level 2: Escalated intervention" ? "Manager alert triggered at 12 min" : "Standard arrival relief protocol",
+    riskModifier: (r) => r === "Level 3: Critical assurance pathway" ? "Proposal: named Duty Manager reviews a critical protocol; no alert or external update" : r === "Level 2: Escalated intervention" ? "Proposal: named Manager reviews escalation at twelve modelled minutes" : "Recommendation: named Front Desk lead reviews the standard arrival pathway",
   },
   "Service recovery": {
     stages: buildStages(
-      "Guest sentiment score dropped to 1.9 in Guest View after room assignment",
-      "SERVICE_RECOVERY · Hospitality · Guest dissatisfaction · L1",
-      "Immediate proactive contact + room upgrade offer activated",
-      "Front desk alert issued. Room 614 (upgrade) reserved. Guest Channel message sent.",
-      "Guest accepted upgrade at 14:47. Staff completed at 14:53. Confirmed.",
-      "A$420 value protected · Negative review prevented · Guest NPS: +2.5"
+      "Synthetic input: fictional sentiment score of 1.9 after a modelled room allocation",
+      "Rules-based classification: SERVICE_RECOVERY · Hospitality · illustrative L1",
+      "Recommendation: named Front Desk lead reviews proactive contact and a room-upgrade option",
+      "Draft only: proposed staff prompt, room option and guest communication remain local with no dispatch or external update",
+      "Modelled outcome: guest response and staff follow-through are not observed or measured",
+      "Indicative value hypothesis: A$420 · review and NPS effects are unmeasured"
     ),
     roles: {
-      guest: "\"We noticed your room wasn't quite right. We've arranged an upgrade for you — our team will be with you in 5 minutes.\"",
-      operator: "ACTION: Room 412 → 614 upgrade approved. Assigned: Front Desk (Sarah). Deadline: 15:00. Voucher: F&B A$30 attached.",
-      command: "Moment #4421 | SERVICE_RECOVERY | RESOLVED | Time-to-resolution: 6 min | Owner: Front Desk | Evidence: staff note + guest confirmation",
-      partner: "Service recovery rate: 94% | Avg resolution: 7 min | Value protected/month: A$34,200 | This scenario repeats ~82×/month",
+      guest: "\"Unsent draft: a named team member could discuss a room option after human approval.\"",
+      operator: "Proposed response: Sarah at Front Desk reviews a fictional room option and A$30 voucher; no task, reservation or voucher exists.",
+      command: "Synthetic trace #4421 | rules-based SERVICE_RECOVERY classification | modelled timing | named Front Desk lead accountable | no evidence capture",
+      partner: "Modelled recovery assumptions, timing and frequency | indicative value only and unmeasured",
     },
-    riskModifier: (r) => r === "Level 3: Critical assurance pathway" ? "General Manager notified · External review monitoring activated" : r === "Level 2: Escalated intervention" ? "Duty manager escalated + compensation pre-approved" : "Front desk proactive contact",
+    riskModifier: (r) => r === "Level 3: Critical assurance pathway" ? "Proposal: named General Manager reviews the pathway; no notification or monitoring update" : r === "Level 2: Escalated intervention" ? "Proposal: named Duty Manager reviews escalation and compensation" : "Recommendation: named Front Desk lead reviews proactive contact",
   },
   "Guest welfare": {
     stages: buildStages(
-      "Welfare signal: elderly solo guest, day 3 no F&B activity, no app engagement",
-      "GUEST_WELFARE · Solo traveller · Extended inactivity pattern · L2",
-      "Welfare check protocol: courteous contact initiated, staff briefed",
-      "Dedicated staff member assigned. Discreet welfare check actioned at 10:15.",
-      "Guest confirmed safe and well. Assistance with mobility offered and accepted.",
-      "Welfare outcome recorded · No incident · Guest satisfaction maintained"
+      "Synthetic input: fictional solo-guest inactivity pattern with no real guest data",
+      "Rules-based classification: GUEST_WELFARE · illustrative extended-inactivity pattern · L2",
+      "Recommendation: named Duty Manager decides whether a discreet welfare pathway is appropriate",
+      "Proposal only: named Welfare Officer could perform a check after approval; no welfare action or dispatch occurs",
+      "Modelled outcome: guest safety, assistance and satisfaction are not observed or measured",
+      "Indicative duty-of-care illustration only · no incident, evidence or outcome record"
     ),
     roles: {
-      guest: "\"Good morning — we just wanted to check you're comfortable and have everything you need. Is there anything we can arrange for you?\"",
-      operator: "WELFARE CHECK: Room 208 · Solo guest · Day 3 · Assign senior staff for discreet check. Record outcome. No alarm raised unless needed.",
-      command: "Moment #5503 | GUEST_WELFARE | L2 | STATUS: RESOLVED | Check completed: 10:22 | Staff: Maria T. | Outcome: Guest safe, assistance offered",
-      partner: "Welfare protocol activations: ~8/month | Zero incidents since protocol deployed | Duty of care compliance: 100% | Family feedback: 4.9/5",
+      guest: "\"Unsent draft: a named staff member could ask whether support is wanted after Duty Manager approval.\"",
+      operator: "Proposed welfare review: fictional Room 208 context for named Duty Manager and Welfare Officer decision; no check or record occurs.",
+      command: "Synthetic trace #5503 | rules-based GUEST_WELFARE classification | Maria T. shown as accountable human | outcome unmeasured",
+      partner: "Modelled welfare-pathway frequency | incident, compliance and feedback indicators are illustrative and unmeasured",
     },
-    riskModifier: (r) => r === "Level 3: Critical assurance pathway" ? "Emergency services protocol ready · Duty manager on standby" : r === "Level 2: Escalated intervention" ? "Manager informed · Second welfare check scheduled" : "Discreet staff welfare check",
+    riskModifier: (r) => r === "Level 3: Critical assurance pathway" ? "Proposal: named Duty Manager reviews emergency-services criteria; no contact occurs" : r === "Level 2: Escalated intervention" ? "Proposal: named Manager decides whether a second check is appropriate" : "Recommendation: named Welfare Officer reviews a discreet pathway",
   },
   "Staff load": {
     stages: buildStages(
-      "Staff response latency exceeded 12 min across 4 concurrent service requests",
-      "STAFF_LOAD · Operational pressure · Service degradation risk · L2",
-      "Load redistribution: cross-trained staff reassigned, non-urgent tasks deferred",
-      "2 staff redeployed from back-of-house. Triage applied to active requests.",
-      "Average response time recovered to 4 min. No guest escalations.",
-      "Staff hours optimised · 4 escalations prevented · Guest SLA maintained"
+      "Synthetic input: modelled response latency above twelve minutes across four fictional requests",
+      "Rules-based classification: STAFF_LOAD · illustrative operational-pressure risk · L2",
+      "Recommendation: named Operations Manager reviews a staffing and deferral proposal",
+      "Proposal only: two fictional staff moves and request triage are shown; no roster, task or external system changes",
+      "Modelled outcome: response timing and escalation effects are illustrative and unmeasured",
+      "Indicative staffing, SLA and escalation hypothesis only · no operational result"
     ),
     roles: {
-      guest: "\"Your request is with our team — we'll be with you shortly. Thank you for your patience.\"",
-      operator: "LOAD ALERT: Response times at 12 min. Redeploy: Tom (BOH) + Anika (events) to front service. Defer: room turndown until 16:00.",
-      command: "Moment #6201 | STAFF_LOAD | L2 | STATUS: STABILISED | Response avg: 4 min | Staff redeployed: 2 | Escalations prevented: 4",
-      partner: "Staff load events: ~22/month | Avg resolution: 14 min without RTBX → 4 min with | Escalations prevented: 88 projected/month",
+      guest: "\"Unsent draft: a named team member could provide an update after reviewing the request.\"",
+      operator: "Proposed staffing review: named Operations Manager considers fictional roles for Tom and Anika; no roster or task change occurs.",
+      command: "Synthetic trace #6201 | rules-based STAFF_LOAD classification | modelled timing | named Operations Manager accountable",
+      partner: "Modelled staff-load frequency and timing assumptions | indicative escalation hypothesis, unmeasured",
     },
-    riskModifier: (r) => r === "Level 3: Critical assurance pathway" ? "Duty manager override + emergency staffing request" : r === "Level 2: Escalated intervention" ? "Operations manager alerted + resource request raised" : "Automated load rebalancing",
+    riskModifier: (r) => r === "Level 3: Critical assurance pathway" ? "Proposal: named Duty Manager reviews an emergency staffing request" : r === "Level 2: Escalated intervention" ? "Proposal: named Operations Manager reviews resources; no alert or request" : "Recommendation: named Operations Manager reviews load-balancing options",
   },
   "Weather disruption": {
     stages: buildStages(
-      "Severe weather alert: 78 outdoor activities scheduled for next 4 hours",
-      "WEATHER_DISRUPTION · Multi-guest impact · Activity disruption · L2",
-      "Weather contingency protocol: alternative programming activated",
-      "28 guests contacted via Guest Channel. Indoor alternatives offered. Refunds queued.",
-      "24 guests accepted alternatives. 4 refunds processed. Zero complaints.",
-      "A$3,400 revenue protected · 24 bookings retained · 4 refunds issued (vs 28 potential)"
+      "Synthetic input: fictional weather alert affecting 78 modelled outdoor activities",
+      "Rules-based classification: WEATHER_DISRUPTION · illustrative multi-guest impact · L2",
+      "Recommendation: named Operations Manager reviews alternative-programming options",
+      "Draft only: guest and staff options await named-human approval; no contact, refund, booking or external update",
+      "Modelled outcome: alternative uptake, refund choices and complaints are illustrative and unmeasured",
+      "Indicative value hypothesis: A$3,400 · booking and refund effects are unmeasured"
     ),
     roles: {
-      guest: "\"Due to weather conditions, your outdoor activity has been moved to our indoor experience centre. Alternatively, we can reschedule or refund.\"",
-      operator: "WEATHER: 78 outdoor bookings affected 14:00–18:00. Push alternatives now. Activate indoor venue (capacity: 40). Refund portal open.",
-      command: "Moment #7840 | WEATHER_DISRUPTION | L2 | Guests affected: 78 | Alternatives accepted: 24 | Refunds: 4 | Revenue protected: A$3,400",
-      partner: "Weather disruption events: ~6/month | Revenue protection rate: 68% | Without RTBX: ~A$18k lost/month | With RTBX: ~A$5.8k lost/month",
+      guest: "\"Unsent draft: weather alternatives, rescheduling or refunds could be discussed after approval.\"",
+      operator: "Proposed weather review: named Operations Manager considers fictional bookings, venue capacity and refund options; no change occurs.",
+      command: "Synthetic trace #7840 | rules-based WEATHER_DISRUPTION classification | fictional guest count | outcomes and value unmeasured",
+      partner: "Modelled disruption frequency and loss assumptions | indicative comparison only, not a measured revenue result",
     },
-    riskModifier: (r) => r === "Level 3: Critical assurance pathway" ? "Safety protocol + emergency accommodation coordination" : r === "Level 2: Escalated intervention" ? "Operations manager + all department heads alerted" : "Automated rebooking and alternative offers",
+    riskModifier: (r) => r === "Level 3: Critical assurance pathway" ? "Proposal: named Duty Manager reviews safety and accommodation criteria" : r === "Level 2: Escalated intervention" ? "Proposal: named Operations Manager and department heads review options; no alerts" : "Recommendation: named Operations Manager reviews rebooking and alternative options",
   },
   "Revenue activation": {
     stages: buildStages(
-      "High-intent signal: guest viewed spa 3× + added restaurant to wish list",
-      "REVENUE_ACTIVATION · Commercial moment · High-value upsell · L1",
-      "Personalised offer: spa + dining package at 15% to preferred guest segment",
-      "Offer pushed via Guest Channel. Booking link created. Expiry: 2 hours.",
-      "Guest booked spa (12:30) + dinner (19:00). Confirmation sent.",
-      "A$340 incremental revenue created · Zero marginal cost · Conversion: 1 interaction"
+      "Synthetic input: fictional spa views and restaurant preference",
+      "Rules-based classification: REVENUE_OPPORTUNITY · illustrative commercial moment · L1",
+      "Recommendation: named Commercial Manager reviews a spa-and-dining offer proposal",
+      "Unsent draft: proposed offer and booking-link concept remain local with no dispatch, booking or external update",
+      "Modelled outcome: spa, dining and guest-response assumptions are illustrative and unmeasured",
+      "Indicative revenue hypothesis: A$340 · conversion and cost are unmeasured"
     ),
     roles: {
-      guest: "\"Based on your interests — a spa afternoon followed by dinner at The Terrace, 15% off, available today only. Book in one tap.\"",
-      operator: "REVENUE MOMENT: Guest in room 318 — high intent signal. Offer: Spa 12:30 + Dinner 19:00 (package, 15% off). Expires 16:00. Monitor.",
-      command: "Moment #2209 | REVENUE_ACTIVATION | CONVERTED | Revenue: A$340 | Conversion time: 18 min | Channel: Guest Channel | Zero staff interaction",
-      partner: "Revenue activation triggers: ~180/month | Conversion rate: 34% | Avg revenue/conversion: A$280 | Monthly increment: ~A$17k/property",
+      guest: "\"Unsent draft: a spa-and-dining option could be considered after named-human approval.\"",
+      operator: "Proposed commercial review: named Commercial Manager assesses a fictional 15% package; no offer or booking exists.",
+      command: "Synthetic trace #2209 | rules-based REVENUE_OPPORTUNITY classification | indicative A$340 hypothesis | response unmeasured",
+      partner: "Modelled opportunity frequency, conversion and average-value assumptions | indicative monthly hypothesis only",
     },
-    riskModifier: (r) => r === "Level 3: Critical assurance pathway" ? "N/A for revenue — escalation path not applicable" : r === "Level 2: Escalated intervention" ? "VIP offer queue + concierge follow-up" : "Automated personalised offer push",
+    riskModifier: (r) => r === "Level 3: Critical assurance pathway" ? "No commercial action proposed at this level; named Manager review required" : r === "Level 2: Escalated intervention" ? "Proposal: named Concierge reviews a VIP option; no queue or follow-up" : "Recommendation: named Commercial Manager reviews a personalised draft",
   },
   "VIP / high-value guest": {
     stages: buildStages(
-      "VIP profile match: platinum loyalty tier + corporate account + suite booked",
-      "VIP_GUEST · Priority class · Premium service mode activated · L1",
-      "VIP welcome protocol: dedicated concierge, pre-arrival preferences loaded",
-      "Concierge briefed. Room personalised. Guest Channel welcome with named greeting sent.",
-      "Guest checked in at 15:12. Preferences fulfilled. Concierge confirmed.",
-      "A$1,800 LTV protected · Loyalty renewal probability: +42% · Corporate account: retained"
+      "Synthetic input: fictional platinum tier, corporate account and suite preference",
+      "Rules-based classification: VIP_GUEST · illustrative priority class · L1",
+      "Recommendation: named Front Office Manager reviews concierge and preference options",
+      "Draft only: concierge brief, room-preference proposal and welcome message remain local with no dispatch or external update",
+      "Modelled outcome: check-in, preference fulfilment and concierge response are not observed or measured",
+      "Indicative LTV hypothesis: A$1,800 · loyalty, retention and renewal are unmeasured"
     ),
     roles: {
-      guest: "\"Welcome back, Mr. Harrison. Your suite is ready with your preferences. James, your dedicated concierge, will be with you at arrival.\"",
-      operator: "VIP ARRIVAL: Mr. Harrison · Suite 901 · Platinum · Corporate: Meridian Group. Concierge: James. Preferences: quiet room, firm pillow, still water. By 15:00.",
-      command: "Moment #1104 | VIP_GUEST | ACTIVE | Suite 901 | Concierge: James M. | Preferences: loaded | Corporate: Meridian | Status: on-track",
-      partner: "VIP activations: ~22/month | Loyalty renewal uplift: +42% | Corporate account retention: 98% | LTV per VIP activation: ~A$1,800",
+      guest: "\"Unsent draft: James could discuss suite preferences after named Front Office Manager approval.\"",
+      operator: "Proposed VIP review: named Front Office Manager and James assess fictional suite preferences; no room or concierge task changes.",
+      command: "Synthetic trace #1104 | rules-based VIP_GUEST classification | fictional suite context | named Front Office Manager accountable",
+      partner: "Modelled VIP frequency, loyalty, retention and LTV assumptions | indicative and unmeasured",
     },
-    riskModifier: (r) => r === "Level 3: Critical assurance pathway" ? "General Manager involvement + corporate account manager notified" : r === "Level 2: Escalated intervention" ? "Department head briefed + F&B pre-authorised" : "Standard VIP welcome protocol",
+    riskModifier: (r) => r === "Level 3: Critical assurance pathway" ? "Proposal: named General Manager and account manager review the pathway; no notification" : r === "Level 2: Escalated intervention" ? "Proposal: named Department Head reviews F&B options; no brief or authorisation" : "Recommendation: named Front Office Manager reviews a VIP welcome draft",
   },
 };
 
@@ -329,7 +329,7 @@ export default function PartnerScenarioBuilder() {
           <div style={{ fontSize: 9, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: "#a78bfa" }}>Prototype</div>
           <div style={{ width: 1, height: 14, background: "rgba(255,255,255,0.1)" }} />
           <div style={{ fontSize: 11.5, color: "rgba(255,255,255,0.55)", lineHeight: 1.6 }}>
-            <strong style={{ color: "rgba(255,255,255,0.75)" }}>Configuration not persisted.</strong> This builder demonstrates how RTBX handles a chosen scenario type through the signal chain. It is not connected to a live configuration or execution system. Full configuration persistence is a Sprint 4 capability.
+            <strong style={{ color: "rgba(255,255,255,0.75)" }}>Working Proof · Simulation boundary:</strong> this builder uses synthetic inputs and deterministic, rules-based classification. Actions, evidence and outcomes are illustrative and value is modelled. Communications remain drafts and are never sent or delivered; no task, partner activation or external-system update occurs. Named humans retain accountability. The controls on this page only change local demonstration state.
           </div>
         </div>
 
@@ -342,7 +342,7 @@ export default function PartnerScenarioBuilder() {
             Build a Scenario
           </div>
           <p style={{ fontSize: 13, color: "rgba(255,255,255,0.38)", lineHeight: 1.7, maxWidth: 600 }}>
-            Select an environment, scenario type, risk level and role view — then step through how RTBX Core handles it.
+            Select an environment, scenario type, risk level and role view — then step through a model of how RTBX Core could handle it.
             The Canonical Contract Preview below shows how the selected scenario type maps to the governed scenario data model.
           </p>
         </div>
@@ -390,7 +390,7 @@ export default function PartnerScenarioBuilder() {
         {/* Signal Chain — clickable steps */}
         <div style={{ marginBottom: 32 }}>
           <div style={{ fontSize: 8, letterSpacing: "0.18em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>
-            RTBX Core · Signal Chain — click any stage
+            Illustrative rules-based signal chain — click any stage
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 2 }}>
             {stages.map((st, i) => (
@@ -425,10 +425,10 @@ export default function PartnerScenarioBuilder() {
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
               {[
-                { label: "What RTBX Core sees", value: step.core },
-                { label: "Action triggered", value: step.action },
-                { label: "Owner", value: step.owner },
-                { label: "What gets logged", value: step.log },
+                { label: "Synthetic input / model", value: step.core },
+                { label: "Illustrative response", value: step.action },
+                { label: "Accountable human role", value: step.owner },
+                { label: "Illustrative trace", value: step.log },
               ].map(row => (
                 <div key={row.label}>
                   <div style={{ fontSize: 7.5, letterSpacing: "0.14em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 4 }}>{row.label}</div>
@@ -477,7 +477,7 @@ export default function PartnerScenarioBuilder() {
                 {role}
               </div>
               <p style={{ fontSize: 13, color: "rgba(255,255,255,0.65)", lineHeight: 1.75, fontStyle: roleKey === "guest" ? "italic" : "normal" }}>
-                {roleContent}
+                Illustrative view only — {roleContent}
               </p>
               <div style={{ marginTop: 24, padding: "12px 14px", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
                 <div style={{ fontSize: 8, letterSpacing: "0.12em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 4 }}>Context</div>

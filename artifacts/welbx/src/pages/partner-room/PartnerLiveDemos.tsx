@@ -14,7 +14,7 @@ const DEMOS = [
     num: "01",
     title: "Guest Experience Demo",
     sub: "What the guest sees through QR, TV, tablet or mobile access.",
-    desc: "A calm, zero-download interface that turns guest signals into guided support. Five live scenarios from welcome to service recovery.",
+    desc: "A calm, zero-download interface that turns synthetic guest signals into guided support. Five interactive scenarios from welcome to service recovery.",
     cta: "Open Guest Demo",
     path: "/partner-room/guest-demo",
     color: P.amber,
@@ -24,7 +24,7 @@ const DEMOS = [
     num: "02",
     title: "Operator Response Demo",
     sub: "What the front desk, duty manager or operations team sees when a moment is detected.",
-    desc: "Live moment queue, detail panel, signal breakdown, recommended action, and outcome capture — all in one operator view.",
+    desc: "Simulated moment queue, detail panel, signal breakdown, recommended action, and outcome capture — all in one operator view.",
     cta: "Open Operator Demo",
     path: "/partner-room/operator-demo",
     color: P.blue,
@@ -44,7 +44,7 @@ const DEMOS = [
     num: "04",
     title: "Moment-to-Value Demo",
     sub: "Follow a signal from detection through decision, response, outcome and value.",
-    desc: "Ten real hotel moments. Each one showing what RTBX Core classifies, routes and logs, with Guest Channel used for guest-facing communication.",
+    desc: "Ten illustrative hotel moments. Each shows what RTBX Core would classify, route and log, with Guest Channel representing guest-facing communication.",
     cta: "Open Moments Economy",
     path: "/partner-room/moments-economy",
     color: P.amber,
@@ -96,10 +96,10 @@ export default function PartnerLiveDemos() {
       {/* Header */}
       <div style={{ maxWidth: 1400, margin: "0 auto", padding: "72px 60px 60px" }}>
         <div style={{ fontSize: 8, letterSpacing: "0.22em", color: P.amber, textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>
-          PARTNER ROOM · LIVE UX DEMOS
+          PARTNER ROOM · INTERACTIVE UX DEMOS
         </div>
         <h1 style={{ fontSize: 40, fontWeight: 800, color: P.white, letterSpacing: "-0.02em", marginBottom: 16, lineHeight: 1.15 }}>
-          Live UX Demos
+          Interactive UX Demos
         </h1>
         <p style={{ fontSize: 15, color: P.muted, maxWidth: 560, lineHeight: 1.75, margin: 0 }}>
           See how RTBX Travel works across guest, operator and signal-to-action views, with Guest Experience appearing only as the guest-facing experience layer.

@@ -24,7 +24,7 @@ const MODES = [
     duration: "5 Minutes",
     slides: "6 slides",
     format: "Senior stakeholder overview",
-    desc: "A concise, high-impact overview of how RTBX Travel works inside a real operator environment. Designed for senior leaders with limited time and high expectations.",
+    desc: "A concise walkthrough of how RTBX Travel is designed to work in an operator environment. Designed for senior leaders with limited time and high expectations.",
     steps: ["The Execution Gap", "RTBX Core Position", "Signals to Moments", "One Guest · One Moment", "Executive Command", "Measurable Value"],
     accent: C.amber,
     badge: "STRATEGY",
@@ -37,19 +37,19 @@ const MODES = [
     slides: "13 sections",
     format: "Inside the operating layer",
     desc: "A complete walkthrough of every layer — from signal sensing to value attribution. For operations directors and technology leads at multi-property hotel operators.",
-    steps: ["Problem Statement", "GHSOL Framework", "Signal Registry", "Moment Registry", "Strategic Visibility", "Decision Registry", "Execution Index", "Communications", "Guest Layer", "Outcome Layer", "Value Layer", "Executive Command", "Future Vision"],
+    steps: ["Problem Statement", "GHSOL Framework", "Signal Registry", "Moment Registry", "Strategic Visibility", "Decision Registry", "Execution Index", "Communications", "Guest Layer", "Outcome Layer", "Value Layer", "Executive Command", "Planned Future Vision"],
     accent: C.green,
     badge: "OPERATIONS",
   },
   {
     path: "/story/live-guest-story",
     icon: Play,
-    label: "Live Guest Story",
+    label: "Interactive Guest Story",
     duration: "Immersive",
     slides: "8 steps",
     format: "The guest experience layer in action",
-    desc: "Experience a single guest moment from three perspectives — Guest, Operating, and Infrastructure. Follow a guest signal to outcome in real time through the RTBX Travel platform.",
-    steps: ["Signal Detected", "Moment Created", "Decision Made", "Communication Routed", "Action Executed", "Outcome Achieved", "Learning Captured", "Value Created"],
+    desc: "Experience a simulated guest moment from three perspectives — Guest, Operating, and Infrastructure. Step through the illustrative signal-to-outcome flow.",
+    steps: ["Synthetic Signal", "Moment Modelled", "Decision Proposed", "Draft Communication", "Action Modelled", "Outcome Modelled", "Learning Proposed", "Value Modelled"],
     accent: C.violet,
     badge: "GUEST LAYER",
   },
@@ -59,9 +59,9 @@ const MODES = [
     label: "Staff Action View",
     duration: "Guided",
     slides: "Operator workflow",
-    format: "RTBX Core guided response",
-    desc: "The staff-facing side of RTBX Core — how guided responses, intervention instructions and operator workflows are delivered in the moment.",
-    steps: ["Signal Classified", "Playbook Selected", "Staff Briefed", "Action Confirmed", "Escalation Handled", "Resolution Logged"],
+    format: "RTBX Core simulated guided response",
+    desc: "A simulation of the staff-facing side of RTBX Core — how rules-based classifications, proposed interventions and draft workflows can be shown for human review.",
+    steps: ["Signal Classified", "Playbook Proposed", "Draft Brief Shown", "Action Modelled", "Escalation Proposed", "Resolution Modelled"],
     accent: C.cyan,
     badge: "OPERATOR",
   },
@@ -71,9 +71,9 @@ const MODES = [
     label: "Assurance & Value View",
     duration: "Evidence layer",
     slides: "Outcome trail",
-    format: "Proof of action · Risk reduction · Commercial value",
-    desc: "The assurance trail — how every action is logged, every outcome is measured, and how risk reduction and commercial value are captured and attributed.",
-    steps: ["Action Logged", "Outcome Measured", "Risk Trail Created", "Proof of Action", "Commercial Value Attributed", "Pilot ROI Confirmed"],
+    format: "Proposed proof of action · Modelled risk · Indicative value",
+    desc: "The proposed assurance trail — how actions and outcomes can be logged, and how pilot-dependent risk reduction and commercial value can be evaluated.",
+    steps: ["Action Logged", "Outcome Recorded", "Risk Trail Created", "Proof of Action", "Indicative Value Modelled", "Pilot ROI Evaluated"],
     accent: "#f97316",
     badge: "VALUE",
   },
@@ -99,8 +99,12 @@ export default function StoryHub() {
         </h1>
 
         <p style={{ fontSize: 13, color: C.muted, maxWidth: 560, lineHeight: 1.75, marginBottom: 20 }}>
-          Explore how RTBX Travel works inside real-world operator environments — from guest signal to staff action, escalation, assurance and value capture.
+          Explore how RTBX Travel is designed to work in operator environments — from synthetic guest signal to proposed staff action, modelled escalation, assurance and indicative value.
         </p>
+
+        <div style={{ maxWidth: 760, padding: "12px 16px", marginBottom: 20, border: `1px solid ${C.amber}35`, borderLeft: `3px solid ${C.amber}`, fontSize: 10.5, color: C.muted, lineHeight: 1.6 }}>
+          <strong style={{ color: C.amber }}>Working Proof · Simulation boundary:</strong> Synthetic inputs use rules-based classification and draft communications. No task, message, welfare action, dispatch or external-system update occurs. Humans remain accountable; integrations, pilots and future capabilities are Planned.
+        </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: C.dimmed, textTransform: "uppercase" }}>Designed for</span>

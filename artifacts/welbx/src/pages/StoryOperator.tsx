@@ -2,13 +2,24 @@ import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  PresentationSlide, SlideHeader, SlideFooter,
+  PresentationSlide, SlideHeader as BaseSlideHeader, SlideFooter,
   FrameworkFlow, ScreenshotCard, ImpactCard, ExecutiveMetricCard,
   SlideNav, DataRow, Pill, C, PRINT_STYLES,
 } from "@/components/presentation/PresentationComponents";
 
 const TOTAL = 13;
-const LABEL = "OPERATOR STORY LAB · OPERATOR DEEP DIVE";
+const LABEL = "OPERATOR STORY LAB · SIMULATION";
+
+function SlideHeader(props: React.ComponentProps<typeof BaseSlideHeader>) {
+  return (
+    <>
+      <BaseSlideHeader {...props} />
+      <div style={{ marginTop: -8, marginBottom: 10, fontSize: 7.5, fontWeight: 700, letterSpacing: "0.1em", color: C.amber, textTransform: "uppercase" }}>
+        Synthetic inputs · rules-based demonstration · illustrative statuses and metrics · no dispatch or external updates · named people remain accountable
+      </div>
+    </>
+  );
+}
 
 /* ─── S1: The Problem ────────────────────────────────────────────── */
 function S1() {
@@ -28,7 +39,7 @@ function S1() {
           </p>
           <div style={{ padding: "16px 20px", background: `${C.amber}08`, border: `1px solid ${C.amber}22`, maxWidth: 500 }}>
             <p style={{ fontSize: 12, color: C.white, lineHeight: 1.65, fontWeight: 500 }}>
-              RTBX Travel is <span style={{ color: C.amber, fontWeight: 700 }}>Behavioural Infrastructure</span> — the operating layer that sits between every signal your environment generates and every action your team must take.
+             RTBX Travel is presented here as a <span style={{ color: C.amber, fontWeight: 700 }}>Working Proof</span> — a proposed operating layer demonstrated with synthetic data, not a connected production system.
             </p>
           </div>
         </div>
@@ -55,11 +66,11 @@ function S1() {
 function S2() {
   const steps = [
     { label: "Signal",   color: C.blue,   def: "A measurable behavioural or environmental indicator that something is occurring or about to occur.", module: "Signal Registry · Intelligence" },
-    { label: "Moment",   color: C.amber,  def: "The point at which a signal — or cluster of signals — demands a human or institutional response.", module: "Moment Registry · Live Moments" },
+    { label: "Moment",   color: C.amber,  def: "The point at which a signal — or cluster of signals — may require a human or institutional response.", module: "Moment Registry · Simulated Moments" },
     { label: "Decision", color: C.violet, def: "A governed, context-aware choice about what action is appropriate and who should take it.", module: "Decision Registry · Playbook Engine" },
-    { label: "Action",   color: C.cyan,   def: "The execution of a response: deployed to the right person, at the right time, with measurable parameters.", module: "Command Centre · Communications" },
-    { label: "Outcome",  color: C.green,  def: "The result of the action, measured against a defined threshold of intent.", module: "Outcome Registry · Value Proof" },
-    { label: "Learning", color: "hsl(215 16% 60%)", def: "The institutional intelligence gained from each cycle — improving the next signal interpretation.", module: "Learning Layer · Causal Trace" },
+    { label: "Action",   color: C.cyan,   def: "A recommended response for an accountable person to review and, in a future deployment, execute.", module: "Command Centre · Draft Communications" },
+    { label: "Outcome",  color: C.green,  def: "A modelled result shown against an illustrative threshold; partner measurement is still required.", module: "Outcome Registry · Indicative Value" },
+    { label: "Learning", color: "hsl(215 16% 60%)", def: "A proposed rule or playbook update that remains subject to accountable human review.", module: "Learning Layer · Illustrative Trace" },
   ];
   return (
     <PresentationSlide className="print-slide">
@@ -84,8 +95,8 @@ function S2() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }}>
           {[
             { label: "Universal",  desc: "Works across all departments, properties, and guest types." },
-            { label: "Continuous", desc: "The chain runs indefinitely — each cycle improves the next." },
-            { label: "Governed",   desc: "Every step is auditable, traceable, and measurable." },
+             { label: "Reviewable", desc: "The Working Proof exposes each rules-based step for partner and operator review." },
+             { label: "Governed",   desc: "Named people remain accountable for approval, action and evidence." },
           ].map((item, i) => (
             <div key={i} style={{ padding: "12px 14px", background: C.card, border: `1px solid ${C.border}` }}>
               <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.16em", color: C.amber, textTransform: "uppercase", marginBottom: 5 }}>{item.label}</div>
@@ -109,7 +120,7 @@ function S3() {
           <div>
             <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.2em", color: C.amber, textTransform: "uppercase", marginBottom: 10 }}>WHAT ARE WE SEEING?</div>
             <h2 style={{ fontSize: 28, fontWeight: 800, color: C.white, letterSpacing: "-0.01em", marginBottom: 10 }}>Signal Registry</h2>
-            <p style={{ fontSize: 11.5, color: C.muted, lineHeight: 1.7 }}>247 active signals across 5 categories. Every signal monitored, categorised, and scored for confidence in real time.</p>
+            <p style={{ fontSize: 11.5, color: C.muted, lineHeight: 1.7 }}>247 illustrative signal types across 5 categories. This walkthrough shows how captured signals can be categorised and scored for confidence.</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
             {[
@@ -132,7 +143,7 @@ function S3() {
           </div>
         </div>
         <div style={{ flex: 3 }}>
-          <ScreenshotCard title="Signal Registry · Live Feed" subtitle="Updated continuously">
+          <ScreenshotCard title="Signal Registry · Simulated Feed" subtitle="Illustrative data">
             <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
               {[
                 { time: "09:04", cat: "GUEST",     signal: "Check-in queue: 14 guests · 9.2 min avg wait",         conf: "94%", status: "MOMENT", sc: C.red },
@@ -163,11 +174,11 @@ function S3() {
 function S4() {
   const moments = [
     { id: "GM-001", title: "Queue Pressure Building",   cat: "Recovery",    urgency: "HIGH",     status: "DETECTED",     color: C.red },
-    { id: "GM-002", title: "VIP Arrival Risk",           cat: "VIP",         urgency: "HIGH",     status: "ACTIONED",     color: C.amber },
+    { id: "GM-002", title: "VIP Arrival Risk",           cat: "VIP",         urgency: "HIGH",     status: "MODELLED",     color: C.amber },
     { id: "GM-003", title: "First-Stay Anxiety Pattern", cat: "Guest",       urgency: "MEDIUM",   status: "IN PROGRESS",  color: C.amber },
     { id: "GM-004", title: "Critical System Failure",    cat: "Operational", urgency: "CRITICAL", status: "ESCALATED",    color: C.red },
-    { id: "GM-005", title: "Staff Welfare Alert",        cat: "Workforce",   urgency: "MEDIUM",   status: "DETECTED",     color: C.blue },
-    { id: "GM-006", title: "Dining Activation Window",   cat: "Commercial",  urgency: "LOW",      status: "RESOLVED",     color: C.green },
+    { id: "GM-005", title: "Staff Welfare Review Prompt", cat: "Workforce", urgency: "MEDIUM", status: "SIMULATED", color: C.blue },
+    { id: "GM-006", title: "Dining Opportunity", cat: "Commercial", urgency: "LOW", status: "MODELLED", color: C.green },
   ];
   return (
     <PresentationSlide className="print-slide">
@@ -182,7 +193,7 @@ function S4() {
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {[
               { label: "Urgency levels", values: ["CRITICAL", "HIGH", "MEDIUM", "LOW"],    colors: [C.red, C.red, C.amber, C.blue] },
-              { label: "Status states",  values: ["DETECTED", "ACTIONED", "IN PROGRESS", "RESOLVED"], colors: [C.amber, C.blue, C.cyan, C.green] },
+              { label: "Simulation states", values: ["SIMULATED", "RECOMMENDED", "MODELLED PROGRESS", "MODELLED OUTCOME"], colors: [C.amber, C.blue, C.cyan, C.green] },
               { label: "Categories",     values: ["Guest", "VIP", "Recovery", "Operational", "Workforce"], colors: [C.blue, C.amber, C.red, C.violet, C.cyan] },
             ].map((group, i) => (
               <div key={i} style={{ padding: "10px 12px", background: C.card, border: `1px solid ${C.border}` }}>
@@ -195,7 +206,7 @@ function S4() {
           </div>
         </div>
         <div style={{ flex: 3 }}>
-          <ScreenshotCard title="Moment Registry" subtitle="6 active moments">
+          <ScreenshotCard title="Moment Registry" subtitle="6 synthetic moments">
             <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
               {moments.map((m, i) => (
                 <div key={i} style={{ padding: "9px 11px", background: C.card2, border: `1px solid ${m.color}20` }}>
@@ -203,7 +214,7 @@ function S4() {
                     <span style={{ fontSize: 10.5, fontWeight: 700, color: C.white }}>{m.title}</span>
                     <div style={{ display: "flex", gap: 5 }}>
                       <Pill label={m.urgency} color={m.color} />
-                      <Pill label={m.status} color={m.status === "RESOLVED" ? C.green : m.color} />
+                       <Pill label={m.status} color={m.status === "MODELLED" ? C.green : m.color} />
                     </div>
                   </div>
                   <div style={{ display: "flex", gap: 10 }}>
@@ -286,10 +297,10 @@ function S5() {
 /* ─── S6–S8: Decision / Execution / Communications (compact) ─────── */
 function S6() {
   const decisions = [
-    { id: "DEC-047", moment: "VIP Arrival Risk",     playbook: "PB-002", decision: "Trigger Housekeeping Priority Protocol + Lounge pre-access", owner: "Auto-governed", status: "Executed",     sc: C.green },
-    { id: "DEC-046", moment: "Queue Pressure",        playbook: "PB-001", decision: "Open secondary check-in lane · reallocate host",             owner: "Duty Manager", status: "Executed",     sc: C.green },
-    { id: "DEC-045", moment: "Critical System Failure",playbook: "PB-005",decision: "Escalate HVAC to Engineering Lead + block affected rooms",    owner: "Duty Manager", status: "In Progress",  sc: C.amber },
-    { id: "DEC-044", moment: "Staff Welfare Alert",   playbook: "PB-004", decision: "HR welfare check initiated + cover arranged",                  owner: "R. Patel (HR)",status: "Resolved",     sc: C.green },
+    { id: "DEC-047", moment: "VIP Arrival Risk", playbook: "PB-002", decision: "Recommend housekeeping priority protocol and lounge review", owner: "Duty Manager", status: "MODELLED", sc: C.green },
+    { id: "DEC-046", moment: "Queue Pressure", playbook: "PB-001", decision: "Recommend opening a secondary lane and reallocating a host", owner: "Duty Manager", status: "MODELLED", sc: C.green },
+    { id: "DEC-045", moment: "Critical System Failure", playbook: "PB-005", decision: "Draft HVAC escalation and affected-room review", owner: "Duty Manager", status: "REVIEW", sc: C.amber },
+    { id: "DEC-044", moment: "Staff Welfare Review Prompt", playbook: "PB-004", decision: "Recommend confidential HR review; no welfare action is automated", owner: "R. Patel (HR)", status: "REVIEW", sc: C.amber },
   ];
   return (
     <PresentationSlide className="print-slide">
@@ -318,7 +329,7 @@ function S6() {
           </div>
         </div>
         <div style={{ flex: 3 }}>
-          <ScreenshotCard title="Decision Registry · Audit Log" subtitle="Today · 47 decisions">
+          <ScreenshotCard title="Decision Registry · Illustrative Trace" subtitle="47 synthetic records">
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {decisions.map((d, i) => (
                 <div key={i} style={{ padding: "9px 11px", background: C.card2, border: `1px solid ${C.border}` }}>
@@ -358,15 +369,15 @@ function S7() {
         <div>
           <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.2em", color: C.amber, textTransform: "uppercase", marginBottom: 10 }}>HOW CONSISTENTLY ARE WE PERFORMING?</div>
           <h2 style={{ fontSize: 28, fontWeight: 800, color: C.white, letterSpacing: "-0.01em", marginBottom: 8 }}>Execution Index</h2>
-          <p style={{ fontSize: 12, color: C.muted, maxWidth: 560, lineHeight: 1.65 }}>RTBX Travel measures execution quality across every playbook — not just whether something happened, but whether it happened consistently and within threshold.</p>
+          <p style={{ fontSize: 12, color: C.muted, maxWidth: 560, lineHeight: 1.65 }}>This simulation shows how future pilot measures could be structured. The figures below are fictional and do not evidence execution quality.</p>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 10 }}>
-          <ExecutiveMetricCard label="Execution Index"   value="92%"  delta="↑ 9pts"  note="vs last 30 days" color={C.amber} />
-          <ExecutiveMetricCard label="Avg Resolution"    value="4.1m" delta="↓ 38%"   note="avg per moment"  color={C.green} />
-          <ExecutiveMetricCard label="Playbook Success"  value="88%"  delta="↑ 6pts"  note="across 5 books"  color={C.blue}  />
-          <ExecutiveMetricCard label="Moments Resolved"  value="44"   delta="vs 38"   note="last 30 days"    color={C.white} />
+          <ExecutiveMetricCard label="Modelled Execution Index" value="92%" note="illustrative" color={C.amber} />
+          <ExecutiveMetricCard label="Modelled Response Time" value="4.1m" note="illustrative" color={C.green} />
+          <ExecutiveMetricCard label="Modelled Playbook Result" value="88%" note="illustrative" color={C.blue} />
+          <ExecutiveMetricCard label="Synthetic Outcomes" value="44" note="illustrative" color={C.white} />
         </div>
-        <ScreenshotCard title="Playbook Engine · Performance Overview" subtitle="Rolling 30 days">
+        <ScreenshotCard title="Playbook Engine · Illustrative Measures" subtitle="Synthetic 30-day period">
           <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 8 }}>
             {pb.map((p, i) => (
               <div key={i} style={{ padding: "12px 10px", background: C.card2, border: `1px solid ${p.color}22` }}>
@@ -397,7 +408,7 @@ function S8() {
           <div>
             <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.2em", color: C.amber, textTransform: "uppercase", marginBottom: 10 }}>WHO NEEDS TO KNOW?</div>
             <h2 style={{ fontSize: 28, fontWeight: 800, color: C.white, letterSpacing: "-0.01em", marginBottom: 10 }}>Central Communications</h2>
-            <p style={{ fontSize: 11.5, color: C.muted, lineHeight: 1.7 }}>The right message. The right person. The right time. The right channel. RTBX Travel routes every communication without manual coordination.</p>
+            <p style={{ fontSize: 11.5, color: C.muted, lineHeight: 1.7 }}>The Working Proof demonstrates governed message drafting and routing to named role owners. Human approval and connected delivery remain operator-controlled.</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {[
@@ -415,7 +426,7 @@ function S8() {
           </div>
         </div>
         <div style={{ flex: 3 }}>
-          <ScreenshotCard title="Communication Orchestration" subtitle="Today · 89 routed">
+          <ScreenshotCard title="Communication Orchestration" subtitle="89 illustrative drafts · none sent">
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {[
                 { to: "Housekeeping Lead", channel: "MOBILE", priority: "URGENT",   msg: "Room 847 priority clearance. Diamond arrival 12 min.", color: C.red },
@@ -446,14 +457,14 @@ function S8() {
 /* ─── S9: Guest Layer ─────────────────────────────────────────────── */
 function S9() {
   const chain = [
-    { step: "Signal",   color: C.blue,   detail: "Diamond ETA 12 min. Room 847 occupied. Housekeeping ETA 22 min." },
-    { step: "Moment",   color: C.amber,  detail: "Intelligence Engine: VIP Arrival Risk · 91% confidence · HIGH urgency. PB-002 queued." },
-    { step: "Decision", color: C.violet, detail: "Housekeeping Priority Protocol. Floor supervisor. Lounge pre-access." },
-    { step: "Comms",    color: C.cyan,   detail: "3 channels deployed: Housekeeping Lead · Duty Manager · Guest App." },
-    { step: "Action",   color: C.green,  detail: "Room 847 fast-tracked. Supervisor on floor. Task confirmed complete." },
-    { step: "Outcome",  color: C.green,  detail: "Room ready 4 min before arrival. Seamless. No escalation." },
-    { step: "Learning", color: "hsl(215 16% 56%)", detail: "Pattern recalibrated. Detection window extended by 8 minutes." },
-    { step: "Value",    color: C.amber,  detail: "Brand promise delivered. Loyalty protected. Moment activation: HIGH." },
+    { step: "Signal",   color: C.blue,   detail: "Synthetic signal: Diamond ETA 12 min; Room 847 uncleared; illustrative housekeeping ETA 22 min." },
+    { step: "Moment",   color: C.amber,  detail: "Modelled VIP Arrival Risk · 91% illustrative confidence · HIGH urgency. PB-002 proposed." },
+    { step: "Decision", color: C.violet, detail: "Proposed for A. Morgan, Duty Manager: review housekeeping priority and lounge pre-access." },
+    { step: "Comms",    color: C.cyan,   detail: "Drafts only for M. Silva, Housekeeping Lead; A. Morgan; and Mr V. Hartmann. Nothing is sent." },
+    { step: "Action",   color: C.green,  detail: "Proposed only: M. Silva reviews room priority and supervisor assignment. No task is issued or executed." },
+    { step: "Outcome",  color: C.green,  detail: "Modelled only: room ready four minutes before arrival with no escalation. Outcome unmeasured." },
+    { step: "Learning", color: "hsl(215 16% 56%)", detail: "Proposed for A. Morgan's review: extend the detection window by eight minutes. No rule is changed." },
+    { step: "Value",    color: C.amber,  detail: "Indicative hypothesis only: brand promise and loyalty may be supported. Value is unmeasured and unattributed." },
   ];
   return (
     <PresentationSlide className="print-slide">
@@ -475,9 +486,9 @@ function S9() {
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }}>
           {[
-            { view: "Guest Perspective",     color: C.blue,   points: ["Seamless arrival · room ready", "Lounge access waiting", "Preferences remembered"] },
-            { view: "Operating Perspective",  color: C.amber,  points: ["Task auto-assigned and confirmed", "Timeline visible in real time", "No manual coordination required"] },
-            { view: "Infrastructure Perspective", color: C.violet, points: ["91% confidence · PB-002 executed", "Moment GM-002: RESOLVED", "Learning cycle: complete"] },
+            { view: "Guest Perspective", color: C.blue, points: ["Modelled seamless arrival", "Proposed lounge access", "Illustrative preference handling"] },
+            { view: "Operating Perspective",  color: C.amber,  points: ["Task assignment simulated", "Illustrative timeline visible", "Named role owner retains control"] },
+            { view: "Infrastructure Perspective", color: C.violet, points: ["91% illustrative confidence", "Moment GM-002: modelled outcome", "Proposed learning record for human review"] },
           ].map((v, i) => (
             <div key={i} style={{ padding: "12px 14px", background: C.card, border: `1px solid ${v.color}22` }}>
               <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: v.color, textTransform: "uppercase", marginBottom: 7 }}>{v.view}</div>
@@ -501,18 +512,18 @@ function S10() {
           <div>
             <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.2em", color: C.amber, textTransform: "uppercase", marginBottom: 10 }}>WHAT HAPPENED?</div>
             <h2 style={{ fontSize: 28, fontWeight: 800, color: C.white, letterSpacing: "-0.01em", marginBottom: 10 }}>Outcome Layer</h2>
-            <p style={{ fontSize: 11.5, color: C.muted, lineHeight: 1.7 }}>Every moment generates a measured outcome. RTBX Travel tracks what happened, what improved, and what the operation learned — making every result attributable.</p>
+            <p style={{ fontSize: 11.5, color: C.muted, lineHeight: 1.7 }}>This simulation shows the structure of possible outcome records. Every result below is modelled and requires pilot measurement and accountable human confirmation.</p>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }}>
-            <ExecutiveMetricCard label="Outcomes Resolved" value="44"   color={C.green} />
-            <ExecutiveMetricCard label="Recovery Rate"     value="94%"  delta="↑ 12pts" color={C.amber} />
-            <ExecutiveMetricCard label="Avg Impact Score"  value="8.7"  delta="↑ 0.4"   color={C.blue} />
+            <ExecutiveMetricCard label="Modelled Outcomes" value="44" note="illustrative" color={C.green} />
+            <ExecutiveMetricCard label="Modelled Recovery Rate" value="94%" note="illustrative" color={C.amber} />
+            <ExecutiveMetricCard label="Modelled Impact Score" value="8.7" note="illustrative" color={C.blue} />
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {[
-              { label: "What happened?",   desc: "Every resolved moment is logged with full attribution — who acted, when, and what the outcome was." },
-              { label: "What improved?",   desc: "Recovery rate, response time, and execution quality all tracked against previous periods." },
-              { label: "What was learned?",desc: "Outcomes feed directly back into signal calibration, playbook weighting, and team guidance." },
+              { label: "What could be recorded?", desc: "A future governed record could attribute confirmed actions and outcomes to named people." },
+              { label: "What could be measured?", desc: "A pilot could measure recovery, response time and execution quality against an agreed baseline." },
+              { label: "What could be reviewed?", desc: "Confirmed outcomes could inform proposed rule and playbook changes subject to human approval." },
             ].map((item, i) => (
               <div key={i} style={{ padding: "11px 14px", background: C.card, border: `1px solid ${C.border}` }}>
                 <div style={{ fontSize: 8.5, fontWeight: 700, color: C.amber, marginBottom: 4 }}>{item.label}</div>
@@ -522,14 +533,14 @@ function S10() {
           </div>
         </div>
         <div style={{ flex: 3 }}>
-          <ScreenshotCard title="Outcome Registry · Recent Results">
+          <ScreenshotCard title="Outcome Registry · Modelled Results">
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {[
-                { id: "OUT-047", moment: "VIP Arrival Risk",          result: "Room cleared 4 min before arrival. No escalation.", success: true },
-                { id: "OUT-046", moment: "Queue Pressure Building",   result: "Queue resolved in 4.1 minutes. Satisfaction maintained.", success: true },
-                { id: "OUT-045", moment: "Service Failure Recovery",  result: "Written complaint resolved. Guest retained.", success: true },
-                { id: "OUT-044", moment: "Critical System Failure",   result: "HVAC partial repair. 3 rooms temporarily relocated.", success: false },
-                { id: "OUT-043", moment: "Staff Welfare Alert",       result: "HR check completed. Cover arranged. Team member supported.", success: true },
+                { id: "OUT-047", moment: "VIP Arrival Risk", result: "Modelled room-ready outcome with no escalation.", success: true },
+                { id: "OUT-046", moment: "Queue Pressure", result: "Modelled queue reduction in 4.1 minutes.", success: true },
+                { id: "OUT-045", moment: "Service Recovery", result: "Illustrative complaint and retention outcome.", success: true },
+                { id: "OUT-044", moment: "System Failure", result: "Illustrative partial-repair and room-review outcome.", success: false },
+                { id: "OUT-043", moment: "Staff Welfare Review Prompt", result: "Confidential HR review recommended; no welfare action completed.", success: false },
               ].map((o, i) => (
                 <div key={i} style={{ padding: "8px 10px", background: C.card2, border: `1px solid ${o.success ? C.green : C.amber}18` }}>
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 3 }}>
@@ -537,7 +548,7 @@ function S10() {
                       <span style={{ fontSize: 7.5, color: C.dimmed }}>{o.id}</span>
                       <span style={{ fontSize: 9, fontWeight: 600, color: C.white }}>{o.moment}</span>
                     </div>
-                    <Pill label={o.success ? "RESOLVED" : "PARTIAL"} color={o.success ? C.green : C.amber} />
+                    <Pill label={o.success ? "MODELLED" : "REVIEW"} color={o.success ? C.green : C.amber} />
                   </div>
                   <p style={{ fontSize: 9.5, color: C.muted }}>{o.result}</p>
                 </div>
@@ -560,23 +571,23 @@ function S11() {
         <div>
           <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.2em", color: C.amber, textTransform: "uppercase", marginBottom: 10 }}>WHAT WAS THE VALUE?</div>
           <h2 style={{ fontSize: 28, fontWeight: 800, color: C.white, letterSpacing: "-0.01em", marginBottom: 8 }}>Value Layer</h2>
-          <p style={{ fontSize: 12, color: C.muted, maxWidth: 560, lineHeight: 1.65 }}>RTBX Travel distinguishes between three types of value created by each resolved moment. Together they form the total activation picture.</p>
+          <p style={{ fontSize: 12, color: C.muted, maxWidth: 560, lineHeight: 1.65 }}>This slide distinguishes three types of value hypothesis. The examples are illustrative, not measured, protected, created or attributable value.</p>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16, flex: 1 }}>
           <div style={{ padding: "22px", background: C.card, border: `1px solid ${C.green}22`, display: "flex", flexDirection: "column" }}>
-            <div style={{ fontSize: 8, fontWeight: 800, letterSpacing: "0.2em", color: C.green, textTransform: "uppercase", marginBottom: 10, paddingBottom: 8, borderBottom: `1px solid ${C.green}18` }}>Protected Value</div>
-            <p style={{ fontSize: 10.5, color: C.muted, lineHeight: 1.65, marginBottom: 14 }}>Value that was at risk of being lost — and wasn't. Retained because RTBX Travel acted before the moment became a problem.</p>
+            <div style={{ fontSize: 8, fontWeight: 800, letterSpacing: "0.2em", color: C.green, textTransform: "uppercase", marginBottom: 10, paddingBottom: 8, borderBottom: `1px solid ${C.green}18` }}>Potential Protected Value</div>
+            <p style={{ fontSize: 10.5, color: C.muted, lineHeight: 1.65, marginBottom: 14 }}>Hypotheses about value that a future pilot could test against agreed baselines.</p>
             <div style={{ display: "flex", flexDirection: "column", gap: 6, flex: 1 }}>
-              {["VIP loyalty maintained — no alternative required", "Service SLA met — no complaint triggered", "Brand promise delivered — trust preserved", "Retention outcome: stay 15 already confirmed"].map((s, i) => (
+              {["Hypothesis: VIP loyalty may be supported", "Hypothesis: service risk may be reduced", "Hypothesis: brand promise may be supported", "Repeat stay: not measured"].map((s, i) => (
                 <div key={i} style={{ display: "flex", gap: 7 }}><div style={{ width: 3, height: 3, borderRadius: "50%", background: C.green, marginTop: 5, flexShrink: 0 }} /><span style={{ fontSize: 9.5, color: C.muted }}>{s}</span></div>
               ))}
             </div>
           </div>
           <div style={{ padding: "22px", background: C.card, border: `1px solid ${C.amber}22`, display: "flex", flexDirection: "column" }}>
-            <div style={{ fontSize: 8, fontWeight: 800, letterSpacing: "0.2em", color: C.amber, textTransform: "uppercase", marginBottom: 10, paddingBottom: 8, borderBottom: `1px solid ${C.amber}18` }}>Created Value</div>
-            <p style={{ fontSize: 10.5, color: C.muted, lineHeight: 1.65, marginBottom: 14 }}>Value generated through proactive action — opportunities identified and realised because RTBX Travel detected the moment before it was obvious.</p>
+            <div style={{ fontSize: 8, fontWeight: 800, letterSpacing: "0.2em", color: C.amber, textTransform: "uppercase", marginBottom: 10, paddingBottom: 8, borderBottom: `1px solid ${C.amber}18` }}>Potential Created Value</div>
+            <p style={{ fontSize: 10.5, color: C.muted, lineHeight: 1.65, marginBottom: 14 }}>Opportunity hypotheses that require partner validation and measured attribution.</p>
             <div style={{ display: "flex", flexDirection: "column", gap: 6, flex: 1 }}>
-              {["Lounge access activated before guest arrived", "Dining recommendation timed to guest pattern", "Next-stay intent captured at peak sentiment", "Upsell window identified and deployed"].map((s, i) => (
+              {["Proposed lounge-access recommendation", "Illustrative dining recommendation", "Next-stay intent: not captured", "Potential upsell window: not activated"].map((s, i) => (
                 <div key={i} style={{ display: "flex", gap: 7 }}><div style={{ width: 3, height: 3, borderRadius: "50%", background: C.amber, marginTop: 5, flexShrink: 0 }} /><span style={{ fontSize: 9.5, color: C.muted }}>{s}</span></div>
               ))}
             </div>
@@ -592,10 +603,10 @@ function S11() {
           </div>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 10 }}>
-          <ExecutiveMetricCard label="Value Score"         value="94"   delta="↑ 31%"  note="vs last 30 days"  color={C.amber} />
-          <ExecutiveMetricCard label="Protected Value"     value="HIGH" color={C.green}  />
-          <ExecutiveMetricCard label="Created Value"       value="Score 87" delta="↑ 12%" color={C.amber} />
-          <ExecutiveMetricCard label="Opportunity Tracked" value="3"   note="this period" color={C.blue}  />
+          <ExecutiveMetricCard label="Modelled Value Score" value="94" note="illustrative" color={C.amber} />
+          <ExecutiveMetricCard label="Potential Protected Value" value="HIGH" note="unvalidated" color={C.green} />
+          <ExecutiveMetricCard label="Potential Created Value" value="Score 87" note="unvalidated" color={C.amber} />
+          <ExecutiveMetricCard label="Illustrative Opportunities" value="3" note="synthetic" color={C.blue} />
         </div>
       </div>
       <SlideFooter slide={11} total={TOTAL} />
@@ -620,7 +631,7 @@ function S12() {
       <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 22 }}>
         <div>
           <h2 style={{ fontSize: 28, fontWeight: 800, color: C.white, letterSpacing: "-0.01em", marginBottom: 8 }}>Executive Command — Everything Connected</h2>
-          <p style={{ fontSize: 12, color: C.muted, maxWidth: 560, lineHeight: 1.65 }}>Leadership sees the full operating environment in a single view — across every layer, every property, every moment. Nothing is invisible.</p>
+          <p style={{ fontSize: 12, color: C.muted, maxWidth: 560, lineHeight: 1.65 }}>This fictional portfolio view illustrates how leadership information could be organised. It is not connected to any property or production data.</p>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 10 }}>
           {layers.map((l, i) => (
@@ -674,8 +685,8 @@ function S13() {
         ]} gap={28} />
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 14 }}>
           {[
-            { phase: "Phase 1 · Now",       title: "Behavioural Infrastructure", color: C.amber, status: "LIVE",          sc: C.green,  desc: "RTBX Travel operates as the execution layer within individual properties — detecting, deciding, acting, and learning." },
-            { phase: "Phase 2 · 12–24 mo",  title: "Behavioural Economy",        color: C.blue,  status: "IN DEVELOPMENT",sc: C.amber,  desc: "RTBX Travel becomes the activation layer across portfolio networks — connecting value across properties and guest journeys." },
+            { phase: "Phase 1 · Current", title: "Working Proof", color: C.amber, status: "SIMULATION", sc: C.amber, desc: "Rules-based interface demonstration with synthetic inputs, no integrations and no dispatch." },
+            { phase: "Phase 2 · Planned", title: "Behavioural Economy", color: C.blue, status: "PLANNED", sc: C.amber, desc: "Proposed activation layer across portfolio networks, dependent on integration and pilot evidence." },
             { phase: "Phase 3 · Vision",    title: "Behavioural Exchange",        color: C.violet,status: "ROADMAP",       sc: C.violet, desc: "An open exchange layer where behavioural intelligence flows across operators, brands, and sectors." },
           ].map((phase, i) => (
             <div key={i} style={{ padding: "18px 20px", background: C.card, border: `1px solid ${phase.color}22` }}>
