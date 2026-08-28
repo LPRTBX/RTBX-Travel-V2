@@ -115,7 +115,7 @@ export default function PartnerPilotModel() {
         <div id="scope" style={{ marginBottom: 48, scrollMarginTop: 90 }}>
           <SectionLabel>02 · Scope</SectionLabel>
           <H2>Pilot scope</H2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2, marginBottom: 12 }}>
+           <div className="rtbx-responsive-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 2, marginBottom: 12 }}>
             <div style={{ padding: "16px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
               <div style={{ fontSize: 11, color: C.dim, textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 700, marginBottom: 8 }}>Environment</div>
               <div style={{ fontSize: 13, fontWeight: 800, color: "#fff", marginBottom: 4 }}>{PILOT_PROPOSITION.targetEnvironment}</div>
@@ -146,7 +146,7 @@ export default function PartnerPilotModel() {
               const roleColor = pos.role === "primary-wedge" ? C.gold : pos.role === "cross-cutting-control" ? "#ef4444" : "rgba(255,255,255,0.25)";
               const roleLabel = pos.role === "primary-wedge" ? "Primary wedge" : pos.role === "cross-cutting-control" ? "Cross-cutting control" : "Expansion — not in initial pilot";
               return (
-                <div key={pos.id} style={{ display: "flex", alignItems: "flex-start", gap: 16, padding: "14px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: `3px solid ${roleColor}` }}>
+                 <div key={pos.id} className="rtbx-responsive-card-header" style={{ display: "flex", alignItems: "flex-start", gap: 16, padding: "14px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: `3px solid ${roleColor}` }}>
                   <div style={{ flex: 1 }}>
                     <div style={{ fontSize: 13, fontWeight: 800, color: "#fff", marginBottom: 3 }}>{os?.name ?? pos.id}</div>
                     <div style={{ fontSize: 12, color: C.muted }}>{pos.note}</div>
@@ -169,7 +169,7 @@ export default function PartnerPilotModel() {
             {PILOT_SCENARIOS.map(ps => {
               const sc = TRAVEL_SCENARIOS.find(s => s.id === ps.scenarioId);
               return (
-                <div key={ps.scenarioId} style={{ display: "flex", alignItems: "center", gap: 16, padding: "13px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: `3px solid ${ps.role === "primary" ? C.gold : "rgba(255,255,255,0.2)"}` }}>
+                 <div key={ps.scenarioId} className="rtbx-responsive-card-header" style={{ display: "flex", alignItems: "center", gap: 16, padding: "13px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: `3px solid ${ps.role === "primary" ? C.gold : "rgba(255,255,255,0.2)"}` }}>
                   <div style={{ flex: 1 }}>
                     <div style={{ fontSize: 13, fontWeight: 700, color: "#fff" }}>{sc?.title ?? ps.scenarioId}</div>
                     <div style={{ fontSize: 12, color: C.muted }}>{ps.note}</div>
@@ -192,7 +192,7 @@ export default function PartnerPilotModel() {
         <div id="pilot-components" style={{ marginBottom: 48, scrollMarginTop: 90 }}>
           <SectionLabel>05 · Components</SectionLabel>
           <H2>Pilot components</H2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2 }}>
+           <div className="rtbx-responsive-grid-2" style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 2 }}>
             {DEPLOYMENT_PACKAGE.filter(p => !p.productionOnly).map(pkg => (
               <div key={pkg.id} style={{ padding: "16px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
                 <div style={{ fontSize: 13, fontWeight: 800, color: "#fff", marginBottom: 10 }}>{pkg.name}</div>
@@ -225,7 +225,7 @@ export default function PartnerPilotModel() {
                     <div style={{ fontSize: 12, color: C.muted }}>{stage.purpose}</div>
                   </div>
                 </summary>
-                <div style={{ padding: "0 20px 18px 62px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px 20px" }}>
+                 <div className="rtbx-responsive-grid-2" style={{ padding: "0 20px 18px 62px", display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: "10px 20px" }}>
                   <div>
                     <div style={{ fontSize: 11, color: "rgba(255,255,255,0.32)", textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 700, marginBottom: 6 }}>Activities</div>
                     {stage.activities.map((a, j) => <div key={j} style={{ fontSize: 12, color: "rgba(255,255,255,0.6)", padding: "2px 0" }}>· {a}</div>)}
@@ -279,7 +279,7 @@ export default function PartnerPilotModel() {
                   <div style={{ fontSize: 13, fontWeight: 800, color: "#fff", marginBottom: 8 }}>{cat} measures</div>
                   <div style={{ display: "flex", flexDirection: "column", gap: 1 }}>
                     {measures.map(m => (
-                      <div key={m.id} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, padding: "8px 12px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
+                       <div key={m.id} className="rtbx-responsive-card-header" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, padding: "8px 12px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
                         <div>
                           <span style={{ fontSize: 12, color: "rgba(255,255,255,0.68)" }}>{m.label}</span>
                           {m.note && <span style={{ fontSize: 11, color: "rgba(255,255,255,0.32)", fontStyle: "italic", marginLeft: 8 }}>{m.note}</span>}
@@ -310,7 +310,7 @@ export default function PartnerPilotModel() {
               </div>
             ))}
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 12 }}>
+           <div className="rtbx-responsive-grid-2" style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 12 }}>
             {categories.map(cat => (
               <div key={cat}>
                 <div style={{ fontSize: 12, fontWeight: 800, color: "#fff", marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.06em" }}>{cat} readiness</div>
@@ -320,6 +320,7 @@ export default function PartnerPilotModel() {
                     return (
                       <div
                         key={item.id}
+                        className="rtbx-responsive-card-header"
                         onClick={() => setReadinessStates(prev => ({ ...prev, [item.id]: nextState(prev[item.id]) }))}
                         style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)", borderLeft: `3px solid ${READINESS_COLORS[state]}`, cursor: "pointer" }}
                       >

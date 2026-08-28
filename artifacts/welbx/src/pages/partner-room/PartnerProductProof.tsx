@@ -168,7 +168,7 @@ function SystemCard({ sys }: { sys: typeof CORE_SYSTEMS[0] }) {
     onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(201,168,76,0.18)"; }}
     onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.06)"; }}
     >
-      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 10, marginBottom: 16 }}>
+      <div className="rtbx-responsive-card-header" style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 10, marginBottom: 16 }}>
         <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "rgba(255,255,255,0.78)", lineHeight: 1.35 }}>
           {sys.label}
         </div>
@@ -294,8 +294,8 @@ export default function PartnerProductProof() {
                 <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
                   {stage.items.map((item, j) => (
                     <a key={item.label} href={item.href} style={{ textDecoration: "none" }}>
-                      <div style={{
-                        display: "grid", gridTemplateColumns: "1fr auto", gap: 16, padding: "16px 22px", alignItems: "center",
+                      <div className="rtbx-responsive-row" style={{
+                        display: "grid", gridTemplateColumns: "minmax(0, 1fr) auto", gap: 16, padding: "16px 22px", alignItems: "center",
                         borderBottom: j < stage.items.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none",
                         background: "rgba(255,255,255,0.01)", transition: "all 0.12s", cursor: "pointer",
                       }}
@@ -325,7 +325,7 @@ export default function PartnerProductProof() {
             Working Product Preview
           </div>
           <a href="https://replit.com/@LP1313/rtbx-travel-moment-response-mvp" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
-            <div style={{
+             <div className="rtbx-responsive-split" style={{
               padding: "28px 32px",
               background: "rgba(201,168,76,0.06)",
               border: "1px solid rgba(201,168,76,0.28)",
@@ -354,7 +354,7 @@ export default function PartnerProductProof() {
                   The Partner Room explains the RTBX Travel model. The Working Demonstration Preview shows the first working product loop. This is not the full Travel OS — it is the first deployable wedge: Moment Response.
                 </div>
               </div>
-              <div style={{
+               <div className="rtbx-responsive-cta" style={{
                 padding: "12px 24px", fontSize: 11, fontWeight: 700, letterSpacing: "0.08em",
                 textTransform: "uppercase", color: "#c9a84c", border: "1px solid rgba(201,168,76,0.4)",
                 whiteSpace: "nowrap", flexShrink: 0,
@@ -376,7 +376,7 @@ export default function PartnerProductProof() {
               Choose a Proof Mode
             </div>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
+           <div className="rtbx-responsive-grid-4" style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", gap: 2 }}>
             {PROOF_MODES.map(mode => <ProofModeCard key={mode.num} mode={mode} />)}
           </div>
         </div>
@@ -395,7 +395,7 @@ export default function PartnerProductProof() {
             </p>
           </div>
           <div style={{ width: "100%", height: 1, background: "rgba(255,255,255,0.05)", margin: "24px 0" }} />
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
+           <div className="rtbx-responsive-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 2 }}>
             {CORE_SYSTEMS.map(sys => <SystemCard key={sys.label} sys={sys} />)}
           </div>
         </div>
@@ -413,7 +413,7 @@ export default function PartnerProductProof() {
               Three views of RTBX Travel across the deployment timeline — what is live now, what the pilot becomes with integrations, and what Stage 3 looks like at scale.
             </p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
+           <div className="rtbx-responsive-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 2 }}>
             {/* Card 1: Working Demonstration */}
             <a href="https://replit.com/@LP1313/rtbx-travel-moment-response-mvp" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
               <div style={{
@@ -490,7 +490,7 @@ export default function PartnerProductProof() {
               Additional Walkthroughs
             </div>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
+           <div className="rtbx-responsive-grid-4" style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", gap: 2 }}>
             {WALKTHROUGHS.map(w => (
               <div key={w.label} style={{
                 padding: "20px 20px",

@@ -11,7 +11,7 @@ const TYPE_COLORS: Record<string, string> = {
 export default function PartnerValidation() {
   return (
     <PartnerRoomLayout>
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "72px 32px 140px" }}>
+      <div className="rtbx-responsive-page" style={{ maxWidth: 1280, margin: "0 auto", padding: "72px 32px 140px" }}>
 
         {/* Header */}
         <div style={{ marginBottom: 64 }}>
@@ -27,7 +27,7 @@ export default function PartnerValidation() {
           </p>
 
           {/* Type legend */}
-          <div style={{ display: "flex", gap: 16, marginTop: 24 }}>
+          <div style={{ display: "flex", gap: 16, marginTop: 24, flexWrap: "wrap" }}>
             {Object.entries(TYPE_COLORS).map(([type, color]) => (
               <div key={type} style={{ display: "flex", alignItems: "center", gap: 6 }}>
                 <div style={{ width: 6, height: 6, borderRadius: "50%", background: color }} />
@@ -40,7 +40,7 @@ export default function PartnerValidation() {
         {/* Pilot Product Preview */}
         <div style={{ marginBottom: 24 }}>
           <a href="https://replit.com/@LP1313/rtbx-travel-moment-response-mvp" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
-            <div style={{
+            <div className="rtbx-responsive-split" style={{
               padding: "24px 32px",
               background: "rgba(201,168,76,0.05)",
               border: "1px solid rgba(201,168,76,0.22)",
@@ -76,7 +76,7 @@ export default function PartnerValidation() {
         </div>
 
         {/* Validation Replay — featured */}
-        <div style={{ marginBottom: 48, padding: "32px 32px", background: "rgba(16,185,129,0.05)", border: "1px solid rgba(16,185,129,0.2)", borderTop: "2px solid #10b981", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 32 }}>
+         <div className="rtbx-responsive-split" style={{ marginBottom: 48, padding: "32px 32px", background: "rgba(16,185,129,0.05)", border: "1px solid rgba(16,185,129,0.2)", borderTop: "2px solid #10b981", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 32 }}>
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
               <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: "#10b981", border: "1px solid rgba(16,185,129,0.3)", padding: "3px 10px" }}>Interactive · Replay</div>

@@ -70,7 +70,7 @@ function LaneCard({ lane }: { lane: TravelPartnerLane }) {
   return (
     <div id={lane.id} style={{ scrollMarginTop: 90, marginBottom: 2 }}>
       <details open style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: `3px solid ${color}` }}>
-        <summary style={{ padding: "18px 22px", cursor: "pointer", listStyle: "none", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
+        <summary className="rtbx-responsive-card-header" style={{ padding: "18px 22px", cursor: "pointer", listStyle: "none", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
           <div>
             <div style={{ fontSize: 15, fontWeight: 800, color: "#fff", marginBottom: 3 }}>{lane.name}</div>
             <div style={{ fontSize: 12, color: C.muted, maxWidth: 680 }}>{lane.summary.split(".")[0]}.</div>
@@ -80,7 +80,7 @@ function LaneCard({ lane }: { lane: TravelPartnerLane }) {
           </div>
         </summary>
         <div style={{ padding: "0 22px 22px" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "12px 16px", marginBottom: 16 }}>
+           <div className="rtbx-responsive-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: "12px 16px", marginBottom: 16 }}>
             {[
               { title: "Partner contributes", items: lane.partnerContribution, c: color },
               { title: "RTBX contributes",    items: lane.rtbxContribution,    c: C.gold },
@@ -97,7 +97,7 @@ function LaneCard({ lane }: { lane: TravelPartnerLane }) {
             ))}
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px 16px", marginBottom: 12 }}>
+           <div className="rtbx-responsive-grid-2" style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: "8px 16px", marginBottom: 12 }}>
             <div>
               <div style={{ fontSize: 11, color: "rgba(255,255,255,0.32)", textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 700, marginBottom: 6 }}>Partner types</div>
               {lane.partnerTypes.map((t, i) => <div key={i} style={{ fontSize: 12, color: "rgba(255,255,255,0.58)", padding: "2px 0" }}>· {t}</div>)}
@@ -132,7 +132,7 @@ export default function PartnerEcosystem() {
 
   return (
     <PartnerRoomLayout>
-      <div style={{ maxWidth: 1160, margin: "0 auto", padding: "72px 32px 140px" }}>
+      <div className="rtbx-responsive-page" style={{ maxWidth: 1160, margin: "0 auto", padding: "72px 32px 140px" }}>
 
         {/* ── HEADER ── */}
         <div style={{ marginBottom: 48 }}>
@@ -155,7 +155,7 @@ export default function PartnerEcosystem() {
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.75, maxWidth: 760, marginBottom: 20 }}>
             Hotels and resorts already have systems — property management, housekeeping, guest messaging, maintenance, loyalty. RTBX does not replace them. RTBX connects them: assembling context, applying governance, activating playbooks, coordinating accountable action, capturing evidence and measuring outcomes.
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2, marginBottom: 16 }}>
+           <div className="rtbx-responsive-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 2, marginBottom: 16 }}>
             {[
               { label: "Signal partners", desc: "Provide the operational signals RTBX needs to detect moments", color: LANE_COLORS["signal-partners"] },
               { label: "Governance partners", desc: "Provide the policies and standards that shape RTBX decision rules", color: LANE_COLORS["governance-partners"] },
@@ -191,7 +191,7 @@ export default function PartnerEcosystem() {
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.65, maxWidth: 760, marginBottom: 16 }}>
             RTBX owns the intelligence, governance and execution layer — not the underlying customer systems, source data or third-party services.
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
+           <div className="rtbx-responsive-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 2 }}>
             {RTBX_OWNED_CAPABILITIES.map((cap, i) => (
               <div key={i} style={{ padding: "10px 14px", background: "rgba(201,168,76,0.04)", border: "1px solid rgba(201,168,76,0.12)", fontSize: 12, color: "rgba(255,255,255,0.72)" }}>
                 <span style={{ color: C.gold, marginRight: 8, fontWeight: 700 }}>◦</span>{cap}
@@ -207,7 +207,7 @@ export default function PartnerEcosystem() {
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.65, maxWidth: 760, marginBottom: 16 }}>
             RTBX supports accountable human operations rather than removing customer control. The customer retains authority over all systems, data, policies and deployment decisions.
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
+           <div className="rtbx-responsive-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 2 }}>
             {CUSTOMER_OWNED_CAPABILITIES.map((cap, i) => (
               <div key={i} style={{ padding: "10px 14px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", fontSize: 12, color: "rgba(255,255,255,0.68)" }}>
                 <span style={{ color: "rgba(255,255,255,0.4)", marginRight: 8, fontWeight: 700 }}>◦</span>{cap}
@@ -223,7 +223,7 @@ export default function PartnerEcosystem() {
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.65, maxWidth: 760, marginBottom: 16 }}>
             The answer depends on partner type. The matrix below summarises ownership across all six partner lanes.
           </p>
-          <div style={{ overflowX: "auto" }}>
+          <div className="rtbx-table-scroll" style={{ width: "100%", maxWidth: "100%", minWidth: 0, overflowX: "auto", contain: "inline-size" }}>
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12, minWidth: 700 }}>
               <thead>
                 <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.1)" }}>
@@ -261,7 +261,7 @@ export default function PartnerEcosystem() {
           <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
             {INTEGRATION_RECORDS.map(rec => (
               <details key={rec.id} style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: `3px solid ${INTEGRATION_MATURITY_COLORS[rec.maturity]}` }}>
-                <summary style={{ padding: "12px 18px", cursor: "pointer", listStyle: "none", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
+                <summary className="rtbx-responsive-card-header" style={{ padding: "12px 18px", cursor: "pointer", listStyle: "none", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
                   <div>
                     <span style={{ fontSize: 13, fontWeight: 800, color: "#fff", marginRight: 12 }}>{rec.system}</span>
                     {rec.provider && <span style={{ fontSize: 11, color: "rgba(255,255,255,0.42)" }}>{rec.provider}</span>}
@@ -272,7 +272,7 @@ export default function PartnerEcosystem() {
                     </div>
                   </div>
                 </summary>
-                <div style={{ padding: "0 18px 16px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px 24px" }}>
+                 <div className="rtbx-responsive-grid-2" style={{ padding: "0 18px 16px", display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: "6px 24px" }}>
                   <div style={{ gridColumn: "1/-1", fontSize: 12, color: C.muted, marginBottom: 8 }}>{rec.purpose}</div>
                   {[
                     ["Signals received", rec.signalsReceived.join("; ")],
@@ -312,7 +312,7 @@ export default function PartnerEcosystem() {
             {DEPLOYMENT_RESPONSIBILITIES.map(act => (
               <details key={act.id} style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
                 <summary style={{ padding: "11px 18px", cursor: "pointer", listStyle: "none", fontSize: 13, fontWeight: 700, color: "#fff" }}>{act.label}</summary>
-                <div style={{ padding: "0 18px 14px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px 20px" }}>
+                 <div className="rtbx-responsive-grid-2" style={{ padding: "0 18px 14px", display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: "6px 20px" }}>
                   {[
                     ["RTBX", act.rtbx, C.gold],
                     ["Customer", act.customer, "rgba(255,255,255,0.6)"],
@@ -337,7 +337,7 @@ export default function PartnerEcosystem() {
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.65, maxWidth: 760, marginBottom: 16 }}>
             Credible commercial structures for each partner type. No agreement is confirmed unless stated. All models are indicative or subject to proposal.
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2 }}>
+           <div className="rtbx-responsive-grid-2" style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 2 }}>
             {PARTNER_COMMERCIAL_MODELS.map(model => (
               <div key={model.id} style={{ padding: "18px 20px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
                 <div style={{ fontSize: 14, fontWeight: 800, color: "#fff", marginBottom: 6 }}>{model.partnerType}</div>
@@ -362,7 +362,7 @@ export default function PartnerEcosystem() {
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.65, maxWidth: 760, marginBottom: 16 }}>
             What makes a strong RTBX Travel partner.
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2 }}>
+           <div className="rtbx-responsive-grid-2" style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 2 }}>
             {PARTNER_SELECTION_CRITERIA.map(cat => (
               <div key={cat.id} style={{ padding: "18px 20px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
                 <div style={{ fontSize: 13, fontWeight: 800, color: C.gold, marginBottom: 10, letterSpacing: "0.02em" }}>{cat.label}</div>

@@ -87,7 +87,7 @@ export default function PartnerCommercial() {
         <div id="commercial-principles" style={{ marginBottom: 48, scrollMarginTop: 90 }}>
           <SectionLabel>01 · Principles</SectionLabel>
           <H2>Commercial principles</H2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
+          <div className="rtbx-responsive-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 2 }}>
             {[
               { title: "Staged entry", desc: "Commercial engagement begins with alignment and discovery, not a full platform commitment. Customers prove value before scaling." },
               { title: "Transparent assumptions", desc: "Every figure or estimate identifies its source status. Indicative assumptions are clearly labelled. No figure is presented as an approved commitment unless confirmed." },
@@ -114,7 +114,7 @@ export default function PartnerCommercial() {
           <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
             {COMMERCIAL_COMPONENTS.filter(c => ["cc-alignment-discovery", "cc-configuration-implementation", "cc-platform-licence"].includes(c.id)).map(comp => (
               <div key={comp.id} style={{ padding: "16px 20px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
-                <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12, marginBottom: 8 }}>
+                <div className="rtbx-responsive-card-header" style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12, marginBottom: 8 }}>
                   <div style={{ fontSize: 13, fontWeight: 800, color: "#fff" }}>{comp.name}</div>
                   <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
                     <StatusBadge status={comp.status} />
@@ -141,7 +141,7 @@ export default function PartnerCommercial() {
           <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
             {COMMERCIAL_COMPONENTS.filter(c => ["cc-property-deployment-licence", "cc-connector-integration", "cc-managed-intelligence", "cc-training-change"].includes(c.id)).map(comp => (
               <div key={comp.id} style={{ padding: "16px 20px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
-                <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12, marginBottom: 8 }}>
+                <div className="rtbx-responsive-card-header" style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12, marginBottom: 8 }}>
                   <div style={{ fontSize: 13, fontWeight: 800, color: "#fff" }}>{comp.name}</div>
                   <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
                     <StatusBadge status={comp.status} />
@@ -165,7 +165,7 @@ export default function PartnerCommercial() {
           <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
             {COMMERCIAL_COMPONENTS.filter(c => ["cc-expansion-os-licence", "cc-partner-service-revenue", "cc-transaction-revenue-share"].includes(c.id)).map(comp => (
               <div key={comp.id} style={{ padding: "16px 20px", background: `${comp.sourceStatus === "unapproved" ? "rgba(239,68,68,0.03)" : "rgba(255,255,255,0.02)"}`, border: `1px solid ${comp.sourceStatus === "unapproved" ? "rgba(239,68,68,0.15)" : "rgba(255,255,255,0.06)"}` }}>
-                <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12, marginBottom: 8 }}>
+                <div className="rtbx-responsive-card-header" style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12, marginBottom: 8 }}>
                   <div style={{ fontSize: 13, fontWeight: 800, color: "#fff" }}>{comp.name}</div>
                   <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
                     <StatusBadge status={comp.status} />
@@ -189,7 +189,7 @@ export default function PartnerCommercial() {
           <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, maxWidth: 760, marginBottom: 16 }}>
             Credible commercial structures for each partner type. No agreement is confirmed unless stated. All models are indicative or subject to proposal.
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2 }}>
+          <div className="rtbx-responsive-grid-2" style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 2 }}>
             {PARTNER_COMMERCIAL_MODELS.map(model => (
               <div key={model.id} style={{ padding: "16px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
                 <div style={{ fontSize: 12, fontWeight: 800, color: "#fff", marginBottom: 6 }}>{model.partnerType}</div>
@@ -218,7 +218,7 @@ export default function PartnerCommercial() {
                 <div style={{ fontSize: 11, fontWeight: 800, color: "#fff", marginBottom: 6, letterSpacing: "0.01em" }}>{cat.label}</div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 1 }}>
                   {cat.items.map(item => (
-                    <div key={item.id} style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: 8, padding: "8px 12px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)", alignItems: "center" }}>
+                    <div key={item.id} className="rtbx-responsive-row" style={{ display: "grid", gridTemplateColumns: "minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr)", gap: 8, padding: "8px 12px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)", alignItems: "center" }}>
                       <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.7)" }}>{item.label}</div>
                       <div style={{ fontSize: 9, color: "rgba(255,255,255,0.4)" }}>{item.evidenceSource}</div>
                       <div>
@@ -259,7 +259,7 @@ export default function PartnerCommercial() {
           <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, maxWidth: 760, marginBottom: 16 }}>
             The site clearly distinguishes what is working today, what is architecturally defined, what depends on the pilot and what requires production engineering before commercial deployment.
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2 }}>
+          <div className="rtbx-responsive-grid-2" style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 2 }}>
             {COMMERCIAL_PROOF_BOUNDARIES.map(cat => (
               <div key={cat.id} style={{ padding: "16px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: `2px solid ${cat.color}` }}>
                 <div style={{ fontSize: 11, fontWeight: 800, marginBottom: 10, color: cat.color }}>{cat.label}</div>
@@ -277,7 +277,7 @@ export default function PartnerCommercial() {
         <div id="included-vs-proposal" style={{ marginBottom: 48, scrollMarginTop: 90 }}>
           <SectionLabel>09 · Included vs Proposal</SectionLabel>
           <H2>What is included · What requires proposal</H2>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2 }}>
+          <div className="rtbx-responsive-grid-2" style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 2 }}>
             <div style={{ padding: "16px 18px", background: "rgba(16,185,129,0.04)", border: "1px solid rgba(16,185,129,0.2)" }}>
               <div style={{ fontSize: 11, fontWeight: 800, color: C.green, marginBottom: 10 }}>What is included in the pilot engagement</div>
               {["Discovery workshop and scope alignment", "Travel environment configuration", "Scenario and playbook activation", "Simulation and staff walkthrough", "Evidence and outcome framework", "Pilot support from RTBX", "Evidence and outcome review session"].map((item, i) => (

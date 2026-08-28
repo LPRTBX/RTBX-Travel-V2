@@ -356,7 +356,7 @@ function PhoneFrame({ stage, selected, onSelect }: {
   onSelect: (a: GuestAction | null) => void;
 }) {
   return (
-    <div style={{
+    <div className="rtbx-phone-frame" style={{
       width: 300,
       background: "#1a1b2e",
       borderRadius: 44,
