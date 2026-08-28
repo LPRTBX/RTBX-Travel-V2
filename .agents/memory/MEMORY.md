@@ -5,3 +5,4 @@
 - [Travel Intelligence data model](travel-intelligence-data-model.md) — central data file backs the Travel Intelligence page; new taxonomies/roles go there, not inline in the page
 - [Sprint 3 data model decisions](sprint3-data-model.md) — legacy scenario fields preserved; canonical S3 fields added alongside; travelPlaybooks.ts and travelRoles.ts are new; playbooks.ts untouched
 - [Sprint 5 data model decisions](sprint5-data-model.md) — 4 new data files, CommercialStatus/IntegrationMaturity type guards, marketplace always expansion-only, connector-ready excluded by type
+- [Responsive table containment](responsive-table-containment.md) — wide tables need inline-size containment on local scrollers or min-content sizing can still widen mobile pages

@@ -64,7 +64,7 @@ export default function PartnerValidation() {
                   Use the MVP to validate the push-first pilot workflow before integrations are added. Signal captured → classified → assigned → guest-facing message → escalated → logged → pilot evidence.
                 </p>
               </div>
-              <div style={{
+              <div className="rtbx-responsive-cta" style={{
                 padding: "10px 22px", fontSize: 9.5, fontWeight: 700, letterSpacing: "0.1em",
                 textTransform: "uppercase", color: "#c9a84c", border: "1px solid rgba(201,168,76,0.4)",
                 whiteSpace: "nowrap", flexShrink: 0,
@@ -88,7 +88,7 @@ export default function PartnerValidation() {
             </p>
           </div>
           <Link href="/partner-room/validation-replay">
-            <div style={{
+            <div className="rtbx-responsive-cta" style={{
               padding: "12px 28px", fontSize: 10, fontWeight: 700, letterSpacing: "0.1em",
               textTransform: "uppercase", color: "#10b981", border: "1px solid rgba(16,185,129,0.4)",
               cursor: "pointer", transition: "all 0.15s", whiteSpace: "nowrap", flexShrink: 0,
