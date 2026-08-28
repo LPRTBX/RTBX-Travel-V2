@@ -89,6 +89,23 @@ export interface ScenarioExecution {
   scenarioTitle: string;
   deploymentId: string;
   deploymentName: string;
+  playbookId: string;
+  playbookName: string;
+  accountableRoleId: string;
+  governanceRules: Array<{
+    id: string;
+    label: string;
+    value: string;
+    source: string;
+  }>;
+  playbookSteps: Array<{
+    step: number;
+    title: string;
+    action: string;
+    ownerRoleId: string;
+    timing: string;
+    approvalRequired: boolean;
+  }>;
 
   state: ScenarioExecutionState;
   stateHistory: Array<{ state: ScenarioExecutionState; timestamp: string; note?: string }>;
@@ -165,11 +182,19 @@ export function createExecution(params: {
   playbook: TravelPlaybook;
 }): ScenarioExecution {
   const { deployment, scenario, playbook } = params;
+  const configuredScenario = deployment.scenarios.find(item => item.scenarioId === scenario.id);
+  if (!configuredScenario) {
+    throw new Error(`Scenario "${scenario.id}" is not configured in deployment "${deployment.id}".`);
+  }
+  if (configuredScenario.playbookId !== scenario.playbookId || playbook.id !== scenario.playbookId) {
+    throw new Error(`Scenario "${scenario.id}" is not linked to its canonical playbook.`);
+  }
   const now = new Date().toISOString();
   const id  = `exec-${scenario.id}-${Date.now()}`;
 
-  // Build evidence from scenario's canonical evidence requirements
-  const evidence: RuntimeEvidence[] = scenario.evidenceRequirements.map((er, i) => ({
+  // Runtime evidence, outcomes and communications come from the validated
+  // deployment configuration rather than a parallel page-local fixture.
+  const evidence: RuntimeEvidence[] = deployment.evidence.map((er, i) => ({
     id: `ev-${id}-${i}`,
     evidenceType: er.evidenceType,
     required: er.required,
@@ -178,25 +203,21 @@ export function createExecution(params: {
     captured: false,
   }));
 
-  // Build outcomes from scenario outcomes
-  const outcomes: RuntimeOutcome[] = scenario.outcomes.map((o, i) => ({
+  const outcomes: RuntimeOutcome[] = deployment.outcomes.map((o, i) => ({
     id: `out-${id}-${i}`,
     metric: o.metric,
     status: "pending" as OutcomeStatus,
   }));
 
-  // Build communications from scenario communication details
-  const communications: RuntimeCommunication[] = scenario.communicationDetails.map((c, i) => ({
+  const communications: RuntimeCommunication[] = deployment.communications.map((c, i) => ({
     id: `comm-${id}-${i}`,
     audience: c.audience,
     channel: c.channel,
-    purpose: c.purpose,
+    purpose: c.communicationType,
     approvalRequired: c.approvalRequired,
     sent: false,
-    isGuestFacing: c.audience.toLowerCase().includes("guest") && c.messageType !== "internal-notification",
+    isGuestFacing: c.audience.toLowerCase().includes("guest"),
   }));
-
-  void playbook; // playbook drives playbook steps shown in UI; not needed in execution record itself
 
   return {
     id,
@@ -204,6 +225,25 @@ export function createExecution(params: {
     scenarioTitle: scenario.title,
     deploymentId: deployment.id,
     deploymentName: deployment.deploymentName,
+    playbookId: playbook.id,
+    playbookName: playbook.name,
+    accountableRoleId: configuredScenario.accountableRoleId,
+    governanceRules: deployment.governance
+      .filter(rule => rule.value.trim())
+      .map(rule => ({
+        id: rule.id,
+        label: rule.label,
+        value: rule.value,
+        source: rule.source,
+      })),
+    playbookSteps: playbook.steps.map(step => ({
+      step: step.step,
+      title: step.title,
+      action: step.action,
+      ownerRoleId: step.ownerRoleId,
+      timing: step.timing,
+      approvalRequired: step.approvalRequired ?? false,
+    })),
     state: "signal-received",
     stateHistory: [{ state: "signal-received", timestamp: now, note: "Execution started" }],
     startedAt: now,

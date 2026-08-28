@@ -105,7 +105,10 @@ describe("Step 6 proof and claims guardrails", () => {
     expect(comms).toContain('label: "Simulated"');
     expect(comms).toContain('label: "Illustrated"');
 
-    expect(scenarios).toMatch(/Simulation boundary:[\s\S]*controls on this page only change local demonstration state/);
+    expect(scenarios).toMatch(/Library boundary:[\s\S]*read-only explorer, not a runtime/);
+    expect(scenarios).toMatch(/Execution Centre is the only canonical local scenario runtime/);
+    expect(scenarios).not.toContain("<ScenarioRunner");
+    expect(scenarios).not.toContain("<LegacyUnmountedScenarioRunner");
     expect(scenarios).not.toContain('"✓ Sent"');
     expect(scenarios).not.toContain('"✓ Action confirmed"');
     expect(scenarios).not.toContain('"✓ Outcome completed"');

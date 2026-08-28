@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 import {
   TRAVEL_ACTION_CARDS, TRAVEL_PROPERTIES, TRAVEL_PRIORITIES, ACTION_STATUS_SEQUENCE,
@@ -35,6 +35,13 @@ import { TRAVEL_SCENARIOS } from "@/data/travelScenarios";
 import { TRAVEL_PLAYBOOKS } from "@/data/travelPlaybooks";
 import { TRAVEL_OPERATING_SYSTEMS } from "@/data/travelOperatingSystems";
 import type { TravelDeploymentConfig } from "@/data/travelDeploymentConfig";
+import {
+  getScenarioIdFromQuery,
+  getScenarioRuntimeReadiness,
+  travelScenarioConfigurePath,
+  travelScenarioExecutionPath,
+  travelScenarioPath,
+} from "@/lib/travelScenarioRouting";
 
 // ── Style constants ───────────────────────────────────────────────────────────
 
@@ -355,8 +362,8 @@ function ExecTracePanel({
               <span style={{ color: "rgba(255,255,255,0.35)", fontWeight: 700 }}>Illustrative recommendation: </span>{scenario.decision.recommendedDecision}
             </div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 10 }}>
-              {scenario.governanceConfig.rules.slice(0, 3).map((r, i) => (
-                <div key={i} style={{ padding: "3px 9px", fontSize: 9, color: "rgba(255,255,255,0.55)", border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.02)" }}>{r}</div>
+              {exec.governanceRules.slice(0, 3).map(rule => (
+                <div key={rule.id} style={{ padding: "3px 9px", fontSize: 9, color: "rgba(255,255,255,0.55)", border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.02)" }}>{rule.label}: {rule.value}</div>
               ))}
             </div>
             {scenario.governanceConfig.humanApprovalRequired && (
@@ -370,11 +377,19 @@ function ExecTracePanel({
         {/* Step 3: Act — comms + escalation */}
         {currentStep === 3 && (
           <div>
-          <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700, marginBottom: 8 }}>Unsent Communication Drafts</div>
+          <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700, marginBottom: 8 }}>Configured Playbook · {exec.playbookName}</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 4, marginBottom: 16 }}>
+              {exec.playbookSteps.slice(0, 4).map(step => (
+                <div key={step.step} style={{ padding: "6px 9px", fontSize: 10, color: "rgba(255,255,255,0.55)", background: "rgba(255,255,255,0.015)", border: "1px solid rgba(255,255,255,0.05)" }}>
+                  <strong style={{ color: C.gold }}>{step.step}. {step.title}</strong> — {step.ownerRoleId} · {step.timing}
+                </div>
+              ))}
+            </div>
+          <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700, marginBottom: 8 }}>Configured Unsent Communication Drafts</div>
             {exec.communications.map(c => {
               const isApproved = !!approvedComms[c.id];
               const needsApproval = c.approvalRequired && !isApproved;
-              const approvalRole = scenario.governanceConfig.approvalRole ?? "duty-manager";
+              const approvalRole = exec.accountableRoleId;
               return (
                 <div key={c.id} style={{ padding: "10px 0", borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
@@ -560,7 +575,7 @@ function ExecTracePanel({
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
           <div>
             <div style={{ fontSize: 13, fontWeight: 800, color: "#fff" }}>{scenario.title}</div>
-            <div style={{ fontSize: 9.5, color: "rgba(255,255,255,0.4)" }}>{scenario.playbook}</div>
+            <div style={{ fontSize: 9.5, color: "rgba(255,255,255,0.4)" }}>{exec.playbookName} · {exec.accountableRoleId}</div>
           </div>
           <div style={{ padding: "4px 10px", fontSize: 9, fontWeight: 700, color: stateColor, border: `1px solid ${stateColor}40`, background: `${stateColor}0a` }}>
             Illustrative state · {stateLabel}
@@ -653,6 +668,7 @@ function ExecTracePanel({
 // ── Main page ─────────────────────────────────────────────────────────────────
 
 export default function PartnerOperationsCentre() {
+  const [location, navigate] = useLocation();
   useEffect(() => {
     const scrollToHash = () => {
       const hash = window.location.hash.replace("#", "");
@@ -667,6 +683,16 @@ export default function PartnerOperationsCentre() {
 
   const { activeDeployment } = useDeployment();
   const [launchedScenarioId, setLaunchedScenarioId] = useState<string | null>(null);
+  const requestedScenarioId = getScenarioIdFromQuery(
+    location,
+    typeof window === "undefined" ? "" : window.location.search,
+  );
+  const requestedScenario = requestedScenarioId
+    ? TRAVEL_SCENARIOS.find(item => item.id === requestedScenarioId)
+    : undefined;
+  const requestedReadiness = requestedScenarioId
+    ? getScenarioRuntimeReadiness(activeDeployment, requestedScenarioId)
+    : null;
 
   // Action Centre filters
   const [propertyFilter, setPropertyFilter] = useState<string | null>(null);
@@ -699,7 +725,7 @@ export default function PartnerOperationsCentre() {
   const activeDeploymentScenarios = useMemo(() => {
     if (!activeDeployment) return [];
     return activeDeployment.scenarios
-      .filter(ds => ds.active)
+      .filter(ds => getScenarioRuntimeReadiness(activeDeployment, ds.scenarioId).ready)
       .map(ds => {
         const scenario = TRAVEL_SCENARIOS.find(s => s.id === ds.scenarioId);
         const playbook = TRAVEL_PLAYBOOKS.find(p => p.id === ds.playbookId);
@@ -709,6 +735,11 @@ export default function PartnerOperationsCentre() {
   }, [activeDeployment]);
 
   const launchedEntry = activeDeploymentScenarios.find(e => e.scenario.id === launchedScenarioId);
+
+  useEffect(() => {
+    if (!requestedScenarioId) return;
+    setLaunchedScenarioId(requestedReadiness?.ready ? requestedScenarioId : null);
+  }, [requestedScenarioId, requestedReadiness?.ready]);
 
   return (
     <PartnerRoomLayout>
@@ -752,9 +783,33 @@ export default function PartnerOperationsCentre() {
               Deterministic rules and synthetic inputs only. No communication, task or external update is dispatched.
             </div>
 
+            {requestedReadiness && (
+              <div role={requestedReadiness.ready ? "status" : "alert"} style={{ padding: "14px 18px", marginBottom: 16, background: requestedReadiness.ready ? "rgba(16,185,129,0.05)" : "rgba(249,115,22,0.05)", border: `1px solid ${requestedReadiness.ready ? "rgba(16,185,129,0.25)" : "rgba(249,115,22,0.3)"}`, borderLeft: `3px solid ${requestedReadiness.ready ? C.green : "#f97316"}` }}>
+                <div style={{ fontSize: 11.5, fontWeight: 800, color: requestedReadiness.ready ? C.green : "#f97316", marginBottom: 5 }}>
+                  {requestedReadiness.ready ? "Scenario ready for local simulation" : "Scenario not ready for runtime"}
+                </div>
+                <div style={{ fontSize: 11, color: "rgba(255,255,255,0.5)", lineHeight: 1.6 }}>
+                  {requestedScenario?.title ?? requestedScenarioId}: {requestedReadiness.reason}
+                </div>
+                {!requestedReadiness.ready && requestedScenario && (
+                  <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 10 }}>
+                    <Link href={travelScenarioConfigurePath(requestedScenario.id)}>
+                      <span style={{ fontSize: 10, color: C.gold, fontWeight: 700 }}>Review in Build &amp; Configure →</span>
+                    </Link>
+                    <Link href={travelScenarioPath(requestedScenario.id)}>
+                      <span style={{ fontSize: 10, color: "rgba(255,255,255,0.45)" }}>View library entry →</span>
+                    </Link>
+                  </div>
+                )}
+              </div>
+            )}
+
             {activeDeploymentScenarios.length === 0 ? (
               <div style={{ padding: "20px 24px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
-                <div style={{ fontSize: 12, color: "rgba(255,255,255,0.45)" }}>No scenarios selected in the local simulation configuration.</div>
+                <div style={{ fontSize: 12, color: "rgba(255,255,255,0.45)", marginBottom: 10 }}>No runtime-ready scenarios are enabled in the selected local simulation configuration.</div>
+                <Link href="/partner-room/build-configure">
+                  <span style={{ fontSize: 10, color: C.gold, fontWeight: 700 }}>Review configuration →</span>
+                </Link>
               </div>
             ) : (
               <>
@@ -762,13 +817,17 @@ export default function PartnerOperationsCentre() {
                 {!launchedScenarioId && (
                   <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 16 }}>
                     {activeDeploymentScenarios.map(({ scenario }) => (
-                      <div
+                      <button
+                        type="button"
                         key={scenario.id}
-                        onClick={() => setLaunchedScenarioId(scenario.id)}
+                        onClick={() => {
+                          setLaunchedScenarioId(scenario.id);
+                          navigate(travelScenarioExecutionPath(scenario.id));
+                        }}
                         style={{ padding: "8px 16px", fontSize: 10, fontWeight: 700, cursor: "pointer", color: "rgba(255,255,255,0.65)", border: "1px solid rgba(255,255,255,0.12)", background: "rgba(255,255,255,0.02)" }}
                       >
                         {scenario.title}
-                      </div>
+                      </button>
                     ))}
                   </div>
                 )}

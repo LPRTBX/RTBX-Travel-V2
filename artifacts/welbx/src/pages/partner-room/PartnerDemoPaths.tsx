@@ -70,13 +70,13 @@ const CORE_DEMOS = [
   },
   {
     num: "07",
-    title: "RTBX Travel Scenarios",
-    tag: "Working Proof · Simulated Chain",
+    title: "Travel Scenario Library",
+    tag: "Working Proof · Read-only Explorer",
     tagColor: "#3b82f6",
-    desc: "Six simulated scenarios covering loyalty recovery, welfare, backlog, maintenance, transport and commercial opportunity — each models a proposed signal-to-value path.",
+    desc: "Six canonical scenario definitions covering loyalty recovery, welfare, backlog, maintenance, transport and commercial opportunity. Explore here; configure and run them in their dedicated surfaces.",
     audience: "Operators · Partners · Executives",
     href: "/partner-room/travel-scenarios",
-    cta: "Open Scenarios",
+    cta: "Open Scenario Library",
     color: "#3b82f6",
   },
 ];

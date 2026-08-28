@@ -26,6 +26,7 @@ import {
   type SuccessMeasureTargetType,
 } from "@/data/travelPilotModel";
 import { TRAVEL_SCENARIOS } from "@/data/travelScenarios";
+import { travelScenarioPath } from "@/lib/travelScenarioRouting";
 import { TRAVEL_OPERATING_SYSTEMS } from "@/data/travelOperatingSystems";
 
 // ── Style constants ───────────────────────────────────────────────────────────
@@ -178,7 +179,7 @@ export default function PartnerPilotModel() {
                     <div style={{ padding: "3px 9px", fontSize: 11, fontWeight: 700, color: ps.role === "primary" ? C.gold : "rgba(255,255,255,0.3)", border: `1px solid ${ps.role === "primary" ? "rgba(201,168,76,0.4)" : "rgba(255,255,255,0.1)"}` }}>
                       {ps.role === "primary" ? "PRIMARY" : "OPTIONAL"}
                     </div>
-                    <Link href={`/partner-room/travel-scenarios#${ps.scenarioId}`}>
+                    <Link href={travelScenarioPath(ps.scenarioId)}>
                       <div style={{ padding: "3px 9px", fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.45)", border: "1px solid rgba(255,255,255,0.1)", cursor: "pointer" }}>VIEW →</div>
                     </Link>
                   </div>

@@ -7,3 +7,4 @@
 - [Sprint 5 data model decisions](sprint5-data-model.md) — 4 new data files, CommercialStatus/IntegrationMaturity type guards, marketplace always expansion-only, connector-ready excluded by type
 - [Responsive table containment](responsive-table-containment.md) — wide tables need inline-size containment on local scrollers or min-content sizing can still widen mobile pages
 - [Proof-claim audits](proof-claim-audits.md) — audit every active partner-reachable route and rendered data source; primary-page disclaimers alone do not resolve contradictory claims.
+- [Scenario ownership boundaries](scenario-ownership-boundaries.md) — Library explores, Build & Configure validates/activates, and only the Execution Centre runs scenarios.

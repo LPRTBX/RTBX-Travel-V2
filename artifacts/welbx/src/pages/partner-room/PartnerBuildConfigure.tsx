@@ -9,8 +9,8 @@
  * Not a production customer environment.
  */
 
-import { useState } from "react";
-import { Link } from "wouter";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 import { useDeployment } from "@/context/DeploymentContext";
 import {
@@ -33,6 +33,11 @@ import { TRAVEL_ROLES } from "@/data/travelRoles";
 import { TRAVEL_OPERATING_SYSTEMS, OS_POSITION_LABELS, OS_POSITION_COLORS } from "@/data/travelOperatingSystems";
 import { TRAVEL_SCENARIOS } from "@/data/travelScenarios";
 import { TRAVEL_PLAYBOOKS } from "@/data/travelPlaybooks";
+import {
+  getDeploymentActivationReadiness,
+  getScenarioIdFromQuery,
+  travelScenarioPath,
+} from "@/lib/travelScenarioRouting";
 
 // ── Palette ────────────────────────────────────────────────────────────────────
 const C = {
@@ -562,7 +567,11 @@ function Stage5({ draft, setDraft }: { draft: TravelDeploymentConfig; setDraft: 
 
 // ── Stage 6: Scenarios & Playbooks ────────────────────────────────────────────
 
-function Stage6({ draft, setDraft }: { draft: TravelDeploymentConfig; setDraft: React.Dispatch<React.SetStateAction<TravelDeploymentConfig>> }) {
+function Stage6({ draft, setDraft, preselectedScenarioId }: {
+  draft: TravelDeploymentConfig;
+  setDraft: React.Dispatch<React.SetStateAction<TravelDeploymentConfig>>;
+  preselectedScenarioId: string | null;
+}) {
   const updScenario = (scenarioId: string, field: string, val: unknown) => {
     setDraft(prev => ({
       ...prev,
@@ -579,6 +588,15 @@ function Stage6({ draft, setDraft }: { draft: TravelDeploymentConfig; setDraft: 
   return (
     <div>
       <StageHeader title="Scenarios & Playbooks" description="Select which canonical scenarios are active in this deployment. Each scenario requires an active Operating System, an accountable role, and a linked playbook. Inactive prerequisites are shown as blocking conditions." />
+      {preselectedScenarioId && (
+        <div style={{ marginBottom: 16, padding: "12px 16px", background: "rgba(201,168,76,0.05)", border: "1px solid rgba(201,168,76,0.25)", borderLeft: `3px solid ${C.gold}` }}>
+          <div style={{ fontSize: 11.5, color: "rgba(255,255,255,0.65)", lineHeight: 1.65 }}>
+            <strong style={{ color: C.gold }}>Preselected from the Travel Scenario Library:</strong>{" "}
+            {TRAVEL_SCENARIOS.find(item => item.id === preselectedScenarioId)?.title}.
+            Review its activation, operating system, accountable role and playbook below. No saved deployment state changes until you complete validation and select Activate.
+          </div>
+        </div>
+      )}
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
         {draft.scenarios.map(ds => {
           const scenario = TRAVEL_SCENARIOS.find(ts => ts.id === ds.scenarioId);
@@ -593,13 +611,14 @@ function Stage6({ draft, setDraft }: { draft: TravelDeploymentConfig; setDraft: 
           const blocked = ds.active && (!osActive || !roleActive);
 
           return (
-            <div key={ds.scenarioId} style={{ padding: "18px 20px", background: ds.active ? "rgba(255,255,255,0.025)" : "rgba(255,255,255,0.01)", border: `1px solid ${blocked ? "rgba(239,68,68,0.3)" : ds.active ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.05)"}`, borderLeft: `3px solid ${ds.active ? (osDef?.color ?? C.gold) : "rgba(255,255,255,0.1)"}` }}>
+            <div key={ds.scenarioId} style={{ padding: "18px 20px", background: ds.active ? "rgba(255,255,255,0.025)" : "rgba(255,255,255,0.01)", border: `1px solid ${preselectedScenarioId === ds.scenarioId ? "rgba(201,168,76,0.55)" : blocked ? "rgba(239,68,68,0.3)" : ds.active ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.05)"}`, borderLeft: `3px solid ${preselectedScenarioId === ds.scenarioId ? C.gold : ds.active ? (osDef?.color ?? C.gold) : "rgba(255,255,255,0.1)"}` }}>
               <div style={{ display: "flex", alignItems: "flex-start", gap: 14, justifyContent: "space-between" }}>
                 <div style={{ flex: 1 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6, flexWrap: "wrap" }}>
                     <span style={{ fontSize: 12.5, fontWeight: 800, color: ds.active ? "#fff" : "rgba(255,255,255,0.4)" }}>{scenario.title}</span>
                     <Badge label={scenario.num} color={osDef?.color ?? C.gold} />
                     <Badge label={scenario.maturityStatus} color={ds.active ? (osDef?.color ?? C.gold) : "rgba(255,255,255,0.2)"} />
+                    {preselectedScenarioId === ds.scenarioId && <Badge label="Selected for review" color={C.gold} />}
                   </div>
                   <p style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", lineHeight: 1.6, margin: "0 0 10px", maxWidth: 540 }}>
                     {scenario.trigger.description}
@@ -651,6 +670,11 @@ function Stage6({ draft, setDraft }: { draft: TravelDeploymentConfig; setDraft: 
                       ⚠ Welfare scenario: human review is mandatory. Restricted communication pathway enforced. AI cannot close this scenario.
                     </div>
                   )}
+                  <div style={{ marginTop: 10 }}>
+                    <Link href={travelScenarioPath(ds.scenarioId)}>
+                      <span style={{ fontSize: 9.5, color: "rgba(255,255,255,0.35)", cursor: "pointer" }}>View canonical scenario details →</span>
+                    </Link>
+                  </div>
                 </div>
                 <button
                   type="button"
@@ -835,12 +859,13 @@ function Stage8({ draft, setDraft }: { draft: TravelDeploymentConfig; setDraft: 
 // ── Stage 9: Review & Activate ────────────────────────────────────────────────
 
 function Stage9({ draft, onActivate }: { draft: TravelDeploymentConfig; onActivate: () => void }) {
-  const readiness     = computeReadiness(draft);
+  const activationReadiness = getDeploymentActivationReadiness(draft);
+  const readiness     = activationReadiness.readiness;
   const readinessColor = READINESS_COLORS[readiness];
   const activeOSes    = draft.operatingSystems.filter(o => o.active);
   const activeScens   = draft.scenarios.filter(s => s.active);
   const activeRoles   = draft.roles.filter(r => r.active);
-  const canActivate   = readiness === "Ready for simulation" || readiness === "Ready for pilot design";
+  const canActivate   = activationReadiness.ready;
 
   const SumRow = ({ label, value, color }: { label: string; value: string | number; color?: string }) => (
     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", padding: "6px 0", borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
@@ -871,6 +896,15 @@ function Stage9({ draft, onActivate }: { draft: TravelDeploymentConfig; onActiva
         <p style={{ fontSize: 10, color: "rgba(255,255,255,0.3)", margin: "10px 0 0", fontStyle: "italic" }}>
           Note: "Ready for production" is never a valid state in this prototype — production deployment requires engineering, integration and security review.
         </p>
+        {activationReadiness.issues.length > 0 && (
+          <div style={{ marginTop: 12, display: "flex", flexDirection: "column", gap: 4 }}>
+            {activationReadiness.issues.map((issue, index) => (
+              <div key={`${issue.code}-${issue.scenarioId ?? index}`} style={{ fontSize: 10.5, color: "rgba(239,68,68,0.9)", lineHeight: 1.55 }}>
+                {issue.scenarioId ? `${TRAVEL_SCENARIOS.find(item => item.id === issue.scenarioId)?.title ?? issue.scenarioId}: ` : ""}{issue.reason}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Summary grid */}
@@ -1083,16 +1117,34 @@ function ResetConfirmDialog({ onConfirm, onCancel }: { onConfirm: () => void; on
 // ── Main component ─────────────────────────────────────────────────────────────
 
 export default function PartnerBuildConfigure() {
+  const [location] = useLocation();
   const { activeDeployment, activateDeployment, resetDeployment } = useDeployment();
   const [stage, setStage]   = useState(0);
   const [draft, setDraft]   = useState<TravelDeploymentConfig>(() => activeDeployment ?? DEFAULT_DEPLOYMENT);
   const [activated, setActivated] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [activationError, setActivationError] = useState<string | null>(null);
+  const requestedScenarioId = getScenarioIdFromQuery(
+    location,
+    typeof window === "undefined" ? "" : window.location.search,
+  );
+  const preselectedScenarioId = TRAVEL_SCENARIOS.some(item => item.id === requestedScenarioId)
+    ? requestedScenarioId
+    : null;
+
+  useEffect(() => {
+    if (preselectedScenarioId) setStage(5);
+  }, [preselectedScenarioId]);
 
   function handleActivate() {
-    activateDeployment(draft);
-    setActivated(true);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    try {
+      activateDeployment(draft);
+      setActivationError(null);
+      setActivated(true);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch (error) {
+      setActivationError(error instanceof Error ? error.message : "Activation blocked by configuration validation.");
+    }
   }
 
   function handleReset() {
@@ -1159,10 +1211,15 @@ export default function PartnerBuildConfigure() {
           {stage === 2 && <Stage3 draft={draft} setDraft={setDraft} />}
           {stage === 3 && <Stage4 draft={draft} setDraft={setDraft} />}
           {stage === 4 && <Stage5 draft={draft} setDraft={setDraft} />}
-          {stage === 5 && <Stage6 draft={draft} setDraft={setDraft} />}
+          {stage === 5 && <Stage6 draft={draft} setDraft={setDraft} preselectedScenarioId={preselectedScenarioId} />}
           {stage === 6 && <Stage7 draft={draft} setDraft={setDraft} />}
           {stage === 7 && <Stage8 draft={draft} setDraft={setDraft} />}
           {stage === 8 && <Stage9 draft={draft} onActivate={handleActivate} />}
+          {stage === 8 && activationError && (
+            <div role="alert" style={{ marginTop: 12, padding: "12px 16px", background: "rgba(239,68,68,0.06)", border: "1px solid rgba(239,68,68,0.3)", color: "rgba(239,68,68,0.9)", fontSize: 11, lineHeight: 1.6 }}>
+              Activation blocked: {activationError}
+            </div>
+          )}
         </div>
 
         <NavFooter

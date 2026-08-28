@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
+import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
+import { travelScenarioExecutionPath } from "@/lib/travelScenarioRouting";
 
 type Mode = "Normal" | "Escalation" | "Failure";
 
@@ -219,6 +221,15 @@ export default function PartnerValidationReplay() {
             </p>
           </div>
         )}
+
+        <div style={{ marginTop: 24, padding: "16px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderLeft: "3px solid #c9a84c" }}>
+          <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.5)", lineHeight: 1.65, margin: "0 0 10px" }}>
+            This is a controlled synthetic replay for validation discussion, not a second runtime. Configured scenario state is created and advanced only in the Execution Centre.
+          </p>
+          <Link href={travelScenarioExecutionPath("repeat-guest-room-not-ready")}>
+            <span style={{ fontSize: 10, color: "#c9a84c", fontWeight: 700 }}>Check this scenario in the Execution Centre →</span>
+          </Link>
+        </div>
 
       </div>
     </PartnerRoomLayout>

@@ -1,15 +1,19 @@
 import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 import { ENGINE_STAGES } from "@/data/rtbxArchitecture";
+import {
+  travelScenarioExecutionPath,
+  travelScenarioPath,
+} from "@/lib/travelScenarioRouting";
 
 const PROOF_MODES = [
   {
     num: "01",
-    label: "Scenario Builder",
+    label: "Travel Scenario Library",
     color: "#c9a84c",
-    desc: "Build a travel scenario and watch RTBX classify, decide, execute and assure.",
-    href: "/partner-room/scenario-builder",
-    cta: "Open Scenario Builder",
+    desc: "Inspect one canonical scenario definition, then hand it to configuration or the single Execution Centre runtime.",
+    href: travelScenarioPath("repeat-guest-room-not-ready"),
+    cta: "Open Scenario Detail",
   },
   {
     num: "02",
@@ -273,7 +277,7 @@ export default function PartnerProductProof() {
                 stageLabel: "Act", stageNum: "04",
                 items: [
                   { label: "Comms Demo", desc: "Central Comms OS routing: signal to message routing across channels with approval indicators.", href: "/partner-room/comms-demo", status: "Simulation" },
-                  { label: "Operations Centre", desc: "RTBX Execution Centre — the operator interface for moments, actions and evidence.", href: "/partner-room/operations", status: "Working Proof" },
+                  { label: "Execution Centre", desc: "The only canonical local runtime for configured scenarios, governed actions and illustrative evidence.", href: travelScenarioExecutionPath("repeat-guest-room-not-ready"), status: "Working Proof" },
                   { label: "Operator Demo", desc: "What the role owner sees: signals, context, decision, action, comms, evidence.", href: "/partner-room/operator-demo", status: "Working Proof" },
                   { label: "Guest Demo", desc: "What the guest experiences as the output of coordinated RTBX action.", href: "/partner-room/guest-demo", status: "Working Proof" },
                 ],
