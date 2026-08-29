@@ -22,7 +22,6 @@ import PartnerIntegrationBrief from "@/pages/partner-room/PartnerIntegrationBrie
 import PartnerMomentsEconomy from "@/pages/partner-room/PartnerMomentsEconomy";
 import PartnerSignalsEngine from "@/pages/partner-room/PartnerSignalsEngine";
 import PartnerPilotModel from "@/pages/partner-room/PartnerPilotModel";
-import PartnerCommercialModel from "@/pages/partner-room/PartnerCommercialModel";
 import PartnerDemoPaths from "@/pages/partner-room/PartnerDemoPaths";
 import PartnerLiveDemos from "@/pages/partner-room/PartnerLiveDemos";
 import PartnerGuestDemo from "@/pages/partner-room/PartnerGuestDemo";
@@ -38,11 +37,10 @@ import PartnerIntelligenceModel from "@/pages/partner-room/PartnerIntelligenceMo
 import PartnerTravelOperatingSystems from "@/pages/partner-room/PartnerTravelOperatingSystems";
 import PartnerEcosystem from "@/pages/partner-room/PartnerEcosystem";
 import PartnerRolloutModel from "@/pages/partner-room/PartnerRolloutModel";
-import PartnerCommercialUnit from "@/pages/partner-room/PartnerCommercialUnit";
 
 // ── Secondary routes (lazy) ──────────────────────────────────────────────────
-// Deployment demo verticals, product proof deep-dives, utility routes,
-// story lab, and resource library pages are loaded on demand.
+// Deployment demo verticals, product proof utilities, and approved resource
+// pages are loaded on demand. Internal/restricted material is not imported.
 
 // Deployment vertical demos
 const PartnerHolidayParkDemo       = lazy(() => import("@/pages/partner-room/PartnerHolidayParkDemo"));
@@ -60,21 +58,11 @@ const PartnerSignalCapture         = lazy(() => import("@/pages/partner-room/Par
 const PartnerStage3Preview         = lazy(() => import("@/pages/partner-room/PartnerStage3Preview"));
 const PartnerPilotExpansionPreview = lazy(() => import("@/pages/partner-room/PartnerPilotExpansionPreview"));
 
-// Story lab
-const StoryHub                     = lazy(() => import("@/pages/StoryHub"));
-const StoryOperator                = lazy(() => import("@/pages/StoryOperator"));
-const StoryGuestStory              = lazy(() => import("@/pages/StoryGuestStory"));
-
 // Resource library (appendix documents)
 const TravelPartnershipOverview           = lazy(() => import("@/pages/partner-room/resources/TravelPartnershipOverview"));
-const TravelCommercialPartnershipBrief    = lazy(() => import("@/pages/partner-room/resources/TravelCommercialPartnershipBrief"));
-const TravelBusinessPlan                  = lazy(() => import("@/pages/partner-room/resources/TravelBusinessPlan"));
-const TravelGtmPlan                       = lazy(() => import("@/pages/partner-room/resources/TravelGtmPlan"));
-const TravelCommercialCase                = lazy(() => import("@/pages/partner-room/resources/TravelCommercialCase"));
 const TravelUxBlueprint                   = lazy(() => import("@/pages/partner-room/resources/TravelUxBlueprint"));
 const TravelSystemsMap                    = lazy(() => import("@/pages/partner-room/resources/TravelSystemsMap"));
 const TravelPilotModel                    = lazy(() => import("@/pages/partner-room/resources/TravelPilotModel"));
-const TravelRevenueModel                  = lazy(() => import("@/pages/partner-room/resources/TravelRevenueModel"));
 const TravelDemoLinks                     = lazy(() => import("@/pages/partner-room/resources/TravelDemoLinks"));
 const TravelAiIntelligenceLayer           = lazy(() => import("@/pages/partner-room/resources/TravelAiIntelligenceLayer"));
 const TravelArchitectureModellingUxQa     = lazy(() => import("@/pages/partner-room/resources/TravelArchitectureModellingUxQa"));
@@ -108,7 +96,7 @@ const PARTNER_ROUTES = [
   { path: "/partner-room/moments-economy",    component: PartnerMomentsEconomy },
   { path: "/partner-room/signals-engine",     component: PartnerSignalsEngine },
   { path: "/partner-room/pilot-model",        component: PartnerPilotModel },
-  { path: "/partner-room/commercial-model",   component: PartnerCommercialModel },
+  { path: "/partner-room/commercial-model",   component: () => <Redirect to="/partner-room/commercial" /> },
   { path: "/partner-room/demo-paths",         component: PartnerDemoPaths },
   { path: "/partner-room/live-demos",         component: PartnerLiveDemos },
   { path: "/partner-room/guest-demo",         component: PartnerGuestDemo },
@@ -144,18 +132,12 @@ const PARTNER_ROUTES = [
   { path: "/partner-room/travel-scenarios",   component: PartnerTravelScenarios },
   { path: "/travel-scenarios/:scenarioId",    component: PartnerTravelScenarios },
   { path: "/travel-scenarios",                component: PartnerTravelScenarios },
-  { path: "/partner-room/commercial-unit",    component: PartnerCommercialUnit },
   { path: "/partner-room/rollout-model",      component: PartnerRolloutModel },
   { path: "/partner-room/partner-ecosystem",  component: PartnerEcosystem },
   { path: "/partner-room/resources/travel-partnership-overview",         component: TravelPartnershipOverview },
-  { path: "/partner-room/resources/travel-commercial-partnership-brief", component: TravelCommercialPartnershipBrief },
-  { path: "/partner-room/resources/travel-business-plan",                component: TravelBusinessPlan },
-  { path: "/partner-room/resources/travel-gtm-plan",                     component: TravelGtmPlan },
-  { path: "/partner-room/resources/travel-commercial-case",              component: TravelCommercialCase },
   { path: "/partner-room/resources/travel-ux-blueprint",                 component: TravelUxBlueprint },
   { path: "/partner-room/resources/travel-systems-map",                  component: TravelSystemsMap },
   { path: "/partner-room/resources/travel-pilot-model",                  component: TravelPilotModel },
-  { path: "/partner-room/resources/travel-revenue-model",                component: TravelRevenueModel },
   { path: "/partner-room/resources/travel-demo-links",                   component: TravelDemoLinks },
   { path: "/partner-room/resources/travel-ai-intelligence-layer",        component: TravelAiIntelligenceLayer },
   { path: "/partner-room/resources/travel-architecture-modelling-ux-qa", component: TravelArchitectureModellingUxQa },
@@ -168,11 +150,7 @@ function Router() {
         {PARTNER_ROUTES.map(({ path, component: Component }) => (
           <Route key={path} path={path} component={Component} />
         ))}
-        {/* Operator Story Lab routes */}
-        <Route path="/story" component={StoryHub} />
-        <Route path="/story/executive-briefing">{() => <Redirect to="/story" />}</Route>
-        <Route path="/story/operator-deep-dive" component={StoryOperator} />
-        <Route path="/story/live-guest-story" component={StoryGuestStory} />
+        {/* Internal Story Lab is preserved in source but excluded from the external route tree. */}
         <Route>{() => <Redirect to="/partner-room" />}</Route>
       </Switch>
     </Suspense>

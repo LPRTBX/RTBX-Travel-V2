@@ -17,7 +17,7 @@ const PARTNER_TYPES = [
   { label: "Distribution Partners", color: "#a78bfa", role: "Bring RTBX Travel into their client portfolio", value: "Commercial pathway for their vertical clients across accommodation and experience", earn: "Revenue share on platform and deployment fees" },
   { label: "Marketplace Partners", color: "#10b981", role: "Activate services, experiences or local offers via RTBX Travel", value: "Reach guests at the right moment in their stay journey", earn: "Transaction revenue, partner activation fees" },
   { label: "Strategic Partners", color: "#f97316", role: "Co-own deployment in a vertical, geography or asset class", value: "First-mover infrastructure position across a priority deployment vertical", earn: "Equity pathway, vertical exclusivity, revenue co-participation" },
-  { label: "Funders & Investors", color: "#c9a84c", role: "Fund the deployment, scale or vertical build-out", value: "Capital into an infrastructure-grade travel execution system", earn: "Revenue participation, equity, exit pathway via strategic acquirer" },
+  { label: "Strategic Advisory Partners", color: "#c9a84c", role: "Support controlled evaluation and deployment planning", value: "Structured evidence, governance review and scaling guidance", earn: "Participation subject to a separate approved agreement" },
 ];
 
 const PATHWAY = [
@@ -25,7 +25,7 @@ const PATHWAY = [
   { n: "02", label: "Planned · Controlled Pilot", desc: "Proposed human-governed operating cycle to evaluate real moments and measure outcomes against an agreed baseline." },
   { n: "03", label: "Planned · Proof & Reporting", desc: "Proposed outcome report covering modelled guest recovery, staff response, indicative value and assurance evidence." },
   { n: "04", label: "Planned · Expansion Decision", desc: "A future evidence-gated decision on portfolio, vertical or geographic scale and commercial terms." },
-  { n: "05", label: "Planned · Strategic Partnership", desc: "A potential long-term agreement for revenue share, distribution, integration or investment, subject to pilot evidence." },
+  { n: "05", label: "Planned · Strategic Partnership", desc: "A potential long-term agreement for distribution or integration, subject to pilot evidence and separate approval." },
 ];
 
 export default function TravelPartnershipOverview() {
@@ -129,9 +129,9 @@ export default function TravelPartnershipOverview() {
         {/* Footer nav */}
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 32, display: "flex", gap: 10, flexWrap: "wrap" }}>
           {[
-            { label: "Commercial Brief", href: "/partner-room/resources/travel-commercial-partnership-brief" },
-            { label: "Business Plan", href: "/partner-room/resources/travel-business-plan" },
-            { label: "GTM Plan", href: "/partner-room/resources/travel-gtm-plan" },
+            { label: "Commercial Pathway", href: "/partner-room/commercial" },
+            { label: "Pilot Model", href: "/partner-room/pilot-model" },
+            { label: "Resource Library", href: "/partner-room/brief-library" },
             { label: "Demo Links", href: "/partner-room/resources/travel-demo-links" },
           ].map(b => (
             <Link key={b.href} href={b.href}>

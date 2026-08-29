@@ -6,7 +6,7 @@
  * Sources from travelCommercialModel.ts.
  * Every commercial figure or claim identifies its source status.
  * No approved pricing is invented. Unapproved figures are clearly labelled.
- * This is not the Revenue Model or Commercial Unit page — those remain as controlled appendices.
+   * Detailed commercial appendices are not part of the external Partner Room release.
  */
 
 import { Link } from "wouter";
@@ -324,7 +324,7 @@ export default function PartnerCommercial() {
           {[
             { label: "Pilot Model",       href: "/partner-room/pilot-model" },
             { label: "Partner Ecosystem", href: "/partner-room/partner-ecosystem" },
-            { label: "Commercial Model",  href: "/partner-room/commercial-model" },
+            { label: "Commercial Pathway", href: "/partner-room/commercial" },
             { label: "Proof Calculator",  href: "/partner-room/proof-calculator" },
           ].map(b => <Link key={b.href} href={b.href}><div style={{ padding: "8px 16px", border: "1px solid rgba(255,255,255,0.1)", fontSize: 9.5, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", cursor: "pointer" }}>{b.label} →</div></Link>)}
         </div>

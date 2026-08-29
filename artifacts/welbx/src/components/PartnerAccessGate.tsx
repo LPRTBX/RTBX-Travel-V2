@@ -62,7 +62,7 @@ export function PartnerAccessGate({ children }: PartnerAccessGateProps) {
         </div>
 
         <h1 style={{ fontSize: 28, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", marginBottom: 14 }}>
-          Private Partner Room
+          Controlled Partner Preview
         </h1>
         <p style={{ fontSize: 13, color: "rgba(255,255,255,0.38)", lineHeight: 1.7, marginBottom: 40 }}>
           This room is for invited partners reviewing RTBX Travel — the travel and hospitality operating vertical, powered by RTBX Core.
@@ -117,7 +117,7 @@ export function PartnerAccessGate({ children }: PartnerAccessGateProps) {
         </form>
 
         <p style={{ marginTop: 28, fontSize: 10, color: "rgba(255,255,255,0.22)", lineHeight: 1.6 }}>
-          This is a front-end MVP access gate for reviewer convenience, not a security boundary. Do not share the access code outside invited partners.
+          This access gate supports guided partner review and is not a production security boundary. Do not share the access code outside invited partners.
         </p>
 
         <div style={{ marginTop: 20, fontSize: 9, letterSpacing: "0.12em", color: "rgba(255,255,255,0.12)", textTransform: "uppercase", fontWeight: 600 }}>

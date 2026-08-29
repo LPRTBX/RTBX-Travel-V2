@@ -8,3 +8,4 @@
 - [Responsive table containment](responsive-table-containment.md) — wide tables need inline-size containment on local scrollers or min-content sizing can still widen mobile pages
 - [Proof-claim audits](proof-claim-audits.md) — audit every active partner-reachable route and rendered data source; primary-page disclaimers alone do not resolve contradictory claims.
 - [Scenario ownership boundaries](scenario-ownership-boundaries.md) — Library explores, Build & Configure validates/activates, and only the Execution Centre runs scenarios.
+- [Commercial resource boundaries](commercial-resource-boundaries.md) — client-side gates are not confidentiality; restricted material must be absent from routes, imports, and bundles.

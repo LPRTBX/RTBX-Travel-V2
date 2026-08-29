@@ -264,7 +264,7 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
               </span>
               <div className="rtbx-nav-private" style={{ display: "flex", alignItems: "center", gap: 6 }}>
                 <div style={{ width: 4, height: 4, borderRadius: "50%", background: "#c9a84c" }} aria-hidden="true" />
-                <span style={{ fontSize: 12, letterSpacing: "0.12em", color: "rgba(201,168,76,0.82)", textTransform: "uppercase", fontWeight: 700 }}>Private</span>
+                <span style={{ fontSize: 12, letterSpacing: "0.12em", color: "rgba(201,168,76,0.82)", textTransform: "uppercase", fontWeight: 700 }}>Controlled Preview</span>
               </div>
               <a
                 className="rtbx-next-step"

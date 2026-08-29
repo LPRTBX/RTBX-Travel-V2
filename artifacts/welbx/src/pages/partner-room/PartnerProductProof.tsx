@@ -116,7 +116,7 @@ const WALKTHROUGHS = [
   {
     label: "Operator Deep Dive Walkthrough",
     desc: "Detailed operator-level walkthrough from signal detection to resolution.",
-    href: "/story/operator-deep-dive",
+    href: "/partner-room/operations",
     cta: "Open Deep Dive",
   },
   {

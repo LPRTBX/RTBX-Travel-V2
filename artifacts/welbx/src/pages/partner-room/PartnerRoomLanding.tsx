@@ -592,7 +592,7 @@ export default function PartnerRoomLanding() {
             { sub: "FOR OPERATORS", title: "Operator / Hotel Group", desc: "Service recovery, staff consistency, escalation visibility and measurable operational execution.", cta: "Operator Brief", href: "/partner-room/operator-brief", color: "#c9a84c" },
             { sub: "FOR TECHNOLOGY PARTNERS", title: "Integration Partner", desc: "Connect PMS, CRM, POS, workforce and loyalty systems as live RTBX Core signal sources.", cta: "Integration Brief", href: "/partner-room/integration-brief", color: "#3b82f6" },
             { sub: "FOR COMMERCIAL PARTNERS", title: "Commercial Partner", desc: "Activate moments where guest need, commercial intent and operational timing create value.", cta: "Moments Economy", href: "/partner-room/moments-economy", color: "#a78bfa" },
-            { sub: "FOR STRATEGIC PARTNERS", title: "Strategic / Funding Partner", desc: "Category opportunity, pilot validation model, commercial expansion and infrastructure position.", cta: "Commercial Model", href: "/partner-room/commercial-model", color: "#22d3ee" },
+            { sub: "FOR STRATEGIC PARTNERS", title: "Strategic Partner", desc: "Category opportunity, pilot validation model, commercial expansion and infrastructure position.", cta: "Commercial Pathway", href: "/partner-room/commercial", color: "#22d3ee" },
           ].map(card => (
             <div key={card.title} style={{
               padding: "32px 24px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)",
@@ -647,7 +647,7 @@ export default function PartnerRoomLanding() {
               Open Dual View Demo
             </div>
           </Link>
-          <GhostBtn href="/story">Operator Story Lab</GhostBtn>
+          <GhostBtn href="/partner-room/demo-paths">Guided Demo Paths</GhostBtn>
           <GhostBtn href="/partner-room/pilot-model">Pilot Model</GhostBtn>
           <GhostBtn href="mailto:lance@rtbx.com.au?subject=RTBX Travel Partner Briefing" ext>Request Partner Briefing</GhostBtn>
         </div>

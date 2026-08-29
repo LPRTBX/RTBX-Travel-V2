@@ -65,13 +65,13 @@ const ROLES = [
     value: "Potential offer and revenue hypothesis, contingent on approval, integration and measurement.",
   },
   {
-    role: "Funder / Investor View",
+    role: "Strategic Sponsor View",
     color: "#f97316",
     tag: "Capital layer",
     needs: "Commercial model clarity, deployment evidence, revenue proof, moat depth and exit pathway logic.",
     action: "Could review planned business and pilot materials as they are approved and measured.",
     signal: "Future candidate measures include pilot conversion, revenue per property and deployment rate.",
-    systemUpdate: "No investment thesis, board report or funding materials are updated by this working proof.",
+    systemUpdate: "No strategic sponsorship or board materials are updated by this working proof.",
     value: "Forward-looking business-model hypothesis, not an established revenue or deployment claim.",
   },
 ];

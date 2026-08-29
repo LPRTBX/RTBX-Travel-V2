@@ -1,6 +1,17 @@
 import { useState } from "react";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 
+const DEFAULT_ASSUMPTIONS = {
+  rooms: 120,
+  guestVolume: 2400,
+  issueFreq: 0.08,
+  recoveryRate: 0.82,
+  valuePerRecovery: 340,
+  minutesSaved: 22,
+  conversionRate: 0.28,
+  avgRevenuePerConversion: 280,
+};
+
 interface SliderInputProps {
   label: string;
   value: number;
@@ -42,14 +53,25 @@ function OutputCard({ label, value, sub, color }: { label: string; value: string
 }
 
 export default function PartnerProofCalculator() {
-  const [rooms, setRooms] = useState(120);
-  const [guestVolume, setGuestVolume] = useState(2400);
-  const [issueFreq, setIssueFreq] = useState(0.08);
-  const [recoveryRate, setRecoveryRate] = useState(0.82);
-  const [valuePerRecovery, setValuePerRecovery] = useState(340);
-  const [minutesSaved, setMinutesSaved] = useState(22);
-  const [conversionRate, setConversionRate] = useState(0.28);
-  const [avgRevenuePerConversion, setAvgRevenuePerConversion] = useState(280);
+  const [rooms, setRooms] = useState(DEFAULT_ASSUMPTIONS.rooms);
+  const [guestVolume, setGuestVolume] = useState(DEFAULT_ASSUMPTIONS.guestVolume);
+  const [issueFreq, setIssueFreq] = useState(DEFAULT_ASSUMPTIONS.issueFreq);
+  const [recoveryRate, setRecoveryRate] = useState(DEFAULT_ASSUMPTIONS.recoveryRate);
+  const [valuePerRecovery, setValuePerRecovery] = useState(DEFAULT_ASSUMPTIONS.valuePerRecovery);
+  const [minutesSaved, setMinutesSaved] = useState(DEFAULT_ASSUMPTIONS.minutesSaved);
+  const [conversionRate, setConversionRate] = useState(DEFAULT_ASSUMPTIONS.conversionRate);
+  const [avgRevenuePerConversion, setAvgRevenuePerConversion] = useState(DEFAULT_ASSUMPTIONS.avgRevenuePerConversion);
+
+  function resetAssumptions() {
+    setRooms(DEFAULT_ASSUMPTIONS.rooms);
+    setGuestVolume(DEFAULT_ASSUMPTIONS.guestVolume);
+    setIssueFreq(DEFAULT_ASSUMPTIONS.issueFreq);
+    setRecoveryRate(DEFAULT_ASSUMPTIONS.recoveryRate);
+    setValuePerRecovery(DEFAULT_ASSUMPTIONS.valuePerRecovery);
+    setMinutesSaved(DEFAULT_ASSUMPTIONS.minutesSaved);
+    setConversionRate(DEFAULT_ASSUMPTIONS.conversionRate);
+    setAvgRevenuePerConversion(DEFAULT_ASSUMPTIONS.avgRevenuePerConversion);
+  }
 
   const incidents = guestVolume * issueFreq;
   const monthlyValueProtected = incidents * recoveryRate * valuePerRecovery;
@@ -83,8 +105,22 @@ export default function PartnerProofCalculator() {
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2 }}>
           {/* Inputs */}
           <div style={{ padding: "32px 30px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
-            <div style={{ fontSize: 9, letterSpacing: "0.18em", color: "rgba(255,255,255,0.3)", textTransform: "uppercase", fontWeight: 700, marginBottom: 28 }}>
-              Your Property / Portfolio
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16, marginBottom: 28 }}>
+              <div>
+                <div style={{ fontSize: 9, letterSpacing: "0.18em", color: "rgba(255,255,255,0.3)", textTransform: "uppercase", fontWeight: 700 }}>
+                  Synthetic Assumptions
+                </div>
+                <div style={{ marginTop: 5, fontSize: 9.5, color: "rgba(255,255,255,0.24)" }}>
+                  Editable demonstration inputs · no customer data
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={resetAssumptions}
+                style={{ padding: "7px 10px", background: "transparent", border: "1px solid rgba(255,255,255,0.12)", color: "rgba(255,255,255,0.5)", fontSize: 8.5, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", cursor: "pointer" }}
+              >
+                Reset assumptions
+              </button>
             </div>
             <SliderInput label="Rooms / Sites" value={rooms} min={10} max={500} step={5}    format={v => `${v}`}         onChange={setRooms} color="#10b981" />
             <SliderInput label="Guests per month" value={guestVolume} min={100} max={10000} step={100} format={v => `${v.toLocaleString()}`} onChange={setGuestVolume} color="#10b981" />

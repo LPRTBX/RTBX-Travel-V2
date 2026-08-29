@@ -17,12 +17,26 @@ const srcDir = join(root, "src");
 const appTsx = join(srcDir, "App.tsx");
 
 const EXCLUDE_DIRS = new Set(["node_modules", "dist", "archive", ".git"]);
+const INTERNAL_SOURCE_FILES = new Set([
+  "Sidebar.tsx",
+  "StoryHub.tsx",
+  "StoryOperator.tsx",
+  "StoryGuestStory.tsx",
+  "PartnerCommercialModel.tsx",
+  "PartnerCommercialUnit.tsx",
+  "TravelBusinessPlan.tsx",
+  "TravelGtmPlan.tsx",
+  "TravelRevenueModel.tsx",
+  "TravelCommercialCase.tsx",
+  "TravelCommercialPartnershipBrief.tsx",
+]);
 
 function walkFiles(dir) {
   const results = [];
   for (const entry of readdirSync(dir)) {
     const full = join(dir, entry);
     if (EXCLUDE_DIRS.has(entry)) continue;
+    if (INTERNAL_SOURCE_FILES.has(entry)) continue;
     const stat = statSync(full);
     if (stat.isDirectory()) results.push(...walkFiles(full));
     else if (stat.isFile() && (extname(full) === ".tsx" || extname(full) === ".ts")) results.push(full);

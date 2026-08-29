@@ -59,7 +59,7 @@ const SECTIONS = [
     desc: "See what each stakeholder sees — guest, operator, manager. Role-based journey walkthroughs.",
     items: [
       { label: "Interactive Guest Story", desc: "Seven simulated guest-journey stages showing interface states, governed operator prompts and indicative value.", href: "/partner-room/guest-demo", cta: "Start Story", color: "#a78bfa" },
-      { label: "Operator Deep Dive Walkthrough", desc: "A simulated operator walkthrough in a fictional hotel context — from synthetic signal to recommended response and illustrative assurance fields.", href: "/story/operator-deep-dive", cta: "Open Walkthrough", color: "#3b82f6" },
+      { label: "Execution Centre Walkthrough", desc: "A simulated operator walkthrough in a fictional hotel context — from synthetic signal to recommended response and illustrative assurance fields.", href: "/partner-room/operations", cta: "Open Walkthrough", color: "#3b82f6" },
     ],
   },
   {

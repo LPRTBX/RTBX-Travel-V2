@@ -2,15 +2,15 @@
 
 **Document type:** Navigation audit reference  
 **Owner:** RTBX  
-**Version:** Sprint 5 final  
+**Version:** Step 8 external-boundary revision
 **Created by:** Task #18 (Navigation, Routes & Brand Cleanup) — validated by Task #22  
-**Last validated:** July 2025  
+**Last validated:** 29 August 2026
 
 ---
 
 ## Purpose
 
-This register lists every canonical route in the RTBX Travel Partner Room, its component, its primary section, its audience, and its navigation status. It is the source of truth for navigation audits and link validation.
+This register lists the external route surface. `docs/access-boundary-register.md` is the source of truth for access classification and excluded source material; automated route and bundle checks are authoritative for release validation.
 
 ---
 
@@ -31,7 +31,7 @@ This register lists every canonical route in the RTBX Travel Partner Room, its c
 | 11 | `/partner-room/moments-economy` | PartnerMomentsEconomy | Architecture | All partners | Canonical |
 | 12 | `/partner-room/signals-engine` | PartnerSignalsEngine | Architecture | Technical | Canonical |
 | 13 | `/partner-room/pilot-model` | PartnerPilotModel | Pilot | All partners | Canonical |
-| 14 | `/partner-room/commercial-model` | PartnerCommercialModel | Commercial | Commercial leads | Canonical |
+| 14 | `/partner-room/commercial-model` | Redirect | Commercial | Commercial leads | Alias → `/partner-room/commercial` |
 | 15 | `/partner-room/demo-paths` | PartnerDemoPaths | Demos | All partners | Canonical |
 | 16 | `/partner-room/live-demos` | PartnerLiveDemos | Demos | All partners | Canonical |
 
@@ -76,7 +76,7 @@ This register lists every canonical route in the RTBX Travel Partner Room, its c
 |---|---|---|---|---|---|
 | 36 | `/partner-room/partner-ecosystem` | PartnerEcosystem | Partner Ecosystem | All partners | Canonical |
 | 37 | `/partner-room/rollout-model` | PartnerRolloutModel | Deployment | All partners | Canonical |
-| 38 | `/partner-room/commercial-unit` | PartnerCommercialUnit | Commercial | Commercial leads | Canonical |
+| 38 | `/partner-room/commercial-unit` | PartnerCommercialUnit | Commercial | Commercial leads | Commercially Restricted · not registered/imported |
 
 ---
 
@@ -110,36 +110,36 @@ This register lists every canonical route in the RTBX Travel Partner Room, its c
 | 48 | `/travel-action-centre` | `/partner-room/operations#action-centre` | Legacy URL compatibility |
 | 49 | `/travel-outcomes` | `/partner-room/operations#outcome-ledger` | Legacy URL compatibility |
 | 50 | `/travel-value` | `/partner-room/operations#value-dashboard` | Legacy URL compatibility |
-| 51 | `/story/executive-briefing` | `/story` | Deprecated story route |
+| 51 | `/story/executive-briefing` | Not registered | Internal Story Lab source only |
 | 52 | `*` (catch-all) | `/partner-room` | Default redirect |
 
 ---
 
-## Story / Operator Story Lab Routes
+## Story / Operator Story Lab Sources
 
 | # | Route | Component | Section | Audience | Status |
 |---|---|---|---|---|---|
-| 53 | `/story` | StoryHub | Story Lab | Executive sponsors | Canonical |
-| 54 | `/story/operator-deep-dive` | StoryOperator | Story Lab | Operators | Canonical |
-| 55 | `/story/live-guest-story` | StoryGuestStory | Story Lab | All partners | Canonical |
+| 53 | `/story` | StoryHub | Story Lab | Internal | Internal Only · not registered/imported |
+| 54 | `/story/operator-deep-dive` | StoryOperator | Story Lab | Internal | Internal Only · not registered/imported |
+| 55 | `/story/live-guest-story` | StoryGuestStory | Story Lab | Internal | Internal Only · not registered/imported |
 
 ---
 
 ## Resource / Appendix Routes
 
-These routes are accessible from the Brief Library. They contain appendix documents and are not in the primary sidebar navigation.
+Approved routes are accessible from the Brief Library and are not in the primary sidebar. Excluded rows document source-only material that is neither registered nor imported.
 
 | # | Route | Component | Audience | Confidentiality | Status |
 |---|---|---|---|---|---|
 | 56 | `/partner-room/resources/travel-partnership-overview` | TravelPartnershipOverview | All partners | General partner | Canonical |
-| 57 | `/partner-room/resources/travel-commercial-partnership-brief` | TravelCommercialPartnershipBrief | Commercial | Commercially restricted | Canonical |
-| 58 | `/partner-room/resources/travel-business-plan` | TravelBusinessPlan | Executive sponsors | General partner | Canonical |
-| 59 | `/partner-room/resources/travel-gtm-plan` | TravelGtmPlan | Commercial | General partner | Canonical |
-| 60 | `/partner-room/resources/travel-commercial-case` | TravelCommercialCase | Commercial | Commercially restricted | Canonical |
+| 57 | `/partner-room/resources/travel-commercial-partnership-brief` | TravelCommercialPartnershipBrief | Commercial | Commercially restricted | Not registered/imported |
+| 58 | `/partner-room/resources/travel-business-plan` | TravelBusinessPlan | Internal | Internal only | Not registered/imported |
+| 59 | `/partner-room/resources/travel-gtm-plan` | TravelGtmPlan | Internal | Internal only | Not registered/imported |
+| 60 | `/partner-room/resources/travel-commercial-case` | TravelCommercialCase | Commercial | Commercially restricted | Not registered/imported |
 | 61 | `/partner-room/resources/travel-ux-blueprint` | TravelUxBlueprint | Technical | Technical partner | Canonical |
 | 62 | `/partner-room/resources/travel-systems-map` | TravelSystemsMap | Technical | Technical partner | Canonical |
 | 63 | `/partner-room/resources/travel-pilot-model` | TravelPilotModel | All partners | Pilot partner | Canonical |
-| 64 | `/partner-room/resources/travel-revenue-model` | TravelRevenueModel | Commercial | Commercially restricted | Canonical |
+| 64 | `/partner-room/resources/travel-revenue-model` | TravelRevenueModel | Commercial | Commercially restricted | Not registered/imported |
 | 65 | `/partner-room/resources/travel-demo-links` | TravelDemoLinks | All partners | General partner | Canonical |
 | 66 | `/partner-room/resources/travel-ai-intelligence-layer` | TravelAiIntelligenceLayer | Technical | Technical partner | Canonical |
 | 67 | `/partner-room/resources/travel-architecture-modelling-ux-qa` | TravelArchitectureModellingUxQa | Technical | Technical partner | Canonical |
@@ -148,14 +148,7 @@ These routes are accessible from the Brief Library. They contain appendix docume
 
 ## Navigation Audit Summary
 
-| Category | Count |
-|---|---|
-| Canonical partner room routes | 42 |
-| Alias routes (same component) | 7 |
-| Redirect routes | 5 |
-| Story lab routes | 3 |
-| Resource/appendix routes | 12 |
-| **Total registered routes** | **69** |
+Internal-only and commercially restricted source pages are intentionally retained outside the external route graph. Route counts are derived during validation rather than maintained manually.
 
 ---
 
@@ -163,8 +156,10 @@ These routes are accessible from the Brief Library. They contain appendix docume
 
 | Check | Result |
 |---|---|
-| All routes in PARTNER_ROUTES resolved by `test-routes.mjs` | ✅ 57 imports, 0 missing |
-| All internal links resolved by `test-links.mjs` | ✅ 59 links, 0 broken |
+| All routes in PARTNER_ROUTES resolved by `test-routes.mjs` | Required |
+| All active internal links resolved by `test-links.mjs` | Required |
+| Restricted routes and manifest entries rejected by `check-access-boundaries.mjs` | Required |
+| Restricted modules and content rejected in `dist` by `check-bundle-boundaries.mjs` | Required |
 | No legacy routes reachable (BXOS, NEXUS) | ✅ check:legacy passed |
 | TypeScript typecheck | ✅ 0 errors |
 | Build | ✅ No errors |
