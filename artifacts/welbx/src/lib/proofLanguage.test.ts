@@ -58,7 +58,24 @@ describe("Step 6 proof and claims guardrails", () => {
     expect(CURRENT_PROOF_BOUNDARY.maturity).toBe("Working Proof");
     expect(CURRENT_PROOF_BOUNDARY.evidence).toBe("Simulation");
     expect(CURRENT_PROOF_BOUNDARY.notice).toMatch(/not an Integrated or Production deployment/i);
-    expect(WORKING_PROOF_PATH).toBe("/partner-room/guest-demo");
+    expect(WORKING_PROOF_PATH).toBe("/partner-room/operations");
+  });
+
+  it("keeps the reviewed Partner Room journey and secondary references explicit", () => {
+    const layout = readProjectSource("src/components/PartnerRoomLayout.tsx");
+    expect(layout).toMatch(/Overview[\s\S]*Working Proof[\s\S]*Pilot[\s\S]*Evidence[\s\S]*Next Step/);
+    expect(layout).toContain('{ label: "Working Proof", path: "/partner-room/operations" }');
+    expect(layout).toContain('{ label: "Evidence", path: "/partner-room/operations#outcome-ledger" }');
+    expect(layout).toContain('label: "Reference Material"');
+    expect(layout).not.toContain('className="rtbx-next-step"');
+  });
+
+  it("preserves the reviewed Working Proof and design-partnership language", () => {
+    const operations = readProjectSource("src/pages/partner-room/PartnerOperationsCentre.tsx");
+    const nextStep = readProjectSource("src/pages/partner-room/PartnerNextStep.tsx");
+    expect(operations).toContain("three-scenario setup");
+    expect(operations).toContain("one initial hotel property / 1–5-property cohort");
+    expect(nextStep.match(/Explore a Design Partnership/g)?.length).toBeGreaterThanOrEqual(3);
   });
 
   it("does not expose the inaccessible external MVP URL in active source", () => {

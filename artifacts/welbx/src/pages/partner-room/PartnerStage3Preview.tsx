@@ -1,7 +1,7 @@
 import { Link } from "wouter";
+import { WORKING_PROOF_PATH } from "@/lib/proofLanguage";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 
-const WORKING_PROOF_PATH = "/partner-room/guest-demo";
 
 const SITES = [
   { name: "Harbour Hotel",               openMoments: 4,  escalated: 1, closedToday: 12, valueProtected: "£2,840", risk: "Medium",  riskColor: "#f97316" },

@@ -116,6 +116,9 @@ export default function PartnerPilotModel() {
         <div id="scope" style={{ marginBottom: 48, scrollMarginTop: 90 }}>
           <SectionLabel>02 · Scope</SectionLabel>
           <H2>Pilot scope</H2>
+          <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.65, maxWidth: 760, marginBottom: 16 }}>
+            Begin with one initial hotel property, then use the reviewed 1–5-property cohort pathway only when governance, integration readiness and evidence support expansion.
+          </p>
            <div className="rtbx-responsive-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 2, marginBottom: 12 }}>
             <div style={{ padding: "16px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
               <div style={{ fontSize: 11, color: C.dim, textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 700, marginBottom: 8 }}>Environment</div>
@@ -139,7 +142,7 @@ export default function PartnerPilotModel() {
           <SectionLabel>03 · Operating Systems</SectionLabel>
           <H2>Pilot operating systems</H2>
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.65, maxWidth: 760, marginBottom: 16 }}>
-            The pilot activates three lead operating systems and uses Safety and Guest Welfare as a cross-cutting control. Marketplace and Loyalty is an expansion operating system — not activated in the initial pilot.
+            The pilot activates three lead operating systems and uses Safety and Guest Welfare as a cross-cutting control. Marketplace and Loyalty is an expansion operating system — not activated for one initial hotel property.
           </p>
           <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
             {PILOT_OPERATING_SYSTEMS.map(pos => {
