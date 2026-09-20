@@ -13,6 +13,7 @@ import {
   type TravelDeploymentConfig,
   type DeploymentStatus,
 } from "@/data/travelDeploymentConfig";
+import { getDeploymentActivationReadiness } from "@/lib/travelScenarioRouting";
 
 const STORAGE_KEY = "rtbx_travel_deployment_v1";
 const DEMO_LABEL  = "local synthetic demonstration data";
@@ -114,6 +115,12 @@ export function DeploymentProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const activateDeployment = useCallback((config: TravelDeploymentConfig) => {
+    const activationReadiness = getDeploymentActivationReadiness(config);
+    if (!activationReadiness.ready) {
+      throw new Error(
+        activationReadiness.issues.map(issue => issue.reason).join(" "),
+      );
+    }
     const now = new Date().toISOString();
     const activated: TravelDeploymentConfig = {
       ...config,

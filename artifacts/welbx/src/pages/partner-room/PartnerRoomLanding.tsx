@@ -12,7 +12,7 @@ const DEPLOYMENT_ENVS = [
     color: "#c9a84c",
     focus: "Guest recovery, staff nudges, in-stay support, service moments, loyalty and concierge.",
     signals: ["Room readiness delay", "Service request spike", "Guest sentiment drop", "Loyalty profile trigger", "Staff response gap"],
-    pathway: "Signal → Classify → Route to right team → Action delivered → Outcome logged",
+    pathway: "Synthetic signal → Rules classify → Recommendation shown → Draft prepared → Outcome modelled",
     operatorValue: "Consistent service recovery without manual oversight. Every missed moment is caught.",
     guestValue: "Support arrives before the complaint forms. The stay recovers invisibly.",
     partnerOpportunity: "Loyalty activation, F&B moments, in-room upgrade offers, concierge experiences.",
@@ -48,7 +48,7 @@ const DEPLOYMENT_ENVS = [
     color: "#a78bfa",
     focus: "Crowd flow, incident response, accessibility, welfare, service recovery and operational coordination.",
     signals: ["Crowd density alert", "Accessibility need flagged", "Incident proximity signal", "Service queue spike", "Welfare check trigger"],
-    pathway: "Signal → Classify → Coordinate response → Dispatch → Confirm resolution",
+    pathway: "Signal → Classify → Recommend response → Human confirmation → Record outcome",
     operatorValue: "Incidents caught early. Staff coordinated in real time. Liability reduced.",
     guestValue: "Support is visible when it matters. Issues resolved before they escalate.",
     partnerOpportunity: "Accessibility services, crowd management, F&B surge response, safety partners.",
@@ -71,8 +71,8 @@ const DEPLOYMENT_ENVS = [
 const PROOF_LAYERS = [
   {
     num: "01",
-    label: "Partner Overview",
-    navLabel: "Partner Room",
+    label: "Overview",
+    navLabel: "Overview",
     color: "#c9a84c",
     desc: "What RTBX Travel is, how RTBX Core powers it, and the signal-to-action engine behind every deployment.",
     links: [
@@ -87,8 +87,8 @@ const PROOF_LAYERS = [
   },
   {
     num: "02",
-    label: "Deployment Environments",
-    navLabel: "Deployments",
+    label: "Working Proof",
+    navLabel: "Working Proof",
     color: "#10b981",
     desc: "Five travel and hospitality environments — one RTBX Core operating system deployed across all of them.",
     links: [
@@ -98,13 +98,13 @@ const PROOF_LAYERS = [
       { label: "Events & Venues",                     href: "/partner-room/deployments" },
       { label: "Destination & Tourism Operators",     href: "/partner-room/deployments" },
     ],
-    cta: "View Deployments",
-    ctaHref: "/partner-room/deployments",
+    cta: "Open Working Proof",
+    ctaHref: "/partner-room/operations",
   },
   {
     num: "03",
-    label: "Product Proof",
-    navLabel: "Product Proof",
+    label: "Pilot",
+    navLabel: "Pilot",
     color: "#3b82f6",
     desc: "Working interactive demonstrations: moment economy, decision logic, intervention library and communications — the engine running in demonstration mode.",
     links: [
@@ -115,13 +115,13 @@ const PROOF_LAYERS = [
       { label: "Intervention Library",          href: "/partner-room/product-proof" },
       { label: "Signals Engine Brief",          href: "/partner-room/product-proof" },
     ],
-    cta: "View Product Proof",
-    ctaHref: "/partner-room/product-proof",
+    cta: "Review Pilot",
+    ctaHref: "/partner-room/pilot-model",
   },
   {
     num: "04",
-    label: "Validation & Operator Stories",
-    navLabel: "Validation",
+    label: "Evidence",
+    navLabel: "Evidence",
     color: "#f97316",
     desc: "Scenario validation, shadow pilot mode, operator walkthroughs and the full guest story from signal to outcome.",
     links: [
@@ -132,30 +132,30 @@ const PROOF_LAYERS = [
       { label: "Executive Walkthrough",             href: "/partner-room/validation" },
       { label: "Operator Deep Dive Walkthrough",    href: "/partner-room/validation" },
     ],
-    cta: "Enter Validation",
-    ctaHref: "/partner-room/validation",
+    cta: "Review Evidence",
+    ctaHref: "/partner-room/operations#outcome-ledger",
   },
   {
     num: "05",
-    label: "Commercial & Next Step",
-    navLabel: "Commercial",
+    label: "Next Step",
+    navLabel: "Next Step",
     color: "#a78bfa",
     desc: "Pilot model, commercial pathways, integration model — and direct briefing options to start a conversation.",
     links: [
-      { label: "Pilot Model",             href: "/partner-room/commercial" },
-      { label: "Commercial Model",        href: "/partner-room/commercial" },
-      { label: "Partner Pathways",        href: "/partner-room/commercial" },
-      { label: "Integration Model",       href: "/partner-room/commercial" },
+      { label: "Pilot Model",             href: "/partner-room/pilot-model" },
+      { label: "Design Partnership",      href: "/partner-room/next-step" },
+      { label: "Partner Pathways",        href: "/partner-room/next-step" },
+      { label: "Integration Model",       href: "/partner-room/integration-brief" },
       { label: "Pilot Conversation",      href: "/partner-room/next-step" },
       { label: "Request Briefing",        href: "/partner-room/next-step" },
     ],
-    cta: "View Commercial",
-    ctaHref: "/partner-room/commercial",
+    cta: "Explore Next Step",
+    ctaHref: "/partner-room/next-step",
   },
 ];
 
 const THIS_IS_NOT = ["A guest app", "A reporting dashboard", "A replacement PMS", "Another staff portal"];
-const THIS_IS     = ["A real-time execution layer", "A signal-to-action system", "A governed response engine", "A partner value platform"];
+const THIS_IS     = ["A governed execution model", "A signal-to-action system", "A governed response engine", "A partner value platform"];
 
 
 function GhostBtn({ href, children, ext = false }: { href: string; children: React.ReactNode; ext?: boolean }) {
@@ -228,10 +228,10 @@ export default function PartnerRoomLanding() {
           <span style={{ color: "#c9a84c" }}>Partner Room</span>
         </h1>
         <p style={{ fontSize: 17, color: "rgba(255,255,255,0.55)", lineHeight: 1.7, maxWidth: 680, marginBottom: 14, fontWeight: 400 }}>
-          Real-time guest, operator and service-moment infrastructure — powered by RTBX Core.
+          Governed guest, operator and service-moment infrastructure — powered by RTBX Core.
         </p>
         <p style={{ fontSize: 15, color: "rgba(255,255,255,0.42)", lineHeight: 1.75, maxWidth: 640, marginBottom: 14 }}>
-          RTBX Travel turns live signals across hotels, resorts, holiday parks and experience environments into guided action, escalation, assurance and measurable value.
+          RTBX Travel demonstrates how captured signals across hotels, resorts, holiday parks and experience environments can become guided action, escalation, assurance and measurable value.
         </p>
         <p style={{ fontSize: 13, color: "rgba(255,255,255,0.28)", lineHeight: 1.6, maxWidth: 560, marginBottom: 28, letterSpacing: "0.01em" }}>
           RTBX Travel is powered by RTBX Core — the same signal-to-action infrastructure across every travel and hospitality environment.
@@ -345,7 +345,7 @@ export default function PartnerRoomLanding() {
       {/* ── WORKING PRODUCT PROOF ── */}
       <div style={{ marginBottom: 56 }}>
         <div style={{ fontSize: 12, letterSpacing: "0.14em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
-          Working Product Proof
+          Working Proof
         </div>
         <Link href="/partner-room/operations">
           <div style={{
@@ -365,13 +365,13 @@ export default function PartnerRoomLanding() {
                   <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#c9a84c" }} />
                   <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c" }}>Working Demonstration</span>
                 </div>
-                <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.25)", border: "1px solid rgba(255,255,255,0.08)", padding: "2px 7px" }}>Deployed MVP Preview</div>
+                <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.25)", border: "1px solid rgba(255,255,255,0.08)", padding: "2px 7px" }}>Simulation</div>
               </div>
               <div style={{ fontSize: 14, fontWeight: 700, color: "rgba(255,255,255,0.85)", letterSpacing: "-0.01em", marginBottom: 7 }}>
                 Demonstrated Workflow — Moment Response
               </div>
               <p style={{ fontSize: 13, color: "rgba(255,255,255,0.38)", lineHeight: 1.65, maxWidth: 680, margin: "0 0 8px 0" }}>
-                The working demonstration for the first deployable wedge: Moment Response. Signal captured, classified, assigned, guest message sent, escalated if required, logged for assurance and reported as pilot evidence.
+                The internal Working Proof for Moment Response. A synthetic signal is captured and classified; assignment, drafted guest communication, escalation, assurance logging and indicative reporting are demonstrated without external dispatch.
               </p>
               <div style={{ fontSize: 12, color: "rgba(255,255,255,0.22)", fontStyle: "italic" }}>
                 This is not the full Travel platform. It is the first deployable wedge: Moment Response. All data is synthetic demonstration data.
@@ -395,10 +395,10 @@ export default function PartnerRoomLanding() {
         </div>
         <div style={{ fontSize: 26, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", marginBottom: 8 }}>
           One Partner Room.{" "}
-          <span style={{ color: "#c9a84c" }}>Five Proof Layers.</span>
+          <span style={{ color: "#c9a84c" }}>Five Primary Destinations.</span>
         </div>
         <p style={{ fontSize: 14, color: "rgba(255,255,255,0.42)", lineHeight: 1.75, maxWidth: 620, marginBottom: 40 }}>
-          Each layer gives a partner, operator or funder a different lens on the system — from positioning through to proof, validation and commercial next steps.
+          Move from overview to Working Proof, pilot scope, evidence and a clear next step. Detailed reference material remains available through the navigation disclosure.
         </p>
 
         <div className="rtbx-grid-5" style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 2 }}>
@@ -592,7 +592,7 @@ export default function PartnerRoomLanding() {
             { sub: "FOR OPERATORS", title: "Operator / Hotel Group", desc: "Service recovery, staff consistency, escalation visibility and measurable operational execution.", cta: "Operator Brief", href: "/partner-room/operator-brief", color: "#c9a84c" },
             { sub: "FOR TECHNOLOGY PARTNERS", title: "Integration Partner", desc: "Connect PMS, CRM, POS, workforce and loyalty systems as live RTBX Core signal sources.", cta: "Integration Brief", href: "/partner-room/integration-brief", color: "#3b82f6" },
             { sub: "FOR COMMERCIAL PARTNERS", title: "Commercial Partner", desc: "Activate moments where guest need, commercial intent and operational timing create value.", cta: "Moments Economy", href: "/partner-room/moments-economy", color: "#a78bfa" },
-            { sub: "FOR STRATEGIC PARTNERS", title: "Strategic / Funding Partner", desc: "Category opportunity, pilot validation model, commercial expansion and infrastructure position.", cta: "Commercial Model", href: "/partner-room/commercial-model", color: "#22d3ee" },
+            { sub: "FOR STRATEGIC PARTNERS", title: "Strategic Partner", desc: "Category opportunity, pilot validation model, commercial expansion and infrastructure position.", cta: "Explore a Design Partnership", href: "/partner-room/next-step", color: "#22d3ee" },
           ].map(card => (
             <div key={card.title} style={{
               padding: "32px 24px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)",
@@ -647,7 +647,7 @@ export default function PartnerRoomLanding() {
               Open Dual View Demo
             </div>
           </Link>
-          <GhostBtn href="/story">Operator Story Lab</GhostBtn>
+          <GhostBtn href="/partner-room/demo-paths">Guided Demo Paths</GhostBtn>
           <GhostBtn href="/partner-room/pilot-model">Pilot Model</GhostBtn>
           <GhostBtn href="mailto:lance@rtbx.com.au?subject=RTBX Travel Partner Briefing" ext>Request Partner Briefing</GhostBtn>
         </div>

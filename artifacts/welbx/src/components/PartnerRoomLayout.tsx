@@ -5,6 +5,14 @@ import { usePartnerContent } from "@/context/PartnerContentContext";
 interface NavItem { label: string; path: string; }
 interface NavGroup { label: string; items: NavItem[]; }
 
+export const PRIMARY_NAV: NavItem[] = [
+  { label: "Overview", path: "/partner-room/overview" },
+  { label: "Working Proof", path: "/partner-room/operations" },
+  { label: "Pilot", path: "/partner-room/pilot-model" },
+  { label: "Evidence", path: "/partner-room/operations#outcome-ledger" },
+  { label: "Next Step", path: "/partner-room/next-step" },
+];
+
 export const NAV_GROUPS: NavGroup[] = [
   {
     label: "Start",
@@ -50,13 +58,44 @@ export const NAV_GROUPS: NavGroup[] = [
       { label: "Pilot Model",       path: "/partner-room/pilot-model" },
       { label: "Deployment",        path: "/partner-room/rollout-model" },
       { label: "Partner Ecosystem", path: "/partner-room/partner-ecosystem" },
-      { label: "Commercial Pathway", path: "/partner-room/commercial" },
       { label: "Resource Library",  path: "/partner-room/brief-library" },
     ],
   },
 ];
 
+const REFERENCE_GROUPS: NavGroup[] = [{
+  label: "Reference Material",
+  items: NAV_GROUPS.flatMap(group => group.items),
+}];
+
 const DROPDOWN_WIDTH = 260;
+export const PARTNER_ROOM_SCROLL_CLEARANCE = 104;
+
+export function scrollToPartnerRoomHash(hash: string, behavior: ScrollBehavior = "smooth") {
+  const targetId = decodeURIComponent(hash.replace(/^#/, ""));
+  if (!targetId) return false;
+  const target = document.getElementById(targetId);
+  if (!target) return false;
+  const top = target.getBoundingClientRect().top + window.scrollY - PARTNER_ROOM_SCROLL_CLEARANCE;
+  window.scrollTo({ top: Math.max(0, top), behavior });
+  return true;
+}
+
+export function schedulePartnerRoomHashScroll(hash: string, behavior: ScrollBehavior = "smooth") {
+  let cancelled = false;
+  let attempt = 0;
+  const delays = [0, 50, 150, 300];
+
+  const run = () => {
+    if (cancelled) return;
+    scrollToPartnerRoomHash(hash, behavior);
+    attempt += 1;
+    if (attempt < delays.length) window.setTimeout(run, delays[attempt]);
+  };
+
+  requestAnimationFrame(run);
+  return () => { cancelled = true; };
+}
 
 interface PartnerRoomLayoutProps {
   children: React.ReactNode;
@@ -218,6 +257,13 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
   }
 
   function navigateFromMenu(path: string) {
+    const [targetPath, hash] = path.split("#");
+    if (hash && location === targetPath) {
+      window.history.replaceState(window.history.state, "", `${window.location.pathname}${window.location.search}#${hash}`);
+      scrollToPartnerRoomHash(hash, "auto");
+      schedulePartnerRoomHashScroll(hash, "auto");
+      return;
+    }
     navigate(path);
   }
 
@@ -226,6 +272,7 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
       {/* ── Top Nav ────────────────────────────────────────────────────────── */}
       <header>
         <nav
+          data-partner-room-nav
           aria-label="Partner Room navigation"
           style={{
             position: "sticky",
@@ -260,39 +307,12 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
                 className="rtbx-nav-desc"
                 style={{ fontSize: 12, letterSpacing: "0.1em", color: "rgba(255,255,255,0.46)", textTransform: "uppercase", fontWeight: 600 }}
               >
-                RTBX Travel is powered by RTBX Core — real-time signal-to-action infrastructure for travel and hospitality
+                RTBX Travel is powered by RTBX Core — governed signal-to-action infrastructure for travel and hospitality
               </span>
               <div className="rtbx-nav-private" style={{ display: "flex", alignItems: "center", gap: 6 }}>
                 <div style={{ width: 4, height: 4, borderRadius: "50%", background: "#c9a84c" }} aria-hidden="true" />
-                <span style={{ fontSize: 12, letterSpacing: "0.12em", color: "rgba(201,168,76,0.82)", textTransform: "uppercase", fontWeight: 700 }}>Private</span>
+                <span style={{ fontSize: 12, letterSpacing: "0.12em", color: "rgba(201,168,76,0.82)", textTransform: "uppercase", fontWeight: 700 }}>Controlled Preview</span>
               </div>
-              <a
-                className="rtbx-next-step"
-                href="/partner-room/next-step"
-                onClick={(e) => { e.preventDefault(); navigateFromMenu("/partner-room/next-step"); }}
-              >
-                <div
-                  style={{
-                    padding: "6px 14px",
-                    fontSize: 14,
-                    fontWeight: 700,
-                    letterSpacing: "0.12em",
-                    textTransform: "uppercase",
-                    color: "#080c14",
-                    background: "#c9a84c",
-                    cursor: "pointer",
-                    transition: "background 0.15s",
-                    minHeight: 44,
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "#d4b35e"; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "#c9a84c"; }}
-                >
-                  Next Step →
-                </div>
-              </a>
-
               {/* Mobile hamburger */}
               <button
                 aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
@@ -344,7 +364,36 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
               alignItems: "stretch",
             }}
           >
-            {NAV_GROUPS.map((group) => {
+            {PRIMARY_NAV.map(item => {
+              const basePath = item.path.split("#")[0];
+              const itemActive = location === basePath;
+              return (
+                <a
+                  key={item.label}
+                  href={item.path}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigateFromMenu(item.path);
+                  }}
+                  style={{
+                    padding: "11px 16px",
+                    minHeight: 44,
+                    display: "flex",
+                    alignItems: "center",
+                    fontSize: 14,
+                    fontWeight: 700,
+                    letterSpacing: "0.06em",
+                    textTransform: "uppercase",
+                    color: itemActive ? "#fff" : "rgba(255,255,255,0.5)",
+                    borderBottom: itemActive ? "2px solid #c9a84c" : "2px solid transparent",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {item.label}
+                </a>
+              );
+            })}
+            {REFERENCE_GROUPS.map((group) => {
               const isGroupActive = group.items.some(item =>
                 location === item.path.split("#")[0] ||
                 (item.path.split("#")[0] !== "/partner-room" && location.startsWith(item.path.split("#")[0]))
@@ -524,7 +573,36 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
                 overflowX: "hidden",
               }}
             >
-              {NAV_GROUPS.map(group => {
+              {PRIMARY_NAV.map(item => {
+                const itemActive = location === item.path.split("#")[0];
+                return (
+                  <a
+                    key={item.label}
+                    href={item.path}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setMobileOpen(false);
+                      setMobileOpenGroup(null);
+                      navigateFromMenu(item.path);
+                    }}
+                    style={{
+                      padding: "12px 20px",
+                      minHeight: 44,
+                      display: "flex",
+                      alignItems: "center",
+                      fontSize: 14,
+                      fontWeight: 700,
+                      letterSpacing: "0.08em",
+                      textTransform: "uppercase",
+                      color: itemActive ? "#c9a84c" : "rgba(255,255,255,0.72)",
+                      borderLeft: itemActive ? "2px solid #c9a84c" : "2px solid transparent",
+                    }}
+                  >
+                    {item.label}
+                  </a>
+                );
+              })}
+              {REFERENCE_GROUPS.map(group => {
                 const isGroupOpen = mobileOpenGroup === group.label;
                 const isGroupActive = group.items.some(item =>
                   location === item.path.split("#")[0]

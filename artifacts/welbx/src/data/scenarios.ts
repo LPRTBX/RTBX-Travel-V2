@@ -1,3 +1,10 @@
+/**
+ * Legacy scenario replay fixture.
+ *
+ * This module is referenced only by archived legacy replay components and is
+ * not rendered by the active Partner Room. The active
+ * /partner-room/travel-scenarios route uses travelScenarios.ts.
+ */
 export type Urgency = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
 
 export interface ChainStep {
@@ -52,7 +59,7 @@ export const SCENARIOS: Scenario[] = [
         output: "Moment created in 0.4s · Playbook PB-002 queued", pass: true,
         detected: "The signal cluster has crossed the moment creation threshold. Three converging signals — ETA, room status, and housekeeping gap — map to the VIP Arrival Collision pattern in the RTBX pattern library.",
         whyMatters: "Without a classified moment, the situation remains raw data in the signal layer and no governed response is triggered. The moment classification is what activates the RTBX chain and makes the situation visible and actionable.",
-        whatHappens: "Moment GM-002 is created: VIP Arrival Risk · HIGH urgency · 91% confidence. Playbook PB-002 is queued for auto-execution. Duty Manager receives a notification and can override or escalate.",
+        whatHappens: "Simulation state: Moment GM-002 is created as VIP Arrival Risk · HIGH urgency · 91% illustrative confidence. Playbook PB-002 is recommended to the Duty Manager for review, confirmation or escalation.",
         responsible: "RTBX Context and Moment Layer (automated). Duty Manager has override authority. System default: auto-execute for HIGH urgency VIP moments.",
         success: "Moment created within 1 second of threshold being reached. Correct urgency classification (HIGH). Correct playbook queued (PB-002). Duty Manager notification delivered.",
         couldFail: "Over-classification (low-confidence moment created unnecessarily) wastes resource. Under-classification (moment not created due to high threshold setting) leaves the situation unaddressed. Manual override by Duty Manager that delays execution by more than 3 minutes would put the outcome at risk.",

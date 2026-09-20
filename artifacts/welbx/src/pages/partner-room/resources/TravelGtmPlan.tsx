@@ -4,27 +4,27 @@ import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 const C = { gold: "#c9a84c", border: "rgba(255,255,255,0.07)", muted: "rgba(255,255,255,0.45)", dim: "rgba(255,255,255,0.22)", green: "#10b981" };
 
 const PRIORITY = [
-  { n: "01", label: "Hotels & Resorts", color: "#c9a84c", why: "Highest signal density, clearest value proof, most likely early adopter operators. Existing PMS and guest tech creates rich integration surface.", target: "10–20 pilot environments. Target: 3-star+ independent and boutique hotel groups.", demo: "/partner-room/deployments/hotels-resorts/demo" },
-  { n: "02", label: "Holiday Parks & Outdoor Experiences", color: "#10b981", why: "High family volume, seasonal disruption cycles, under-served by existing tech. Welfare and weather signals create immediately visible value.", target: "5–10 park environments. Target: mid-size UK and European park operators.", demo: "/partner-room/holiday-park-demo" },
-  { n: "03", label: "Corporate & Business Travel", color: "#3b82f6", why: "Repeat guest value, duty-of-care obligation, corporate travel management company distribution channel. Lower integration overhead per guest.", target: "3–5 corporate travel hotel partners. Target: business hotels and extended-stay properties.", demo: "/partner-room/deployments/corporate-travel/demo" },
-  { n: "04", label: "Events & Venues", color: "#a78bfa", why: "High-density, high-risk environments. Welfare, safety and crowd management create visible, auditable value. Insurance and liability angle.", target: "2–3 venue pilots. Target: mid-size event venues and exhibition centres.", demo: "/partner-room/deployments/events-venues/demo" },
-  { n: "05", label: "Destination & Tourism Operators", color: "#22d3ee", why: "Largest ecosystem opportunity. Partner marketplace at scale. Requires earlier vertical proof before leading with destination plays.", target: "1–2 DMO or destination-level pilots in Year 2.", demo: "/partner-room/deployments/destination-tourism/demo" },
+  { n: "01", label: "Hotels & Resorts", color: "#c9a84c", why: "Proposed first environment based on assumed signal density and integration potential; value remains to be measured.", target: "Illustrative target: 10–20 future pilot environments, subject to approval.", demo: "/partner-room/deployments/hotels-resorts/demo" },
+  { n: "02", label: "Holiday Parks & Outdoor Experiences", color: "#10b981", why: "Proposed future environment. Welfare and weather signals are hypotheses requiring approved integration and measurement.", target: "Illustrative target: 5–10 future park environments, subject to approval.", demo: "/partner-room/holiday-park-demo" },
+  { n: "03", label: "Corporate & Business Travel", color: "#3b82f6", why: "Proposed future environment based on repeat-guest and duty-of-care hypotheses; integration effort is unvalidated.", target: "Illustrative target: 3–5 future partners, subject to approval.", demo: "/partner-room/deployments/corporate-travel/demo" },
+  { n: "04", label: "Events & Venues", color: "#a78bfa", why: "Proposed future environment where welfare and safety value would require governance, integration and measurement.", target: "Illustrative target: 2–3 future venue pilots, subject to approval.", demo: "/partner-room/deployments/events-venues/demo" },
+  { n: "05", label: "Destination & Tourism Operators", color: "#22d3ee", why: "Future ecosystem hypothesis. Any marketplace offering and vertical evidence are contingent on approval and measured pilots.", target: "Illustrative target: 1–2 potential Year 2 pilots, subject to approval.", demo: "/partner-room/deployments/destination-tourism/demo" },
 ];
 
 const CONV_SEQUENCE = [
-  { n: "01–05", label: "Proof operators", desc: "5 independent hotel or park operators willing to run a shadow pilot. No revenue commitment. Just signal validation and outcome observation." },
-  { n: "06–10", label: "First commercial pilots", desc: "5 operators who agree to a paid pilot on defined terms. Outcome report produced. Commercial pathway opened." },
-  { n: "11–15", label: "Distribution conversations", desc: "5 conversations with PMS vendors, hospitality tech platforms or distribution partners who can bring RTBX Travel to their client portfolio." },
-  { n: "16–18", label: "Integration partners", desc: "3 platform API integrations that enrich signal quality — PMS, POS, workforce management or CRM." },
-  { n: "19–20", label: "Strategic partners", desc: "2 conversations with strategic co-ownership or funding interest. Vertical-level or geographic exclusivity framing." },
+  { n: "01–05", label: "Potential proof operators", desc: "Illustrative outreach target for independent hotel or park operators that may consider an approved shadow pilot. No commitment or validated signal outcome is implied." },
+  { n: "06–10", label: "Potential commercial pilots", desc: "Illustrative future conversations about paid pilots, subject to agreed terms, approvals and subsequent measurement." },
+  { n: "11–15", label: "Potential distribution conversations", desc: "Illustrative conversations with possible PMS, hospitality technology or distribution partners, contingent on their approval." },
+  { n: "16–18", label: "Potential integration partners", desc: "Illustrative future API-integration targets; no integration exists until approved and implemented." },
+  { n: "19–20", label: "Potential strategic partners", desc: "Illustrative future conversations; co-ownership, funding and exclusivity require separate agreement." },
 ];
 
 const PILOT_PHASES = [
-  { label: "Week 1–2", title: "Operator Alignment", desc: "Moment mapping, signal source identification, staff and guest pathway design." },
-  { label: "Week 3–4", title: "Shadow Pilot", desc: "RTBX Core runs in parallel — no live delivery to guests or staff yet. Signal validation only." },
-  { label: "Week 5–8", title: "Live Pilot", desc: "Real guests, real staff, real moments. Recovery, welfare, commercial and concierge pathways active." },
-  { label: "Week 9–10", title: "Outcome Report", desc: "Value evidenced against baseline. Guest recovery, staff response, revenue created, assurance records." },
-  { label: "Week 11+", title: "Expansion Decision", desc: "Scale to full estate, additional vertical, or strategic partnership formalisation." },
+  { label: "Week 1–2", title: "Proposed Operator Alignment", desc: "Proposed moment mapping, candidate signal-source identification and pathway design, subject to approval." },
+  { label: "Week 3–4", title: "Proposed Shadow Pilot", desc: "A future approved shadow pilot could run in parallel with no live delivery; signal validation remains contingent on integration." },
+  { label: "Week 5–8", title: "Proposed Live Pilot", desc: "Future guest, staff and pathway participation only after approval, integration and governance sign-off." },
+  { label: "Week 9–10", title: "Proposed Outcome Measurement", desc: "Potential baseline comparison for recovery, response, revenue hypotheses and assurance records." },
+  { label: "Week 11+", title: "Future Expansion Decision", desc: "Any scale-up requires approved pilot evidence, measurement and a separate commercial agreement." },
 ];
 
 export default function TravelGtmPlan() {
@@ -38,9 +38,13 @@ export default function TravelGtmPlan() {
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 18, maxWidth: 680 }}>RTBX Travel — Go-To-Market Plan</h1>
           <div style={{ padding: "16px 20px", background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.22)", borderLeft: "3px solid #c9a84c", maxWidth: 680 }}>
             <p style={{ fontSize: 13, color: "rgba(255,255,255,0.7)", lineHeight: 1.75, margin: 0, fontStyle: "italic" }}>
-              "Focus first. Prove value in live travel environments. Expand across accommodation, experience and destination ecosystems."
+               "Focus first on approved pilots to measure value hypotheses, then consider future expansion across travel ecosystems."
             </p>
           </div>
+        </div>
+        <div style={{ padding: "16px 20px", background: "rgba(201,168,76,0.05)", border: "1px solid rgba(201,168,76,0.2)", borderLeft: "3px solid #c9a84c", marginBottom: 28, maxWidth: 900 }}>
+          <div style={{ fontSize: 9, color: C.gold, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 7 }}>Planned Go-To-Market Model</div>
+          <div style={{ fontSize: 11.5, color: C.muted, lineHeight: 1.6 }}>This is a synthetic, forward-looking planning model. Pilot, live, integration, signal, offer, revenue and expansion language describes future possibilities only, contingent on partner approval, implementation, governance and measurement. Named people remain accountable for every decision.</div>
         </div>
 
         {/* Beachhead */}
@@ -48,10 +52,10 @@ export default function TravelGtmPlan() {
           <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>Beachhead Strategy</div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2, marginBottom: 2 }}>
             {[
-              { label: "Entry point", text: "Hotels & Resorts — highest signal density, clearest value proof, existing operational pain that RTBX Core directly addresses." },
-              { label: "Proof method", text: "8–10 week shadow then live pilot. No heavy integration required to start. Push-first signal model means a pilot can begin within weeks of agreement." },
-              { label: "Proof output", text: "Outcome report per environment: guest recovery rate, escalations prevented, revenue moments surfaced, staff response time, assurance records created." },
-              { label: "Expansion trigger", text: "Two successful pilots create the proof case for category-level distribution conversations with technology partners and hospitality groups." },
+              { label: "Proposed entry point", text: "Hotels & Resorts — a proposed first environment based on assumed signal density and operational need; no value claim is proven." },
+              { label: "Proposed proof method", text: "Illustrative 8–10 week shadow then approved live-pilot pathway. Integration scope and timing require agreement." },
+              { label: "Proposed proof output", text: "Potential outcome measurement per environment: recovery, escalation, revenue-opportunity, response-time and assurance hypotheses." },
+              { label: "Potential expansion trigger", text: "Measured, approved pilot evidence could inform future distribution conversations; it does not guarantee expansion." },
             ].map(item => (
               <div key={item.label} style={{ padding: "20px 22px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
                 <div style={{ fontSize: 8, letterSpacing: "0.14em", color: C.gold, textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>{item.label}</div>
@@ -85,7 +89,7 @@ export default function TravelGtmPlan() {
 
         {/* First 20 conversations */}
         <div style={{ marginBottom: 56 }}>
-          <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>First 20 Partner Conversations</div>
+          <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>Illustrative First 20 Partner Conversations</div>
           <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
             {CONV_SEQUENCE.map(c => (
               <div key={c.n} style={{ display: "grid", gridTemplateColumns: "80px 1fr", gap: 0, border: "1px solid rgba(255,255,255,0.06)" }}>

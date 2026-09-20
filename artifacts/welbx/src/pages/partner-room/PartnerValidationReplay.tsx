@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
+import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
+import { travelScenarioExecutionPath } from "@/lib/travelScenarioRouting";
 
 type Mode = "Normal" | "Escalation" | "Failure";
 
@@ -12,9 +14,9 @@ const MODE_COLORS: Record<Mode, string> = {
 };
 
 const MODE_DESC: Record<Mode, string> = {
-  Normal:     "System performs as designed — signal to resolution in time.",
-  Escalation: "Delay threshold breached — manager alert triggered, recovery still achieved.",
-  Failure:    "Action missed — escalation cascade + assurance issue created.",
+  Normal:     "Modelled path completes within the fictional threshold.",
+  Escalation: "Modelled threshold breach shows a draft manager escalation.",
+  Failure:    "Modelled failure shows missing ownership and incomplete evidence.",
 };
 
 interface StepState { status: "pending" | "active" | "complete" | "breached" | "failed"; detail: string; }
@@ -29,48 +31,48 @@ interface ReplayStep {
 const STEPS: ReplayStep[] = [
   {
     label: "Connect — Signal Entered",
-    normal:     { status: "complete", detail: "Room readiness delay signal — captured from housekeeping system — real-time status confirmed. Signal queued at 14:02." },
-    escalation: { status: "complete", detail: "Room readiness delay signal — captured from housekeeping system — real-time status confirmed. Signal queued at 14:02." },
-    failure:    { status: "complete", detail: "Room readiness delay signal — captured from housekeeping system — status field incomplete. Signal queued at 14:02 with data gap flagged." },
+    normal:     { status: "complete", detail: "Simulated room-readiness delay signal — illustrative status confirmed. Signal queued at 14:02 in this replay." },
+    escalation: { status: "complete", detail: "Simulated room-readiness delay signal — illustrative status confirmed. Signal queued at 14:02 in this replay." },
+    failure:    { status: "complete", detail: "Synthetic room-readiness signal with an intentionally incomplete field shown in the local replay." },
   },
   {
     label: "Understand — Moment Classified",
-    normal:     { status: "complete", detail: "Service Recovery Moment identified — Risk: High — Loyalty tier active — Value at stake: guest satisfaction + repeat booking. Playbook match confirmed." },
-    escalation: { status: "complete", detail: "Service Recovery Moment identified — Risk: High — Loyalty tier active — Value at stake: guest satisfaction + repeat booking. Playbook match confirmed." },
-    failure:    { status: "failed",   detail: "Signal cluster incomplete — moment type ambiguous between Service Recovery and Arrival Friction. Classification defaulted without full context. Playbook match unreliable." },
+    normal:     { status: "complete", detail: "Rules classify the synthetic input as a service-recovery moment and show illustrative risk, loyalty and value fields." },
+    escalation: { status: "complete", detail: "Rules classify the synthetic input as a service-recovery moment and show an illustrative escalation threshold." },
+    failure:    { status: "failed",   detail: "Rules flag the deliberately incomplete synthetic input as ambiguous; a human review would be required." },
   },
   {
     label: "Decide — Governance Applied",
-    normal:     { status: "complete", detail: "Guest Service Recovery Policy applied — Compensation Approval Matrix checked — Duty manager response within SLA authorised. Decision logged." },
-    escalation: { status: "complete", detail: "Guest Service Recovery Policy applied — Compensation Approval Matrix checked — Duty manager response within SLA authorised. Escalation threshold set at 10 min." },
-    failure:    { status: "failed",   detail: "Governance check attempted — ambiguous moment classification meant no clear policy match. Decision deferred. No role owner assigned. Timer not started." },
+    normal:     { status: "complete", detail: "The replay applies a fictional policy rule and proposes a duty-manager review within an illustrative threshold." },
+    escalation: { status: "complete", detail: "The replay applies a fictional policy rule and models a 10-minute escalation threshold." },
+    failure:    { status: "failed",   detail: "No fictional policy match is produced; the interface models a deferred decision with no owner." },
   },
   {
     label: "Act — Response Coordinated",
-    normal:     { status: "complete", detail: "Duty manager notified via staff app — guest recovery message drafted by AI — front desk approved send — room reprioritised in housekeeping queue. Completed at 14:09." },
-    escalation: { status: "breached", detail: "Staff task not accepted — 10 min timer expired at 14:12. ESCALATION TRIGGERED. Manager alerted via secondary channel. Manager personally coordinated recovery at 14:18." },
-    failure:    { status: "failed",   detail: "No role owner assigned — no staff task created — no guest message sent. Action window passed with no coordinated response." },
+    normal:     { status: "complete", detail: "Illustrative duty-manager notification, guest-message draft and room recommendation shown. No AI service, dispatch or hotel update occurred." },
+    escalation: { status: "breached", detail: "The replay models an unaccepted task, threshold breach and secondary manager alert; nothing was dispatched." },
+    failure:    { status: "failed",   detail: "The replay models a missing owner and no action. No task or guest message was created." },
   },
   {
     label: "Act — Evidence Recorded",
-    normal:     { status: "complete", detail: "Moment record complete — governance decision logged — action confirmed — timestamp and role owner recorded in Evidence Ledger. Record closed at 14:09." },
-    escalation: { status: "complete", detail: "Moment record complete — escalation event logged — manager action confirmed — F&B voucher A$50 compensation recorded — Evidence Ledger updated at 14:18." },
-    failure:    { status: "failed",   detail: "Evidence Ledger entry created but incomplete — no action log, no role owner, no outcome. Assurance ISSUE flagged. GM notified. Record remains open." },
+    normal:     { status: "complete", detail: "Illustrative trace fields show a rule result, timestamp and named accountable role; this is not an operational record." },
+    escalation: { status: "complete", detail: "Illustrative trace fields show an escalation, modelled manager response and hypothetical A$50 voucher." },
+    failure:    { status: "failed",   detail: "Illustrative incomplete trace shows no action, owner or outcome and a proposed human review flag." },
   },
   {
     label: "Learn — Outcome & Learning",
-    normal:     { status: "complete", detail: "Outcome: guest recovered — no complaint lodged — satisfaction preserved — playbook performance record updated — detection threshold calibrated. Value protected: A$420." },
-    escalation: { status: "complete", detail: "Outcome: guest recovered with delay — manager compensation applied — escalation path validated — staff response time flagged for review — playbook updated. Value protected: A$420 (with A$18 cost)." },
-    failure:    { status: "failed",   detail: "Value LOST. Negative review posted — estimated impact: −A$840. Learning signal: classification failure upstream — incomplete signal ingestion identified as root cause. Operational review required." },
+    normal:     { status: "complete", detail: "Illustrative outcome: recovery recorded, no complaint modelled, playbook record updated and threshold review proposed. Indicative value: A$420." },
+    escalation: { status: "complete", detail: "Illustrative outcome: delayed recovery and compensation recorded; escalation path and response time flagged for review. Indicative value: A$420 with A$18 modelled cost." },
+    failure:    { status: "failed",   detail: "Illustrative failure outcome: a negative review and −A$840 impact are modelled. Incomplete signal ingestion is flagged for human operational review." },
   },
 ];
 
 const STATUS_CONFIG = {
   pending:   { color: "rgba(255,255,255,0.15)", label: "Pending",   bg: "transparent" },
   active:    { color: "#c9a84c",               label: "Active",    bg: "rgba(201,168,76,0.08)" },
-  complete:  { color: "#10b981",               label: "Complete",  bg: "rgba(16,185,129,0.06)" },
-  breached:  { color: "#f97316",               label: "Breached",  bg: "rgba(249,115,22,0.06)" },
-  failed:    { color: "#ef4444",               label: "Failed",    bg: "rgba(239,68,68,0.06)" },
+  complete:  { color: "#10b981",               label: "Simulated", bg: "rgba(16,185,129,0.06)" },
+  breached:  { color: "#f97316",               label: "Modelled breach", bg: "rgba(249,115,22,0.06)" },
+  failed:    { color: "#ef4444",               label: "Modelled failure", bg: "rgba(239,68,68,0.06)" },
 };
 
 export default function PartnerValidationReplay() {
@@ -108,10 +110,10 @@ export default function PartnerValidationReplay() {
             Validation · Replay Lab
           </div>
           <div style={{ fontSize: 28, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", marginBottom: 10 }}>
-            Validation Replay Demo
+            Validation Replay Simulation
           </div>
           <p style={{ fontSize: 13, color: "rgba(255,255,255,0.38)", lineHeight: 1.7, maxWidth: 560 }}>
-            Select a replay mode — then step through or play how the same scenario resolves differently under normal, escalation or failure conditions.
+            Step through a fictional, rules-based scenario. All inputs, actions, communications, evidence, outcomes and value are simulated; nothing is dispatched or written to an external system, and named people remain accountable.
           </p>
         </div>
 
@@ -211,14 +213,23 @@ export default function PartnerValidationReplay() {
         {/* Summary */}
         {activeStep === STEPS.length - 1 && (
           <div style={{ marginTop: 24, padding: "24px 28px", background: `${modeColor}08`, border: `1px solid ${modeColor}25`, borderTop: `2px solid ${modeColor}` }}>
-            <div style={{ fontSize: 9, letterSpacing: "0.16em", color: modeColor, textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>Replay Complete · {mode} Mode</div>
+            <div style={{ fontSize: 9, letterSpacing: "0.16em", color: modeColor, textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>Simulation Finished · {mode} Mode</div>
             <p style={{ fontSize: 13, color: "rgba(255,255,255,0.58)", lineHeight: 1.7, margin: 0 }}>
-              {mode === "Normal" && "RTBX resolved the incident in 7 minutes across all five engine stages. Signal connected, moment understood, governance decided, response coordinated, evidence recorded, outcome learned. Value protected: A$420. No escalation. Record closed."}
-              {mode === "Escalation" && "Escalation triggered at Act stage — 10 min SLA breached. Manager resolved at 16 min. Governance held throughout. Evidence complete including escalation event. Value still protected. Playbook updated with staff response time flag."}
-              {mode === "Failure" && "Classification failure at Understand stage cascaded through all subsequent steps. No governance match, no role owner, no action, incomplete evidence. Negative review posted. Estimated impact: −A$840. Root cause: incomplete signal at Connect stage. Operational review required."}
+              {mode === "Normal" && "Modelled result: the fictional response path stays within its illustrative threshold and populates a synthetic trace. Indicative value: A$420; no value was measured or protected."}
+              {mode === "Escalation" && "Modelled result: the fictional threshold is breached and a draft manager escalation appears. The synthetic trace is populated for review; no recovery or value protection occurred."}
+              {mode === "Failure" && "Modelled result: incomplete synthetic input produces no policy match or owner and an incomplete trace. A hypothetical −A$840 impact is shown for discussion; no review was posted."}
             </p>
           </div>
         )}
+
+        <div style={{ marginTop: 24, padding: "16px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderLeft: "3px solid #c9a84c" }}>
+          <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.5)", lineHeight: 1.65, margin: "0 0 10px" }}>
+            This is a controlled synthetic replay for validation discussion, not a second runtime. Configured scenario state is created and advanced only in the Execution Centre.
+          </p>
+          <Link href={travelScenarioExecutionPath("repeat-guest-room-not-ready")}>
+            <span style={{ fontSize: 10, color: "#c9a84c", fontWeight: 700 }}>Check this scenario in the Execution Centre →</span>
+          </Link>
+        </div>
 
       </div>
     </PartnerRoomLayout>

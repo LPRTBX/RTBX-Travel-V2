@@ -168,16 +168,16 @@ describe("RuntimeEngine.createExecution", () => {
     expect(exec.isSynthetic).toBe(true);
   });
 
-  it("initialises evidence from scenario evidenceRequirements", () => {
+  it("initialises evidence from the deployment configuration", () => {
     const exec = createExecution({ deployment: DEFAULT_DEPLOYMENT, scenario, playbook });
     expect(exec.evidence.length).toBeGreaterThan(0);
-    expect(exec.evidence.length).toBe(scenario.evidenceRequirements.length);
+    expect(exec.evidence.length).toBe(DEFAULT_DEPLOYMENT.evidence.length);
     for (const ev of exec.evidence) {
       expect(ev.captured).toBe(false);
     }
   });
 
-  it("initialises outcomes from scenario outcomes with status pending", () => {
+  it("initialises configured deployment outcomes with status pending", () => {
     const exec = createExecution({ deployment: DEFAULT_DEPLOYMENT, scenario, playbook });
     expect(exec.outcomes.length).toBeGreaterThan(0);
     for (const o of exec.outcomes) {
@@ -185,7 +185,7 @@ describe("RuntimeEngine.createExecution", () => {
     }
   });
 
-  it("initialises communications from scenario communicationDetails", () => {
+  it("initialises configured deployment communications", () => {
     const exec = createExecution({ deployment: DEFAULT_DEPLOYMENT, scenario, playbook });
     expect(exec.communications.length).toBeGreaterThan(0);
     for (const c of exec.communications) {
@@ -193,10 +193,25 @@ describe("RuntimeEngine.createExecution", () => {
     }
   });
 
+  it("retains the validated configured role, governance and canonical playbook", () => {
+    const exec = createExecution({ deployment: DEFAULT_DEPLOYMENT, scenario, playbook });
+    expect(exec.accountableRoleId).toBe("duty-manager");
+    expect(exec.playbookId).toBe(scenario.playbookId);
+    expect(exec.playbookName).toBe(playbook.name);
+    expect(exec.governanceRules.length).toBe(DEFAULT_DEPLOYMENT.governance.filter(rule => rule.value.trim()).length);
+    expect(exec.playbookSteps.length).toBe(playbook.steps.length);
+  });
+
   it("marks welfare scenario correctly", () => {
     const welfareScenario = TRAVEL_SCENARIOS.find(s => s.id === "distressed-guest")!;
     const welfarePlaybook = TRAVEL_PLAYBOOKS.find(p => p.id === "pb-distressed-guest")!;
-    const exec = createExecution({ deployment: DEFAULT_DEPLOYMENT, scenario: welfareScenario, playbook: welfarePlaybook });
+    const welfareDeployment = {
+      ...DEFAULT_DEPLOYMENT,
+      scenarios: DEFAULT_DEPLOYMENT.scenarios.map(item => (
+        item.scenarioId === "distressed-guest" ? { ...item, active: true } : item
+      )),
+    };
+    const exec = createExecution({ deployment: welfareDeployment, scenario: welfareScenario, playbook: welfarePlaybook });
     expect(exec.isWelfareScenario).toBe(true);
   });
 });

@@ -1,5 +1,5 @@
 /**
- * RTBX Travel Live Scenarios — Canonical Contract.
+ * RTBX Travel Synthetic Scenarios — Canonical Contract.
  *
  * Sprint 3 upgrade: every scenario now carries the full canonical field set
  * (operatingSystemId, trigger, context, governance, decision, rolesConfig,
@@ -8,9 +8,9 @@
  *
  * Legacy fields (existingSystem, signals, moment, momentClassification,
  * governance, playbook, roles, comms, requiresEscalation, escalationNote,
- * actionLabel, actionDetail, evidence, outcome, value, learning) are
- * preserved intact so the existing ScenarioRunner UI continues to work
- * without modification.
+ * actionLabel, actionDetail, evidence, outcome, value, learning) remain for
+ * controlled replay and compatibility surfaces. The Travel Scenario Library
+ * itself is read-only; runtime execution belongs to the Execution Centre.
  *
  * Synthetic demo data only — no live customer or personal data.
  */
@@ -50,7 +50,7 @@ export type MessageType =
   | "escalation"
   | "confirmation";
 
-// ── Legacy types (preserved for existing ScenarioRunner UI) ──────────────────
+// ── Legacy compatibility types ───────────────────────────────────────────────
 
 export type TravelScenarioRole =
   | "Front Desk" | "Duty Manager" | "Housekeeping" | "Guest"
@@ -188,7 +188,7 @@ export interface TravelScenario {
   learningConfig: ScenarioLearningConfig;
   proof: ScenarioProof;
 
-  // ── Legacy fields (preserved — ScenarioRunner depends on all of these) ──
+  // ── Legacy compatibility fields used by controlled replay surfaces ──
   existingSystem: string;
   signals: string[];
   moment: string;
@@ -358,7 +358,7 @@ export const TRAVEL_SCENARIOS: TravelScenario[] = [
       ],
     },
 
-    // ── Legacy fields (ScenarioRunner) ──────────────────────────────────────
+    // ── Legacy compatibility fields ─────────────────────────────────────────
     existingSystem: "PMS + Housekeeping App + Guest App",
     signals: ["Early arrival", "Room delay", "Repeat guest", "Negative sentiment"],
     moment: "Loyalty Protection and Service Recovery Moment",

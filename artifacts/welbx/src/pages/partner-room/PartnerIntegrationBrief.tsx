@@ -1,9 +1,9 @@
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 
-type IntegrationStatus = "Demonstrable" | "Configurable" | "Planned" | "Architecturally Defined";
+type IntegrationStatus = "Working Proof" | "Connector-ready" | "Planned";
 
 const STATUS_COLORS: Record<IntegrationStatus, string> = {
-  Demonstrable: "#10b981", Configurable: "#3b82f6", Planned: "#f97316", "Architecturally Defined": "rgba(255,255,255,0.35)",
+  "Working Proof": "#10b981", "Connector-ready": "#3b82f6", Planned: "#f97316",
 };
 
 const INTEGRATION_CATEGORIES: { title: string; sub: string; desc: string; color: string; status: IntegrationStatus }[] = [
@@ -12,35 +12,35 @@ const INTEGRATION_CATEGORIES: { title: string; sub: string; desc: string; color:
     sub: "PMS",
     desc: "Arrival manifests, room status, reservation data, loyalty tier, guest profile, check-in/out events.",
     color: "#c9a84c",
-    status: "Configurable",
+    status: "Planned",
   },
   {
     title: "Housekeeping Platforms",
     sub: "OPERATIONS",
     desc: "Room readiness pipeline, task assignment status, completion timestamps, staff capacity ratios.",
     color: "#c9a84c",
-    status: "Configurable",
+    status: "Planned",
   },
   {
     title: "Task Management & Workforce",
     sub: "WORKFORCE",
     desc: "Staff assignment, response latency, task completion rates, shift logs, handover quality signals.",
     color: "#3b82f6",
-    status: "Configurable",
+    status: "Planned",
   },
   {
     title: "Guest-Facing Applications",
     sub: "GUEST APP",
     desc: "In-stay requests, sentiment signals, complaint submissions, dining intent, service interaction data.",
     color: "#3b82f6",
-    status: "Demonstrable",
+    status: "Working Proof",
   },
   {
     title: "CRM & Loyalty Platforms",
     sub: "CRM / LOYALTY",
     desc: "Guest history, loyalty tier, preference profiles, spend patterns, prior stay records, cancellation signals.",
     color: "#a78bfa",
-    status: "Configurable",
+    status: "Planned",
   },
   {
     title: "Booking Engine",
@@ -54,7 +54,7 @@ const INTEGRATION_CATEGORIES: { title: string; sub: string; desc: string; color:
     sub: "MESSAGING",
     desc: "Two-way guest communication channel used to deliver and confirm demo communications and staff-routed responses.",
     color: "#a78bfa",
-    status: "Demonstrable",
+    status: "Working Proof",
   },
   {
     title: "Maintenance Systems",
@@ -75,14 +75,14 @@ const INTEGRATION_CATEGORIES: { title: string; sub: string; desc: string; color:
     sub: "RMS",
     desc: "Rate signals, occupancy patterns, activation exposure index, upsell window data, commercial triggers.",
     color: "#10b981",
-    status: "Architecturally Defined",
+    status: "Planned",
   },
   {
     title: "Building & IoT Infrastructure",
     sub: "BMS / IoT",
     desc: "Queue sensor data, environmental signals, energy anomalies, safety system triggers, HVAC status.",
     color: "#10b981",
-    status: "Architecturally Defined",
+    status: "Planned",
   },
   {
     title: "Partner Systems",
@@ -95,7 +95,7 @@ const INTEGRATION_CATEGORIES: { title: string; sub: string; desc: string; color:
 
 const FLOW_NODES = [
   { label: "Existing Systems",        sub: "PMS, HKP, CRM, POS, IoT" },
-  { label: "RTBX Core Connection Layer",  sub: "247 signal types, real-time or near-real-time" },
+  { label: "RTBX Core Connection Layer",  sub: "247 modelled signal types; real-time connection is Planned" },
   { label: "Context and Moment Layer", sub: "Pattern recognition and moment classification" },
   { label: "Decision Spine",          sub: "Governed playbook execution" },
   { label: "Routed Action",           sub: "Execution Centre — communication routing" },
@@ -116,17 +116,17 @@ export default function PartnerIntegrationBrief() {
             Your System Already Captures the Signal
           </h1>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 680, marginBottom: 14 }}>
-            RTBX Travel is a signal-to-action layer, not a replacement. Every data source your platform already manages becomes a captured signal input to the moment engine, through the RTBX Integration Hub. A single approved integration makes your system a trigger in the operating chain — creating compounding value for operators that neither platform can generate alone.
+            RTBX Travel is designed as a signal-to-action layer, not a replacement. Approved data sources can become signal inputs to the moment engine through the RTBX Integration Hub. External connections remain Planned until a named integration is approved and evidenced.
           </p>
           <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.3)", fontStyle: "italic" }}>
-            Not every system below is integrated for every deployment. Each category is labelled with its current status — 'Demonstrable' means working in this Partner Room environment; 'Architecturally Defined' means the integration model is specified but not yet connected.
+            No system below is presented as currently Integrated or Production. Working Proof refers only to the demonstrated interface; Planned means the external connection is not active. Connector-ready may be used only when interface-contract evidence exists.
           </p>
         </div>
 
         <div style={{ padding: "20px 24px", background: "rgba(59,130,246,0.04)", border: "1px solid rgba(59,130,246,0.15)", borderLeft: "3px solid #3b82f6", marginBottom: 24 }}>
           <div style={{ fontSize: 8, letterSpacing: "0.18em", color: "#3b82f6", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>No Rip-and-Replace</div>
           <p style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", lineHeight: 1.75, margin: 0 }}>
-            RTBX Travel connects to the systems already running in your property. The PMS, housekeeping app, guest app, CRM and task management platforms you depend on today become signal sources. RTBX adds the governed execution layer between them — nothing is removed, nothing is replaced.
+            RTBX Travel is designed to connect to systems already running in a property. PMS, housekeeping, guest app, CRM and task platforms can become signal sources after approval and integration work. The Planned model adds a governed execution layer without requiring replacement of those systems.
           </p>
         </div>
 

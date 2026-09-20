@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "wouter";
-import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
+import { Link, useLocation } from "wouter";
+import { PartnerRoomLayout, schedulePartnerRoomHashScroll } from "@/components/PartnerRoomLayout";
 import {
   TRAVEL_ACTION_CARDS, TRAVEL_PROPERTIES, TRAVEL_PRIORITIES, ACTION_STATUS_SEQUENCE,
   TRAVEL_OUTCOME_LEDGER, TRAVEL_EVIDENCE_LEDGER, EVIDENCE_WORDING_NOTE,
@@ -35,6 +35,13 @@ import { TRAVEL_SCENARIOS } from "@/data/travelScenarios";
 import { TRAVEL_PLAYBOOKS } from "@/data/travelPlaybooks";
 import { TRAVEL_OPERATING_SYSTEMS } from "@/data/travelOperatingSystems";
 import type { TravelDeploymentConfig } from "@/data/travelDeploymentConfig";
+import {
+  getScenarioIdFromQuery,
+  getScenarioRuntimeReadiness,
+  travelScenarioConfigurePath,
+  travelScenarioExecutionPath,
+  travelScenarioPath,
+} from "@/lib/travelScenarioRouting";
 
 // ── Style constants ───────────────────────────────────────────────────────────
 
@@ -81,10 +88,10 @@ function DeploymentBanner({ deployment }: { deployment: TravelDeploymentConfig |
   if (!deployment) {
     return (
       <div style={{ marginBottom: 36, padding: "20px 24px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.08)", borderLeft: "3px solid rgba(255,255,255,0.2)" }}>
-        <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>Deployment Status</div>
-        <div style={{ fontSize: 14, color: "rgba(255,255,255,0.55)", marginBottom: 12 }}>No active deployment configured.</div>
+        <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>Local Simulation Configuration</div>
+        <div style={{ fontSize: 14, color: "rgba(255,255,255,0.65)", marginBottom: 12 }}>Start the Working Proof three-scenario setup.</div>
         <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.35)", marginBottom: 14, lineHeight: 1.65 }}>
-          Configure and activate a deployment to use the interactive Execution Centre. The Action Centre, Outcome Ledger and Value Dashboard below run on synthetic demo data and are always available.
+          Configure three initial scenarios for one initial hotel property / 1–5-property cohort, then review their local traces in the interactive Execution Centre. The Action Centre, Outcome Ledger and Value Dashboard below contain synthetic, illustrative and modelled demonstration data only.
         </p>
         <Link href="/partner-room/build-configure">
           <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "9px 18px", background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.25)", cursor: "pointer" }}>
@@ -113,13 +120,13 @@ function DeploymentBanner({ deployment }: { deployment: TravelDeploymentConfig |
     <div style={{ marginBottom: 36, padding: "20px 24px", background: "rgba(10,20,40,0.5)", border: "1px solid rgba(201,168,76,0.2)", borderLeft: "3px solid #c9a84c" }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap", marginBottom: 14 }}>
         <div>
-          <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: "rgba(255,255,255,0.3)", textTransform: "uppercase", fontWeight: 700, marginBottom: 4 }}>Active Deployment</div>
+          <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: "rgba(255,255,255,0.3)", textTransform: "uppercase", fontWeight: 700, marginBottom: 4 }}>Selected Local Simulation Configuration</div>
           <div style={{ fontSize: 16, fontWeight: 800, color: "#fff" }}>{deployment.deploymentName}</div>
           <div style={{ fontSize: 11, color: "rgba(255,255,255,0.45)", marginTop: 3 }}>{deployment.organisationName} · {deployment.propertyType} · {deployment.roomCount} rooms · {deployment.region}</div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <div style={{ padding: "5px 12px", fontSize: 9, fontWeight: 700, letterSpacing: "0.08em", background: "rgba(16,185,129,0.1)", border: "1px solid rgba(16,185,129,0.3)", color: "#10b981" }}>
-            ● SIMULATION ACTIVE
+            WORKING PROOF · LOCAL SIMULATION
           </div>
           <div style={{ padding: "5px 12px", fontSize: 9, fontWeight: 700, letterSpacing: "0.08em", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.4)" }}>
             SYNTHETIC DATA
@@ -129,7 +136,7 @@ function DeploymentBanner({ deployment }: { deployment: TravelDeploymentConfig |
 
       <div style={{ display: "flex", flexWrap: "wrap", gap: 20, marginBottom: 14 }}>
         <div>
-          <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700, marginBottom: 6 }}>Active OSes ({activeOSCount})</div>
+          <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700, marginBottom: 6 }}>Selected OSes ({activeOSCount})</div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
             {deployment.operatingSystems.filter(o => o.active).map(os => {
               const osData = TRAVEL_OPERATING_SYSTEMS.find(d => d.id === os.osId);
@@ -142,7 +149,7 @@ function DeploymentBanner({ deployment }: { deployment: TravelDeploymentConfig |
           </div>
         </div>
         <div>
-          <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700, marginBottom: 6 }}>Active Scenarios ({activeScenarios.length})</div>
+          <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700, marginBottom: 6 }}>Selected Scenarios ({activeScenarios.length})</div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
             {activeScenarios.map(ds => {
               const sc = TRAVEL_SCENARIOS.find(s => s.id === ds.scenarioId);
@@ -165,13 +172,13 @@ function DeploymentBanner({ deployment }: { deployment: TravelDeploymentConfig |
           </div>
         </div>
         <div>
-          <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700, marginBottom: 6 }}>Active Roles</div>
+          <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700, marginBottom: 6 }}>Selected Roles</div>
           <div style={{ fontSize: 12, fontWeight: 800, color: "#fff" }}>{activeRoleCount} <span style={{ fontSize: 9, color: "rgba(255,255,255,0.35)", fontWeight: 500 }}>of {deployment.roles.length}</span></div>
         </div>
       </div>
 
       <div style={{ fontSize: 9.5, color: "rgba(255,255,255,0.3)", fontStyle: "italic" }}>
-        This is a working interactive simulation using synthetic execution data. All data is stored locally in your browser. Nothing is sent to any live system.
+        Synthetic local state only. Deterministic rules model classifications; communications remain drafts and are never sent or delivered. Nothing updates an external system, and named humans retain accountability.
       </div>
     </div>
   );
@@ -237,7 +244,7 @@ function ExecTracePanel({
     if (!comm) return;
     // Approval gate: do not auto-approve. approvedBy must come from explicit human action.
     if (comm.approvalRequired && !approvedComms[id]) {
-      setBlockMessage("This communication requires approval before it can be sent. Use the Approve button first.");
+      setBlockMessage("This draft requires named human approval before it can be marked reviewed in the simulation.");
       setTimeout(() => setBlockMessage(null), 4000);
       return;
     }
@@ -266,7 +273,7 @@ function ExecTracePanel({
         </div>
         <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
           <button onClick={launch} style={{ padding: "10px 22px", fontSize: 10, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", background: C.gold, border: "none", color: "#080c14", cursor: "pointer" }}>
-            Launch Scenario →
+            Start Local Simulation →
           </button>
           <div style={{ fontSize: 9.5, color: "rgba(255,255,255,0.3)" }}>
             {scenario.evidenceRequirements.filter(e => e.required).length} required evidence items · {scenario.communicationDetails.length} communications
@@ -286,9 +293,9 @@ function ExecTracePanel({
 
   const guestComms = exec.communications.filter(c => c.isGuestFacing);
 
-  const GuestPanel = () => (
+  const guestPanel = (
     <div style={{ background: "rgba(59,130,246,0.04)", border: "1px solid rgba(59,130,246,0.12)", padding: "18px 20px" }}>
-      <div style={{ fontSize: 8.5, letterSpacing: "0.14em", color: C.blue, textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>Guest View — Approved Guest-Facing Content Only</div>
+      <div style={{ fontSize: 8.5, letterSpacing: "0.14em", color: C.blue, textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>Guest View — Unsent Draft Content Only</div>
       {guestComms.length === 0 ? (
         <div style={{ fontSize: 11, color: "rgba(255,255,255,0.35)", fontStyle: "italic" }}>No guest-facing communications in this scenario.</div>
       ) : guestComms.map(c => (
@@ -296,20 +303,20 @@ function ExecTracePanel({
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, marginBottom: 4 }}>
             <div style={{ fontSize: 11.5, fontWeight: 700, color: "#fff" }}>{c.purpose}</div>
             <div style={{ fontSize: 9, fontWeight: 700, color: c.sent ? C.green : "rgba(255,255,255,0.3)", border: `1px solid ${c.sent ? C.green : "rgba(255,255,255,0.1)"}`, padding: "2px 8px" }}>
-              {c.sent ? "DELIVERED" : "PENDING"}
+              {c.sent ? "DRAFT REVIEWED" : "UNSENT DRAFT"}
             </div>
           </div>
-          <div style={{ fontSize: 10, color: "rgba(255,255,255,0.45)" }}>{c.channel} → {c.audience}</div>
+        <div style={{ fontSize: 10, color: "rgba(255,255,255,0.45)" }}>Proposed route: {c.channel} → {c.audience}</div>
           {c.approvalRequired && !c.sent && (
-            <div style={{ fontSize: 9.5, color: "#f97316", marginTop: 4 }}>Requires approval before delivery</div>
+            <div style={{ fontSize: 9.5, color: "#f97316", marginTop: 4 }}>Requires named human approval before any future delivery</div>
           )}
-          {c.sentAt && <div style={{ fontSize: 9, color: "rgba(255,255,255,0.3)", marginTop: 4 }}>Sent {new Date(c.sentAt).toLocaleTimeString()}</div>}
+          {c.sentAt && <div style={{ fontSize: 9, color: "rgba(255,255,255,0.3)", marginTop: 4 }}>Draft reviewed locally at {new Date(c.sentAt).toLocaleTimeString()}</div>}
         </div>
       ))}
     </div>
   );
 
-  const OperatorPanel = () => (
+  const operatorPanel = (
     <div>
       {/* Step content */}
       <div style={{ padding: "16px 20px", background: "rgba(255,255,255,0.015)", border: "1px solid rgba(255,255,255,0.06)", marginBottom: 8 }}>
@@ -352,11 +359,11 @@ function ExecTracePanel({
         {currentStep === 2 && (
           <div>
             <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.7)", marginBottom: 10 }}>
-              <span style={{ color: "rgba(255,255,255,0.35)", fontWeight: 700 }}>Decision: </span>{scenario.decision.recommendedDecision}
+              <span style={{ color: "rgba(255,255,255,0.35)", fontWeight: 700 }}>Illustrative recommendation: </span>{scenario.decision.recommendedDecision}
             </div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 10 }}>
-              {scenario.governanceConfig.rules.slice(0, 3).map((r, i) => (
-                <div key={i} style={{ padding: "3px 9px", fontSize: 9, color: "rgba(255,255,255,0.55)", border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.02)" }}>{r}</div>
+              {exec.governanceRules.slice(0, 3).map(rule => (
+                <div key={rule.id} style={{ padding: "3px 9px", fontSize: 9, color: "rgba(255,255,255,0.55)", border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.02)" }}>{rule.label}: {rule.value}</div>
               ))}
             </div>
             {scenario.governanceConfig.humanApprovalRequired && (
@@ -370,20 +377,28 @@ function ExecTracePanel({
         {/* Step 3: Act — comms + escalation */}
         {currentStep === 3 && (
           <div>
-            <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700, marginBottom: 8 }}>Communications</div>
+          <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700, marginBottom: 8 }}>Configured Playbook · {exec.playbookName}</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 4, marginBottom: 16 }}>
+              {exec.playbookSteps.slice(0, 4).map(step => (
+                <div key={step.step} style={{ padding: "6px 9px", fontSize: 10, color: "rgba(255,255,255,0.55)", background: "rgba(255,255,255,0.015)", border: "1px solid rgba(255,255,255,0.05)" }}>
+                  <strong style={{ color: C.gold }}>{step.step}. {step.title}</strong> — {step.ownerRoleId} · {step.timing}
+                </div>
+              ))}
+            </div>
+          <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700, marginBottom: 8 }}>Configured Unsent Communication Drafts</div>
             {exec.communications.map(c => {
               const isApproved = !!approvedComms[c.id];
               const needsApproval = c.approvalRequired && !isApproved;
-              const approvalRole = scenario.governanceConfig.approvalRole ?? "duty-manager";
+              const approvalRole = exec.accountableRoleId;
               return (
                 <div key={c.id} style={{ padding: "10px 0", borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
                     <div style={{ flex: 1 }}>
-                      <div style={{ fontSize: 13, color: "rgba(255,255,255,0.7)" }}>{c.purpose}</div>
-                      <div style={{ fontSize: 12, color: "rgba(255,255,255,0.35)" }}>{c.channel} → {c.audience}</div>
+                      <div style={{ fontSize: 13, color: "rgba(255,255,255,0.7)" }}>Draft: {c.purpose}</div>
+                      <div style={{ fontSize: 12, color: "rgba(255,255,255,0.35)" }}>Proposed route: {c.channel} → {c.audience}</div>
                       {c.approvalRequired && (
                         <div style={{ fontSize: 12, color: isApproved ? C.green : "#f97316", marginTop: 3 }}>
-                          {isApproved ? `✓ Approved by ${approvedComms[c.id]}` : `Requires ${approvalRole} approval before delivery`}
+                          {isApproved ? `Simulation approval recorded for ${approvedComms[c.id]}` : `Requires named ${approvalRole} approval before any future delivery`}
                         </div>
                       )}
                     </div>
@@ -410,11 +425,11 @@ function ExecTracePanel({
                             cursor: needsApproval ? "not-allowed" : "pointer",
                           }}
                         >
-                          Send →
+                          Mark draft reviewed →
                         </button>
                       </div>
                     ) : (
-                      <div style={{ fontSize: 12, fontWeight: 700, color: C.green, flexShrink: 0 }}>✓ Sent {new Date(c.sentAt!).toLocaleTimeString()}</div>
+                      <div style={{ fontSize: 12, fontWeight: 700, color: C.green, flexShrink: 0 }}>Draft reviewed locally {new Date(c.sentAt!).toLocaleTimeString()}</div>
                     )}
                   </div>
                 </div>
@@ -425,7 +440,7 @@ function ExecTracePanel({
                 <div style={{ fontSize: 8.5, color: C.red, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 6 }}>Active Escalation</div>
                 {exec.escalations.map(e => (
                   <div key={e.id} style={{ fontSize: 10, color: "rgba(255,255,255,0.6)" }}>
-                    {e.trigger} → {e.escalateToRoleId} {e.acknowledged ? "· Acknowledged" : "· Awaiting acknowledgement"}
+                    Illustrative: {e.trigger} → {e.escalateToRoleId} {e.acknowledged ? "· acknowledgement modelled" : "· acknowledgement not modelled"}
                   </div>
                 ))}
               </div>
@@ -439,20 +454,22 @@ function ExecTracePanel({
             <div style={{ marginBottom: 16 }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
                 <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700 }}>
-                  Evidence Capture — {evidencePct}% complete
+                  Illustrative Evidence Selection — {evidencePct}% selected
                 </div>
                 {gaps.length > 0 && (
                   <div style={{ fontSize: 9, color: "#f97316" }}>{gaps.length} required item{gaps.length > 1 ? "s" : ""} outstanding</div>
                 )}
               </div>
               {exec.evidence.map(ev => (
-                <div key={ev.id} style={{ display: "flex", alignItems: "flex-start", gap: 10, padding: "8px 0", borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
-                  <div
-                    onClick={() => handleEvidence(ev.id, !ev.captured)}
-                    style={{ width: 16, height: 16, border: `1px solid ${ev.captured ? C.green : (ev.required ? "#f97316" : "rgba(255,255,255,0.25)")}`, background: ev.captured ? C.green : "transparent", cursor: "pointer", flexShrink: 0, marginTop: 1, display: "flex", alignItems: "center", justifyContent: "center" }}
-                  >
-                    {ev.captured && <span style={{ fontSize: 10, color: "#080c14", fontWeight: 900 }}>✓</span>}
-                  </div>
+                <label key={ev.id} style={{ display: "flex", alignItems: "flex-start", gap: 10, padding: "8px 0", borderBottom: "1px solid rgba(255,255,255,0.04)", cursor: "pointer" }}>
+                  <input
+                    type="checkbox"
+                    checked={ev.captured}
+                    onChange={(event) => handleEvidence(ev.id, event.currentTarget.checked)}
+                    aria-label={`${ev.evidenceType}${ev.required ? " (required)" : " (optional)"}`}
+                    aria-required={ev.required}
+                    style={{ width: 18, height: 18, flexShrink: 0, marginTop: 1, accentColor: C.green, cursor: "pointer" }}
+                  />
                   <div style={{ flex: 1 }}>
                     <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.75)" }}>
                       {ev.evidenceType}
@@ -460,28 +477,28 @@ function ExecTracePanel({
                     </div>
                     <div style={{ fontSize: 9, color: "rgba(255,255,255,0.3)" }}>{ev.completionRule}</div>
                     {ev.captured && ev.capturedAt && (
-                      <div style={{ fontSize: 9, color: C.green, marginTop: 2 }}>Captured {new Date(ev.capturedAt).toLocaleTimeString()}</div>
+                      <div style={{ fontSize: 9, color: C.green, marginTop: 2 }}>Selected locally {new Date(ev.capturedAt).toLocaleTimeString()}</div>
                     )}
                   </div>
-                </div>
+                </label>
               ))}
             </div>
 
             <div>
-              <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700, marginBottom: 8 }}>Outcome Recording</div>
+              <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700, marginBottom: 8 }}>Illustrative Outcome Modelling — Not Measured</div>
               {exec.outcomes.map(o => (
                 <div key={o.id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 0", borderBottom: "1px solid rgba(255,255,255,0.04)", flexWrap: "wrap" }}>
                   <div style={{ flex: 1, fontSize: 10.5, color: "rgba(255,255,255,0.65)" }}>{o.metric}</div>
-                  <div style={{ display: "flex", gap: 3 }}>
+                  <div role="group" aria-label={`Model outcome for ${o.metric}`} style={{ display: "flex", gap: 3, flexWrap: "wrap" }}>
                     {(["met", "partially-met", "not-met", "not-measured"] as OutcomeStatus[]).map(s => (
-                      <div key={s} onClick={() => handleOutcome(o.id, s)} style={{
+                      <button type="button" key={s} onClick={() => handleOutcome(o.id, s)} aria-pressed={o.status === s} style={{
                         padding: "3px 9px", fontSize: 8.5, fontWeight: 700, cursor: "pointer",
                         color: o.status === s ? "#080c14" : "rgba(255,255,255,0.4)",
                         background: o.status === s ? (s === "met" ? C.green : s === "partially-met" ? C.gold : C.red) : "rgba(255,255,255,0.03)",
                         border: `1px solid ${o.status === s ? (s === "met" ? C.green : s === "partially-met" ? C.gold : C.red) : "rgba(255,255,255,0.1)"}`,
                       }}>
-                        {OUTCOME_STATUS_LABELS[s]}
-                      </div>
+                        Model: {OUTCOME_STATUS_LABELS[s]}
+                      </button>
                     ))}
                   </div>
                 </div>
@@ -517,7 +534,7 @@ function ExecTracePanel({
                 color: action.toState ? (action.id === "escalate" ? C.red : C.gold) : "rgba(255,255,255,0.25)",
               }}
             >
-              {action.label}
+              Model: {action.label}
             </button>
           ))}
         </div>
@@ -528,7 +545,7 @@ function ExecTracePanel({
   // Learning output
   const LearningPanel = () => learning ? (
     <div style={{ marginTop: 12, padding: "16px 20px", background: "rgba(201,168,76,0.04)", border: "1px solid rgba(201,168,76,0.2)" }}>
-      <div style={{ fontSize: 8.5, letterSpacing: "0.14em", color: C.gold, textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>Learning Output — Scenario Closed</div>
+      <div style={{ fontSize: 8.5, letterSpacing: "0.14em", color: C.gold, textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>Modelled Learning Output — Local Sequence End</div>
       <div style={{ marginBottom: 12 }}>
         <div style={{ fontSize: 9, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700, marginBottom: 6 }}>Patterns Detected</div>
         {learning.patterns.map((p, i) => (
@@ -560,10 +577,10 @@ function ExecTracePanel({
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
           <div>
             <div style={{ fontSize: 13, fontWeight: 800, color: "#fff" }}>{scenario.title}</div>
-            <div style={{ fontSize: 9.5, color: "rgba(255,255,255,0.4)" }}>{scenario.playbook}</div>
+            <div style={{ fontSize: 9.5, color: "rgba(255,255,255,0.4)" }}>{exec.playbookName} · {exec.accountableRoleId}</div>
           </div>
           <div style={{ padding: "4px 10px", fontSize: 9, fontWeight: 700, color: stateColor, border: `1px solid ${stateColor}40`, background: `${stateColor}0a` }}>
-            {stateLabel}
+            Illustrative state · {stateLabel}
           </div>
           {exec.isWelfareScenario && (
             <div style={{ padding: "4px 10px", fontSize: 9, fontWeight: 700, color: C.red, border: "1px solid rgba(239,68,68,0.3)" }}>
@@ -611,7 +628,7 @@ function ExecTracePanel({
                   color: isDone || isCurrent ? "#080c14" : "rgba(255,255,255,0.35)",
                   border: `1px solid ${isDone ? C.green : isCurrent ? C.gold : "rgba(255,255,255,0.12)"}`,
                 }}>
-                  {isDone ? "✓" : (i + 1)}
+                  {i + 1}
                 </div>
                 <div style={{ fontSize: 9, fontWeight: 700, color: isCurrent ? "#fff" : isDone ? "rgba(255,255,255,0.5)" : "rgba(255,255,255,0.25)", letterSpacing: "0.04em" }}>
                   {step.label}
@@ -631,17 +648,17 @@ function ExecTracePanel({
           <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
             <div>
               <div style={{ fontSize: 8.5, letterSpacing: "0.12em", color: "rgba(255,255,255,0.35)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>Operator View</div>
-              <OperatorPanel />
+              {operatorPanel}
             </div>
             <div>
               <div style={{ fontSize: 8.5, letterSpacing: "0.12em", color: C.blue, textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>Guest View</div>
-              <GuestPanel />
+              {guestPanel}
             </div>
           </div>
         ) : view === "guest" ? (
-          <GuestPanel />
+          guestPanel
         ) : (
-          <OperatorPanel />
+          operatorPanel
         )}
 
         <LearningPanel />
@@ -653,20 +670,33 @@ function ExecTracePanel({
 // ── Main page ─────────────────────────────────────────────────────────────────
 
 export default function PartnerOperationsCentre() {
+  const [location, navigate] = useLocation();
   useEffect(() => {
     const scrollToHash = () => {
-      const hash = window.location.hash.replace("#", "");
+      const hash = window.location.hash;
       if (!hash) return;
-      const el = document.getElementById(hash);
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      return schedulePartnerRoomHashScroll(hash, "auto");
     };
-    scrollToHash();
+    const cancelInitialScroll = scrollToHash();
     window.addEventListener("hashchange", scrollToHash);
-    return () => window.removeEventListener("hashchange", scrollToHash);
-  }, []);
+    return () => {
+      cancelInitialScroll?.();
+      window.removeEventListener("hashchange", scrollToHash);
+    };
+  }, [location]);
 
   const { activeDeployment } = useDeployment();
   const [launchedScenarioId, setLaunchedScenarioId] = useState<string | null>(null);
+  const requestedScenarioId = getScenarioIdFromQuery(
+    location,
+    typeof window === "undefined" ? "" : window.location.search,
+  );
+  const requestedScenario = requestedScenarioId
+    ? TRAVEL_SCENARIOS.find(item => item.id === requestedScenarioId)
+    : undefined;
+  const requestedReadiness = requestedScenarioId
+    ? getScenarioRuntimeReadiness(activeDeployment, requestedScenarioId)
+    : null;
 
   // Action Centre filters
   const [propertyFilter, setPropertyFilter] = useState<string | null>(null);
@@ -699,7 +729,7 @@ export default function PartnerOperationsCentre() {
   const activeDeploymentScenarios = useMemo(() => {
     if (!activeDeployment) return [];
     return activeDeployment.scenarios
-      .filter(ds => ds.active)
+      .filter(ds => getScenarioRuntimeReadiness(activeDeployment, ds.scenarioId).ready)
       .map(ds => {
         const scenario = TRAVEL_SCENARIOS.find(s => s.id === ds.scenarioId);
         const playbook = TRAVEL_PLAYBOOKS.find(p => p.id === ds.playbookId);
@@ -710,27 +740,38 @@ export default function PartnerOperationsCentre() {
 
   const launchedEntry = activeDeploymentScenarios.find(e => e.scenario.id === launchedScenarioId);
 
+  useEffect(() => {
+    if (!requestedScenarioId) return;
+    setLaunchedScenarioId(requestedReadiness?.ready ? requestedScenarioId : null);
+  }, [requestedScenarioId, requestedReadiness?.ready]);
+
   return (
     <PartnerRoomLayout>
-      <div style={{ maxWidth: 1160, margin: "0 auto", padding: "72px 32px 140px" }}>
+      <div className="rtbx-responsive-page rtbx-page-pad" style={{ maxWidth: 1160, margin: "0 auto", padding: "72px 32px 140px" }}>
 
         {/* ── HEADER ── */}
         <div style={{ marginBottom: 40 }}>
           <SectionLabel>RTBX Travel · Operations</SectionLabel>
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 12, maxWidth: 760 }}>
-            RTBX Execution Centre — Travel Environment
+            RTBX Operations Centre — Working Proof
           </h1>
           <div style={{ fontSize: 14, color: "rgba(255,255,255,0.45)", marginBottom: 16, letterSpacing: "-0.01em" }}>
             Travel Operations Centre — Operator Interface
           </div>
           <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.8, maxWidth: 700 }}>
-            The Execution Centre runs active scenario traces from your configured deployment. The Action Centre, Outcome Ledger, Evidence Ledger and Value Dashboard below run on synthetic demo data and connect signals to playbooks, communications, actions, evidence, outcomes and value.
+            This Working Proof provides local scenario traces. Synthetic inputs pass through deterministic rules; actions, evidence and outcomes are illustrative and value indicators are modelled.
+          </p>
+        </div>
+
+        <div style={{ padding: "14px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderLeft: "3px solid #c9a84c", marginBottom: 36 }}>
+          <p style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", lineHeight: 1.7, margin: 0 }}>
+            <strong style={{ color: C.gold }}>Working Proof · Simulation boundary:</strong> all operational inputs and states below are synthetic and local. Current classification is deterministic and rules-based. Communications remain drafts and are never sent or delivered; actions, evidence and outcomes are illustrative, and value is modelled rather than measured. No task, partner activation or external-system update occurs. Named humans retain approval and real-world accountability.
           </p>
         </div>
 
         {/* ── DEPLOYMENT CONTEXT BANNER ── */}
         <div id="deployment-status" style={{ marginBottom: 40, scrollMarginTop: 90 }}>
-          <SectionLabel>00 · Deployment</SectionLabel>
+          <SectionLabel>00 · Local Configuration</SectionLabel>
           <DeploymentBanner deployment={activeDeployment} />
         </div>
 
@@ -738,17 +779,41 @@ export default function PartnerOperationsCentre() {
         {activeDeployment && (
           <div id="runtime-execution" style={{ marginBottom: 56, scrollMarginTop: 90 }}>
             <SectionLabel>00B · Execution Trace</SectionLabel>
-            <H2>Interactive Scenario Runtime</H2>
+            <H2>Interactive Local Scenario Simulation</H2>
             <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, marginBottom: 6, maxWidth: 760 }}>
-              Launch any active scenario from your deployment and step through the full Connect → Understand → Decide → Act → Learn trace. Capture evidence, record outcomes and generate learning output. All execution data is local and synthetic.
+              Select a configured scenario and step through a local Connect → Understand → Decide → Act → Learn trace. Model evidence, outcomes and learning without executing operational work.
             </p>
             <div style={{ fontSize: 9.5, color: "rgba(255,255,255,0.3)", marginBottom: 20, fontStyle: "italic" }}>
-              This is a working interactive simulation using synthetic execution data. Not connected to any live system.
+              Deterministic rules and synthetic inputs only. No communication, task or external update is dispatched.
             </div>
+
+            {requestedReadiness && (
+              <div role={requestedReadiness.ready ? "status" : "alert"} style={{ padding: "14px 18px", marginBottom: 16, background: requestedReadiness.ready ? "rgba(16,185,129,0.05)" : "rgba(249,115,22,0.05)", border: `1px solid ${requestedReadiness.ready ? "rgba(16,185,129,0.25)" : "rgba(249,115,22,0.3)"}`, borderLeft: `3px solid ${requestedReadiness.ready ? C.green : "#f97316"}` }}>
+                <div style={{ fontSize: 11.5, fontWeight: 800, color: requestedReadiness.ready ? C.green : "#f97316", marginBottom: 5 }}>
+                  {requestedReadiness.ready ? "Scenario ready for local simulation" : "Scenario not ready for runtime"}
+                </div>
+                <div style={{ fontSize: 11, color: "rgba(255,255,255,0.5)", lineHeight: 1.6 }}>
+                  {requestedScenario?.title ?? requestedScenarioId}: {requestedReadiness.reason}
+                </div>
+                {!requestedReadiness.ready && requestedScenario && (
+                  <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 10 }}>
+                    <Link href={travelScenarioConfigurePath(requestedScenario.id)}>
+                      <span style={{ fontSize: 10, color: C.gold, fontWeight: 700 }}>Review in Build &amp; Configure →</span>
+                    </Link>
+                    <Link href={travelScenarioPath(requestedScenario.id)}>
+                      <span style={{ fontSize: 10, color: "rgba(255,255,255,0.45)" }}>View library entry →</span>
+                    </Link>
+                  </div>
+                )}
+              </div>
+            )}
 
             {activeDeploymentScenarios.length === 0 ? (
               <div style={{ padding: "20px 24px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
-                <div style={{ fontSize: 12, color: "rgba(255,255,255,0.45)" }}>No active scenarios in the current deployment.</div>
+                <div style={{ fontSize: 12, color: "rgba(255,255,255,0.45)", marginBottom: 10 }}>No runtime-ready scenarios are enabled in the selected local simulation configuration.</div>
+                <Link href="/partner-room/build-configure">
+                  <span style={{ fontSize: 10, color: C.gold, fontWeight: 700 }}>Review configuration →</span>
+                </Link>
               </div>
             ) : (
               <>
@@ -756,13 +821,17 @@ export default function PartnerOperationsCentre() {
                 {!launchedScenarioId && (
                   <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 16 }}>
                     {activeDeploymentScenarios.map(({ scenario }) => (
-                      <div
+                      <button
+                        type="button"
                         key={scenario.id}
-                        onClick={() => setLaunchedScenarioId(scenario.id)}
+                        onClick={() => {
+                          setLaunchedScenarioId(scenario.id);
+                          navigate(travelScenarioExecutionPath(scenario.id));
+                        }}
                         style={{ padding: "8px 16px", fontSize: 10, fontWeight: 700, cursor: "pointer", color: "rgba(255,255,255,0.65)", border: "1px solid rgba(255,255,255,0.12)", background: "rgba(255,255,255,0.02)" }}
                       >
                         {scenario.title}
-                      </div>
+                      </button>
                     ))}
                   </div>
                 )}
@@ -805,7 +874,7 @@ export default function PartnerOperationsCentre() {
             background: "rgba(201,168,76,0.05)", border: "1px solid rgba(201,168,76,0.2)", cursor: "pointer",
           }}>
             <span style={{ fontSize: 11, fontWeight: 700, color: "#c9a84c", letterSpacing: "0.04em" }}>
-              Every action here is coordinated through Central Comms — Travel AI & Central Comms →
+              Explore the planned Central Comms model — Travel AI & Central Comms →
             </span>
           </div>
         </Link>
@@ -813,15 +882,15 @@ export default function PartnerOperationsCentre() {
         {/* ── EXECUTION CENTRE (existing action cards) ── */}
         <div id="action-centre" style={{ marginBottom: 64, scrollMarginTop: 90 }}>
           <SectionLabel>01 · Execution</SectionLabel>
-          <H2>RTBX Execution Centre — Travel Environment</H2>
+          <H2>RTBX Action Centre — Synthetic Simulation</H2>
           <div style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", letterSpacing: "0.04em", marginBottom: 12, marginTop: -6 }}>Travel Operations Centre</div>
           <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, marginBottom: 20, maxWidth: 760 }}>
-            Every open moment, its assigned role owner and its response deadline. Filter by property, operating system, role or priority. Expand a card for its linked communications, evidence and outcome — or progress it through its demo status sequence.
+            Review synthetic moments, accountable role owners and illustrative deadlines. Filters and controls change local demonstration state only.
           </p>
 
           <div style={{ marginBottom: 20 }}>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 16 }}>
-              {["Active Signals", "Moments", "Decisions", "Actions", "Comms", "Escalations", "Evidence", "Outcomes & Learning"].map((d, i) => (
+              {["Synthetic Signals", "Modelled Moments", "Recommendations", "Illustrative Actions", "Draft Comms", "Modelled Escalations", "Illustrative Evidence", "Modelled Outcomes & Learning"].map((d, i) => (
                 <div key={d} style={{
                   padding: "5px 12px", fontSize: 9, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase",
                   color: i === 0 ? "#c9a84c" : "rgba(255,255,255,0.4)",
@@ -832,7 +901,7 @@ export default function PartnerOperationsCentre() {
             </div>
             <div style={{ padding: "14px 18px", background: "rgba(255,255,255,0.015)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: "2px solid rgba(201,168,76,0.4)" }}>
               <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.5)", lineHeight: 1.65, margin: 0 }}>
-                This is the RTBX Execution Centre configured for the Travel environment — running on synthetic demonstration data. Every moment, decision, communication and outcome record in this demonstration flows through this interface. Operators see only what they are authorised to see; every action is governed and evidenced.
+                This local Travel simulation shows how governed information could flow through an operator interface. It does not prove execution, delivery, evidence capture or outcomes.
               </p>
             </div>
           </div>
@@ -868,7 +937,7 @@ export default function PartnerOperationsCentre() {
             </div>
           </div>
 
-          <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.3)", marginBottom: 10 }}>{filteredActions.length} of {TRAVEL_ACTION_CARDS.length} actions shown</div>
+          <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.3)", marginBottom: 10 }}>{filteredActions.length} of {TRAVEL_ACTION_CARDS.length} illustrative actions shown</div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
             {filteredActions.map(a => {
@@ -880,14 +949,14 @@ export default function PartnerOperationsCentre() {
               return (
                 <div key={a.id} style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: `3px solid ${STATUS_COLORS[status]}` }}>
                   <div onClick={() => setExpandedId(isOpen ? null : a.id)} style={{ padding: "16px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, cursor: "pointer", flexWrap: "wrap" }}>
-                    <div style={{ flex: 1, minWidth: 240 }}>
+                    <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4, flexWrap: "wrap" }}>
                         <div style={{ fontSize: 13.5, fontWeight: 800, color: "#fff" }}>{a.moment}</div>
                         <div style={{ fontSize: 8.5, fontWeight: 700, color: PRIORITY_COLORS[a.priority], border: `1px solid ${PRIORITY_COLORS[a.priority]}50`, padding: "2px 7px", letterSpacing: "0.05em", textTransform: "uppercase" }}>{a.priority}</div>
                       </div>
                       <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.4)" }}>{a.property} · {a.owner} · Due {a.dueTime}</div>
                     </div>
-                    <div style={{ fontSize: 9.5, fontWeight: 700, color: STATUS_COLORS[status], border: `1px solid ${STATUS_COLORS[status]}50`, padding: "5px 11px", letterSpacing: "0.04em", textTransform: "uppercase", whiteSpace: "nowrap" }}>{status}</div>
+                    <div style={{ fontSize: 9.5, fontWeight: 700, color: STATUS_COLORS[status], border: `1px solid ${STATUS_COLORS[status]}50`, padding: "5px 11px", letterSpacing: "0.04em", textTransform: "uppercase", whiteSpace: "nowrap" }}>Illustrative · {status}</div>
                   </div>
 
                   {isOpen && (
@@ -899,7 +968,7 @@ export default function PartnerOperationsCentre() {
                           ["Escalation status", a.escalationStatus], ["Evidence required", a.evidenceRequired], ["Outcome required", a.outcomeRequired],
                         ].map(([label, val]) => (
                           <div key={label} style={{ fontSize: 10.5, color: "rgba(255,255,255,0.55)", lineHeight: 1.6 }}>
-                            <span style={{ color: "rgba(255,255,255,0.3)", fontWeight: 700 }}>{label}: </span>{val}
+                            <span style={{ color: "rgba(255,255,255,0.3)", fontWeight: 700 }}>{label}: </span>Illustrative — {val}
                           </div>
                         ))}
                       </div>
@@ -914,13 +983,13 @@ export default function PartnerOperationsCentre() {
                             border: "none", cursor: canAdvance ? "pointer" : "default",
                           }}
                         >
-                          {canAdvance ? "Progress demo action →" : "Sequence complete"}
+                          {canAdvance ? "Advance local illustration →" : "End of local sequence"}
                         </button>
                         <div style={{ fontSize: 9.5, color: "rgba(255,255,255,0.3)", alignSelf: "center" }}>Demo control — advances this card's status locally</div>
                       </div>
 
                       <div style={{ marginBottom: 14 }}>
-                        <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", marginBottom: 6 }}>Linked Communications</div>
+                        <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", marginBottom: 6 }}>Linked Unsent Drafts</div>
                         <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
                           {a.linkedCommunicationIds.map(id => (
                             <Link key={id} href={`/partner-room/travel-ai-comms#${id}`}>
@@ -931,19 +1000,19 @@ export default function PartnerOperationsCentre() {
                       </div>
 
                       <div style={{ marginBottom: 14 }}>
-                        <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", marginBottom: 6 }}>Linked Evidence</div>
+                        <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", marginBottom: 6 }}>Illustrative Evidence</div>
                         {evidences.length === 0 ? (
                           <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.3)", fontStyle: "italic" }}>No evidence recorded yet</div>
                         ) : evidences.map(ev => (
                           <div key={ev.id} style={{ fontSize: 10.5, color: "rgba(255,255,255,0.55)", marginBottom: 4 }}>
-                            <span style={{ color: C.gold }}>●</span> {ev.label} — {ev.timestamp}
+                            <span style={{ color: C.gold }}>●</span> Illustrative: {ev.label} — modelled time {ev.timestamp}
                           </div>
                         ))}
                       </div>
 
                       {outcome && (
                         <div style={{ padding: "12px 16px", background: "rgba(255,255,255,0.015)", border: "1px solid rgba(255,255,255,0.06)" }}>
-                          <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", marginBottom: 8 }}>Linked Outcome</div>
+                          <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", marginBottom: 8 }}>Modelled Outcome — Not Measured</div>
                           <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.55)", lineHeight: 1.7 }}>
                             <span style={{ color: "rgba(255,255,255,0.3)", fontWeight: 700 }}>Guest confirmation: </span>{outcome.guestConfirmation}<br />
                             <span style={{ color: "rgba(255,255,255,0.3)", fontWeight: 700 }}>Operator outcome: </span>{outcome.operatorOutcome}<br />
@@ -965,9 +1034,9 @@ export default function PartnerOperationsCentre() {
         {/* ── OUTCOME LEDGER ── */}
         <div id="outcome-ledger" style={{ marginBottom: 64, scrollMarginTop: 90 }}>
           <SectionLabel>02 · Record</SectionLabel>
-          <H2>Travel Outcome Ledger</H2>
+          <H2>Illustrative Travel Outcome Ledger</H2>
           <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, marginBottom: 20, maxWidth: 760 }}>
-            Every resolved or in-progress moment — from signal through governance, playbook, action and communication to outcome and learning.
+            Modelled records only — these do not represent completed actions, delivered communications or measured outcomes.
           </p>
           <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
             {TRAVEL_OUTCOME_LEDGER.map(o => (
@@ -979,13 +1048,13 @@ export default function PartnerOperationsCentre() {
                 <div style={{ padding: "0 20px 18px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px 24px" }}>
                   {[
                     ["Signal", o.signal], ["Governance rule", o.governanceRule], ["Playbook", o.playbook],
-                    ["Actions taken", o.actionsTaken], ["Communications sent", o.communicationsSent], ["Approval", o.approval],
-                    ["Time to response", o.timeToResponse], ["Time to completion", o.timeToCompletion],
-                    ["Guest confirmation", o.guestConfirmation], ["Operator outcome", o.operatorOutcome],
-                    ["Commercial outcome", o.commercialOutcome], ["Follow-up", o.followUp],
+                    ["Illustrative actions", o.actionsTaken], ["Unsent communication drafts", o.communicationsSent], ["Approval requirement", o.approval],
+                    ["Modelled response time", o.timeToResponse], ["Modelled sequence time", o.timeToCompletion],
+                    ["Illustrative guest response", o.guestConfirmation], ["Modelled operator outcome", o.operatorOutcome],
+                    ["Modelled commercial outcome", o.commercialOutcome], ["Illustrative follow-up", o.followUp],
                   ].map(([label, val]) => (
                     <div key={label} style={{ fontSize: 10.5, color: "rgba(255,255,255,0.55)", lineHeight: 1.6 }}>
-                      <span style={{ color: "rgba(255,255,255,0.3)", fontWeight: 700 }}>{label}: </span>{val}
+                      <span style={{ color: "rgba(255,255,255,0.3)", fontWeight: 700 }}>{label}: </span>Illustrative — {val}
                     </div>
                   ))}
                   <div style={{ gridColumn: "1 / -1", marginTop: 4, padding: "10px 14px", background: "rgba(201,168,76,0.04)", border: "1px solid rgba(201,168,76,0.15)", fontSize: 10.5, color: "rgba(255,255,255,0.55)" }}>
@@ -1003,15 +1072,15 @@ export default function PartnerOperationsCentre() {
         {/* ── EVIDENCE LEDGER ── */}
         <div id="evidence-ledger" style={{ marginBottom: 64, scrollMarginTop: 90 }}>
           <SectionLabel>03 · Trace</SectionLabel>
-          <H2>Travel Evidence Ledger</H2>
+          <H2>Illustrative Travel Evidence Ledger</H2>
           <div style={{ padding: "14px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", marginBottom: 20, maxWidth: 760 }}>
             <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.55)", lineHeight: 1.65, margin: 0 }}>{EVIDENCE_WORDING_NOTE}</p>
           </div>
-          <div style={{ overflowX: "auto" }}>
+          <div className="rtbx-table-scroll">
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 10.5, minWidth: 900 }}>
               <thead>
                 <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.1)" }}>
-                  {["Record", "Timestamp", "Owner", "Action Confirmation", "Message Delivery", "Approval Record", "Escalation Record", "Guest Acknowledgement", "Closure Review"].map(h => (
+                  {["Illustrative Record", "Modelled Time", "Accountable Owner", "Action Requirement", "Draft State", "Approval Requirement", "Escalation Model", "Guest Acknowledgement Model", "Closure Requirement"].map(h => (
                     <th key={h} style={{ textAlign: "left", padding: "8px 10px", color: "rgba(255,255,255,0.35)", fontWeight: 700, letterSpacing: "0.03em", textTransform: "uppercase", fontSize: 8 }}>{h}</th>
                   ))}
                 </tr>
@@ -1019,15 +1088,15 @@ export default function PartnerOperationsCentre() {
               <tbody>
                 {TRAVEL_EVIDENCE_LEDGER.map(e => (
                   <tr key={e.id} style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
-                    <td style={{ padding: "9px 10px", fontWeight: 700, color: "#fff" }}>{e.label}</td>
-                    <td style={{ padding: "9px 10px", color: "rgba(255,255,255,0.5)" }}>{e.timestamp}</td>
-                    <td style={{ padding: "9px 10px", color: "rgba(255,255,255,0.5)" }}>{e.owner}</td>
-                    <td style={{ padding: "9px 10px", color: "rgba(255,255,255,0.5)" }}>{e.actionConfirmation}</td>
-                    <td style={{ padding: "9px 10px", color: "rgba(255,255,255,0.5)" }}>{e.messageDelivery}</td>
-                    <td style={{ padding: "9px 10px", color: "rgba(255,255,255,0.5)" }}>{e.approvalRecord}</td>
-                    <td style={{ padding: "9px 10px", color: "rgba(255,255,255,0.5)" }}>{e.escalationRecord}</td>
-                    <td style={{ padding: "9px 10px", color: "rgba(255,255,255,0.5)" }}>{e.guestAcknowledgement}</td>
-                    <td style={{ padding: "9px 10px", color: "rgba(255,255,255,0.5)" }}>{e.closureReview}</td>
+                    <td style={{ padding: "9px 10px", fontWeight: 700, color: "#fff" }}>Illustrative: {e.label}</td>
+                    <td style={{ padding: "9px 10px", color: "rgba(255,255,255,0.5)" }}>Modelled: {e.timestamp}</td>
+                    <td style={{ padding: "9px 10px", color: "rgba(255,255,255,0.5)" }}>Accountable role: {e.owner}</td>
+                    <td style={{ padding: "9px 10px", color: "rgba(255,255,255,0.5)" }}>Illustrative only — {e.actionConfirmation}</td>
+                    <td style={{ padding: "9px 10px", color: "rgba(255,255,255,0.5)" }}>Illustrative only — {e.messageDelivery}</td>
+                    <td style={{ padding: "9px 10px", color: "rgba(255,255,255,0.5)" }}>Illustrative only — {e.approvalRecord}</td>
+                    <td style={{ padding: "9px 10px", color: "rgba(255,255,255,0.5)" }}>Illustrative only — {e.escalationRecord}</td>
+                    <td style={{ padding: "9px 10px", color: "rgba(255,255,255,0.5)" }}>Illustrative only — {e.guestAcknowledgement}</td>
+                    <td style={{ padding: "9px 10px", color: "rgba(255,255,255,0.5)" }}>Illustrative only — {e.closureReview}</td>
                   </tr>
                 ))}
               </tbody>
@@ -1041,7 +1110,7 @@ export default function PartnerOperationsCentre() {
         {/* ── VALUE DASHBOARD ── */}
         <div id="value-dashboard" style={{ marginBottom: 56, scrollMarginTop: 90 }}>
           <SectionLabel>04 · Value</SectionLabel>
-          <H2>Travel Value Dashboard</H2>
+          <H2>Modelled Travel Value Dashboard</H2>
           <div style={{ padding: "12px 16px", background: "rgba(201,168,76,0.05)", border: "1px solid rgba(201,168,76,0.2)", marginBottom: 24, maxWidth: 760 }}>
             <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.6)", lineHeight: 1.6, margin: 0, fontWeight: 600 }}>{VALUE_DEMO_LABEL_NOTE}</p>
           </div>
@@ -1056,7 +1125,7 @@ export default function PartnerOperationsCentre() {
                       {m.note && <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", fontStyle: "italic" }}>{m.note}</div>}
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                      <span style={{ fontSize: 13, fontWeight: 800, color: "#fff" }}>{m.value}</span>
+                      <span style={{ fontSize: 13, fontWeight: 800, color: "#fff" }}>{m.value} modelled</span>
                       {m.demo && <span style={{ fontSize: 7, fontWeight: 700, letterSpacing: "0.06em", color: "rgba(255,255,255,0.3)", border: "1px solid rgba(255,255,255,0.15)", padding: "1px 5px", textTransform: "uppercase" }}>Demo</span>}
                     </div>
                   </div>
@@ -1082,7 +1151,7 @@ export default function PartnerOperationsCentre() {
                 </div>
               ))}
             </div>
-            <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.65)", lineHeight: 1.7, maxWidth: 700, fontWeight: 600 }}>{TRAVEL_FEEDBACK_LOOP_STATEMENT}</p>
+            <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.65)", lineHeight: 1.7, maxWidth: 700, fontWeight: 600 }}>Illustrative model only — {TRAVEL_FEEDBACK_LOOP_STATEMENT}</p>
           </div>
           <Link href="/partner-room/proof-calculator"><div style={{ display: "inline-block", fontSize: 10, color: "rgba(255,255,255,0.35)", cursor: "pointer" }}>See also: Proof Calculator (model your own property) →</div></Link>
         </div>

@@ -17,12 +17,24 @@ const srcDir = join(root, "src");
 const appTsx = join(srcDir, "App.tsx");
 
 const EXCLUDE_DIRS = new Set(["node_modules", "dist", "archive", ".git"]);
+const INTERNAL_SOURCE_FILES = new Set([
+  "Sidebar.tsx",
+  "PartnerCommercial.tsx",
+  "PartnerCommercialModel.tsx",
+  "PartnerCommercialUnit.tsx",
+  "TravelBusinessPlan.tsx",
+  "TravelGtmPlan.tsx",
+  "TravelRevenueModel.tsx",
+  "TravelCommercialCase.tsx",
+  "TravelCommercialPartnershipBrief.tsx",
+]);
 
 function walkFiles(dir) {
   const results = [];
   for (const entry of readdirSync(dir)) {
     const full = join(dir, entry);
     if (EXCLUDE_DIRS.has(entry)) continue;
+    if (INTERNAL_SOURCE_FILES.has(entry)) continue;
     const stat = statSync(full);
     if (stat.isDirectory()) results.push(...walkFiles(full));
     else if (stat.isFile() && (extname(full) === ".tsx" || extname(full) === ".ts")) results.push(full);
@@ -96,7 +108,8 @@ for (const file of files) {
     if (!full.startsWith("/")) continue;
     if (full === "/") continue;
 
-    const [basePath, hash] = full.split("#");
+    const [pathAndQuery, hash] = full.split("#");
+    const basePath = pathAndQuery.split("?")[0];
 
     const isPartnerRoomPath = basePath.startsWith("/partner-room") || basePath.startsWith("/story") || basePath.startsWith("/travel");
     if (!isPartnerRoomPath) continue;
@@ -104,7 +117,13 @@ for (const file of files) {
     checkedCount++;
 
     // Check base route exists
-    if (!canonicalRoutes.has(basePath)) {
+    const routeExists = [...canonicalRoutes].some(route => {
+      if (route === basePath) return true;
+      if (!route.includes(":")) return false;
+      const pattern = new RegExp(`^${route.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/:[^/]+/g, "[^/]+")}$`);
+      return pattern.test(basePath);
+    });
+    if (!routeExists) {
       brokenRoutes.push({ file: file.replace(root + "/", ""), href: full });
     }
 

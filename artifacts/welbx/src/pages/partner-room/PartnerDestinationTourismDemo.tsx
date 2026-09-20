@@ -16,7 +16,7 @@ interface FlowStep {
 const FLOW_STEPS: FlowStep[] = [
   {
     key: "signal", label: "Signal", color: "#3b82f6", icon: "◎",
-    summary: "Live data received", status: "DETECTED",
+    summary: "Synthetic signal received", status: "DETECTED",
     detail: [
       "Transport delay detected — regional coach service 80 min late, 34 guests affected across 6 itineraries",
       "Booking conflict cascade — 3 activity bookings, 2 accommodation arrival windows and 1 ferry connection at risk",
@@ -35,94 +35,94 @@ const FLOW_STEPS: FlowStep[] = [
     summary: "Moment identified", status: "CLASSIFIED",
     detail: [
       "DESTINATION_DISRUPTION · Multi-partner · 34 guests · L2 · Cascade risk",
-      "Classification confidence: 89% — transport delay confirmed, booking conflicts mapped, partner gap detected",
+      "Illustrative rules match: 89% — synthetic transport delay, booking conflicts and partner gap",
       "Moment sub-type: itinerary cascade — multiple downstream partners require coordinated notification",
       "Escalation threshold set: 45 min — destination manager alerted if partner coordination fails",
       "Linked playbooks: transport-delay-cascade + itinerary-adjustment + partner-coordination",
     ],
     roles: {
-      "Guest / Traveller": "The system has identified this as a multi-guest destination disruption and is coordinating a response across accommodation, activity and transport partners simultaneously.",
-      "Operator": "Classification confirmed: multi-partner cascade. Playbooks: 3 activated. Coordination required: activity provider, ferry operator, accommodation. Timer: 45 min.",
-      "Command / Assurance": "Moment #5560 | DESTINATION_DISRUPTION | L2 | Guests: 34 | Cascade: 6 itineraries | Partners: 3 | Timer: 45 min | Playbooks: 3 activated",
+      "Guest / Traveller": "Rules classify this synthetic scenario as a multi-guest destination disruption and propose a coordinated response for human review.",
+      "Operator": "Rules-based classification: multi-partner cascade. Three proposed playbooks; a named destination operator remains accountable.",
+      "Command / Assurance": "SIMULATION #5560 | RULES-BASED CLASSIFICATION | L2 | 34 illustrative guests | Human approval required",
     },
   },
   {
     key: "decide", label: "Decide", color: "#c9a84c", icon: "◇",
-    summary: "Response selected", status: "DECIDED",
+    summary: "Response proposed", status: "PROPOSED",
     detail: [
-      "Itinerary adjustment triggered — rescheduled arrival windows sent to all 3 accommodation partners",
-      "Partner notification dispatched — activity provider and ferry operator notified via partner app",
-      "Guest communication prepared — updated itinerary sent to all 34 guests via Guest Channel",
+      "Itinerary adjustment proposed — draft arrival windows for 3 accommodation partners",
+      "Partner notification draft shown for the activity provider and ferry operator; no external notification dispatched",
+      "Guest communication draft prepared for 34 illustrative guests; nothing sent",
       "Alternative activity offer queued — weather-appropriate indoor options for afternoon slot",
-      "Ferry connection: alternative passage identified — 18:30 service, confirmed with operator",
-      "Escalation threshold maintained — destination manager on standby if partner response not confirmed in 20 min",
+      "Ferry alternative modelled — 18:30 option not confirmed with an operator",
+      "Proposed escalation rule — human review if partner response is not confirmed in 20 min",
     ],
     roles: {
-      "Guest / Traveller": "Guests on the delayed coach receive an updated itinerary via Guest Channel: new arrival times, alternative activity option and confirmation that all bookings are protected.",
-      "Operator": "Action record: itinerary adjustments sent to 3 accommodation partners. Activity provider and ferry notified. Guest comms: 34 sent. Alternative: queued. Timer: 20 min.",
-      "Command / Assurance": "Decision record created. Actions queued: 5. Partners contacted: 3. Guest comms: 34. Ferry alternative: confirmed. Escalation: standby at 20 min.",
+      "Guest / Traveller": "A draft itinerary shows proposed arrival times, an alternative activity and booking options. No communication or protection is confirmed.",
+      "Operator": "Illustrative action record: draft partner and guest communications shown; no external contact or booking update occurs.",
+      "Command / Assurance": "Proposed decision record | Draft actions: 5 | No partner or guest contact | Human approval required",
     },
   },
   {
     key: "execute", label: "Execute", color: "#10b981", icon: "◉",
-    summary: "Actions delivered", status: "EXECUTING",
+    summary: "Actions modelled", status: "SIMULATED",
     detail: [
-      "Guest Channel update sent — updated itinerary, revised arrival 16:40, alternative activity offered",
-      "Accommodation partners notified — all 3 confirmed adjusted arrival windows by 14:18",
-      "Activity provider responded — afternoon session rescheduled to 17:00, capacity confirmed",
-      "Ferry operator confirmed — 18:30 passage secured, 34 guest names transferred",
-      "Alternative activity offer delivered — indoor experience partner confirmed availability",
-      "Destination manager status update sent — coordination in progress, no escalation required yet",
+      "Guest Channel draft shown — proposed itinerary, 16:40 arrival and alternative activity; nothing sent",
+      "Accommodation partner responses modelled — no external notifications or confirmations",
+      "Activity session modelled at 17:00 — no capacity confirmation received",
+      "Ferry passage modelled at 18:30 — no booking or guest-name transfer made",
+      "Alternative activity option shown — availability not externally confirmed",
+      "Destination manager update drafted — no status update dispatched",
     ],
     roles: {
-      "Guest / Traveller": "\"Your journey has been affected by a transport delay. Your updated itinerary is here — your accommodation arrival is moved to 16:40, your activity to 17:00. Your ferry is confirmed at 18:30.\"",
-      "Operator": "EXECUTION: Guest comms sent 14:12. Accommodation confirmed 14:18. Activity: rescheduled 17:00. Ferry: secured. Indoor alt: available. Manager: updated. No escalation.",
-      "Command / Assurance": "Moment #5560 | STATUS: EXECUTING | Guest comms: 34 delivered | Partners: 3 confirmed | Ferry: secured | Indoor alt: available | Timer: 24 min remaining",
+      "Guest / Traveller": "DRAFT — \"A transport delay may affect your journey. Proposed options include a 16:40 arrival, 17:00 activity and 18:30 ferry, subject to operator confirmation.\"",
+      "Operator": "SIMULATION: Guest draft shown at 14:12. Proposed accommodation, activity, ferry and indoor-alternative states are displayed for manager review; no external action is dispatched.",
+      "Command / Assurance": "SIMULATION #5560 | Proposed states only | No external updates | Human operator accountable",
     },
   },
   {
     key: "assure", label: "Assure", color: "#22d3ee", icon: "◍",
-    summary: "Outcome confirmed", status: "ASSURED",
+    summary: "Outcome modelled", status: "MODELLED",
     detail: [
-      "All 34 guests arrived at accommodation by 16:55 — adjusted window maintained",
-      "Activity session completed at 17:00 — all guests attended, no no-shows",
-      "Ferry connection secured — 34 guests boarded 18:30 passage, no missed connections",
-      "Partner response confirmed — all 3 partners closed their coordination records",
-      "Guest sentiment recovered — no complaint signals across all 34 guests, Guest Channel: positive",
-      "Assurance record closed — full multi-partner coordination evidence trail complete",
+      "Modelled outcome: 34 illustrative guests could arrive by 16:55",
+      "Modelled outcome: a 17:00 activity could preserve the itinerary",
+      "Modelled ferry state: an 18:30 passage could reduce missed-connection risk",
+      "Partner response state modelled — no external coordination records exist",
+      "Illustrative sentiment state — no guest or complaint system is connected",
+      "Illustrative assurance record shown — pilot validation is Planned",
     ],
     roles: {
-      "Guest / Traveller": "Itinerary recovered. Accommodation, activity and ferry all delivered on adjusted schedule. No out-of-pocket costs. Journey intact.",
-      "Operator": "RESOLVED: All 34 guests on track. Accommodation: on time. Activity: delivered. Ferry: secured. Sentiment: positive. No complaints. Record: complete.",
-      "Command / Assurance": "Moment #5560 | RESOLVED | Guests: 34 | Partners: 3 coordinated | Escalation: prevented | Sentiment: positive | Record: closed",
+      "Guest / Traveller": "Illustrative outcome only: adjusted accommodation, activity and ferry options with potentially lower disruption.",
+      "Operator": "MODELLED: Guest, partner, itinerary, sentiment and complaint outcomes require real pilot evidence.",
+      "Command / Assurance": "SIMULATION #5560 | Outcome modelled | No measured partner, sentiment or escalation result",
     },
   },
   {
     key: "value", label: "Value", color: COLOR, icon: "◆",
-    summary: "Value captured", status: "RECORDED",
+    summary: "Value modelled", status: "INDICATIVE",
     detail: [
-      "Revenue protected — estimated A$12,800 across 34 guest itineraries and partner bookings",
-      "34 guest journeys preserved — zero missed connections, zero refunds, zero complaints",
-      "Partner coordination: 3 operators aligned in 12 min vs typical manual: 45+ min",
-      "Escalation prevented — destination manager intervention not required",
-      "Destination reputation protected — no social media incident, no formal complaint",
-      "Assurance record created — complete multi-partner coordination evidence, destination-level learning",
+      "Indicative value: A$12,800 assumption across 34 illustrative itineraries; not measured",
+      "Potential journey effect — missed connections, refunds and complaints are not verified",
+      "Indicative timing: 12 min guided vs 45+ min benchmark; pilot measurement Planned",
+      "Potential escalation reduction — not an achieved outcome",
+      "Potential reputation effect — no social or complaint systems connected",
+      "Illustrative assurance record — evidence collection and learning are Planned",
     ],
     roles: {
-      "Guest / Traveller": "Journey protected. No disruption to the itinerary from the guest's perspective. Full value of trip maintained.",
-      "Operator": "Value record: Revenue protected A$12,800 | Guests: 34 | Partners: 3 coordinated | Escalation: 0 | Coordination time: 12 min guided vs 45 min unguided",
-      "Command / Assurance": "Value record #5560 | Protected: A$12,800 | Guests: 34 | Partners: 3 | Assurance: complete | Repeatability: multi-partner playbook confirmed",
+      "Guest / Traveller": "Illustrative value state: potentially lower itinerary disruption, subject to partner confirmation.",
+      "Operator": "INDICATIVE MODEL: A$12,800 assumption | 34 guests | Coordination timing and escalation require pilot measurement",
+      "Command / Assurance": "MODEL #5560 | Indicative value only | No measured revenue, assurance or repeatability outcome",
     },
   },
 ];
 
 const PROOF_POINTS = [
-  { label: "Risk reduced", desc: "34-guest cascade intercepted, no missed connections", color: "#10b981" },
-  { label: "Escalation prevented", desc: "Destination manager alert not triggered — 45-min window met", color: "#10b981" },
-  { label: "Revenue protected", desc: "A$12,800 estimated across 34 guest itineraries", color: COLOR },
-  { label: "Staff time saved", desc: "3-partner coordination: 12 min guided vs 45 min average", color: COLOR },
-  { label: "Assurance record", desc: "Complete multi-partner coordination evidence trail", color: "#a78bfa" },
-  { label: "Experience recovered", desc: "34 guest journeys protected, zero complaints filed", color: "#22d3ee" },
+  { label: "Modelled risk", desc: "Illustrative 34-guest cascade response", color: "#10b981" },
+  { label: "Modelled escalation", desc: "Proposed 45-min human review point", color: "#10b981" },
+  { label: "Indicative value", desc: "A$12,800 itinerary assumption; not measured", color: COLOR },
+  { label: "Planned metric", desc: "Partner coordination timing for pilot evaluation", color: COLOR },
+  { label: "Illustrative assurance", desc: "Proposed multi-partner evidence trail", color: "#a78bfa" },
+  { label: "Modelled experience", desc: "Potential journey effect; not achieved", color: "#22d3ee" },
 ];
 
 export default function PartnerDestinationTourismDemo() {
@@ -141,12 +141,13 @@ export default function PartnerDestinationTourismDemo() {
         </div>
 
         <div style={{ marginBottom: 48 }}>
-          <div style={{ fontSize: 9, letterSpacing: "0.22em", color: COLOR, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>Live Operating Flow · Destination & Tourism Operators</div>
+          <div style={{ fontSize: 9, letterSpacing: "0.22em", color: COLOR, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>Simulated Operating Flow · Destination & Tourism Operators</div>
           <h1 style={{ fontSize: 36, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 18, maxWidth: 680 }}>
             A transport delay cascades across 34 guest itineraries.<br />
-            <span style={{ color: COLOR }}>Three partners coordinated. Zero missed connections.</span>
+            <span style={{ color: COLOR }}>A multi-partner response modelled.</span>
           </h1>
-          <p style={{ fontSize: 14, color: "rgba(255,255,255,0.48)", lineHeight: 1.8, maxWidth: 620 }}>A regional coach service is 80 minutes late. Six guest itineraries are at risk across accommodation, activities and a ferry connection. This is how RTBX Core coordinates a multi-partner destination disruption.</p>
+          <p style={{ fontSize: 14, color: "rgba(255,255,255,0.48)", lineHeight: 1.8, maxWidth: 620 }}>A synthetic scenario illustrates how RTBX Core could present a rules-based response to an itinerary cascade for accountable human review.</p>
+          <div style={{ marginTop: 18, padding: "12px 16px", border: `1px solid ${COLOR}30`, borderLeft: `3px solid ${COLOR}`, fontSize: 11, color: "rgba(255,255,255,0.55)", lineHeight: 1.6, maxWidth: 760 }}><strong style={{ color: COLOR }}>Working Proof · Simulation boundary:</strong> Classification is rules-based and communications are drafts. No message, task, booking, partner activation, dispatch or external-system update occurs. Humans remain accountable; integrations and pilots are Planned.</div>
         </div>
 
         <div style={{ padding: "22px 28px", background: `${COLOR}06`, border: `1px solid ${COLOR}18`, borderLeft: `3px solid ${COLOR}60`, marginBottom: 40, display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
@@ -163,7 +164,7 @@ export default function PartnerDestinationTourismDemo() {
         </div>
 
         <div style={{ marginBottom: 28 }}>
-          <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>Operating Flow · Step {activeStep + 1} of {FLOW_STEPS.length}</div>
+          <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>Simulated Operating Flow · Step {activeStep + 1} of {FLOW_STEPS.length}</div>
           <div style={{ display: "flex", gap: 2 }}>
             {FLOW_STEPS.map((s, i) => (
               <button key={s.key} onClick={() => setActiveStep(i)} style={{ flex: 1, padding: "14px 8px", background: i === activeStep ? `${s.color}12` : "rgba(255,255,255,0.02)", border: `1px solid ${i === activeStep ? s.color + "50" : "rgba(255,255,255,0.07)"}`, borderTop: `2px solid ${i === activeStep ? s.color : "transparent"}`, cursor: "pointer", textAlign: "center", transition: "all 0.15s", display: "flex", flexDirection: "column", alignItems: "center", gap: 5 }}
@@ -211,7 +212,7 @@ export default function PartnerDestinationTourismDemo() {
         </div>
 
         <div style={{ marginBottom: 48 }}>
-          <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 18 }}>Proof of Value</div>
+          <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 18 }}>Modelled Proof of Value</div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
             {PROOF_POINTS.map((pt, i) => (
               <div key={i} style={{ padding: "18px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: `2px solid ${pt.color}` }}>

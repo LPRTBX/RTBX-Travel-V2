@@ -475,7 +475,7 @@ function PhoneFrame({ stage, selected, onSelect }: {
   );
 }
 
-const QUAD_LABELS = ["What the Guest Sees", "What RTBX Core Coordinates", "What the Operator Receives", "Value Created"];
+const QUAD_LABELS = ["Illustrative Guest View", "Demonstrated Rules", "Illustrative Operator View", "Indicative Value"];
 
 export default function PartnerGuestDemo() {
   const [stageIdx, setStageIdx] = useState(0);
@@ -499,13 +499,13 @@ export default function PartnerGuestDemo() {
       {/* Header */}
       <div className="rtbx-page-pad" style={{ maxWidth: 1400, margin: "0 auto", padding: "40px 60px 36px" }}>
         <div style={{ fontSize: 8, letterSpacing: "0.22em", color: P.amber, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>
-          Guest Experience Demo
+           Guest Experience Simulation
         </div>
         <h1 style={{ fontSize: 36, fontWeight: 800, color: P.white, letterSpacing: "-0.02em", marginBottom: 10 }}>
           One Stay. Seven Moments.
         </h1>
         <p style={{ fontSize: 13, color: P.muted, maxWidth: 560, lineHeight: 1.7, margin: 0 }}>
-          Follow a single guest from arrival to checkout — at each stage, see what the guest experiences, what RTBX Core automates, what the operator receives and what value is created.
+           Follow a fictional guest from arrival to checkout and explore illustrative interface states, rules-based recommendations, operator cues and indicative value.
         </p>
       </div>
 
@@ -513,7 +513,7 @@ export default function PartnerGuestDemo() {
       <div className="rtbx-page-pad" style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px 0" }}>
         <div style={{ padding: "14px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderLeft: "3px solid #3b82f6", marginBottom: 24 }}>
           <p style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", lineHeight: 1.7, margin: 0 }}>
-            The guest never interacts directly with RTBX. What the guest sees is the output of coordinated RTBX action — a message that arrived at the right moment, a problem resolved before they noticed it, a recommendation that felt personal. RTBX Core runs behind the scenes; Guest Experience is the layer guests interact with.
+             <strong style={{ color: P.amber }}>Simulation boundary:</strong> this Working Proof changes local interface state only. Messages, check-ins, keys, bookings, staff tasks, welfare actions, partner requests, outcomes and value are illustrative; nothing is dispatched or completed. Current classification and routing are rules-based, and named people remain accountable.
           </p>
         </div>
       </div>

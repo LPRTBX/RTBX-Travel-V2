@@ -16,7 +16,7 @@ interface FlowStep {
 const FLOW_STEPS: FlowStep[] = [
   {
     key: "signal", label: "Signal", color: "#3b82f6", icon: "◎",
-    summary: "Live data received", status: "DETECTED",
+    summary: "Synthetic signal received", status: "DETECTED",
     detail: [
       "Crowd flow anomaly detected — entry gate throughput 40% below expected at T-45 min to main program",
       "Catering shortfall signal — pre-event F&B stations running 28% below required capacity",
@@ -35,94 +35,94 @@ const FLOW_STEPS: FlowStep[] = [
     summary: "Moment identified", status: "CLASSIFIED",
     detail: [
       "LIVE_EVENT_OPERATIONS_RISK · Events & Venues · Multi-signal · L2",
-      "Classification confidence: 91% — crowd flow + catering + sentiment cross-confirmed",
+      "Illustrative rules match: 91% — crowd flow + catering + sentiment inputs",
       "Moment sub-type: pre-program operations failure — window to resolve: 40 min before program impact",
       "Escalation threshold set: 30 min — event director notified if flow not restored",
       "Linked playbooks: crowd-flow-recovery + catering-alert + guest-comms-event",
     ],
     roles: {
-      "Guest / Attendee": "The system has identified a live operations risk affecting guest experience before the event starts. A coordinated response is now being assembled.",
-      "Operator": "Classification confirmed: pre-program ops risk. Playbooks: crowd-flow-recovery + catering-alert + comms-event. Resolution window: 40 min. Escalation: 30 min.",
-      "Command / Assurance": "Moment #9120 | LIVE_EVENT_OPERATIONS_RISK | L2 | Confidence: 91% | Window: 40 min | Escalation timer: 30 min | Playbooks: 3 activated",
+      "Guest / Attendee": "Rules classify the synthetic inputs as a pre-program operations risk and show a proposed response for human review.",
+      "Operator": "Rules-based classification: pre-program operations risk. Three proposed playbooks; the named event operator remains accountable.",
+      "Command / Assurance": "SIMULATION #9120 | RULES-BASED CLASSIFICATION | L2 | Illustrative match: 91% | Human approval required",
     },
   },
   {
     key: "decide", label: "Decide", color: "#c9a84c", icon: "◇",
-    summary: "Response selected", status: "DECIDED",
+    summary: "Response proposed", status: "PROPOSED",
     detail: [
-      "Crowd flow action: open secondary gates B and C — staff redeployment from internal positions",
-      "Catering alert: activate backup F&B stations 4 and 5, restock from reserve",
-      "Guest communication: proactive Guest Channel message — manage expectations, offer early access incentive",
-      "Staff redeployment: 8 internal staff redirected to gates, 4 to F&B backup stations",
-      "Escalation path set: event director notified in 30 min if queue time not below 8 min",
-      "VIP lane protected — guest tier separation maintained throughout intervention",
+      "Proposed crowd-flow action: human review of opening gates B and C and staff redeployment",
+      "Proposed catering action: review activation of backup F&B stations 4 and 5",
+      "Guest communication draft: expectation-setting and a proposed welcome-drink offer",
+      "Modelled redeployment: 8 staff to gates and 4 to F&B stations; no task dispatched",
+      "Proposed escalation rule: human review at 30 min if modelled queue time remains above 8 min",
+      "VIP lane option shown — operational state not externally confirmed",
     ],
     roles: {
-      "Guest / Attendee": "Guests in queue receive a proactive Guest Channel message with an updated expected entry time and a complimentary welcome drink token as a goodwill gesture.",
-      "Operator": "Action card dispatched: open gates B+C now. Redeploy 8 staff. Activate F&B stations 4+5. Guest comms sent. VIP lane: protected. Timer: 30 min to director alert.",
-      "Command / Assurance": "Decision record created. Actions queued: 5. Staff redeployment: 12 total. Guest comms: sent. Escalation timer: 30 min. Director: on standby.",
+      "Guest / Attendee": "A draft Guest Channel message shows an estimated entry time and proposed welcome-drink token. Nothing is sent or issued.",
+      "Operator": "Simulated action card: proposed opening of gates B+C, redeployment of 8 staff and activation of F&B stations 4+5. Guest draft shown. Named operator approval required.",
+      "Command / Assurance": "Proposed decision record | Draft actions: 5 | Modelled redeployment: 12 | No guest communication sent | Human approval required",
     },
   },
   {
     key: "execute", label: "Execute", color: "#10b981", icon: "◉",
-    summary: "Actions delivered", status: "EXECUTING",
+    summary: "Actions modelled", status: "SIMULATED",
     detail: [
-      "Gates B and C opened — staff redeployed, throughput recovering, queue time: 18 min → 11 min",
-      "F&B stations 4 and 5 activated — restocked from reserve, operational at 19:28",
-      "Guest Channel message sent — 2,840 attendees notified, welcome drink token delivered",
-      "Staff redeployment complete — 12 staff repositioned, gate throughput improving",
-      "VIP lane confirmed — separate entrance maintained, zero VIP impact",
-      "Event director status update sent — situation active, recovery in progress, no escalation required yet",
+      "Gates B and C modelled as open — indicative queue state: 18 min → 11 min",
+      "F&B stations 4 and 5 modelled as active — no staff or stock action dispatched",
+      "Guest Channel draft shown for an illustrative 2,840 attendees; no notification or token dispatched",
+      "Staff redeployment modelled — 12 proposed positions, no task dispatched",
+      "VIP lane state modelled — no operational impact measured",
+      "Event director update drafted — no status update or escalation dispatched",
     ],
     roles: {
-      "Guest / Attendee": "\"We're managing a higher-than-expected arrival flow. Your entry time is approximately 11 minutes — enjoy a complimentary welcome drink from any bar on entry. Thanks for your patience.\"",
-      "Operator": "EXECUTION: Gates B+C open 19:22. F&B stations active 19:28. Queue: 22→11 min. Staff: redeployed. Guest comms: delivered. Director: updated. No escalation yet.",
-      "Command / Assurance": "Moment #9120 | STATUS: EXECUTING | Gates: B+C open | F&B: active | Queue: 11 min | Guest comms: delivered | Timer: 18 min remaining",
+      "Guest / Attendee": "DRAFT — \"We are modelling a higher-than-expected arrival flow. Proposed entry time: 11 minutes; a welcome-drink option is subject to staff approval.\"",
+      "Operator": "SIMULATION: Proposed gate, F&B, queue and staffing states shown. No communication, token, task or director update dispatched.",
+      "Command / Assurance": "SIMULATION #9120 | Proposed states only | No external updates | Human operator accountable",
     },
   },
   {
     key: "assure", label: "Assure", color: "#22d3ee", icon: "◍",
-    summary: "Outcome confirmed", status: "ASSURED",
+    summary: "Outcome modelled", status: "MODELLED",
     detail: [
-      "Queue time recovered to 6 min by 19:48 — within 30-min escalation window",
-      "Program started on time at 20:00 — no schedule impact",
-      "Guest sentiment signal recovered — complaint threshold not reached, Guest Channel: positive",
-      "F&B throughput normalised — stations 4 and 5 remain active through main program",
-      "Event director not escalated — situation resolved within managed window",
-      "Assurance record closed — actions evidenced, outcome confirmed, post-event review queued",
+      "Modelled outcome: queue time could reach 6 min by 19:48",
+      "Modelled outcome: program could start at 20:00 without schedule impact",
+      "Illustrative sentiment state — not measured from guests or an external channel",
+      "Modelled F&B throughput — no live station state available",
+      "Potential escalation avoidance — not an achieved operational outcome",
+      "Illustrative assurance record shown — post-event validation is Planned",
     ],
     roles: {
-      "Guest / Attendee": "Guests entered in time for the program. Sentiment recovered. Welcome drink received. No complaint signals detected during or after entry.",
-      "Operator": "RESOLVED: Queue 6 min at 19:48. Program on time. Sentiment: positive. Director: no escalation. F&B: normalised. Evidence trail: complete.",
-      "Command / Assurance": "Moment #9120 | RESOLVED | Queue: 6 min | Program: on time | Sentiment: recovered | Escalation: prevented | Record: closed",
+      "Guest / Attendee": "Illustrative outcome only: entry before the program with a proposed goodwill option and reduced disruption.",
+      "Operator": "MODELLED: Queue, program, sentiment, escalation and F&B outcomes require real pilot evidence.",
+      "Command / Assurance": "SIMULATION #9120 | Outcome modelled | No measured sentiment or escalation result",
     },
   },
   {
     key: "value", label: "Value", color: COLOR, icon: "◆",
-    summary: "Value captured", status: "RECORDED",
+    summary: "Value modelled", status: "INDICATIVE",
     detail: [
-      "Guest experience protected — 2,840 attendees entered without significant disruption",
-      "Incident risk reduced — escalation to event director prevented, no external complaint",
-      "Revenue protected — estimated A$8,400 F&B spend preserved through catering recovery",
-      "Staff time optimised — guided redeployment: 14 min vs unguided average: 38 min",
-      "Event reputation maintained — no social media escalation, no formal complaint filed",
-      "Assurance record created — full incident and resolution evidence, post-event learnable",
+      "Potential guest-experience effect across 2,840 illustrative attendees — not measured",
+      "Modelled incident-risk reduction — no external complaint or escalation data connected",
+      "Indicative F&B value: A$8,400 assumption for pilot evaluation",
+      "Indicative timing: 14 min guided vs 38 min benchmark; pilot measurement Planned",
+      "Potential reputation effect — no social or complaint systems connected",
+      "Illustrative assurance record — operational evidence collection is Planned",
     ],
     roles: {
-      "Guest / Attendee": "Event started on time. Welcome drink received. A minor flow issue was handled without reaching guests as a problem.",
-      "Operator": "Value record: Guest experience: protected | Revenue: A$8,400 | Escalation: prevented | Staff time: 14 min guided | Reputation: maintained",
-      "Command / Assurance": "Value record #9120 | Guests protected: 2,840 | Revenue: A$8,400 | Escalation: 0 | Assurance: complete | Repeatability: confirmed",
+      "Guest / Attendee": "Illustrative value state: potentially smoother entry and reduced disruption.",
+      "Operator": "INDICATIVE MODEL: 2,840 attendees | F&B A$8,400 assumption | Timing and escalation require pilot measurement",
+      "Command / Assurance": "MODEL #9120 | Indicative value only | No measured revenue, reputation or repeatability outcome",
     },
   },
 ];
 
 const PROOF_POINTS = [
-  { label: "Risk reduced", desc: "Crowd flow and catering issues resolved before program impact", color: "#10b981" },
-  { label: "Escalation prevented", desc: "Event director alert not triggered — 30-min window met", color: "#10b981" },
-  { label: "Revenue protected", desc: "A$8,400 estimated F&B spend preserved", color: COLOR },
-  { label: "Staff time saved", desc: "Guided redeployment: 14 min vs unguided 38 min average", color: COLOR },
-  { label: "Assurance record", desc: "Full incident and resolution evidence trail created", color: "#a78bfa" },
-  { label: "Experience recovered", desc: "2,840 guests entered on time, sentiment positive", color: "#22d3ee" },
+  { label: "Modelled risk", desc: "Proposed crowd-flow and catering intervention", color: "#10b981" },
+  { label: "Modelled escalation", desc: "Illustrative 30-min human review point", color: "#10b981" },
+  { label: "Indicative value", desc: "A$8,400 F&B assumption; not measured", color: COLOR },
+  { label: "Planned metric", desc: "Guided redeployment timing for pilot evaluation", color: COLOR },
+  { label: "Illustrative assurance", desc: "Proposed incident evidence trail", color: "#a78bfa" },
+  { label: "Modelled experience", desc: "Potential attendee-flow effect; not achieved", color: "#22d3ee" },
 ];
 
 export default function PartnerEventsVenuesDemo() {
@@ -141,12 +141,13 @@ export default function PartnerEventsVenuesDemo() {
         </div>
 
         <div style={{ marginBottom: 48 }}>
-          <div style={{ fontSize: 9, letterSpacing: "0.22em", color: COLOR, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>Live Operating Flow · Events & Venues</div>
+          <div style={{ fontSize: 9, letterSpacing: "0.22em", color: COLOR, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>Simulated Operating Flow · Events & Venues</div>
           <h1 style={{ fontSize: 36, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 18, maxWidth: 680 }}>
             A crowd flow issue, 40 minutes to program start.<br />
-            <span style={{ color: COLOR }}>Resolved before any guest noticed.</span>
+            <span style={{ color: COLOR }}>A response and outcome modelled.</span>
           </h1>
-          <p style={{ fontSize: 14, color: "rgba(255,255,255,0.48)", lineHeight: 1.8, maxWidth: 620 }}>A guest flow anomaly emerges 45 minutes before a major event program. Catering is under capacity, queue times are rising and sentiment is starting to drop. This is how RTBX Core responds in real time.</p>
+          <p style={{ fontSize: 14, color: "rgba(255,255,255,0.48)", lineHeight: 1.8, maxWidth: 620 }}>A synthetic scenario illustrates how RTBX Core could present a rules-based response to crowd-flow and catering indicators for accountable human review.</p>
+          <div style={{ marginTop: 18, padding: "12px 16px", border: `1px solid ${COLOR}30`, borderLeft: `3px solid ${COLOR}`, fontSize: 11, color: "rgba(255,255,255,0.55)", lineHeight: 1.6, maxWidth: 760 }}><strong style={{ color: COLOR }}>Working Proof · Simulation boundary:</strong> Classification is rules-based and communications are drafts. No message, token, task, welfare action, dispatch or external-system update occurs. Humans remain accountable; integrations and pilots are Planned.</div>
         </div>
 
         <div style={{ padding: "22px 28px", background: `${COLOR}06`, border: `1px solid ${COLOR}18`, borderLeft: `3px solid ${COLOR}60`, marginBottom: 40, display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
@@ -163,7 +164,7 @@ export default function PartnerEventsVenuesDemo() {
         </div>
 
         <div style={{ marginBottom: 28 }}>
-          <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>Operating Flow · Step {activeStep + 1} of {FLOW_STEPS.length}</div>
+          <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>Simulated Operating Flow · Step {activeStep + 1} of {FLOW_STEPS.length}</div>
           <div style={{ display: "flex", gap: 2 }}>
             {FLOW_STEPS.map((s, i) => (
               <button key={s.key} onClick={() => setActiveStep(i)} style={{ flex: 1, padding: "14px 8px", background: i === activeStep ? `${s.color}12` : "rgba(255,255,255,0.02)", border: `1px solid ${i === activeStep ? s.color + "50" : "rgba(255,255,255,0.07)"}`, borderTop: `2px solid ${i === activeStep ? s.color : "transparent"}`, cursor: "pointer", textAlign: "center", transition: "all 0.15s", display: "flex", flexDirection: "column", alignItems: "center", gap: 5 }}
@@ -211,7 +212,7 @@ export default function PartnerEventsVenuesDemo() {
         </div>
 
         <div style={{ marginBottom: 48 }}>
-          <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 18 }}>Proof of Value</div>
+          <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 18 }}>Modelled Proof of Value</div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
             {PROOF_POINTS.map((pt, i) => (
               <div key={i} style={{ padding: "18px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: `2px solid ${pt.color}` }}>

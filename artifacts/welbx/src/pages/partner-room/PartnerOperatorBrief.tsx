@@ -1,34 +1,36 @@
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
+import { WORKING_PROOF_PATH } from "@/lib/proofLanguage";
+import { Link } from "wouter";
 
 const VALUE_CARDS = [
   {
     title: "Execution Before Escalation",
-    desc: "RTBX Core acts on signals before they become visible problems. The playbook fires before the guest notices the gap — not after the complaint lands.",
+    desc: "The Working Proof models how a playbook could surface a proposed response before a guest notices a gap. A named human remains accountable for approval and execution.",
     color: "#c9a84c",
   },
   {
     title: "Consistent Standards at Scale",
-    desc: "Every property in the portfolio follows the same decision logic. The quality of response no longer depends on which manager is on shift.",
+    desc: "Planned: operators could configure consistent decision rules across a portfolio while retaining human ownership of each response.",
     color: "#c9a84c",
   },
   {
     title: "Auditable Decisions",
-    desc: "Every moment, decision, and outcome is logged. When a service failure occurs, the chain is traceable — not reconstructed from memory.",
+    desc: "The simulation illustrates a proposed evidence trail for moments, decisions and modelled outcomes. Production logging is Planned.",
     color: "#3b82f6",
   },
   {
     title: "Workforce Intelligence",
-    desc: "Staff capacity signals, fatigue indicators, and response latency are monitored continuously. RTBX Core surfaces workforce pressure before it becomes a guest-facing error.",
+    desc: "Planned: connected workforce signals could help surface capacity, fatigue and response-latency indicators for human review.",
     color: "#3b82f6",
   },
   {
     title: "Commercial Activation",
-    desc: "Dining windows, upsell moments, and loyalty activation opportunities are detected and routed — not left in the data layer waiting for a human to notice.",
+    desc: "The simulation models rules-based identification of dining, upsell and loyalty opportunities; no offer, task or activation is dispatched.",
     color: "#10b981",
   },
   {
     title: "Learning That Compounds",
-    desc: "Every resolved moment feeds the pattern library. Detection windows improve, thresholds recalibrate, and the system gets faster with each cycle.",
+    desc: "Planned: pilot evidence could inform reviewed changes to patterns and thresholds. The current proof does not learn or recalibrate autonomously.",
     color: "#10b981",
   },
 ];
@@ -58,8 +60,16 @@ export default function PartnerOperatorBrief() {
             The Execution Gap That RTBX Core Closes
           </h1>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 680 }}>
-            Travel operators do not lack data. They lack a governed operating layer between the signals their systems generate and the actions their teams take. That gap is where guest experience degrades, commercial value leaks, and operational cost accumulates. RTBX Core closes it — not by adding process, but by routing the right action to the right person before the moment passes. Guest Experience is the guest-facing layer guests interact with directly.
+            Travel operators do not lack data. They lack a governed operating layer between the signals their systems generate and the actions their teams take. This Working Proof illustrates a proposed layer that could surface the right action to an accountable person. Guest Experience is the proposed guest-facing layer.
           </p>
+          <div style={{ marginTop: 20, padding: "14px 18px", border: "1px solid rgba(201,168,76,0.3)", borderLeft: "3px solid #c9a84c", color: "rgba(255,255,255,0.58)", fontSize: 11.5, lineHeight: 1.65, maxWidth: 760 }}>
+            <strong style={{ color: "#c9a84c" }}>Working Proof · Simulation boundary:</strong> Synthetic inputs are classified by rules and communications are drafts. No guest message, staff task, welfare action, partner activation, dispatch or external-system update occurs. Named humans remain accountable for every decision and action; integrations and pilots are Planned.
+          </div>
+          <Link href={WORKING_PROOF_PATH}>
+            <div style={{ display: "inline-flex", marginTop: 16, padding: "10px 18px", border: "1px solid rgba(201,168,76,0.35)", color: "#c9a84c", fontSize: 11, fontWeight: 700, cursor: "pointer" }}>
+              Open the Working Proof →
+            </div>
+          </Link>
         </div>
 
         {/* Five-Step Engine — Operator Language */}
@@ -71,28 +81,28 @@ export default function PartnerOperatorBrief() {
             {[
               {
                 step: "01", label: "Connect", color: "#c9a84c",
-                ops: "Your systems are already generating signals — arrival manifests, room status, guest app events, housekeeping updates. RTBX connects to them and reads every relevant signal as it arrives.",
-                example: "PMS flags a VIP arrival with a 45-minute room delay. Guest app shows the guest has checked in remotely. Housekeeping reports the room team is at capacity.",
+                ops: "The simulation accepts synthetic arrival, room-status, guest-app and housekeeping inputs. Live system connections are Planned.",
+                example: "Illustrative inputs model a VIP arrival, a 45-minute room delay, remote check-in and housekeeping capacity.",
               },
               {
                 step: "02", label: "Understand", color: "#3b82f6",
-                ops: "Signals are classified into known moment types. A room delay, a loyalty arrival and a guest app check-in become a single moment: Arrival Friction — High Risk — Loyalty Protection Threshold Active.",
-                example: "The system does not send a notification. It recognises that three signals together create a specific, high-priority service moment.",
+                ops: "Rules classify synthetic signals into known moment types. A room delay, loyalty arrival and app check-in are modelled as one high-priority arrival-friction moment.",
+                example: "No notification is sent. The proof illustrates a rules-based classification for human review.",
               },
               {
                 step: "03", label: "Decide", color: "#a78bfa",
-                ops: "Governance rules determine what is permitted. Lounge access may be activated without approval. Compensation above a threshold requires manager sign-off. Guest-facing messages require human approval. No autonomous decisions.",
-                example: "The Compensation Approval Matrix determines that the front desk may offer a complimentary upgrade but that any monetary compensation requires duty manager authorisation.",
+                ops: "Governance rules propose what may be permitted. All operational decisions, compensation and guest-facing communications require an accountable human. No autonomous decisions.",
+                example: "An illustrative approval matrix proposes options and routes them to the named duty manager for review.",
               },
               {
                 step: "04", label: "Act", color: "#10b981",
-                ops: "The right role owner — front desk, duty manager, housekeeping team lead — receives a clear, contextualised instruction through the right channel. AI drafts the guest message; a human approves and sends it.",
-                example: "Front desk receives: 'VIP arrival in 10 minutes — room not ready — lounge access authorised — send guest message to offer lounge and estimated room time.' Manager is on standby.",
+                ops: "The proof displays a proposed instruction and communication draft for the selected role. It does not dispatch tasks or messages; a human would approve and act.",
+                example: "Illustrative front-desk draft: 'VIP arrival in 10 minutes — room not ready — propose lounge access and estimated room time.'",
               },
               {
                 step: "05", label: "Learn", color: "#22d3ee",
-                ops: "Every resolved moment feeds back. Detection windows improve, thresholds recalibrate, playbook performance is tracked by property and shift. Value is measured and reported to management.",
-                example: "This moment type now has a resolved record: arrival sentiment protected, lounge activated, housekeeping reprioritised, no complaint received. The evidence trail is complete.",
+                ops: "The simulation shows a proposed assurance record and indicative value model. Pilot measurement, reviewed threshold changes and management reporting are Planned.",
+                example: "The model illustrates possible states: sentiment protection, proposed lounge access, housekeeping reprioritisation and a draft evidence trail.",
               },
             ].map((item, i) => (
               <div key={item.step} style={{
@@ -137,7 +147,7 @@ export default function PartnerOperatorBrief() {
         {/* KPI Panel */}
         <div>
           <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 28 }}>
-            Pilot Metrics
+            Planned Pilot Metrics
           </div>
           <div style={{ border: "1px solid rgba(255,255,255,0.07)", overflow: "hidden" }}>
             {KPI_METRICS.map((m, i) => (

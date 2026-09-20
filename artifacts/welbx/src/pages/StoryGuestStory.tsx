@@ -24,143 +24,143 @@ const STEPS: Step[] = [
     guest: {
       headline: "Unaware. In transit.",
       narrative: "Mr Hartmann is approaching The Grand Meridian in a cab. His 14th stay. Nothing unusual from his perspective.",
-      points: ["Guest has no visibility of operational activity", "Experience is already being protected before arrival", "The first signal is invisible to the guest"],
+      points: ["Guest has no visibility of the simulation", "Possible pre-arrival support is illustrated, not delivered", "The synthetic signal is invisible in the fictional guest view"],
     },
     operating: {
       headline: "Three signals converge in the registry.",
-      narrative: "The Signal Registry has flagged three simultaneous signals in the past 90 seconds.",
-      points: ["Diamond guest ETA: 12 minutes · confidence 97%", "Room 847 status: OCCUPIED · Housekeeping not assigned", "Housekeeping estimated arrival: 22 minutes — beyond guest ETA"],
+      narrative: "The simulated Signal Registry displays three fictional signals.",
+      points: ["Synthetic guest ETA: 12 minutes · illustrative confidence 97%", "Fictional room status: OCCUPIED · Housekeeping unassigned", "Modelled housekeeping ETA: 22 minutes — beyond fictional guest ETA"],
     },
     infrastructure: {
-      headline: "Intelligence Engine pattern matching begins.",
-      narrative: "Signal clustering algorithm identifies signal convergence. Three signals map to a known VIP collision pattern.",
-      points: ["Signal cluster threshold: met (3 of 3 signals)", "Pattern match against 847 prior VIP arrival events", "Confidence building: 88% → 91% in 14 seconds", "Moment creation threshold: imminent"],
+      headline: "Rules-based pattern matching is illustrated.",
+      narrative: "Deterministic demonstration rules map three synthetic signals to a fictional VIP collision pattern.",
+      points: ["Illustrative threshold: met (3 of 3 synthetic signals)", "Fictional reference set shown for interface demonstration", "Modelled confidence: 88% → 91%", "Moment-creation rule: met"],
     },
   },
   {
     label: "Moment Created", stage: "MOMENT", stageColor: C.amber,
     guest: {
       headline: "Still in transit. Unaware.",
-      narrative: "Mr Hartmann is 10 minutes from the hotel. The moment has been created — but he will never know it was needed.",
-      points: ["Guest experience unchanged", "No visible action has occurred yet", "The infrastructure is now governing the response"],
+      narrative: "In the fictional journey, Mr Hartmann is 10 minutes from the hotel while a local moment card appears.",
+      points: ["Fictional guest view remains unchanged", "No external action occurs", "The interface illustrates a governed recommendation"],
     },
     operating: {
-      headline: "VIP Arrival Risk appears in the live feed.",
-      narrative: "A moment card appears in the Live Moments feed: VIP Arrival Risk · HIGH urgency · 91% confidence.",
-      points: ["Moment GM-002 visible to Duty Manager and Housekeeping Lead", "Urgency: HIGH · Category: VIP", "Recommended action: Trigger Housekeeping Priority Protocol", "Playbook PB-002 queued for auto-execution"],
+      headline: "VIP Arrival Risk appears in the simulated feed.",
+      narrative: "An illustrative moment card appears: VIP Arrival Risk · HIGH urgency · 91% modelled confidence.",
+      points: ["Moment GM-002 visible to Duty Manager and Housekeeping Lead", "Urgency: HIGH · Category: VIP", "Recommended action: Trigger Housekeeping Priority Protocol", "Playbook PB-002 queued for operator review"],
     },
     infrastructure: {
-      headline: "Pattern matched. Moment created. Playbook queued.",
-      narrative: "The intelligence engine has matched the signal cluster against the VIP arrival collision pattern. Moment GM-002 is created and governance chain begins.",
-      points: ["Moment ID: GM-002 · VIP Arrival Risk", "Confidence: 91% · Pattern: Arrival Window Collision", "Historical match: 847 prior VIP events — 94% resolved successfully", "Playbook PB-002 queued. Decision pending."],
+      headline: "Rule matched. Illustrative moment and playbook shown.",
+      narrative: "Demonstration rules map the synthetic cluster to a fictional VIP arrival pattern and prepare a playbook recommendation.",
+      points: ["Illustrative ID: GM-002 · VIP Arrival Risk", "Modelled confidence: 91% · fictional pattern", "Reference history is synthetic and not production evidence", "Playbook PB-002 shown for human review"],
     },
   },
   {
     label: "Decision Made", stage: "DECISION", stageColor: C.violet,
     guest: {
-      headline: "Nothing visible. The decision takes 0 seconds.",
-      narrative: "Mr Hartmann hasn't arrived yet. The decision has already been made without a single manual instruction.",
-      points: ["Guest has no visibility of the decision", "No phone calls. No radio traffic. No visible coordination.", "The hotel has already decided what happens next"],
+      headline: "Nothing visible. A recommended decision is ready.",
+      narrative: "Mr Hartmann hasn't arrived yet. The walkthrough shows how a governed recommendation can be prepared for the named role owner.",
+      points: ["Guest has no visibility of the recommendation", "No external communication is sent in this simulation", "The operator retains accountability for what happens next"],
     },
     operating: {
-      headline: "Housekeeping Priority Protocol auto-triggered.",
-      narrative: "Playbook PB-002 triggers automatically. No Duty Manager input required. The decision is governed.",
-      points: ["Decision DEC-047 created: Trigger Housekeeping Priority Protocol", "Owner: Auto-governed", "Lounge pre-access activated", "Floor supervisor deployment initiated"],
+      headline: "Housekeeping Priority Protocol recommended.",
+      narrative: "Playbook PB-002 is selected by the demonstrated rules. The Duty Manager remains the accountable owner.",
+      points: ["Decision DEC-047 proposed: Trigger Housekeeping Priority Protocol", "Owner: Duty Manager", "Lounge pre-access shown as a proposed action", "Floor supervisor assignment shown for confirmation"],
     },
     infrastructure: {
-      headline: "Decision DEC-047 logged in 0.8 seconds.",
-      narrative: "The governance chain executes instantly. Decision is logged, attributed, and auditable.",
-      points: ["Decision time: 0.8 seconds from moment creation", "Governance path: Auto-governed → PB-002 → Step 1 of 4", "Decision log: time-stamped, attributed, retrievable", "Communication routing initiated"],
+      headline: "Illustrative decision DEC-047 appears.",
+      narrative: "The simulation records the rules-based recommendation and its accountable owner.",
+      points: ["Illustrative decision time: 0.8 seconds", "Governance path: governed rules → PB-002 → Duty Manager", "Decision record: time-stamped and reviewable", "Communication drafts prepared"],
     },
   },
   {
     label: "Communication Routed", stage: "ACTION", stageColor: C.cyan,
     guest: {
-      headline: "A personalised welcome appears in the guest app.",
-      narrative: "Mr Hartmann receives a calm, personal message. No urgency. No visible hotel activity.",
-      points: ["'We look forward to welcoming you, Mr Hartmann.'", "'Your lounge access is confirmed for this evening.'", "Guest communication: personal, warm, accurate", "Zero operational urgency visible to guest"],
+      headline: "A personalised welcome draft appears.",
+      narrative: "The fictional guest view previews a calm message draft; nothing is sent.",
+      points: ["Illustrative copy: 'We look forward to welcoming you, Mr Hartmann.'", "Illustrative copy: 'Your lounge access is proposed for this evening.'", "Draft tone: personal and calm", "No operational activity or delivery occurs"],
     },
     operating: {
-      headline: "Three channels routed. Zero manual coordination.",
-      narrative: "Routing engine deploys communications simultaneously to Housekeeping Lead, Duty Manager, and the guest app.",
+      headline: "Three channel drafts prepared for review.",
+      narrative: "The simulation prepares routed communications for the Housekeeping Lead, Duty Manager and guest app. It does not dispatch them.",
       points: ["Housekeeping Lead · Mobile push: 'Room 847 priority clearance. Diamond arrival 12 min.'", "Duty Manager · In-app: 'PB-002 running. VIP Arrival Risk active. ETA 12 min.'", "Guest app: personalised welcome and lounge confirmation"],
     },
     infrastructure: {
-      headline: "Routing engine deploys 3 channels in parallel.",
-      narrative: "Staff and guest communications are separated by design. The guest never sees operational urgency.",
-      points: ["Communication ID: CC-089 through CC-091", "Channels: Mobile push · In-app · Guest app", "Routing time: 1.2 seconds from decision", "Staff and guest comms decoupled"],
+      headline: "Three channel drafts are displayed.",
+      narrative: "The simulation separates staff and guest drafts by audience; no channel connector is active.",
+      points: ["Illustrative IDs: CC-089 through CC-091", "Proposed channels: Mobile push · In-app · Guest app", "Modelled routing time: 1.2 seconds", "Drafts remain subject to accountable human review"],
     },
   },
   {
-    label: "Action Executed", stage: "ACTION", stageColor: C.cyan,
+    label: "Action Modelled", stage: "ACTION", stageColor: C.cyan,
     guest: {
       headline: "6 minutes away. Nothing unusual.",
-      narrative: "Room 847 is being fast-tracked. Mr Hartmann is unaware of anything happening. The experience is already being protected.",
-      points: ["Guest in transit", "No visible hotel activity", "Room 847 being cleared at pace"],
+      narrative: "The fictional timeline models a room-priority pathway. No hotel work is taking place.",
+      points: ["Fictional guest in transit", "No real hotel activity", "Illustrative room-clearance progress"],
     },
     operating: {
-      headline: "Floor supervisor deployed. Timeline visible in real time.",
-      narrative: "Housekeeping team working on Room 847. Progress tracking live in the Command Centre.",
-      points: ["09:04 — Housekeeping Lead confirmed task receipt", "09:05 — Supervisor deployed to Floor 8", "09:07 — Room 847 clearance underway", "09:09 — ETA for completion: 6 minutes"],
+      headline: "Floor-supervisor assignment shown. Timeline illustrated.",
+      narrative: "The walkthrough illustrates housekeeping progress for Room 847 in the Command Centre.",
+      points: ["09:04 — modelled task acceptance", "09:05 — modelled supervisor assignment", "09:07 — illustrative clearance progress", "09:09 — modelled ETA: 6 minutes"],
     },
     infrastructure: {
-      headline: "Playbook step 3 of 4 executing.",
-      narrative: "VECTOR execution engine is tracking action progress in real time. Each step is logged and timestamped.",
-      points: ["Step 1: Communication routed ✓", "Step 2: Supervisor deployed ✓", "Step 3: Room clearance underway ← current", "Step 4: Outcome confirmation · pending"],
+      headline: "Playbook step 3 of 4 is modelled.",
+      narrative: "The interface illustrates fields that accountable staff could confirm in a governed pilot.",
+      points: ["Step 1: draft prepared", "Step 2: assignment modelled", "Step 3: progress state illustrated", "Step 4: modelled outcome pending"],
     },
   },
   {
-    label: "Outcome Achieved", stage: "OUTCOME", stageColor: C.green,
+    label: "Outcome Modelled", stage: "OUTCOME", stageColor: C.green,
     guest: {
-      headline: "Arrival seamless. Not one moment of friction.",
-      narrative: "Mr Hartmann walks in. Key is ready. Room is perfect. Lounge access waiting. His 14th stay begins exactly as expected.",
-      points: ["Check-in: seamless", "Room 847: immaculate", "Lounge: pre-confirmed without request", "Preferences: remembered and actioned"],
+      headline: "Illustrative arrival outcome.",
+      narrative: "The fictional journey shows a seamless arrival, ready room and proposed lounge access; none of these outcomes occurred.",
+      points: ["Modelled check-in: seamless", "Modelled room state: ready", "Proposed lounge access", "Illustrative preference handling"],
     },
     operating: {
-      headline: "Room ready 4 minutes before arrival. No escalation.",
-      narrative: "Outcome confirmed. Moment resolved. No Duty Manager escalation required.",
-      points: ["Room 847 cleared: 09:10:44 (4 min before arrival)", "Guest arrival: 09:14:32", "Escalation: none", "Moment GM-002: RESOLVED"],
+      headline: "Modelled room-ready outcome with no escalation.",
+      narrative: "The simulation populates an illustrative outcome; no room, arrival or escalation was confirmed.",
+      points: ["Modelled room-ready time: 09:10:44", "Fictional arrival: 09:14:32", "Modelled escalation: none", "Moment GM-002: MODELLED OUTCOME"],
     },
     infrastructure: {
-      headline: "100% threshold met. Playbook PB-002 closed.",
-      narrative: "All outcome criteria met. The playbook closes and the learning cycle begins immediately.",
-      points: ["Outcome: SUCCESS · all criteria met", "Resolution time: 11 minutes from signal detection", "Playbook PB-002: closed", "Learning cycle: initiated"],
+      headline: "Illustrative threshold result displayed.",
+      narrative: "The local simulation marks its fictional criteria as met; it does not close a real playbook or start automated learning.",
+      points: ["Modelled outcome: criteria met", "Modelled duration: 11 minutes", "Playbook PB-002: illustrative end state", "Learning proposal: human review required"],
     },
   },
   {
-    label: "Learning Captured", stage: "LEARNING", stageColor: "hsl(215 16% 60%)",
+    label: "Learning Proposed", stage: "LEARNING", stageColor: "hsl(215 16% 60%)",
     guest: {
       headline: "Nothing changes for Mr Hartmann. The hotel got better.",
-      narrative: "His 14th stay completes. The hotel has learned from this moment — the 15th stay will be handled even more smoothly.",
-      points: ["Guest experience unchanged", "No visible improvement from his perspective", "Invisibly: detection will now be 8 minutes earlier"],
+      narrative: "The fictional story shows a possible learning proposal; no hotel model is updated automatically.",
+      points: ["Fictional guest view unchanged", "No measured improvement", "Proposed threshold change: 8 minutes earlier"],
     },
     operating: {
-      headline: "Post-moment summary sent to Duty Manager.",
-      narrative: "A structured summary lands in the Duty Manager's dashboard. No action required. Information only.",
-      points: ["Moment summary: GM-002 · Resolved", "Response time: 11 minutes", "Team: Housekeeping Lead + Floor Supervisor", "Outcome: 100% success"],
+      headline: "Draft post-moment summary shown.",
+      narrative: "An illustrative summary appears locally for a named Duty Manager to review; nothing is sent.",
+      points: ["Moment summary: GM-002 · modelled", "Modelled response time: 11 minutes", "Illustrative roles: Housekeeping Lead + Floor Supervisor", "Outcome field: modelled success"],
     },
     infrastructure: {
-      headline: "Signal weights recalibrated. 848th VIP event logged.",
-      narrative: "The intelligence engine updates the pattern library based on this event. Future detection improves automatically.",
-      points: ["VIP arrival detection window: extended by 8 minutes", "Housekeeping ETA threshold: recalibrated", "Institutional memory: updated", "Pattern library: 848 VIP events — 94.6% resolved"],
+      headline: "Threshold changes proposed for review.",
+      narrative: "The interface illustrates potential rule updates; no AI learning service, pattern library or operational record is updated.",
+      points: ["Proposed detection-window change: +8 minutes", "Proposed ETA threshold: 25 minutes", "Human approval required", "Synthetic reference set only"],
     },
   },
   {
-    label: "Value Created", stage: "VALUE", stageColor: C.amber,
+    label: "Value Hypothesis", stage: "VALUE", stageColor: C.amber,
     guest: {
       headline: "'The Grand Meridian never misses a beat.'",
-      narrative: "Mr Hartmann enjoys his stay. He books stay 15 before departure. A loyal guest, retained without recovery.",
-      points: ["Guest satisfaction: maintained", "Loyalty tier: Diamond — protected", "Next booking: confirmed", "Recovery required: none"],
+      narrative: "The fictional ending illustrates a positive stay and possible repeat-booking hypothesis; neither is measured.",
+      points: ["Satisfaction: modelled", "Loyalty outcome: indicative", "Next booking: not measured", "Recovery need: modelled as none"],
     },
     operating: {
-      headline: "KPIs maintained. No recovery required.",
-      narrative: "The moment has been converted to value. Service score maintained. No resource spent on recovery.",
-      points: ["Recovery cost: zero", "Service KPI: maintained", "Team performance score: ↑ updated", "Moment activation: documented"],
+      headline: "Indicative KPI fields shown.",
+      narrative: "The simulation displays value hypotheses; it does not prove service, cost or team-performance impact.",
+      points: ["Recovery cost: illustrative", "Service KPI: not measured", "Team performance: not measured", "Moment hypothesis: documented locally"],
     },
     infrastructure: {
-      headline: "Value activation documented. Portfolio score updated.",
-      narrative: "Every resolved VIP moment contributes to the property's value score. This one was HIGH activation.",
-      points: ["Moment value: HIGH activation", "Value attribution: logged and attributable", "Portfolio score: ↑ 0.4 points", "Learning cycle: complete"],
+      headline: "Illustrative value attribution displayed.",
+      narrative: "A hypothetical HIGH activation is shown for discussion; no property or portfolio score is updated.",
+      points: ["Moment value: illustrative HIGH", "Attribution: not validated", "Portfolio impact: modelled +0.4 points", "Learning cycle: proposed"],
     },
   },
 ];
@@ -169,7 +169,7 @@ const STEPS: Step[] = [
 function StepVisual({ step, viewColor }: { step: number; viewColor: string }) {
   const panels: Record<number, React.ReactNode> = {
     0: (
-      <ScreenshotCard title="Signal Registry · Live Feed" subtitle="3 signals flagged">
+      <ScreenshotCard title="Signal Registry · Simulated Feed" subtitle="3 illustrative signals">
         {[
           { cat: "VIP",     signal: "Diamond guest ETA: 12 minutes",                    conf: "97%", status: "FLAGGED", sc: C.amber },
           { cat: "OPS",     signal: "Room 847 status: OCCUPIED · Housekeeping unassigned", conf: "100%", status: "FLAGGED", sc: C.red },
@@ -209,14 +209,14 @@ function StepVisual({ step, viewColor }: { step: number; viewColor: string }) {
       </ScreenshotCard>
     ),
     2: (
-      <ScreenshotCard title="Decision Registry · DEC-047" subtitle="Auto-governed">
+      <ScreenshotCard title="Decision Registry · DEC-047" subtitle="Governed recommendation">
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           {[
             { label: "Decision", value: "Trigger Housekeeping Priority Protocol" },
             { label: "Playbook",   value: "PB-002 · VIP Arrival Protocol" },
-            { label: "Owner",      value: "Auto-governed" },
+            { label: "Owner",      value: "Duty Manager" },
             { label: "Time",       value: "0.8 seconds from moment creation" },
-            { label: "Status",     value: "EXECUTING" },
+            { label: "Status",     value: "RECOMMENDED" },
           ].map((row, i) => (
             <div key={i} style={{ display: "flex", gap: 10, padding: "5px 0", borderBottom: i < 4 ? `1px solid ${C.border}` : "none" }}>
               <span style={{ fontSize: 8.5, color: C.dimmed, minWidth: 72 }}>{row.label}</span>
@@ -227,12 +227,12 @@ function StepVisual({ step, viewColor }: { step: number; viewColor: string }) {
       </ScreenshotCard>
     ),
     3: (
-      <ScreenshotCard title="Communication Orchestration" subtitle="3 channels deployed">
+      <ScreenshotCard title="Communication Orchestration" subtitle="3 channel drafts">
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           {[
             { to: "Housekeeping Lead", channel: "MOBILE PUSH", msg: "Room 847 priority clearance. Diamond arrival in 12 min.", color: C.red },
             { to: "Duty Manager",      channel: "IN-APP",       msg: "PB-002 active. VIP Arrival Risk. ETA 12 min. Update required at 09:20.", color: C.amber },
-            { to: "Mr Hartmann",       channel: "GUEST APP",    msg: "We look forward to welcoming you. Your lounge access is confirmed.", color: C.blue },
+            { to: "Mr Hartmann", channel: "GUEST APP DRAFT", msg: "We look forward to welcoming you. Lounge access is proposed.", color: C.blue },
           ].map((m, i) => (
             <div key={i} style={{ padding: "8px 10px", background: `${m.color}08`, border: `1px solid ${m.color}22` }}>
               <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
@@ -246,13 +246,13 @@ function StepVisual({ step, viewColor }: { step: number; viewColor: string }) {
       </ScreenshotCard>
     ),
     4: (
-      <ScreenshotCard title="Command Centre · Live Tasks" subtitle="Room 847 priority">
+      <ScreenshotCard title="Command Centre · Simulated Tasks" subtitle="Room 847 priority">
         <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
           {[
-            { time: "09:04", label: "Housekeeping Lead confirmed task receipt",  status: "DONE",    statusColor: C.green },
-            { time: "09:05", label: "Floor supervisor deployed to Level 8",      status: "DONE",    statusColor: C.green },
-            { time: "09:06", label: "Lounge access pre-activated for guest",     status: "DONE",    statusColor: C.green },
-            { time: "09:07", label: "Room 847 clearance underway",               status: "ACTIVE",  statusColor: C.amber },
+            { time: "09:04", label: "Task acceptance modelled", status: "MODELLED", statusColor: C.green },
+            { time: "09:05", label: "Supervisor assignment modelled", status: "MODELLED", statusColor: C.green },
+            { time: "09:06", label: "Lounge-access recommendation shown", status: "DRAFT", statusColor: C.green },
+            { time: "09:07", label: "Illustrative room progress", status: "MODELLED", statusColor: C.amber },
             { time: "09:10", label: "Outcome confirmation",                       status: "PENDING", statusColor: C.dimmed },
           ].map((t, i) => (
             <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, padding: "5px 0", borderBottom: i < 4 ? `1px solid ${C.border}` : "none" }}>
@@ -265,17 +265,17 @@ function StepVisual({ step, viewColor }: { step: number; viewColor: string }) {
       </ScreenshotCard>
     ),
     5: (
-      <ScreenshotCard title="Outcome Registry · GM-002" subtitle="RESOLVED">
+      <ScreenshotCard title="Outcome Registry · GM-002" subtitle="MODELLED">
         <div style={{ padding: "12px", background: `${C.green}08`, border: `1px solid ${C.green}22`, marginBottom: 10 }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
             <span style={{ fontSize: 12, fontWeight: 700, color: C.white }}>VIP Arrival Risk</span>
-            <Pill label="RESOLVED" color={C.green} />
+            <Pill label="MODELLED" color={C.green} />
           </div>
           {[
-            { label: "Room cleared",  value: "09:10:44 · 4 min before arrival" },
-            { label: "Guest arrival", value: "09:14:32 · seamless" },
-            { label: "Escalation",    value: "None" },
-            { label: "Recovery",      value: "Not required" },
+            { label: "Room state", value: "Modelled ready at 09:10:44" },
+            { label: "Guest arrival", value: "Fictional 09:14:32" },
+            { label: "Escalation", value: "Modelled as none" },
+            { label: "Recovery", value: "Modelled as not required" },
           ].map((r, i) => (
             <div key={i} style={{ display: "flex", gap: 10, padding: "4px 0", borderBottom: i < 3 ? `1px solid ${C.border}` : "none" }}>
               <span style={{ fontSize: 8.5, color: C.dimmed, minWidth: 80 }}>{r.label}</span>
@@ -283,7 +283,7 @@ function StepVisual({ step, viewColor }: { step: number; viewColor: string }) {
             </div>
           ))}
         </div>
-        <p style={{ fontSize: 9.5, color: C.muted }}>Resolution time: 11 minutes from first signal detection.</p>
+        <p style={{ fontSize: 9.5, color: C.muted }}>Illustrative duration: 11 minutes. No operational resolution occurred.</p>
       </ScreenshotCard>
     ),
     6: (
@@ -291,11 +291,11 @@ function StepVisual({ step, viewColor }: { step: number; viewColor: string }) {
         <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
           {[
             { label: "Event",              value: "VIP Arrival Collision · Room Not Ready" },
-            { label: "Outcome",            value: "SUCCESS · 100% threshold met" },
-            { label: "Detection window",   value: "Extended by 8 minutes (new baseline: 20 min)" },
-            { label: "Housekeeper ETA",    value: "Threshold recalibrated: 25 min (was 20 min)" },
-            { label: "Pattern confidence", value: "↑ 0.4% — now 91.4%" },
-            { label: "Library entries",    value: "848 VIP events · 94.6% resolved" },
+            { label: "Outcome", value: "MODELLED · illustrative threshold met" },
+            { label: "Detection window", value: "Proposed +8 minutes · human review required" },
+            { label: "Housekeeper ETA", value: "Proposed threshold: 25 min" },
+            { label: "Pattern confidence", value: "Illustrative 91.4%" },
+            { label: "Reference entries", value: "Synthetic dataset only" },
           ].map((row, i) => (
             <div key={i} style={{ display: "flex", gap: 10, padding: "5px 0", borderBottom: i < 5 ? `1px solid ${C.border}` : "none" }}>
               <span style={{ fontSize: 8.5, color: C.dimmed, minWidth: 110 }}>{row.label}</span>
@@ -310,11 +310,11 @@ function StepVisual({ step, viewColor }: { step: number; viewColor: string }) {
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
           {[
             { label: "Activation level",   value: "HIGH",      color: C.amber },
-            { label: "Brand promise",       value: "Delivered", color: C.green },
-            { label: "Loyalty outcome",     value: "Protected", color: C.green },
-            { label: "Recovery cost",       value: "Zero",      color: C.green },
-            { label: "Portfolio impact",    value: "↑ 0.4 pts", color: C.amber },
-            { label: "Next stay",           value: "Confirmed", color: C.blue },
+            { label: "Brand promise",       value: "Modelled", color: C.green },
+            { label: "Loyalty outcome",     value: "Indicative", color: C.green },
+            { label: "Recovery cost",       value: "Illustrative", color: C.green },
+            { label: "Portfolio impact",    value: "Modelled +0.4 pts", color: C.amber },
+            { label: "Next stay",           value: "Not measured", color: C.blue },
           ].map((row, i) => (
             <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "6px 0", borderBottom: i < 5 ? `1px solid ${C.border}` : "none" }}>
               <span style={{ fontSize: 9.5, color: C.muted }}>{row.label}</span>
@@ -479,7 +479,7 @@ export default function StoryGuestStory() {
 
             {/* Visual panel */}
             <div style={{ width: 360, flexShrink: 0, borderLeft: `1px solid ${C.border}`, padding: "24px 20px", overflow: "auto", background: "hsl(220 13% 4%)" }}>
-              <div style={{ fontSize: 7, fontWeight: 700, letterSpacing: "0.18em", color: C.dimmed, textTransform: "uppercase", marginBottom: 14 }}>RTBX Travel · LIVE VIEW</div>
+              <div style={{ fontSize: 7, fontWeight: 700, letterSpacing: "0.18em", color: C.dimmed, textTransform: "uppercase", marginBottom: 14 }}>RTBX Travel · SIMULATION</div>
               <StepVisual step={currentStep} viewColor={vc.color} />
             </div>
           </div>

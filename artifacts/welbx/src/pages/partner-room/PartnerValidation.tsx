@@ -37,9 +37,9 @@ export default function PartnerValidation() {
           </div>
         </div>
 
-        {/* Pilot Product Preview */}
+        {/* Working Proof */}
         <div style={{ marginBottom: 24 }}>
-          <a href="https://replit.com/@LP1313/rtbx-travel-moment-response-mvp" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
+          <Link href="/partner-room/guest-demo">
             <div className="rtbx-responsive-split" style={{
               padding: "24px 32px",
               background: "rgba(201,168,76,0.05)",
@@ -55,13 +55,13 @@ export default function PartnerValidation() {
                 <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                     <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#c9a84c" }} />
-                    <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: "#c9a84c" }}>Pilot Product Preview</span>
+                    <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: "#c9a84c" }}>Working Proof</span>
                   </div>
-                  <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,0.25)", border: "1px solid rgba(255,255,255,0.1)", padding: "2px 8px" }}>Working MVP</div>
+                  <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,0.25)", border: "1px solid rgba(255,255,255,0.1)", padding: "2px 8px" }}>Simulation</div>
                 </div>
                 <div style={{ fontSize: 15, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", marginBottom: 6 }}>Moment Response MVP</div>
                 <p style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", lineHeight: 1.65, maxWidth: 620, margin: 0 }}>
-                  Use the MVP to validate the push-first pilot workflow before integrations are added. Signal captured → classified → assigned → guest-facing message → escalated → logged → pilot evidence.
+                  Explore the push-first workflow with synthetic inputs before integrations are added. The interface demonstrates capture, classification, assignment, drafted communication, escalation and evidence logging; it does not dispatch real actions.
                 </p>
               </div>
               <div className="rtbx-responsive-cta" style={{
@@ -69,10 +69,10 @@ export default function PartnerValidation() {
                 textTransform: "uppercase", color: "#c9a84c", border: "1px solid rgba(201,168,76,0.4)",
                 whiteSpace: "nowrap", flexShrink: 0,
               }}>
-                Open Moment Response MVP ↗
+                 Open Working Proof →
               </div>
             </div>
-          </a>
+          </Link>
         </div>
 
         {/* Validation Replay — featured */}
@@ -112,42 +112,42 @@ export default function PartnerValidation() {
           <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
             {[
               {
-                num: "01", label: "Working Interface", color: "#10b981",
+                num: "01", label: "Working Proof", color: "#10b981",
                 desc: "Features you can interact with now in this Partner Room environment.",
                 items: ["Validation Replay Lab (Connect → Learn replay)", "Moment Economy Explorer (8 moment types)", "Central Comms OS Routing Demo", "Decision Spine Interactive Demo", "Operator View Console", "Guest Journey Demo", "Dual View Orchestration Demo"],
               },
               {
-                num: "02", label: "Synthetic Scenario", color: "#3b82f6",
+                num: "02", label: "Simulation", color: "#3b82f6",
                 desc: "Demonstrations using realistic but synthesised data — not live property data.",
                 items: ["All scenario replays use representative guest profiles and synthesised signals", "Moment outcomes are illustrative — not drawn from a live property", "Comms demo messages are simulated deliveries"],
               },
               {
-                num: "03", label: "Architecturally Defined", color: "#c9a84c",
+                num: "03", label: "Planned", color: "#c9a84c",
                 desc: "Components fully specified and modelled but not yet live-integrated.",
                 items: ["RTBX Integration Hub (connection model specified)", "Travel Governance Sources (11 canonical policies defined)", "Evidence Ledger schema (structure and fields defined)", "Travel Signal Registry taxonomy (30+ classified types defined)", "Decision Spine chain (10-step governance model complete)"],
               },
               {
-                num: "04", label: "Not Yet Integrated", color: "#f97316",
+                num: "04", label: "Planned", color: "#f97316",
                 desc: "Systems that appear in the architecture but are not currently connected.",
                 items: ["PMS (no live arrival manifest feed)", "POS / Revenue Management System", "IoT and building management sensors", "Booking engine", "Maintenance and work-order systems"],
               },
               {
-                num: "05", label: "Requires Pilot", color: "#a78bfa",
+                num: "05", label: "Planned", color: "#a78bfa",
                 desc: "Capabilities that need a live property to validate at real signal volume and governance conditions.",
                 items: ["Real signal ingestion from connected property systems", "Live governance gating with actual compensation thresholds", "Real playbook execution with named staff role owners", "Outcome recording from actual guest interactions", "Learning cycle running on real resolved moment history"],
               },
               {
-                num: "06", label: "Requires Production Engineering", color: "#22d3ee",
+                num: "06", label: "Planned", color: "#22d3ee",
                 desc: "Capabilities requiring full engineering build beyond the current prototype.",
                 items: ["Persistent webhook integration to live source systems", "Persistent data layer (moment records, evidence ledger, outcome history)", "Live role routing to real staff devices and communication channels", "Multi-property portfolio dashboard with live data", "Automated escalation timers connected to real operations"],
               },
               {
-                num: "07", label: "Governance Verified", color: "#10b981",
+                num: "07", label: "Working Proof", color: "#10b981",
                 desc: "Components reviewed against governance and compliance requirements in the architecture.",
                 items: ["Decision Spine logic reviewed against human-approval requirements", "Compensation Approval Matrix — role authority levels specified", "Critical Incident Procedure — escalation path defined", "Privacy & Consent Rules — data handling boundaries defined", "AI boundary — what AI may and may not do, explicitly specified"],
               },
               {
-                num: "08", label: "Evidence Standard", color: "#c9a84c",
+                num: "08", label: "Planned", color: "#c9a84c",
                 desc: "What the evidence trail would contain in a live production deployment.",
                 items: ["Moment record: signal cluster, classification, risk level, value at stake", "Governance decision: source applied, rule, threshold, permission granted", "Action log: role owner, channel, message/instruction, timestamp", "Outcome log: resolution type, guest response, value attributed", "Learning signal: playbook performance, detection accuracy update"],
               },

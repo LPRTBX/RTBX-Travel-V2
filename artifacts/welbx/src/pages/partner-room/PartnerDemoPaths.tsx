@@ -5,9 +5,9 @@ const CORE_DEMOS = [
   {
     num: "01",
     title: "Scenario Builder",
-    tag: "Interactive · Full Flow",
+    tag: "Working Proof · Simulated Flow",
     tagColor: "#c9a84c",
-    desc: "Choose an environment, scenario type, risk level and role view — step through the full Signal → Classify → Decide → Execute → Assure → Value cycle.",
+    desc: "Choose an environment, scenario type, risk level and role view — step through a simulated Signal → Classify → Decide → Execute → Assure → Value model.",
     audience: "Operators · Commercial leads · Partners",
     href: "/partner-room/scenario-builder",
     cta: "Open Scenario Builder",
@@ -16,9 +16,9 @@ const CORE_DEMOS = [
   {
     num: "02",
     title: "Dual View Demo",
-    tag: "Interactive · Side-by-Side",
+    tag: "Working Proof · Simulated Views",
     tagColor: "#3b82f6",
-    desc: "See the same moment from the guest, operator and command view simultaneously — live synchronised perspectives.",
+    desc: "See the same illustrative moment from guest, operator and command perspectives; views are simulated, not live synchronised systems.",
     audience: "All audiences",
     href: "/partner-room/dual-view-demo",
     cta: "Open Dual View",
@@ -27,9 +27,9 @@ const CORE_DEMOS = [
   {
     num: "03",
     title: "Live Guest Story",
-    tag: "Interactive · Guest Journey",
+    tag: "Working Proof · Guest Journey",
     tagColor: "#a78bfa",
-    desc: "Seven guest journey stages — arrival through checkout. Each stage shows what the guest sees, what RTBX Core automates and what the operator receives.",
+    desc: "Seven illustrative guest-journey stages — arrival through checkout. Each stage models proposed drafts and decision support, not automation or delivery.",
     audience: "Experience-led audiences · Operators",
     href: "/partner-room/guest-demo",
     cta: "Start Guest Story",
@@ -38,9 +38,9 @@ const CORE_DEMOS = [
   {
     num: "04",
     title: "Communications Routing Demo",
-    tag: "Interactive · Routing Logic",
+    tag: "Working Proof · Routing Logic",
     tagColor: "#10b981",
-    desc: "Select a scenario and watch RTBX Core route the right message to the right person — guest, staff, manager and command layer.",
+    desc: "Select a scenario and inspect proposed routing drafts for guest, staff, manager and command roles; no messages are sent.",
     audience: "Operations · Technology partners",
     href: "/partner-room/comms-demo",
     cta: "Open Comms Demo",
@@ -51,7 +51,7 @@ const CORE_DEMOS = [
     title: "Decision Spine Demo",
     tag: "Interactive · Decision Logic",
     tagColor: "#f97316",
-    desc: "Toggle inputs in a live scenario — watch classification, decision, intervention and assurance path update in real time.",
+    desc: "Toggle synthetic inputs in an interactive scenario and watch the illustrative classification, decision, intervention and assurance path update.",
     audience: "Operations · Technology leads",
     href: "/partner-room/decision-spine",
     cta: "Open Decision Demo",
@@ -60,9 +60,9 @@ const CORE_DEMOS = [
   {
     num: "06",
     title: "Proof of Value Calculator",
-    tag: "Interactive · Value Proof",
+    tag: "Working Proof · Value Hypotheses",
     tagColor: "#22d3ee",
-    desc: "Adjust sliders for your property — get indicative monthly estimates for value protected, revenue created and staff hours saved.",
+    desc: "Adjust sliders for your property — explore illustrative, unmeasured hypotheses for value, revenue opportunity and staff time.",
     audience: "Commercial · Finance · Executives",
     href: "/partner-room/proof-calculator",
     cta: "Open Calculator",
@@ -70,13 +70,13 @@ const CORE_DEMOS = [
   },
   {
     num: "07",
-    title: "RTBX Travel Scenarios",
-    tag: "Interactive · Full Chain",
+    title: "Travel Scenario Library",
+    tag: "Working Proof · Read-only Explorer",
     tagColor: "#3b82f6",
-    desc: "Six governed scenarios covering loyalty recovery, guest welfare, backlog, maintenance, transport and commercial opportunity — each stepping through signal to value.",
+    desc: "Six canonical scenario definitions covering loyalty recovery, welfare, backlog, maintenance, transport and commercial opportunity. Explore here; configure and run them in their dedicated surfaces.",
     audience: "Operators · Partners · Executives",
     href: "/partner-room/travel-scenarios",
-    cta: "Open Scenarios",
+    cta: "Open Scenario Library",
     color: "#3b82f6",
   },
 ];
@@ -125,10 +125,10 @@ export default function PartnerDemoPaths() {
             Demo Room
           </div>
           <h1 style={{ fontSize: 36, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 18, maxWidth: 640 }}>
-            RTBX Core — Live & Interactive Demos
+            RTBX Core — Interactive Working Proofs
           </h1>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.48)", lineHeight: 1.8, maxWidth: 600 }}>
-            Every item here is interactive. No static slides, no screenshots. See the operating system working in real scenarios across real environments.
+            Every item is interactive, using synthetic inputs and illustrative rules. They are Working Proof simulations, not live deployments: outputs are proposed drafts, no external updates or dispatches occur, and named people remain accountable for approval and action.
           </p>
           <div style={{ marginTop: 18, padding: "12px 18px", background: "rgba(201,168,76,0.05)", border: "1px solid rgba(201,168,76,0.15)", display: "inline-flex", alignItems: "center", gap: 10 }}>
             <div style={{ width: 6, height: 6, background: "#10b981", borderRadius: "50%", flexShrink: 0 }} />
@@ -184,7 +184,7 @@ export default function PartnerDemoPaths() {
             <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 6 }}>Section 02</div>
             <div style={{ fontSize: 17, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", marginBottom: 8 }}>Deployment Scenario Demos</div>
             <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.3)", lineHeight: 1.6, maxWidth: 540, margin: 0 }}>
-              One complete operating scenario per deployment environment — Signal → Classify → Decide → Execute → Assure → Value.
+              One simulated scenario per deployment environment — synthetic signal → rules classification → recommendation → illustrative action and assurance → indicative value.
             </p>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 2 }}>

@@ -1,0 +1,1084 @@
+# RTBX Travel — Step 6: Proof, AI and “Live” Language Cleanup
+
+You are working on the existing RTBX Travel Partner Room.
+
+The following are now locked and must not be changed in this task:
+
+* RTBX Main architecture
+* WELBX removal
+* Guest Demo branching logic
+* Navigation behaviour
+* Typography/readability
+* Responsive/mobile layout
+* Travel operating systems
+* scenarios
+* playbooks
+* runtime logic
+* partner model
+* pilot model
+* commercial structure
+
+This task is limited to:
+
+* proof language
+* maturity language
+* AI claims
+* integration claims
+* “live” / “real-time” wording
+* MVP/demo naming
+* consistency between technical truth and user-facing copy
+
+Do not redesign pages.
+
+Do not add new features.
+
+Do not change runtime behaviour.
+
+Do not change architecture.
+
+Do not add new commercial claims.
+
+---
+
+# 1. Objective
+
+Ensure that every active user-facing claim accurately reflects current RTBX Travel maturity.
+
+The site must clearly distinguish between:
+
+* working interactive proof
+* prototype
+* simulation
+* planned integration
+* connector-ready integration
+* integrated capability
+* production capability
+
+The goal is:
+
+> Make RTBX Travel sound more credible by being more precise, not less ambitious.
+
+---
+
+# 2. Approved proof taxonomy
+
+Use only these maturity categories:
+
+## Working Proof
+
+A functioning interactive interface or workflow that demonstrates intended behaviour.
+
+## Prototype
+
+A partial capability or configuration experience not yet connected to full production infrastructure.
+
+## Simulation
+
+A workflow using synthetic signals, decisions, messages, actions, evidence or outcomes.
+
+## Connector-ready
+
+Only where all of the following exist:
+
+* interface contract
+* field mapping
+* authentication approach
+* test harness
+* error-handling definition
+
+## Integrated
+
+Only where data has been successfully exchanged with a named external system.
+
+## Production
+
+Only where the capability is deployed with:
+
+* production authentication
+* monitoring
+* data controls
+* reliability controls
+* customer-approved governance
+* operational support
+
+## Planned
+
+Architecturally defined but not yet implemented or validated.
+
+Do not introduce alternative maturity categories without explicit reason.
+
+---
+
+# 3. Current product position
+
+The current RTBX Travel Partner Room should generally describe itself as:
+
+> **Working interactive product proof using synthetic Travel data and configurable operating-system logic.**
+
+Build & Configure should be described as:
+
+> **Prototype configuration experience**
+
+The Execution Centre should generally be described as:
+
+> **Working interactive simulation**
+
+Guest, Operator and Dual View demos should generally be described as:
+
+> **Demonstrated role-based workflow using synthetic scenario data**
+
+External integrations should use their actual maturity.
+
+Do not imply that the current environment is already a production customer deployment.
+
+---
+
+# 4. Search all active source
+
+Search active user-facing source for:
+
+* live
+* Live
+* LIVE
+* real-time
+* realtime
+* real time
+* production
+* production-ready
+* connected
+* integrated
+* integration live
+* AI
+* AI-assisted
+* autonomous
+* intelligent
+* intelligence
+* automated
+* model
+* LLM
+* machine learning
+* predictive
+
+Classify each occurrence as:
+
+1. Accurate current-state claim
+2. Future-state architecture claim
+3. Simulation wording
+4. Overstated or ambiguous
+5. Technical identifier only
+6. Internal/historical
+7. Requires clarification
+
+Do not mechanically replace every instance.
+
+Interpret context.
+
+---
+
+# 5. “Live” language rules
+
+The word **live** may only be used where it is literally true.
+
+Acceptable examples:
+
+* “The Partner Room is live at this URL.”
+* “The deployed demonstration is available.”
+* “A live customer pilot is currently operating” — only if verified.
+* “Live integration with [named system]” — only if verified.
+
+Do not use “live” to mean:
+
+* interactive
+* clickable
+* simulated
+* rendered
+* demonstrable
+* configured
+* prototype
+
+Replace phrases such as:
+
+### “Live MVP”
+
+with:
+
+> **Deployed MVP Preview**
+
+or:
+
+> **Working MVP Preview**
+
+### “Live Demo”
+
+with:
+
+> **Interactive Demo**
+
+or:
+
+> **Working Product Demo**
+
+### “Run Live Scenario”
+
+with:
+
+> **Run Scenario**
+
+or:
+
+> **Run Interactive Scenario**
+
+### “Live Signals”
+
+with:
+
+> **Simulated Signals**
+
+or:
+
+> **Configured Signal Sources**
+
+depending on actual maturity.
+
+### “Live RTBX Core signal sources”
+
+with:
+
+> **Demonstrated RTBX signal sources**
+
+or:
+
+> **Configured signal sources**
+
+unless they are genuinely integrated.
+
+---
+
+# 6. “Real-time” language rules
+
+Use **real-time** only where the current system actually processes real events in real time.
+
+If the current proof uses synthetic or manually triggered events, use alternatives such as:
+
+* event-driven
+* near-real-time capable
+* designed for real-time operation
+* responsive operational workflow
+* triggered by incoming signals
+* simulated event flow
+
+Example:
+
+### Avoid
+
+> RTBX is a real-time execution layer.
+
+### Prefer
+
+> RTBX is designed as an event-driven intelligence and execution layer that can operate on approved real-time signals when connected.
+
+For current proof:
+
+> The demonstration uses synthetic signals to show how RTBX would respond to operational events.
+
+---
+
+# 7. AI positioning
+
+The current technical truth must be consistent across the site.
+
+If the current MVP runtime is primarily:
+
+* deterministic
+* rules-driven
+* threshold-based
+* configuration-driven
+
+then do not describe the whole current runtime as AI-powered.
+
+Use:
+
+> **Rules-driven orchestration with clearly defined AI-assisted extension points.**
+
+Where AI is actually used, identify the specific function.
+
+Examples:
+
+* AI-assisted drafting
+* AI-assisted classification
+* AI-assisted summarisation
+* AI-assisted recommendation
+* AI-assisted pattern identification
+
+Do not use generic:
+
+> AI-powered
+
+where the underlying workflow is not actually invoking AI.
+
+---
+
+# 8. AI action taxonomy
+
+Where AI appears in UI or copy, classify its role as one of:
+
+## Draft
+
+AI prepares text for human review.
+
+## Recommend
+
+AI proposes a possible action.
+
+## Classify
+
+AI assists with categorisation or context.
+
+## Summarise
+
+AI condenses information.
+
+## Detect pattern
+
+AI identifies a potential pattern or anomaly.
+
+## Automate rule-based action
+
+This is not necessarily AI.
+
+If the action is deterministic, label it as:
+
+> automated rule-based action
+
+not:
+
+> AI action
+
+## Human decision
+
+Human owns the decision.
+
+Do not blur these categories.
+
+---
+
+# 9. Human accountability language
+
+For all high-impact or high-risk workflows, reinforce:
+
+* AI does not replace accountable roles
+* governance comes from the Decision Spine
+* human approval is enforced where required
+* the customer defines authority
+* escalation remains role-based
+
+Especially review:
+
+* Guest Welfare
+* distressed guest
+* safety/security
+* compensation
+* room move
+* guest communication
+* manager escalation
+
+Avoid wording such as:
+
+> AI decides
+
+Prefer:
+
+> RTBX applies configured rules and presents the decision pathway to the accountable role.
+
+or:
+
+> RTBX recommends the next governed action and routes it to the accountable role.
+
+---
+
+# 10. Integration claim cleanup
+
+Review every integration reference.
+
+Each named system or system category should have one of these statuses:
+
+* Simulated
+* Manual
+* Demonstrated
+* Connector-ready
+* Integrated
+* Planned
+
+Do not use:
+
+* Live
+* Connected
+* Production-ready
+* Fully integrated
+* Real-time integrated
+
+unless supported.
+
+Every named integration should show or have access to:
+
+* purpose
+* signal direction
+* interface type
+* maturity
+* proof
+* limitation
+
+---
+
+# 11. Connector-ready standard
+
+Do not use **Connector-ready** unless:
+
+* interface contract exists
+* field mapping exists
+* authentication approach exists
+* test harness exists
+* error handling is defined
+
+If only the architecture exists, use:
+
+> Planned
+
+or:
+
+> Mapped
+
+If “Mapped” is used as a descriptive state, do not confuse it with the formal proof taxonomy.
+
+---
+
+# 12. MVP naming
+
+Review all MVP-related wording.
+
+Use consistent labels.
+
+Recommended:
+
+## Current RTBX Travel Partner Room
+
+> **RTBX Travel Partner Preview**
+
+or:
+
+> **RTBX Travel Working Product Proof**
+
+## External MVP
+
+Use:
+
+> **RTBX Travel Moment Response MVP — Deployed Preview**
+
+if that URL is stable and publicly accessible.
+
+Do not use “Live MVP” merely because it has a deployed URL.
+
+---
+
+# 13. External MVP link verification
+
+Review every link to the external MVP.
+
+Confirm:
+
+* stable deployed URL
+* not a Replit editor/project URL
+* accessible signed out
+* accessible in incognito
+* accessible on mobile
+* no account required
+* no broken asset paths
+* no Replit development-only controls exposed where avoidable
+
+If a stable public deployment is not available:
+
+* remove the CTA from primary proof surfaces
+* use the internal Working Product Proof instead
+
+Do not send users to an editor/project workspace.
+
+---
+
+# 14. Product Proof page
+
+Make Product Proof the canonical explanation of current maturity.
+
+Structure proof around:
+
+**Connect → Understand → Decide → Act → Learn**
+
+For each stage show:
+
+* capability demonstrated
+* proof surface
+* data type
+* maturity
+* limitations
+* production engineering required
+
+Example:
+
+## Connect
+
+Demonstrated:
+
+* synthetic PMS signal
+* manual staff signal
+* guest action
+
+Not demonstrated:
+
+* production PMS integration
+
+## Understand
+
+Demonstrated:
+
+* deterministic moment recognition
+* contextual scenario logic
+
+Future:
+
+* broader AI-assisted classification where approved
+
+## Decide
+
+Demonstrated:
+
+* configured governance
+* thresholds
+* role accountability
+
+## Act
+
+Demonstrated:
+
+* playbook progression
+* communications workflow
+* evidence capture
+
+## Learn
+
+Demonstrated:
+
+* synthetic outcome and learning record
+
+Production:
+
+* durable cross-deployment learning infrastructure required
+
+---
+
+# 15. Validation page
+
+The Validation page must clearly separate:
+
+## Validated through working interface
+
+## Validated through synthetic simulation
+
+## Architecturally defined
+
+## Customer-pilot dependent
+
+## Production engineering required
+
+Do not use “validated” as a generic positive label.
+
+Clarify exactly what was validated.
+
+---
+
+# 16. Build & Configure language
+
+Use:
+
+> **Prototype configuration experience**
+
+Avoid implying:
+
+* real tenant provisioning
+* real customer environment creation
+* production deployment activation
+
+When the user selects:
+
+> Activate Travel Environment
+
+retain the action if it is important to the demo, but clearly contextualise the result as:
+
+> **Active simulation environment**
+
+not:
+
+> live environment
+
+---
+
+# 17. Execution Centre language
+
+Use:
+
+> **Working interactive simulation**
+
+The runtime can say:
+
+* signal received
+* moment identified
+* decision required
+* action assigned
+* evidence captured
+* outcome recorded
+
+because those things are true inside the simulation.
+
+Do not say:
+
+* customer signal received
+* production event received
+* real PMS signal
+* live hotel event
+
+unless true.
+
+---
+
+# 18. Guest Demo language
+
+The Guest Demo should make clear:
+
+> This is a synthetic guest experience demonstrating how one RTBX workflow can coordinate guest and operator actions.
+
+Do not make the simulated phone interface appear to be a live guest app in a real hotel.
+
+Avoid language that implies actual real-world tasks were performed.
+
+Example:
+
+### Avoid
+
+> Concierge has been notified.
+
+### Better
+
+> In a configured deployment, this selection routes a concierge task.
+
+or, inside the simulation:
+
+> Concierge task created — simulated.
+
+Use concise wording so the experience still feels natural.
+
+---
+
+# 19. Operator and Dual View language
+
+Use visible but non-intrusive simulation labels.
+
+Examples:
+
+> Synthetic scenario
+
+> Working interactive simulation
+
+> Demonstrated operator workflow
+
+Do not stamp “SIMULATION” over every panel.
+
+Use one clear page-level or scenario-level maturity indicator.
+
+---
+
+# 20. Scenario maturity
+
+Review all six canonical scenarios.
+
+Current likely status:
+
+* Repeat guest room not ready — Working Proof
+* Distressed guest — Working Proof or Simulation
+* Service backlog — Working Proof
+* Maintenance defect — Working Proof
+* Transport disruption — Working Proof
+* Premium guest opportunity — Prototype
+
+Verify against actual implementation.
+
+Do not automatically label all six Working Proof if the runtime implementation differs.
+
+---
+
+# 21. Distressed guest and welfare language
+
+This needs particular care.
+
+Ensure the site never implies:
+
+* mental health diagnosis by AI
+* autonomous welfare intervention
+* autonomous emergency decision
+* automatic staff dispatch without configured governance
+* automatic communication after a guest declines support
+
+Use language such as:
+
+> RTBX identifies a configured welfare trigger and routes the situation to an accountable human role.
+
+or:
+
+> The demonstration shows a governed welfare-support pathway; it does not diagnose or make autonomous emergency decisions.
+
+---
+
+# 22. Learning claims
+
+Review language such as:
+
+* RTBX learns
+* self-learning
+* autonomous learning
+* cross-property learning
+* global intelligence
+* collective intelligence
+
+For the current proof, use:
+
+> demonstrated learning output
+
+or:
+
+> rules-based learning record
+
+where appropriate.
+
+Future-state language may say:
+
+> RTBX is designed to improve playbooks and decision logic using governed outcome feedback.
+
+Do not imply current autonomous cross-customer learning.
+
+---
+
+# 23. Cross-property learning
+
+Where the site discusses learning across properties:
+
+Make clear that future production use requires:
+
+* customer permission
+* data boundaries
+* privacy controls
+* governance
+* aggregation or de-identification where applicable
+
+Do not imply customer data is automatically pooled.
+
+---
+
+# 24. Value claims
+
+Review phrases such as:
+
+* increases revenue
+* reduces incidents
+* improves engagement
+* saves time
+* increases loyalty
+* reduces cost
+
+If those are hypotheses or pilot targets, label them as:
+
+* indicative
+* pilot target
+* value hypothesis
+* customer baseline required
+* to be validated
+
+Do not make unsupported outcome claims.
+
+---
+
+# 25. Metrics
+
+Any performance metric must identify its status.
+
+Examples:
+
+* Demonstration input
+* Indicative pilot target
+* Customer baseline
+* Pilot target
+* Measured pilot result
+* Production result
+
+If no measured evidence exists, do not present the number as an achieved result.
+
+---
+
+# 26. Partner ecosystem language
+
+Do not describe any partner relationship as:
+
+* active
+* integrated
+* strategic
+* confirmed
+* live
+
+unless verified.
+
+Use:
+
+* potential partner category
+* target integration partner
+* ecosystem role
+* partner opportunity
+* example provider
+
+where appropriate.
+
+---
+
+# 27. Commercial language
+
+Review commercial pages for claims that imply:
+
+* agreed pricing
+* signed customers
+* confirmed revenue
+* approved market traction
+* guaranteed value
+
+Use clear status labels such as:
+
+* Indicative
+* Subject to proposal
+* Customer-specific
+* Partner-specific
+* To be validated
+* Internal assumption
+
+Do not alter the commercial model itself.
+
+---
+
+# 28. Consistent tense
+
+Use three clear temporal categories:
+
+## Today
+
+What RTBX Travel demonstrates now.
+
+Use present tense:
+
+> The Partner Room demonstrates…
+
+> The Execution Centre shows…
+
+> The simulation records…
+
+## Pilot
+
+What a controlled pilot would test.
+
+Use future/conditional language:
+
+> A pilot would connect…
+
+> The pilot would measure…
+
+> Customer systems would progressively replace synthetic sources…
+
+## Production
+
+What production deployment is designed to support.
+
+Use:
+
+> Production deployment requires…
+
+> Once approved systems are integrated…
+
+> RTBX is designed to…
+
+Do not merge these three states into one paragraph.
+
+---
+
+# 29. Canonical proof copy
+
+Create a small shared proof-language source or helper where practical.
+
+Suggested concepts:
+
+```text id="kv1p3j"
+WORKING_PROOF_LABEL
+SIMULATION_LABEL
+PROTOTYPE_LABEL
+PRODUCTION_REQUIRED_LABEL
+SYNTHETIC_DATA_DISCLOSURE
+```
+
+Avoid manually writing slightly different maturity explanations on every page.
+
+Do not over-engineer.
+
+---
+
+# 30. Proof and claims register
+
+Create:
+
+```text id="6qoeb6"
+docs/proof-and-claims-register.md
+```
+
+Include:
+
+| Claim | Route | Current wording | Approved wording | Maturity | Evidence | Limitation |
+| ----- | ----- | --------------- | ---------------- | -------- | -------- | ---------- |
+
+Cover at minimum:
+
+* RTBX Partner Room
+* Product Proof
+* Validation
+* Build & Configure
+* Execution Centre
+* Guest Demo
+* Operator Demo
+* Dual View
+* Pilot Model
+* Integration
+* Commercial
+* Partner Ecosystem
+
+---
+
+# 31. Automated claim checks
+
+Add or update a lightweight test/script that flags risky phrases in active user-facing source.
+
+Flag:
+
+* Live MVP
+* Live Demo
+* Run Live Scenario
+* Real-time execution layer
+* Fully integrated
+* Production-ready
+* AI-powered
+
+Do not automatically fail on every use of “live” or “AI”.
+
+Allow explicit approved contexts through a whitelist or structured status source.
+
+The goal is reviewable consistency.
+
+---
+
+# 32. AI consistency test
+
+Add focused validation ensuring:
+
+* deterministic runtime is not labelled AI-powered
+* AI-assisted labels occur only where an AI function is defined
+* high-risk decisions remain human-controlled
+* welfare scenarios do not claim AI diagnosis
+* approved AI role taxonomy is used consistently
+
+---
+
+# 33. Integration consistency test
+
+Validate that:
+
+* every displayed integration status uses an approved value
+* “Integrated” requires evidence metadata
+* “Connector-ready” requires required readiness metadata
+* “Production” cannot be assigned casually
+* simulated signal sources remain labelled simulated
+
+---
+
+# 34. Completion report
+
+At completion provide:
+
+## Claim audit
+
+* total risky claims found
+* retained
+* rewritten
+* removed
+
+Break down:
+
+* live
+* real-time
+* AI
+* integration
+* production
+* value claims
+
+## AI positioning
+
+Report:
+
+* where AI is currently used
+* where workflow is deterministic
+* labels changed
+* high-risk controls confirmed
+
+## Integration status
+
+Report:
+
+* simulated
+* manual
+* demonstrated
+* connector-ready
+* integrated
+* planned
+
+Count each category where practical.
+
+## External MVP
+
+Report:
+
+* URL
+* deployment status
+* signed-out access result
+* mobile access result
+* whether CTA retained
+
+## Files changed
+
+List each file and reason.
+
+## Proof register
+
+Confirm `docs/proof-and-claims-register.md` created.
+
+## Verification
+
+Run and report:
+
+* claim consistency test
+* AI consistency test
+* integration maturity test
+* full tests
+* typecheck
+* production build
+* rendered spot-checks of proof pages
+
+Stop after Step 6.
+
+Do not begin scenario/runtime consolidation, commercial access cleanup or final release QA.

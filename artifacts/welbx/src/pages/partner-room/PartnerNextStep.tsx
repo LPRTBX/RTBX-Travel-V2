@@ -24,6 +24,26 @@ function SectionLabel({ children }: { children: string }) {
 
 const ENGAGEMENTS = [
   {
+    id: "design-partnership",
+    label: "Primary",
+    name: "Explore a Design Partnership",
+    color: C.gold,
+    tagline: "For operators and partners ready to shape the first governed Travel deployment",
+    audience: "Executive sponsor, operating lead, technology lead and the accountable people who would own a pilot",
+    purpose: "Explore whether a focused design partnership is the right path to define the first property, three scenarios, governance boundaries and evidence plan together.",
+    covered: [
+      "The first operational problem and property context",
+      "Three initial scenarios and accountable role owners",
+      "Synthetic Working Proof review and pilot evidence needs",
+      "Integration assumptions, governance boundaries and responsibilities",
+      "A practical 1–5-property cohort pathway",
+    ],
+    participants: ["Executive sponsor or decision-maker", "Operations or guest-experience lead", "Technology or systems contact", "RTBX Travel team"],
+    output: "A shared design-partnership brief covering initial scope, responsibilities, proof boundaries and the decision path to a pilot",
+    cta: { label: "Explore a Design Partnership →", href: "mailto:lance@rtbx.com.au?subject=Explore a Design Partnership — RTBX Travel" },
+    primary: true,
+  },
+  {
     id: "operating-alignment",
     label: "01",
     name: "Operating Alignment Session",
@@ -41,6 +61,7 @@ const ENGAGEMENTS = [
     participants: ["Executive sponsor or decision-maker", "General Manager or operations lead", "Technology or systems contact"],
     output: "Operating model alignment summary, first scenario candidates, initial pilot scope",
     cta: { label: "Request an Operating Alignment Session →", href: "mailto:lance@rtbx.com.au?subject=Operating Alignment Session — RTBX Travel" },
+    primary: false,
   },
   {
     id: "integration-technical",
@@ -61,6 +82,7 @@ const ENGAGEMENTS = [
     participants: ["Technical lead from RTBX", "IT or technology leader from customer", "PMS or source-system technical contact"],
     output: "Integration responsibility matrix, maturity map, priority connector list, technical scoping document",
     cta: { label: "Request an Integration and Technical Workshop →", href: "mailto:lance@rtbx.com.au?subject=Integration and Technical Workshop — RTBX Travel" },
+    primary: false,
   },
   {
     id: "pilot-design",
@@ -83,6 +105,7 @@ const ENGAGEMENTS = [
     participants: ["Executive sponsor", "Pilot owner", "Operations and department heads", "Technology lead", "RTBX team"],
     output: "Signed pilot scope, governance alignment, role map, system maturity map, success measures, readiness plan",
     cta: { label: "Request a Pilot Design Session →", href: "mailto:lance@rtbx.com.au?subject=Pilot Design Session — RTBX Travel" },
+    primary: false,
   },
   {
     id: "partner-model",
@@ -103,6 +126,7 @@ const ENGAGEMENTS = [
     participants: ["Partner commercial or business development lead", "Technical contact where relevant", "RTBX partner team"],
     output: "Partner lane alignment, commercial model outline, first customer or pilot pathway, next steps for partnership formalisation",
     cta: { label: "Request a Partner Model Discussion →", href: "mailto:lance@rtbx.com.au?subject=Partner Model Discussion — RTBX Travel" },
+    primary: false,
   },
 ];
 
@@ -115,10 +139,10 @@ export default function PartnerNextStep() {
         <div style={{ marginBottom: 48 }}>
           <SectionLabel>RTBX Travel · Next Step</SectionLabel>
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 14, maxWidth: 760 }}>
-            What's the right conversation for you?
+            Explore a Design Partnership
           </h1>
           <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.8, maxWidth: 700 }}>
-            The right engagement depends on your role and what you're trying to solve. Choose one of four structured conversations — each has a specific audience, purpose, agenda and output.
+            Start with a focused design partnership to define the first property, three scenarios, governance boundaries and evidence plan. If another structured conversation fits better, choose it below.
           </p>
         </div>
 
@@ -126,8 +150,8 @@ export default function PartnerNextStep() {
         <div style={{ display: "flex", gap: 4, flexWrap: "wrap", marginBottom: 48 }}>
           {ENGAGEMENTS.map(eng => (
             <a key={eng.id} href={`#${eng.id}`} style={{ textDecoration: "none" }}>
-              <div style={{ padding: "7px 14px", fontSize: 9.5, fontWeight: 700, color: eng.color, border: `1px solid ${eng.color}40`, background: `${eng.color}08`, cursor: "pointer" }}>
-                {eng.label} {eng.name}
+              <div style={{ padding: eng.primary ? "9px 16px" : "7px 14px", fontSize: 9.5, fontWeight: 700, color: eng.primary ? "#080c14" : eng.color, border: `1px solid ${eng.color}40`, background: eng.primary ? eng.color : `${eng.color}08`, cursor: "pointer" }}>
+                {eng.primary ? "Explore a Design Partnership" : `${eng.label} ${eng.name}`}
               </div>
             </a>
           ))}
@@ -136,7 +160,7 @@ export default function PartnerNextStep() {
         {/* ── ENGAGEMENTS ── */}
         <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
           {ENGAGEMENTS.map(eng => (
-            <div key={eng.id} id={eng.id} style={{ scrollMarginTop: 90, padding: "28px 28px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: `4px solid ${eng.color}` }}>
+            <div key={eng.id} id={eng.id} style={{ scrollMarginTop: 90, padding: eng.primary ? "34px 32px" : "28px 28px", background: eng.primary ? "rgba(201,168,76,0.08)" : "rgba(255,255,255,0.02)", border: `1px solid ${eng.primary ? "rgba(201,168,76,0.36)" : "rgba(255,255,255,0.06)"}`, borderLeft: `4px solid ${eng.color}`, boxShadow: eng.primary ? "0 18px 44px rgba(0,0,0,0.24)" : "none" }}>
               <div style={{ display: "flex", alignItems: "flex-start", gap: 16, marginBottom: 16, flexWrap: "wrap" }}>
                 <div style={{ width: 36, height: 36, borderRadius: "50%", background: `${eng.color}12`, border: `1px solid ${eng.color}40`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 800, color: eng.color, flexShrink: 0 }}>
                   {eng.label}
@@ -207,7 +231,7 @@ export default function PartnerNextStep() {
           {[
             { label: "Partner Ecosystem", href: "/partner-room/partner-ecosystem" },
             { label: "Pilot Model", href: "/partner-room/pilot-model" },
-            { label: "Commercial Pathway", href: "/partner-room/commercial" },
+            { label: "Pilot Model", href: "/partner-room/pilot-model" },
           ].map(b => <Link key={b.href} href={b.href}><div style={{ padding: "8px 16px", border: "1px solid rgba(255,255,255,0.1)", fontSize: 9.5, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", cursor: "pointer" }}>{b.label} →</div></Link>)}
         </div>
 

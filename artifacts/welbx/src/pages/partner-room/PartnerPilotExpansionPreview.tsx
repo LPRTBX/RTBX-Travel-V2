@@ -1,7 +1,7 @@
 import { Link } from "wouter";
+import { WORKING_PROOF_PATH } from "@/lib/proofLanguage";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 
-const MVP_URL = "https://replit.com/@LP1313/rtbx-travel-moment-response-mvp";
 
 const INTEGRATION_SECTIONS = [
   {
@@ -95,25 +95,25 @@ export default function PartnerPilotExpansionPreview() {
             </p>
           </div>
 
-          {/* Link to live MVP */}
-          <a href={MVP_URL} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
+          {/* Link to current Working Proof */}
+          <Link href={WORKING_PROOF_PATH}>
             <div style={{
               display: "inline-flex", alignItems: "center", gap: 8, fontSize: 9, fontWeight: 700,
               letterSpacing: "0.1em", textTransform: "uppercase", color: "#c9a84c",
               border: "1px solid rgba(201,168,76,0.25)", padding: "7px 14px", cursor: "pointer",
             }}>
-              ← View Current Working Demonstration ↗
+              ← View Current Working Proof
             </div>
-          </a>
+          </Link>
         </div>
 
         {/* Pathway overview */}
         <div style={{ marginBottom: 60 }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
             {[
-              { stage: "Stage 1 — Push-First MVP", color: "#c9a84c", desc: "Staff, guest and operator-entered signals. Manual intake. Workflow proven.", status: "Live Now" },
-              { stage: "Stage 2 — Integration-Assisted Pilot", color: "#10b981", desc: "PMS, task, messaging, weather and marketplace signals added as integrations are approved.", status: "This Preview" },
-              { stage: "Stage 3 — Multi-Site Operating Layer", color: "#a78bfa", desc: "Signals captured across multiple properties. Pattern insights, value proof, scale.", status: "Future State" },
+              { stage: "Stage 1 — Push-First MVP", color: "#c9a84c", desc: "Synthetic staff, guest and operator-entered signals. Manual intake. Governed workflow demonstrated.", status: "Working Proof" },
+              { stage: "Stage 2 — Integration-Assisted Pilot", color: "#10b981", desc: "PMS, task, messaging, weather and marketplace signals added only after integrations are approved.", status: "Planned" },
+              { stage: "Stage 3 — Multi-Site Operating Layer", color: "#a78bfa", desc: "Proposed multi-property signal visibility, pattern insights, value evaluation and scale.", status: "Planned" },
             ].map(s => (
               <div key={s.stage} style={{
                 padding: "20px 20px",
@@ -182,7 +182,7 @@ export default function PartnerPilotExpansionPreview() {
           <div style={{ fontSize: 8, letterSpacing: "0.18em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>Related</div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
             {[
-              { label: "Working Demonstration Preview ↗", href: MVP_URL, ext: true },
+              { label: "Working Proof", href: WORKING_PROOF_PATH, ext: false },
               { label: "Stage 3 Operating Layer", href: "/partner-room/product-proof/stage-3-operating-layer", ext: false },
               { label: "Signal Capture", href: "/partner-room/product-proof/signal-capture", ext: false },
               { label: "Integration Brief", href: "/partner-room/integration-brief", ext: false },

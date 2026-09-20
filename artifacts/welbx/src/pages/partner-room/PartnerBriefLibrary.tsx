@@ -1,7 +1,7 @@
 /**
  * PartnerBriefLibrary.tsx — Sprint 5
  *
- * Resource library with audience, owner, version, confidentiality, maturity
+ * Resource library with audience, owner, version, access level, maturity
  * and last-reviewed date on every document.
  *
  * Classifications: General partner / Pilot partner / Technical partner /
@@ -17,25 +17,25 @@ import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 
 const C = { muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,255,0.22)", gold: "#c9a84c", green: "#10b981", blue: "#3b82f6" };
 
-type DocClassification = "general-partner" | "pilot-partner" | "technical-partner" | "deployment-partner" | "commercially-restricted" | "internal-only";
-type DocMaturity = "draft" | "working" | "review" | "approved" | "archived";
+export type PartnerResourceAccessLevel = "general-partner" | "pilot-partner" | "technical-partner" | "deployment-partner" | "commercially-restricted" | "internal-only";
+export type PartnerResourceMaturity = "draft" | "working" | "review" | "approved" | "archived";
 
-type ResourceDoc = {
+export type PartnerResource = {
   id: string;
   title: string;
   description: string;
   audience: string[];
   owner: string;
   version: string;
-  confidentiality: DocClassification;
-  maturity: DocMaturity;
+  accessLevel: PartnerResourceAccessLevel;
+  maturity: PartnerResourceMaturity;
   lastReviewed: string;
   commercialStatus?: string;
   href?: string;
   tags: string[];
 };
 
-const CLASSIFICATION_LABELS: Record<DocClassification, string> = {
+const CLASSIFICATION_LABELS: Record<PartnerResourceAccessLevel, string> = {
   "general-partner":         "General partner",
   "pilot-partner":           "Pilot partner",
   "technical-partner":       "Technical partner",
@@ -44,7 +44,7 @@ const CLASSIFICATION_LABELS: Record<DocClassification, string> = {
   "internal-only":           "Internal only",
 };
 
-const CLASSIFICATION_COLORS: Record<DocClassification, string> = {
+const CLASSIFICATION_COLORS: Record<PartnerResourceAccessLevel, string> = {
   "general-partner":         "#10b981",
   "pilot-partner":           "#c9a84c",
   "technical-partner":       "#3b82f6",
@@ -53,7 +53,7 @@ const CLASSIFICATION_COLORS: Record<DocClassification, string> = {
   "internal-only":           "#ef4444",
 };
 
-const MATURITY_COLORS: Record<DocMaturity, string> = {
+const MATURITY_COLORS: Record<PartnerResourceMaturity, string> = {
   "draft":    "rgba(255,255,255,0.3)",
   "working":  "#3b82f6",
   "review":   "#c9a84c",
@@ -61,7 +61,12 @@ const MATURITY_COLORS: Record<DocMaturity, string> = {
   "archived": "rgba(255,255,255,0.2)",
 };
 
-const RESOURCE_DOCS: ResourceDoc[] = [
+/**
+ * Canonical manifest for resources approved for the external Partner Room.
+ * Restricted and internal-only resources must not be added without genuine
+ * server-side authorization and a fresh content review.
+ */
+export const EXTERNAL_PARTNER_RESOURCES: PartnerResource[] = [
   // General partner resources
   {
     id: "doc-partner-overview",
@@ -70,7 +75,7 @@ const RESOURCE_DOCS: ResourceDoc[] = [
     audience: ["All partner types", "Prospective partners"],
     owner: "RTBX",
     version: "0.5",
-    confidentiality: "general-partner",
+    accessLevel: "general-partner",
     maturity: "working",
     lastReviewed: "July 2025",
     href: "/partner-room/partner-ecosystem",
@@ -83,7 +88,7 @@ const RESOURCE_DOCS: ResourceDoc[] = [
     audience: ["Hotel operators", "General Managers", "COO", "Transformation leads"],
     owner: "RTBX",
     version: "0.5",
-    confidentiality: "pilot-partner",
+    accessLevel: "pilot-partner",
     maturity: "working",
     lastReviewed: "July 2025",
     href: "/partner-room/pilot-model",
@@ -96,7 +101,7 @@ const RESOURCE_DOCS: ResourceDoc[] = [
     audience: ["All partners", "Hotel operators", "Technology partners"],
     owner: "RTBX",
     version: "0.5",
-    confidentiality: "general-partner",
+    accessLevel: "general-partner",
     maturity: "working",
     lastReviewed: "July 2025",
     href: "/partner-room/operating-model",
@@ -109,7 +114,7 @@ const RESOURCE_DOCS: ResourceDoc[] = [
     audience: ["All partners", "Hotel operators", "Distribution partners"],
     owner: "RTBX",
     version: "0.5",
-    confidentiality: "general-partner",
+    accessLevel: "general-partner",
     maturity: "working",
     lastReviewed: "July 2025",
     href: "/partner-room/deployments",
@@ -123,7 +128,7 @@ const RESOURCE_DOCS: ResourceDoc[] = [
     audience: ["Pilot owner", "General Manager", "Technology lead"],
     owner: "RTBX",
     version: "0.5",
-    confidentiality: "pilot-partner",
+    accessLevel: "pilot-partner",
     maturity: "working",
     lastReviewed: "July 2025",
     href: "/partner-room/pilot-model#readiness-checklist",
@@ -136,7 +141,7 @@ const RESOURCE_DOCS: ResourceDoc[] = [
     audience: ["Executive sponsor", "COO", "Pilot owner"],
     owner: "RTBX",
     version: "0.5",
-    confidentiality: "pilot-partner",
+    accessLevel: "pilot-partner",
     maturity: "working",
     lastReviewed: "July 2025",
     href: "/partner-room/pilot-model#success-framework",
@@ -149,7 +154,7 @@ const RESOURCE_DOCS: ResourceDoc[] = [
     audience: ["Pilot owner", "Technology lead", "Operations lead"],
     owner: "RTBX",
     version: "0.5",
-    confidentiality: "general-partner",
+    accessLevel: "general-partner",
     maturity: "working",
     lastReviewed: "July 2025",
     href: "/partner-room/build-configure",
@@ -162,7 +167,7 @@ const RESOURCE_DOCS: ResourceDoc[] = [
     audience: ["All partners", "Operations team", "Pilot evaluators"],
     owner: "RTBX",
     version: "0.5",
-    confidentiality: "general-partner",
+    accessLevel: "general-partner",
     maturity: "working",
     lastReviewed: "July 2025",
     href: "/partner-room/operations",
@@ -176,7 +181,7 @@ const RESOURCE_DOCS: ResourceDoc[] = [
     audience: ["Technology partners", "Systems integrators", "IT leaders"],
     owner: "RTBX",
     version: "0.5",
-    confidentiality: "technical-partner",
+    accessLevel: "technical-partner",
     maturity: "working",
     lastReviewed: "July 2025",
     href: "/partner-room/partner-ecosystem#integration-responsibility",
@@ -189,7 +194,7 @@ const RESOURCE_DOCS: ResourceDoc[] = [
     audience: ["Technology partners", "CTO", "IT leads"],
     owner: "RTBX",
     version: "0.5",
-    confidentiality: "technical-partner",
+    accessLevel: "technical-partner",
     maturity: "working",
     lastReviewed: "July 2025",
     href: "/partner-room/product-proof/signal-capture",
@@ -202,7 +207,7 @@ const RESOURCE_DOCS: ResourceDoc[] = [
     audience: ["Technology partners", "Product leads"],
     owner: "RTBX",
     version: "0.5",
-    confidentiality: "technical-partner",
+    accessLevel: "technical-partner",
     maturity: "working",
     lastReviewed: "July 2025",
     href: "/partner-room/travel-intelligence",
@@ -216,7 +221,7 @@ const RESOURCE_DOCS: ResourceDoc[] = [
     audience: ["Deployment partners", "Systems integrators", "Transformation advisers"],
     owner: "RTBX",
     version: "0.5",
-    confidentiality: "deployment-partner",
+    accessLevel: "deployment-partner",
     maturity: "working",
     lastReviewed: "July 2025",
     href: "/partner-room/partner-ecosystem#deployment-responsibility",
@@ -229,13 +234,14 @@ const RESOURCE_DOCS: ResourceDoc[] = [
     audience: ["Deployment partners", "Transformation advisers"],
     owner: "RTBX",
     version: "0.5",
-    confidentiality: "deployment-partner",
+    accessLevel: "deployment-partner",
     maturity: "working",
     lastReviewed: "July 2025",
     href: "/partner-room/rollout-model",
     tags: ["rollout", "deployment", "scale"],
   },
-  // Commercially restricted
+  // Approved external commercial summaries. Detailed economics and forecasts
+  // remain commercially restricted and are absent from this manifest.
   {
     id: "doc-commercial-pathway",
     title: "Commercial Pathway",
@@ -243,11 +249,11 @@ const RESOURCE_DOCS: ResourceDoc[] = [
     audience: ["Commercial leads", "COO", "Executive sponsor"],
     owner: "RTBX",
     version: "0.5",
-    confidentiality: "commercially-restricted",
+    accessLevel: "general-partner",
     maturity: "working",
     lastReviewed: "July 2025",
     commercialStatus: "Indicative — subject to proposal",
-    href: "/partner-room/commercial",
+    href: "/partner-room/next-step",
     tags: ["commercial", "pricing", "models"],
   },
   {
@@ -257,7 +263,7 @@ const RESOURCE_DOCS: ResourceDoc[] = [
     audience: ["COO", "CFO", "Commercial leads"],
     owner: "RTBX",
     version: "0.5",
-    confidentiality: "commercially-restricted",
+    accessLevel: "general-partner",
     maturity: "working",
     lastReviewed: "July 2025",
     commercialStatus: "Indicative assumption — not approved commercial output",
@@ -266,21 +272,20 @@ const RESOURCE_DOCS: ResourceDoc[] = [
   },
 ];
 
-// Exclude internal-only documents from the displayed list
-const DISPLAYABLE_DOCS = RESOURCE_DOCS.filter(d => d.confidentiality !== "internal-only");
+const DISPLAYABLE_DOCS = EXTERNAL_PARTNER_RESOURCES;
 
-const ALL_CLASSIFICATIONS: DocClassification[] = [
-  "general-partner", "pilot-partner", "technical-partner", "deployment-partner", "commercially-restricted",
+const ALL_CLASSIFICATIONS: PartnerResourceAccessLevel[] = [
+  "general-partner", "pilot-partner", "technical-partner", "deployment-partner",
 ];
 
 export default function PartnerBriefLibrary() {
-  const [classFilter, setClassFilter] = useState<DocClassification | null>(null);
+  const [classFilter, setClassFilter] = useState<PartnerResourceAccessLevel | null>(null);
   const [tagFilter, setTagFilter] = useState<string | null>(null);
 
   const allTags = Array.from(new Set(DISPLAYABLE_DOCS.flatMap(d => d.tags))).sort();
 
   const filtered = DISPLAYABLE_DOCS.filter(d =>
-    (!classFilter || d.confidentiality === classFilter) &&
+    (!classFilter || d.accessLevel === classFilter) &&
     (!tagFilter || d.tags.includes(tagFilter))
   );
 
@@ -295,10 +300,10 @@ export default function PartnerBriefLibrary() {
             RTBX Travel Brief Library
           </h1>
           <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.8, maxWidth: 700, marginBottom: 20 }}>
-            Classified by audience, owner and confidentiality. Each document shows its version, maturity, last review date and commercial status where applicable. Internal-only documents are not displayed here.
+            Classified by audience, owner and access level. Each resource shows its version, maturity, last review date and commercial status where applicable. Only resources approved for this external partner preview appear here.
           </p>
           <div style={{ padding: "10px 16px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.08)", fontSize: 10, color: "rgba(255,255,255,0.4)", fontStyle: "italic" }}>
-            Internal-only and commercially sensitive documents are not exposed through this general library. Contact RTBX directly for access to restricted documents.
+            Internal-only and commercially restricted material is not included in this route graph or client bundle. Contact RTBX directly for a separately controlled review.
           </div>
         </div>
 
@@ -341,7 +346,7 @@ export default function PartnerBriefLibrary() {
         {/* ── DOCUMENT LIST ── */}
         <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
           {filtered.map(doc => (
-            <div key={doc.id} style={{ padding: "18px 20px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: `3px solid ${CLASSIFICATION_COLORS[doc.confidentiality]}` }}>
+            <div key={doc.id} style={{ padding: "18px 20px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: `3px solid ${CLASSIFICATION_COLORS[doc.accessLevel]}` }}>
               <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, marginBottom: 8, flexWrap: "wrap" }}>
                 <div>
                   <div style={{ fontSize: 13, fontWeight: 800, color: "#fff", marginBottom: 3 }}>{doc.title}</div>
@@ -351,8 +356,8 @@ export default function PartnerBriefLibrary() {
                   </div>
                 </div>
                 <div style={{ display: "flex", gap: 4, flexShrink: 0, alignItems: "center", flexWrap: "wrap" }}>
-                  <div style={{ padding: "3px 8px", fontSize: 8, fontWeight: 700, color: CLASSIFICATION_COLORS[doc.confidentiality], border: `1px solid ${CLASSIFICATION_COLORS[doc.confidentiality]}40` }}>
-                    {CLASSIFICATION_LABELS[doc.confidentiality]}
+                  <div style={{ padding: "3px 8px", fontSize: 8, fontWeight: 700, color: CLASSIFICATION_COLORS[doc.accessLevel], border: `1px solid ${CLASSIFICATION_COLORS[doc.accessLevel]}40` }}>
+                    {CLASSIFICATION_LABELS[doc.accessLevel]}
                   </div>
                   {doc.href && (
                     <Link href={doc.href}>

@@ -8,7 +8,7 @@ const MODEL_CARDS = [
   { label: "Moment Classification", desc: "Assists rules-based classification by surfacing likely moment type and category from ambiguous or compound signals." },
   { label: "Risk & Priority", desc: "Weighs urgency, guest impact and escalation risk to help order the response queue." },
   { label: "Decision Spine", desc: "Supports the governed decision system with pattern-informed recommendations, never bypassing operator-approved rules." },
-  { label: "Communication Generation", desc: "Drafts guest and staff-facing messages within approved tone and policy guardrails for human or automated send." },
+  { label: "Communication Generation", desc: "Drafts guest and staff-facing messages within approved tone and policy guardrails for human review and approved dispatch." },
   { label: "Routing & Assignment", desc: "Recommends the right owner based on role, availability and moment type." },
   { label: "Escalation Forecasting", desc: "Flags moments likely to breach resolution thresholds before they do, based on historical pattern data." },
   { label: "Pattern Intelligence", desc: "Surfaces recurring moment clusters, high-risk windows and recovery effectiveness across a property or portfolio." },
@@ -22,7 +22,7 @@ const STAGES = [
     num: "01",
     title: "Rules-Based MVP",
     color: "#c9a84c",
-    desc: "The Live MVP uses deterministic rules and classification logic — no AI models in the response loop. Every classification, routing decision and escalation is transparent and auditable by design.",
+    desc: "The Working Proof uses deterministic rules and classification logic — no AI models in the response loop. Every demonstrated classification, routing decision and escalation is transparent and auditable by design.",
   },
   {
     num: "02",
@@ -52,11 +52,11 @@ export default function TravelAiIntelligenceLayer() {
             RTBX Travel — AI Intelligence Layer
           </h1>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 700, marginBottom: 18 }}>
-            RTBX Travel is not using AI to generate more information. It is using AI to turn signals into action, action into assurance, and assurance into value.
+            The planned AI layer is designed to assist signal interpretation, classification confidence, recommendations and communication drafting. Governed rules and named human owners remain accountable for decisions and dispatch.
           </p>
           <div style={{ padding: "16px 20px", background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.22)", borderLeft: "3px solid #c9a84c", maxWidth: 700 }}>
             <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.65)", lineHeight: 1.7, margin: 0 }}>
-              The Live MVP uses deterministic rules and classification logic. AI models are introduced progressively during integration-assisted pilots and Stage 3 deployments once operator-approved data sources are connected.
+              The current Working Proof uses deterministic rules and synthetic inputs. AI assistance is Planned for approved pilot stages after data sources, fallback rules and human-review controls are agreed.
             </p>
           </div>
         </div>

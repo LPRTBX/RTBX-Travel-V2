@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 import { ENGINE_STAGES, INTELLIGENCE_LAYERS } from "@/data/rtbxArchitecture";
+import { CURRENT_PROOF_BOUNDARY } from "@/lib/proofLanguage";
 
 const C = { gold: "#c9a84c", muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,255,0.22)", green: "#10b981", blue: "#3b82f6", purple: "#a78bfa" };
 
@@ -9,25 +10,25 @@ const HIERARCHY = [
   { label: "Travel Configuration", sub: "Signals, moments, governance, roles, playbooks, communications, evidence and outcomes tuned for travel" },
   { label: "Travel Operating Systems", sub: "Guest, Recovery, Marketplace, Intelligence, Welfare" },
   { label: "Property Configuration", sub: "Property-specific rules, activated modules, roles and channels" },
-  { label: "Active Deployment", sub: "The active governed system for this property" },
+  { label: "Integrated Deployment — Planned", sub: "Future governed operating behavior for a configured property; not active in this Working Proof" },
 ];
 
 const PUBLIC_PROMISE = [
-  { label: "Guest and Operational Signals", desc: "Every relevant signal already generated across guest and operational touchpoints" },
-  { label: "Governed Response", desc: "Every response follows a pre-approved, auditable governance rule — never an autonomous judgement call" },
-  { label: "Coordinated Action", desc: "The right role owner receives the right instruction through the right channel" },
-  { label: "Measurable Guest and Operator Outcomes", desc: "Every action is logged as evidence and rolled up into value the operator can see" },
+  { label: "Synthetic Signals", desc: "Working Proof scenarios use synthetic guest and operational inputs; no live touchpoint signal is captured" },
+  { label: "Rules-Based Recommendation", desc: "Configured rules classify each synthetic signal and propose a response for human review; this is not autonomous judgement" },
+  { label: "Draft Owner Instruction", desc: "A draft recommendation is assigned to a named human role, who remains accountable for deciding and acting" },
+  { label: "Illustrative Outcomes", desc: "Evidence and outcomes are illustrative, value is modelled and unmeasured, and no external update is sent" },
 ];
 
 const OPERATING_LOOP = [
-  { label: "Signal",              desc: "A guest, staff, system or partner signal is captured" },
-  { label: "Moment",              desc: "The signal is classified into a known moment type" },
-  { label: "Governance Rule",     desc: "A pre-approved governance rule determines what may happen next" },
-  { label: "Travel Playbook",     desc: "The matching Travel Playbook selects the response pattern" },
-  { label: "Role Owner",          desc: "A named human role owns the response — never an autonomous system" },
-  { label: "Communication / Action", desc: "Central Comms OS delivers the instruction or update to the right person" },
-  { label: "Outcome / Evidence",  desc: "The resolution is logged to the Outcome and Evidence Ledgers" },
-  { label: "Value / Learning",    desc: "The Evidence, Outcome and Value Layer and Learning and Intelligence Layer turn the outcome into measurable, compounding value" },
+  { label: "Signal",              desc: "A synthetic guest, staff, system or partner scenario input is presented; no live signal is captured" },
+  { label: "Moment",              desc: "Deterministic, rules-based logic classifies the synthetic input into a configured moment type" },
+  { label: "Governance Rule",     desc: "A configured rule identifies what may be recommended next for human review" },
+  { label: "Travel Playbook",     desc: "The matching playbook produces a draft response recommendation, not an instruction to act" },
+  { label: "Role Owner",          desc: "A named human role is accountable for review, decision and any real-world action" },
+  { label: "Communication / Action", desc: "Central Comms OS demonstrates proposed routing only; it delivers no instruction, task or external update" },
+  { label: "Outcome / Evidence",  desc: "The simulation creates illustrative evidence and outcome records; no real resolution is observed or verified" },
+  { label: "Value / Learning",    desc: "Displayed value and learning are modelled and unmeasured, not evidence of realised or compounding value" },
 ];
 
 const FULL_ARCHITECTURE = [
@@ -78,12 +79,15 @@ export default function PartnerOperatingModel() {
             The RTBX Core Operating Model
           </h1>
           <div style={{ padding: "16px 20px", background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.22)", borderLeft: "3px solid #c9a84c", maxWidth: 700, marginBottom: 20 }}>
+            <div style={{ fontSize: 11, letterSpacing: "0.14em", color: C.gold, textTransform: "uppercase", fontWeight: 800, marginBottom: 8 }}>
+              {CURRENT_PROOF_BOUNDARY.maturity} · {CURRENT_PROOF_BOUNDARY.evidence}
+            </div>
             <p style={{ fontSize: 14, color: "rgba(255,255,255,0.78)", lineHeight: 1.75, margin: 0, fontWeight: 600 }}>
-              This is the RTBX Core operating platform configured for Travel.
+              {CURRENT_PROOF_BOUNDARY.notice}
             </p>
           </div>
           <p style={{ fontSize: 15, color: C.muted, lineHeight: 1.75, maxWidth: 700 }}>
-            RTBX Travel is not a separate RTBX platform. It is RTBX Core — the same signal-to-action infrastructure used across every RTBX vertical — configured, tuned and governed for hotel, resort, holiday park, business travel and guest-service environments.
+            This page demonstrates a proposed Travel configuration of the RTBX Core architecture. All integrated operating behavior described below is <strong style={{ color: "rgba(255,255,255,0.72)" }}>Planned</strong>, not current deployment capability.
           </p>
         </div>
 
@@ -100,7 +104,7 @@ export default function PartnerOperatingModel() {
         {/* Public promise */}
         <div style={{ marginBottom: 72 }}>
           <div style={{ fontSize: 11, letterSpacing: "0.14em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 20 }}>
-            Public Promise
+            Planned Public Promise
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
             {PUBLIC_PROMISE.map((step, i) => (
@@ -122,7 +126,7 @@ export default function PartnerOperatingModel() {
             Partner / Operating Loop
           </div>
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.7, maxWidth: 640, marginBottom: 24 }}>
-            The deeper loop every moment runs through — from raw signal to compounding value. Every step has a named human role owner; no step is an autonomous system decision.
+            Current demonstration: synthetic inputs move through rules-based classification to a draft recommendation. Named humans remain accountable for review, decisions and action; the simulation sends no task, instruction or external update. End-to-end integrated operation is <strong style={{ color: "rgba(255,255,255,0.72)" }}>Planned</strong>.
           </p>
           <div style={{ padding: "28px 28px 6px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
             <Chain items={OPERATING_LOOP} />
@@ -132,10 +136,10 @@ export default function PartnerOperatingModel() {
         {/* Five-Step Engine */}
         <div style={{ marginBottom: 72 }}>
           <div style={{ fontSize: 11, letterSpacing: "0.14em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 6 }}>
-            Five-Step Engine
+            Five-Step Engine — Planned
           </div>
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.7, maxWidth: 640, marginBottom: 24 }}>
-            Every moment runs through five stages — from first signal to compounding value. Each stage has named human ownership; no stage is an autonomous system decision.
+            These stages illustrate future integrated operating behavior. In the current Simulation, inputs are synthetic, outputs are recommendations, and a named human remains accountable; displayed evidence, outcomes and value are illustrative, modelled and unmeasured.
           </p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 2 }}>
             {ENGINE_STAGES.map((stage, i) => (
@@ -151,10 +155,10 @@ export default function PartnerOperatingModel() {
         {/* Six Intelligence Layers */}
         <div style={{ marginBottom: 72 }}>
           <div style={{ fontSize: 11, letterSpacing: "0.14em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 6 }}>
-            Six Intelligence Layers
+            Six Intelligence Layers — Planned
           </div>
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.7, maxWidth: 640, marginBottom: 24 }}>
-            Each layer is part of RTBX Core, configured for Travel. The Travel configuration adds domain-specific signals, moment types, governance policies and outcome models.
+            This proposed Travel configuration shows planned domain-specific signal types, moment rules, governance policies and outcome models. It does not indicate current integrations or production operation.
           </p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
             {INTELLIGENCE_LAYERS.map(layer => (
@@ -173,10 +177,10 @@ export default function PartnerOperatingModel() {
         {/* Full architecture */}
         <div style={{ marginBottom: 56 }}>
           <div style={{ fontSize: 11, letterSpacing: "0.14em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 6 }}>
-            Full Architecture
+            Full Architecture — Planned
           </div>
           <p style={{ fontSize: 12, color: "rgba(255,255,255,0.32)", lineHeight: 1.7, maxWidth: 640, marginBottom: 20, fontStyle: "italic" }}>
-            Shown here because this is an architecture page. RTBX Core sits across your existing PMS, CRM, loyalty, booking and housekeeping systems — it does not replace them.
+            Proposed future architecture only. Connections to PMS, CRM, loyalty, booking and housekeeping systems are Planned; none is connected by this Working Proof.
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 8 }}>
             {FULL_ARCHITECTURE.map((step, i) => (

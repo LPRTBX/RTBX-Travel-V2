@@ -26,6 +26,7 @@ import {
   type SuccessMeasureTargetType,
 } from "@/data/travelPilotModel";
 import { TRAVEL_SCENARIOS } from "@/data/travelScenarios";
+import { travelScenarioPath } from "@/lib/travelScenarioRouting";
 import { TRAVEL_OPERATING_SYSTEMS } from "@/data/travelOperatingSystems";
 
 // ── Style constants ───────────────────────────────────────────────────────────
@@ -115,6 +116,9 @@ export default function PartnerPilotModel() {
         <div id="scope" style={{ marginBottom: 48, scrollMarginTop: 90 }}>
           <SectionLabel>02 · Scope</SectionLabel>
           <H2>Pilot scope</H2>
+          <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.65, maxWidth: 760, marginBottom: 16 }}>
+            Begin with one initial hotel property, then use the reviewed 1–5-property cohort pathway only when governance, integration readiness and evidence support expansion.
+          </p>
            <div className="rtbx-responsive-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 2, marginBottom: 12 }}>
             <div style={{ padding: "16px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
               <div style={{ fontSize: 11, color: C.dim, textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 700, marginBottom: 8 }}>Environment</div>
@@ -138,7 +142,7 @@ export default function PartnerPilotModel() {
           <SectionLabel>03 · Operating Systems</SectionLabel>
           <H2>Pilot operating systems</H2>
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.65, maxWidth: 760, marginBottom: 16 }}>
-            The pilot activates three lead operating systems and uses Safety and Guest Welfare as a cross-cutting control. Marketplace and Loyalty is an expansion operating system — not activated in the initial pilot.
+            The pilot activates three lead operating systems and uses Safety and Guest Welfare as a cross-cutting control. Marketplace and Loyalty is an expansion operating system — not activated for one initial hotel property.
           </p>
           <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
             {PILOT_OPERATING_SYSTEMS.map(pos => {
@@ -178,7 +182,7 @@ export default function PartnerPilotModel() {
                     <div style={{ padding: "3px 9px", fontSize: 11, fontWeight: 700, color: ps.role === "primary" ? C.gold : "rgba(255,255,255,0.3)", border: `1px solid ${ps.role === "primary" ? "rgba(201,168,76,0.4)" : "rgba(255,255,255,0.1)"}` }}>
                       {ps.role === "primary" ? "PRIMARY" : "OPTIONAL"}
                     </div>
-                    <Link href={`/partner-room/travel-scenarios#${ps.scenarioId}`}>
+                    <Link href={travelScenarioPath(ps.scenarioId)}>
                       <div style={{ padding: "3px 9px", fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.45)", border: "1px solid rgba(255,255,255,0.1)", cursor: "pointer" }}>VIEW →</div>
                     </Link>
                   </div>
@@ -403,7 +407,7 @@ export default function PartnerPilotModel() {
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 28, display: "flex", gap: 8, flexWrap: "wrap" }}>
           {[
             { label: "Partner Ecosystem", href: "/partner-room/partner-ecosystem" },
-            { label: "Commercial Pathway", href: "/partner-room/commercial" },
+            { label: "Explore a Design Partnership", href: "/partner-room/next-step" },
             { label: "Execution Centre", href: "/partner-room/operations" },
             { label: "Travel Operating Systems", href: "/partner-room/travel-operating-systems" },
           ].map(b => <Link key={b.href} href={b.href}><div style={{ padding: "8px 16px", border: "1px solid rgba(255,255,255,0.1)", fontSize: 11, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "rgba(255,255,255,0.48)", cursor: "pointer" }}>{b.label} →</div></Link>)}

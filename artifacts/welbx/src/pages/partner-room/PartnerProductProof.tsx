@@ -1,15 +1,19 @@
 import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 import { ENGINE_STAGES } from "@/data/rtbxArchitecture";
+import {
+  travelScenarioExecutionPath,
+  travelScenarioPath,
+} from "@/lib/travelScenarioRouting";
 
 const PROOF_MODES = [
   {
     num: "01",
-    label: "Scenario Builder",
+    label: "Travel Scenario Library",
     color: "#c9a84c",
-    desc: "Build a travel scenario and watch RTBX classify, decide, execute and assure.",
-    href: "/partner-room/scenario-builder",
-    cta: "Open Scenario Builder",
+    desc: "Inspect one canonical scenario definition, then hand it to configuration or the single Execution Centre runtime.",
+    href: travelScenarioPath("repeat-guest-room-not-ready"),
+    cta: "Open Scenario Detail",
   },
   {
     num: "02",
@@ -31,7 +35,7 @@ const PROOF_MODES = [
     num: "04",
     label: "Proof of Value Calculator",
     color: "#a78bfa",
-    desc: "Adjust assumptions and see indicative value protected, revenue created and staff time saved.",
+    desc: "Adjust assumptions and see indicative hypotheses for potential protected value, revenue opportunity and staff time.",
     href: "/partner-room/proof-calculator",
     cta: "Open Calculator",
   },
@@ -112,7 +116,7 @@ const WALKTHROUGHS = [
   {
     label: "Operator Deep Dive Walkthrough",
     desc: "Detailed operator-level walkthrough from signal detection to resolution.",
-    href: "/story/operator-deep-dive",
+    href: "/partner-room/operations",
     cta: "Open Deep Dive",
   },
   {
@@ -221,7 +225,7 @@ export default function PartnerProductProof() {
             Product Proof
           </h1>
           <p style={{ fontSize: 15, color: "rgba(255,255,255,0.42)", lineHeight: 1.75, maxWidth: 600 }}>
-            See RTBX Travel working across live scenarios, role views, communications, decision logic and value proof.
+            Explore the RTBX Travel Working Proof across simulated scenarios, role views, drafted communications, decision logic and indicative value modelling.
           </p>
         </div>
 
@@ -231,7 +235,7 @@ export default function PartnerProductProof() {
             What This Proof Shows
           </div>
           <p style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", lineHeight: 1.75, margin: 0 }}>
-            This room demonstrates architecture, interface design, scenario replay and configurable data models. It does not demonstrate a fully integrated production system. Each section below is labelled with its current status — working interface, synthetic scenario, architecturally defined, or requires pilot — so you can assess what is proven and what requires production engineering.
+            This room demonstrates architecture, interface design, scenario replay and configurable data models. It is not an Integrated or Production system. Each section uses the canonical proof taxonomy so you can distinguish Working Proof and Simulation from Connector-ready, Integrated, Production or Planned capability.
           </p>
         </div>
 
@@ -251,38 +255,38 @@ export default function PartnerProductProof() {
               {
                 stageLabel: "Connect", stageNum: "01",
                 items: [
-                  { label: "Integration Brief", desc: "Systems connected to the RTBX Integration Hub, integration maturity and model.", href: "/partner-room/integration-brief", status: "Architecturally Defined" },
-                  { label: "Travel Signal Registry", desc: "Signal taxonomy, source systems, signal-to-moment flow chain.", href: "/partner-room/signals-engine", status: "Working Interface" },
+                  { label: "Integration Brief", desc: "Planned system interfaces, integration maturity and responsibility model.", href: "/partner-room/integration-brief", status: "Planned" },
+                  { label: "Travel Signal Registry", desc: "Signal taxonomy, source systems, signal-to-moment flow chain.", href: "/partner-room/signals-engine", status: "Working Proof" },
                 ],
               },
               {
                 stageLabel: "Understand", stageNum: "02",
                 items: [
-                  { label: "Moment Economy Explorer", desc: "8 moment types with signals, context, classification, OS, playbook and maturity.", href: "/partner-room/moments-economy", status: "Working Interface" },
-                  { label: "Travel Intelligence", desc: "Full signal taxonomy, moment taxonomy, governance sources and role model.", href: "/partner-room/travel-intelligence", status: "Working Interface" },
+                  { label: "Moment Economy Explorer", desc: "8 moment types with signals, context, classification, OS, playbook and maturity.", href: "/partner-room/moments-economy", status: "Working Proof" },
+                  { label: "Travel Intelligence", desc: "Full signal taxonomy, moment taxonomy, governance sources and role model.", href: "/partner-room/travel-intelligence", status: "Working Proof" },
                 ],
               },
               {
                 stageLabel: "Decide", stageNum: "03",
                 items: [
-                  { label: "Decision Spine", desc: "10-step decision chain and 4 Travel governance sources with interactive scenario.", href: "/partner-room/decision-spine", status: "Working Interface" },
-                  { label: "Operating Model", desc: "Full architecture showing governance, playbook selection and role routing.", href: "/partner-room/operating-model", status: "Architecturally Defined" },
+                  { label: "Decision Spine", desc: "10-step decision chain and 4 Travel governance sources with interactive scenario.", href: "/partner-room/decision-spine", status: "Working Proof" },
+                  { label: "Operating Model", desc: "Full architecture showing governance, playbook selection and role routing.", href: "/partner-room/operating-model", status: "Planned" },
                 ],
               },
               {
                 stageLabel: "Act", stageNum: "04",
                 items: [
-                  { label: "Comms Demo", desc: "Central Comms OS routing: signal to message routing across channels with approval indicators.", href: "/partner-room/comms-demo", status: "Synthetic Scenario" },
-                  { label: "Operations Centre", desc: "RTBX Execution Centre — the operator interface for moments, actions and evidence.", href: "/partner-room/operations", status: "Working Interface" },
-                  { label: "Operator Demo", desc: "What the role owner sees: signals, context, decision, action, comms, evidence.", href: "/partner-room/operator-demo", status: "Working Interface" },
-                  { label: "Guest Demo", desc: "What the guest experiences as the output of coordinated RTBX action.", href: "/partner-room/guest-demo", status: "Working Interface" },
+                  { label: "Comms Demo", desc: "Central Comms OS routing: signal to message routing across channels with approval indicators.", href: "/partner-room/comms-demo", status: "Simulation" },
+                  { label: "Execution Centre", desc: "The only canonical local runtime for configured scenarios, governed actions and illustrative evidence.", href: travelScenarioExecutionPath("repeat-guest-room-not-ready"), status: "Working Proof" },
+                  { label: "Operator Demo", desc: "What the role owner sees: signals, context, decision, action, comms, evidence.", href: "/partner-room/operator-demo", status: "Working Proof" },
+                  { label: "Guest Demo", desc: "What the guest experiences as the output of coordinated RTBX action.", href: "/partner-room/guest-demo", status: "Working Proof" },
                 ],
               },
               {
                 stageLabel: "Learn", stageNum: "05",
                 items: [
-                  { label: "Validation Replay", desc: "Five-step replay: Connect to Learn, with what entered, interpreted, governed, actioned and learned.", href: "/partner-room/validation-replay", status: "Synthetic Scenario" },
-                  { label: "Product Proof Validation", desc: "8-category validation map: working interface through to requires production engineering.", href: "/partner-room/validation", status: "Working Interface" },
+                  { label: "Validation Replay", desc: "Five-step replay: Connect to Learn, with what entered, interpreted, governed, actioned and learned.", href: "/partner-room/validation-replay", status: "Simulation" },
+                  { label: "Product Proof Validation", desc: "8-category validation map using the canonical proof taxonomy.", href: "/partner-room/validation", status: "Working Proof" },
                 ],
               },
             ].map(stage => (
@@ -308,7 +312,7 @@ export default function PartnerProductProof() {
                         </div>
                         <div style={{
                           fontSize: 11, fontWeight: 700, letterSpacing: "0.04em", textTransform: "uppercase", textAlign: "right", lineHeight: 1.4, whiteSpace: "nowrap",
-                          color: item.status === "Working Interface" ? "#10b981" : item.status === "Synthetic Scenario" ? "#3b82f6" : "rgba(255,255,255,0.3)",
+                          color: item.status === "Working Proof" ? "#10b981" : item.status === "Simulation" ? "#3b82f6" : "rgba(255,255,255,0.3)",
                         }}>{item.status}</div>
                       </div>
                     </a>
@@ -319,12 +323,12 @@ export default function PartnerProductProof() {
           </div>
         </div>
 
-        {/* Working Demonstration Preview — featured above proof modes */}
+        {/* Working Proof — featured above proof modes */}
         <div style={{ marginBottom: 48 }}>
           <div style={{ fontSize: 11, letterSpacing: "0.14em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>
-            Working Product Preview
+            Working Proof
           </div>
-          <a href="https://replit.com/@LP1313/rtbx-travel-moment-response-mvp" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
+          <Link href="/partner-room/guest-demo">
              <div className="rtbx-responsive-split" style={{
               padding: "28px 32px",
               background: "rgba(201,168,76,0.06)",
@@ -340,18 +344,18 @@ export default function PartnerProductProof() {
                 <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                     <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#c9a84c" }} />
-                    <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#c9a84c" }}>Working Demonstration Preview</span>
+                    <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#c9a84c" }}>Working Proof</span>
                   </div>
-                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.3)", border: "1px solid rgba(255,255,255,0.1)", padding: "2px 8px" }}>Working Product</div>
+                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.3)", border: "1px solid rgba(255,255,255,0.1)", padding: "2px 8px" }}>Simulation</div>
                 </div>
                 <div style={{ fontSize: 16, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", marginBottom: 8 }}>
                   RTBX Travel — Moment Response MVP
                 </div>
                 <p style={{ fontSize: 13, color: "rgba(255,255,255,0.5)", lineHeight: 1.65, maxWidth: 720, margin: "0 0 8px 0" }}>
-                  This MVP shows the first RTBX Travel product loop: a staff, guest or operator signal is captured, converted into a classified moment, assigned to the right person, supported with a guest-facing message, escalated if required, logged for assurance and reported as pilot evidence.
+                   This Working Proof shows the first RTBX Travel product loop with synthetic inputs: capture, classification, assignment, drafted guest communication, escalation, assurance logging and indicative reporting.
                 </p>
                 <div style={{ fontSize: 12, color: "rgba(255,255,255,0.28)", fontStyle: "italic" }}>
-                  The Partner Room explains the RTBX Travel model. The Working Demonstration Preview shows the first working product loop. This is not the full Travel OS — it is the first deployable wedge: Moment Response.
+                  The Partner Room explains the RTBX Travel model. This Working Proof demonstrates the interface and governed flow; it does not send communications, activate partners or represent an Integrated or Production deployment.
                 </div>
               </div>
                <div className="rtbx-responsive-cta" style={{
@@ -359,10 +363,10 @@ export default function PartnerProductProof() {
                 textTransform: "uppercase", color: "#c9a84c", border: "1px solid rgba(201,168,76,0.4)",
                 whiteSpace: "nowrap", flexShrink: 0,
               }}>
-                Open Working Demonstration ↗
+                Open Working Proof →
               </div>
             </div>
-          </a>
+          </Link>
           <div style={{ width: "100%", height: 1, background: "rgba(255,255,255,0.05)", marginTop: 36 }} />
         </div>
 
@@ -410,12 +414,12 @@ export default function PartnerProductProof() {
               Demo Pathways
             </div>
             <p style={{ fontSize: 13, color: "rgba(255,255,255,0.34)", lineHeight: 1.65, maxWidth: 600, margin: 0 }}>
-              Three views of RTBX Travel across the deployment timeline — what is live now, what the pilot becomes with integrations, and what Stage 3 looks like at scale.
+              Three views of RTBX Travel across the deployment pathway — the current Working Proof, a Planned integration-assisted pilot, and a Planned Stage 3 operating layer.
             </p>
           </div>
            <div className="rtbx-responsive-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 2 }}>
-            {/* Card 1: Working Demonstration */}
-            <a href="https://replit.com/@LP1313/rtbx-travel-moment-response-mvp" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
+            {/* Card 1: Working Proof */}
+            <Link href="/partner-room/guest-demo">
               <div style={{
                 padding: "28px 24px", background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.2)",
                 borderTop: "2px solid #c9a84c", display: "flex", flexDirection: "column", height: "100%",
@@ -426,15 +430,15 @@ export default function PartnerProductProof() {
               >
                 <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 14 }}>
                   <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#c9a84c", flexShrink: 0 }} />
-                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#c9a84c" }}>Working Demonstration</div>
+                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#c9a84c" }}>Working Proof</div>
                 </div>
-                <div style={{ fontSize: 14, fontWeight: 800, color: "#fff", marginBottom: 12, lineHeight: 1.3 }}>Working Demonstration Preview — Moment Response</div>
+                <div style={{ fontSize: 14, fontWeight: 800, color: "#fff", marginBottom: 12, lineHeight: 1.3 }}>Moment Response Working Proof</div>
                 <p style={{ fontSize: 13, color: "rgba(255,255,255,0.42)", lineHeight: 1.65, flex: 1, marginBottom: 20 }}>
-                  The first deployable RTBX Travel product loop. Signal captured, classified, assigned, guest-facing message sent, escalated if required, logged and reported.
+                  An interactive, synthetic walkthrough of capture, classification, assignment, drafted guest communication, escalation and evidence logging.
                 </p>
-                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#c9a84c" }}>Open Working Demonstration ↗</div>
+                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#c9a84c" }}>Open Working Proof →</div>
               </div>
-            </a>
+            </Link>
             {/* Card 2: Pilot Expansion */}
             <Link href="/partner-room/product-proof/pilot-expansion-preview">
               <div style={{

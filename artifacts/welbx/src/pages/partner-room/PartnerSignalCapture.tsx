@@ -6,10 +6,10 @@ const PIPELINE = [
   { label: "Signal Intake",            sub: "Form · QR · Link · Webhook · Feed" },
   { label: "Moment Classification",    sub: "Type · Risk Level · Urgency · Context" },
   { label: "Decision Spine",           sub: "Playbook selected · Owner assigned · Threshold set" },
-  { label: "Action Pathway",           sub: "Staff notified · Guest supported · Manager alerted" },
-  { label: "Communication Routing",    sub: "Right message · Right person · Right time" },
-  { label: "Assurance Log",            sub: "Evidence created · Timeline recorded · Outcome noted" },
-  { label: "Value Proof",              sub: "Recovery evidenced · Risk reduced · Report updated" },
+  { label: "Recommended Action",        sub: "Draft task · Draft message · Human review" },
+  { label: "Communication Draft",       sub: "Illustrative message · Proposed recipient · Proposed timing" },
+  { label: "Illustrative Trace",        sub: "Synthetic fields · Modelled timeline · Modelled outcome" },
+  { label: "Indicative Value",          sub: "Hypothesis shown · Partner validation required" },
 ];
 
 const SIGNAL_SOURCES = [
@@ -17,18 +17,18 @@ const SIGNAL_SOURCES = [
     num: "01",
     label: "Manual Staff Signal Capture",
     color: "#c9a84c",
-    explain: "This is the first real-world signal method. A staff member sees or receives an operational issue and enters it into RTBX through a dashboard form, mobile web form, QR staff link, tablet/front-desk link or manager console.",
+    explain: "In a future governed pilot, a staff member could enter an operational issue through an approved form or console. The current Working Proof uses fictional manual inputs only.",
     examples: ["Guest complaint", "Room delay", "Unresolved request", "Queue issue", "Guest frustration", "Maintenance problem", "Weather disruption", "Staff overload"],
-    matters: "This is enough for MVP because it proves whether RTBX can classify the moment and guide the right response.",
+    matters: "The Working Proof demonstrates rules-based classification and a recommended response; partner validation is still required.",
     mattersColor: "#c9a84c",
   },
   {
     num: "02",
     label: "Guest-Facing Signals",
     color: "#3b82f6",
-    explain: "Guests can create signals through the guest-facing experience layer. This can start through QR codes, SMS/web links, in-room QR, tablet/kiosk, email link or guest message prompt. No app download is required.",
+    explain: "A future guest-facing layer could accept approved QR, web, kiosk or message inputs. The current proof uses synthetic guest inputs and sends nothing.",
     examples: ["My room is not ready", "I need help", "Something is wrong", "I want local activity options", "I am unhappy with my stay", "Post-stay sentiment", "Check-in friction", "Support request"],
-    matters: "This gives RTBX a direct human-facing signal layer while keeping the guest-facing experience focused on guest interactions.",
+    matters: "The simulation illustrates a potential human-facing signal layer without proving a deployed guest channel.",
     mattersColor: "#3b82f6",
     guestExperienceNote: true,
   },
@@ -36,9 +36,9 @@ const SIGNAL_SOURCES = [
     num: "03",
     label: "PMS / Booking System Signals",
     color: "#a78bfa",
-    explain: "As integrations are approved, RTBX can receive or read signals from PMS and booking systems.",
+    explain: "With approved future integrations, RTBX could receive permitted fields from PMS and booking systems.",
     examples: ["Arrival time", "Departure time", "Room type", "Room/cabin status", "Loyalty or VIP flag", "Booking notes", "Special requests", "Guest profile", "Reservation changes", "Group or corporate booking context"],
-    matters: "This is not required for the first MVP. It becomes part of the integration-assisted pilot and scale pathway.",
+    matters: "This is Planned and depends on partner approval, field mapping, access and validation.",
     mattersColor: "#a78bfa",
     pilotOnly: true,
   },
@@ -46,9 +46,9 @@ const SIGNAL_SOURCES = [
     num: "04",
     label: "Webhooks and Event Signals",
     color: "#10b981",
-    explain: "Where platforms support event notifications or webhooks, RTBX can receive real-time or near-real-time updates when operational events occur.",
+    explain: "Where approved platforms support events or webhooks, a future connector could receive scheduled or event-driven updates.",
     examples: ["Reservation changed", "Room/cabin status updated", "Guest message received", "Task completed", "Task overdue", "Booking modified", "Service event triggered"],
-    matters: "Real-time or near-real-time where integration access allows.",
+    matters: "Planned capability only; no webhook or event connector is active.",
     mattersColor: "#10b981",
     pilotOnly: true,
   },
@@ -58,16 +58,16 @@ const SIGNAL_SOURCES = [
     color: "#f97316",
     explain: "These are some of the most valuable operational signals because they connect directly to action.",
     examples: ["Room not ready", "Cleaning delayed", "Maintenance unresolved", "Task overdue", "No owner assigned", "Repeated request", "Staff capacity issue"],
-    matters: "These signals turn quickly into staff action pathways, escalation thresholds and assurance records.",
+    matters: "The Working Proof models recommendations and thresholds; it does not create staff tasks or operational records.",
     mattersColor: "#f97316",
   },
   {
     num: "06",
     label: "Communications Signals",
     color: "#22d3ee",
-    explain: "RTBX can collect and classify signals from guest messages, staff updates, manager notes, unresolved replies, sentiment tags, escalation messages and service recovery follow-ups.",
+    explain: "A future governed deployment could classify permitted communication inputs. The current proof uses fictional messages and deterministic rules.",
     examples: ["Guest message", "Staff update", "Manager note", "Unresolved reply", "Sentiment tag", "Escalation message", "Service recovery follow-up"],
-    matters: "Message becomes signal → signal becomes moment → moment becomes action. This is where the Execution and Communication Layer becomes real.",
+    matters: "The simulation shows message → signal → moment → recommended action. No message is delivered.",
     mattersColor: "#22d3ee",
   },
   {
@@ -76,25 +76,25 @@ const SIGNAL_SOURCES = [
     color: "#e879f9",
     explain: "External signals are especially useful in travel, holiday parks and outdoor experiences.",
     examples: ["Weather alert", "Flight delay", "Road disruption", "Event crowding", "Local activity cancellation", "Safety alert", "Partner availability", "Transport disruption"],
-    matters: "Environmental signals help RTBX classify disruption, trigger recovery pathways and create marketplace or local partner opportunities.",
+    matters: "Synthetic environmental inputs help demonstrate classification and possible recovery or partner recommendations.",
     mattersColor: "#e879f9",
   },
 ];
 
-const MVP_REAL = [
-  "Staff enters moment",
-  "Guest enters moment",
-  "Manager enters moment",
-  "System classifies moment",
+const WORKING_PROOF = [
+  "Synthetic staff input",
+  "Synthetic guest input",
+  "Synthetic manager input",
+  "Rules classify the input",
   "Action pathway is recommended",
-  "Owner is assigned",
-  "Guest message is generated",
-  "Escalation threshold is set",
-  "Outcome is logged",
-  "Pilot report is updated",
+  "Accountable role is illustrated",
+  "Guest-message draft is generated",
+  "Threshold is modelled",
+  "Outcome field is modelled",
+  "Local trace is updated",
 ];
 
-const PILOT_REAL = [
+const PLANNED_PILOT = [
   "PMS reservation lookup",
   "Guest profile enrichment",
   "Room/cabin readiness signals",
@@ -116,31 +116,31 @@ const NOT_YET = [
 const DEPLOYMENT_STAGES = [
   {
     num: "01",
-    label: "Push-First MVP",
+    label: "Working Proof",
     color: "#c9a84c",
     desc: "Signals are captured through staff intake, guest QR/link, manager console, mock PMS data and simulated guest messages.",
-    goal: "Prove the workflow.",
+    goal: "Demonstrate the interface and rules for partner review.",
   },
   {
     num: "02",
     label: "Integration-Assisted Pilot",
     color: "#10b981",
-    desc: "Signals can come from PMS, booking data, room/cabin status, task systems, guest messaging tools and weather APIs.",
-    goal: "Prove automation and reduced manual load.",
+    desc: "Planned connectors could supply approved PMS, booking, readiness, task, messaging and weather fields.",
+    goal: "Validate connected workflows and manual-load hypotheses.",
   },
   {
     num: "03",
     label: "Multi-Site Operating Layer",
     color: "#3b82f6",
     desc: "Signals are captured across multiple properties, parks or operator environments.",
-    goal: "Prove patterns, consistency and operator intelligence.",
+    goal: "Validate pattern and consistency hypotheses across sites.",
   },
   {
     num: "04",
     label: "Intelligence Layer",
     color: "#a78bfa",
-    desc: "RTBX uses accumulated data to identify repeat moments, high-risk windows, staff response patterns, recovery effectiveness, marketplace opportunities and pattern insights for execution.",
-    goal: "Become infrastructure.",
+    desc: "Planned analytics could identify repeated moments, risk windows, response patterns and opportunity hypotheses from governed data.",
+    goal: "Evaluate a governed intelligence-layer pathway.",
   },
 ];
 
@@ -160,7 +160,7 @@ function SignalSourceCard({ source }: { source: typeof SIGNAL_SOURCES[0] }) {
           fontSize: 7, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase",
           color: "#10b981", border: "1px solid #10b98130", padding: "2px 7px",
         }}>
-          Pilot Phase
+          Planned
         </div>
       )}
       <div style={{ fontSize: 8, fontWeight: 800, color: `${source.color}40`, letterSpacing: "0.14em", marginBottom: 8 }}>
@@ -222,7 +222,7 @@ export default function PartnerSignalCapture() {
             How RTBX Travel Captures Signals
           </h1>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.45)", lineHeight: 1.8, maxWidth: 700, marginBottom: 24 }}>
-            RTBX Travel starts with captured signals, turns them into classified moments, guides the right response and creates an assurance trail. Early pilots can begin without heavy integration. Integrations make the signal layer more automated over time.
+             The Working Proof uses synthetic signals, deterministic classification rules, recommended responses and an illustrative trace. It has no active partner integrations or dispatch.
           </p>
 
           {/* Core framing box */}
@@ -235,15 +235,15 @@ export default function PartnerSignalCapture() {
             marginBottom: 20,
           }}>
             <p style={{ fontSize: 13, color: "rgba(255,255,255,0.55)", lineHeight: 1.75, margin: "0 0 12px 0" }}>
-              RTBX Travel can start without heavy integration. Early pilots use staff, guest and operator-entered signals to validate the moment-to-action workflow. As partner and operator integrations are approved, RTBX can connect to PMS, task, communications, weather, marketplace and reporting systems to create real-time or near-real-time signal capture.
+              <strong style={{ color: "#c9a84c" }}>Working Proof boundary:</strong> all inputs, owners, actions, messages, evidence, outcomes and value on this page are synthetic, drafted, illustrative or modelled. Current classification is rules-based. Nothing is dispatched or written to a partner system, and named people remain accountable.
             </p>
             <div style={{ fontSize: 13.5, fontWeight: 800, color: "#c9a84c", letterSpacing: "-0.01em" }}>
-              The first proof is not full automation. The first proof is execution visibility.
+              Current evidence is Simulation, not integration, production operation or measured value.
             </div>
           </div>
 
           <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.32)", lineHeight: 1.7, maxWidth: 680 }}>
-            RTBX proves whether live moments are being captured, classified, assigned, acted on and logged.
+            This interface demonstrates how fictional moments can be classified and routed for human review; a pilot must validate real operational usefulness.
           </p>
         </div>
 
@@ -280,7 +280,7 @@ export default function PartnerSignalCapture() {
           {/* Example */}
           <div style={{ marginTop: 40, maxWidth: 760 }}>
             <div style={{ fontSize: 8.5, letterSpacing: "0.16em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>
-              Pipeline Example
+              Synthetic Pipeline Example
             </div>
             <div style={{
               padding: "24px 28px",
@@ -292,10 +292,10 @@ export default function PartnerSignalCapture() {
                 { label: "Signal", value: "Housekeeping status + guest arrival timing + sentiment risk", color: "#c9a84c" },
                 { label: "Moment", value: "Room readiness delay", color: "#f97316" },
                 { label: "Classification", value: "Level 2 arrival recovery moment", color: "#a78bfa" },
-                { label: "Pathway", value: "Trigger front desk + housekeeping + guest support pathway", color: "#10b981" },
-                { label: "Communication", value: "Notify staff, guest and manager", color: "#3b82f6" },
-                { label: "Log", value: "Record recovery action with timestamp and owner", color: "#22d3ee" },
-                { label: "Value", value: "Review risk reduced · Loyalty protected", color: "#c9a84c" },
+                { label: "Recommendation", value: "Draft front desk, housekeeping and guest-support pathway for review", color: "#10b981" },
+                { label: "Draft", value: "Illustrative staff, guest and manager messages", color: "#3b82f6" },
+                { label: "Trace", value: "Populate synthetic timestamp, owner and modelled action fields", color: "#22d3ee" },
+                { label: "Indicative value", value: "Hypothesis: review risk may be reduced · partner validation required", color: "#c9a84c" },
               ].map((row, i, arr) => (
                 <div key={row.label}>
                   <div style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
@@ -321,7 +321,7 @@ export default function PartnerSignalCapture() {
             <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase", fontWeight: 700, marginBottom: 6 }}>Section 02</div>
             <div style={{ fontSize: 18, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", marginBottom: 8 }}>Seven Signal Sources</div>
             <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.3)", lineHeight: 1.65, maxWidth: 600, margin: 0 }}>
-              Sources marked <span style={{ color: "#10b981", fontWeight: 700 }}>Pilot Phase</span> are not required for MVP. Sources marked <span style={{ color: "#3b82f6", fontWeight: 700 }}>Guest Experience</span> operate through the guest-facing experience layer.
+              Sources marked <span style={{ color: "#10b981", fontWeight: 700 }}>Planned</span> require approved future integration. <span style={{ color: "#3b82f6", fontWeight: 700 }}>Guest Experience</span> identifies a proposed guest-facing channel, not a deployed one.
             </p>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
@@ -333,21 +333,21 @@ export default function PartnerSignalCapture() {
           </div>
         </div>
 
-        {/* What Is Real Now vs Later */}
+        {/* Current proof vs planned */}
         <div style={{ marginBottom: 80 }}>
           <div style={{ marginBottom: 24 }}>
             <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase", fontWeight: 700, marginBottom: 6 }}>Section 03</div>
-            <div style={{ fontSize: 18, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em" }}>What Is Real Now vs Later</div>
+            <div style={{ fontSize: 18, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em" }}>Current Working Proof vs Planned</div>
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
-            {/* MVP Real */}
+            {/* Working Proof */}
             <div style={{ padding: "28px 24px", background: "rgba(201,168,76,0.04)", border: "1px solid rgba(201,168,76,0.12)", borderTop: "2px solid #c9a84c" }}>
               <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginBottom: 18 }}>
-                Real for MVP
+                Working Proof · Simulation
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-                {MVP_REAL.map(item => (
+                {WORKING_PROOF.map(item => (
                   <div key={item} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
                     <div style={{ width: 4, height: 4, background: "#c9a84c", flexShrink: 0, marginTop: 5, borderRadius: "50%" }} />
                     <span style={{ fontSize: 11.5, color: "rgba(255,255,255,0.55)", lineHeight: 1.4 }}>{item}</span>
@@ -359,10 +359,10 @@ export default function PartnerSignalCapture() {
             {/* Pilot Phase */}
             <div style={{ padding: "28px 24px", background: "rgba(16,185,129,0.04)", border: "1px solid rgba(16,185,129,0.12)", borderTop: "2px solid #10b981" }}>
               <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#10b981", marginBottom: 18 }}>
-                Real for Pilot Phase
+                Planned Pilot · Not Integrated
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-                {PILOT_REAL.map(item => (
+                {PLANNED_PILOT.map(item => (
                   <div key={item} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
                     <div style={{ width: 4, height: 4, background: "#10b981", flexShrink: 0, marginTop: 5, borderRadius: "50%" }} />
                     <span style={{ fontSize: 11.5, color: "rgba(255,255,255,0.45)", lineHeight: 1.4 }}>{item}</span>
@@ -374,7 +374,7 @@ export default function PartnerSignalCapture() {
             {/* Not Yet */}
             <div style={{ padding: "28px 24px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: "2px solid rgba(255,255,255,0.15)" }}>
               <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,0.3)", marginBottom: 18 }}>
-                Not Real Yet — Do Not Oversell
+                Planned · Do Not Present as Current
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
                 {NOT_YET.map(item => (
@@ -385,7 +385,7 @@ export default function PartnerSignalCapture() {
                 ))}
               </div>
               <div style={{ marginTop: 20, paddingTop: 16, borderTop: "1px solid rgba(255,255,255,0.05)", fontSize: 10, color: "rgba(255,255,255,0.2)", lineHeight: 1.6, fontStyle: "italic" }}>
-                These become real as the platform matures. Do not include them in MVP or pilot conversations.
+                These require future implementation and evidence. Do not present them as current Working Proof, Integrated or Production capability.
               </div>
             </div>
           </div>

@@ -27,128 +27,128 @@ const MOMENTS: Moment[] = [
     title: "Arrival Friction",
     icon: "◎",
     color: "#c9a84c",
-    signal: "Early arrival + PMS room not ready + loyalty tier active + front desk load elevated",
-    context: "Loyalty tier active, early arrival window, front desk load elevated",
-    classification: "HIGH_RISK_ARRIVAL — service recovery window active, loyalty protection threshold applied",
+    signal: "Synthetic early-arrival signal + illustrative room-readiness delay + loyalty tier + elevated front-desk load",
+    context: "Illustrative loyalty tier, early-arrival window and front-desk load applied",
+    classification: "HIGH_RISK_ARRIVAL — synthetic service-recovery window for review",
     os: "Guest Experience OS",
-    decisionReq: "Manager sign-off on lounge activation",
+    decisionReq: "A. Morgan, Duty Manager, reviews the proposed lounge action",
     playbook: "Proactive Arrival Recovery Playbook",
-    maturity: "Demonstrable",
-    action: "Proactive check-in message delivered. Lounge access activated. Housekeeping escalated. Manager visibility set.",
-    value: "Arrival sentiment protected. Review risk reduced. Loyalty moment delivered before complaint required.",
-    assurance: "Arrival support record created. Escalation timer evidenced. Guest response logged. Resolution confirmed.",
+    maturity: "Working Proof",
+    action: "Guest check-in message drafted only. Lounge access and housekeeping reprioritisation proposed for A. Morgan's approval; no task is issued.",
+    value: "Indicative, unmeasured hypothesis: arrival sentiment may improve and review risk may fall. No value is attributed.",
+    assurance: "Illustrative record only: draft message, proposed timer and modelled guest outcome; no response or resolution is evidenced.",
   },
   {
     id: "room-readiness",
     title: "Room Readiness Delay",
     icon: "◈",
     color: "#f97316",
-    signal: "Room readiness delay confirmed (>20 min) + guest ETA <15 min + loyalty flag + housekeeping load high",
-    context: "Loyalty tier applied, delay confirmed, housekeeping capacity constrained",
-    classification: "ROOM_DELAY_RISK — escalation threshold set based on loyalty tier and delay duration",
+    signal: "Synthetic room-readiness delay (>20 min) + guest ETA <15 min + illustrative loyalty flag + high housekeeping load",
+    context: "Illustrative loyalty tier, modelled delay and constrained housekeeping capacity applied",
+    classification: "ROOM_DELAY_RISK — proposed escalation threshold based on synthetic inputs",
     os: "Service Recovery & Staff Response OS",
-    decisionReq: "Duty manager owns escalation timer",
+    decisionReq: "A. Morgan, Duty Manager, reviews the proposed escalation timer",
     playbook: "Room Delay Recovery Playbook",
-    maturity: "Demonstrable",
-    action: "Guest notified proactively with timing + options. Housekeeping reprioritised. Manager timer started.",
-    value: "Complaint prevented. Recovery pathway active. Escalation evidenced and managed. Review risk reduced.",
-    assurance: "Delay record created. Timer logged. Housekeeping action evidenced. Guest outcome confirmed.",
+    maturity: "Working Proof",
+    action: "Guest timing-and-options message drafted only. Housekeeping reprioritisation and a manager timer are proposed; no staff task is issued.",
+    value: "Indicative, unmeasured hypothesis: complaint and review risk may fall. No recovery value is attributed.",
+    assurance: "Illustrative delay record with a proposed timer, proposed housekeeping action and modelled guest outcome; no execution is evidenced.",
   },
   {
     id: "guest-welfare",
     title: "Guest Welfare Flag",
     icon: "◍",
     color: "#a78bfa",
-    signal: "App access at unusual hour + solo traveller profile + support behaviour pattern + quiet preference flag",
-    context: "Privacy-safe model applied, solo profile, unusual pattern confidence scored",
-    classification: "WELFARE_SIGNAL — privacy-safe model applied, escalation threshold tiered by confidence score",
+    signal: "Synthetic unusual-hour access pattern + illustrative solo-traveller profile + support pattern + quiet preference",
+    context: "Illustrative privacy-safe model, solo profile and confidence score applied",
+    classification: "WELFARE_SIGNAL — proposed review threshold tiered by illustrative confidence",
     os: "Safety & Guest Welfare OS",
-    decisionReq: "Duty manager required for welfare check",
+    decisionReq: "A. Morgan, Duty Manager, personally decides whether any welfare check is appropriate",
     playbook: "Discreet Welfare Support Playbook",
-    maturity: "Demonstrable",
-    action: "Discreet support pathway activated. Appropriate staff member notified with care guidance. Manager on standby.",
-    value: "Duty-of-care obligation met. Guest supported without intrusion. Evidence trail created for audit.",
-    assurance: "Welfare action logged with timestamp. Staff response recorded. Outcome noted. Escalation path documented.",
+    maturity: "Working Proof",
+    action: "Discreet guest support message drafted only. A welfare review and care guidance are proposed to A. Morgan; no welfare action or staff notification occurs.",
+    value: "Indicative, unmeasured hypothesis: discreet support may help duty of care. No welfare outcome or value is claimed.",
+    assurance: "Illustrative timestamp, proposed review path and modelled outcome only; no welfare response or action is evidenced.",
   },
   {
     id: "service-recovery",
     title: "Service Recovery",
     icon: "◉",
     color: "#10b981",
-    signal: "Unresolved room issue >30 min + guest loyalty tier active + no staff action logged + repeat contact signal",
-    context: "Unresolved issue timer running, loyalty tier elevated risk, repeat contact detected",
-    classification: "ESCALATION_RISK — service failure window open, ownership required within SLA threshold",
+    signal: "Synthetic open room issue >30 min + illustrative loyalty tier + no staff action + repeat-contact signal",
+    context: "Illustrative open-issue timer, elevated loyalty risk and repeat-contact pattern applied",
+    classification: "ESCALATION_RISK — modelled service-failure window with proposed human ownership",
     os: "Service Recovery & Staff Response OS",
-    decisionReq: "Manager ownership required within SLA",
+    decisionReq: "A. Morgan, Duty Manager, reviews and may accept proposed ownership",
     playbook: "Service Failure Recovery Playbook",
-    maturity: "Demonstrable",
-    action: "Owner assigned. 5-minute resolution timer started. Manager alert queued. Full context packaged for handover.",
-    value: "Escalation pathway active. Ownership assigned and tracked. Recovery evidenced. Negative review risk sharply reduced.",
-    assurance: "Service failure record opened. Timer logged. Owner confirmed. Resolution outcome recorded and closed.",
+    maturity: "Working Proof",
+    action: "Guest recovery message drafted only. Ownership, a five-minute review timer and a manager alert are proposed to A. Morgan; nothing is issued.",
+    value: "Indicative, unmeasured hypothesis: proposed ownership may reduce escalation and review risk. No recovery value is attributed.",
+    assurance: "Illustrative service-failure record with proposed owner and timer plus a modelled resolution outcome; no action or closure is evidenced.",
   },
   {
     id: "dining-activation",
     title: "Dining Activation",
     icon: "◇",
     color: "#c9a84c",
-    signal: "Dwell window detected + booking data shows free period + guest F&B profile + high-propensity indicator",
-    context: "Dwell window confirmed, loyalty profile applied, high propensity scored",
-    classification: "COMMERCIAL_ACTIVATION — dining upsell moment, personalisation layer applied from loyalty profile",
+    signal: "Synthetic dwell window + illustrative free period + guest dining preference + modelled propensity indicator",
+    context: "Illustrative dwell window, loyalty profile and propensity score applied",
+    classification: "COMMERCIAL_ACTIVATION — proposed dining recommendation for human review",
     os: "Marketplace & Loyalty Activation OS",
-    decisionReq: "F&B team routing confirmed",
+    decisionReq: "L. Chen, F&B Manager, reviews the proposed dining recommendation",
     playbook: "Dining Activation Playbook",
-    maturity: "Demonstrable",
-    action: "Personalised dining prompt delivered. F&B team notified. POS upsell flag activated. Concierge list queued.",
-    value: "Revenue opportunity captured. F&B activation logged. Ancillary income created from a managed dwell period.",
-    assurance: "Commercial moment record created. Prompt delivery confirmed. F&B response logged. Outcome tracked.",
+    maturity: "Working Proof",
+    action: "Personalised guest dining prompt drafted only. F&B review, an illustrative upsell flag and concierge follow-up are proposed; nothing is routed or activated.",
+    value: "Indicative, unmeasured revenue hypothesis only. No ancillary income or commercial value is attributed.",
+    assurance: "Illustrative commercial record with draft prompt, proposed F&B response and modelled outcome; no guest or staff activity is evidenced.",
   },
   {
     id: "local-experience",
     title: "Local Experience Opportunity",
     icon: "◆",
     color: "#3b82f6",
-    signal: "Guest time window open + weather clear + activity preference from profile + local partner capacity available",
-    context: "Activity preference matched, weather confirmed, partner capacity verified",
-    classification: "EXPERIENCE_ACTIVATION — marketplace moment, local partner routing triggered based on capacity match",
+    signal: "Synthetic guest time window + illustrative clear-weather scenario + activity preference + assumed local capacity",
+    context: "Illustrative preference, weather scenario and assumed partner capacity applied",
+    classification: "EXPERIENCE_ACTIVATION — proposed marketplace option for human review",
     os: "Marketplace & Loyalty Activation OS",
-    decisionReq: "Partner notification required",
+    decisionReq: "S. Okafor, Concierge Lead, reviews any proposed partner contact",
     playbook: "Experience Activation Playbook",
-    maturity: "Demonstrable",
-    action: "Curated local experience options surfaced. Partner pre-notified. Guest preference matched to available offers.",
-    value: "Marketplace revenue created. Partner opportunity logged. Guest experience enriched beyond the property.",
-    assurance: "Partner activation record created. Guest delivery confirmed. Booking or interest outcome logged.",
+    maturity: "Working Proof",
+    action: "Curated guest options drafted only. Partner contact and preference matching are proposed to S. Okafor; no partner or guest contact occurs.",
+    value: "Indicative, unmeasured marketplace hypothesis only. No revenue or guest-experience value is attributed.",
+    assurance: "Illustrative partner-opportunity record with draft guest options and a modelled interest outcome; no reservation or contact is evidenced.",
   },
   {
     id: "weather-disruption",
     title: "Weather Disruption",
     icon: "◈",
     color: "#22d3ee",
-    signal: "Weather API: forecast change + outdoor activity bookings at risk + guest activity preference flags active",
-    context: "Weather API integrated, outdoor bookings at risk, indoor alternatives confirmed",
-    classification: "EXPERIENCE_RISK — outdoor bookings at risk, proactive recovery window open, indoor alternatives available",
+    signal: "Illustrative forecast change + synthetic outdoor-activity risk + guest activity preference flags",
+    context: "Synthetic weather scenario, modelled outdoor risk and assumed indoor alternatives applied",
+    classification: "EXPERIENCE_RISK — modelled disruption with proposed indoor alternatives",
     os: "Guest Experience OS",
-    decisionReq: "Activity partner and indoor capacity sign-off",
+    decisionReq: "S. Okafor, Concierge Lead, reviews proposed partner contact and capacity checks",
     playbook: "Weather Recovery Playbook",
-    maturity: "Demonstrable",
-    action: "Alternatives generated from guest profile. Activity partner notified. Indoor capacity checked. Guest updated proactively.",
-    value: "Experience recovered before guest faces disruption. Local partner revenue created. Marketplace opportunity logged.",
-    assurance: "Weather disruption record opened. Activity partner response confirmed. Indoor alternative delivered. Outcome closed.",
+    maturity: "Working Proof",
+    action: "Alternative guest message drafted only. Partner contact and indoor-capacity checks are proposed to S. Okafor; no contact, reservation or update occurs.",
+    value: "Indicative, unmeasured hypothesis: disruption may be reduced and partner opportunity may arise. No recovery or revenue is attributed.",
+    assurance: "Illustrative disruption record with proposed partner response and modelled indoor-alternative outcome; no activity is evidenced.",
   },
   {
     id: "checkout-sentiment",
     title: "Checkout Sentiment Drop",
     icon: "◍",
     color: "#f97316",
-    signal: "Checkout initiated + sentiment signal below threshold + unresolved items in stay record + loyalty tier active",
-    context: "Post-stay pathway open, loyalty re-engagement window active, unresolved items present",
-    classification: "SENTIMENT_RISK — post-stay pathway triggered, recovery offer window open, CRM flag applied",
+    signal: "Synthetic checkout event + sentiment below illustrative threshold + open stay items + loyalty tier",
+    context: "Illustrative post-stay pathway, loyalty re-engagement window and open items applied",
+    classification: "SENTIMENT_RISK — modelled post-stay recovery opportunity for human review",
     os: "Service Recovery & Staff Response OS",
-    decisionReq: "GM briefing and CRM flag required",
+    decisionReq: "E. Rossi, General Manager, reviews the proposed follow-up and recovery offer",
     playbook: "Post-Stay Recovery Playbook",
-    maturity: "Demonstrable",
-    action: "Post-stay follow-up queued. Recovery offer personalised. GM briefed. CRM journey activated for this guest.",
-    value: "Repeat-stay opportunity preserved. Loyalty tier re-engaged. Negative post-stay outcome risk reduced.",
-    assurance: "Checkout sentiment record created. Follow-up delivered. CRM activation logged. Outcome tracked post-stay.",
+    maturity: "Working Proof",
+    action: "Post-stay guest follow-up and personalised recovery offer drafted only for E. Rossi's review. No briefing, external update or journey activation occurs.",
+    value: "Indicative, unmeasured hypothesis: repeat-stay opportunity may improve and negative sentiment risk may fall. No value is attributed.",
+    assurance: "Illustrative checkout-sentiment record with draft follow-up and modelled post-stay outcome; no contact or external-system activity is evidenced.",
   },
 ];
 
@@ -161,7 +161,7 @@ export default function PartnerMomentsEconomy() {
     { label: "Signal Detected", value: selected.signal, color: "#3b82f6" },
     { label: "Context Applied", value: selected.context, color: "#a78bfa" },
     { label: "Risk / Opportunity Classification", value: selected.classification, color: selected.color },
-    { label: "Action Triggered", value: selected.action, color: selected.color },
+    { label: "Illustrative Action State", value: selected.action, color: selected.color },
   ];
 
   return (
@@ -180,8 +180,13 @@ export default function PartnerMomentsEconomy() {
             {subheadline}
           </p>
           <p style={{ fontSize: 12, color: "rgba(255,255,255,0.28)", lineHeight: 1.6, maxWidth: 500, marginTop: 12 }}>
-            Select a moment below to see how RTBX Core detects, classifies, acts and creates evidence.
+            Select a moment below to explore a synthetic classification, proposed action and illustrative evidence state.
           </p>
+          <div style={{ marginTop: 18, padding: "12px 16px", border: "1px solid rgba(201,168,76,0.25)", borderLeft: "3px solid #c9a84c", background: "rgba(201,168,76,0.04)", maxWidth: 760 }}>
+            <p style={{ margin: 0, fontSize: 11.5, color: "rgba(255,255,255,0.58)", lineHeight: 1.65 }}>
+              <strong style={{ color: "#c9a84c" }}>Simulation boundary:</strong> every signal, action, outcome and assurance record on this page is illustrative. No guest message, staff task, welfare action, partner activation or external-system update is dispatched.
+            </p>
+          </div>
         </div>
 
         {/* Moment selector grid */}
@@ -236,7 +241,7 @@ export default function PartnerMomentsEconomy() {
             </div>
             <div style={{ marginLeft: "auto", display: "flex", gap: 8, alignItems: "center" }}>
               <div style={{ padding: "3px 10px", background: "rgba(16,185,129,0.1)", border: "1px solid rgba(16,185,129,0.3)", fontSize: 8, letterSpacing: "0.12em", color: "#10b981", textTransform: "uppercase", fontWeight: 700 }}>{selected.maturity}</div>
-              <div style={{ padding: "5px 12px", background: `${selected.color}15`, border: `1px solid ${selected.color}40`, fontSize: 8, letterSpacing: "0.18em", color: selected.color, textTransform: "uppercase", fontWeight: 700, whiteSpace: "nowrap" }}>● ACTIVE</div>
+               <div style={{ padding: "5px 12px", background: `${selected.color}15`, border: `1px solid ${selected.color}40`, fontSize: 8, letterSpacing: "0.18em", color: selected.color, textTransform: "uppercase", fontWeight: 700, whiteSpace: "nowrap" }}>● SIMULATION</div>
             </div>
           </div>
 
@@ -263,7 +268,7 @@ export default function PartnerMomentsEconomy() {
             marginBottom: 2,
           }}>
             <div style={{ fontSize: 7.5, letterSpacing: "0.14em", color: "#10b981", textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>
-              Value Created
+               Indicative Value
             </div>
             <div style={{ fontSize: 12.5, color: "rgba(255,255,255,0.65)", lineHeight: 1.65 }}>{selected.value}</div>
           </div>
@@ -288,7 +293,7 @@ export default function PartnerMomentsEconomy() {
             border: "1px solid rgba(255,255,255,0.05)",
           }}>
             <div style={{ fontSize: 7.5, letterSpacing: "0.14em", color: "#22d3ee", textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>
-              Assurance Record Created
+               Illustrative Assurance Record
             </div>
             <div style={{ fontSize: 12.5, color: "rgba(255,255,255,0.65)", lineHeight: 1.65 }}>{selected.assurance}</div>
           </div>
@@ -300,7 +305,7 @@ export default function PartnerMomentsEconomy() {
             { num: "8",     label: "Moment categories shown",  sub: "Select any to see the full flow" },
             { num: "247+",  label: "Configured signal inputs",  sub: "Across all moment categories" },
             { num: "<90s",  label: "Target response time",      sub: "Signal to routed action" },
-            { num: "100%",  label: "Outcome records created",   sub: "Every moment logged" },
+             { num: "100%",  label: "Scenario records shown",   sub: "Illustrative states only" },
           ].map(stat => (
             <div key={stat.num} style={{
               padding: "28px 24px",

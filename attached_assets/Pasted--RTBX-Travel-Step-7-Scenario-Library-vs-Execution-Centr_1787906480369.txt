@@ -1,0 +1,841 @@
+# RTBX Travel — Step 7: Scenario Library vs Execution Centre Separation + Deep-Link Integrity
+
+You are working on the existing RTBX Travel Partner Room.
+
+The following are locked and must not be changed in this task:
+
+* RTBX Main architecture
+* WELBX removal
+* Guest Demo branching
+* Navigation behaviour
+* Typography/readability
+* Responsive/mobile layout
+* proof / AI / maturity language
+* Travel operating systems
+* canonical scenario data
+* canonical playbooks
+* canonical roles
+* pilot model
+* partner ecosystem
+* commercial model
+
+This task is limited to:
+
+* clarifying the purpose of Travel Scenarios
+* making the Execution Centre the single canonical runtime
+* removing duplicated runtime behaviour where unnecessary
+* fixing scenario deep links
+* ensuring all scenario-related surfaces use canonical data
+* reducing confusion between explore, configure and execute
+
+Do not rebuild either page.
+
+Do not create new scenario data.
+
+Do not change the core scenario content unless required for consistency.
+
+Do not change commercial content.
+
+---
+
+# 1. Objective
+
+Establish three clear responsibilities:
+
+## Travel Scenarios
+
+**Scenario Library / Explorer**
+
+Used to understand:
+
+* the moment
+* trigger
+* signals
+* governance
+* accountable role
+* linked playbook
+* communications
+* escalation
+* evidence
+* outcomes
+* maturity
+
+It explains how the scenario is designed.
+
+## Build & Configure
+
+**Activation and configuration**
+
+Used to select:
+
+* operating systems
+* scenario
+* signal mode
+* roles
+* governance settings
+* playbook configuration
+* communications
+* evidence
+* outcome targets
+
+It determines how a scenario will operate in a specific deployment.
+
+## Execution Centre
+
+**Canonical runtime**
+
+Used to:
+
+* receive/trigger a signal
+* understand context
+* apply governance
+* route decision
+* activate the playbook
+* progress actions
+* approve communications
+* escalate
+* capture evidence
+* record outcomes
+* close the execution
+* review learning
+
+The same scenario should not have independent competing runtime logic elsewhere.
+
+---
+
+# 2. Product story
+
+The intended journey is:
+
+```text id="2vaqlk"
+Explore scenario
+      ↓
+Configure scenario for deployment
+      ↓
+Launch in Execution Centre
+      ↓
+Run governed workflow
+      ↓
+Capture evidence/outcome
+      ↓
+Review learning
+```
+
+The user must understand where they are in this sequence.
+
+---
+
+# 3. Travel Scenarios page
+
+Review the canonical Travel Scenarios route.
+
+The page should be explicitly labelled as something equivalent to:
+
+> **Travel Scenario Library**
+
+Supporting copy:
+
+> Explore how RTBX Travel handles common operational moments. Each scenario shows the trigger, signals, governance, accountability, playbook, communications, evidence and expected outcomes. Execution occurs in the RTBX Execution Centre.
+
+Do not imply that this page is the main runtime.
+
+---
+
+# 4. Scenario detail structure
+
+Each scenario detail should present:
+
+## Scenario overview
+
+* name
+* summary
+* operating system
+* maturity
+
+## Trigger
+
+* trigger
+* threshold
+* signal sources
+* signal maturity
+
+## Context
+
+* relevant facts
+* risk/opportunity
+
+## Governance
+
+* governance sources
+* decision rules
+* permissions
+* approval requirements
+* prohibited actions where relevant
+
+## Accountability
+
+* accountable role
+* supporting roles
+* informed roles
+
+## Playbook
+
+* linked playbook
+* ordered steps
+* owners
+* timing
+
+## Communications
+
+* audience
+* channel
+* approval requirement
+* communication type
+
+## Escalation
+
+* threshold
+* escalation target
+* required action
+
+## Evidence
+
+* evidence types
+* owner
+* completion requirements
+
+## Outcomes
+
+* metrics
+* targets/status
+
+## Learning
+
+* review trigger
+* pattern to detect
+* improvement action
+
+## Proof
+
+* maturity
+* data type
+* limitations
+
+Do not present a second independent runtime state machine here.
+
+---
+
+# 5. Scenario page CTA structure
+
+Each scenario should have clear actions.
+
+Primary:
+
+> **Configure This Scenario**
+
+Destination:
+Build & Configure with the selected scenario preselected where supported.
+
+Secondary:
+
+> **Run in Execution Centre**
+
+Only enable if:
+
+* an active deployment exists
+* the scenario is enabled in that deployment
+* readiness validation passes
+
+If not ready, show:
+
+> **Configure Before Running**
+
+with explanation.
+
+Do not silently launch a scenario that is not enabled in the active deployment.
+
+---
+
+# 6. Deep-link strategy
+
+Current hash-style links such as:
+
+```text id="b95dv8"
+/partner-room/travel-scenarios#<scenario-id>
+```
+
+must reliably select and focus the intended scenario.
+
+Choose one canonical strategy.
+
+## Preferred
+
+Use route-based scenario detail:
+
+```text id="70or5c"
+/partner-room/travel-scenarios/:scenarioId
+```
+
+Examples:
+
+```text id="g5ph3g"
+/partner-room/travel-scenarios/repeat-guest-room-not-ready
+/partner-room/travel-scenarios/service-backlog
+/partner-room/travel-scenarios/maintenance-defect
+```
+
+The base:
+
+```text id="vo9u4f"
+/partner-room/travel-scenarios
+```
+
+remains the library/index.
+
+## Acceptable alternative
+
+If route-based detail is too disruptive, retain hashes but ensure:
+
+* every scenario has a matching DOM ID
+* hash changes select the scenario
+* page loads with that scenario open
+* page scrolls/focuses appropriately
+* browser Back/Forward works
+
+Do not keep non-functional hashes.
+
+---
+
+# 7. Pilot Model links
+
+Update scenario links in Pilot Model so clicking a pilot scenario lands on that exact scenario.
+
+The user should not arrive at the generic library with no scenario selected.
+
+Verify all pilot scenario links.
+
+---
+
+# 8. Product Proof links
+
+Where Product Proof references a scenario:
+
+* link to the exact scenario detail
+* not just the generic scenario library
+
+Where it references execution:
+
+* link to the Execution Centre
+* include the active/selected scenario where possible
+
+---
+
+# 9. Build & Configure deep linking
+
+Support scenario preselection.
+
+Preferred patterns:
+
+```text id="ykqf8p"
+/partner-room/build-configure?scenario=service-backlog
+```
+
+or equivalent state transfer.
+
+When the user clicks:
+
+> Configure This Scenario
+
+Build & Configure should:
+
+* load the selected scenario
+* activate/reveal the required operating system
+* show unmet requirements
+* not automatically bypass validation
+
+Do not silently mutate an active deployment without user confirmation.
+
+---
+
+# 10. Execution Centre launch behaviour
+
+Execution must use:
+
+* active deployment
+* canonical scenario definition
+* canonical playbook
+* canonical roles
+* configured governance
+* configured communications
+* configured evidence requirements
+
+Do not create a separate hardcoded scenario copy.
+
+---
+
+# 11. Remove duplicated runtime logic
+
+Audit:
+
+* Travel Scenarios
+* Demo Paths
+* Live/Interactive Demos
+* Validation Replay
+* Operator Demo
+* Guest Demo
+* Dual View
+* Execution Centre
+
+Classify each as:
+
+## Explorer
+
+Static/interactive explanation.
+
+## Role View
+
+Shows one perspective of a scenario.
+
+## Replay
+
+Demonstrates a predetermined trace.
+
+## Runtime
+
+Actually progresses canonical execution state.
+
+Only the Execution Centre should be the canonical runtime.
+
+Other surfaces may simulate or replay, but must not maintain competing production-like state machines.
+
+---
+
+# 12. Travel Scenarios local execution logic
+
+If `PartnerTravelScenarios.tsx` still contains local scenario-runner state that duplicates Execution Centre logic:
+
+* remove or simplify that runtime behaviour
+* retain lightweight exploration where useful
+* do not remove valuable scenario detail content
+
+Acceptable interactive behaviour includes:
+
+* select scenario
+* expand details
+* inspect playbook
+* view governance
+* preview outcome
+
+Avoid:
+
+* independent playbook execution
+* independent evidence closure
+* independent runtime transitions
+* independent escalation engine
+
+Those belong in Execution Centre.
+
+---
+
+# 13. Validation Replay
+
+Validation Replay may remain a controlled replay.
+
+Make its purpose explicit:
+
+> **Synthetic Replay**
+
+It demonstrates a fixed or controlled execution trace.
+
+It must not be presented as the canonical runtime.
+
+Add CTA:
+
+> Open in Execution Centre
+
+where appropriate.
+
+---
+
+# 14. Guest / Operator / Dual View roles
+
+These are role-based product views.
+
+They may respond to the shared execution state where available.
+
+Their purpose should be:
+
+## Guest View
+
+Guest-facing consequence of the workflow.
+
+## Operator View
+
+Operational perspective.
+
+## Dual View
+
+Relationship between both.
+
+They are not separate scenario engines.
+
+Where a live shared execution is unavailable, clearly label the view as a synthetic demonstration.
+
+---
+
+# 15. Scenario IDs
+
+Confirm every scenario has one immutable canonical ID.
+
+Use these IDs consistently across:
+
+* scenario data
+* playbooks
+* pilot model
+* Build & Configure
+* Execution Centre
+* role views
+* validation replay
+* links
+* tests
+
+No display-name-based matching.
+
+No duplicate IDs.
+
+---
+
+# 16. Playbook IDs
+
+Confirm every scenario links to exactly one canonical primary playbook.
+
+Secondary/related playbooks may exist only if the data model intentionally supports them.
+
+Do not hardcode playbook names separately in page copy if canonical data is available.
+
+---
+
+# 17. Role consistency
+
+Every scenario link/render/runtime must use canonical role IDs.
+
+Local titles may be mapped through deployment configuration.
+
+Do not hardcode:
+
+* Duty Manager
+* Manager on Duty
+* Operations Manager
+
+as unrelated roles where they are actually a configured mapping.
+
+---
+
+# 18. Maturity consistency
+
+Scenario maturity must come from the canonical scenario source.
+
+Do not independently label the same scenario:
+
+* Working Proof on one page
+* Prototype on another
+* Simulation somewhere else
+
+If a role view is a simulation but the scenario definition is Working Proof, distinguish:
+
+> Scenario maturity: Working Proof
+> Current view: Synthetic simulation
+
+These are different concepts.
+
+---
+
+# 19. Breadcrumb/context
+
+On scenario detail pages or selected scenario views, provide clear context:
+
+```text id="jf077j"
+Travel Scenarios
+→ Service Backlog
+```
+
+From Build & Configure:
+
+```text id="ns5zah"
+Configure
+→ Service Backlog
+```
+
+From Execution Centre:
+
+```text id="f5u38w"
+Execution Centre
+→ Service Backlog
+→ Execution #...
+```
+
+Do not create a heavy breadcrumb system if the existing UI has no such pattern.
+
+Simple context is enough.
+
+---
+
+# 20. Back/forward navigation
+
+Deep links must respect browser navigation.
+
+Test:
+
+* open scenario A
+* open scenario B
+* Back returns to A
+* Back returns to library
+* Forward restores B
+
+Do not keep selected scenario exclusively in non-URL local component state.
+
+---
+
+# 21. Empty states
+
+If the Execution Centre has no active deployment:
+
+Show:
+
+> **No active Travel environment**
+
+Actions:
+
+* Load Demo Deployment
+* Build & Configure
+
+If an active deployment exists but selected scenario is inactive:
+
+Show:
+
+> **This scenario is not active in the current deployment**
+
+Action:
+
+> Configure Scenario
+
+Do not fail silently.
+
+---
+
+# 22. Demo deployment
+
+The default synthetic deployment should remain useful.
+
+From a scenario detail, if no user configuration exists, allow:
+
+> **Run with Demo Deployment**
+
+only where that scenario is included in the demo configuration.
+
+Clearly label:
+
+> Synthetic demo deployment
+
+Do not auto-create hidden state without disclosure.
+
+---
+
+# 23. CTA naming
+
+Use consistent verbs.
+
+## Scenario Library
+
+* Explore
+* Configure
+* Run
+
+## Build & Configure
+
+* Configure
+* Activate
+
+## Execution Centre
+
+* Launch
+* Continue
+* Review
+
+## Role Views
+
+* View Guest Experience
+* View Operator Experience
+* Compare Views
+
+Avoid ambiguous:
+
+* Open
+* Start
+* Experience
+* Launch Demo
+
+unless context is obvious.
+
+---
+
+# 24. Demo directory cleanup
+
+Do not perform full route removal yet.
+
+But reduce user-facing duplication.
+
+If multiple pages exist for:
+
+* Demo Paths
+* Interactive Demos
+* Travel Demo Links
+
+make one the canonical proof/demo directory.
+
+Others should:
+
+* redirect
+* become internal resource pages
+* or be removed from primary navigation
+
+Do not create a new demo directory.
+
+---
+
+# 25. Automated tests
+
+Add/update tests for:
+
+## Deep links
+
+* every scenario deep link resolves
+* exact scenario selected
+* invalid scenario ID shows useful not-found state
+
+## Pilot links
+
+* every Pilot Model scenario link resolves to correct scenario
+
+## Build & Configure
+
+* scenario query/path preselection works
+* validation still enforced
+
+## Execution Centre
+
+* inactive scenario cannot run
+* active scenario launches canonical runtime
+
+## Canonical data
+
+* scenario ID resolves
+* playbook ID resolves
+* role IDs resolve
+* maturity comes from canonical source
+
+## Runtime separation
+
+* Travel Scenarios does not create canonical execution state
+* Execution Centre remains runtime owner
+
+---
+
+# 26. Link tests
+
+Strengthen static link tests so they validate:
+
+* scenario route IDs
+* query parameter IDs
+* hash IDs if any remain
+* canonical redirects
+
+Do not merely validate the base route.
+
+---
+
+# 27. Manual QA
+
+Test at least:
+
+1. Partner Room → Travel Scenarios
+2. Select each canonical scenario
+3. Copy URL
+4. Reload URL
+5. Confirm same scenario remains selected
+6. Pilot Model → scenario link
+7. Product Proof → scenario link
+8. Scenario → Configure This Scenario
+9. Build & Configure → selected scenario
+10. Activate demo deployment
+11. Scenario → Run in Execution Centre
+12. Execution Centre → correct scenario
+13. Back navigation
+14. Forward navigation
+
+Test desktop and mobile.
+
+---
+
+# 28. Completion report
+
+At completion provide:
+
+## Role separation
+
+Describe final purpose of:
+
+* Travel Scenarios
+* Build & Configure
+* Execution Centre
+* Validation Replay
+* Guest View
+* Operator View
+* Dual View
+
+## Deep links
+
+Report:
+
+* canonical strategy used
+* scenario URLs
+* Pilot Model links
+* Product Proof links
+* Build & Configure preselection
+
+## Runtime consolidation
+
+Report:
+
+* duplicated runtime logic found
+* removed/simplified
+* retained explorer behaviour
+
+## Data consistency
+
+Confirm:
+
+* scenario IDs
+* playbook IDs
+* role IDs
+* maturity source
+
+## Files changed
+
+List all.
+
+## Verification
+
+Run/report:
+
+* scenario deep-link tests
+* link tests
+* runtime tests
+* full tests
+* typecheck
+* production build
+* manual navigation QA
+
+Stop after Step 7.
+
+Do not begin commercial/resource security cleanup or final release QA.

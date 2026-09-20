@@ -17,15 +17,15 @@ const PARTNER_TYPES = [
   { label: "Distribution Partners", color: "#a78bfa", role: "Bring RTBX Travel into their client portfolio", value: "Commercial pathway for their vertical clients across accommodation and experience", earn: "Revenue share on platform and deployment fees" },
   { label: "Marketplace Partners", color: "#10b981", role: "Activate services, experiences or local offers via RTBX Travel", value: "Reach guests at the right moment in their stay journey", earn: "Transaction revenue, partner activation fees" },
   { label: "Strategic Partners", color: "#f97316", role: "Co-own deployment in a vertical, geography or asset class", value: "First-mover infrastructure position across a priority deployment vertical", earn: "Equity pathway, vertical exclusivity, revenue co-participation" },
-  { label: "Funders & Investors", color: "#c9a84c", role: "Fund the deployment, scale or vertical build-out", value: "Capital into an infrastructure-grade travel execution system", earn: "Revenue participation, equity, exit pathway via strategic acquirer" },
+  { label: "Strategic Advisory Partners", color: "#c9a84c", role: "Support controlled evaluation and deployment planning", value: "Structured evidence, governance review and scaling guidance", earn: "Participation subject to a separate approved agreement" },
 ];
 
 const PATHWAY = [
-  { n: "01", label: "Pilot Alignment", desc: "8–12 week proof environment. Signal validation, staff pathway setup, shadow mode before going live." },
-  { n: "02", label: "Live Pilot", desc: "Full operating cycle. Real guests, real moments, real outcomes. Value measured against baseline." },
-  { n: "03", label: "Proof & Reporting", desc: "Outcome report produced. Guest recovery, staff response, revenue created, assurance records evidenced." },
-  { n: "04", label: "Expansion Decision", desc: "Scale across portfolio, vertical or geography. Commercial terms formalised. Partner role confirmed." },
-  { n: "05", label: "Strategic Partnership", desc: "Long-term platform agreement. Revenue share, co-distribution, integration or investment pathway activated." },
+  { n: "01", label: "Planned · Pilot Alignment", desc: "Proposed 8–12 week proof environment for signal validation, staff pathway setup and shadow mode." },
+  { n: "02", label: "Planned · Controlled Pilot", desc: "Proposed human-governed operating cycle to evaluate real moments and measure outcomes against an agreed baseline." },
+  { n: "03", label: "Planned · Proof & Reporting", desc: "Proposed outcome report covering modelled guest recovery, staff response, indicative value and assurance evidence." },
+  { n: "04", label: "Planned · Expansion Decision", desc: "A future evidence-gated decision on portfolio, vertical or geographic scale and commercial terms." },
+  { n: "05", label: "Planned · Strategic Partnership", desc: "A potential long-term agreement for distribution or integration, subject to pilot evidence and separate approval." },
 ];
 
 export default function TravelPartnershipOverview() {
@@ -43,12 +43,15 @@ export default function TravelPartnershipOverview() {
           </h1>
           <div style={{ padding: "18px 22px", background: `${C.gold}08`, border: `1px solid ${C.gold}30`, borderLeft: `3px solid ${C.gold}`, marginBottom: 24, maxWidth: 720 }}>
             <p style={{ fontSize: 13.5, color: "rgba(255,255,255,0.75)", lineHeight: 1.75, margin: 0, fontStyle: "italic" }}>
-              "RTBX Travel is not just a travel platform to use. It is an execution ecosystem partners can help deploy, scale and monetise."
+              "RTBX Travel is a proposed execution ecosystem that partners could help validate, deploy and scale through Planned pilots."
             </p>
           </div>
           <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.8, maxWidth: 680, margin: 0 }}>
-            RTBX Travel is the travel and hospitality deployment vertical of the RTBX Group. It uses RTBX Core infrastructure to detect, classify, route and resolve guest, service, welfare and commercial moments across hotels, resorts, holiday parks, corporate travel, events and destination environments.
+            RTBX Travel is the proposed travel and hospitality deployment vertical of the RTBX Group. This Working Proof uses synthetic scenarios and rules-based classification to illustrate how RTBX Core could support guest, service, welfare and commercial moments.
           </p>
+          <div style={{ marginTop: 20, padding: "14px 18px", border: `1px solid ${C.gold}30`, borderLeft: `3px solid ${C.gold}`, color: C.muted, fontSize: 11.5, lineHeight: 1.65, maxWidth: 760 }}>
+            <strong style={{ color: C.gold }}>Working Proof · Simulation boundary:</strong> Communications and actions are drafts or modelled states. No guest message, staff task, welfare action, partner activation, dispatch or external-system update occurs. Named humans remain accountable. Integrations, pilots and commercial pathways below are Planned.
+          </div>
         </div>
 
         {/* Architecture strip */}
@@ -57,9 +60,9 @@ export default function TravelPartnershipOverview() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
             {[
               { label: "RTBX Group", sub: "Parent ecosystem", note: "Owns the infrastructure, IP and vertical strategy across all RTBX deployment verticals.", color: "rgba(255,255,255,0.3)" },
-              { label: "RTBX Core", sub: "Signal-to-action engine", note: "The operating infrastructure that powers every RTBX vertical. Signal ingestion, moment classification, decision logic, action routing, assurance.", color: C.gold },
-              { label: "RTBX Travel", sub: "Travel vertical", note: "Hotels, resorts, holiday parks, corporate travel, events and destination operators. Deploying RTBX Core across the full travel and hospitality ecosystem.", color: C.gold },
-              { label: "Guest Experience", sub: "Guest-facing layer only", note: "The zero-download, no-login guest interface. Surfaces support, recovery and experience options to guests. It is part of RTBX Travel, not the parent brand.", color: C.blue },
+              { label: "RTBX Core", sub: "Proposed signal-to-action engine", note: "Working Proof of synthetic signal ingestion, rules-based moment classification, proposed decision logic, draft action routing and modelled assurance.", color: C.gold },
+              { label: "RTBX Travel", sub: "Planned travel vertical", note: "Planned application of RTBX Core across hotels, resorts, holiday parks, corporate travel, events and destination operators.", color: C.gold },
+              { label: "Guest Experience", sub: "Proposed guest-facing layer", note: "A proposed zero-download, no-login interface for approved support, recovery and experience options. No current external communication is dispatched.", color: C.blue },
             ].map(item => (
               <div key={item.label} style={{ padding: "22px 20px", background: "rgba(255,255,255,0.02)", border: `1px solid ${item.color}25`, borderTop: `2px solid ${item.color}` }}>
                 <div style={{ fontSize: 11, fontWeight: 800, color: item.color, letterSpacing: "0.06em", marginBottom: 4 }}>{item.label}</div>
@@ -72,7 +75,7 @@ export default function TravelPartnershipOverview() {
 
         {/* Operating environments */}
         <div style={{ marginBottom: 64 }}>
-          <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>Travel Operating Environments</div>
+          <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>Planned Travel Operating Environments</div>
           <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
             {ENVS.map((env, i) => (
               <div key={env.label} style={{ display: "grid", gridTemplateColumns: "28px 220px 1fr 180px", gap: 0, alignItems: "start", border: "1px solid rgba(255,255,255,0.06)", background: i % 2 === 0 ? "transparent" : "rgba(255,255,255,0.01)" }}>
@@ -87,7 +90,7 @@ export default function TravelPartnershipOverview() {
 
         {/* Partner types */}
         <div style={{ marginBottom: 64 }}>
-          <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>Partner Types</div>
+          <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>Planned Partner Types</div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
             {PARTNER_TYPES.map(pt => (
               <div key={pt.label} style={{ padding: "24px 22px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: `2px solid ${pt.color}` }}>
@@ -111,7 +114,7 @@ export default function TravelPartnershipOverview() {
 
         {/* Pilot-to-scale pathway */}
         <div style={{ marginBottom: 48 }}>
-          <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>Pilot-to-Scale Pathway</div>
+          <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>Planned Pilot-to-Scale Pathway</div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 2 }}>
             {PATHWAY.map(p => (
               <div key={p.n} style={{ padding: "20px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
@@ -126,9 +129,9 @@ export default function TravelPartnershipOverview() {
         {/* Footer nav */}
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 32, display: "flex", gap: 10, flexWrap: "wrap" }}>
           {[
-            { label: "Commercial Brief", href: "/partner-room/resources/travel-commercial-partnership-brief" },
-            { label: "Business Plan", href: "/partner-room/resources/travel-business-plan" },
-            { label: "GTM Plan", href: "/partner-room/resources/travel-gtm-plan" },
+            { label: "Explore a Design Partnership", href: "/partner-room/next-step" },
+            { label: "Pilot Model", href: "/partner-room/pilot-model" },
+            { label: "Resource Library", href: "/partner-room/brief-library" },
             { label: "Demo Links", href: "/partner-room/resources/travel-demo-links" },
           ].map(b => (
             <Link key={b.href} href={b.href}>

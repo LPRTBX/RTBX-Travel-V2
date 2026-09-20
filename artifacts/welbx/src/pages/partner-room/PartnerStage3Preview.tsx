@@ -1,7 +1,7 @@
 import { Link } from "wouter";
+import { WORKING_PROOF_PATH } from "@/lib/proofLanguage";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 
-const MVP_URL = "https://replit.com/@LP1313/rtbx-travel-moment-response-mvp";
 
 const SITES = [
   { name: "Harbour Hotel",               openMoments: 4,  escalated: 1, closedToday: 12, valueProtected: "£2,840", risk: "Medium",  riskColor: "#f97316" },
@@ -93,16 +93,16 @@ export default function PartnerStage3Preview() {
             </p>
           </div>
 
-          {/* Back to MVP link */}
-          <a href={MVP_URL} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
+          {/* Back to Working Proof */}
+          <Link href={WORKING_PROOF_PATH}>
             <div style={{
               display: "inline-flex", alignItems: "center", gap: 8, fontSize: 9, fontWeight: 700,
               letterSpacing: "0.1em", textTransform: "uppercase", color: "#c9a84c",
               border: "1px solid rgba(201,168,76,0.25)", padding: "7px 14px", cursor: "pointer",
             }}>
-              ← View Working Demonstration Preview ↗
+              ← View Working Proof
             </div>
-          </a>
+          </Link>
         </div>
 
         {/* Section A: Multi-Site Operator View */}
@@ -148,11 +148,11 @@ export default function PartnerStage3Preview() {
           </div>
         </div>
 
-        {/* Section B: Live Signal Streams */}
+        {/* Section B: Simulated Signal Streams */}
         <div style={{ marginBottom: 72 }}>
           <div style={{ marginBottom: 18 }}>
             <div style={{ fontSize: 8, letterSpacing: "0.18em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase", fontWeight: 700, marginBottom: 6 }}>Section B</div>
-            <div style={{ fontSize: 17, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", marginBottom: 6 }}>Live Signal Streams</div>
+            <div style={{ fontSize: 17, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", marginBottom: 6 }}>Simulated Signal Streams</div>
             <p style={{ fontSize: 12, color: "rgba(255,255,255,0.3)", lineHeight: 1.65, maxWidth: 640, margin: 0 }}>
               Signals can start as staff, guest and operator-entered inputs, then expand through approved integrations over time.
             </p>
@@ -296,7 +296,7 @@ export default function PartnerStage3Preview() {
           <div style={{ fontSize: 8, letterSpacing: "0.18em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>Related</div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
             {[
-              { label: "Working Demonstration Preview ↗", href: MVP_URL, ext: true, color: "#c9a84c" },
+              { label: "Working Proof", href: WORKING_PROOF_PATH, ext: false, color: "#c9a84c" },
               { label: "Pilot Expansion Preview", href: "/partner-room/product-proof/pilot-expansion-preview", ext: false, color: "" },
               { label: "Signal Capture", href: "/partner-room/product-proof/signal-capture", ext: false, color: "" },
               { label: "Product Proof", href: "/partner-room/product-proof", ext: false, color: "" },

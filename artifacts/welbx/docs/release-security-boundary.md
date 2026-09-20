@@ -2,8 +2,8 @@
 
 **Document type:** Release gate — security and privacy boundary definition  
 **Owner:** RTBX  
-**Version:** Sprint 5 / v2.0  
-**Date:** July 2025  
+**Version:** Step 8 boundary release
+**Date:** 29 August 2026
 **Status:** Approved for demonstration release
 
 ---
@@ -24,7 +24,7 @@ The RTBX Travel Partner Room is a **demonstration and pilot-evaluation applicati
 - Populated entirely with synthetic demonstration data
 - Not connected to any live RTBX production system, partner system, or customer environment
 
-This release is intended for: face-to-face partner evaluation sessions, investor briefings, pilot alignment meetings, and controlled distribution to named partner contacts.
+This release is intended for face-to-face partner evaluation sessions, pilot alignment meetings, and controlled distribution to named partner contacts.
 
 ---
 
@@ -43,9 +43,9 @@ This release is intended for: face-to-face partner evaluation sessions, investor
 - No OAuth tokens or session secrets stored in client code
 - The `SESSION_SECRET` environment variable is server-side only and not bundled
 
-### 2.3 No Authentication Required (Demonstration Mode)
+### 2.3 Controlled Partner Preview (Demonstration Mode)
 - The `PartnerAccessGate` component provides a lightweight client-side access gate
-- This gate is **not** production authentication — it is a demonstration access layer
+- This gate is **not** production authentication or a confidentiality boundary
 - It is not resistant to circumvention by a motivated user
 - No user accounts, passwords or credentials are stored or transmitted
 
@@ -64,7 +64,7 @@ This release is intended for: face-to-face partner evaluation sessions, investor
 | Partner data isolation | Not implemented | Per-partner data scoping and session management |
 | Audit logging | Not implemented | Server-side audit trail |
 | Rate limiting | Not implemented | API gateway or server middleware |
-| Content delivery restriction | Static bundle accessible to anyone with the URL | Signed URL distribution or authenticated CDN |
+| Content delivery restriction | Approved external content only; static bundle remains retrievable | Server-side authorization plus authenticated content delivery for restricted resources |
 | Data residency | Replit hosting (region varies) | Defined data residency per customer agreement |
 | SOC 2 / ISO 27001 compliance | Not applicable in demo | Production security controls required |
 | Penetration testing | Not performed | Required before customer production deployment |
@@ -84,15 +84,15 @@ This release is intended for: face-to-face partner evaluation sessions, investor
 | Scenario outcomes | `travelScenarios.ts` | Illustrative, not from real pilots |
 | Integration descriptions | `travelDeploymentPathway.ts` | Architectural descriptions, no live credentials |
 
-### 4.2 Local Persistence (localStorage)
+### 4.2 Browser Persistence
 
 | Key | Contents | Sensitivity |
 |---|---|---|
-| `rtbx-partner-access` | Boolean access gate flag | None — no credentials stored |
+| `partner_room_access` in `sessionStorage` | Client-side preview code for the current browser tab | Demonstration convenience only — readable and bypassable by a browser user |
 | `rtbx-deployment-config` | User's configured deployment (synthetic) | None — fabricated data only |
 | `rtbx-execution-state-*` | Scenario execution trace (session) | None — synthetic demo data |
 
-No personally identifiable information, credentials, API keys, financial data, or customer data is stored in localStorage under any circumstances.
+No personally identifiable information, API keys, production credentials, financial data, or customer data is stored in browser storage. The preview code is client-delivered and must not be treated as a secret.
 
 ### 4.3 Data Transmitted to External Services
 
@@ -113,7 +113,13 @@ None. The Partner Room does not transmit any data to external services during no
 - No inline `<script>` injection
 - No `dangerouslySetInnerHTML` with user-provided content
 
-### 5.3 Secrets Audit (Sprint 5)
+### 5.3 Restricted Content Exclusion
+- Internal-only and commercially restricted pages are not imported by the external route tree
+- Restricted resources are absent from the canonical external resource manifest
+- Production bundle scans fail if restricted modules or known content sentinels are emitted
+- See `docs/access-boundary-register.md` for the current classifications
+
+### 5.4 Secrets Audit
 Automated search for secrets patterns (`password`, `api_key`, `token`, `credential`, `private_key`) across all source files returned:
 - 0 API keys
 - 0 passwords
