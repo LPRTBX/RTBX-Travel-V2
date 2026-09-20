@@ -1,7 +1,7 @@
 import { Link } from "wouter";
+import { WORKING_PROOF_PATH } from "@/lib/proofLanguage";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 
-const WORKING_PROOF_PATH = "/partner-room/guest-demo";
 
 const INTEGRATION_SECTIONS = [
   {

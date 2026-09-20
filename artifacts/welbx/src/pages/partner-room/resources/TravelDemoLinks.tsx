@@ -1,9 +1,8 @@
 import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
+import { WORKING_PROOF_PATH } from "@/lib/proofLanguage";
 
 const C = { gold: "#c9a84c", muted: "rgba(255,255,255,0.45)", dim: "rgba(255,255,255,0.22)", green: "#10b981" };
-
-const WORKING_PROOF_PATH = "/partner-room/guest-demo";
 
 const SECTIONS = [
   {

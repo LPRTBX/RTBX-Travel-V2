@@ -89,9 +89,9 @@ function DeploymentBanner({ deployment }: { deployment: TravelDeploymentConfig |
     return (
       <div style={{ marginBottom: 36, padding: "20px 24px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.08)", borderLeft: "3px solid rgba(255,255,255,0.2)" }}>
         <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>Local Simulation Configuration</div>
-        <div style={{ fontSize: 14, color: "rgba(255,255,255,0.55)", marginBottom: 12 }}>No local simulation configuration selected.</div>
+        <div style={{ fontSize: 14, color: "rgba(255,255,255,0.65)", marginBottom: 12 }}>Start the Working Proof three-scenario setup.</div>
         <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.35)", marginBottom: 14, lineHeight: 1.65 }}>
-          Configure a local simulation to use the interactive Execution Centre. The Action Centre, Outcome Ledger and Value Dashboard below contain synthetic, illustrative and modelled demonstration data only.
+          Configure three initial scenarios for one initial hotel property / 1–5-property cohort, then review their local traces in the interactive Execution Centre. The Action Centre, Outcome Ledger and Value Dashboard below contain synthetic, illustrative and modelled demonstration data only.
         </p>
         <Link href="/partner-room/build-configure">
           <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "9px 18px", background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.25)", cursor: "pointer" }}>
@@ -673,13 +673,15 @@ export default function PartnerOperationsCentre() {
     const scrollToHash = () => {
       const hash = window.location.hash.replace("#", "");
       if (!hash) return;
-      const el = document.getElementById(hash);
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      requestAnimationFrame(() => {
+        const el = document.getElementById(hash);
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
     };
     scrollToHash();
     window.addEventListener("hashchange", scrollToHash);
     return () => window.removeEventListener("hashchange", scrollToHash);
-  }, []);
+  }, [location]);
 
   const { activeDeployment } = useDeployment();
   const [launchedScenarioId, setLaunchedScenarioId] = useState<string | null>(null);

@@ -5,6 +5,14 @@ import { usePartnerContent } from "@/context/PartnerContentContext";
 interface NavItem { label: string; path: string; }
 interface NavGroup { label: string; items: NavItem[]; }
 
+export const PRIMARY_NAV: NavItem[] = [
+  { label: "Overview", path: "/partner-room/overview" },
+  { label: "Working Proof", path: "/partner-room/operations" },
+  { label: "Pilot", path: "/partner-room/pilot-model" },
+  { label: "Evidence", path: "/partner-room/operations#outcome-ledger" },
+  { label: "Next Step", path: "/partner-room/next-step" },
+];
+
 export const NAV_GROUPS: NavGroup[] = [
   {
     label: "Start",
@@ -55,6 +63,11 @@ export const NAV_GROUPS: NavGroup[] = [
     ],
   },
 ];
+
+const REFERENCE_GROUPS: NavGroup[] = [{
+  label: "Reference Material",
+  items: NAV_GROUPS.flatMap(group => group.items),
+}];
 
 const DROPDOWN_WIDTH = 260;
 
@@ -218,6 +231,14 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
   }
 
   function navigateFromMenu(path: string) {
+    const [targetPath, hash] = path.split("#");
+    if (hash && location === targetPath) {
+      window.history.replaceState(window.history.state, "", `${window.location.pathname}${window.location.search}#${hash}`);
+      requestAnimationFrame(() => {
+        document.getElementById(hash)?.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+      return;
+    }
     navigate(path);
   }
 
@@ -266,33 +287,6 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
                 <div style={{ width: 4, height: 4, borderRadius: "50%", background: "#c9a84c" }} aria-hidden="true" />
                 <span style={{ fontSize: 12, letterSpacing: "0.12em", color: "rgba(201,168,76,0.82)", textTransform: "uppercase", fontWeight: 700 }}>Controlled Preview</span>
               </div>
-              <a
-                className="rtbx-next-step"
-                href="/partner-room/next-step"
-                onClick={(e) => { e.preventDefault(); navigateFromMenu("/partner-room/next-step"); }}
-              >
-                <div
-                  style={{
-                    padding: "6px 14px",
-                    fontSize: 14,
-                    fontWeight: 700,
-                    letterSpacing: "0.12em",
-                    textTransform: "uppercase",
-                    color: "#080c14",
-                    background: "#c9a84c",
-                    cursor: "pointer",
-                    transition: "background 0.15s",
-                    minHeight: 44,
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "#d4b35e"; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "#c9a84c"; }}
-                >
-                  Next Step →
-                </div>
-              </a>
-
               {/* Mobile hamburger */}
               <button
                 aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
@@ -344,7 +338,36 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
               alignItems: "stretch",
             }}
           >
-            {NAV_GROUPS.map((group) => {
+            {PRIMARY_NAV.map(item => {
+              const basePath = item.path.split("#")[0];
+              const itemActive = location === basePath;
+              return (
+                <a
+                  key={item.label}
+                  href={item.path}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigateFromMenu(item.path);
+                  }}
+                  style={{
+                    padding: "11px 16px",
+                    minHeight: 44,
+                    display: "flex",
+                    alignItems: "center",
+                    fontSize: 14,
+                    fontWeight: 700,
+                    letterSpacing: "0.06em",
+                    textTransform: "uppercase",
+                    color: itemActive ? "#fff" : "rgba(255,255,255,0.5)",
+                    borderBottom: itemActive ? "2px solid #c9a84c" : "2px solid transparent",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {item.label}
+                </a>
+              );
+            })}
+            {REFERENCE_GROUPS.map((group) => {
               const isGroupActive = group.items.some(item =>
                 location === item.path.split("#")[0] ||
                 (item.path.split("#")[0] !== "/partner-room" && location.startsWith(item.path.split("#")[0]))
@@ -524,7 +547,36 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
                 overflowX: "hidden",
               }}
             >
-              {NAV_GROUPS.map(group => {
+              {PRIMARY_NAV.map(item => {
+                const itemActive = location === item.path.split("#")[0];
+                return (
+                  <a
+                    key={item.label}
+                    href={item.path}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setMobileOpen(false);
+                      setMobileOpenGroup(null);
+                      navigateFromMenu(item.path);
+                    }}
+                    style={{
+                      padding: "12px 20px",
+                      minHeight: 44,
+                      display: "flex",
+                      alignItems: "center",
+                      fontSize: 14,
+                      fontWeight: 700,
+                      letterSpacing: "0.08em",
+                      textTransform: "uppercase",
+                      color: itemActive ? "#c9a84c" : "rgba(255,255,255,0.72)",
+                      borderLeft: itemActive ? "2px solid #c9a84c" : "2px solid transparent",
+                    }}
+                  >
+                    {item.label}
+                  </a>
+                );
+              })}
+              {REFERENCE_GROUPS.map(group => {
                 const isGroupOpen = mobileOpenGroup === group.label;
                 const isGroupActive = group.items.some(item =>
                   location === item.path.split("#")[0]

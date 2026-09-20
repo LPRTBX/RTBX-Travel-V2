@@ -18,4 +18,4 @@ export const CURRENT_PROOF_BOUNDARY = {
     "This Partner Room is a Working Proof using synthetic scenarios and modelled indicators. It is not an Integrated or Production deployment. No guest communication, staff task, partner activation or emergency action is sent from these demonstrations.",
 } as const;
 
-export const WORKING_PROOF_PATH = "/partner-room/guest-demo";
+export const WORKING_PROOF_PATH = "/partner-room/operations";

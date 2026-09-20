@@ -71,8 +71,8 @@ const DEPLOYMENT_ENVS = [
 const PROOF_LAYERS = [
   {
     num: "01",
-    label: "Partner Overview",
-    navLabel: "Partner Room",
+    label: "Overview",
+    navLabel: "Overview",
     color: "#c9a84c",
     desc: "What RTBX Travel is, how RTBX Core powers it, and the signal-to-action engine behind every deployment.",
     links: [
@@ -87,8 +87,8 @@ const PROOF_LAYERS = [
   },
   {
     num: "02",
-    label: "Deployment Environments",
-    navLabel: "Deployments",
+    label: "Working Proof",
+    navLabel: "Working Proof",
     color: "#10b981",
     desc: "Five travel and hospitality environments — one RTBX Core operating system deployed across all of them.",
     links: [
@@ -98,13 +98,13 @@ const PROOF_LAYERS = [
       { label: "Events & Venues",                     href: "/partner-room/deployments" },
       { label: "Destination & Tourism Operators",     href: "/partner-room/deployments" },
     ],
-    cta: "View Deployments",
-    ctaHref: "/partner-room/deployments",
+    cta: "Open Working Proof",
+    ctaHref: "/partner-room/operations",
   },
   {
     num: "03",
-    label: "Product Proof",
-    navLabel: "Product Proof",
+    label: "Pilot",
+    navLabel: "Pilot",
     color: "#3b82f6",
     desc: "Working interactive demonstrations: moment economy, decision logic, intervention library and communications — the engine running in demonstration mode.",
     links: [
@@ -115,13 +115,13 @@ const PROOF_LAYERS = [
       { label: "Intervention Library",          href: "/partner-room/product-proof" },
       { label: "Signals Engine Brief",          href: "/partner-room/product-proof" },
     ],
-    cta: "View Product Proof",
-    ctaHref: "/partner-room/product-proof",
+    cta: "Review Pilot",
+    ctaHref: "/partner-room/pilot-model",
   },
   {
     num: "04",
-    label: "Validation & Operator Stories",
-    navLabel: "Validation",
+    label: "Evidence",
+    navLabel: "Evidence",
     color: "#f97316",
     desc: "Scenario validation, shadow pilot mode, operator walkthroughs and the full guest story from signal to outcome.",
     links: [
@@ -132,13 +132,13 @@ const PROOF_LAYERS = [
       { label: "Executive Walkthrough",             href: "/partner-room/validation" },
       { label: "Operator Deep Dive Walkthrough",    href: "/partner-room/validation" },
     ],
-    cta: "Enter Validation",
-    ctaHref: "/partner-room/validation",
+    cta: "Review Evidence",
+    ctaHref: "/partner-room/operations#outcome-ledger",
   },
   {
     num: "05",
-    label: "Commercial & Next Step",
-    navLabel: "Commercial",
+    label: "Next Step",
+    navLabel: "Next Step",
     color: "#a78bfa",
     desc: "Pilot model, commercial pathways, integration model — and direct briefing options to start a conversation.",
     links: [
@@ -149,8 +149,8 @@ const PROOF_LAYERS = [
       { label: "Pilot Conversation",      href: "/partner-room/next-step" },
       { label: "Request Briefing",        href: "/partner-room/next-step" },
     ],
-    cta: "View Commercial",
-    ctaHref: "/partner-room/commercial",
+    cta: "Explore Next Step",
+    ctaHref: "/partner-room/next-step",
   },
 ];
 
@@ -395,10 +395,10 @@ export default function PartnerRoomLanding() {
         </div>
         <div style={{ fontSize: 26, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", marginBottom: 8 }}>
           One Partner Room.{" "}
-          <span style={{ color: "#c9a84c" }}>Five Proof Layers.</span>
+          <span style={{ color: "#c9a84c" }}>Five Primary Destinations.</span>
         </div>
         <p style={{ fontSize: 14, color: "rgba(255,255,255,0.42)", lineHeight: 1.75, maxWidth: 620, marginBottom: 40 }}>
-          Each layer gives a partner, operator or funder a different lens on the system — from positioning through to proof, validation and commercial next steps.
+          Move from overview to Working Proof, pilot scope, evidence and a clear next step. Detailed reference material remains available through the navigation disclosure.
         </p>
 
         <div className="rtbx-grid-5" style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 2 }}>

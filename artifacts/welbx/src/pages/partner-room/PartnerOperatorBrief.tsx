@@ -1,4 +1,6 @@
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
+import { WORKING_PROOF_PATH } from "@/lib/proofLanguage";
+import { Link } from "wouter";
 
 const VALUE_CARDS = [
   {
@@ -63,6 +65,11 @@ export default function PartnerOperatorBrief() {
           <div style={{ marginTop: 20, padding: "14px 18px", border: "1px solid rgba(201,168,76,0.3)", borderLeft: "3px solid #c9a84c", color: "rgba(255,255,255,0.58)", fontSize: 11.5, lineHeight: 1.65, maxWidth: 760 }}>
             <strong style={{ color: "#c9a84c" }}>Working Proof · Simulation boundary:</strong> Synthetic inputs are classified by rules and communications are drafts. No guest message, staff task, welfare action, partner activation, dispatch or external-system update occurs. Named humans remain accountable for every decision and action; integrations and pilots are Planned.
           </div>
+          <Link href={WORKING_PROOF_PATH}>
+            <div style={{ display: "inline-flex", marginTop: 16, padding: "10px 18px", border: "1px solid rgba(201,168,76,0.35)", color: "#c9a84c", fontSize: 11, fontWeight: 700, cursor: "pointer" }}>
+              Open the Working Proof →
+            </div>
+          </Link>
         </div>
 
         {/* Five-Step Engine — Operator Language */}
