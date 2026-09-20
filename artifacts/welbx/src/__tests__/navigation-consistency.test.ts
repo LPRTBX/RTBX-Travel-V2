@@ -46,7 +46,6 @@ const EXPECTED_NAVIGATION = [
       ["Pilot Model", "/partner-room/pilot-model"],
       ["Deployment", "/partner-room/rollout-model"],
       ["Partner Ecosystem", "/partner-room/partner-ecosystem"],
-      ["Commercial Pathway", "/partner-room/commercial"],
       ["Resource Library", "/partner-room/brief-library"],
     ],
   },
@@ -60,11 +59,13 @@ describe("Partner Room navigation model", () => {
     }))).toEqual(EXPECTED_NAVIGATION);
   });
 
-  it("uses the canonical Commercial Pathway route", () => {
+  it("keeps commercially restricted routes out of navigation", () => {
     const pilotGroup = NAV_GROUPS.find((group) => group.label === "Pilot and Partnership");
-    const commercialPathway = pilotGroup?.items.find((item) => item.label === "Commercial Pathway");
 
-    expect(commercialPathway?.path).toBe("/partner-room/commercial");
+    expect(NAV_GROUPS.flatMap((group) => group.items).map((item) => item.path))
+      .not.toContain("/partner-room/commercial");
+    expect(pilotGroup?.items.map((item) => item.label))
+      .not.toContain("Commercial Pathway");
     expect(NAV_GROUPS.flatMap((group) => group.items).map((item) => item.path))
       .not.toContain("/partner-room/commercial-unit");
   });

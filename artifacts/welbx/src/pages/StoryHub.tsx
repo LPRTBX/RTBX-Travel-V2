@@ -18,7 +18,7 @@ const C = {
 
 const MODES = [
   {
-    path: "/story/executive-briefing",
+    path: "/story/operator",
     icon: Clock,
     label: "Executive Walkthrough",
     duration: "5 Minutes",
@@ -30,7 +30,7 @@ const MODES = [
     badge: "STRATEGY",
   },
   {
-    path: "/story/operator-deep-dive",
+    path: "/story/operator",
     icon: BookOpen,
     label: "Operator Deep Dive",
     duration: "15 Minutes",
@@ -42,7 +42,7 @@ const MODES = [
     badge: "OPERATIONS",
   },
   {
-    path: "/story/live-guest-story",
+    path: "/story/guest",
     icon: Play,
     label: "Interactive Guest Story",
     duration: "Immersive",
@@ -83,7 +83,7 @@ const BRANDS = ["Hyatt", "Marriott", "Accor", "Hilton", "IHG-scale operators"];
 
 export default function StoryHub() {
   return (
-    <div style={{ minHeight: "100vh", background: C.bg, display: "flex", flexDirection: "column", padding: "56px 72px", position: "relative" }}>
+    <div className="rtbx-story-page" style={{ minHeight: "100vh", background: C.bg, display: "flex", flexDirection: "column", padding: "56px 72px", position: "relative", width: "100%", maxWidth: "100%", minWidth: 0 }}>
       <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg, ${C.amber} 0%, transparent 50%)` }} />
 
       {/* Header */}
@@ -106,7 +106,7 @@ export default function StoryHub() {
           <strong style={{ color: C.amber }}>Working Proof · Simulation boundary:</strong> Synthetic inputs use rules-based classification and draft communications. No task, message, welfare action, dispatch or external-system update occurs. Humans remain accountable; integrations, pilots and future capabilities are Planned.
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", minWidth: 0 }}>
           <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: C.dimmed, textTransform: "uppercase" }}>Designed for</span>
           {BRANDS.map((b, i) => (
             <span key={i} style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.1em", color: C.dimmed, padding: "3px 8px", border: `1px solid ${C.border}`, textTransform: "uppercase" }}>{b}</span>
@@ -115,14 +115,14 @@ export default function StoryHub() {
       </motion.div>
 
       {/* Mode cards */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 14, flex: 1 }}>
+      <div className="rtbx-story-grid" style={{ display: "grid", gridTemplateColumns: "repeat(5, minmax(0, 1fr))", gap: 14, flex: 1, minWidth: 0 }}>
         {MODES.map((mode, fi) => (
           <motion.div
-            key={mode.path}
+            key={`${mode.path}-${mode.label}`}
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.08 + fi * 0.09 }}
-            style={{ flex: 1 }}
+            style={{ flex: 1, minWidth: 0 }}
           >
             <Link href={mode.path}>
               <div

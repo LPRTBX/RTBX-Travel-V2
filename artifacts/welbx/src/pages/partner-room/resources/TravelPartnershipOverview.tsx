@@ -129,7 +129,7 @@ export default function TravelPartnershipOverview() {
         {/* Footer nav */}
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 32, display: "flex", gap: 10, flexWrap: "wrap" }}>
           {[
-            { label: "Commercial Pathway", href: "/partner-room/commercial" },
+            { label: "Explore a Design Partnership", href: "/partner-room/next-step" },
             { label: "Pilot Model", href: "/partner-room/pilot-model" },
             { label: "Resource Library", href: "/partner-room/brief-library" },
             { label: "Demo Links", href: "/partner-room/resources/travel-demo-links" },

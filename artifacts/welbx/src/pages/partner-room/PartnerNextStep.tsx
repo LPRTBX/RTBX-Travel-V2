@@ -231,7 +231,7 @@ export default function PartnerNextStep() {
           {[
             { label: "Partner Ecosystem", href: "/partner-room/partner-ecosystem" },
             { label: "Pilot Model", href: "/partner-room/pilot-model" },
-            { label: "Commercial Pathway", href: "/partner-room/commercial" },
+            { label: "Pilot Model", href: "/partner-room/pilot-model" },
           ].map(b => <Link key={b.href} href={b.href}><div style={{ padding: "8px 16px", border: "1px solid rgba(255,255,255,0.1)", fontSize: 9.5, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", cursor: "pointer" }}>{b.label} →</div></Link>)}
         </div>
 

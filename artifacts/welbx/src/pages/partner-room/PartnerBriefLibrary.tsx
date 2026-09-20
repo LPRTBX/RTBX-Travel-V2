@@ -253,7 +253,7 @@ export const EXTERNAL_PARTNER_RESOURCES: PartnerResource[] = [
     maturity: "working",
     lastReviewed: "July 2025",
     commercialStatus: "Indicative — subject to proposal",
-    href: "/partner-room/commercial",
+    href: "/partner-room/next-step",
     tags: ["commercial", "pricing", "models"],
   },
   {

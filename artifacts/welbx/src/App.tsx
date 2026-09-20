@@ -7,6 +7,12 @@ import { PartnerContentProvider } from "@/context/PartnerContentContext";
 import { PartnerAccessGate } from "@/components/PartnerAccessGate";
 import { DeploymentProvider } from "@/context/DeploymentContext";
 
+// ── Public routes ─────────────────────────────────────────────────────────────
+import Landing from "@/pages/Landing";
+const StoryHub        = lazy(() => import("@/pages/StoryHub"));
+const StoryOperator   = lazy(() => import("@/pages/StoryOperator"));
+const StoryGuestStory = lazy(() => import("@/pages/StoryGuestStory"));
+
 // ── Critical-path routes (eager) ────────────────────────────────────────────
 // These are the first pages a partner sees; keep them in the main bundle.
 import PartnerRoomLanding from "@/pages/partner-room/PartnerRoomLanding";
@@ -14,7 +20,6 @@ import PartnerOverview from "@/pages/partner-room/PartnerOverview";
 import PartnerDeployments from "@/pages/partner-room/PartnerDeployments";
 import PartnerProductProof from "@/pages/partner-room/PartnerProductProof";
 import PartnerValidation from "@/pages/partner-room/PartnerValidation";
-import PartnerCommercial from "@/pages/partner-room/PartnerCommercial";
 import PartnerBriefLibrary from "@/pages/partner-room/PartnerBriefLibrary";
 import PartnerNextStep from "@/pages/partner-room/PartnerNextStep";
 import PartnerOperatorBrief from "@/pages/partner-room/PartnerOperatorBrief";
@@ -88,7 +93,6 @@ const PARTNER_ROUTES = [
   { path: "/partner-room/deployments",        component: PartnerDeployments },
   { path: "/partner-room/product-proof",      component: PartnerProductProof },
   { path: "/partner-room/validation",         component: PartnerValidation },
-  { path: "/partner-room/commercial",         component: PartnerCommercial },
   { path: "/partner-room/brief-library",      component: PartnerBriefLibrary },
   { path: "/partner-room/next-step",          component: PartnerNextStep },
   { path: "/partner-room/operator-brief",     component: PartnerOperatorBrief },
@@ -96,7 +100,6 @@ const PARTNER_ROUTES = [
   { path: "/partner-room/moments-economy",    component: PartnerMomentsEconomy },
   { path: "/partner-room/signals-engine",     component: PartnerSignalsEngine },
   { path: "/partner-room/pilot-model",        component: PartnerPilotModel },
-  { path: "/partner-room/commercial-model",   component: () => <Redirect to="/partner-room/commercial" /> },
   { path: "/partner-room/demo-paths",         component: PartnerDemoPaths },
   { path: "/partner-room/live-demos",         component: PartnerLiveDemos },
   { path: "/partner-room/guest-demo",         component: PartnerGuestDemo },
@@ -147,11 +150,20 @@ function Router() {
   return (
     <Suspense fallback={<PageFallback />}>
       <Switch>
+        <Route path="/" component={Landing} />
+        <Route path="/story" component={StoryHub} />
+        <Route path="/story/operator" component={StoryOperator} />
+        <Route path="/story/guest" component={StoryGuestStory} />
         {PARTNER_ROUTES.map(({ path, component: Component }) => (
-          <Route key={path} path={path} component={Component} />
+          <Route key={path} path={path}>
+            {() => (
+              <PartnerAccessGate>
+                <Component />
+              </PartnerAccessGate>
+            )}
+          </Route>
         ))}
-        {/* Internal Story Lab is preserved in source but excluded from the external route tree. */}
-        <Route>{() => <Redirect to="/partner-room" />}</Route>
+        <Route>{() => <Redirect to="/" />}</Route>
       </Switch>
     </Suspense>
   );
@@ -165,11 +177,9 @@ function App() {
           <PartnerContentProvider>
             <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
               <div className="rtbx-readable-content">
-                <PartnerAccessGate>
-                  <div className="min-h-[100dvh] bg-background">
-                    <Router />
-                  </div>
-                </PartnerAccessGate>
+                <div className="min-h-[100dvh] bg-background">
+                  <Router />
+                </div>
               </div>
             </WouterRouter>
             <Toaster />

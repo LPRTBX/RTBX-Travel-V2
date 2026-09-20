@@ -30,10 +30,8 @@ const forbiddenModuleNames = [
   "TravelRevenueModel",
   "TravelCommercialCase",
   "TravelCommercialPartnershipBrief",
+  "PartnerCommercial",
   "PartnerCommercialUnit",
-  "StoryHub",
-  "StoryOperator",
-  "StoryGuestStory",
 ];
 
 const forbiddenContentSentinels = [
@@ -46,6 +44,7 @@ const forbiddenContentSentinels = [
   "Strategic / Funding Partner",
   "Funders & Investors",
   "Funder / Investor View",
+  "RTBX Travel Commercial Pathway",
 ];
 
 const failures = [
