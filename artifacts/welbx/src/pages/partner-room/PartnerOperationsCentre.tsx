@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation } from "wouter";
-import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
+import { PartnerRoomLayout, schedulePartnerRoomHashScroll } from "@/components/PartnerRoomLayout";
 import {
   TRAVEL_ACTION_CARDS, TRAVEL_PROPERTIES, TRAVEL_PRIORITIES, ACTION_STATUS_SEQUENCE,
   TRAVEL_OUTCOME_LEDGER, TRAVEL_EVIDENCE_LEDGER, EVIDENCE_WORDING_NOTE,
@@ -293,7 +293,7 @@ function ExecTracePanel({
 
   const guestComms = exec.communications.filter(c => c.isGuestFacing);
 
-  const GuestPanel = () => (
+  const guestPanel = (
     <div style={{ background: "rgba(59,130,246,0.04)", border: "1px solid rgba(59,130,246,0.12)", padding: "18px 20px" }}>
       <div style={{ fontSize: 8.5, letterSpacing: "0.14em", color: C.blue, textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>Guest View — Unsent Draft Content Only</div>
       {guestComms.length === 0 ? (
@@ -316,7 +316,7 @@ function ExecTracePanel({
     </div>
   );
 
-  const OperatorPanel = () => (
+  const operatorPanel = (
     <div>
       {/* Step content */}
       <div style={{ padding: "16px 20px", background: "rgba(255,255,255,0.015)", border: "1px solid rgba(255,255,255,0.06)", marginBottom: 8 }}>
@@ -461,13 +461,15 @@ function ExecTracePanel({
                 )}
               </div>
               {exec.evidence.map(ev => (
-                <div key={ev.id} style={{ display: "flex", alignItems: "flex-start", gap: 10, padding: "8px 0", borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
-                  <div
-                    onClick={() => handleEvidence(ev.id, !ev.captured)}
-                    style={{ width: 16, height: 16, border: `1px solid ${ev.captured ? C.green : (ev.required ? "#f97316" : "rgba(255,255,255,0.25)")}`, background: ev.captured ? C.green : "transparent", cursor: "pointer", flexShrink: 0, marginTop: 1, display: "flex", alignItems: "center", justifyContent: "center" }}
-                  >
-                    {ev.captured && <span style={{ fontSize: 10, color: "#080c14", fontWeight: 900 }}>✓</span>}
-                  </div>
+                <label key={ev.id} style={{ display: "flex", alignItems: "flex-start", gap: 10, padding: "8px 0", borderBottom: "1px solid rgba(255,255,255,0.04)", cursor: "pointer" }}>
+                  <input
+                    type="checkbox"
+                    checked={ev.captured}
+                    onChange={(event) => handleEvidence(ev.id, event.currentTarget.checked)}
+                    aria-label={`${ev.evidenceType}${ev.required ? " (required)" : " (optional)"}`}
+                    aria-required={ev.required}
+                    style={{ width: 18, height: 18, flexShrink: 0, marginTop: 1, accentColor: C.green, cursor: "pointer" }}
+                  />
                   <div style={{ flex: 1 }}>
                     <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.75)" }}>
                       {ev.evidenceType}
@@ -478,7 +480,7 @@ function ExecTracePanel({
                       <div style={{ fontSize: 9, color: C.green, marginTop: 2 }}>Selected locally {new Date(ev.capturedAt).toLocaleTimeString()}</div>
                     )}
                   </div>
-                </div>
+                </label>
               ))}
             </div>
 
@@ -487,16 +489,16 @@ function ExecTracePanel({
               {exec.outcomes.map(o => (
                 <div key={o.id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 0", borderBottom: "1px solid rgba(255,255,255,0.04)", flexWrap: "wrap" }}>
                   <div style={{ flex: 1, fontSize: 10.5, color: "rgba(255,255,255,0.65)" }}>{o.metric}</div>
-                  <div style={{ display: "flex", gap: 3 }}>
+                  <div role="group" aria-label={`Model outcome for ${o.metric}`} style={{ display: "flex", gap: 3, flexWrap: "wrap" }}>
                     {(["met", "partially-met", "not-met", "not-measured"] as OutcomeStatus[]).map(s => (
-                      <div key={s} onClick={() => handleOutcome(o.id, s)} style={{
+                      <button type="button" key={s} onClick={() => handleOutcome(o.id, s)} aria-pressed={o.status === s} style={{
                         padding: "3px 9px", fontSize: 8.5, fontWeight: 700, cursor: "pointer",
                         color: o.status === s ? "#080c14" : "rgba(255,255,255,0.4)",
                         background: o.status === s ? (s === "met" ? C.green : s === "partially-met" ? C.gold : C.red) : "rgba(255,255,255,0.03)",
                         border: `1px solid ${o.status === s ? (s === "met" ? C.green : s === "partially-met" ? C.gold : C.red) : "rgba(255,255,255,0.1)"}`,
                       }}>
                         Model: {OUTCOME_STATUS_LABELS[s]}
-                      </div>
+                      </button>
                     ))}
                   </div>
                 </div>
@@ -646,17 +648,17 @@ function ExecTracePanel({
           <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
             <div>
               <div style={{ fontSize: 8.5, letterSpacing: "0.12em", color: "rgba(255,255,255,0.35)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>Operator View</div>
-              <OperatorPanel />
+              {operatorPanel}
             </div>
             <div>
               <div style={{ fontSize: 8.5, letterSpacing: "0.12em", color: C.blue, textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>Guest View</div>
-              <GuestPanel />
+              {guestPanel}
             </div>
           </div>
         ) : view === "guest" ? (
-          <GuestPanel />
+          guestPanel
         ) : (
-          <OperatorPanel />
+          operatorPanel
         )}
 
         <LearningPanel />
@@ -671,16 +673,16 @@ export default function PartnerOperationsCentre() {
   const [location, navigate] = useLocation();
   useEffect(() => {
     const scrollToHash = () => {
-      const hash = window.location.hash.replace("#", "");
+      const hash = window.location.hash;
       if (!hash) return;
-      requestAnimationFrame(() => {
-        const el = document.getElementById(hash);
-        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-      });
+      return schedulePartnerRoomHashScroll(hash, "auto");
     };
-    scrollToHash();
+    const cancelInitialScroll = scrollToHash();
     window.addEventListener("hashchange", scrollToHash);
-    return () => window.removeEventListener("hashchange", scrollToHash);
+    return () => {
+      cancelInitialScroll?.();
+      window.removeEventListener("hashchange", scrollToHash);
+    };
   }, [location]);
 
   const { activeDeployment } = useDeployment();
@@ -745,7 +747,7 @@ export default function PartnerOperationsCentre() {
 
   return (
     <PartnerRoomLayout>
-      <div style={{ maxWidth: 1160, margin: "0 auto", padding: "72px 32px 140px" }}>
+      <div className="rtbx-responsive-page rtbx-page-pad" style={{ maxWidth: 1160, margin: "0 auto", padding: "72px 32px 140px" }}>
 
         {/* ── HEADER ── */}
         <div style={{ marginBottom: 40 }}>
@@ -947,7 +949,7 @@ export default function PartnerOperationsCentre() {
               return (
                 <div key={a.id} style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: `3px solid ${STATUS_COLORS[status]}` }}>
                   <div onClick={() => setExpandedId(isOpen ? null : a.id)} style={{ padding: "16px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, cursor: "pointer", flexWrap: "wrap" }}>
-                    <div style={{ flex: 1, minWidth: 240 }}>
+                    <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4, flexWrap: "wrap" }}>
                         <div style={{ fontSize: 13.5, fontWeight: 800, color: "#fff" }}>{a.moment}</div>
                         <div style={{ fontSize: 8.5, fontWeight: 700, color: PRIORITY_COLORS[a.priority], border: `1px solid ${PRIORITY_COLORS[a.priority]}50`, padding: "2px 7px", letterSpacing: "0.05em", textTransform: "uppercase" }}>{a.priority}</div>
@@ -1074,7 +1076,7 @@ export default function PartnerOperationsCentre() {
           <div style={{ padding: "14px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", marginBottom: 20, maxWidth: 760 }}>
             <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.55)", lineHeight: 1.65, margin: 0 }}>{EVIDENCE_WORDING_NOTE}</p>
           </div>
-          <div style={{ overflowX: "auto" }}>
+          <div className="rtbx-table-scroll">
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 10.5, minWidth: 900 }}>
               <thead>
                 <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.1)" }}>

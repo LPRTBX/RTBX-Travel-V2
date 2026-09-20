@@ -23,7 +23,6 @@ This register lists the external route surface. `docs/access-boundary-register.m
 | 3 | `/partner-room/deployments` | PartnerDeployments | Deployments | All partners | Canonical |
 | 4 | `/partner-room/product-proof` | PartnerProductProof | Product Proof | All partners | Canonical |
 | 5 | `/partner-room/validation` | PartnerValidation | Product Proof | Technical partners | Canonical |
-| 6 | `/partner-room/commercial` | PartnerCommercial | Commercial | Commercial leads | Canonical |
 | 7 | `/partner-room/brief-library` | PartnerBriefLibrary | Brief Library | All partners | Canonical |
 | 8 | `/partner-room/next-step` | PartnerNextStep | Next Step | All partners | Canonical |
 | 9 | `/partner-room/operator-brief` | PartnerOperatorBrief | Operator Brief | Operators | Canonical |
@@ -31,7 +30,6 @@ This register lists the external route surface. `docs/access-boundary-register.m
 | 11 | `/partner-room/moments-economy` | PartnerMomentsEconomy | Architecture | All partners | Canonical |
 | 12 | `/partner-room/signals-engine` | PartnerSignalsEngine | Architecture | Technical | Canonical |
 | 13 | `/partner-room/pilot-model` | PartnerPilotModel | Pilot | All partners | Canonical |
-| 14 | `/partner-room/commercial-model` | Redirect | Commercial | Commercial leads | Alias → `/partner-room/commercial` |
 | 15 | `/partner-room/demo-paths` | PartnerDemoPaths | Demos | All partners | Canonical |
 | 16 | `/partner-room/live-demos` | PartnerLiveDemos | Demos | All partners | Canonical |
 
@@ -110,18 +108,18 @@ This register lists the external route surface. `docs/access-boundary-register.m
 | 48 | `/travel-action-centre` | `/partner-room/operations#action-centre` | Legacy URL compatibility |
 | 49 | `/travel-outcomes` | `/partner-room/operations#outcome-ledger` | Legacy URL compatibility |
 | 50 | `/travel-value` | `/partner-room/operations#value-dashboard` | Legacy URL compatibility |
-| 51 | `/story/executive-briefing` | Not registered | Internal Story Lab source only |
-| 52 | `*` (catch-all) | `/partner-room` | Default redirect |
+| 51 | `*` (catch-all) | `/` | Default public fallback |
 
 ---
 
-## Story / Operator Story Lab Sources
+## Public Story Routes
 
 | # | Route | Component | Section | Audience | Status |
 |---|---|---|---|---|---|
-| 53 | `/story` | StoryHub | Story Lab | Internal | Internal Only · not registered/imported |
-| 54 | `/story/operator-deep-dive` | StoryOperator | Story Lab | Internal | Internal Only · not registered/imported |
-| 55 | `/story/live-guest-story` | StoryGuestStory | Story Lab | Internal | Internal Only · not registered/imported |
+| 53 | `/` | Landing | Public | Public | Canonical |
+| 54 | `/story` | StoryHub | Story Lab | Public | Canonical |
+| 55 | `/story/operator` | StoryOperator | Story Lab | Public | Canonical |
+| 56 | `/story/guest` | StoryGuestStory | Story Lab | Public | Canonical |
 
 ---
 

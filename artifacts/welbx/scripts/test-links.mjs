@@ -19,9 +19,7 @@ const appTsx = join(srcDir, "App.tsx");
 const EXCLUDE_DIRS = new Set(["node_modules", "dist", "archive", ".git"]);
 const INTERNAL_SOURCE_FILES = new Set([
   "Sidebar.tsx",
-  "StoryHub.tsx",
-  "StoryOperator.tsx",
-  "StoryGuestStory.tsx",
+  "PartnerCommercial.tsx",
   "PartnerCommercialModel.tsx",
   "PartnerCommercialUnit.tsx",
   "TravelBusinessPlan.tsx",

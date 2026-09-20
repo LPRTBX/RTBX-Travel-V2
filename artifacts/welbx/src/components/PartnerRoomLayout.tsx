@@ -58,7 +58,6 @@ export const NAV_GROUPS: NavGroup[] = [
       { label: "Pilot Model",       path: "/partner-room/pilot-model" },
       { label: "Deployment",        path: "/partner-room/rollout-model" },
       { label: "Partner Ecosystem", path: "/partner-room/partner-ecosystem" },
-      { label: "Commercial Pathway", path: "/partner-room/commercial" },
       { label: "Resource Library",  path: "/partner-room/brief-library" },
     ],
   },
@@ -70,6 +69,33 @@ const REFERENCE_GROUPS: NavGroup[] = [{
 }];
 
 const DROPDOWN_WIDTH = 260;
+export const PARTNER_ROOM_SCROLL_CLEARANCE = 104;
+
+export function scrollToPartnerRoomHash(hash: string, behavior: ScrollBehavior = "smooth") {
+  const targetId = decodeURIComponent(hash.replace(/^#/, ""));
+  if (!targetId) return false;
+  const target = document.getElementById(targetId);
+  if (!target) return false;
+  const top = target.getBoundingClientRect().top + window.scrollY - PARTNER_ROOM_SCROLL_CLEARANCE;
+  window.scrollTo({ top: Math.max(0, top), behavior });
+  return true;
+}
+
+export function schedulePartnerRoomHashScroll(hash: string, behavior: ScrollBehavior = "smooth") {
+  let cancelled = false;
+  let attempt = 0;
+  const delays = [0, 50, 150, 300];
+
+  const run = () => {
+    if (cancelled) return;
+    scrollToPartnerRoomHash(hash, behavior);
+    attempt += 1;
+    if (attempt < delays.length) window.setTimeout(run, delays[attempt]);
+  };
+
+  requestAnimationFrame(run);
+  return () => { cancelled = true; };
+}
 
 interface PartnerRoomLayoutProps {
   children: React.ReactNode;
@@ -234,9 +260,8 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
     const [targetPath, hash] = path.split("#");
     if (hash && location === targetPath) {
       window.history.replaceState(window.history.state, "", `${window.location.pathname}${window.location.search}#${hash}`);
-      requestAnimationFrame(() => {
-        document.getElementById(hash)?.scrollIntoView({ behavior: "smooth", block: "start" });
-      });
+      scrollToPartnerRoomHash(hash, "auto");
+      schedulePartnerRoomHashScroll(hash, "auto");
       return;
     }
     navigate(path);
@@ -247,6 +272,7 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
       {/* ── Top Nav ────────────────────────────────────────────────────────── */}
       <header>
         <nav
+          data-partner-room-nav
           aria-label="Partner Room navigation"
           style={{
             position: "sticky",

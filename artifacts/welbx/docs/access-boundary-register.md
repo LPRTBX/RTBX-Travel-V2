@@ -14,12 +14,12 @@ Restricted and internal-only material is therefore excluded from `App.tsx`, the 
 
 | Access level | Approved routes and route families |
 |---|---|
-| General Partner | `/partner-room`, `/partner-room/overview`, `/partner-room/product-proof`, `/partner-room/commercial`, `/partner-room/brief-library`, `/partner-room/next-step`, `/partner-room/moments-economy`, `/partner-room/demo-paths`, `/partner-room/live-demos`, `/partner-room/guest-demo`, `/partner-room/dual-view-demo`, `/partner-room/comms-demo`, `/partner-room/proof-calculator` |
+| Public | `/`, `/story`, `/story/operator`, `/story/guest` |
+| General Partner | `/partner-room`, `/partner-room/overview`, `/partner-room/product-proof`, `/partner-room/brief-library`, `/partner-room/next-step`, `/partner-room/moments-economy`, `/partner-room/demo-paths`, `/partner-room/live-demos`, `/partner-room/guest-demo`, `/partner-room/dual-view-demo`, `/partner-room/comms-demo`, `/partner-room/proof-calculator` |
 | Pilot Partner | `/partner-room/pilot-model`, `/partner-room/build-configure`, `/partner-room/operations`, `/partner-room/travel-scenarios`, `/partner-room/travel-scenarios/:scenarioId`, `/partner-room/validation-replay`, `/partner-room/operator-demo` |
 | Technical Partner | `/partner-room/validation`, `/partner-room/integration-brief`, `/partner-room/signals-engine`, `/partner-room/scenario-builder`, `/partner-room/decision-spine`, `/partner-room/operating-model`, `/partner-room/intelligence-model`, `/partner-room/travel-intelligence`, `/partner-room/travel-operating-systems`, `/partner-room/travel-ai-comms`, `/partner-room/product-proof/signal-capture`, `/partner-room/product-proof/stage-3-operating-layer`, `/partner-room/product-proof/pilot-expansion-preview` |
 | Deployment Partner | `/partner-room/deployments`, `/partner-room/operator-brief`, `/partner-room/partner-ecosystem`, `/partner-room/rollout-model`, `/partner-room/holiday-park-demo`, `/partner-room/deployments/*/demo` |
 | Compatibility aliases | `/travel-scenarios`, `/travel-scenarios/:scenarioId`, `/travel-intelligence`, `/travel-operating-systems`, `/travel-ai-comms`, `/travel-action-centre`, `/travel-outcomes`, `/travel-value` |
-| Canonical commercial redirect | `/partner-room/commercial-model` redirects to `/partner-room/commercial`; it has no competing page component |
 
 ## Approved external resource routes
 
@@ -43,7 +43,8 @@ The Brief Library also links to approved canonical pages. Every displayed resour
 |---|---|---|
 | Business Plan | Internal Only | Source retained; no route, manifest entry, or client import |
 | Go-to-Market Plan | Internal Only | Source retained; no route, manifest entry, or client import |
-| Story Lab hub and walkthroughs | Internal Only | Source retained; `/story*` routes and imports removed |
+| Public Story Lab hub and walkthroughs | Public | Registered only at `/story`, `/story/operator` and `/story/guest` |
+| Commercial Pathway | Commercially Restricted | Source retained; no route, navigation item, client import or bundle content |
 | Revenue Model | Commercially Restricted | Source retained; no route, manifest entry, or client import |
 | Commercial Partnership Brief | Commercially Restricted | Source retained; no route, manifest entry, or client import |
 | Commercial Case | Commercially Restricted | Source retained; no route, manifest entry, or client import |
@@ -58,11 +59,11 @@ Restricted source files are deliberately not linked from active external pages. 
 | `public/favicon.svg` | General Partner | Brand icon only |
 | `public/opengraph.jpg` | General Partner | Public social preview image; no restricted commercial content |
 
-There are no externally downloadable business plans, revenue models, commercial cases, or Story Lab documents in this release.
+There are no externally downloadable business plans, revenue models or commercial cases in this release.
 
 ## Commercial and proof boundary
 
-- `/partner-room/commercial` is the only canonical external commercial story.
+- Commercial source is retained outside the public route/import graph; design-partnership enquiries use `/partner-room/next-step`.
 - Commercial figures must retain their existing status labels such as Indicative, Assumption, Subject to proposal, and To be measured.
 - The Proof Calculator is approved as an external illustrative tool because it labels inputs as synthetic, labels outputs as modelled and unmeasured, and provides a visible reset to demonstration defaults.
 - No calculator output is a quote, forecast, measured result, guaranteed outcome, or approved commercial offer.
@@ -75,4 +76,4 @@ Release verification must include:
 2. Internal link and route-import checks.
 3. Production build followed by the bundle-boundary scan.
 4. Proof-language, terminology, and asset checks.
-5. Browser verification of the gate, Brief Library, canonical Commercial Pathway, Proof Calculator reset, and removed-route fallback.
+5. Browser verification of the public story routes, gate, Brief Library, Proof Calculator reset, and removed commercial-route fallback.

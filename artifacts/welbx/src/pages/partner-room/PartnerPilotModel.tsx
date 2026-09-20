@@ -407,7 +407,7 @@ export default function PartnerPilotModel() {
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 28, display: "flex", gap: 8, flexWrap: "wrap" }}>
           {[
             { label: "Partner Ecosystem", href: "/partner-room/partner-ecosystem" },
-            { label: "Commercial Pathway", href: "/partner-room/commercial" },
+            { label: "Explore a Design Partnership", href: "/partner-room/next-step" },
             { label: "Execution Centre", href: "/partner-room/operations" },
             { label: "Travel Operating Systems", href: "/partner-room/travel-operating-systems" },
           ].map(b => <Link key={b.href} href={b.href}><div style={{ padding: "8px 16px", border: "1px solid rgba(255,255,255,0.1)", fontSize: 11, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "rgba(255,255,255,0.48)", cursor: "pointer" }}>{b.label} →</div></Link>)}

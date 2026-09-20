@@ -112,7 +112,7 @@ export default function TravelPilotModel() {
 
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 32, display: "flex", gap: 10, flexWrap: "wrap" }}>
           {[
-            { label: "Commercial Pathway", href: "/partner-room/commercial" },
+            { label: "Explore a Design Partnership", href: "/partner-room/next-step" },
             { label: "Build & Configure", href: "/partner-room/build-configure" },
             { label: "Resource Library", href: "/partner-room/brief-library" },
             { label: "Next Step", href: "/partner-room/next-step" },

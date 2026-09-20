@@ -13,9 +13,7 @@ const gate = readFileSync(join(root, "src", "components", "PartnerAccessGate.tsx
 const forbiddenSourceFiles = [
   "pages/partner-room/PartnerCommercialUnit.tsx",
   "pages/partner-room/PartnerCommercialModel.tsx",
-  "pages/StoryHub.tsx",
-  "pages/StoryOperator.tsx",
-  "pages/StoryGuestStory.tsx",
+  "pages/partner-room/PartnerCommercial.tsx",
   "pages/partner-room/resources/TravelBusinessPlan.tsx",
   "pages/partner-room/resources/TravelGtmPlan.tsx",
   "pages/partner-room/resources/TravelRevenueModel.tsx",
@@ -24,12 +22,15 @@ const forbiddenSourceFiles = [
 ];
 
 const approvedRoutes = [
+  "/",
+  "/story",
+  "/story/operator",
+  "/story/guest",
   "/partner-room",
   "/partner-room/overview",
   "/partner-room/deployments",
   "/partner-room/product-proof",
   "/partner-room/validation",
-  "/partner-room/commercial",
   "/partner-room/brief-library",
   "/partner-room/next-step",
   "/partner-room/operator-brief",
@@ -37,7 +38,6 @@ const approvedRoutes = [
   "/partner-room/moments-economy",
   "/partner-room/signals-engine",
   "/partner-room/pilot-model",
-  "/partner-room/commercial-model",
   "/partner-room/demo-paths",
   "/partner-room/live-demos",
   "/partner-room/guest-demo",
