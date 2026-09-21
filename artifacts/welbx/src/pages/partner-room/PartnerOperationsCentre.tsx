@@ -55,7 +55,7 @@ const ROLES: TravelRole[] = ["Guest", "Frontline", "Manager", "Operator", "Partn
 
 const STATUS_COLORS: Record<ActionStatus, string> = {
   "New": "#3b82f6", "Acknowledged": "#a78bfa", "In progress": "#c9a84c",
-  "Waiting approval": "#f97316", "Escalated": "#ef4444", "Completed": "#10b981",
+  "Approval Required": "#f97316", "Escalated": "#ef4444", "Completed": "#10b981",
   "Follow-up required": "#f97316", "Closed": "rgba(255,255,255,0.35)",
 };
 const PRIORITY_COLORS: Record<string, string> = { Low: "rgba(255,255,255,0.35)", Medium: "#3b82f6", High: "#f97316", Critical: "#ef4444" };
@@ -751,9 +751,9 @@ export default function PartnerOperationsCentre() {
 
         {/* ── HEADER ── */}
         <div style={{ marginBottom: 40 }}>
-          <SectionLabel>RTBX Travel · Operations</SectionLabel>
+          <SectionLabel>JALDO Travel · Operations</SectionLabel>
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 12, maxWidth: 760 }}>
-            RTBX Operations Centre — Working Proof
+            JALDO Operations Centre — Working Proof
           </h1>
           <div style={{ fontSize: 14, color: "rgba(255,255,255,0.45)", marginBottom: 16, letterSpacing: "-0.01em" }}>
             Travel Operations Centre — Operator Interface
@@ -882,7 +882,7 @@ export default function PartnerOperationsCentre() {
         {/* ── EXECUTION CENTRE (existing action cards) ── */}
         <div id="action-centre" style={{ marginBottom: 64, scrollMarginTop: 90 }}>
           <SectionLabel>01 · Execution</SectionLabel>
-          <H2>RTBX Action Centre — Synthetic Simulation</H2>
+          <H2>JALDO Action Centre — Synthetic Simulation</H2>
           <div style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", letterSpacing: "0.04em", marginBottom: 12, marginTop: -6 }}>Travel Operations Centre</div>
           <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, marginBottom: 20, maxWidth: 760 }}>
             Review synthetic moments, accountable role owners and illustrative deadlines. Filters and controls change local demonstration state only.
@@ -961,7 +961,7 @@ export default function PartnerOperationsCentre() {
 
                   {isOpen && (
                     <div style={{ padding: "0 20px 22px" }}>
-                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px 24px", marginBottom: 16 }}>
+                      <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px 24px", marginBottom: 16 }}>
                         {[
                           ["Action ID", a.id], ["Linked signal", a.linkedSignal], ["Linked playbook", a.linkedPlaybook],
                           ["Supporting roles", a.supportingRoles.join(", ")], ["Communication status", a.communicationStatus],
@@ -1045,7 +1045,7 @@ export default function PartnerOperationsCentre() {
                   <span>{o.moment}</span>
                   <span style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", fontWeight: 500 }}>{o.owner}</span>
                 </summary>
-                <div style={{ padding: "0 20px 18px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px 24px" }}>
+                <div className="rtbx-grid-2" style={{ padding: "0 20px 18px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px 24px" }}>
                   {[
                     ["Signal", o.signal], ["Governance rule", o.governanceRule], ["Playbook", o.playbook],
                     ["Illustrative actions", o.actionsTaken], ["Unsent communication drafts", o.communicationsSent], ["Approval requirement", o.approval],
@@ -1114,7 +1114,7 @@ export default function PartnerOperationsCentre() {
           <div style={{ padding: "12px 16px", background: "rgba(201,168,76,0.05)", border: "1px solid rgba(201,168,76,0.2)", marginBottom: 24, maxWidth: 760 }}>
             <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.6)", lineHeight: 1.6, margin: 0, fontWeight: 600 }}>{VALUE_DEMO_LABEL_NOTE}</p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2, marginBottom: 32 }}>
+          <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2, marginBottom: 32 }}>
             {TRAVEL_VALUE_CATEGORIES.map(cat => (
               <div key={cat.id} style={{ padding: "20px 22px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: `2px solid ${cat.color}` }}>
                 <div style={{ fontSize: 12, fontWeight: 800, color: cat.color, marginBottom: 14, letterSpacing: "0.02em" }}>{cat.label}</div>

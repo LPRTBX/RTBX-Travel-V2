@@ -1,5 +1,5 @@
 /**
- * RTBX Travel — Canonical Playbook Register.
+ * JALDO Travel — Canonical Playbook Register.
  *
  * One playbook per core scenario. Each playbook describes an ordered,
  * governed and accountable response — not a summary of the scenario.
@@ -150,10 +150,10 @@ export const TRAVEL_PLAYBOOKS: TravelPlaybook[] = [
       {
         step: 6,
         title: "Prepare staff prompt",
-        action: "RTBX generates an operational prompt for Front Office with approved recovery options and decision context.",
+        action: "JALDO generates an operational prompt for Front Office with approved recovery options and decision context.",
         ownerRoleId: "front-office",
         timing: "Within 5 minutes",
-        systemOrChannel: "Staff console · RTBX Prompt Engine",
+        systemOrChannel: "Staff console · JALDO Prompt Engine",
       },
       {
         step: 7,
@@ -294,7 +294,7 @@ export const TRAVEL_PLAYBOOKS: TravelPlaybook[] = [
       {
         step: 2,
         title: "Route to accountable human",
-        action: "RTBX routes the welfare event to the Duty Manager without autonomous action. AI does not diagnose, decide or respond to the guest.",
+        action: "JALDO routes the welfare event to the Duty Manager without autonomous action. AI does not diagnose, decide or respond to the guest.",
         ownerRoleId: "duty-manager",
         timing: "Within 2 minutes — no delay permitted",
         systemOrChannel: "In-app alert · Direct escalation",
@@ -307,7 +307,7 @@ export const TRAVEL_PLAYBOOKS: TravelPlaybook[] = [
         action: "All automated guest-facing communications are paused for this guest. No further AI-generated messages until Duty Manager clears the event.",
         ownerRoleId: "duty-manager",
         timing: "Immediately on escalation",
-        systemOrChannel: "RTBX Communication Control",
+        systemOrChannel: "JALDO Communication Control",
       },
       {
         step: 4,
@@ -492,7 +492,7 @@ export const TRAVEL_PLAYBOOKS: TravelPlaybook[] = [
       {
         step: 6,
         title: "Notify affected roles",
-        action: "RTBX sends operational briefing to Duty Manager and department leads. Staff receive reallocation prompts.",
+        action: "JALDO sends operational briefing to Duty Manager and department leads. Staff receive reallocation prompts.",
         ownerRoleId: "duty-manager",
         timing: "Within 10 minutes",
         systemOrChannel: "In-app briefing · Staff console",
@@ -835,7 +835,7 @@ export const TRAVEL_PLAYBOOKS: TravelPlaybook[] = [
       {
         step: 6,
         title: "Prepare guest communication",
-        action: "RTBX generates an approved guest disruption notice. Guest Services reviews before sending. Wording is honest and avoids overstating certainty.",
+        action: "JALDO generates an approved guest disruption notice. Guest Services reviews before sending. Wording is honest and avoids overstating certainty.",
         ownerRoleId: "guest-services",
         timing: "Within 15 minutes",
         systemOrChannel: "Approved Guest Channel",
@@ -979,10 +979,10 @@ export const TRAVEL_PLAYBOOKS: TravelPlaybook[] = [
       {
         step: 2,
         title: "Confirm context accuracy",
-        action: "RTBX confirms the guest context signal is current and accurate. Verify that no welfare, safety or service-recovery event is active.",
+        action: "JALDO confirms the guest context signal is current and accurate. Verify that no welfare, safety or service-recovery event is active.",
         ownerRoleId: "revenue-loyalty-lead",
         timing: "Within 2 minutes",
-        systemOrChannel: "RTBX Context Layer",
+        systemOrChannel: "JALDO Context Layer",
         evidenceRequired: ["Context confirmation record"],
       },
       {
@@ -1000,7 +1000,7 @@ export const TRAVEL_PLAYBOOKS: TravelPlaybook[] = [
         action: "Verify the guest is not concurrently subject to a service recovery, welfare or safety event. If so, hold activation.",
         ownerRoleId: "revenue-loyalty-lead",
         timing: "Within 5 minutes",
-        systemOrChannel: "RTBX Context Layer",
+        systemOrChannel: "JALDO Context Layer",
       },
       {
         step: 5,
@@ -1008,7 +1008,7 @@ export const TRAVEL_PLAYBOOKS: TravelPlaybook[] = [
         action: "Revenue and Loyalty Lead selects or approves the communication type, channel and message for the guest.",
         ownerRoleId: "revenue-loyalty-lead",
         timing: "Within 8 minutes",
-        systemOrChannel: "RTBX Prompt Engine",
+        systemOrChannel: "JALDO Prompt Engine",
         approvalRequired: true,
         evidenceRequired: ["Communication approval record"],
       },

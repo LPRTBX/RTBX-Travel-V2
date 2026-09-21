@@ -36,7 +36,7 @@ const SIGNAL_SOURCES = [
     num: "03",
     label: "PMS / Booking System Signals",
     color: "#a78bfa",
-    explain: "With approved future integrations, RTBX could receive permitted fields from PMS and booking systems.",
+    explain: "With approved future integrations, JALDO could receive permitted fields from PMS and booking systems.",
     examples: ["Arrival time", "Departure time", "Room type", "Room/cabin status", "Loyalty or VIP flag", "Booking notes", "Special requests", "Guest profile", "Reservation changes", "Group or corporate booking context"],
     matters: "This is Planned and depends on partner approval, field mapping, access and validation.",
     mattersColor: "#a78bfa",
@@ -219,7 +219,7 @@ export default function PartnerSignalCapture() {
         {/* Header */}
         <div style={{ marginBottom: 56 }}>
           <h1 style={{ fontSize: 34, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", marginBottom: 14, lineHeight: 1.1 }}>
-            How RTBX Travel Captures Signals
+            How JALDO Travel Captures Signals
           </h1>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.45)", lineHeight: 1.8, maxWidth: 700, marginBottom: 24 }}>
              The Working Proof uses synthetic signals, deterministic classification rules, recommended responses and an illustrative trace. It has no active partner integrations or dispatch.
@@ -324,10 +324,10 @@ export default function PartnerSignalCapture() {
               Sources marked <span style={{ color: "#10b981", fontWeight: 700 }}>Planned</span> require approved future integration. <span style={{ color: "#3b82f6", fontWeight: 700 }}>Guest Experience</span> identifies a proposed guest-facing channel, not a deployed one.
             </p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
+          <div className="rtbx-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
             {SIGNAL_SOURCES.slice(0, 6).map(s => <SignalSourceCard key={s.num} source={s} />)}
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2, marginTop: 2 }}>
+          <div className="rtbx-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2, marginTop: 2 }}>
             <SignalSourceCard source={SIGNAL_SOURCES[6]} />
             <div style={{ gridColumn: "2 / 4" }} />
           </div>
@@ -340,7 +340,7 @@ export default function PartnerSignalCapture() {
             <div style={{ fontSize: 18, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em" }}>Current Working Proof vs Planned</div>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
+          <div className="rtbx-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
             {/* Working Proof */}
             <div style={{ padding: "28px 24px", background: "rgba(201,168,76,0.04)", border: "1px solid rgba(201,168,76,0.12)", borderTop: "2px solid #c9a84c" }}>
               <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginBottom: 18 }}>
@@ -398,7 +398,7 @@ export default function PartnerSignalCapture() {
             <div style={{ fontSize: 18, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em" }}>The Deployment Path</div>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
+          <div className="rtbx-grid-4" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
             {DEPLOYMENT_STAGES.map(stage => (
               <div key={stage.num} style={{
                 padding: "28px 22px",
@@ -439,13 +439,13 @@ export default function PartnerSignalCapture() {
             maxWidth: 820,
           }}>
             <p style={{ fontSize: 13.5, color: "rgba(255,255,255,0.5)", lineHeight: 1.8, marginBottom: 24 }}>
-              RTBX does not need every integration on day one to prove value. The first proof is whether the organisation can capture live moments, classify them, guide action and prove the response. Integrations make the signal layer faster and more automated, but the operating logic can be validated through a push-first pilot.
+              JALDO does not need every integration on day one to prove value. The first proof is whether the organisation can capture live moments, classify them, guide action and prove the response. Integrations make the signal layer faster and more automated, but the operating logic can be validated through a push-first pilot.
             </p>
             <div style={{
               paddingTop: 20, borderTop: "1px solid rgba(255,255,255,0.06)",
               fontSize: 13, fontWeight: 700, color: "#c9a84c", lineHeight: 1.5,
             }}>
-              RTBX Travel turns captured signals into governed action. The MVP proves the response loop. Integrations make the signal layer more automated over time.
+              JALDO Travel is designed to turn captured signals into governed action. The MVP is intended to validate the response loop, subject to pilot validation. Integrations make the signal layer more automated over time.
             </div>
           </div>
         </div>

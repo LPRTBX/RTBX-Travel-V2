@@ -1,7 +1,7 @@
 /**
  * PartnerPilotModel.tsx — Sprint 5
  *
- * Canonical pilot model page for RTBX Travel.
+ * Canonical pilot model page for JALDO Travel.
  *
  * Sources from travelPilotModel.ts, travelScenarios.ts and travelOperatingSystems.ts.
  * Does not invent performance results. Success measures identify what will be agreed during alignment.
@@ -76,7 +76,7 @@ export default function PartnerPilotModel() {
 
         {/* ── HEADER ── */}
         <div style={{ marginBottom: 48 }}>
-          <SectionLabel>RTBX Travel · Pilot Model</SectionLabel>
+          <SectionLabel>JALDO Travel · Pilot Model</SectionLabel>
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.15, marginBottom: 14, maxWidth: 760 }}>
             {PILOT_PROPOSITION.name}
           </h1>
@@ -101,7 +101,7 @@ export default function PartnerPilotModel() {
           <SectionLabel>01 · Buyer</SectionLabel>
           <H2>Target buyer and sponsor</H2>
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.65, maxWidth: 760, marginBottom: 16 }}>
-            The first pilot is led from the top. These are the most likely decision-makers and sponsors for an initial RTBX Travel engagement.
+            The first pilot is led from the top. These are the most likely decision-makers and sponsors for an initial JALDO Travel engagement.
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
             {PILOT_PROPOSITION.primaryBuyers.map((buyer, i) => (
@@ -345,7 +345,7 @@ export default function PartnerPilotModel() {
           <SectionLabel>09 · Production Boundary</SectionLabel>
           <H2>Production engineering boundary</H2>
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.65, maxWidth: 760, marginBottom: 16 }}>
-            The pilot proves the operating model and governance approach. Moving from pilot to production requires additional engineering that is outside the pilot scope.
+            The pilot is designed to validate the operating model and governance approach. Moving from pilot to production requires additional engineering that is outside the pilot scope.
           </p>
           {DEPLOYMENT_PACKAGE.filter(p => p.productionOnly).map(pkg => (
             <div key={pkg.id} style={{ padding: "18px 20px", background: "rgba(249,115,22,0.04)", border: "1px solid rgba(249,115,22,0.2)", marginBottom: 12 }}>

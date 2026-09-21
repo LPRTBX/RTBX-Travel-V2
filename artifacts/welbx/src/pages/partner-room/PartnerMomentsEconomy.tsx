@@ -155,7 +155,7 @@ const MOMENTS: Moment[] = [
 export default function PartnerMomentsEconomy() {
   const [selected, setSelected] = useState<Moment>(MOMENTS[0]);
   const { content } = usePartnerContent();
-  const subheadline = content?.momentsEconomy?.subheadline ?? "A property generates dozens of moments every shift where the right action, taken at the right time, changes the outcome for the guest and for the operation. RTBX Core detects, classifies and routes each one — turning the moment economy from a concept into an operational reality.";
+  const subheadline = content?.momentsEconomy?.subheadline ?? "A property generates dozens of moments every shift where the right action, taken at the right time, changes the outcome for the guest and for the operation. JALDO Core detects, classifies and routes each one — turning the moment economy from a concept into an operational reality.";
 
   const fields = [
     { label: "Signal Detected", value: selected.signal, color: "#3b82f6" },
@@ -190,7 +190,7 @@ export default function PartnerMomentsEconomy() {
         </div>
 
         {/* Moment selector grid */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2, marginBottom: 2 }}>
+        <div className="rtbx-grid-4" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2, marginBottom: 2 }}>
           {MOMENTS.map(m => (
             <button
               key={m.id}
@@ -219,7 +219,7 @@ export default function PartnerMomentsEconomy() {
         {/* Positioning callout */}
         <div style={{ padding: "14px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderLeft: "3px solid #c9a84c", marginBottom: 2 }}>
           <p style={{ fontSize: 12, color: "rgba(255,255,255,0.6)", lineHeight: 1.7, margin: 0 }}>
-            Moments are classified by the Context and Moment Layer — a Travel-configured layer of RTBX Core. A moment is not a notification or an alert. It is a classified signal cluster with risk level, value at stake, and governance requirements that determine the response path.
+            Moments are classified by the Context and Moment Layer — a Travel-configured layer of JALDO Core. A moment is not a notification or an alert. It is a classified signal cluster with risk level, value at stake, and governance requirements that determine the response path.
           </p>
         </div>
 
@@ -231,21 +231,21 @@ export default function PartnerMomentsEconomy() {
           borderTop: "none",
           marginBottom: 48,
         }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 28 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 28, flexWrap: "wrap" }}>
             <span style={{ fontSize: 22, color: selected.color }}>{selected.icon}</span>
-            <div>
+            <div style={{ minWidth: 0 }}>
               <div style={{ fontSize: 8, letterSpacing: "0.16em", color: selected.color, textTransform: "uppercase", fontWeight: 700, marginBottom: 4 }}>
                 Moment Selected
               </div>
               <div style={{ fontSize: 20, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em" }}>{selected.title}</div>
             </div>
-            <div style={{ marginLeft: "auto", display: "flex", gap: 8, alignItems: "center" }}>
+            <div style={{ marginLeft: "auto", display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
               <div style={{ padding: "3px 10px", background: "rgba(16,185,129,0.1)", border: "1px solid rgba(16,185,129,0.3)", fontSize: 8, letterSpacing: "0.12em", color: "#10b981", textTransform: "uppercase", fontWeight: 700 }}>{selected.maturity}</div>
                <div style={{ padding: "5px 12px", background: `${selected.color}15`, border: `1px solid ${selected.color}40`, fontSize: 8, letterSpacing: "0.18em", color: selected.color, textTransform: "uppercase", fontWeight: 700, whiteSpace: "nowrap" }}>● SIMULATION</div>
             </div>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2, marginBottom: 2 }}>
+          <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2, marginBottom: 2 }}>
             {fields.map(field => (
               <div key={field.label} style={{
                 padding: "20px 22px",
@@ -274,7 +274,7 @@ export default function PartnerMomentsEconomy() {
           </div>
 
           {/* OS / Decision / Playbook row */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 2, marginBottom: 2 }}>
+          <div className="rtbx-grid-3" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 2, marginBottom: 2 }}>
             {[
               { label: "Operating System", value: selected.os, color: "#10b981" },
               { label: "Decision Requirement", value: selected.decisionReq, color: "#f97316" },
@@ -300,7 +300,7 @@ export default function PartnerMomentsEconomy() {
         </div>
 
         {/* Stats */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2, marginBottom: 48 }}>
+        <div className="rtbx-grid-4" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2, marginBottom: 48 }}>
           {[
             { num: "8",     label: "Moment categories shown",  sub: "Select any to see the full flow" },
             { num: "247+",  label: "Configured signal inputs",  sub: "Across all moment categories" },
@@ -337,7 +337,7 @@ export default function PartnerMomentsEconomy() {
             onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(201,168,76,0.04)"; el.style.borderColor = "rgba(201,168,76,0.18)"; }}
             >
               <div>
-                <div style={{ fontSize: 10.5, fontWeight: 700, color: "#c9a84c", marginBottom: 2 }}>How RTBX Travel Captures Signals →</div>
+                <div style={{ fontSize: 10.5, fontWeight: 700, color: "#c9a84c", marginBottom: 2 }}>How JALDO Travel Captures Signals →</div>
                 <div style={{ fontSize: 10, color: "rgba(255,255,255,0.28)", lineHeight: 1.4 }}>Seven signal sources · Signal pipeline · MVP vs Pilot Phase · Deployment stages</div>
               </div>
             </div>

@@ -250,7 +250,7 @@ function ScenarioDetailPanel({ scenario }: { scenario: TravelScenario }) {
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {scenario.escalation.map((esc, i) => (
                   <div key={i} style={{ padding: "16px 18px", background: "rgba(249,115,22,0.04)", border: "1px solid rgba(249,115,22,0.2)", borderLeft: "3px solid #f97316" }}>
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 10 }}>
+                    <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 10 }}>
                       <div>
                         <div style={{ fontSize: 8.5, letterSpacing: "0.1em", textTransform: "uppercase", color: C.orange, fontWeight: 700, marginBottom: 4 }}>Trigger</div>
                         <div style={{ fontSize: 12, color: "rgba(255,255,255,0.7)" }}>{esc.trigger}</div>
@@ -260,7 +260,7 @@ function ScenarioDetailPanel({ scenario }: { scenario: TravelScenario }) {
                         <div style={{ fontSize: 12, color: "rgba(255,255,255,0.7)" }}>{esc.threshold}</div>
                       </div>
                     </div>
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+                    <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
                       <div>
                         <div style={{ fontSize: 8.5, letterSpacing: "0.1em", textTransform: "uppercase", color: C.orange, fontWeight: 700, marginBottom: 4 }}>Escalate to</div>
                         <div style={{ fontSize: 12, fontWeight: 700, color: "#fff" }}>{roleName(esc.escalateToRoleId)}</div>

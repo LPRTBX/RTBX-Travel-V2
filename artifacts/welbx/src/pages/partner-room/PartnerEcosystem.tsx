@@ -1,7 +1,7 @@
 /**
  * PartnerEcosystem.tsx — Sprint 5
  *
- * Canonical partner ecosystem page for RTBX Travel.
+ * Canonical partner ecosystem page for JALDO Travel.
  *
  * Sources from travelPartnerEcosystem.ts and travelDeploymentPathway.ts.
  * No named partner relationship is represented as confirmed.
@@ -83,7 +83,7 @@ function LaneCard({ lane }: { lane: TravelPartnerLane }) {
            <div className="rtbx-responsive-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: "12px 16px", marginBottom: 16 }}>
             {[
               { title: "Partner contributes", items: lane.partnerContribution, c: color },
-              { title: "RTBX contributes",    items: lane.rtbxContribution,    c: C.gold },
+              { title: "JALDO contributes",    items: lane.rtbxContribution,    c: C.gold },
               { title: "Customer contributes", items: lane.customerContribution, c: "rgba(255,255,255,0.5)" },
             ].map(col => (
               <div key={col.title} style={{ padding: "12px 14px", background: "rgba(255,255,255,0.02)", border: `1px solid ${col.c}20` }}>
@@ -136,12 +136,12 @@ export default function PartnerEcosystem() {
 
         {/* ── HEADER ── */}
         <div style={{ marginBottom: 48 }}>
-          <SectionLabel>RTBX Travel · Partner Ecosystem</SectionLabel>
+          <SectionLabel>JALDO Travel · Partner Ecosystem</SectionLabel>
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.15, marginBottom: 14, maxWidth: 760 }}>
-            RTBX Travel Partner Ecosystem
+            JALDO Travel Partner Ecosystem
           </h1>
           <p style={{ fontSize: 15, color: C.muted, lineHeight: 1.75, maxWidth: 700, marginBottom: 20 }}>
-            RTBX Travel is designed to operate within an ecosystem of partners — not as a standalone replacement for existing systems. This page defines how signal, governance, intervention, technology, deployment and distribution partners contribute alongside RTBX and the customer.
+            JALDO Travel is designed to operate within an ecosystem of partners — not as a standalone replacement for existing systems. This page defines how signal, governance, intervention, technology, deployment and distribution partners contribute alongside JALDO and the customer.
           </p>
           <div style={{ padding: "12px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.08)", fontSize: 12, color: "rgba(255,255,255,0.42)", fontStyle: "italic" }}>
             No named partnership relationship on this page is represented as confirmed or active unless explicitly stated. All partnership structures are indicative models. Commercial terms are subject to agreement.
@@ -151,17 +151,17 @@ export default function PartnerEcosystem() {
         {/* ── WHY AN ECOSYSTEM MODEL ── */}
         <div id="why-ecosystem" style={{ marginBottom: 56, scrollMarginTop: 90 }}>
           <SectionLabel>01 · Model</SectionLabel>
-          <H2>Why RTBX uses an ecosystem model</H2>
+          <H2>Why JALDO uses an ecosystem model</H2>
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.75, maxWidth: 760, marginBottom: 20 }}>
-            Hotels and resorts already have systems — property management, housekeeping, guest messaging, maintenance, loyalty. RTBX does not replace them. RTBX connects them: assembling context, applying governance, activating playbooks, coordinating accountable action, capturing evidence and measuring outcomes.
+            Hotels and resorts already have systems — property management, housekeeping, guest messaging, maintenance, loyalty. JALDO does not replace them. JALDO connects them: assembling context, applying governance, activating playbooks, coordinating accountable action, capturing evidence and measuring outcomes.
           </p>
            <div className="rtbx-responsive-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 2, marginBottom: 16 }}>
             {[
-              { label: "Signal partners", desc: "Provide the operational signals RTBX needs to detect moments", color: LANE_COLORS["signal-partners"] },
-              { label: "Governance partners", desc: "Provide the policies and standards that shape RTBX decision rules", color: LANE_COLORS["governance-partners"] },
-              { label: "Intervention partners", desc: "Deliver the services RTBX triggers when a moment is identified", color: LANE_COLORS["intervention-partners"] },
-              { label: "Technology partners", desc: "Provide the technical infrastructure that supports RTBX deployment", color: LANE_COLORS["technology-partners"] },
-              { label: "Deployment partners", desc: "Implement, configure and support RTBX within the customer environment", color: LANE_COLORS["deployment-partners"] },
+              { label: "Signal partners", desc: "Provide the operational signals JALDO needs to detect moments", color: LANE_COLORS["signal-partners"] },
+              { label: "Governance partners", desc: "Provide the policies and standards that shape JALDO decision rules", color: LANE_COLORS["governance-partners"] },
+              { label: "Intervention partners", desc: "Deliver the services JALDO triggers when a moment is identified", color: LANE_COLORS["intervention-partners"] },
+              { label: "Technology partners", desc: "Provide the technical infrastructure that supports JALDO deployment", color: LANE_COLORS["technology-partners"] },
+              { label: "Deployment partners", desc: "Implement, configure and support JALDO within the customer environment", color: LANE_COLORS["deployment-partners"] },
               { label: "Distribution partners", desc: "Provide market access and channel reach to hotel operators", color: LANE_COLORS["distribution-partners"] },
             ].map(item => (
               <div key={item.label} style={{ padding: "16px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: `2px solid ${item.color}` }}>
@@ -177,19 +177,19 @@ export default function PartnerEcosystem() {
           <SectionLabel>02 · Partner Lanes</SectionLabel>
           <H2>Six partner lanes</H2>
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.65, maxWidth: 760, marginBottom: 20 }}>
-            Each lane defines what the partner contributes, what RTBX contributes, what the customer contributes, and the commercial model options available. Expand a lane to see the full structure.
+            Each lane defines what the partner contributes, what JALDO contributes, what the customer contributes, and the commercial model options available. Expand a lane to see the full structure.
           </p>
           <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
             {TRAVEL_PARTNER_LANES.map(lane => <LaneCard key={lane.id} lane={lane} />)}
           </div>
         </div>
 
-        {/* ── WHAT RTBX OWNS ── */}
+        {/* ── WHAT JALDO OWNS ── */}
         <div id="rtbx-ownership" style={{ marginBottom: 48, scrollMarginTop: 90 }}>
-          <SectionLabel>03 · RTBX Ownership</SectionLabel>
-          <H2>What RTBX owns</H2>
+          <SectionLabel>03 · JALDO Ownership</SectionLabel>
+          <H2>What JALDO owns</H2>
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.65, maxWidth: 760, marginBottom: 16 }}>
-            RTBX owns the intelligence, governance and execution layer — not the underlying customer systems, source data or third-party services.
+            JALDO owns the intelligence, governance and execution layer — not the underlying customer systems, source data or third-party services.
           </p>
            <div className="rtbx-responsive-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 2 }}>
             {RTBX_OWNED_CAPABILITIES.map((cap, i) => (
@@ -205,7 +205,7 @@ export default function PartnerEcosystem() {
           <SectionLabel>04 · Customer Ownership</SectionLabel>
           <H2>What the customer owns</H2>
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.65, maxWidth: 760, marginBottom: 16 }}>
-            RTBX supports accountable human operations rather than removing customer control. The customer retains authority over all systems, data, policies and deployment decisions.
+            JALDO supports accountable human operations rather than removing customer control. The customer retains authority over all systems, data, policies and deployment decisions.
           </p>
            <div className="rtbx-responsive-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 2 }}>
             {CUSTOMER_OWNED_CAPABILITIES.map((cap, i) => (
@@ -227,7 +227,7 @@ export default function PartnerEcosystem() {
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12, minWidth: 700 }}>
               <thead>
                 <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.1)" }}>
-                  {["Partner type", "Partner owns", "RTBX owns", "Customer owns"].map(h => (
+                  {["Partner type", "Partner owns", "JALDO owns", "Customer owns"].map(h => (
                     <th key={h} style={{ textAlign: "left", padding: "8px 14px", color: "rgba(255,255,255,0.4)", fontWeight: 700, fontSize: 11, textTransform: "uppercase", letterSpacing: "0.06em" }}>{h}</th>
                   ))}
                 </tr>
@@ -282,7 +282,7 @@ export default function PartnerEcosystem() {
                     ["Mapping owner", rec.mappingOwner],
                     ["Customer responsibility", rec.customerResponsibility],
                     ["Partner responsibility", rec.partnerResponsibility],
-                    ["RTBX responsibility", rec.rtbxResponsibility],
+                    ["JALDO responsibility", rec.rtbxResponsibility],
                     ["Failure owner", rec.failureOwner],
                     ["Proof", rec.proof === "none" ? "None" : rec.proof],
                   ].map(([label, val]) => (
@@ -306,7 +306,7 @@ export default function PartnerEcosystem() {
           <SectionLabel>07 · Deployment Responsibility</SectionLabel>
           <H2>Deployment responsibility</H2>
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.65, maxWidth: 760, marginBottom: 16 }}>
-            Responsibilities across RTBX, customer, technology partner, deployment partner and intervention partner for each stage of deployment.
+            Responsibilities across JALDO, customer, technology partner, deployment partner and intervention partner for each stage of deployment.
           </p>
           <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
             {DEPLOYMENT_RESPONSIBILITIES.map(act => (
@@ -314,7 +314,7 @@ export default function PartnerEcosystem() {
                 <summary style={{ padding: "11px 18px", cursor: "pointer", listStyle: "none", fontSize: 13, fontWeight: 700, color: "#fff" }}>{act.label}</summary>
                  <div className="rtbx-responsive-grid-2" style={{ padding: "0 18px 14px", display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: "6px 20px" }}>
                   {[
-                    ["RTBX", act.rtbx, C.gold],
+                    ["JALDO", act.rtbx, C.gold],
                     ["Customer", act.customer, "rgba(255,255,255,0.6)"],
                     ["Technology partner", act.technologyPartner, "#3b82f6"],
                     ["Deployment partner", act.deploymentPartner, "#10b981"],
@@ -360,7 +360,7 @@ export default function PartnerEcosystem() {
           <SectionLabel>09 · Selection Criteria</SectionLabel>
           <H2>Partner selection criteria</H2>
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.65, maxWidth: 760, marginBottom: 16 }}>
-            What makes a strong RTBX Travel partner.
+            What makes a strong JALDO Travel partner.
           </p>
            <div className="rtbx-responsive-grid-2" style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 2 }}>
             {PARTNER_SELECTION_CRITERIA.map(cat => (

@@ -87,7 +87,7 @@ const INTEGRATION_CATEGORIES: { title: string; sub: string; desc: string; color:
   {
     title: "Partner Systems",
     sub: "PARTNER SYSTEMS",
-    desc: "Local service, marketplace and loyalty partner systems activated through RTBX Travel at the right moment in the guest journey.",
+    desc: "Local service, marketplace and loyalty partner systems activated through JALDO Travel at the right moment in the guest journey.",
     color: "#22d3ee",
     status: "Planned",
   },
@@ -95,7 +95,7 @@ const INTEGRATION_CATEGORIES: { title: string; sub: string; desc: string; color:
 
 const FLOW_NODES = [
   { label: "Existing Systems",        sub: "PMS, HKP, CRM, POS, IoT" },
-  { label: "RTBX Core Connection Layer",  sub: "247 modelled signal types; real-time connection is Planned" },
+  { label: "JALDO Core Connection Layer",  sub: "247 modelled signal types; real-time connection is Planned" },
   { label: "Context and Moment Layer", sub: "Pattern recognition and moment classification" },
   { label: "Decision Spine",          sub: "Governed playbook execution" },
   { label: "Routed Action",           sub: "Execution Centre — communication routing" },
@@ -116,7 +116,7 @@ export default function PartnerIntegrationBrief() {
             Your System Already Captures the Signal
           </h1>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 680, marginBottom: 14 }}>
-            RTBX Travel is designed as a signal-to-action layer, not a replacement. Approved data sources can become signal inputs to the moment engine through the RTBX Integration Hub. External connections remain Planned until a named integration is approved and evidenced.
+            JALDO Travel is designed as a signal-to-action layer, not a replacement. Approved data sources can become signal inputs to the moment engine through the JALDO Integration Hub. External connections remain Planned until a named integration is approved and evidenced.
           </p>
           <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.3)", fontStyle: "italic" }}>
             No system below is presented as currently Integrated or Production. Working Proof refers only to the demonstrated interface; Planned means the external connection is not active. Connector-ready may be used only when interface-contract evidence exists.
@@ -126,7 +126,7 @@ export default function PartnerIntegrationBrief() {
         <div style={{ padding: "20px 24px", background: "rgba(59,130,246,0.04)", border: "1px solid rgba(59,130,246,0.15)", borderLeft: "3px solid #3b82f6", marginBottom: 24 }}>
           <div style={{ fontSize: 8, letterSpacing: "0.18em", color: "#3b82f6", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>No Rip-and-Replace</div>
           <p style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", lineHeight: 1.75, margin: 0 }}>
-            RTBX Travel is designed to connect to systems already running in a property. PMS, housekeeping, guest app, CRM and task platforms can become signal sources after approval and integration work. The Planned model adds a governed execution layer without requiring replacement of those systems.
+            JALDO Travel is designed to connect to systems already running in a property. PMS, housekeeping, guest app, CRM and task platforms can become signal sources after approval and integration work. The Planned model adds a governed execution layer without requiring replacement of those systems.
           </p>
         </div>
 
@@ -143,9 +143,9 @@ export default function PartnerIntegrationBrief() {
         {/* Integration category cards */}
         <div style={{ marginBottom: 80 }}>
           <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 28 }}>
-            Integration Categories → RTBX Integration Hub
+            Integration Categories → JALDO Integration Hub
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
+          <div className="rtbx-grid-4" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
             {INTEGRATION_CATEGORIES.map(cat => (
               <div key={cat.title} style={{
                 padding: "26px 22px",
@@ -177,7 +177,7 @@ export default function PartnerIntegrationBrief() {
           <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 28 }}>
             How It Flows
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 0 }}>
+          <div className="rtbx-stack-mobile" style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 0 }}>
             {FLOW_NODES.map((node, i) => (
               <div key={node.label} style={{ display: "flex", alignItems: "stretch" }}>
                 <div style={{
@@ -214,7 +214,7 @@ export default function PartnerIntegrationBrief() {
             Integration Model
           </div>
           <p style={{ fontSize: 13.5, color: "rgba(255,255,255,0.6)", lineHeight: 1.75, margin: 0 }}>
-            RTBX Core prefers a push-first model where approved systems can send signal events to RTBX. Where push events are not available, other integration patterns can be assessed during technical discovery. The integration surface is intentionally minimal: a single webhook endpoint per signal category, with a documented schema for each source type. Simple push-first or webhook-based integrations may be testable within a short technical sprint. Timing depends on partner access, data permissions, system capability and operator approval.
+            JALDO Core prefers a push-first model where approved systems can send signal events to JALDO. Where push events are not available, other integration patterns can be assessed during technical discovery. The integration surface is intentionally minimal: a single webhook endpoint per signal category, with a documented schema for each source type. Simple push-first or webhook-based integrations may be testable within a short technical sprint. Timing depends on partner access, data permissions, system capability and operator approval.
           </p>
         </div>
       </div>

@@ -57,7 +57,7 @@ export default function PartnerOperatorBrief() {
             Operator Brief
           </div>
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 24, maxWidth: 680 }}>
-            The Execution Gap That RTBX Core Closes
+            The Execution Gap That JALDO Core Closes
           </h1>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 680 }}>
             Travel operators do not lack data. They lack a governed operating layer between the signals their systems generate and the actions their teams take. This Working Proof illustrates a proposed layer that could surface the right action to an accountable person. Guest Experience is the proposed guest-facing layer.
@@ -105,7 +105,7 @@ export default function PartnerOperatorBrief() {
                 example: "The model illustrates possible states: sentiment protection, proposed lounge access, housekeeping reprioritisation and a draft evidence trail.",
               },
             ].map((item, i) => (
-              <div key={item.step} style={{
+              <div key={item.step} className="rtbx-stack-mobile" style={{
                 display: "grid", gridTemplateColumns: "60px 180px 1fr 1fr", gap: 24,
                 padding: "24px 28px", background: "rgba(255,255,255,0.02)",
                 border: "1px solid rgba(255,255,255,0.06)", borderLeft: `3px solid ${item.color}`,
@@ -125,7 +125,7 @@ export default function PartnerOperatorBrief() {
           <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 28 }}>
             Operator Value
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
+          <div className="rtbx-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
             {VALUE_CARDS.map(card => (
               <div key={card.title} style={{
                 padding: "32px 26px",

@@ -125,7 +125,7 @@ export default function PartnerDemoPaths() {
             Demo Room
           </div>
           <h1 style={{ fontSize: 36, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 18, maxWidth: 640 }}>
-            RTBX Core — Interactive Working Proofs
+            JALDO Core — Interactive Working Proofs
           </h1>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.48)", lineHeight: 1.8, maxWidth: 600 }}>
             Every item is interactive, using synthetic inputs and illustrative rules. They are Working Proof simulations, not live deployments: outputs are proposed drafts, no external updates or dispatches occur, and named people remain accountable for approval and action.
@@ -142,18 +142,18 @@ export default function PartnerDemoPaths() {
             <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 6 }}>Section 01</div>
             <div style={{ fontSize: 17, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em" }}>Core Interactive Demos</div>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
+          <div className="rtbx-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
             {CORE_DEMOS.map(demo => (
               <div key={demo.num} style={{
                 padding: "32px 26px",
                 background: `${demo.color}05`,
                 border: `1px solid ${demo.color}20`,
                 borderTop: `2px solid ${demo.color}`,
-                display: "flex", flexDirection: "column",
+                display: "flex", flexDirection: "column", minWidth: 0,
               }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 14 }}>
-                  <div style={{ fontSize: 8, fontWeight: 800, color: `${demo.color}45`, letterSpacing: "0.12em" }}>{demo.num}</div>
-                  <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: demo.tagColor, border: `1px solid ${demo.tagColor}30`, padding: "2px 8px", whiteSpace: "nowrap", flexShrink: 0 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 14, gap: 8 }}>
+                  <div style={{ fontSize: 8, fontWeight: 800, color: `${demo.color}45`, letterSpacing: "0.12em", flexShrink: 0 }}>{demo.num}</div>
+                  <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: demo.tagColor, border: `1px solid ${demo.tagColor}30`, padding: "2px 8px", textAlign: "right" }}>
                     {demo.tag}
                   </div>
                 </div>
@@ -187,7 +187,7 @@ export default function PartnerDemoPaths() {
               One simulated scenario per deployment environment — synthetic signal → rules classification → recommendation → illustrative action and assurance → indicative value.
             </p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 2 }}>
+          <div className="rtbx-grid-5" style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 2 }}>
             {DEPLOYMENT_DEMOS.map(d => (
               <div key={d.label} style={{
                 padding: "24px 20px",

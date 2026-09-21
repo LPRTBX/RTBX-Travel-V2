@@ -84,10 +84,10 @@ export default function TravelUxBlueprint() {
         {/* Header */}
         <div style={{ marginBottom: 56 }}>
           <div style={{ fontSize: 8.5, letterSpacing: "0.2em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>Partner Resource · UX Blueprint</div>
-          <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 18, maxWidth: 680 }}>RTBX Travel — UX Blueprint</h1>
+          <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 18, maxWidth: 680 }}>JALDO Travel — UX Blueprint</h1>
           <div style={{ padding: "16px 20px", background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.22)", borderLeft: "3px solid #c9a84c", maxWidth: 700 }}>
             <p style={{ fontSize: 13, color: "rgba(255,255,255,0.7)", lineHeight: 1.75, margin: 0, fontStyle: "italic" }}>
-              "RTBX Travel makes execution visible by showing what each person sees, does and creates."
+              "JALDO Travel makes execution visible by showing what each person sees, does and creates."
             </p>
           </div>
         </div>
@@ -96,6 +96,8 @@ export default function TravelUxBlueprint() {
           <div style={{ fontSize: 11.5, color: C.muted, lineHeight: 1.6 }}>This blueprint is a synthetic future-state simulation. Any live workflow, pilot, signal, offer, integration, transaction or revenue outcome is contingent on approval, implementation, integration and measurement. No dispatches or external updates occur here, and named people retain accountability.</div>
         </div>
 
+        <div className="rtbx-table-scroll">
+        <div style={{ minWidth: 720 }}>
         {/* Column headers */}
         <div style={{ display: "grid", gridTemplateColumns: "180px 1fr 1fr 1fr 1fr", gap: 0, marginBottom: 2 }}>
           {["Role", "What they need", "What action they take", "Signal captured", "Value created"].map(h => (
@@ -117,6 +119,8 @@ export default function TravelUxBlueprint() {
               <div style={{ padding: "18px 14px", fontSize: 11, color: "rgba(16,185,129,0.75)", lineHeight: 1.6 }}>{r.value}</div>
             </div>
           ))}
+        </div>
+        </div>
         </div>
 
         {/* System update note */}

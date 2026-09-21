@@ -24,8 +24,8 @@ const MODES = [
     duration: "5 Minutes",
     slides: "6 slides",
     format: "Senior stakeholder overview",
-    desc: "A concise walkthrough of how RTBX Travel is designed to work in an operator environment. Designed for senior leaders with limited time and high expectations.",
-    steps: ["The Execution Gap", "RTBX Core Position", "Signals to Moments", "One Guest · One Moment", "Executive Command", "Measurable Value"],
+    desc: "A concise walkthrough of how JALDO Travel is designed to work in an operator environment. Designed for senior leaders with limited time and high expectations.",
+    steps: ["The Execution Gap", "JALDO Core Position", "Signals to Moments", "One Guest · One Moment", "Executive Command", "Measurable Value"],
     accent: C.amber,
     badge: "STRATEGY",
   },
@@ -59,8 +59,8 @@ const MODES = [
     label: "Staff Action View",
     duration: "Guided",
     slides: "Operator workflow",
-    format: "RTBX Core simulated guided response",
-    desc: "A simulation of the staff-facing side of RTBX Core — how rules-based classifications, proposed interventions and draft workflows can be shown for human review.",
+    format: "JALDO Core simulated guided response",
+    desc: "A simulation of the staff-facing side of JALDO Core — how rules-based classifications, proposed interventions and draft workflows can be shown for human review.",
     steps: ["Signal Classified", "Playbook Proposed", "Draft Brief Shown", "Action Modelled", "Escalation Proposed", "Resolution Modelled"],
     accent: C.cyan,
     badge: "OPERATOR",
@@ -89,7 +89,7 @@ export default function StoryHub() {
       {/* Header */}
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} style={{ marginBottom: 52 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 24 }}>
-          <span style={{ fontSize: 12, fontWeight: 800, letterSpacing: "0.24em", color: C.white, textTransform: "uppercase" }}>RTBX Travel</span>
+          <span style={{ fontSize: 12, fontWeight: 800, letterSpacing: "0.24em", color: C.white, textTransform: "uppercase" }}>JALDO Travel</span>
           <span style={{ color: C.dimmed }}>·</span>
           <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.22em", color: C.amber, textTransform: "uppercase" }}>OPERATOR STORY LAB</span>
         </div>
@@ -99,7 +99,7 @@ export default function StoryHub() {
         </h1>
 
         <p style={{ fontSize: 13, color: C.muted, maxWidth: 560, lineHeight: 1.75, marginBottom: 20 }}>
-          Explore how RTBX Travel is designed to work in operator environments — from synthetic guest signal to proposed staff action, modelled escalation, assurance and indicative value.
+          Explore how JALDO Travel is designed to work in operator environments — from synthetic guest signal to proposed staff action, modelled escalation, assurance and indicative value.
         </p>
 
         <div style={{ maxWidth: 760, padding: "12px 16px", marginBottom: 20, border: `1px solid ${C.amber}35`, borderLeft: `3px solid ${C.amber}`, fontSize: 10.5, color: C.muted, lineHeight: 1.6 }}>
@@ -170,7 +170,7 @@ export default function StoryHub() {
         transition={{ duration: 0.4, delay: 0.4 }}
         style={{ marginTop: 32, paddingTop: 24, borderTop: `1px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "space-between" }}
       >
-        <span style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.1em", color: C.dimmed, textTransform: "uppercase" }}>RTBX Travel  |  The Operating Layer Between Signal And Action</span>
+        <span style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.1em", color: C.dimmed, textTransform: "uppercase" }}>JALDO Travel  |  The Operating Layer Between Signal And Action</span>
         <Link href="/"><span style={{ fontSize: 8.5, color: C.dimmed, cursor: "pointer", textDecoration: "underline" }}>← Return to Platform</span></Link>
       </motion.div>
     </div>

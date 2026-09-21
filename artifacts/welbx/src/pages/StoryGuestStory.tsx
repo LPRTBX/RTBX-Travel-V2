@@ -9,7 +9,7 @@ type ViewMode = 'guest' | 'operating' | 'infrastructure';
 const VIEW_CONFIG: Record<ViewMode, { label: string; color: string; sub: string }> = {
   guest:          { label: "GUEST VIEW",          color: C.blue,   sub: "What Mr Hartmann experiences" },
   operating:      { label: "OPERATING VIEW",       color: C.amber,  sub: "What the team sees and does" },
-  infrastructure: { label: "INFRASTRUCTURE VIEW",  color: C.violet, sub: "What RTBX is doing invisibly" },
+  infrastructure: { label: "INFRASTRUCTURE VIEW",  color: C.violet, sub: "What JALDO is doing invisibly" },
 };
 
 interface StepView { headline: string; narrative: string; points: string[]; }
@@ -359,7 +359,7 @@ export default function StoryGuestStory() {
       {/* Header */}
       <div style={{ padding: "16px 32px", borderBottom: `1px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0, background: "hsl(220 13% 4%)" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <span style={{ fontSize: 11, fontWeight: 800, letterSpacing: "0.22em", color: C.white, textTransform: "uppercase" }}>RTBX Travel</span>
+          <span style={{ fontSize: 11, fontWeight: 800, letterSpacing: "0.22em", color: C.white, textTransform: "uppercase" }}>JALDO Travel</span>
           <span style={{ color: C.border }}>·</span>
           <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.2em", color: vc.color, textTransform: "uppercase" }}>THE DIAMOND ARRIVAL</span>
         </div>
@@ -479,7 +479,7 @@ export default function StoryGuestStory() {
 
             {/* Visual panel */}
             <div style={{ width: 360, flexShrink: 0, borderLeft: `1px solid ${C.border}`, padding: "24px 20px", overflow: "auto", background: "hsl(220 13% 4%)" }}>
-              <div style={{ fontSize: 7, fontWeight: 700, letterSpacing: "0.18em", color: C.dimmed, textTransform: "uppercase", marginBottom: 14 }}>RTBX Travel · SIMULATION</div>
+              <div style={{ fontSize: 7, fontWeight: 700, letterSpacing: "0.18em", color: C.dimmed, textTransform: "uppercase", marginBottom: 14 }}>JALDO Travel · SIMULATION</div>
               <StepVisual step={currentStep} viewColor={vc.color} />
             </div>
           </div>

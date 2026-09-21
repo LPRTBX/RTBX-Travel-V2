@@ -210,7 +210,7 @@ function OperatorPanel({ step }: { step: StepContent }) {
         <div style={{ fontSize: 11, color: P.muted, lineHeight: 1.7 }}>Illustrative only — {step.operatorAction}</div>
         {step.operatorOwner && <div style={{ marginTop: 8, fontSize: 9.5, color: P.green }}>Accountable human role → {step.operatorOwner}</div>}
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8 }}>
+      <div className="rtbx-grid-3" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8 }}>
         {["Model assignment", "Model deferral", "Model escalation"].map((btn, i) => (
           <div key={btn} style={{
             padding: "9px", background: i === 0 ? `${P.amber}10` : "transparent",
@@ -269,7 +269,7 @@ export default function PartnerDualViewDemo() {
       {/* Header */}
       <div className="rtbx-page-pad" style={{ maxWidth: 1400, margin: "0 auto", padding: "40px 60px 32px" }}>
         <div style={{ fontSize: 8, letterSpacing: "0.22em", color: P.amber, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>DUAL VIEW DEMO</div>
-        <h1 style={{ fontSize: 34, fontWeight: 800, color: P.white, letterSpacing: "-0.02em", marginBottom: 10 }}>RTBX Orchestration — Dual View Demo</h1>
+        <h1 style={{ fontSize: 34, fontWeight: 800, color: P.white, letterSpacing: "-0.02em", marginBottom: 10 }}>JALDO Orchestration — Dual View Demo</h1>
         <p style={{ fontSize: 13, color: P.muted, maxWidth: 520, lineHeight: 1.7, margin: 0 }}>
           The same simulated moment shown from two perspectives. Step through the illustrative signal-to-value chain on both the guest and operator side.
         </p>

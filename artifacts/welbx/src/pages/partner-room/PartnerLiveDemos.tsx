@@ -44,7 +44,7 @@ const DEMOS = [
     num: "04",
     title: "Moment-to-Value Demo",
     sub: "Follow a signal from detection through decision, response, outcome and value.",
-    desc: "Ten illustrative hotel moments. Each shows what RTBX Core would classify, route and log, with Guest Channel representing guest-facing communication.",
+    desc: "Ten illustrative hotel moments. Each shows what JALDO Core would classify, route and log, with Guest Channel representing guest-facing communication.",
     cta: "Open Moments Economy",
     path: "/partner-room/moments-economy",
     color: P.amber,
@@ -52,7 +52,7 @@ const DEMOS = [
   {
     id: "scenarios",
     num: "05",
-    title: "RTBX Travel Scenarios",
+    title: "JALDO Travel Scenarios",
     sub: "Six governed scenarios — signal through governance, action, evidence and value.",
     desc: "Select a role view, step through the full chain, send demo communications, confirm human actions and escalations, and view the resulting evidence and value.",
     cta: "Open Scenarios",
@@ -102,13 +102,13 @@ export default function PartnerLiveDemos() {
           Interactive UX Demos
         </h1>
         <p style={{ fontSize: 15, color: P.muted, maxWidth: 560, lineHeight: 1.75, margin: 0 }}>
-          See how RTBX Travel works across guest, operator and signal-to-action views, with Guest Experience appearing only as the guest-facing experience layer.
+          See how JALDO Travel works across guest, operator and signal-to-action views, with Guest Experience appearing only as the guest-facing experience layer.
         </p>
       </div>
 
       {/* Demo cards */}
       <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px 80px" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
+        <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
           {DEMOS.map(demo => (
             <div key={demo.id} style={{
               background: P.navy, border: `1px solid ${P.border}`,

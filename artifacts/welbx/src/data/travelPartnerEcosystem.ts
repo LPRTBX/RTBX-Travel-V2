@@ -1,7 +1,7 @@
 /**
  * travelPartnerEcosystem.ts — Sprint 5
  *
- * Canonical partner ecosystem data for RTBX Travel.
+ * Canonical partner ecosystem data for JALDO Travel.
  *
  * Six partner lanes, ownership boundaries, partner selection criteria
  * and partnership pathway. All partnership descriptions are indicative —
@@ -61,7 +61,7 @@ export const TRAVEL_PARTNER_LANES: TravelPartnerLane[] = [
     id: "signal-partners",
     name: "Signal Partners",
     summary:
-      "Partners that provide operational, guest or environmental signals. Signal partners give RTBX the real-time and contextual data needed to detect moments, assemble context and initiate governed responses.",
+      "Partners that provide operational, guest or environmental signals. Signal partners give JALDO the real-time and contextual data needed to detect moments, assemble context and initiate governed responses.",
     partnerTypes: [
       "Property management system providers",
       "Reservation platforms",
@@ -125,7 +125,7 @@ export const TRAVEL_PARTNER_LANES: TravelPartnerLane[] = [
     id: "governance-partners",
     name: "Governance Partners",
     summary:
-      "Partners that contribute specialist policies, standards or decision controls. Governance partners provide the domain expertise that shapes RTBX decision rules, approval thresholds and escalation pathways.",
+      "Partners that contribute specialist policies, standards or decision controls. Governance partners provide the domain expertise that shapes JALDO decision rules, approval thresholds and escalation pathways.",
     partnerTypes: [
       "Hotel brand owners and brand standard owners",
       "Safety and emergency management specialists",
@@ -164,7 +164,7 @@ export const TRAVEL_PARTNER_LANES: TravelPartnerLane[] = [
       "Brand standard adoption and governance oversight",
     ],
     connectionRequirements: [
-      "Documented policy or standard provided to RTBX configuration",
+      "Documented policy or standard provided to JALDO configuration",
       "Agreed review cadence for rule updates",
       "Named governance contacts for escalation pathways",
       "Approval process defined for high-risk decision types",
@@ -177,13 +177,13 @@ export const TRAVEL_PARTNER_LANES: TravelPartnerLane[] = [
     ],
     maturityStatus: "in-development",
     maturityNote:
-      "Governance structures are architecturally defined. Named specialist governance partner relationships are not confirmed. The RTBX Decision Spine is implemented for configuration. Domain specialist engagement is a pilot requirement.",
+      "Governance structures are architecturally defined. Named specialist governance partner relationships are not confirmed. The JALDO Decision Spine is implemented for configuration. Domain specialist engagement is a pilot requirement.",
   },
   {
     id: "intervention-partners",
     name: "Intervention Partners",
     summary:
-      "Partners that deliver a service or intervention after RTBX identifies a need. Intervention partners act on the trigger and context RTBX provides, delivering the physical or human response the scenario requires.",
+      "Partners that deliver a service or intervention after JALDO identifies a need. Intervention partners act on the trigger and context JALDO provides, delivering the physical or human response the scenario requires.",
     partnerTypes: [
       "Maintenance and facilities management providers",
       "Security services",
@@ -205,7 +205,7 @@ export const TRAVEL_PARTNER_LANES: TravelPartnerLane[] = [
       "Service delivery and resource availability",
       "Service standards and delivery evidence",
       "Service-level performance and reliability",
-      "Communication of delivery status to RTBX",
+      "Communication of delivery status to JALDO",
     ],
     rtbxContribution: [
       "Triggering, routing and context package",
@@ -240,7 +240,7 @@ export const TRAVEL_PARTNER_LANES: TravelPartnerLane[] = [
     id: "technology-partners",
     name: "Technology Partners",
     summary:
-      "Partners that provide the technical infrastructure supporting RTBX deployment. Technology partners support RTBX infrastructure or deployment — they do not own the RTBX intelligence and operating-system model.",
+      "Partners that provide the technical infrastructure supporting JALDO deployment. Technology partners support JALDO infrastructure or deployment — they do not own the JALDO intelligence and operating-system model.",
     partnerTypes: [
       "Cloud infrastructure providers",
       "Identity and access management",
@@ -265,7 +265,7 @@ export const TRAVEL_PARTNER_LANES: TravelPartnerLane[] = [
       "Performance and capacity management",
     ],
     rtbxContribution: [
-      "RTBX intelligence engine and product architecture",
+      "JALDO intelligence engine and product architecture",
       "Operating system design and configuration model",
       "Governance, playbook and scenario framework",
       "Learning and value model",
@@ -296,7 +296,7 @@ export const TRAVEL_PARTNER_LANES: TravelPartnerLane[] = [
     id: "deployment-partners",
     name: "Deployment Partners",
     summary:
-      "Partners that implement, configure and support RTBX Travel within a customer environment. Deployment partners deliver the services that make a pilot or production deployment possible at scale.",
+      "Partners that implement, configure and support JALDO Travel within a customer environment. Deployment partners deliver the services that make a pilot or production deployment possible at scale.",
     partnerTypes: [
       "Hotel technology consultants",
       "Systems integrators",
@@ -334,14 +334,14 @@ export const TRAVEL_PARTNER_LANES: TravelPartnerLane[] = [
       "Operational adoption decisions",
     ],
     connectionRequirements: [
-      "RTBX partner enablement programme",
+      "JALDO partner enablement programme",
       "Signed deployment partner agreement",
       "Defined scope of services",
       "Customer agreement for deployment engagement",
     ],
     commercialModels: [
       "Partner charges customer for implementation services",
-      "RTBX charges platform and licence fees directly",
+      "JALDO charges platform and licence fees directly",
       "Joint delivery package (subject to proposal)",
       "Managed-service arrangement (subject to agreement)",
     ],
@@ -353,7 +353,7 @@ export const TRAVEL_PARTNER_LANES: TravelPartnerLane[] = [
     id: "distribution-partners",
     name: "Distribution Partners",
     summary:
-      "Partners that provide market access, channel reach or embedded distribution for RTBX Travel. Distribution partners accelerate reach to hotel operators, groups or markets that RTBX cannot efficiently reach directly.",
+      "Partners that provide market access, channel reach or embedded distribution for JALDO Travel. Distribution partners accelerate reach to hotel operators, groups or markets that JALDO cannot efficiently reach directly.",
     partnerTypes: [
       "Hotel groups and operating companies",
       "Travel technology resellers and channels",
@@ -377,7 +377,7 @@ export const TRAVEL_PARTNER_LANES: TravelPartnerLane[] = [
       "Reseller commercial capability where applicable",
     ],
     rtbxContribution: [
-      "RTBX platform, product and enablement",
+      "JALDO platform, product and enablement",
       "Partner commercial structure and pricing (subject to agreement)",
       "Sales and marketing support",
       "Technical and product onboarding",
@@ -408,7 +408,7 @@ export const TRAVEL_PARTNER_LANES: TravelPartnerLane[] = [
 // ── Ownership boundaries ──────────────────────────────────────────────────────
 
 export const RTBX_OWNED_CAPABILITIES: string[] = [
-  "RTBX Intelligence Engine",
+  "JALDO Intelligence Engine",
   "Connect → Understand → Decide → Act → Learn",
   "Six intelligence layers",
   "Integration Hub",
@@ -466,7 +466,7 @@ export const PARTNER_OWNERSHIP_MATRIX: PartnerOwnershipRow[] = [
   {
     partnerType: "Technology partner",
     partnerOwns: "Supporting technical capability",
-    rtbxOwns: "RTBX product and operating logic",
+    rtbxOwns: "JALDO product and operating logic",
     customerOwns: "Commercial and security approval",
   },
   {
@@ -478,7 +478,7 @@ export const PARTNER_OWNERSHIP_MATRIX: PartnerOwnershipRow[] = [
   {
     partnerType: "Distribution partner",
     partnerOwns: "Market access or channel",
-    rtbxOwns: "RTBX platform and enablement",
+    rtbxOwns: "JALDO platform and enablement",
     customerOwns: "Purchase and deployment agreement",
   },
 ];
@@ -491,7 +491,7 @@ export const PARTNER_SELECTION_CRITERIA: PartnerSelectionCategory[] = [
     label: "Strategic Fit",
     criteria: [
       "Solves a real Travel operational problem",
-      "Complements rather than duplicates RTBX",
+      "Complements rather than duplicates JALDO",
       "Supports the current hotel and resort wedge",
       "Has a credible customer or distribution pathway",
     ],
@@ -537,7 +537,7 @@ export const PARTNERSHIP_PATHWAY_STAGES: PartnershipPathwayStage[] = [
     label: "Identify",
     description: "Confirm strategic fit and initial interest.",
     actions: [
-      "Review RTBX partner lane alignment",
+      "Review JALDO partner lane alignment",
       "Confirm partner type and contribution scope",
       "Initial conversation and fit assessment",
       "Confirm technical and governance compatibility",
@@ -548,7 +548,7 @@ export const PARTNERSHIP_PATHWAY_STAGES: PartnershipPathwayStage[] = [
     label: "Align",
     description: "Agree scope, responsibilities and commercial model.",
     actions: [
-      "Define partner contribution and RTBX contribution",
+      "Define partner contribution and JALDO contribution",
       "Agree customer ownership and approval model",
       "Define commercial model and structure",
       "Identify first customer or pilot opportunity",
@@ -584,7 +584,7 @@ export const PARTNERSHIP_PATHWAY_STAGES: PartnershipPathwayStage[] = [
       "Expand to additional customers or properties",
       "Activate additional partner types",
       "Develop deeper integration or co-selling",
-      "Contribute to RTBX learning model where appropriate",
+      "Contribute to JALDO learning model where appropriate",
     ],
   },
 ];

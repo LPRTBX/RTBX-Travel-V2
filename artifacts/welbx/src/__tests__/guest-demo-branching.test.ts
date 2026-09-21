@@ -18,7 +18,7 @@ describe("Guest Demo action branching data", () => {
       for (const action of stage.phoneActions) {
         expect(action.label.trim(), `${stage.stage} action label`).not.toBe("");
         expect(action.confirmation.trim(), `${action.id} confirmation`).not.toBe("");
-        expect(action.rtbxCoordinates.trim(), `${action.id} RTBX coordination`).not.toBe("");
+        expect(action.rtbxCoordinates.trim(), `${action.id} JALDO coordination`).not.toBe("");
         expect(action.operatorReceives.trim(), `${action.id} operator response`).not.toBe("");
         expect(action.valueCreated.trim(), `${action.id} value outcome`).not.toBe("");
       }

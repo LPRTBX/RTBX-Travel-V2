@@ -4,13 +4,13 @@ import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 const C = { gold: "#c9a84c", muted: "rgba(255,255,255,0.45)", dim: "rgba(255,255,255,0.22)", green: "#10b981" };
 
 const PHASES = [
-  { n: "01", label: "Proposed Operator Alignment", weeks: "Week 1", desc: "Propose objectives, proof environments, operator contact and governance for approval.", output: "Draft pilot brief, moment map and contact matrix." },
-  { n: "02", label: "Proposed Moment Mapping", weeks: "Week 1–2", desc: "Propose a guest journey, moment types and candidate signal sources, subject to integration approval.", output: "Draft moment map and candidate signal-source list." },
-  { n: "03", label: "Proposed Scenario Validation", weeks: "Week 2–3", desc: "Propose 5–10 operating scenarios and test illustrative classification logic; no real-environment validation is implied.", output: "Draft scenario set, thresholds and briefing materials." },
-  { n: "04", label: "Staff & Guest Pathway Setup", weeks: "Week 3–4", desc: "Propose staff action cards and a Guest Experience interface for approved testing. Test a simulated end-to-end pathway.", output: "Proposed pathway configuration and test plan, subject to operator sign-off." },
-  { n: "05", label: "Proposed Shadow Pilot", weeks: "Week 4–6", desc: "A future approved shadow pilot could run in parallel using agreed inputs; no live delivery occurs.", output: "Potential measurement data and adjustment recommendations, subject to approval." },
-  { n: "06", label: "Proposed Live Pilot", weeks: "Week 6–10", desc: "Future live operation only if approved and integrated. Scope, guest/staff participation and pathways remain contingent on governance, with named operators accountable for every action.", output: "Potential measured operating data, subject to approved pilot execution." },
-  { n: "07", label: "Reporting & Value Measurement", weeks: "Week 10–12", desc: "A future outcome report would compare approved baseline metrics. Any value or conversion case remains contingent on measurement.", output: "Proposed outcome report and measurement summary." },
+  { n: "01", label: "Proposed Operator Alignment", weeks: "Readiness · Week 1–2", desc: "Propose objectives, proof environments, operator contact and governance for approval.", output: "Draft pilot brief, moment map and contact matrix." },
+  { n: "02", label: "Proposed Moment Mapping", weeks: "Readiness · Week 2–4", desc: "Propose a guest journey, moment types and candidate signal sources, subject to integration approval.", output: "Draft moment map and candidate signal-source list." },
+  { n: "03", label: "Proposed Scenario Validation", weeks: "Readiness · Week 4–6", desc: "Propose 5–10 operating scenarios and test illustrative classification logic; no real-environment validation is implied.", output: "Draft scenario set, thresholds and briefing materials." },
+  { n: "04", label: "Staff & Guest Pathway Setup", weeks: "Readiness · Week 6–10", desc: "Propose staff action cards and a Guest Experience interface for approved testing. Test a simulated end-to-end pathway.", output: "Proposed pathway configuration and test plan, subject to operator sign-off." },
+  { n: "05", label: "Proposed Shadow Pilot", weeks: "Controlled Pilot · Month 1", desc: "A future approved shadow pilot could run in parallel using agreed inputs; no live delivery occurs.", output: "Potential measurement data and adjustment recommendations, subject to approval." },
+  { n: "06", label: "Proposed Live Pilot", weeks: "Controlled Pilot · Month 1–3", desc: "Future live operation only if approved and integrated. Scope, guest/staff participation and pathways remain contingent on governance, with named operators accountable for every action.", output: "Potential measured operating data, subject to approved pilot execution." },
+  { n: "07", label: "Reporting & Value Measurement", weeks: "Controlled Pilot · Month 3", desc: "A future outcome report would compare approved baseline metrics. Any value or conversion case remains contingent on measurement.", output: "Proposed outcome report and measurement summary." },
   { n: "08", label: "Future Expansion Decision", weeks: "Post-pilot", desc: "Any expansion, additional environment or annual agreement follows approved pilot evidence and commercial agreement.", output: "Potential expansion recommendation and proposed terms." },
 ];
 
@@ -41,10 +41,10 @@ export default function TravelPilotModel() {
         {/* Header */}
         <div style={{ marginBottom: 56 }}>
           <div style={{ fontSize: 8.5, letterSpacing: "0.2em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>Partner Resource · Pilot Model</div>
-          <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 18, maxWidth: 680 }}>RTBX Travel — Pilot Model</h1>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2, marginTop: 28 }}>
+          <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 18, maxWidth: 680 }}>JALDO Travel — Pilot Model</h1>
+          <div className="rtbx-grid-4" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2, marginTop: 28 }}>
             {[
-              { label: "Duration", value: "8–12 weeks" },
+              { label: "Duration", value: "8–10 wks readiness + 2–3 mo pilot" },
               { label: "Integration needed", value: "Push-first — none required to start" },
               { label: "Pilot fee (indicative)", value: "A$15K–A$45K" },
               { label: "Output", value: "Outcome report + value proof" },
@@ -63,10 +63,10 @@ export default function TravelPilotModel() {
 
         {/* 8 phases */}
         <div style={{ marginBottom: 56 }}>
-          <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>8-Phase Pilot Pathway</div>
+          <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>8-Phase Pilot Pathway — 8–10 Weeks Readiness, Then a 2–3 Month Controlled Pilot</div>
           <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
             {PHASES.map((p, i) => (
-              <div key={p.n} style={{ display: "grid", gridTemplateColumns: "36px 80px 160px 1fr 200px", gap: 0, border: "1px solid rgba(255,255,255,0.06)", background: i % 2 === 0 ? "transparent" : "rgba(255,255,255,0.01)" }}>
+              <div key={p.n} className="rtbx-stack-mobile" style={{ display: "grid", gridTemplateColumns: "36px 80px 160px 1fr 200px", gap: 0, border: "1px solid rgba(255,255,255,0.06)", background: i % 2 === 0 ? "transparent" : "rgba(255,255,255,0.01)" }}>
                 <div style={{ padding: "16px 0 16px 14px", fontSize: 9, fontWeight: 700, color: C.gold, opacity: 0.5 }}>{p.n}</div>
                 <div style={{ padding: "16px 10px", fontSize: 9.5, color: "rgba(255,255,255,0.28)", fontStyle: "italic" }}>{p.weeks}</div>
                 <div style={{ padding: "16px 12px", fontSize: 11.5, fontWeight: 700, color: "#fff", borderLeft: "1px solid rgba(255,255,255,0.04)" }}>{p.label}</div>
@@ -80,6 +80,8 @@ export default function TravelPilotModel() {
         {/* Success metrics */}
         <div style={{ marginBottom: 56 }}>
           <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>Success Metrics</div>
+          <div className="rtbx-table-scroll">
+          <div style={{ minWidth: 640 }}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 160px 1fr", gap: 0, marginBottom: 2 }}>
             {["Metric", "Target", "Why it matters"].map(h => (
               <div key={h} style={{ padding: "8px 14px", fontSize: 7.5, letterSpacing: "0.14em", color: C.dim, textTransform: "uppercase", fontWeight: 700 }}>{h}</div>
@@ -94,12 +96,14 @@ export default function TravelPilotModel() {
               </div>
             ))}
           </div>
+          </div>
+          </div>
         </div>
 
         {/* Pilot environments */}
         <div style={{ marginBottom: 48 }}>
           <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>Pilot Environments</div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 2 }}>
+          <div className="rtbx-grid-5" style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 2 }}>
             {PILOT_ENVS.map(env => (
               <div key={env.label} style={{ padding: "20px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: `2px solid ${env.color}` }}>
                 <div style={{ fontSize: 10, fontWeight: 700, color: env.color, marginBottom: 8, lineHeight: 1.3 }}>{env.label}</div>

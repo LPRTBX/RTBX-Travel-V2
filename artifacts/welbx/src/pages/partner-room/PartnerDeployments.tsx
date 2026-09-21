@@ -28,7 +28,7 @@ const PRIMARY_ENVS = [
     category: "Primary deployment environment",
     color: C.gold,
     readiness: "Pilot-ready",
-    summary: "The first RTBX Travel pilot is designed for a hotel or resort environment with existing PMS, housekeeping, task, guest messaging and CRM systems. RTBX connects these systems, governs moment response, coordinates staff action and captures evidence and outcomes.",
+    summary: "The first JALDO Travel pilot is designed for a hotel or resort environment with existing PMS, housekeeping, task, guest messaging and CRM systems. JALDO connects these systems, governs moment response, coordinates staff action and captures evidence and outcomes.",
     signalExamples: ["PMS room status and reservation events", "Housekeeping task queue", "Guest messaging and preference signals", "Maintenance defect reports", "Loyalty tier and stay history"],
     operatingSystems: ["Guest Experience OS", "Service Recovery and Staff Response OS", "Operator Intelligence OS"],
     pilotScenarios: ["Repeat guest — room not ready", "Service backlog", "Maintenance defect"],
@@ -41,7 +41,7 @@ const PRIMARY_ENVS = [
     category: "Secondary expansion",
     color: "#10b981",
     readiness: "Architecturally defined",
-    summary: "After a property pilot is proven, RTBX Travel can expand to additional properties within the same group. Multi-property deployment adds regional operations visibility, group-level pattern detection and cross-property playbook improvement.",
+    summary: "After a property pilot is proven, JALDO Travel can expand to additional properties within the same group. Multi-property deployment adds regional operations visibility, group-level pattern detection and cross-property playbook improvement.",
     signalExamples: ["Group PMS and reservation aggregation", "Regional operations signals", "Group-level maintenance and defect data"],
     operatingSystems: ["Guest Experience OS", "Service Recovery OS", "Operator Intelligence OS", "Expanding to Safety and Welfare OS"],
     pilotScenarios: ["All pilot scenarios expanded across properties"],
@@ -57,7 +57,7 @@ const SECONDARY_ENVS = [
     category: "Secondary expansion",
     color: "#3b82f6",
     readiness: "Expansion pathway",
-    summary: "The RTBX operating model is applicable to holiday parks — guest arrivals, accommodation readiness, activity coordination and service recovery. The core scenario and playbook framework applies with environment-specific configuration. This is an expansion pathway after hotel pilot proof.",
+    summary: "The JALDO operating model is applicable to holiday parks — guest arrivals, accommodation readiness, activity coordination and service recovery. The core scenario and playbook framework applies with environment-specific configuration. This is an expansion pathway after hotel pilot proof.",
     signalExamples: ["Cabin and accommodation status", "Activity and facility booking signals", "Guest arrival and departure events"],
     note: "Holiday parks are a secondary expansion environment. Initial pilot focus is hotels and resorts.",
   },
@@ -91,12 +91,12 @@ export default function PartnerDeployments() {
 
         {/* ── HEADER ── */}
         <div style={{ marginBottom: 48 }}>
-          <SectionLabel>RTBX Travel · Deployment Environments</SectionLabel>
+          <SectionLabel>JALDO Travel · Deployment Environments</SectionLabel>
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 14, maxWidth: 760 }}>
-            RTBX Travel Deployment Environments
+            JALDO Travel Deployment Environments
           </h1>
           <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.8, maxWidth: 700, marginBottom: 20 }}>
-            One core intelligence and governance model — configurable for different Travel environments. RTBX Travel leads with hotels and resorts. Other environments are expansion pathways after pilot proof.
+            One core intelligence and governance model — configurable for different Travel environments. JALDO Travel leads with hotels and resorts. Other environments are expansion pathways after pilot proof.
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
             {[
@@ -115,7 +115,7 @@ export default function PartnerDeployments() {
         {/* ── ARCHITECTURE NOTE ── */}
         <div style={{ padding: "14px 18px", background: "rgba(201,168,76,0.04)", border: "1px solid rgba(201,168,76,0.2)", marginBottom: 40 }}>
           <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.6)", lineHeight: 1.65, margin: 0 }}>
-            <strong style={{ color: C.gold }}>One core, configurable for context.</strong> The RTBX Intelligence Engine, six intelligence layers, Decision Spine and Execution Centre are the same across all environments. What changes is the signal configuration, scenario library, playbook content and role model — each aligned to the specific operational context.
+            <strong style={{ color: C.gold }}>One core, configurable for context.</strong> The JALDO Intelligence Engine, six intelligence layers, Decision Spine and Execution Centre are the same across all environments. What changes is the signal configuration, scenario library, playbook content and role model — each aligned to the specific operational context.
           </p>
         </div>
 
@@ -124,7 +124,7 @@ export default function PartnerDeployments() {
           <SectionLabel>01 · Primary</SectionLabel>
           <H2>Hotels and resorts — primary deployment environment</H2>
           <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, maxWidth: 760, marginBottom: 20 }}>
-            The first RTBX Travel pilot targets hotels and resorts. This is the environment with the clearest operational signal availability, most established governance requirements and most direct commercial pathway.
+            The first JALDO Travel pilot targets hotels and resorts. This is the environment with the clearest operational signal availability, most established governance requirements and most direct commercial pathway.
           </p>
           <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
             {PRIMARY_ENVS.map(env => (
@@ -142,7 +142,7 @@ export default function PartnerDeployments() {
                   </div>
                 </div>
                 <p style={{ fontSize: 11.5, color: C.muted, lineHeight: 1.7, marginBottom: 16, maxWidth: 800 }}>{env.summary}</p>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "8px 16px" }}>
+                <div className="rtbx-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "8px 16px" }}>
                   <div>
                     <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 700, marginBottom: 6 }}>Signal examples</div>
                     {env.signalExamples.map((s, i) => <div key={i} style={{ fontSize: 9.5, color: "rgba(255,255,255,0.55)", padding: "2px 0" }}>· {s}</div>)}
@@ -166,7 +166,7 @@ export default function PartnerDeployments() {
           <SectionLabel>02 · Secondary</SectionLabel>
           <H2>Secondary expansion environments</H2>
           <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, maxWidth: 760, marginBottom: 16 }}>
-            These environments are appropriate for RTBX Travel expansion after hotel pilot proof. They are not primary deployment environments and are not presented as equally deployment-ready.
+            These environments are appropriate for JALDO Travel expansion after hotel pilot proof. They are not primary deployment environments and are not presented as equally deployment-ready.
           </p>
           <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
             {SECONDARY_ENVS.map(env => (
@@ -187,9 +187,9 @@ export default function PartnerDeployments() {
           <SectionLabel>03 · Future</SectionLabel>
           <H2>Future environments</H2>
           <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, maxWidth: 760, marginBottom: 16 }}>
-            These environments are longer-term opportunities that share common RTBX architecture but require environment-specific configuration, signal mapping and commercial agreements. They are not in the initial deployment scope.
+            These environments are longer-term opportunities that share common JALDO architecture but require environment-specific configuration, signal mapping and commercial agreements. They are not in the initial deployment scope.
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
+          <div className="rtbx-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
             {FUTURE_ENVS.map(env => (
               <div key={env.id} style={{ padding: "16px 18px", background: "rgba(255,255,255,0.015)", border: "1px solid rgba(255,255,255,0.06)", opacity: 0.7 }}>
                 <div style={{ fontSize: 12, fontWeight: 800, color: "rgba(255,255,255,0.6)", marginBottom: 8 }}>{env.name}</div>

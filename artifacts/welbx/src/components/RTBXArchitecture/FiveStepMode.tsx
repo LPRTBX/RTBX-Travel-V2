@@ -151,7 +151,7 @@ export function FiveStepMode({
                   style={{
                     fontSize: 8,
                     letterSpacing: "0.14em",
-                    color: ORIGIN_COLORS["RTBX Core"].text,
+                    color: ORIGIN_COLORS["JALDO Core"].text,
                     textTransform: "uppercase",
                     fontWeight: 700,
                     marginBottom: 8,
@@ -163,8 +163,8 @@ export function FiveStepMode({
                   <span
                     style={{
                       padding: "1px 6px",
-                      background: ORIGIN_COLORS["RTBX Core"].badge,
-                      border: `1px solid ${ORIGIN_COLORS["RTBX Core"].border}`,
+                      background: ORIGIN_COLORS["JALDO Core"].badge,
+                      border: `1px solid ${ORIGIN_COLORS["JALDO Core"].border}`,
                       borderRadius: 2,
                       fontSize: 7,
                     }}
@@ -187,7 +187,7 @@ export function FiveStepMode({
                     >
                       <span
                         style={{
-                          color: ORIGIN_COLORS["RTBX Core"].text,
+                          color: ORIGIN_COLORS["JALDO Core"].text,
                           flexShrink: 0,
                           marginTop: 1,
                         }}

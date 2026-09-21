@@ -12,6 +12,7 @@ import Landing from "@/pages/Landing";
 const StoryHub        = lazy(() => import("@/pages/StoryHub"));
 const StoryOperator   = lazy(() => import("@/pages/StoryOperator"));
 const StoryGuestStory = lazy(() => import("@/pages/StoryGuestStory"));
+const NotFound        = lazy(() => import("@/pages/not-found"));
 
 // ── Critical-path routes (eager) ────────────────────────────────────────────
 // These are the first pages a partner sees; keep them in the main bundle.
@@ -163,7 +164,7 @@ function Router() {
             )}
           </Route>
         ))}
-        <Route>{() => <Redirect to="/" />}</Route>
+        <Route>{() => <NotFound />}</Route>
       </Switch>
     </Suspense>
   );

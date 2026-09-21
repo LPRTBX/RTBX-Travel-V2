@@ -389,7 +389,7 @@ function Stage3({ draft, setDraft }: { draft: TravelDeploymentConfig; setDraft: 
 
   return (
     <div>
-      <StageHeader title="Roles" description="Activate the roles that exist in this deployment. Inactive roles cannot be assigned as accountable owners. Use the local title field to map RTBX role names to your property's naming conventions." />
+      <StageHeader title="Roles" description="Activate the roles that exist in this deployment. Inactive roles cannot be assigned as accountable owners. Use the local title field to map JALDO role names to your property's naming conventions." />
       <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
         {draft.roles.map(dr => {
           const roleDef = TRAVEL_ROLES.find(r => r.id === dr.roleId);
@@ -634,7 +634,7 @@ function Stage6({ draft, setDraft, preselectedScenarioId }: {
                     <div style={{ fontSize: 10.5, color: C.red, marginBottom: 6 }}>✗ No matching playbook found for {ds.playbookId}</div>
                   )}
                   {ds.active && (
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginTop: 8 }}>
+                    <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginTop: 8 }}>
                       <div>
                         <FieldLabel>Accountable role</FieldLabel>
                         <StyledSelect
@@ -1169,7 +1169,7 @@ export default function PartnerBuildConfigure() {
         {/* Header */}
         <div style={{ marginBottom: 36 }}>
           <div style={{ fontSize: 8.5, letterSpacing: "0.2em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
-            RTBX Travel · Build &amp; Configure
+            JALDO Travel · Build &amp; Configure
           </div>
           <h1 style={{ fontSize: 32, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 14, maxWidth: 720 }}>
             Configure Your Travel Deployment

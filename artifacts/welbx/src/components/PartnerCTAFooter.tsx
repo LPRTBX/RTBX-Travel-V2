@@ -59,7 +59,7 @@ export function PartnerCTAFooter() {
             View Pilot Model
           </div>
         </Link>
-        <a href="mailto:lance@rtbx.com.au?subject=RTBX Travel Partner Briefing" style={{ textDecoration: "none" }}>
+        <a href="mailto:lance@rtbx.com.au?subject=JALDO Travel Partner Briefing" style={{ textDecoration: "none" }}>
           <div style={{
             padding: "12px 24px",
             fontSize: 11,

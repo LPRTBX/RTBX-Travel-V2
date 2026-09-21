@@ -65,7 +65,7 @@ export function SixLayerMode({
         <span style={{ fontSize: 8.5, color: T.dim, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", marginRight: 4 }}>
           Origin:
         </span>
-        {(["RTBX Core", "Travel Configuration"] as const).map((origin) => (
+        {(["JALDO Core", "Travel Configuration"] as const).map((origin) => (
           <div
             key={origin}
             style={{
@@ -201,16 +201,16 @@ export function SixLayerMode({
                   <span
                     style={{
                       padding: "1px 6px",
-                      background: ORIGIN_COLORS["RTBX Core"].badge,
-                      border: `1px solid ${ORIGIN_COLORS["RTBX Core"].border}`,
+                      background: ORIGIN_COLORS["JALDO Core"].badge,
+                      border: `1px solid ${ORIGIN_COLORS["JALDO Core"].border}`,
                       borderRadius: 2,
-                      color: ORIGIN_COLORS["RTBX Core"].text,
+                      color: ORIGIN_COLORS["JALDO Core"].text,
                       fontSize: 7,
                     }}
                   >
                     RTBX Core
                   </span>
-                  <span style={{ color: ORIGIN_COLORS["RTBX Core"].text }}>
+                  <span style={{ color: ORIGIN_COLORS["JALDO Core"].text }}>
                     Shared Capabilities
                   </span>
                 </div>
@@ -228,7 +228,7 @@ export function SixLayerMode({
                     >
                       <span
                         style={{
-                          color: ORIGIN_COLORS["RTBX Core"].text,
+                          color: ORIGIN_COLORS["JALDO Core"].text,
                           flexShrink: 0,
                           marginTop: 1,
                         }}

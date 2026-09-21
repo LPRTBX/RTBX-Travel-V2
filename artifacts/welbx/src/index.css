@@ -57,6 +57,18 @@ button { min-height: 44px; }
   min-width: 0;
 }
 
+.rtbx-ops-layout > * {
+  min-width: 0;
+}
+
+.rtbx-kpi-grid > * {
+  min-width: 0;
+}
+
+.rtbx-stack-mobile > * {
+  min-width: 0;
+}
+
 /* ── Public Landing page responsiveness ───────────────────────────────────── */
 .rtbx-landing-page,
 .rtbx-landing-main,
@@ -193,6 +205,13 @@ button { min-height: 44px; }
   .rtbx-ops-layout {
     grid-template-columns: 1fr !important;
   }
+  /* Mobile: any fixed-column grid (sidebar+content, step cards) stacks to one column */
+  .rtbx-stack-mobile {
+    grid-template-columns: 1fr !important;
+  }
+  .rtbx-stack-mobile > * {
+    min-width: 0;
+  }
   /* Mobile: KPI grid 2-col */
   .rtbx-kpi-grid {
     grid-template-columns: 1fr 1fr !important;
@@ -225,6 +244,14 @@ button { min-height: 44px; }
   .rtbx-responsive-page details > summary {
     flex-wrap: wrap;
     overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 800px) {
+  /* The 380px sidebar + nested 2-col detail grid needs the full tablet
+     breakpoint before there is room for both columns side by side. */
+  .rtbx-ops-layout {
+    grid-template-columns: 1fr !important;
   }
 }
 
@@ -358,7 +385,7 @@ button { min-height: 44px; }
   --elevate-1: rgba(255,255,255, .04);
   --elevate-2: rgba(255,255,255, .09);
 
-  /* Deep dark RTBX palette */
+  /* Deep dark JALDO palette */
   --background: 220 13% 5%;
   --foreground: 210 40% 98%;
   --border: 220 13% 11%;
@@ -559,7 +586,7 @@ button { min-height: 44px; }
   }
 
   /* Lift legacy low-opacity text to a readable supporting contrast while
-     retaining the dark RTBX hierarchy and leaving borders/backgrounds alone. */
+     retaining the dark JALDO hierarchy and leaving borders/backgrounds alone. */
   .rtbx-readable-content [style*="color: rgba(255, 255, 255, 0.1"],
   .rtbx-readable-content [style*="color: rgba(255, 255, 255, 0.2"],
   .rtbx-readable-content [style*="color: rgba(255, 255, 255, 0.3"] {
@@ -587,13 +614,16 @@ button { min-height: 44px; }
     .rtbx-grid-2 {
       grid-template-columns: 1fr !important;
     }
-    /* Prevent any fixed-width child from causing horizontal scroll */
-    .rtbx-grid-5 > *,
-    .rtbx-grid-4 > *,
-    .rtbx-grid-3 > *,
-    .rtbx-grid-2 > * {
-      min-width: 0;
-    }
+  }
+
+  /* Prevent any fixed-width child from causing horizontal scroll at any width
+     (not just the mobile collapse breakpoint — a grid nested inside another
+     already-collapsed container needs this at every width). */
+  .rtbx-grid-5 > *,
+  .rtbx-grid-4 > *,
+  .rtbx-grid-3 > *,
+  .rtbx-grid-2 > * {
+    min-width: 0;
   }
 
   .critical-glow {

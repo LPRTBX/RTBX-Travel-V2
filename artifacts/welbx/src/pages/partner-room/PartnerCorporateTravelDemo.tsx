@@ -146,11 +146,11 @@ export default function PartnerCorporateTravelDemo() {
             A delayed business traveller, back-to-back meetings.<br />
             <span style={{ color: COLOR }}>Duty-of-care response modelled.</span>
           </h1>
-          <p style={{ fontSize: 14, color: "rgba(255,255,255,0.48)", lineHeight: 1.8, maxWidth: 620 }}>A synthetic scenario illustrates how RTBX Core could present a rules-based response to a delayed managed traveller for accountable human review.</p>
+          <p style={{ fontSize: 14, color: "rgba(255,255,255,0.48)", lineHeight: 1.8, maxWidth: 620 }}>A synthetic scenario illustrates how JALDO Core could present a rules-based response to a delayed managed traveller for accountable human review.</p>
           <div style={{ marginTop: 18, padding: "12px 16px", border: `1px solid ${COLOR}30`, borderLeft: `3px solid ${COLOR}`, fontSize: 11, color: "rgba(255,255,255,0.55)", lineHeight: 1.6, maxWidth: 760 }}><strong style={{ color: COLOR }}>Working Proof · Simulation boundary:</strong> Classification is rules-based and communications are drafts. No message, task, booking, duty-of-care action, dispatch or external-system update occurs. Humans remain accountable; integrations and pilots are Planned.</div>
         </div>
 
-        <div style={{ padding: "22px 28px", background: `${COLOR}06`, border: `1px solid ${COLOR}18`, borderLeft: `3px solid ${COLOR}60`, marginBottom: 40, display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
+        <div className="rtbx-grid-3" style={{ padding: "22px 28px", background: `${COLOR}06`, border: `1px solid ${COLOR}18`, borderLeft: `3px solid ${COLOR}60`, marginBottom: 40, display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
           {[
             { label: "Environment", value: "Managed corporate travel · City hotel · Business district" },
             { label: "Traveller Profile", value: "Mr. Reynolds · Meridian Group · Managed tier · Solo business" },
@@ -165,9 +165,9 @@ export default function PartnerCorporateTravelDemo() {
 
         <div style={{ marginBottom: 28 }}>
           <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>Simulated Operating Flow · Step {activeStep + 1} of {FLOW_STEPS.length}</div>
-          <div style={{ display: "flex", gap: 2 }}>
+          <div style={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
             {FLOW_STEPS.map((s, i) => (
-              <button key={s.key} onClick={() => setActiveStep(i)} style={{ flex: 1, padding: "14px 8px", background: i === activeStep ? `${s.color}12` : "rgba(255,255,255,0.02)", border: `1px solid ${i === activeStep ? s.color + "50" : "rgba(255,255,255,0.07)"}`, borderTop: `2px solid ${i === activeStep ? s.color : "transparent"}`, cursor: "pointer", textAlign: "center", transition: "all 0.15s", display: "flex", flexDirection: "column", alignItems: "center", gap: 5 }}
+              <button key={s.key} onClick={() => setActiveStep(i)} style={{ flex: "1 1 70px", minWidth: 0, padding: "14px 8px", background: i === activeStep ? `${s.color}12` : "rgba(255,255,255,0.02)", border: `1px solid ${i === activeStep ? s.color + "50" : "rgba(255,255,255,0.07)"}`, borderTop: `2px solid ${i === activeStep ? s.color : "transparent"}`, cursor: "pointer", textAlign: "center", transition: "all 0.15s", display: "flex", flexDirection: "column", alignItems: "center", gap: 5 }}
                 onMouseEnter={e => { if (i !== activeStep) (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.04)"; }}
                 onMouseLeave={e => { if (i !== activeStep) (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.02)"; }}
               >
@@ -213,7 +213,7 @@ export default function PartnerCorporateTravelDemo() {
 
         <div style={{ marginBottom: 48 }}>
           <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 18 }}>Modelled Proof of Value</div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
+          <div className="rtbx-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
             {PROOF_POINTS.map((pt, i) => (
               <div key={i} style={{ padding: "18px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: `2px solid ${pt.color}` }}>
                 <div style={{ width: 18, height: 1, background: `${pt.color}60`, marginBottom: 10 }} />
