@@ -8,6 +8,7 @@ function source(path: string) {
 
 describe("JALDO Travel release blocker regressions", () => {
   const app = source("src/App.tsx");
+  const landing = source("src/pages/Landing.tsx");
   const layout = source("src/components/PartnerRoomLayout.tsx");
   const operations = source("src/pages/partner-room/PartnerOperationsCentre.tsx");
 
@@ -17,6 +18,19 @@ describe("JALDO Travel release blocker regressions", () => {
     expect(app).toContain('<Route path="/story/operator" component={StoryOperator} />');
     expect(app).toContain('<Route path="/story/guest" component={StoryGuestStory} />');
     expect(app.indexOf('<Route path="/" component={Landing} />')).toBeLessThan(app.indexOf("PARTNER_ROUTES.map"));
+  });
+
+  it("keeps both homepage CTAs pointed at registered routes", () => {
+    const registeredRoutes = [
+      ...app.matchAll(/path\s*(?::|=)\s*["']([^"']+)["']/g),
+    ].map((match) => match[1]);
+
+    expect(landing).toContain('<Link href="/partner-room">');
+    expect(landing).toContain("Enter the Operating Layer →");
+    expect(landing).toContain('<Link href="/story">');
+    expect(landing).toContain("The Framework →");
+    expect(registeredRoutes).toContain("/partner-room");
+    expect(registeredRoutes).toContain("/story");
   });
 
   it("keeps the commercial page outside the runtime route and import graph", () => {

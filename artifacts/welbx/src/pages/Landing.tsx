@@ -205,7 +205,7 @@ export default function Landing() {
             transition={{ delay: 0.9, duration: 0.4 }}
             style={{ marginTop: 72, display: "flex", alignItems: "center", gap: 14 }}
           >
-            <Link href="/command-centre">
+            <Link href="/partner-room">
               <button
                 style={{
                   padding: "14px 34px",
@@ -219,7 +219,7 @@ export default function Landing() {
                 Enter the Operating Layer →
               </button>
             </Link>
-            <Link href="/ghsol">
+            <Link href="/story">
               <button
                 style={{
                   padding: "13px 28px",
