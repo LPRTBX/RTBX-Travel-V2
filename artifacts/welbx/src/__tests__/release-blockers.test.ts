@@ -8,6 +8,7 @@ function source(path: string) {
 
 describe("JALDO Travel release blocker regressions", () => {
   const app = source("src/App.tsx");
+  const landing = source("src/pages/Landing.tsx");
   const layout = source("src/components/PartnerRoomLayout.tsx");
   const operations = source("src/pages/partner-room/PartnerOperationsCentre.tsx");
 
@@ -17,6 +18,35 @@ describe("JALDO Travel release blocker regressions", () => {
     expect(app).toContain('<Route path="/story/operator" component={StoryOperator} />');
     expect(app).toContain('<Route path="/story/guest" component={StoryGuestStory} />');
     expect(app.indexOf('<Route path="/" component={Landing} />')).toBeLessThan(app.indexOf("PARTNER_ROUTES.map"));
+  });
+
+  it("keeps both homepage CTAs pointed at registered routes", () => {
+    const registeredRoutes = [
+      ...app.matchAll(/path\s*(?::|=)\s*["']([^"']+)["']/g),
+    ].map((match) => match[1]);
+
+    expect(landing).toContain('<Link className="rtbx-landing-cta-link" href="/partner-room">');
+    expect(landing).toContain("Enter the Operating Layer →");
+    expect(landing).toContain('<Link className="rtbx-landing-cta-link" href="/story">');
+    expect(landing).toContain("The Framework →");
+    expect(registeredRoutes).toContain("/partner-room");
+    expect(registeredRoutes).toContain("/story");
+  });
+
+  it("keeps the public Landing structure responsive at narrow widths", () => {
+    const styles = source("src/index.css");
+
+    expect(landing).toContain('className="rtbx-landing-page"');
+    expect(landing).toContain('className="rtbx-landing-header"');
+    expect(landing).toContain('className="rtbx-landing-main"');
+    expect(landing).toContain('className="rtbx-landing-causal-grid"');
+    expect(landing).toContain('className="rtbx-landing-cta-group"');
+    expect(landing).toContain('className="rtbx-landing-footer"');
+    expect(styles).toContain("@media (max-width: 768px)");
+    expect(styles).toContain(".rtbx-landing-causal-grid");
+    expect(styles).toContain("grid-template-columns: minmax(0, 1fr) !important");
+    expect(styles).toContain(".rtbx-landing-cta-group");
+    expect(styles).toContain("flex-direction: column");
   });
 
   it("keeps the commercial page outside the runtime route and import graph", () => {

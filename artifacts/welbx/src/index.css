@@ -57,6 +57,60 @@ button { min-height: 44px; }
   min-width: 0;
 }
 
+/* ── Public Landing page responsiveness ───────────────────────────────────── */
+.rtbx-landing-page,
+.rtbx-landing-main,
+.rtbx-landing-causal-grid,
+.rtbx-landing-causal-grid > * {
+  min-width: 0;
+  max-width: 100%;
+}
+
+@media (max-width: 768px) {
+  .rtbx-landing-header,
+  .rtbx-landing-footer {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .rtbx-landing-main {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+
+  .rtbx-landing-causal-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 56px !important;
+  }
+
+  .rtbx-landing-cta-group {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .rtbx-landing-header,
+  .rtbx-landing-main,
+  .rtbx-landing-footer {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  .rtbx-landing-cta-group {
+    align-items: stretch !important;
+    flex-direction: column;
+  }
+
+  .rtbx-landing-cta-link,
+  .rtbx-landing-cta-link > button {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
 @media (max-width: 1199px) {
   .rtbx-story-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;

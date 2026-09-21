@@ -19,7 +19,7 @@ const fadeUp = (delay: number) => ({
 
 export default function Landing() {
   return (
-    <div style={{
+    <div className="rtbx-landing-page" style={{
       position: "fixed", inset: 0, zIndex: 60,
       background: "hsl(220 13% 4%)",
       display: "flex", flexDirection: "column",
@@ -28,6 +28,7 @@ export default function Landing() {
 
       {/* Header */}
       <motion.header
+        className="rtbx-landing-header"
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.35 }}
         style={{
           padding: "22px 60px",
@@ -45,7 +46,7 @@ export default function Landing() {
       </motion.header>
 
       {/* Main — scrollable */}
-      <div style={{ flex: 1, overflowY: "auto", padding: "0 60px" }}>
+      <div className="rtbx-landing-main" style={{ flex: 1, overflowY: "auto", padding: "0 60px" }}>
         <div style={{ maxWidth: 960, margin: "0 auto", paddingTop: 72, paddingBottom: 80 }}>
 
           {/* Section label */}
@@ -84,7 +85,7 @@ export default function Landing() {
           />
 
           {/* Two-column layout: flow + execution gap */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "start" }}>
+          <div className="rtbx-landing-causal-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "start" }}>
 
             {/* Left — vertical flow */}
             <motion.div {...fadeUp(0.34)}>
@@ -201,11 +202,12 @@ export default function Landing() {
 
           {/* CTA */}
           <motion.div
+            className="rtbx-landing-cta-group"
             initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.9, duration: 0.4 }}
             style={{ marginTop: 72, display: "flex", alignItems: "center", gap: 14 }}
           >
-            <Link href="/command-centre">
+            <Link className="rtbx-landing-cta-link" href="/partner-room">
               <button
                 style={{
                   padding: "14px 34px",
@@ -219,7 +221,7 @@ export default function Landing() {
                 Enter the Operating Layer →
               </button>
             </Link>
-            <Link href="/ghsol">
+            <Link className="rtbx-landing-cta-link" href="/story">
               <button
                 style={{
                   padding: "13px 28px",
@@ -246,6 +248,7 @@ export default function Landing() {
 
       {/* Footer */}
       <motion.footer
+        className="rtbx-landing-footer"
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8, duration: 0.4 }}
         style={{
           padding: "14px 60px",
