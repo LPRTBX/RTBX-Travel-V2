@@ -13,7 +13,7 @@ const DEPLOYMENT_ENVS = [
     focus: "Guest recovery, staff nudges, in-stay support, service moments, loyalty and concierge.",
     signals: ["Room readiness delay", "Service request spike", "Guest sentiment drop", "Loyalty profile trigger", "Staff response gap"],
     pathway: "Synthetic signal → Rules classify → Recommendation shown → Draft prepared → Outcome modelled",
-    operatorValue: "Consistent service recovery without manual oversight. Every missed moment is caught.",
+    operatorValue: "Designed for consistent service recovery without manual oversight, aiming to catch missed moments before they escalate.",
     guestValue: "Support arrives before the complaint forms. The stay recovers invisibly.",
     partnerOpportunity: "Loyalty activation, F&B moments, in-room upgrade offers, concierge experiences.",
     demoLink: null,
@@ -25,7 +25,7 @@ const DEPLOYMENT_ENVS = [
     focus: "Family stays, caravan parks, camping, cabins, maintenance, weather disruption, guest welfare, local experiences and service recovery.",
     signals: ["Late arrival + weather change", "Cabin readiness delay", "Family profile + child welfare signal", "Maintenance alert", "Guest frustration threshold"],
     pathway: "Signal → Classify → Proactive support → Staff brief → Partner offer → Assurance",
-    operatorValue: "Escalation prevented before the first complaint. Staff get the right instruction at the right moment.",
+    operatorValue: "Designed to prevent escalation before the first complaint, giving staff the right instruction at the right moment.",
     guestValue: "Acknowledged on arrival, supported through disruption, offered alternatives that actually help.",
     partnerOpportunity: "Local experiences, weather-responsive activities, food & beverage, family-specific offers.",
     demoLink: "/partner-room/holiday-park-demo",
@@ -37,7 +37,7 @@ const DEPLOYMENT_ENVS = [
     focus: "Business travellers, repeat stays, conference guests, loyalty pathways, duty-of-care and productivity support.",
     signals: ["Late checkout pattern", "Conference schedule conflict", "Loyalty tier trigger", "Repeat guest signal", "Duty-of-care flag"],
     pathway: "Signal → Classify → Silent intervention → Loyalty action → Value logged",
-    operatorValue: "Repeat guests recognised and served without asking. Revenue per stay increases.",
+    operatorValue: "Repeat guests recognised and served without asking, with the aim of increasing revenue per stay — subject to pilot validation.",
     guestValue: "The stay adapts to their schedule. Friction disappears before it appears.",
     partnerOpportunity: "Corporate loyalty programmes, productivity tools, transport, premium service tiers.",
     demoLink: null,
@@ -49,7 +49,7 @@ const DEPLOYMENT_ENVS = [
     focus: "Crowd flow, incident response, accessibility, welfare, service recovery and operational coordination.",
     signals: ["Crowd density alert", "Accessibility need flagged", "Incident proximity signal", "Service queue spike", "Welfare check trigger"],
     pathway: "Signal → Classify → Recommend response → Human confirmation → Record outcome",
-    operatorValue: "Incidents caught early. Staff coordinated in real time. Liability reduced.",
+    operatorValue: "Designed to surface incidents early and coordinate staff in real time, with the aim of reducing liability exposure — subject to pilot validation.",
     guestValue: "Support is visible when it matters. Issues resolved before they escalate.",
     partnerOpportunity: "Accessibility services, crowd management, F&B surge response, safety partners.",
     demoLink: null,
@@ -61,7 +61,7 @@ const DEPLOYMENT_ENVS = [
     focus: "Visitor pathways, local recommendations, partner marketplace, itinerary nudges and destination-level intelligence.",
     signals: ["Visitor arrival pattern", "Itinerary gap detected", "Local partner availability", "Weather or transport change", "Return visitor signal"],
     pathway: "Signal → Classify → Personalised nudge → Partner activation → Value captured",
-    operatorValue: "Visitor spend distributed across the destination. Partner ecosystem activated.",
+    operatorValue: "Designed to distribute visitor spend across the destination and activate the partner ecosystem.",
     guestValue: "The right experience surfaces at the right moment. The destination feels effortless.",
     partnerOpportunity: "Entire local partner marketplace — experiences, transport, food, accommodation.",
     demoLink: null,
@@ -74,11 +74,11 @@ const PROOF_LAYERS = [
     label: "Overview",
     navLabel: "Overview",
     color: "#c9a84c",
-    desc: "What RTBX Travel is, how RTBX Core powers it, and the signal-to-action engine behind every deployment.",
+    desc: "What JALDO Travel is, how JALDO Core powers it, and the signal-to-action engine behind every deployment.",
     links: [
       { label: "Partner Overview",           href: "/partner-room/overview" },
-      { label: "What is RTBX Travel?",       href: "/partner-room/overview" },
-      { label: "Powered by RTBX Core",       href: "/partner-room/overview" },
+      { label: "What is JALDO Travel?",       href: "/partner-room/overview" },
+      { label: "Powered by JALDO Core",       href: "/partner-room/overview" },
       { label: "Guest Experience Demo",      href: "/partner-room/guest-demo", blue: true },
       { label: "Who this room is for",       href: "/partner-room/overview" },
     ],
@@ -90,7 +90,7 @@ const PROOF_LAYERS = [
     label: "Working Proof",
     navLabel: "Working Proof",
     color: "#10b981",
-    desc: "Five travel and hospitality environments — one RTBX Core operating system deployed across all of them.",
+    desc: "Five travel and hospitality environments — one JALDO Core operating system deployed across all of them.",
     links: [
       { label: "Hotels & Resorts",                    href: "/partner-room/deployments" },
       { label: "Holiday Parks & Outdoor Experiences", href: "/partner-room/deployments" },
@@ -196,12 +196,12 @@ export default function PartnerRoomLanding() {
 
       {/* ── HERO ── */}
       <div style={{ marginBottom: 80 }}>
-        {/* Brand hierarchy strip — RTBX Group → RTBX Core → RTBX Travel */}
+        {/* Brand hierarchy strip — JALDO → JALDO Core → JALDO Travel */}
         <div style={{ display: "flex", gap: 0, marginBottom: 32, flexWrap: "wrap" }}>
           {[
-            { label: "RTBX Group",  sub: "Parent ecosystem",         dim: true  },
-            { label: "RTBX Core",   sub: "Signal-to-action engine",  dim: false },
-            { label: "RTBX Travel", sub: "Travel operating systems",  dim: false },
+            { label: "JALDO",  sub: "Parent ecosystem",         dim: true  },
+            { label: "JALDO Core",   sub: "Signal-to-action engine",  dim: false },
+            { label: "JALDO Travel", sub: "Travel operating systems",  dim: false },
           ].map((item, i, arr) => (
             <div key={item.label} style={{ display: "flex", alignItems: "center" }}>
               <div style={{
@@ -221,26 +221,26 @@ export default function PartnerRoomLanding() {
         </div>
 
         <div style={{ fontSize: 11, letterSpacing: "0.18em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 20 }}>
-          {landing?.tagline ?? "Private Strategic Briefing · RTBX Travel"}
+          {landing?.tagline ?? "Private Strategic Briefing · JALDO Travel"}
         </div>
         <h1 style={{ fontSize: 56, fontWeight: 800, letterSpacing: "-0.025em", color: "#fff", lineHeight: 1.06, marginBottom: 24, maxWidth: 820 }}>
-          RTBX Travel<br />
+          JALDO Travel<br />
           <span style={{ color: "#c9a84c" }}>Partner Room</span>
         </h1>
         <p style={{ fontSize: 17, color: "rgba(255,255,255,0.55)", lineHeight: 1.7, maxWidth: 680, marginBottom: 14, fontWeight: 400 }}>
-          Governed guest, operator and service-moment infrastructure — powered by RTBX Core.
+          Governed guest, operator and service-moment infrastructure — powered by JALDO Core.
         </p>
         <p style={{ fontSize: 15, color: "rgba(255,255,255,0.42)", lineHeight: 1.75, maxWidth: 640, marginBottom: 14 }}>
-          RTBX Travel demonstrates how captured signals across hotels, resorts, holiday parks and experience environments can become guided action, escalation, assurance and measurable value.
+          JALDO Travel demonstrates how captured signals across hotels, resorts, holiday parks and experience environments can become guided action, escalation, assurance and measurable value.
         </p>
         <p style={{ fontSize: 13, color: "rgba(255,255,255,0.28)", lineHeight: 1.6, maxWidth: 560, marginBottom: 28, letterSpacing: "0.01em" }}>
-          RTBX Travel is powered by RTBX Core — the same signal-to-action infrastructure across every travel and hospitality environment.
+          JALDO Travel is powered by JALDO Core — the same signal-to-action infrastructure across every travel and hospitality environment.
         </p>
 
         {/* Operating platform statement */}
         <div style={{ padding: "16px 20px", background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.22)", borderLeft: "3px solid #c9a84c", maxWidth: 700, marginBottom: 24 }}>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.78)", lineHeight: 1.75, margin: 0, fontWeight: 600 }}>
-            This is the RTBX Core operating platform configured for Travel.
+            This is the JALDO Core operating platform configured for Travel.
           </p>
         </div>
 
@@ -353,13 +353,13 @@ export default function PartnerRoomLanding() {
             background: "rgba(201,168,76,0.04)",
             border: "1px solid rgba(201,168,76,0.18)",
             borderLeft: "2px solid rgba(201,168,76,0.5)",
-            display: "flex", alignItems: "center", justifyContent: "space-between", gap: 32,
+            display: "flex", alignItems: "center", justifyContent: "space-between", gap: 32, flexWrap: "wrap",
             transition: "all 0.15s", cursor: "pointer",
           }}
           onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(201,168,76,0.07)"; el.style.borderColor = "rgba(201,168,76,0.32)"; }}
           onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(201,168,76,0.04)"; el.style.borderColor = "rgba(201,168,76,0.18)"; }}
           >
-            <div style={{ flex: 1 }}>
+            <div style={{ flex: "1 1 240px", minWidth: 0 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                   <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#c9a84c" }} />
@@ -467,13 +467,13 @@ export default function PartnerRoomLanding() {
       {/* ── OPERATING ENVIRONMENTS (tabbed) ── */}
       <div id="environments" style={{ marginBottom: 96 }}>
         <div style={{ fontSize: 11, letterSpacing: "0.16em", color: "rgba(255,255,255,0.28)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
-          RTBX Travel · Deployment Environments
+          JALDO Travel · Deployment Environments
         </div>
         <div style={{ fontSize: 22, fontWeight: 700, color: "#fff", letterSpacing: "-0.01em", marginBottom: 10, maxWidth: 680 }}>
-          Five deployment environments. One shared RTBX platform.
+          Five deployment environments. One shared JALDO platform.
         </div>
         <p style={{ fontSize: 14, color: "rgba(255,255,255,0.45)", lineHeight: 1.75, maxWidth: 620, marginBottom: 32 }}>
-          RTBX Core applies the same signal-to-action infrastructure across every environment. The context changes — the execution logic remains the same.
+          JALDO Core applies the same signal-to-action infrastructure across every environment. The context changes — the execution logic remains the same.
         </p>
 
         {/* Tab strip — Hotels & Resorts is the lead environment; others are expansion */}
@@ -499,9 +499,9 @@ export default function PartnerRoomLanding() {
             </button>
           </div>
           {/* Expansion environments */}
-          <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 200 }}>
+          <div style={{ flex: "1 1 260px", display: "flex", flexDirection: "column", minWidth: 0 }}>
             <div style={{ fontSize: 9, letterSpacing: "0.14em", color: "rgba(255,255,255,0.28)", textTransform: "uppercase", fontWeight: 700, marginBottom: 4, paddingLeft: 4 }}>Expansion Environments</div>
-            <div style={{ display: "flex", gap: 2, flex: 1 }}>
+            <div style={{ display: "flex", gap: 2, flex: 1, flexWrap: "wrap" }}>
               {DEPLOYMENT_ENVS.slice(1).map((env, j) => {
                 const i = j + 1;
                 return (
@@ -509,7 +509,7 @@ export default function PartnerRoomLanding() {
                     key={env.id}
                     onClick={() => setActiveEnv(i)}
                     style={{
-                      flex: 1, padding: "13px 10px",
+                      flex: "1 1 100px", minWidth: 0, padding: "13px 10px",
                       background: i === activeEnv ? `${env.color}10` : "rgba(255,255,255,0.02)",
                       border: `1px solid ${i === activeEnv ? env.color + "40" : "rgba(255,255,255,0.06)"}`,
                       borderBottom: i === activeEnv ? `2px solid ${env.color}` : "1px solid rgba(255,255,255,0.06)",
@@ -532,7 +532,7 @@ export default function PartnerRoomLanding() {
           const env = DEPLOYMENT_ENVS[activeEnv];
           return (
             <div style={{ padding: "32px 32px", background: `${env.color}05`, border: `1px solid ${env.color}20`, borderTop: "none" }}>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 36, marginBottom: 28 }}>
+              <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 36, marginBottom: 28 }}>
                 <div>
                   <div style={{ fontSize: 11, letterSpacing: "0.12em", color: "rgba(255,255,255,0.28)", textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>Focus</div>
                   <p style={{ fontSize: 14, color: "rgba(255,255,255,0.6)", lineHeight: 1.7, marginBottom: 20 }}>{env.focus}</p>
@@ -549,7 +549,7 @@ export default function PartnerRoomLanding() {
                   ))}
                 </div>
               </div>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 2 }}>
+              <div className="rtbx-grid-3" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 2 }}>
                 {[
                   { label: "Operator Value",       value: env.operatorValue,       color: "#c9a84c" },
                   { label: "Guest Value",           value: env.guestValue,          color: "#10b981" },
@@ -590,7 +590,7 @@ export default function PartnerRoomLanding() {
         <div className="rtbx-grid-4" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
           {[
             { sub: "FOR OPERATORS", title: "Operator / Hotel Group", desc: "Service recovery, staff consistency, escalation visibility and measurable operational execution.", cta: "Operator Brief", href: "/partner-room/operator-brief", color: "#c9a84c" },
-            { sub: "FOR TECHNOLOGY PARTNERS", title: "Integration Partner", desc: "Connect PMS, CRM, POS, workforce and loyalty systems as live RTBX Core signal sources.", cta: "Integration Brief", href: "/partner-room/integration-brief", color: "#3b82f6" },
+            { sub: "FOR TECHNOLOGY PARTNERS", title: "Integration Partner", desc: "Connect PMS, CRM, POS, workforce and loyalty systems as live JALDO Core signal sources.", cta: "Integration Brief", href: "/partner-room/integration-brief", color: "#3b82f6" },
             { sub: "FOR COMMERCIAL PARTNERS", title: "Commercial Partner", desc: "Activate moments where guest need, commercial intent and operational timing create value.", cta: "Moments Economy", href: "/partner-room/moments-economy", color: "#a78bfa" },
             { sub: "FOR STRATEGIC PARTNERS", title: "Strategic Partner", desc: "Category opportunity, pilot validation model, commercial expansion and infrastructure position.", cta: "Explore a Design Partnership", href: "/partner-room/next-step", color: "#22d3ee" },
           ].map(card => (
@@ -649,7 +649,7 @@ export default function PartnerRoomLanding() {
           </Link>
           <GhostBtn href="/partner-room/demo-paths">Guided Demo Paths</GhostBtn>
           <GhostBtn href="/partner-room/pilot-model">Pilot Model</GhostBtn>
-          <GhostBtn href="mailto:lance@rtbx.com.au?subject=RTBX Travel Partner Briefing" ext>Request Partner Briefing</GhostBtn>
+          <GhostBtn href="mailto:lance@rtbx.com.au?subject=JALDO Travel Partner Briefing" ext>Request Partner Briefing</GhostBtn>
         </div>
       </div>
 

@@ -39,15 +39,15 @@ function S1() {
           </p>
           <div style={{ padding: "16px 20px", background: `${C.amber}08`, border: `1px solid ${C.amber}22`, maxWidth: 500 }}>
             <p style={{ fontSize: 12, color: C.white, lineHeight: 1.65, fontWeight: 500 }}>
-             RTBX Travel is presented here as a <span style={{ color: C.amber, fontWeight: 700 }}>Working Proof</span> — a proposed operating layer demonstrated with synthetic data, not a connected production system.
+             JALDO Travel is presented here as a <span style={{ color: C.amber, fontWeight: 700 }}>Working Proof</span> — a proposed operating layer demonstrated with synthetic data, not a connected production system.
             </p>
           </div>
         </div>
         <div style={{ flex: 2, display: "flex", flexDirection: "column", gap: 14 }}>
           {[
-            { label: "Information Gap",  value: "Solved",     desc: "Hotels have data. RTBX Travel does not add more data.", color: C.green },
+            { label: "Information Gap",  value: "Solved",     desc: "Hotels have data. JALDO Travel does not add more data.", color: C.green },
             { label: "Execution Gap",    value: "Unsolved",   desc: "No system converts signal into governed action at scale.", color: C.red },
-            { label: "RTBX Position",    value: "The Bridge", desc: "Signal → Moment → Decision → Action → Outcome", color: C.amber },
+            { label: "JALDO Position",    value: "The Bridge", desc: "Signal → Moment → Decision → Action → Outcome", color: C.amber },
           ].map((item, i) => (
             <div key={i} style={{ padding: "14px 16px", background: C.card, border: `1px solid ${item.color}22` }}>
               <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.15em", color: item.color, textTransform: "uppercase", marginBottom: 4 }}>{item.label}</div>
@@ -78,7 +78,7 @@ function S2() {
       <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 22 }}>
         <div>
           <h2 style={{ fontSize: 28, fontWeight: 800, color: C.white, letterSpacing: "-0.01em", marginBottom: 8 }}>The GHSOL Framework</h2>
-          <p style={{ fontSize: 12, color: C.muted, maxWidth: 560, lineHeight: 1.65 }}>Every RTBX Travel operation follows one universal chain — from sensing a signal to capturing learning. The platform is built around this loop.</p>
+          <p style={{ fontSize: 12, color: C.muted, maxWidth: 560, lineHeight: 1.65 }}>Every JALDO Travel operation follows one universal chain — from sensing a signal to capturing learning. The platform is built around this loop.</p>
         </div>
         <div style={{ display: "flex", alignItems: "stretch", gap: 0, flex: 1 }}>
           {steps.map((step, i) => (
@@ -92,7 +92,7 @@ function S2() {
             </div>
           ))}
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }}>
+        <div className="rtbx-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }}>
           {[
             { label: "Universal",  desc: "Works across all departments, properties, and guest types." },
              { label: "Reviewable", desc: "The Working Proof exposes each rules-based step for partner and operator review." },
@@ -188,7 +188,7 @@ function S4() {
           <div>
             <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.2em", color: C.amber, textTransform: "uppercase", marginBottom: 10 }}>WHAT DOES IT MEAN?</div>
             <h2 style={{ fontSize: 28, fontWeight: 800, color: C.white, letterSpacing: "-0.01em", marginBottom: 10 }}>Moment Registry</h2>
-            <p style={{ fontSize: 11.5, color: C.muted, lineHeight: 1.7, maxWidth: 340 }}>When signals cluster into significance, RTBX Travel creates a Moment — a structured, governed unit of operational intelligence with a recommended action.</p>
+            <p style={{ fontSize: 11.5, color: C.muted, lineHeight: 1.7, maxWidth: 340 }}>When signals cluster into significance, JALDO Travel creates a Moment — a structured, governed unit of operational intelligence with a recommended action.</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {[
@@ -310,7 +310,7 @@ function S6() {
           <div>
             <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.2em", color: C.amber, textTransform: "uppercase", marginBottom: 10 }}>WHAT SHOULD HAPPEN?</div>
             <h2 style={{ fontSize: 28, fontWeight: 800, color: C.white, letterSpacing: "-0.01em", marginBottom: 10 }}>Decision Registry</h2>
-            <p style={{ fontSize: 11.5, color: C.muted, lineHeight: 1.7 }}>Every response is a governed decision. RTBX Travel records every decision made, who authorised it, which playbook applied, and what the outcome was.</p>
+            <p style={{ fontSize: 11.5, color: C.muted, lineHeight: 1.7 }}>Every response is a governed decision. JALDO Travel records every decision made, who authorised it, which playbook applied, and what the outcome was.</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {[
@@ -371,14 +371,14 @@ function S7() {
           <h2 style={{ fontSize: 28, fontWeight: 800, color: C.white, letterSpacing: "-0.01em", marginBottom: 8 }}>Execution Index</h2>
           <p style={{ fontSize: 12, color: C.muted, maxWidth: 560, lineHeight: 1.65 }}>This simulation shows how future pilot measures could be structured. The figures below are fictional and do not evidence execution quality.</p>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 10 }}>
+        <div className="rtbx-grid-4" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 10 }}>
           <ExecutiveMetricCard label="Modelled Execution Index" value="92%" note="illustrative" color={C.amber} />
           <ExecutiveMetricCard label="Modelled Response Time" value="4.1m" note="illustrative" color={C.green} />
           <ExecutiveMetricCard label="Modelled Playbook Result" value="88%" note="illustrative" color={C.blue} />
           <ExecutiveMetricCard label="Synthetic Outcomes" value="44" note="illustrative" color={C.white} />
         </div>
         <ScreenshotCard title="Playbook Engine · Illustrative Measures" subtitle="Synthetic 30-day period">
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 8 }}>
+          <div className="rtbx-grid-5" style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 8 }}>
             {pb.map((p, i) => (
               <div key={i} style={{ padding: "12px 10px", background: C.card2, border: `1px solid ${p.color}22` }}>
                 <div style={{ fontSize: 7, fontWeight: 700, letterSpacing: "0.1em", color: p.color, textTransform: "uppercase", marginBottom: 5 }}>{p.id}</div>
@@ -476,15 +476,15 @@ function S9() {
             <span style={{ fontSize: 9.5, color: C.muted }}><span style={{ color: C.amber, fontWeight: 700 }}>Mr V. Hartmann</span> · Diamond · 14th stay · Grand Meridian, London · Arriving in 12 min · Room 847 uncleared</span>
           </div>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(8, 1fr)", gap: 8, flex: 1 }}>
+        <div className="rtbx-stack-mobile" style={{ display: "grid", gridTemplateColumns: "repeat(8, 1fr)", gap: 8, flex: 1 }}>
           {chain.map((step, i) => (
             <div key={i} style={{ padding: "12px 9px", background: `${step.color}08`, border: `1px solid ${step.color}28`, display: "flex", flexDirection: "column", gap: 6 }}>
               <div style={{ fontSize: 8.5, fontWeight: 800, letterSpacing: "0.14em", color: step.color, textTransform: "uppercase" }}>{step.step}</div>
-              <p style={{ fontSize: 9, color: C.muted, lineHeight: 1.5 }}>{step.detail}</p>
+              <p style={{ fontSize: 11, color: C.muted, lineHeight: 1.5 }}>{step.detail}</p>
             </div>
           ))}
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }}>
+        <div className="rtbx-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }}>
           {[
             { view: "Guest Perspective", color: C.blue, points: ["Modelled seamless arrival", "Proposed lounge access", "Illustrative preference handling"] },
             { view: "Operating Perspective",  color: C.amber,  points: ["Task assignment simulated", "Illustrative timeline visible", "Named role owner retains control"] },
@@ -514,7 +514,7 @@ function S10() {
             <h2 style={{ fontSize: 28, fontWeight: 800, color: C.white, letterSpacing: "-0.01em", marginBottom: 10 }}>Outcome Layer</h2>
             <p style={{ fontSize: 11.5, color: C.muted, lineHeight: 1.7 }}>This simulation shows the structure of possible outcome records. Every result below is modelled and requires pilot measurement and accountable human confirmation.</p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }}>
+          <div className="rtbx-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }}>
             <ExecutiveMetricCard label="Modelled Outcomes" value="44" note="illustrative" color={C.green} />
             <ExecutiveMetricCard label="Modelled Recovery Rate" value="94%" note="illustrative" color={C.amber} />
             <ExecutiveMetricCard label="Modelled Impact Score" value="8.7" note="illustrative" color={C.blue} />
@@ -573,7 +573,7 @@ function S11() {
           <h2 style={{ fontSize: 28, fontWeight: 800, color: C.white, letterSpacing: "-0.01em", marginBottom: 8 }}>Value Layer</h2>
           <p style={{ fontSize: 12, color: C.muted, maxWidth: 560, lineHeight: 1.65 }}>This slide distinguishes three types of value hypothesis. The examples are illustrative, not measured, protected, created or attributable value.</p>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16, flex: 1 }}>
+        <div className="rtbx-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16, flex: 1 }}>
           <div style={{ padding: "22px", background: C.card, border: `1px solid ${C.green}22`, display: "flex", flexDirection: "column" }}>
             <div style={{ fontSize: 8, fontWeight: 800, letterSpacing: "0.2em", color: C.green, textTransform: "uppercase", marginBottom: 10, paddingBottom: 8, borderBottom: `1px solid ${C.green}18` }}>Potential Protected Value</div>
             <p style={{ fontSize: 10.5, color: C.muted, lineHeight: 1.65, marginBottom: 14 }}>Hypotheses about value that a future pilot could test against agreed baselines.</p>
@@ -602,7 +602,7 @@ function S11() {
             </div>
           </div>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 10 }}>
+        <div className="rtbx-grid-4" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 10 }}>
           <ExecutiveMetricCard label="Modelled Value Score" value="94" note="illustrative" color={C.amber} />
           <ExecutiveMetricCard label="Potential Protected Value" value="HIGH" note="unvalidated" color={C.green} />
           <ExecutiveMetricCard label="Potential Created Value" value="Score 87" note="unvalidated" color={C.amber} />
@@ -633,7 +633,7 @@ function S12() {
           <h2 style={{ fontSize: 28, fontWeight: 800, color: C.white, letterSpacing: "-0.01em", marginBottom: 8 }}>Executive Command — Everything Connected</h2>
           <p style={{ fontSize: 12, color: C.muted, maxWidth: 560, lineHeight: 1.65 }}>This fictional portfolio view illustrates how leadership information could be organised. It is not connected to any property or production data.</p>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 10 }}>
+        <div className="rtbx-stack-mobile" style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 10 }}>
           {layers.map((l, i) => (
             <div key={i} style={{ padding: "14px 12px", background: C.card, border: `1px solid ${l.color}22` }}>
               <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.14em", color: l.color, textTransform: "uppercase", marginBottom: 6 }}>{l.label}</div>
@@ -641,7 +641,7 @@ function S12() {
             </div>
           ))}
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 10 }}>
+        <div className="rtbx-grid-5" style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 10 }}>
           {[
             { name: "Grand Meridian, London",    score: 91, color: C.green },
             { name: "Meridian Palace, Singapore",score: 88, color: C.green },
@@ -671,7 +671,7 @@ function S13() {
       <SlideHeader label={LABEL} />
       <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 28 }}>
         <div>
-          <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.22em", color: C.amber, textTransform: "uppercase", marginBottom: 14 }}>WHERE RTBX TRAVEL IS GOING</div>
+          <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.22em", color: C.amber, textTransform: "uppercase", marginBottom: 14 }}>WHERE JALDO TRAVEL IS GOING</div>
           <h2 style={{ fontSize: 32, fontWeight: 800, color: C.white, lineHeight: 1.15, letterSpacing: "-0.01em" }}>
             Behavioural Infrastructure Today.<br />
             <span style={{ color: C.amber }}>Behavioural Economy Tomorrow.</span><br />
@@ -683,7 +683,7 @@ function S13() {
           { label: "Behavioural Economy",        sub: "Activation layer across portfolios", color: C.blue },
           { label: "Behavioural Exchange",        sub: "Intelligence exchange across operators", color: C.violet },
         ]} gap={28} />
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 14 }}>
+        <div className="rtbx-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 14 }}>
           {[
             { phase: "Phase 1 · Current", title: "Working Proof", color: C.amber, status: "SIMULATION", sc: C.amber, desc: "Rules-based interface demonstration with synthetic inputs, no integrations and no dispatch." },
             { phase: "Phase 2 · Planned", title: "Behavioural Economy", color: C.blue, status: "PLANNED", sc: C.amber, desc: "Proposed activation layer across portfolio networks, dependent on integration and pilot evidence." },
@@ -701,7 +701,7 @@ function S13() {
         </div>
         <div style={{ padding: "18px 24px", background: `${C.amber}07`, border: `1px solid ${C.amber}20`, textAlign: "center" }}>
           <p style={{ fontSize: 15, fontWeight: 700, color: C.white }}>Better visibility. Better decisions. Better execution. Better outcomes.</p>
-          <p style={{ fontSize: 9, color: C.dimmed, marginTop: 6, letterSpacing: "0.1em", textTransform: "uppercase" }}>RTBX Travel · Operator Story Lab · Example Multi-Property Hotel Operator Scenario</p>
+          <p style={{ fontSize: 11, color: C.dimmed, marginTop: 6, letterSpacing: "0.1em", textTransform: "uppercase" }}>JALDO Travel · Operator Story Lab · Example Multi-Property Hotel Operator Scenario</p>
         </div>
       </div>
       <SlideFooter slide={13} total={TOTAL} />

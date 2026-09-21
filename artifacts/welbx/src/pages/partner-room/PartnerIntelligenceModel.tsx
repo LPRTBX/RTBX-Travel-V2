@@ -59,10 +59,10 @@ export default function PartnerIntelligenceModel() {
         <div style={{ marginBottom: 40 }}>
           <SectionLabel>Travel Intelligence</SectionLabel>
           <h1 style={{ fontSize: 40, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.15, marginBottom: 16, maxWidth: 760 }}>
-            RTBX Travel Intelligence
+            JALDO Travel Intelligence
           </h1>
           <p style={{ fontSize: 15, color: C.muted, lineHeight: 1.75, maxWidth: 720 }}>
-            The RTBX Core operating platform configured for guest, staff, operator and partner moments.
+            The JALDO Core operating platform configured for guest, staff, operator and partner moments.
           </p>
         </div>
 
@@ -80,7 +80,7 @@ export default function PartnerIntelligenceModel() {
         </div>
 
         {/* ── PACK COMPONENTS ── */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2, marginBottom: 40 }}>
+        <div className="rtbx-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2, marginBottom: 40 }}>
           {PACK_COMPONENTS.map(item => (
             <Link key={item.label} href={item.href}>
               <div style={{
@@ -100,9 +100,9 @@ export default function PartnerIntelligenceModel() {
         {/* Six-Layer Position Map */}
         <div style={{ marginBottom: 40 }}>
           <SectionLabel>Six-Layer Position Map</SectionLabel>
-          <H2>Every Travel Element Mapped to the RTBX Core Architecture</H2>
+          <H2>Every Travel Element Mapped to the JALDO Core Architecture</H2>
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.65, marginBottom: 24, maxWidth: 700 }}>
-            Every modelled capability in the Travel Intelligence Pack has a position in the RTBX Core six-layer architecture. Each item is labelled as Shared Core, Travel Configuration, or Property Configuration.
+            Every modelled capability in the Travel Intelligence Pack has a position in the JALDO Core six-layer architecture. Each item is labelled as Shared Core, Travel Configuration, or Property Configuration.
           </p>
           <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
             {INTELLIGENCE_LAYERS.map(layer => {
@@ -126,9 +126,9 @@ export default function PartnerIntelligenceModel() {
                         <span style={{
                           fontSize: 11, fontWeight: 700, letterSpacing: "0.04em", textTransform: "uppercase",
                           padding: "1px 5px",
-                          color: cap.origin === "RTBX Core" ? "#c9a84c" : cap.origin === "Travel Configuration" ? "#3b82f6" : "#10b981",
-                          border: `1px solid ${cap.origin === "RTBX Core" ? "rgba(201,168,76,0.3)" : cap.origin === "Travel Configuration" ? "rgba(59,130,246,0.3)" : "rgba(16,185,129,0.3)"}`,
-                        }}>{cap.origin === "RTBX Core" ? "Shared Core" : cap.origin === "Travel Configuration" ? "Travel Config" : "Property Config"}</span>
+                          color: cap.origin === "JALDO Core" ? "#c9a84c" : cap.origin === "Travel Configuration" ? "#3b82f6" : "#10b981",
+                          border: `1px solid ${cap.origin === "JALDO Core" ? "rgba(201,168,76,0.3)" : cap.origin === "Travel Configuration" ? "rgba(59,130,246,0.3)" : "rgba(16,185,129,0.3)"}`,
+                        }}>{cap.origin === "JALDO Core" ? "Shared Core" : cap.origin === "Travel Configuration" ? "Travel Config" : "Property Config"}</span>
                       </div>
                     ))}
                   </div>
@@ -205,7 +205,7 @@ export default function PartnerIntelligenceModel() {
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.65, marginBottom: 20, maxWidth: 700 }}>
             {TRAVEL_MOMENT_TAXONOMY.length} modelled moment types. Deterministic rules assign risk, governance, proposed playbooks and a named human owner. Planned AI is optional and always falls back to those rules.
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2 }}>
+          <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2 }}>
             {TRAVEL_MOMENT_TAXONOMY.map(m => (
               <div key={m.id} style={{ padding: "18px 20px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: `2px solid ${RISK_COLOR[m.riskLevel]}` }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8, gap: 8 }}>
@@ -213,7 +213,7 @@ export default function PartnerIntelligenceModel() {
                   <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.04em", textTransform: "uppercase", color: RISK_COLOR[m.riskLevel], flexShrink: 0 }}>{m.riskLevel}</div>
                 </div>
                 <div style={{ fontSize: 12, color: "rgba(255,255,255,0.42)", marginBottom: 10 }}>{m.valueAtStake}</div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, fontSize: 12, color: "rgba(255,255,255,0.52)", marginBottom: 10 }}>
+                <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, fontSize: 12, color: "rgba(255,255,255,0.52)", marginBottom: 10 }}>
                   <div><span style={{ color: "rgba(255,255,255,0.3)" }}>Owner: </span>{m.primaryOwner}</div>
                   <div><span style={{ color: "rgba(255,255,255,0.3)" }}>Human approval: </span>{m.humanApprovalRequired ? "Required" : "Not required"}</div>
                   <div style={{ gridColumn: "1 / -1" }}><span style={{ color: "rgba(255,255,255,0.3)" }}>Escalation: </span>{m.escalationThreshold}</div>
@@ -234,7 +234,7 @@ export default function PartnerIntelligenceModel() {
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.65, marginBottom: 20, maxWidth: 700 }}>
             {TRAVEL_GOVERNANCE_SOURCES.length} governance sources gate every moment response before it reaches a human owner.
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 1 }}>
+          <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 1 }}>
             {TRAVEL_GOVERNANCE_SOURCES.map(g => (
               <div key={g.id} style={{ padding: "14px 18px", background: "rgba(255,255,255,0.015)", border: "1px solid rgba(255,255,255,0.05)" }}>
                 <div style={{ fontSize: 13, fontWeight: 700, color: "#fff", marginBottom: 4 }}>{g.name}</div>
@@ -251,7 +251,7 @@ export default function PartnerIntelligenceModel() {
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.65, marginBottom: 20, maxWidth: 700 }}>
             {TRAVEL_ROLE_MODEL.length} roles, each with a defined scope of sight, action, ownership and approval authority.
           </p>
-          <div style={{ overflowX: "auto" }}>
+          <div className="rtbx-table-scroll">
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12, minWidth: 1100 }}>
               <thead>
                 <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.1)" }}>
@@ -281,7 +281,7 @@ export default function PartnerIntelligenceModel() {
         <div style={{ marginBottom: 56 }}>
           <SectionLabel>Data Model · 05</SectionLabel>
           <H2>Planned Travel AI Assistant Model</H2>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2, marginBottom: 20 }}>
+          <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2, marginBottom: 20 }}>
             <div style={{ padding: "20px 22px", background: "rgba(16,185,129,0.04)", border: "1px solid rgba(16,185,129,0.18)" }}>
               <div style={{ fontSize: 11, letterSpacing: "0.1em", color: C.green, textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>Planned AI May Propose</div>
               {TRAVEL_AI_ASSISTANT_MODEL.allowed.map(item => (
@@ -326,7 +326,7 @@ export default function PartnerIntelligenceModel() {
         <div style={{ marginBottom: 56 }}>
           <SectionLabel>Data Model · 07</SectionLabel>
           <H2>Indicative, Unmeasured Travel Value Model</H2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
+          <div className="rtbx-grid-4" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
             {TRAVEL_VALUE_MODEL.map(cat => (
               <div key={cat.id} style={{ padding: "18px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
                 <div style={{ fontSize: 12, fontWeight: 800, color: C.gold, marginBottom: 12, textTransform: "uppercase", letterSpacing: "0.04em" }}>{cat.label}</div>
@@ -342,7 +342,7 @@ export default function PartnerIntelligenceModel() {
         <div style={{ marginBottom: 56 }}>
           <SectionLabel>Data Model · 08</SectionLabel>
           <H2>Planned Travel Integration Map</H2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 1 }}>
+          <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 1 }}>
             {TRAVEL_INTEGRATION_MAP.map(i => (
               <div key={i.id} style={{ padding: "14px 18px", background: "rgba(255,255,255,0.015)", border: "1px solid rgba(255,255,255,0.05)" }}>
                 <div style={{ fontSize: 13, fontWeight: 700, color: "#fff", marginBottom: 4 }}>{i.name}</div>

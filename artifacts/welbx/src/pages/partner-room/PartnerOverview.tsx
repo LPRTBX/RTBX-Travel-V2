@@ -19,10 +19,10 @@ There is no governed execution layer between signal and action. No system asks: 
   },
   {
     num: "03",
-    heading: "The Role of RTBX",
-    body: `RTBX Core is the shared signal-to-action infrastructure. It sits between the signals your property already generates and the actions your teams need to take. It does not replace any system. It reads them, classifies what they collectively mean, determines the governed response, and routes it to the right person.
+    heading: "The Role of JALDO",
+    body: `JALDO Core is the shared signal-to-action infrastructure. It sits between the signals your property already generates and the actions your teams need to take. It does not replace any system. It reads them, classifies what they collectively mean, determines the governed response, and routes it to the right person.
 
-RTBX Travel is RTBX Core configured for travel and hospitality environments — guest moments, operational pressure, commercial activation, welfare obligations, and partner ecosystems. Guest Experience is the guest-facing layer: what guests interact with directly.`,
+JALDO Travel is JALDO Core configured for travel and hospitality environments — guest moments, operational pressure, commercial activation, welfare obligations, and partner ecosystems. Guest Experience is the guest-facing layer: what guests interact with directly.`,
   },
   {
     num: "04",
@@ -34,14 +34,14 @@ See the full engine detail on the Operating Model page.`,
   {
     num: "05",
     heading: "The Six Intelligence Layers",
-    body: `RTBX Core is built on six layers, each configured for Travel: Signal, Moment, Governance, Decision, Communications, and Outcome & Value. Each layer has domain-specific signals, moment types, governance policies and outcome models configured for travel environments.
+    body: `JALDO Core is built on six layers, each configured for Travel: Signal, Moment, Governance, Decision, Communications, and Outcome & Value. Each layer has domain-specific signals, moment types, governance policies and outcome models configured for travel environments.
 
 The full layer architecture is documented on the Operating Model page.`,
   },
   {
     num: "06",
     heading: "Travel Configuration",
-    body: `The Travel Intelligence Pack configures RTBX Core for the specific operating environment of travel and hospitality. It provides:
+    body: `The Travel Intelligence Pack configures JALDO Core for the specific operating environment of travel and hospitality. It provides:
 
 Travel Signal Registry — 30+ classified signal types across guest experience, operations, safety and welfare, commercial and partner domains. The full library runs to hundreds of types per deployment.
 
@@ -58,7 +58,7 @@ Travel Outcome Model — 12 canonical outcome types, from Response Started to Po
   {
     num: "07",
     heading: "Travel Operating Systems",
-    body: `RTBX Travel packages its capabilities into five operating systems, each addressing a major hotel operating problem:
+    body: `JALDO Travel packages its capabilities into five operating systems, each addressing a major hotel operating problem:
 
 Guest Experience OS — check-in, in-stay service, concierge moments, loyalty activation and departure.
 
@@ -70,7 +70,7 @@ Operator Intelligence OS — portfolio performance, shift intelligence, staff ca
 
 Safety & Guest Welfare OS — welfare signal detection, duty-of-care protocols, incident evidence and critical escalation.
 
-Each OS groups specific modules around its problem domain. Every OS depends on RTBX Core capabilities and Travel Intelligence configuration — no OS is a standalone platform.`,
+Each OS groups specific modules around its problem domain. Every OS depends on JALDO Core capabilities and Travel Intelligence configuration — no OS is a standalone platform.`,
   },
   {
     num: "08",
@@ -86,16 +86,16 @@ The internal Working Proof (available from the Product Proof section) demonstrat
     heading: "Pilot Pathway",
     body: `The path from Partner Room to live deployment runs through seven stages: Explore, Align, Configure, Pilot, Prove, Deploy, Expand. The pilot conversation is the starting point.
 
-RTBX Core remains consistent through every stage. What changes at each stage is the Travel environment — which systems are connected, which operating systems are activated, which governance rules are configured, which roles are assigned, and which outcome targets are set.
+JALDO Core remains consistent through every stage. What changes at each stage is the Travel environment — which systems are connected, which operating systems are activated, which governance rules are configured, which roles are assigned, and which outcome targets are set.
 
-The Pilot Model section of this room describes the eight-week pilot structure, success criteria and evidence standard. The Commercial Model section describes partnership structure, investment and return model.`,
+The Pilot Model section of this room describes the 8–10 week implementation and readiness structure followed by a 2–3 month controlled pilot, success criteria and evidence standard. The Commercial Model section describes partnership structure, investment and return model.`,
   },
 ];
 
 export default function PartnerOverview() {
   const { content } = usePartnerContent();
   const sections = content?.overview?.sections ?? DEFAULT_SECTIONS;
-  const headline = content?.overview?.headline ?? "RTBX Travel — The Operating Case";
+  const headline = content?.overview?.headline ?? "JALDO Travel — The Operating Case";
 
   return (
     <PartnerRoomLayout>
@@ -110,11 +110,11 @@ export default function PartnerOverview() {
           </h1>
           {/* Brand context — concise, links to full model */}
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 8, flexWrap: "wrap" }}>
-            <span style={{ fontSize: 12, color: "rgba(255,255,255,0.35)" }}>RTBX Group</span>
+            <span style={{ fontSize: 12, color: "rgba(255,255,255,0.35)" }}>JALDO</span>
             <span style={{ fontSize: 11, color: "rgba(255,255,255,0.2)" }}>→</span>
-            <span style={{ fontSize: 12, fontWeight: 700, color: "#c9a84c" }}>RTBX Core</span>
+            <span style={{ fontSize: 12, fontWeight: 700, color: "#c9a84c" }}>JALDO Core</span>
             <span style={{ fontSize: 11, color: "rgba(255,255,255,0.2)" }}>→</span>
-            <span style={{ fontSize: 12, fontWeight: 700, color: "#c9a84c" }}>RTBX Travel</span>
+            <span style={{ fontSize: 12, fontWeight: 700, color: "#c9a84c" }}>JALDO Travel</span>
             <span style={{ fontSize: 11, color: "rgba(255,255,255,0.2)" }}>→</span>
             <span style={{ fontSize: 12, fontWeight: 700, color: "#3b82f6" }}>Guest Experience</span>
             <Link href="/partner-room/operating-model">
@@ -129,7 +129,7 @@ export default function PartnerOverview() {
             background: "rgba(201,168,76,0.05)", border: "1px solid rgba(201,168,76,0.2)", cursor: "pointer",
           }}>
             <span style={{ fontSize: 12, fontWeight: 700, color: "#c9a84c", letterSpacing: "0.04em" }}>
-              See how RTBX Core is configured for Travel — RTBX Travel Intelligence →
+              See how JALDO Core is configured for Travel — JALDO Travel Intelligence →
             </span>
           </div>
         </Link>

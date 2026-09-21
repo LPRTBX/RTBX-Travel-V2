@@ -130,7 +130,7 @@ export default function PartnerHolidayParkDemo() {
             <span style={{ color: "#10b981" }}>and didn't.</span>
           </h1>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 640 }}>
-            A simulated family-arrival scenario: weather has changed, the cabin is not ready and children are unsettled. This working proof shows proposed RTBX Travel decision support, not a live guest or operator workflow.
+            A simulated family-arrival scenario: weather has changed, the cabin is not ready and children are unsettled. This working proof shows proposed JALDO Travel decision support, not a live guest or operator workflow.
           </p>
         </div>
 
@@ -140,7 +140,7 @@ export default function PartnerHolidayParkDemo() {
         </div>
 
         {/* Scenario context strip */}
-        <div style={{
+        <div className="rtbx-grid-3" style={{
           padding: "24px 32px",
           background: "rgba(16,185,129,0.04)",
           border: "1px solid rgba(16,185,129,0.12)",
@@ -171,13 +171,14 @@ export default function PartnerHolidayParkDemo() {
           <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>
             Simulated Operating Flow · Step {activeStep + 1} of {FLOW_STEPS.length}
           </div>
-          <div style={{ display: "flex", gap: 2 }}>
+          <div style={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
             {FLOW_STEPS.map((s, i) => (
               <button
                 key={s.key}
                 onClick={() => setActiveStep(i)}
                 style={{
-                  flex: 1,
+                  flex: "1 1 70px",
+                  minWidth: 0,
                   padding: "16px 12px",
                   background: i === activeStep ? `${s.color}12` : "rgba(255,255,255,0.02)",
                   border: `1px solid ${i === activeStep ? s.color + "50" : "rgba(255,255,255,0.07)"}`,
@@ -189,6 +190,7 @@ export default function PartnerHolidayParkDemo() {
                   flexDirection: "column",
                   alignItems: "center",
                   gap: 6,
+                  position: "relative",
                 }}
                 onMouseEnter={e => { if (i !== activeStep) { (e.currentTarget as HTMLElement).style.borderColor = `rgba(255,255,255,0.15)`; (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.04)"; }}}
                 onMouseLeave={e => { if (i !== activeStep) { (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.07)"; (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.02)"; }}}
@@ -213,8 +215,8 @@ export default function PartnerHolidayParkDemo() {
           marginBottom: 40,
           minHeight: 320,
         }}>
-          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 28 }}>
-            <div>
+          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 28, flexWrap: "wrap", gap: 12 }}>
+            <div style={{ minWidth: 0 }}>
               <div style={{ fontSize: 9, letterSpacing: "0.22em", color: step.color, textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
                 {step.label} · {step.summary}
               </div>
@@ -319,7 +321,7 @@ export default function PartnerHolidayParkDemo() {
           <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 20 }}>
             Illustrative Value Hypotheses
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 2 }}>
+          <div className="rtbx-grid-5" style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 2 }}>
             {PROOF_POINTS.map((pt, i) => (
               <div key={i} style={{
                 padding: "20px 16px",
@@ -346,7 +348,7 @@ export default function PartnerHolidayParkDemo() {
           <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 20 }}>
             What this demonstrates
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 24 }}>
+          <div className="rtbx-grid-3" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 24 }}>
             {[
                { role: "Operator", color: "#c9a84c", points: ["Proposed consistent staff response", "Illustrative escalation record for human review", "Hypothesis for protecting sentiment at a high-risk moment"] },
                { role: "Guest", color: "#10b981", points: ["Proposed acknowledgement draft", "Illustrative practical-support options", "Modelled recovery before a first impression is lost"] },
@@ -409,7 +411,7 @@ export default function PartnerHolidayParkDemo() {
               All Demo Paths
             </div>
           </Link>
-          <a href="mailto:lance@rtbx.com.au?subject=Holiday Parks Demo — RTBX Travel" style={{ textDecoration: "none" }}>
+          <a href="mailto:lance@rtbx.com.au?subject=Holiday Parks Demo — JALDO Travel" style={{ textDecoration: "none" }}>
             <div style={{
               padding: "14px 28px",
               fontSize: 11,

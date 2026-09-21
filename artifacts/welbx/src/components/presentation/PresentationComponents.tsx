@@ -17,7 +17,7 @@ export const C = {
   cyan:   "#22d3ee",
 };
 
-export const FOOTER = "RTBX Travel  |  The Operating Layer Between Signal And Action";
+export const FOOTER = "JALDO Travel  |  The Operating Layer Between Signal And Action";
 
 /* ─── Slide Shell ─────────────────────────────────────────────────── */
 export function PresentationSlide({ children, className }: { children: ReactNode; className?: string }) {
@@ -46,7 +46,7 @@ export function SlideHeader({ label }: { label?: string }) {
   return (
     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 44 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-        <span style={{ fontSize: 12, fontWeight: 800, letterSpacing: "0.24em", color: C.white, textTransform: "uppercase" }}>RTBX Travel</span>
+        <span style={{ fontSize: 12, fontWeight: 800, letterSpacing: "0.24em", color: C.white, textTransform: "uppercase" }}>JALDO Travel</span>
         {label && (
           <>
             <span style={{ color: C.dimmed, fontSize: 10 }}>·</span>

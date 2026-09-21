@@ -84,7 +84,7 @@ export default function PartnerValidation() {
             </div>
             <div style={{ fontSize: 18, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", marginBottom: 10 }}>Validation Replay Lab</div>
             <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.65, maxWidth: 560, margin: 0 }}>
-              Play the same scenario in Normal, Escalation or Failure mode — watch how RTBX Core responds at every stage and see what changes when things go wrong.
+              Play the same scenario in Normal, Escalation or Failure mode — watch how JALDO Core responds at every stage and see what changes when things go wrong.
             </p>
           </div>
           <Link href="/partner-room/validation-replay">
@@ -124,7 +124,7 @@ export default function PartnerValidation() {
               {
                 num: "03", label: "Planned", color: "#c9a84c",
                 desc: "Components fully specified and modelled but not yet live-integrated.",
-                items: ["RTBX Integration Hub (connection model specified)", "Travel Governance Sources (11 canonical policies defined)", "Evidence Ledger schema (structure and fields defined)", "Travel Signal Registry taxonomy (30+ classified types defined)", "Decision Spine chain (10-step governance model complete)"],
+                items: ["JALDO Integration Hub (connection model specified)", "Travel Governance Sources (11 canonical policies defined)", "Evidence Ledger schema (structure and fields defined)", "Travel Signal Registry taxonomy (30+ classified types defined)", "Decision Spine chain (10-step governance model complete)"],
               },
               {
                 num: "04", label: "Planned", color: "#f97316",

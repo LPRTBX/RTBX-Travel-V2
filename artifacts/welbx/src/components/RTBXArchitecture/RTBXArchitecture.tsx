@@ -64,7 +64,7 @@ export function RTBXArchitecture({
 
 /** Colour treatment for CapabilityOrigin — matches the app's dark-gold design system */
 export const ORIGIN_COLORS: Record<CapabilityOrigin, { border: string; bg: string; text: string; badge: string }> = {
-  "RTBX Core": {
+  "JALDO Core": {
     border: "rgba(201,168,76,0.35)",
     bg: "rgba(201,168,76,0.05)",
     text: "#c9a84c",

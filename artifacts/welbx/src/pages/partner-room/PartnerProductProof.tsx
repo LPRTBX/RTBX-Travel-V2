@@ -27,7 +27,7 @@ const PROOF_MODES = [
     num: "03",
     label: "Communications Routing Demo",
     color: "#10b981",
-    desc: "Watch RTBX route the right message to the right person at the right time.",
+    desc: "Watch JALDO route the right message to the right person at the right time.",
     href: "/partner-room/comms-demo",
     cta: "Open Communications Demo",
   },
@@ -56,15 +56,15 @@ const CORE_SYSTEMS = [
     tagColor: "#c9a84c",
     href: "/partner-room/signals-engine",
     does: "Captures staff, guest and operator-entered signals first, then approved PMS, POS, workforce, messaging and environmental integrations over time — converting captured signals into classified moments.",
-    matters: "Without a structured signal layer, operators are reactive. With it, RTBX Core acts before the guest needs to say anything.",
+    matters: "Without a structured signal layer, operators are reactive. With it, JALDO Core acts before the guest needs to say anything.",
   },
   {
-    label: "Signal Capture — How RTBX Collects Signals",
+    label: "Signal Capture — How JALDO Collects Signals",
     tag: "Brief",
     tagColor: "#c9a84c",
     href: "/partner-room/product-proof/signal-capture",
     does: "Explains the seven signal sources, the pipeline from intake to assurance log, what is real for MVP vs pilot phase, and the four-stage deployment path.",
-    matters: "A partner or funder needs to understand exactly how RTBX captures signals now and why the push-first MVP is a credible first step — not a fake automation claim.",
+    matters: "A partner or funder needs to understand exactly how JALDO captures signals now and why the push-first MVP is a credible first step — not a fake automation claim.",
   },
   {
     label: "Decision Spine Demo",
@@ -96,7 +96,7 @@ const CORE_SYSTEMS = [
     tagColor: "#c9a84c",
     href: "/partner-room/signals-engine",
     does: "Logs every resolution with evidence — who actioned it, when, what outcome was reached, and what value was captured.",
-    matters: "Operators and funders need proof the system works. The registry creates an auditable record for every moment handled.",
+    matters: "Operators and funders need evidence the designed capability performs as intended. The registry creates an auditable record for every moment handled in the synthetic demonstration, subject to pilot validation.",
   },
 ];
 
@@ -225,7 +225,7 @@ export default function PartnerProductProof() {
             Product Proof
           </h1>
           <p style={{ fontSize: 15, color: "rgba(255,255,255,0.42)", lineHeight: 1.75, maxWidth: 600 }}>
-            Explore the RTBX Travel Working Proof across simulated scenarios, role views, drafted communications, decision logic and indicative value modelling.
+            Explore the JALDO Travel Working Proof across simulated scenarios, role views, drafted communications, decision logic and indicative value modelling.
           </p>
         </div>
 
@@ -279,7 +279,7 @@ export default function PartnerProductProof() {
                   { label: "Comms Demo", desc: "Central Comms OS routing: signal to message routing across channels with approval indicators.", href: "/partner-room/comms-demo", status: "Simulation" },
                   { label: "Execution Centre", desc: "The only canonical local runtime for configured scenarios, governed actions and illustrative evidence.", href: travelScenarioExecutionPath("repeat-guest-room-not-ready"), status: "Working Proof" },
                   { label: "Operator Demo", desc: "What the role owner sees: signals, context, decision, action, comms, evidence.", href: "/partner-room/operator-demo", status: "Working Proof" },
-                  { label: "Guest Demo", desc: "What the guest experiences as the output of coordinated RTBX action.", href: "/partner-room/guest-demo", status: "Working Proof" },
+                  { label: "Guest Demo", desc: "What the guest experiences as the output of coordinated JALDO action.", href: "/partner-room/guest-demo", status: "Working Proof" },
                 ],
               },
               {
@@ -349,13 +349,13 @@ export default function PartnerProductProof() {
                   <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.3)", border: "1px solid rgba(255,255,255,0.1)", padding: "2px 8px" }}>Simulation</div>
                 </div>
                 <div style={{ fontSize: 16, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", marginBottom: 8 }}>
-                  RTBX Travel — Moment Response MVP
+                  JALDO Travel — Moment Response MVP
                 </div>
                 <p style={{ fontSize: 13, color: "rgba(255,255,255,0.5)", lineHeight: 1.65, maxWidth: 720, margin: "0 0 8px 0" }}>
-                   This Working Proof shows the first RTBX Travel product loop with synthetic inputs: capture, classification, assignment, drafted guest communication, escalation, assurance logging and indicative reporting.
+                   This Working Proof shows the first JALDO Travel product loop with synthetic inputs: capture, classification, assignment, drafted guest communication, escalation, assurance logging and indicative reporting.
                 </p>
                 <div style={{ fontSize: 12, color: "rgba(255,255,255,0.28)", fontStyle: "italic" }}>
-                  The Partner Room explains the RTBX Travel model. This Working Proof demonstrates the interface and governed flow; it does not send communications, activate partners or represent an Integrated or Production deployment.
+                  The Partner Room explains the JALDO Travel model. This Working Proof demonstrates the interface and governed flow; it does not send communications, activate partners or represent an Integrated or Production deployment.
                 </div>
               </div>
                <div className="rtbx-responsive-cta" style={{
@@ -395,7 +395,7 @@ export default function PartnerProductProof() {
               Core Systems Preview
             </div>
             <p style={{ fontSize: 13, color: "rgba(255,255,255,0.36)", lineHeight: 1.65, maxWidth: 580, margin: 0 }}>
-              RTBX Core is made up of reusable system layers that turn signals into action, assurance and value.
+              JALDO Core is made up of reusable system layers that turn signals into action, assurance and value.
             </p>
           </div>
           <div style={{ width: "100%", height: 1, background: "rgba(255,255,255,0.05)", margin: "24px 0" }} />
@@ -414,7 +414,7 @@ export default function PartnerProductProof() {
               Demo Pathways
             </div>
             <p style={{ fontSize: 13, color: "rgba(255,255,255,0.34)", lineHeight: 1.65, maxWidth: 600, margin: 0 }}>
-              Three views of RTBX Travel across the deployment pathway — the current Working Proof, a Planned integration-assisted pilot, and a Planned Stage 3 operating layer.
+              Three views of JALDO Travel across the deployment pathway — the current Working Proof, a Planned integration-assisted pilot, and a Planned Stage 3 operating layer.
             </p>
           </div>
            <div className="rtbx-responsive-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 2 }}>

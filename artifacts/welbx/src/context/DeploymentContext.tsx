@@ -1,5 +1,5 @@
 /**
- * DeploymentContext — shared deployment state for RTBX Travel Sprint 4.
+ * DeploymentContext — shared deployment state for JALDO Travel Sprint 4.
  *
  * Persists the active deployment configuration to localStorage.
  * All data is local synthetic demonstration data — not a production

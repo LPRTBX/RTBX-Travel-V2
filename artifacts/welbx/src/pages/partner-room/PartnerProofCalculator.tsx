@@ -102,7 +102,7 @@ export default function PartnerProofCalculator() {
           </div>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2 }}>
+        <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2 }}>
           {/* Inputs */}
           <div style={{ padding: "32px 30px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16, marginBottom: 28 }}>
@@ -138,7 +138,7 @@ export default function PartnerProofCalculator() {
               <div style={{ fontSize: 9, letterSpacing: "0.18em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 18 }}>
                 Illustrative Monthly Hypotheses
               </div>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2 }}>
+              <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2 }}>
                 <OutputCard label="Modelled Value Protection" value={fmt(monthlyValueProtected)} sub="Service recovery × rate × avg value" color="#c9a84c" />
                 <OutputCard label="Modelled Revenue Opportunity" value={fmt(revenueCreated)} sub="Marketplace activations × conversion" color="#10b981" />
                 <OutputCard label="Modelled Staff Time" value={`${Math.round(staffHoursSaved)} hrs`} sub={`${minutesSaved} min × ${Math.round(incidents)} incidents`} color="#3b82f6" />
@@ -150,7 +150,7 @@ export default function PartnerProofCalculator() {
               <div style={{ fontSize: 9, letterSpacing: "0.18em", color: "rgba(255,255,255,0.3)", textTransform: "uppercase", fontWeight: 700, marginBottom: 18 }}>
                 Operational Output
               </div>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2 }}>
+              <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2 }}>
                  <OutputCard label="Modelled Assurance Records" value={`${assuranceRecords.toLocaleString()}`} sub="Illustrative incident-record hypothesis" color="#a78bfa" />
                 <OutputCard label="Monthly Incidents" value={`${Math.round(incidents)}`} sub={`${Math.round(issueFreq * 100)}% of ${guestVolume.toLocaleString()} guests`} color="rgba(255,255,255,0.3)" />
               </div>

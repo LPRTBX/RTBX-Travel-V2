@@ -49,7 +49,7 @@ export default function TravelArchitectureModellingUxQa() {
         <div style={{ marginBottom: 56 }}>
           <div style={{ fontSize: 8.5, letterSpacing: "0.2em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>Partner Resource · Architecture, Modelling, UX & QA</div>
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 18, maxWidth: 720 }}>
-            RTBX Travel — Architecture, Modelling, UX & QA
+            JALDO Travel — Architecture, Modelling, UX & QA
           </h1>
           <div style={{ padding: "16px 20px", background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.22)", borderLeft: "3px solid #c9a84c", maxWidth: 700 }}>
             <p style={{ fontSize: 13, color: "rgba(255,255,255,0.7)", lineHeight: 1.75, margin: 0, fontStyle: "italic" }}>
@@ -87,7 +87,7 @@ export default function TravelArchitectureModellingUxQa() {
         {/* Role-based UX */}
         <div style={{ marginBottom: 56 }}>
           <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>Role-Based UX</div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
+          <div className="rtbx-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
             {ROLE_UX.map(r => (
               <div key={r.role} style={{ padding: "20px 20px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: `2px solid ${r.color}` }}>
                 <div style={{ fontSize: 12.5, fontWeight: 800, color: r.color, marginBottom: 8 }}>{r.role}</div>
@@ -100,7 +100,7 @@ export default function TravelArchitectureModellingUxQa() {
         {/* QA model */}
         <div style={{ marginBottom: 40 }}>
           <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>QA Model</div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2 }}>
+          <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2 }}>
             {QA_MODEL.map(q => (
               <div key={q.label} style={{ padding: "20px 20px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: `2px solid ${C.green}` }}>
                 <div style={{ fontSize: 11.5, fontWeight: 700, color: "#fff", marginBottom: 8 }}>{q.label}</div>

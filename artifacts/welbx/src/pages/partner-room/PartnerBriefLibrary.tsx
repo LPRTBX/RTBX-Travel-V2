@@ -70,10 +70,10 @@ export const EXTERNAL_PARTNER_RESOURCES: PartnerResource[] = [
   // General partner resources
   {
     id: "doc-partner-overview",
-    title: "RTBX Travel Partner Overview",
-    description: "Introduction to the RTBX Travel ecosystem, what RTBX owns, partner lanes and partnership pathway. Suitable for initial partner conversations.",
+    title: "JALDO Travel Partner Overview",
+    description: "Introduction to the JALDO Travel ecosystem, what JALDO owns, partner lanes and partnership pathway. Suitable for initial partner conversations.",
     audience: ["All partner types", "Prospective partners"],
-    owner: "RTBX",
+    owner: "JALDO",
     version: "0.5",
     accessLevel: "general-partner",
     maturity: "working",
@@ -86,7 +86,7 @@ export const EXTERNAL_PARTNER_RESOURCES: PartnerResource[] = [
     title: "Hotel Pilot Model",
     description: "Canonical pilot proposition, operating systems, scenarios, delivery stages and success framework for the Hotel Moment Response and Service Recovery Pilot.",
     audience: ["Hotel operators", "General Managers", "COO", "Transformation leads"],
-    owner: "RTBX",
+    owner: "JALDO",
     version: "0.5",
     accessLevel: "pilot-partner",
     maturity: "working",
@@ -96,10 +96,10 @@ export const EXTERNAL_PARTNER_RESOURCES: PartnerResource[] = [
   },
   {
     id: "doc-operating-model",
-    title: "RTBX Travel Operating Model",
+    title: "JALDO Travel Operating Model",
     description: "Intelligence engine, six intelligence layers, travel operating systems and Connect → Understand → Decide → Act → Learn framework.",
     audience: ["All partners", "Hotel operators", "Technology partners"],
-    owner: "RTBX",
+    owner: "JALDO",
     version: "0.5",
     accessLevel: "general-partner",
     maturity: "working",
@@ -109,10 +109,10 @@ export const EXTERNAL_PARTNER_RESOURCES: PartnerResource[] = [
   },
   {
     id: "doc-deployment-environments",
-    title: "RTBX Travel Deployment Environments",
+    title: "JALDO Travel Deployment Environments",
     description: "Primary, secondary and future deployment environments. Hotels and resorts as the initial market. Expansion pathway to hotel groups, holiday parks and other environments.",
     audience: ["All partners", "Hotel operators", "Distribution partners"],
-    owner: "RTBX",
+    owner: "JALDO",
     version: "0.5",
     accessLevel: "general-partner",
     maturity: "working",
@@ -126,7 +126,7 @@ export const EXTERNAL_PARTNER_RESOURCES: PartnerResource[] = [
     title: "Pilot Readiness Checklist",
     description: "Interactive readiness assessment covering customer, technical, operational and measurement readiness. Used during the Align stage.",
     audience: ["Pilot owner", "General Manager", "Technology lead"],
-    owner: "RTBX",
+    owner: "JALDO",
     version: "0.5",
     accessLevel: "pilot-partner",
     maturity: "working",
@@ -139,7 +139,7 @@ export const EXTERNAL_PARTNER_RESOURCES: PartnerResource[] = [
     title: "Pilot Success Framework",
     description: "Operational, guest, staff, governance and value measures with target type classification. Measures to be agreed during alignment — no invented results.",
     audience: ["Executive sponsor", "COO", "Pilot owner"],
-    owner: "RTBX",
+    owner: "JALDO",
     version: "0.5",
     accessLevel: "pilot-partner",
     maturity: "working",
@@ -150,9 +150,9 @@ export const EXTERNAL_PARTNER_RESOURCES: PartnerResource[] = [
   {
     id: "doc-build-configure",
     title: "Build & Configure — Working Demonstration",
-    description: "Interactive 9-stage deployment configuration environment. Demonstrates how RTBX Travel is configured before execution.",
+    description: "Interactive 9-stage deployment configuration environment. Demonstrates how JALDO Travel is configured before execution.",
     audience: ["Pilot owner", "Technology lead", "Operations lead"],
-    owner: "RTBX",
+    owner: "JALDO",
     version: "0.5",
     accessLevel: "general-partner",
     maturity: "working",
@@ -165,7 +165,7 @@ export const EXTERNAL_PARTNER_RESOURCES: PartnerResource[] = [
     title: "Execution Centre — Working Demonstration",
     description: "End-to-end scenario execution demonstration. Signal-to-outcome trace with operator, guest and dual view.",
     audience: ["All partners", "Operations team", "Pilot evaluators"],
-    owner: "RTBX",
+    owner: "JALDO",
     version: "0.5",
     accessLevel: "general-partner",
     maturity: "working",
@@ -179,7 +179,7 @@ export const EXTERNAL_PARTNER_RESOURCES: PartnerResource[] = [
     title: "Integration Responsibility Matrix",
     description: "Signal sources, interface types, authentication ownership, mapping ownership, failure responsibility and maturity classification for all supported integrations.",
     audience: ["Technology partners", "Systems integrators", "IT leaders"],
-    owner: "RTBX",
+    owner: "JALDO",
     version: "0.5",
     accessLevel: "technical-partner",
     maturity: "working",
@@ -192,7 +192,7 @@ export const EXTERNAL_PARTNER_RESOURCES: PartnerResource[] = [
     title: "Signal-to-Action Pipeline",
     description: "Technical demonstration of signal capture, context assembly, decision processing and action coordination.",
     audience: ["Technology partners", "CTO", "IT leads"],
-    owner: "RTBX",
+    owner: "JALDO",
     version: "0.5",
     accessLevel: "technical-partner",
     maturity: "working",
@@ -205,7 +205,7 @@ export const EXTERNAL_PARTNER_RESOURCES: PartnerResource[] = [
     title: "Travel Intelligence Layer",
     description: "Six intelligence layers, signal taxonomy, context model and moment detection approach.",
     audience: ["Technology partners", "Product leads"],
-    owner: "RTBX",
+    owner: "JALDO",
     version: "0.5",
     accessLevel: "technical-partner",
     maturity: "working",
@@ -217,9 +217,9 @@ export const EXTERNAL_PARTNER_RESOURCES: PartnerResource[] = [
   {
     id: "doc-deployment-responsibility",
     title: "Deployment Responsibility Matrix",
-    description: "Responsibilities across RTBX, customer, technology partner, deployment partner and intervention partner for each stage of deployment.",
+    description: "Responsibilities across JALDO, customer, technology partner, deployment partner and intervention partner for each stage of deployment.",
     audience: ["Deployment partners", "Systems integrators", "Transformation advisers"],
-    owner: "RTBX",
+    owner: "JALDO",
     version: "0.5",
     accessLevel: "deployment-partner",
     maturity: "working",
@@ -229,10 +229,10 @@ export const EXTERNAL_PARTNER_RESOURCES: PartnerResource[] = [
   },
   {
     id: "doc-rollout-model",
-    title: "RTBX Travel Rollout Model",
+    title: "JALDO Travel Rollout Model",
     description: "Four-stage rollout model from demonstration through pilot, production deployment to scale. Used during planning and client conversations.",
     audience: ["Deployment partners", "Transformation advisers"],
-    owner: "RTBX",
+    owner: "JALDO",
     version: "0.5",
     accessLevel: "deployment-partner",
     maturity: "working",
@@ -247,7 +247,7 @@ export const EXTERNAL_PARTNER_RESOURCES: PartnerResource[] = [
     title: "Commercial Pathway",
     description: "Commercial principles, pilot structure, deployment structure, expansion structure and partner commercial models. All figures are indicative or subject to proposal.",
     audience: ["Commercial leads", "COO", "Executive sponsor"],
-    owner: "RTBX",
+    owner: "JALDO",
     version: "0.5",
     accessLevel: "general-partner",
     maturity: "working",
@@ -261,7 +261,7 @@ export const EXTERNAL_PARTNER_RESOURCES: PartnerResource[] = [
     title: "Proof Calculator",
     description: "Indicative tool for modelling potential value. Inputs are transparent, defaults are labelled and outputs are not guaranteed. Customer data replaces assumptions.",
     audience: ["COO", "CFO", "Commercial leads"],
-    owner: "RTBX",
+    owner: "JALDO",
     version: "0.5",
     accessLevel: "general-partner",
     maturity: "working",
@@ -295,15 +295,15 @@ export default function PartnerBriefLibrary() {
 
         {/* ── HEADER ── */}
         <div style={{ marginBottom: 48 }}>
-          <div style={{ fontSize: 8.5, letterSpacing: "0.2em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>RTBX Travel · Resource Library</div>
+          <div style={{ fontSize: 8.5, letterSpacing: "0.2em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>JALDO Travel · Resource Library</div>
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 14, maxWidth: 760 }}>
-            RTBX Travel Brief Library
+            JALDO Travel Brief Library
           </h1>
           <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.8, maxWidth: 700, marginBottom: 20 }}>
             Classified by audience, owner and access level. Each resource shows its version, maturity, last review date and commercial status where applicable. Only resources approved for this external partner preview appear here.
           </p>
           <div style={{ padding: "10px 16px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.08)", fontSize: 10, color: "rgba(255,255,255,0.4)", fontStyle: "italic" }}>
-            Internal-only and commercially restricted material is not included in this route graph or client bundle. Contact RTBX directly for a separately controlled review.
+            Internal-only and commercially restricted material is not included in this route graph or client bundle. Contact JALDO directly for a separately controlled review.
           </div>
         </div>
 

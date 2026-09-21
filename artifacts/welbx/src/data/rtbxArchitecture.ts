@@ -1,15 +1,15 @@
 /**
- * RTBX Intelligence Engine — Canonical Architecture Data
+ * JALDO Intelligence Engine — Canonical Architecture Data
  *
- * This is the single source of truth for RTBX architecture terminology,
+ * This is the single source of truth for JALDO architecture terminology,
  * structure, and hierarchy across all pages. All page files and components
  * should import from here rather than hardcoding architecture strings.
  *
  * Sections:
  *  1. MaturityStatus type
  *  2. Engine Stages (Connect → Understand → Decide → Act → Learn)
- *  3. Intelligence Layers (six shared RTBX intelligence layers)
- *  4. Core Capabilities (shared RTBX Core capabilities with layer/stage mappings)
+ *  3. Intelligence Layers (six shared JALDO intelligence layers)
+ *  4. Core Capabilities (shared JALDO Core capabilities with layer/stage mappings)
  *  5. Deployment Pathway (seven-stage: Explore → … → Expand)
  *  6. Platform Hierarchy (five levels: Shared Core → Active Deployment)
  *  7. Canonical Terminology Map (prohibited → required)
@@ -173,7 +173,7 @@ export interface IntelligenceLayer {
   label: string;
   /** Short summary */
   summary: string;
-  /** Capabilities shared across all RTBX verticals */
+  /** Capabilities shared across all JALDO verticals */
   sharedCapabilities: string[];
   /** How this layer is configured specifically for Travel */
   travelExamples: string[];
@@ -185,7 +185,7 @@ export const INTELLIGENCE_LAYERS: IntelligenceLayer[] = [
   {
     id: "connection",
     label: "Connection Layer",
-    summary: "Connects RTBX Core to the systems, sources and touchpoints that produce relevant signals.",
+    summary: "Connects JALDO Core to the systems, sources and touchpoints that produce relevant signals.",
     sharedCapabilities: [
       "Integration Hub",
       "Signal Registry",
@@ -278,51 +278,51 @@ export const INTELLIGENCE_LAYERS: IntelligenceLayer[] = [
 
 // ── 4. CORE CAPABILITIES ─────────────────────────────────────────────────────
 
-export type CapabilityOrigin = "RTBX Core" | "Travel Configuration" | "Property Configuration";
+export type CapabilityOrigin = "JALDO Core" | "Travel Configuration" | "Property Configuration";
 
 export interface CoreCapability {
   id: string;
   name: string;
   description: string;
-  /** Whether this capability is shared RTBX Core, Travel config, or property-specific */
+  /** Whether this capability is shared JALDO Core, Travel config, or property-specific */
   origin: CapabilityOrigin;
   /** Which intelligence layer this capability belongs to */
   layer: IntelligenceLayerId;
   /** Which engine stage this capability operates in */
   stage: EngineStageId;
-  /** Implementation detail retained beneath a canonical shared RTBX Core capability. */
+  /** Implementation detail retained beneath a canonical shared JALDO Core capability. */
   parentCapabilityId?: string;
 }
 
 export const CORE_CAPABILITIES: CoreCapability[] = [
-  // Canonical shared RTBX Core capabilities — the only peer-level Core modules.
-  { id: "cap-integration-hub",     name: "Integration Hub",          description: "Unified connector layer across PMS, CRM, loyalty, apps and IoT.", origin: "RTBX Core", layer: "connection", stage: "connect" },
-  { id: "cap-signal-registry",     name: "Signal Registry",          description: "Authoritative registry and classification surface for connected signal types.", origin: "RTBX Core", layer: "connection", stage: "connect" },
-  { id: "cap-decision-spine",      name: "Decision Spine",           description: "Structured decision tree from classified moment to permitted response path.", origin: "RTBX Core", layer: "governance-decision", stage: "decide" },
-  { id: "cap-playbook-engine",     name: "Playbook Engine",          description: "Selects and surfaces the governed response pattern for a classified moment.", origin: "RTBX Core", layer: "governance-decision", stage: "decide" },
-  { id: "cap-prompt-nudge-engine", name: "Prompt & Nudge Engine",    description: "Coordinates governed prompts and nudges for the named role owner.", origin: "RTBX Core", layer: "execution-communication", stage: "act" },
-  { id: "cap-central-comms-os",    name: "Central Comms OS",         description: "Coordinates approved multi-channel instructions and communications.", origin: "RTBX Core", layer: "execution-communication", stage: "act" },
-  { id: "cap-evidence-ledger",     name: "Evidence Ledger",          description: "Immutable record of signal, governance, action and outcome evidence.", origin: "RTBX Core", layer: "evidence-outcome-value", stage: "learn" },
-  { id: "cap-outcome-ledger",      name: "Outcome Ledger",           description: "Canonical record of outcomes and value measures from actioned moments.", origin: "RTBX Core", layer: "evidence-outcome-value", stage: "learn" },
-  { id: "cap-build-configure",     name: "Build & Configure",        description: "Shared surface for configuring governed capabilities for a deployment.", origin: "RTBX Core", layer: "governance-decision", stage: "decide" },
-  { id: "cap-execution-centre",    name: "Execution Centre",          description: "Shared operator surface for governed role-owned execution.", origin: "RTBX Core", layer: "execution-communication", stage: "act" },
+  // Canonical shared JALDO Core capabilities — the only peer-level Core modules.
+  { id: "cap-integration-hub",     name: "Integration Hub",          description: "Unified connector layer across PMS, CRM, loyalty, apps and IoT.", origin: "JALDO Core", layer: "connection", stage: "connect" },
+  { id: "cap-signal-registry",     name: "Signal Registry",          description: "Authoritative registry and classification surface for connected signal types.", origin: "JALDO Core", layer: "connection", stage: "connect" },
+  { id: "cap-decision-spine",      name: "Decision Spine",           description: "Structured decision tree from classified moment to permitted response path.", origin: "JALDO Core", layer: "governance-decision", stage: "decide" },
+  { id: "cap-playbook-engine",     name: "Playbook Engine",          description: "Selects and surfaces the governed response pattern for a classified moment.", origin: "JALDO Core", layer: "governance-decision", stage: "decide" },
+  { id: "cap-prompt-nudge-engine", name: "Prompt & Nudge Engine",    description: "Coordinates governed prompts and nudges for the named role owner.", origin: "JALDO Core", layer: "execution-communication", stage: "act" },
+  { id: "cap-central-comms-os",    name: "Central Comms OS",         description: "Coordinates approved multi-channel instructions and communications.", origin: "JALDO Core", layer: "execution-communication", stage: "act" },
+  { id: "cap-evidence-ledger",     name: "Evidence Ledger",          description: "Immutable record of signal, governance, action and outcome evidence.", origin: "JALDO Core", layer: "evidence-outcome-value", stage: "learn" },
+  { id: "cap-outcome-ledger",      name: "Outcome Ledger",           description: "Canonical record of outcomes and value measures from actioned moments.", origin: "JALDO Core", layer: "evidence-outcome-value", stage: "learn" },
+  { id: "cap-build-configure",     name: "Build & Configure",        description: "Shared surface for configuring governed capabilities for a deployment.", origin: "JALDO Core", layer: "governance-decision", stage: "decide" },
+  { id: "cap-execution-centre",    name: "Execution Centre",          description: "Shared operator surface for governed role-owned execution.", origin: "JALDO Core", layer: "execution-communication", stage: "act" },
 
   // Retained implementation sub-capabilities — always subordinate to a Core capability.
-  { id: "cap-signal-ingestion",    name: "Signal Ingestion Pipeline", description: "Real-time and batch signal normalisation across connected sources.", origin: "RTBX Core", layer: "connection", stage: "connect", parentCapabilityId: "cap-integration-hub" },
-  { id: "cap-source-registry",     name: "Source Registry",           description: "Authoritative registry of connected systems and their signal types.", origin: "RTBX Core", layer: "connection", stage: "connect", parentCapabilityId: "cap-integration-hub" },
-  { id: "cap-moment-engine",       name: "Moment Engine",              description: "Pattern-based classification of signal clusters into known moment types.", origin: "RTBX Core", layer: "context-moment", stage: "understand", parentCapabilityId: "cap-signal-registry" },
-  { id: "cap-context-assembler",   name: "Context Assembler",          description: "Assembles multi-signal clusters into a structured moment record.", origin: "RTBX Core", layer: "context-moment", stage: "understand", parentCapabilityId: "cap-signal-registry" },
-  { id: "cap-governance-engine",   name: "Governance Engine",           description: "Applies pre-approved governance sources before any response is permitted.", origin: "RTBX Core", layer: "governance-decision", stage: "decide", parentCapabilityId: "cap-decision-spine" },
-  { id: "cap-policy-registry",     name: "Policy Source Registry",      description: "Canonical registry of governance sources and applicability.", origin: "RTBX Core", layer: "governance-decision", stage: "decide", parentCapabilityId: "cap-decision-spine" },
-  { id: "cap-audit-trail",         name: "Audit Trail",                 description: "Immutable governance decision log per moment.", origin: "RTBX Core", layer: "governance-decision", stage: "decide", parentCapabilityId: "cap-decision-spine" },
-  { id: "cap-consent-rules",       name: "Consent & Privacy Rules",      description: "Governs what data may be captured, stored and acted on under consent.", origin: "RTBX Core", layer: "governance-decision", stage: "decide", parentCapabilityId: "cap-decision-spine" },
-  { id: "cap-role-router",         name: "Role Routing Engine",          description: "Assigns moment ownership to the correct named human role.", origin: "RTBX Core", layer: "governance-decision", stage: "decide", parentCapabilityId: "cap-decision-spine" },
-  { id: "cap-escalation-router",   name: "Escalation Router",            description: "Routes moments requiring elevated approval to the correct path.", origin: "RTBX Core", layer: "governance-decision", stage: "decide", parentCapabilityId: "cap-decision-spine" },
-  { id: "cap-ai-drafting",         name: "AI Drafting Engine",            description: "AI-assisted message drafting within the governed communications workflow.", origin: "RTBX Core", layer: "execution-communication", stage: "act", parentCapabilityId: "cap-prompt-nudge-engine" },
-  { id: "cap-action-centre",       name: "Action Centre",                 description: "Role-owner queue for governed moments and actions.", origin: "RTBX Core", layer: "execution-communication", stage: "act", parentCapabilityId: "cap-execution-centre" },
-  { id: "cap-outcome-registry",    name: "Outcome Registry",               description: "Canonical taxonomy beneath the Outcome Ledger.", origin: "RTBX Core", layer: "evidence-outcome-value", stage: "learn", parentCapabilityId: "cap-outcome-ledger" },
-  { id: "cap-value-engine",        name: "Value Engine",                   description: "Maps actioned outcomes to financial and experience value measures.", origin: "RTBX Core", layer: "evidence-outcome-value", stage: "learn", parentCapabilityId: "cap-outcome-ledger" },
-  { id: "cap-learning-layer",      name: "Learning Layer",                 description: "Improves classification and playbook selection from evidenced outcome history.", origin: "RTBX Core", layer: "learning-intelligence", stage: "learn", parentCapabilityId: "cap-outcome-ledger" },
+  { id: "cap-signal-ingestion",    name: "Signal Ingestion Pipeline", description: "Real-time and batch signal normalisation across connected sources.", origin: "JALDO Core", layer: "connection", stage: "connect", parentCapabilityId: "cap-integration-hub" },
+  { id: "cap-source-registry",     name: "Source Registry",           description: "Authoritative registry of connected systems and their signal types.", origin: "JALDO Core", layer: "connection", stage: "connect", parentCapabilityId: "cap-integration-hub" },
+  { id: "cap-moment-engine",       name: "Moment Engine",              description: "Pattern-based classification of signal clusters into known moment types.", origin: "JALDO Core", layer: "context-moment", stage: "understand", parentCapabilityId: "cap-signal-registry" },
+  { id: "cap-context-assembler",   name: "Context Assembler",          description: "Assembles multi-signal clusters into a structured moment record.", origin: "JALDO Core", layer: "context-moment", stage: "understand", parentCapabilityId: "cap-signal-registry" },
+  { id: "cap-governance-engine",   name: "Governance Engine",           description: "Applies pre-approved governance sources before any response is permitted.", origin: "JALDO Core", layer: "governance-decision", stage: "decide", parentCapabilityId: "cap-decision-spine" },
+  { id: "cap-policy-registry",     name: "Policy Source Registry",      description: "Canonical registry of governance sources and applicability.", origin: "JALDO Core", layer: "governance-decision", stage: "decide", parentCapabilityId: "cap-decision-spine" },
+  { id: "cap-audit-trail",         name: "Audit Trail",                 description: "Immutable governance decision log per moment.", origin: "JALDO Core", layer: "governance-decision", stage: "decide", parentCapabilityId: "cap-decision-spine" },
+  { id: "cap-consent-rules",       name: "Consent & Privacy Rules",      description: "Governs what data may be captured, stored and acted on under consent.", origin: "JALDO Core", layer: "governance-decision", stage: "decide", parentCapabilityId: "cap-decision-spine" },
+  { id: "cap-role-router",         name: "Role Routing Engine",          description: "Assigns moment ownership to the correct named human role.", origin: "JALDO Core", layer: "governance-decision", stage: "decide", parentCapabilityId: "cap-decision-spine" },
+  { id: "cap-escalation-router",   name: "Escalation Router",            description: "Routes moments requiring elevated approval to the correct path.", origin: "JALDO Core", layer: "governance-decision", stage: "decide", parentCapabilityId: "cap-decision-spine" },
+  { id: "cap-ai-drafting",         name: "AI Drafting Engine",            description: "AI-assisted message drafting within the governed communications workflow.", origin: "JALDO Core", layer: "execution-communication", stage: "act", parentCapabilityId: "cap-prompt-nudge-engine" },
+  { id: "cap-action-centre",       name: "Action Centre",                 description: "Role-owner queue for governed moments and actions.", origin: "JALDO Core", layer: "execution-communication", stage: "act", parentCapabilityId: "cap-execution-centre" },
+  { id: "cap-outcome-registry",    name: "Outcome Registry",               description: "Canonical taxonomy beneath the Outcome Ledger.", origin: "JALDO Core", layer: "evidence-outcome-value", stage: "learn", parentCapabilityId: "cap-outcome-ledger" },
+  { id: "cap-value-engine",        name: "Value Engine",                   description: "Maps actioned outcomes to financial and experience value measures.", origin: "JALDO Core", layer: "evidence-outcome-value", stage: "learn", parentCapabilityId: "cap-outcome-ledger" },
+  { id: "cap-learning-layer",      name: "Learning Layer",                 description: "Improves classification and playbook selection from evidenced outcome history.", origin: "JALDO Core", layer: "learning-intelligence", stage: "learn", parentCapabilityId: "cap-outcome-ledger" },
 
   // Travel configuration — domain-specific, not shared Core modules.
   { id: "cap-travel-signal-reg",   name: "Travel Signal Registry",     description: "Classified travel signal library across guest, operations, safety, commercial and partner domains.", origin: "Travel Configuration", layer: "connection", stage: "connect" },
@@ -463,9 +463,9 @@ export interface HierarchyLevel {
 export const PLATFORM_HIERARCHY: HierarchyLevel[] = [
   {
     id: "shared-core",
-    label: "RTBX Core",
-    summary: "Shared signal-to-action infrastructure. One platform across all RTBX verticals.",
-    origin: "RTBX Core",
+    label: "JALDO Core",
+    summary: "Shared signal-to-action infrastructure. One platform across all JALDO verticals.",
+    origin: "JALDO Core",
     examples: [
       "Integration Hub",
       "Signal Registry",
@@ -547,9 +547,9 @@ export interface TerminologyEntry {
 
 export const CANONICAL_TERMINOLOGY: TerminologyEntry[] = [
   {
-    prohibited: "RTBX Travel platform",
-    canonical: "RTBX Core configured for Travel",
-    reason: "RTBX Travel is not a separate platform. It is RTBX Core with Travel configuration applied.",
+    prohibited: "JALDO Travel platform",
+    canonical: "JALDO Core configured for Travel",
+    reason: "JALDO Travel is not a separate platform. It is JALDO Core with Travel configuration applied.",
   },
   {
     prohibited: "Travel Intelligence Pack platform",
@@ -559,7 +559,7 @@ export const CANONICAL_TERMINOLOGY: TerminologyEntry[] = [
   {
     prohibited: "Guest-facing platform",
     canonical: "Guest-facing Experience",
-    reason: "The Guest-facing Experience is a delivery layer within RTBX Travel — not a standalone platform.",
+    reason: "The Guest-facing Experience is a delivery layer within JALDO Travel — not a standalone platform.",
   },
   {
     prohibited: "Guest-facing operating system",
@@ -569,12 +569,12 @@ export const CANONICAL_TERMINOLOGY: TerminologyEntry[] = [
   {
     prohibited: "AI agent",
     canonical: "AI assistant",
-    reason: "RTBX AI does not act as an agent — it assists classification, drafting and routing. Humans own every decision.",
+    reason: "JALDO AI does not act as an agent — it assists classification, drafting and routing. Humans own every decision.",
   },
   {
     prohibited: "autonomous decision",
     canonical: "governed response",
-    reason: "RTBX does not make autonomous decisions. Every response passes through governance to a human role owner.",
+    reason: "JALDO does not make autonomous decisions. Every response passes through governance to a human role owner.",
   },
   {
     prohibited: "AI decides",
@@ -582,9 +582,9 @@ export const CANONICAL_TERMINOLOGY: TerminologyEntry[] = [
     reason: "AI may classify, summarise, recommend, draft and coordinate. Safety, compensation, legal and welfare decisions require human approval.",
   },
   {
-    prohibited: "RTBX Group platform",
-    canonical: "RTBX Group",
-    reason: "RTBX Group is the parent entity. RTBX Core is the platform. Avoid conflating the company with the product.",
+    prohibited: "JALDO platform",
+    canonical: "JALDO",
+    reason: "JALDO is the parent entity. JALDO Core is the platform. Avoid conflating the company with the product.",
   },
   {
     prohibited: "Travel OS",
@@ -593,8 +593,8 @@ export const CANONICAL_TERMINOLOGY: TerminologyEntry[] = [
   },
   {
     prohibited: "signal-based AI",
-    canonical: "RTBX Intelligence Engine",
-    reason: "The canonical name for the overall engine is the RTBX Intelligence Engine.",
+    canonical: "JALDO Intelligence Engine",
+    reason: "The canonical name for the overall engine is the JALDO Intelligence Engine.",
   },
   {
     prohibited: "intervention",

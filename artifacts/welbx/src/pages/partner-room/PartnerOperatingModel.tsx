@@ -6,7 +6,7 @@ import { CURRENT_PROOF_BOUNDARY } from "@/lib/proofLanguage";
 const C = { gold: "#c9a84c", muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,255,0.22)", green: "#10b981", blue: "#3b82f6", purple: "#a78bfa" };
 
 const HIERARCHY = [
-  { label: "RTBX Core", sub: "Signal-to-action infrastructure" },
+  { label: "JALDO Core", sub: "Signal-to-action infrastructure" },
   { label: "Travel Configuration", sub: "Signals, moments, governance, roles, playbooks, communications, evidence and outcomes tuned for travel" },
   { label: "Travel Operating Systems", sub: "Guest, Recovery, Marketplace, Intelligence, Welfare" },
   { label: "Property Configuration", sub: "Property-specific rules, activated modules, roles and channels" },
@@ -33,7 +33,7 @@ const OPERATING_LOOP = [
 
 const FULL_ARCHITECTURE = [
   "PMS / CRM / Guest / Staff / Partner Inputs",
-  "RTBX Integration Hub",
+  "JALDO Integration Hub",
   "Travel Signal Registry",
   "Context and Moment Layer — Travel Configuration",
   "Travel Governance",
@@ -41,7 +41,7 @@ const FULL_ARCHITECTURE = [
   "Travel Playbook Library",
   "Escalation and Role Routing",
   "Central Comms OS",
-  "RTBX Execution Centre — Travel Environment",
+  "JALDO Execution Centre — Travel Environment",
   "Evidence and Outcome Ledgers",
   "Evidence, Outcome and Value Layer",
   "Travel Intelligence",
@@ -76,7 +76,7 @@ export default function PartnerOperatingModel() {
             Travel Intelligence · Operating Model
           </div>
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.15, marginBottom: 20, maxWidth: 720 }}>
-            The RTBX Core Operating Model
+            The JALDO Core Operating Model
           </h1>
           <div style={{ padding: "16px 20px", background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.22)", borderLeft: "3px solid #c9a84c", maxWidth: 700, marginBottom: 20 }}>
             <div style={{ fontSize: 11, letterSpacing: "0.14em", color: C.gold, textTransform: "uppercase", fontWeight: 800, marginBottom: 8 }}>
@@ -87,7 +87,7 @@ export default function PartnerOperatingModel() {
             </p>
           </div>
           <p style={{ fontSize: 15, color: C.muted, lineHeight: 1.75, maxWidth: 700 }}>
-            This page demonstrates a proposed Travel configuration of the RTBX Core architecture. All integrated operating behavior described below is <strong style={{ color: "rgba(255,255,255,0.72)" }}>Planned</strong>, not current deployment capability.
+            This page demonstrates a proposed Travel configuration of the JALDO Core architecture. All integrated operating behavior described below is <strong style={{ color: "rgba(255,255,255,0.72)" }}>Planned</strong>, not current deployment capability.
           </p>
         </div>
 
@@ -106,7 +106,7 @@ export default function PartnerOperatingModel() {
           <div style={{ fontSize: 11, letterSpacing: "0.14em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 20 }}>
             Planned Public Promise
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
+          <div className="rtbx-grid-4" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
             {PUBLIC_PROMISE.map((step, i) => (
               <div key={step.label} style={{ padding: "20px 16px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: "2px solid #c9a84c", position: "relative" }}>
                 <div style={{ fontSize: 11, letterSpacing: "0.14em", color: "rgba(201,168,76,0.45)", textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>{String(i + 1).padStart(2, "0")}</div>
@@ -141,7 +141,7 @@ export default function PartnerOperatingModel() {
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.7, maxWidth: 640, marginBottom: 24 }}>
             These stages illustrate future integrated operating behavior. In the current Simulation, inputs are synthetic, outputs are recommendations, and a named human remains accountable; displayed evidence, outcomes and value are illustrative, modelled and unmeasured.
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 2 }}>
+          <div className="rtbx-grid-5" style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 2 }}>
             {ENGINE_STAGES.map((stage, i) => (
               <div key={stage.id} style={{ padding: "20px 16px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: "2px solid #c9a84c", position: "relative" }}>
                 <div style={{ fontSize: 11, letterSpacing: "0.14em", color: "rgba(201,168,76,0.45)", textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>{String(i + 1).padStart(2, "0")}</div>
@@ -160,7 +160,7 @@ export default function PartnerOperatingModel() {
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.7, maxWidth: 640, marginBottom: 24 }}>
             This proposed Travel configuration shows planned domain-specific signal types, moment rules, governance policies and outcome models. It does not indicate current integrations or production operation.
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
+          <div className="rtbx-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
             {INTELLIGENCE_LAYERS.map(layer => (
               <div key={layer.id} style={{ padding: "20px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: "2px solid #c9a84c" }}>
                 <div style={{ fontSize: 13, fontWeight: 700, color: "#fff", marginBottom: 6 }}>{layer.label}</div>

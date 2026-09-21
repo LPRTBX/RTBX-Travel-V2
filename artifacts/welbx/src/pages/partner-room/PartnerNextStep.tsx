@@ -38,9 +38,9 @@ const ENGAGEMENTS = [
       "Integration assumptions, governance boundaries and responsibilities",
       "A practical 1–5-property cohort pathway",
     ],
-    participants: ["Executive sponsor or decision-maker", "Operations or guest-experience lead", "Technology or systems contact", "RTBX Travel team"],
+    participants: ["Executive sponsor or decision-maker", "Operations or guest-experience lead", "Technology or systems contact", "JALDO Travel team"],
     output: "A shared design-partnership brief covering initial scope, responsibilities, proof boundaries and the decision path to a pilot",
-    cta: { label: "Explore a Design Partnership →", href: "mailto:lance@rtbx.com.au?subject=Explore a Design Partnership — RTBX Travel" },
+    cta: { label: "Explore a Design Partnership →", href: "mailto:lance@rtbx.com.au?subject=Explore a Design Partnership — JALDO Travel" },
     primary: true,
   },
   {
@@ -50,17 +50,17 @@ const ENGAGEMENTS = [
     color: C.gold,
     tagline: "For operators wanting to identify the first use case",
     audience: "Chief Operating Officer, General Manager, Guest Experience Director, Operations Director",
-    purpose: "Identify the right operational starting point for an RTBX Travel engagement. Understand the first moment, the first signal and the first operating-system wedge.",
+    purpose: "Identify the right operational starting point for an JALDO Travel engagement. Understand the first moment, the first signal and the first operating-system wedge.",
     covered: [
       "Current operational challenges and signal availability",
-      "RTBX operating model and intelligence engine overview",
+      "JALDO operating model and intelligence engine overview",
       "First operating-system selection",
       "Initial scenario and role mapping",
       "What a pilot would look like for this environment",
     ],
     participants: ["Executive sponsor or decision-maker", "General Manager or operations lead", "Technology or systems contact"],
     output: "Operating model alignment summary, first scenario candidates, initial pilot scope",
-    cta: { label: "Request an Operating Alignment Session →", href: "mailto:lance@rtbx.com.au?subject=Operating Alignment Session — RTBX Travel" },
+    cta: { label: "Request an Operating Alignment Session →", href: "mailto:lance@rtbx.com.au?subject=Operating Alignment Session — JALDO Travel" },
     primary: false,
   },
   {
@@ -72,16 +72,16 @@ const ENGAGEMENTS = [
     audience: "Technology or Systems Leader, Digital or Transformation Director, Systems Integrator, PMS or CRM partner team",
     purpose: "Map signal sources, interface types and integration maturity for a specific deployment environment. Define ownership, authentication and failure responsibilities.",
     covered: [
-      "RTBX Integration Hub and signal mapping model",
+      "JALDO Integration Hub and signal mapping model",
       "Review of existing system interfaces",
       "Integration maturity classification (planned / mapped / mocked / tested)",
       "Signal-to-context assembly approach",
       "Authentication, data governance and failure ownership",
       "Connector feasibility and priority order",
     ],
-    participants: ["Technical lead from RTBX", "IT or technology leader from customer", "PMS or source-system technical contact"],
+    participants: ["Technical lead from JALDO", "IT or technology leader from customer", "PMS or source-system technical contact"],
     output: "Integration responsibility matrix, maturity map, priority connector list, technical scoping document",
-    cta: { label: "Request an Integration and Technical Workshop →", href: "mailto:lance@rtbx.com.au?subject=Integration and Technical Workshop — RTBX Travel" },
+    cta: { label: "Request an Integration and Technical Workshop →", href: "mailto:lance@rtbx.com.au?subject=Integration and Technical Workshop — JALDO Travel" },
     primary: false,
   },
   {
@@ -102,9 +102,9 @@ const ENGAGEMENTS = [
       "Success measures and evidence framework",
       "Pilot readiness checklist review",
     ],
-    participants: ["Executive sponsor", "Pilot owner", "Operations and department heads", "Technology lead", "RTBX team"],
+    participants: ["Executive sponsor", "Pilot owner", "Operations and department heads", "Technology lead", "JALDO team"],
     output: "Signed pilot scope, governance alignment, role map, system maturity map, success measures, readiness plan",
-    cta: { label: "Request a Pilot Design Session →", href: "mailto:lance@rtbx.com.au?subject=Pilot Design Session — RTBX Travel" },
+    cta: { label: "Request a Pilot Design Session →", href: "mailto:lance@rtbx.com.au?subject=Pilot Design Session — JALDO Travel" },
     primary: false,
   },
   {
@@ -116,16 +116,16 @@ const ENGAGEMENTS = [
     audience: "Hotel technology consultants, systems integrators, distribution networks, intervention service providers, advisory firms",
     purpose: "Define the right partner lane, commercial model and engagement pathway for a distribution, implementation or intervention partner.",
     covered: [
-      "RTBX partner ecosystem structure and six partner lanes",
+      "JALDO partner ecosystem structure and six partner lanes",
       "Partner ownership and contribution model",
       "Commercial model options for your partner type",
       "First customer or pilot pathway",
       "Partner selection criteria review",
       "Partnership pathway stages",
     ],
-    participants: ["Partner commercial or business development lead", "Technical contact where relevant", "RTBX partner team"],
+    participants: ["Partner commercial or business development lead", "Technical contact where relevant", "JALDO partner team"],
     output: "Partner lane alignment, commercial model outline, first customer or pilot pathway, next steps for partnership formalisation",
-    cta: { label: "Request a Partner Model Discussion →", href: "mailto:lance@rtbx.com.au?subject=Partner Model Discussion — RTBX Travel" },
+    cta: { label: "Request a Partner Model Discussion →", href: "mailto:lance@rtbx.com.au?subject=Partner Model Discussion — JALDO Travel" },
     primary: false,
   },
 ];
@@ -137,7 +137,7 @@ export default function PartnerNextStep() {
 
         {/* ── HEADER ── */}
         <div style={{ marginBottom: 48 }}>
-          <SectionLabel>RTBX Travel · Next Step</SectionLabel>
+          <SectionLabel>JALDO Travel · Next Step</SectionLabel>
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 14, maxWidth: 760 }}>
             Explore a Design Partnership
           </h1>
@@ -171,7 +171,7 @@ export default function PartnerNextStep() {
                 </div>
               </div>
 
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "12px 24px", marginBottom: 20 }}>
+              <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "12px 24px", marginBottom: 20 }}>
                 <div>
                   <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 700, marginBottom: 6 }}>Intended audience</div>
                   <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.6)", lineHeight: 1.6 }}>{eng.audience}</div>

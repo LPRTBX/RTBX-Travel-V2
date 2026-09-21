@@ -153,10 +153,10 @@ export default function PartnerTravelOperatingSystems() {
         <div style={{ marginBottom: 40 }}>
           <SectionLabel>Travel Intelligence</SectionLabel>
           <h1 style={{ fontSize: 40, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 16, maxWidth: 760 }}>
-            RTBX Travel Operating Systems
+            JALDO Travel Operating Systems
           </h1>
           <p style={{ fontSize: 15, color: C.muted, lineHeight: 1.75, maxWidth: 720 }}>
-            Proposed operating-system configurations modelled on one shared RTBX Core — prioritised for future pilot learning and potential commercial relevance.
+            Proposed operating-system configurations modelled on one shared JALDO Core — prioritised for future pilot learning and potential commercial relevance.
           </p>
         </div>
 
@@ -173,12 +173,12 @@ export default function PartnerTravelOperatingSystems() {
         {/* ── POSITIONING ── */}
         <div style={{ padding: "18px 22px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderLeft: "3px solid #c9a84c", marginBottom: 40 }}>
           <p style={{ fontSize: 13.5, color: "rgba(255,255,255,0.72)", lineHeight: 1.8, margin: 0, fontWeight: 600 }}>
-            RTBX Core provides the proposed shared architecture. RTBX Travel models how tailored operating systems could extend it. Each configuration groups vertical-specific modules around a major hotel or travel operating problem.
+            JALDO Core provides the proposed shared architecture. JALDO Travel models how tailored operating systems could extend it. Each configuration groups vertical-specific modules around a major hotel or travel operating problem.
           </p>
         </div>
 
         {/* ── OS PRIORITY OVERVIEW ── */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 2, marginBottom: 40 }}>
+        <div className="rtbx-grid-3" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 2, marginBottom: 40 }}>
           {[
             { label: "Lead Operating Systems", desc: "Three proposed OS configurations for consideration in a future Travel pilot.", position: "lead" as TravelOSPosition, color: "#3b82f6", count: leadOses.length },
             { label: "Cross-Cutting Control", desc: "Safety and Guest Welfare is modelled across every OS; any threshold would require named human review.", position: "cross-cutting" as TravelOSPosition, color: "#ef4444", count: crossCuttingOses.length },
@@ -244,11 +244,11 @@ export default function PartnerTravelOperatingSystems() {
           <SectionLabel>Architecture Pattern</SectionLabel>
           <H2>How a Travel Operating System Is Built</H2>
           <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, marginBottom: 24, maxWidth: 700 }}>
-            Each proposed Travel Operating System models three layers combined. No OS is represented as a standalone production platform; each would depend on future RTBX Core capabilities and Travel Intelligence configuration.
+            Each proposed Travel Operating System models three layers combined. No OS is represented as a standalone production platform; each would depend on future JALDO Core capabilities and Travel Intelligence configuration.
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 12, marginBottom: 20 }}>
             {[
-              { label: "RTBX Core", sub: "Signal-to-action infrastructure", color: "#c9a84c", bg: "rgba(201,168,76,0.08)" },
+              { label: "JALDO Core", sub: "Signal-to-action infrastructure", color: "#c9a84c", bg: "rgba(201,168,76,0.08)" },
               { label: "+", sub: "", color: "rgba(255,255,255,0.3)", bg: "transparent", border: "none" },
               { label: "Travel Intelligence Pack", sub: "Signals, moments, governance, playbooks", color: "#3b82f6", bg: "rgba(59,130,246,0.08)" },
               { label: "+", sub: "", color: "rgba(255,255,255,0.3)", bg: "transparent", border: "none" },
@@ -299,7 +299,7 @@ export default function PartnerTravelOperatingSystems() {
           <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, marginBottom: 20, maxWidth: 700 }}>
             Shown as future/optional extensions, not core operating systems — proposed only for properties or portfolios with the matching operating context.
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 1 }}>
+          <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 1 }}>
             {TRAVEL_SPECIALIST_EXTENSIONS.map(ext => (
               <div key={ext.id} style={{ padding: "16px 18px", background: "rgba(255,255,255,0.015)", border: "1px dashed rgba(255,255,255,0.1)" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
@@ -319,7 +319,7 @@ export default function PartnerTravelOperatingSystems() {
           <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, marginBottom: 20, maxWidth: 700 }}>
             Which operating systems serve each role.
           </p>
-          <div style={{ overflowX: "auto" }}>
+          <div className="rtbx-table-scroll">
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 11, minWidth: 820 }}>
               <thead>
                 <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.1)" }}>
@@ -356,7 +356,7 @@ export default function PartnerTravelOperatingSystems() {
           <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, marginBottom: 20, maxWidth: 700 }}>
             {TRAVEL_DEPLOYMENT_STATEMENT}
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2, marginBottom: 20 }}>
+          <div className="rtbx-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2, marginBottom: 20 }}>
             {TRAVEL_DEPLOYMENT_PHASES.map(p => (
               <div key={p.phase} style={{ padding: "18px 20px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
                 <div style={{ fontSize: 10.5, fontWeight: 800, color: C.gold, marginBottom: 12, letterSpacing: "0.05em", textTransform: "uppercase" }}>{p.phase}</div>

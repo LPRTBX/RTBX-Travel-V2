@@ -1,9 +1,9 @@
 /**
- * Travel Intelligence Pack — the domain-specific configuration of RTBX Core for
+ * Travel Intelligence Pack — the domain-specific configuration of JALDO Core for
  * travel, hospitality and guest-service environments.
  *
- * RTBX Core is one platform. This file does not describe a separate system —
- * it describes how RTBX Core's shared signal, moment, governance, role,
+ * JALDO Core is one platform. This file does not describe a separate system —
+ * it describes how JALDO Core's shared signal, moment, governance, role,
  * communication, outcome and value systems are tuned for Travel:
  * knowledge sources, signal taxonomy, moment taxonomy, governance sources,
  * playbooks, roles, communication rules, AI assistant boundaries,

@@ -94,7 +94,7 @@ export default function PartnerCommsDemo() {
         {/* Header */}
         <div style={{ marginBottom: 48 }}>
           <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
-            RTBX Travel · Comms
+            JALDO Travel · Comms
           </div>
           <div style={{ fontSize: 28, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", marginBottom: 10 }}>
             Central Comms OS — Routing Simulation
@@ -128,16 +128,17 @@ export default function PartnerCommsDemo() {
         </div>
 
         {/* Trigger banner */}
-        <div style={{ padding: "12px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", marginBottom: 24, display: "flex", gap: 16, alignItems: "flex-start" }}>
+        <div style={{ padding: "12px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", marginBottom: 24, display: "flex", gap: 16, alignItems: "flex-start", flexWrap: "wrap" }}>
           <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginTop: 2, whiteSpace: "nowrap" }}>Trigger</div>
-          <div style={{ fontSize: 11.5, color: "rgba(255,255,255,0.45)", lineHeight: 1.55 }}>Synthetic input — {data.trigger}</div>
-          <div style={{ marginLeft: "auto", fontSize: 8.5, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#f97316", border: "1px solid rgba(249,115,22,0.3)", padding: "3px 10px", whiteSpace: "nowrap" }}>
+          <div style={{ fontSize: 11.5, color: "rgba(255,255,255,0.45)", lineHeight: 1.55, minWidth: 0, flex: "1 1 200px" }}>Synthetic input — {data.trigger}</div>
+          <div style={{ marginLeft: "auto", fontSize: 8.5, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#f97316", border: "1px solid rgba(249,115,22,0.3)", padding: "3px 10px", maxWidth: "100%" }}>
             Rules classification · {data.headline.split("·")[0].trim()}
           </div>
         </div>
 
         {/* Message routing */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+        <div className="rtbx-table-scroll">
+        <div style={{ display: "flex", flexDirection: "column", gap: 2, minWidth: 620 }}>
           <div style={{ display: "grid", gridTemplateColumns: "32px 140px 100px 1fr 100px 90px", gap: 0, padding: "8px 16px", background: "rgba(255,255,255,0.02)" }}>
             {["#", "Proposed recipient", "Draft channel", "Unsent draft", "Illustrative time", "Simulation state"].map(h => (
               <div key={h} style={{ fontSize: 7.5, letterSpacing: "0.14em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, padding: "0 8px" }}>{h}</div>
@@ -195,6 +196,7 @@ export default function PartnerCommsDemo() {
               </div>
             );
           })}
+        </div>
         </div>
 
       </div>

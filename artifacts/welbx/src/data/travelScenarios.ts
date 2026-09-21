@@ -1,5 +1,5 @@
 /**
- * RTBX Travel Synthetic Scenarios — Canonical Contract.
+ * JALDO Travel Synthetic Scenarios — Canonical Contract.
  *
  * Sprint 3 upgrade: every scenario now carries the full canonical field set
  * (operatingSystemId, trigger, context, governance, decision, rolesConfig,
@@ -349,7 +349,7 @@ export const TRAVEL_SCENARIOS: TravelScenario[] = [
 
     proof: {
       proofType: "working-interface",
-      source: "RTBX Travel Partner Room — interactive scenario runner",
+      source: "JALDO Travel Partner Room — interactive scenario runner",
       limitations: [
         "Signals are simulated — no live PMS or housekeeping system is connected",
         "Communications are demonstrated, not sent to real guests",
@@ -457,7 +457,7 @@ export const TRAVEL_SCENARIOS: TravelScenario[] = [
     actionSteps: [
       { step: 1, action: "Confirm immediate physical safety", ownerRoleId: "front-office", timing: "Immediately on signal", evidenceRequired: ["Initial welfare signal record"] },
       { step: 2, action: "Route to Duty Manager — mandatory human escalation", ownerRoleId: "duty-manager", timing: "Within 2 minutes — no delay permitted", channelOrSystem: "In-app alert · Direct escalation", evidenceRequired: ["Escalation timestamp and receiving owner"] },
-      { step: 3, action: "Suspend automated guest communications for this guest", ownerRoleId: "duty-manager", timing: "Immediately on escalation", channelOrSystem: "RTBX Communication Control" },
+      { step: 3, action: "Suspend automated guest communications for this guest", ownerRoleId: "duty-manager", timing: "Immediately on escalation", channelOrSystem: "JALDO Communication Control" },
       { step: 4, action: "Assess nature and severity of welfare concern", ownerRoleId: "duty-manager", timing: "Within 5 minutes", approvalRequired: true, evidenceRequired: ["Assessment record and decision"] },
       { step: 5, action: "Activate appropriate welfare, security, medical or emergency pathway", ownerRoleId: "safety-security-lead", timing: "Immediately on assessment", channelOrSystem: "Internal referral · Emergency services where required", evidenceRequired: ["Pathway activation record"] },
       { step: 6, action: "Record minimum necessary evidence within privacy constraints", ownerRoleId: "duty-manager", timing: "During and immediately after the event", channelOrSystem: "Evidence Ledger — welfare-restricted access", evidenceRequired: ["Welfare event record (minimum necessary)"] },
@@ -522,7 +522,7 @@ export const TRAVEL_SCENARIOS: TravelScenario[] = [
 
     proof: {
       proofType: "working-interface",
-      source: "RTBX Travel Partner Room — interactive scenario runner with mandatory human-escalation demonstration",
+      source: "JALDO Travel Partner Room — interactive scenario runner with mandatory human-escalation demonstration",
       limitations: [
         "Signals are simulated — no live guest message or staff observation system is connected",
         "Escalation routing is demonstrated, not live",
@@ -684,7 +684,7 @@ export const TRAVEL_SCENARIOS: TravelScenario[] = [
 
     proof: {
       proofType: "working-interface",
-      source: "RTBX Travel Partner Room — interactive scenario runner",
+      source: "JALDO Travel Partner Room — interactive scenario runner",
       limitations: [
         "Signals are simulated — no live task management or staffing system is connected",
         "Reallocation is demonstrated, not executed in a real operational system",
@@ -854,7 +854,7 @@ export const TRAVEL_SCENARIOS: TravelScenario[] = [
 
     proof: {
       proofType: "working-interface",
-      source: "RTBX Travel Partner Room — interactive scenario runner",
+      source: "JALDO Travel Partner Room — interactive scenario runner",
       limitations: [
         "Signals are simulated — no live maintenance ticketing or PMS integration",
         "Safety classification is illustrated, not assessed by a real safety system",
@@ -1013,7 +1013,7 @@ export const TRAVEL_SCENARIOS: TravelScenario[] = [
 
     proof: {
       proofType: "working-interface",
-      source: "RTBX Travel Partner Room — interactive scenario runner",
+      source: "JALDO Travel Partner Room — interactive scenario runner",
       limitations: [
         "Disruption signals are simulated — no live flight or transfer tracking integration",
         "Partner activation is demonstrated, not executed in a live partner system",
@@ -1064,7 +1064,7 @@ export const TRAVEL_SCENARIOS: TravelScenario[] = [
     signalDetails: [
       { id: "sig-pg-1", source: "CRM / Loyalty Platform", name: "Permission status", status: "simulated", dataRequired: ["guest_id", "consent_type", "consent_date"] },
       { id: "sig-pg-2", source: "CRM / Loyalty Platform", name: "Guest profile and interests", status: "simulated", dataRequired: ["guest_id", "loyalty_tier", "stated_interests"] },
-      { id: "sig-pg-3", source: "RTBX Context Layer", name: "Current guest context", status: "simulated", dataRequired: ["active_events", "stay_stage", "sentiment"] },
+      { id: "sig-pg-3", source: "JALDO Context Layer", name: "Current guest context", status: "simulated", dataRequired: ["active_events", "stay_stage", "sentiment"] },
       { id: "sig-pg-4", source: "POS / Partner System", name: "Available inventory", status: "manual", dataRequired: ["offer_type", "availability", "capacity"] },
     ],
 
@@ -1118,9 +1118,9 @@ export const TRAVEL_SCENARIOS: TravelScenario[] = [
 
     actionSteps: [
       { step: 1, action: "Confirm guest permission for commercial communication", ownerRoleId: "revenue-loyalty-lead", timing: "Before any other step", channelOrSystem: "CRM · Loyalty Platform", evidenceRequired: ["Consent confirmation record"] },
-      { step: 2, action: "Confirm context accuracy — no welfare or recovery event active", ownerRoleId: "revenue-loyalty-lead", timing: "Within 2 minutes", channelOrSystem: "RTBX Context Layer", evidenceRequired: ["Context confirmation record"] },
+      { step: 2, action: "Confirm context accuracy — no welfare or recovery event active", ownerRoleId: "revenue-loyalty-lead", timing: "Within 2 minutes", channelOrSystem: "JALDO Context Layer", evidenceRequired: ["Context confirmation record"] },
       { step: 3, action: "Confirm inventory or delivery capacity", ownerRoleId: "concierge", timing: "Within 5 minutes", channelOrSystem: "POS · Partner channel", evidenceRequired: ["Inventory confirmation"] },
-      { step: 4, action: "Exclude conflicting welfare or service-recovery moments", ownerRoleId: "revenue-loyalty-lead", timing: "Within 5 minutes", channelOrSystem: "RTBX Context Layer" },
+      { step: 4, action: "Exclude conflicting welfare or service-recovery moments", ownerRoleId: "revenue-loyalty-lead", timing: "Within 5 minutes", channelOrSystem: "JALDO Context Layer" },
       { step: 5, action: "Select and approve communication type, channel and message", ownerRoleId: "revenue-loyalty-lead", timing: "Within 8 minutes", approvalRequired: true, evidenceRequired: ["Communication approval record"] },
       { step: 6, action: "Confirm partner activation if required", ownerRoleId: "concierge", timing: "Before guest delivery", channelOrSystem: "Partner channel", approvalRequired: true, evidenceRequired: ["Partner confirmation"] },
       { step: 7, action: "Deliver approved guest message or staff prompt", ownerRoleId: "concierge", timing: "Within 12 minutes of approval", channelOrSystem: "Approved Guest Channel · Front desk", evidenceRequired: ["Offer delivery record"] },
@@ -1152,7 +1152,7 @@ export const TRAVEL_SCENARIOS: TravelScenario[] = [
 
     evidenceRequirements: [
       { evidenceType: "Consent confirmation", required: true, ownerRoleId: "revenue-loyalty-lead", completionRule: "Confirmed in CRM before any action is taken" },
-      { evidenceType: "Context confirmation (no active welfare or recovery event)", required: true, ownerRoleId: "revenue-loyalty-lead", completionRule: "Confirmed via RTBX Context Layer immediately before approval" },
+      { evidenceType: "Context confirmation (no active welfare or recovery event)", required: true, ownerRoleId: "revenue-loyalty-lead", completionRule: "Confirmed via JALDO Context Layer immediately before approval" },
       { evidenceType: "Inventory confirmation", required: true, ownerRoleId: "concierge", completionRule: "Confirmed with partner or POS before offer delivery" },
       { evidenceType: "Approval record", required: true, ownerRoleId: "revenue-loyalty-lead", completionRule: "Revenue and Loyalty Lead approval recorded before message delivery" },
       { evidenceType: "Offer delivery record", required: true, ownerRoleId: "concierge", completionRule: "Delivery confirmed in Guest App system" },
@@ -1176,7 +1176,7 @@ export const TRAVEL_SCENARIOS: TravelScenario[] = [
 
     proof: {
       proofType: "prototype",
-      source: "RTBX Travel Partner Room — interactive scenario runner (prototype)",
+      source: "JALDO Travel Partner Room — interactive scenario runner (prototype)",
       limitations: [
         "Consent and context checks are illustrated, not enforced by a live system",
         "Inventory confirmation is simulated — no live POS or partner integration",

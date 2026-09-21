@@ -1,7 +1,7 @@
 /**
  * travelPilotModel.ts — Sprint 5
  *
- * Canonical pilot model data for RTBX Travel.
+ * Canonical pilot model data for JALDO Travel.
  *
  * Covers the Hotel Moment Response and Service Recovery Pilot proposition,
  * delivery stages (Explore → Expand), success framework, readiness checklist,
@@ -76,7 +76,7 @@ export const PILOT_PROPOSITION = {
   name: "Hotel Moment Response and Service Recovery Pilot",
   tagline: "Connect signals. Govern action. Prove value.",
   summary:
-    "A controlled working pilot that activates RTBX Travel across a hotel or resort environment. Signals from existing systems are mapped to scenarios, playbooks and governed responses. Evidence and outcomes are captured throughout. The pilot proves operational feasibility, staff adoption and the RTBX governance and execution model before production deployment.",
+    "A controlled working pilot that activates JALDO Travel across a hotel or resort environment. Signals from existing systems are mapped to scenarios, playbooks and governed responses. Evidence and outcomes are captured throughout. The pilot proves operational feasibility, staff adoption and the JALDO governance and execution model before production deployment.",
   primaryMarket: "Hotels and resorts",
   primaryBuyers: [
     "Chief Operating Officer",
@@ -89,7 +89,7 @@ export const PILOT_PROPOSITION = {
   ],
   targetEnvironment: "One to five properties — one hotel group or operating partner",
   durationNote:
-    "Indicative pilot structure — final duration agreed during alignment. Pilot duration is configurable and subject to agreement.",
+    "Indicative pilot structure: 8–10 weeks of implementation and readiness, followed by a 2–3 month controlled pilot. Final duration agreed during alignment.",
 } as const;
 
 // ── Pilot operating systems ───────────────────────────────────────────────────
@@ -170,7 +170,7 @@ export const PILOT_STAGES: PilotStage[] = [
     purpose: "Understand the customer environment and identify the right operational starting point.",
     activities: [
       "Understand the customer environment and operational challenges",
-      "Identify the operational problem RTBX will address",
+      "Identify the operational problem JALDO will address",
       "Review existing systems, signals and roles",
       "Confirm the first operating-system wedge",
       "Confirm decision-makers and stakeholders",
@@ -181,7 +181,7 @@ export const PILOT_STAGES: PilotStage[] = [
       "Named stakeholders and decision-makers",
       "Initial scope and fit assessment",
     ],
-    ownerGroups: ["RTBX", "Customer — COO / GM / Transformation lead"],
+    ownerGroups: ["JALDO", "Customer — COO / GM / Transformation lead"],
     readinessRequirements: [
       "Executive sponsor confirmed",
       "Pilot owner confirmed",
@@ -208,7 +208,7 @@ export const PILOT_STAGES: PilotStage[] = [
       "Agreed success measures",
     ],
     ownerGroups: [
-      "RTBX",
+      "JALDO",
       "Customer — COO / GM / Governance owner",
       "Deployment partner where engaged",
     ],
@@ -223,7 +223,7 @@ export const PILOT_STAGES: PilotStage[] = [
     id: "configure",
     label: "03",
     name: "Configure",
-    purpose: "Configure the RTBX Travel environment for the agreed pilot scope.",
+    purpose: "Configure the JALDO Travel environment for the agreed pilot scope.",
     activities: [
       "Configure the Travel environment in Build & Configure",
       "Activate agreed operating systems",
@@ -242,7 +242,7 @@ export const PILOT_STAGES: PilotStage[] = [
       "Evidence and outcome framework",
     ],
     ownerGroups: [
-      "RTBX",
+      "JALDO",
       "Customer — Technology / operations lead",
       "Deployment partner where engaged",
     ],
@@ -274,7 +274,7 @@ export const PILOT_STAGES: PilotStage[] = [
       "Operating issue log",
     ],
     ownerGroups: [
-      "RTBX",
+      "JALDO",
       "Customer — GM / Duty Manager / Operations team",
       "Deployment partner where engaged",
     ],
@@ -305,7 +305,7 @@ export const PILOT_STAGES: PilotStage[] = [
       "Feasibility assessment",
     ],
     ownerGroups: [
-      "RTBX",
+      "JALDO",
       "Customer — COO / GM / Outcome owners",
     ],
     readinessRequirements: [
@@ -333,7 +333,7 @@ export const PILOT_STAGES: PilotStage[] = [
       "Expanded user base",
     ],
     ownerGroups: [
-      "RTBX",
+      "JALDO",
       "Customer — Technology / IT",
       "Technology partner",
       "Deployment partner",
@@ -364,7 +364,7 @@ export const PILOT_STAGES: PilotStage[] = [
       "Learning-improved playbooks",
     ],
     ownerGroups: [
-      "RTBX",
+      "JALDO",
       "Customer — COO / Group Operations",
       "Deployment partner",
       "Partner ecosystem",
@@ -466,7 +466,7 @@ export const READINESS_STATE_LABELS: Record<ReadinessState, string> = {
   "in-progress":                   "In progress",
   "ready":                         "Ready",
   "blocked":                       "Blocked",
-  "requires-production-engineering": "Requires production engineering",
+  "requires-production-engineering": "Production engineering required",
 };
 
 // ── Deployment package ────────────────────────────────────────────────────────

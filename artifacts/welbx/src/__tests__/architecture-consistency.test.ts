@@ -1,13 +1,13 @@
 /**
  * Architecture Consistency Tests
  *
- * Validates that rtbxArchitecture.ts exports conform to the approved RTBX Main
+ * Validates that rtbxArchitecture.ts exports conform to the approved JALDO Main
  * architecture. Tests operate directly on the data exports — no HTML scraping.
  *
  * Canonical rules:
  *  - Exactly 5 engine stages in order: connect → understand → decide → act → learn
  *  - Exactly 6 shared intelligence layers in approved order and by approved name
- *  - Exactly 10 shared RTBX Core peer capabilities present by canonical name
+ *  - Exactly 10 shared JALDO Core peer capabilities present by canonical name
  *  - Retained Core sub-capabilities are attached beneath an approved Core capability
  *  - Travel configuration includes the approved Travel-specific configuration areas
  *  - Platform hierarchy follows Core → Travel configuration → Travel operating systems → Property configuration → Active deployment
@@ -131,27 +131,27 @@ describe("Intelligence Layers", () => {
 
 // ── 3. Core Capabilities ─────────────────────────────────────────────────────
 
-describe("Core Capabilities — required RTBX Core names", () => {
-  // The approved RTBX Main shared Core capability set.
+describe("Core Capabilities — required JALDO Core names", () => {
+  // The approved JALDO Main shared Core capability set.
   const sharedCoreCapabilities = CORE_CAPABILITIES.filter(
-    (capability) => capability.origin === "RTBX Core" && !capability.parentCapabilityId,
+    (capability) => capability.origin === "JALDO Core" && !capability.parentCapabilityId,
   );
   const sharedCoreNames = new Set(sharedCoreCapabilities.map((capability) => capability.name));
 
-  it("has exactly 10 peer-level shared RTBX Core capabilities", () => {
+  it("has exactly 10 peer-level shared JALDO Core capabilities", () => {
     expect(sharedCoreCapabilities).toHaveLength(10);
   });
 
   for (const name of APPROVED_CORE_CAPABILITY_NAMES) {
-    it(`has RTBX Core capability: "${name}"`, () => {
+    it(`has JALDO Core capability: "${name}"`, () => {
       expect(sharedCoreNames.has(name)).toBe(true);
     });
   }
 
-  it("retained RTBX Core sub-capabilities sit beneath an approved shared Core capability", () => {
+  it("retained JALDO Core sub-capabilities sit beneath an approved shared Core capability", () => {
     const parentIds = new Set(sharedCoreCapabilities.map((capability) => capability.id));
     const subCapabilities = CORE_CAPABILITIES.filter(
-      (capability) => capability.origin === "RTBX Core" && capability.parentCapabilityId,
+      (capability) => capability.origin === "JALDO Core" && capability.parentCapabilityId,
     );
     expect(subCapabilities.length).toBeGreaterThan(0);
     for (const subCapability of subCapabilities) {
@@ -219,21 +219,21 @@ describe("Travel Configuration", () => {
 
 describe("Platform Hierarchy", () => {
   const REQUIRED_HIERARCHY: Array<{ id: HierarchyLevelId; label: string }> = [
-    { id: "shared-core", label: "RTBX Core" },
+    { id: "shared-core", label: "JALDO Core" },
     { id: "travel-config", label: "Travel Configuration" },
     { id: "travel-os", label: "Travel Operating Systems" },
     { id: "property-config", label: "Property Configuration" },
     { id: "active-deployment", label: "Active Deployment" },
   ];
 
-  it("uses the approved hierarchy from RTBX Core through to Active Deployment", () => {
+  it("uses the approved hierarchy from JALDO Core through to Active Deployment", () => {
     expect(PLATFORM_HIERARCHY.map((level) => ({
       id: level.id,
       label: level.label,
     }))).toEqual(REQUIRED_HIERARCHY);
   });
 
-  it("lists only approved peer-level Core capabilities in the RTBX Core hierarchy examples", () => {
+  it("lists only approved peer-level Core capabilities in the JALDO Core hierarchy examples", () => {
     const approved = new Set<string>(APPROVED_CORE_CAPABILITY_NAMES);
     const coreLevel = PLATFORM_HIERARCHY.find((level) => level.id === "shared-core")!;
     expect(coreLevel.examples).toHaveLength(APPROVED_CORE_CAPABILITY_NAMES.length);
@@ -318,7 +318,7 @@ describe("Canonical Terminology — no prohibited terms in CANONICAL_TERMINOLOGY
     const stageLabelText = ENGINE_STAGES.map((s) => s.label + " " + s.summary).join(" ");
     // Only check terms that are clearly prohibited (not partial matches like 'alert' which appear in context)
     const strictProhibited = [
-      "RTBX Travel platform",
+      "JALDO Travel platform",
       "Travel Intelligence Pack platform",
       "Guest-facing platform",
       "Guest-facing operating system",
@@ -333,7 +333,7 @@ describe("Canonical Terminology — no prohibited terms in CANONICAL_TERMINOLOGY
   it("prohibited terms from CANONICAL_TERMINOLOGY do not appear in INTELLIGENCE_LAYERS canonical labels", () => {
     const layerLabelText = INTELLIGENCE_LAYERS.map((l) => l.label + " " + l.summary).join(" ");
     const strictProhibited = [
-      "RTBX Travel platform",
+      "JALDO Travel platform",
       "Travel Intelligence Pack platform",
       "Guest-facing platform",
       "Guest-facing operating system",

@@ -76,7 +76,7 @@ export default function PartnerStage3Preview() {
             Stage 3 Operating Layer Preview
           </h1>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.45)", lineHeight: 1.8, maxWidth: 720, marginBottom: 24 }}>
-            What RTBX Travel becomes after the Moment Response workflow is validated and approved integrations are connected.
+            What JALDO Travel becomes after the Moment Response workflow is validated and approved integrations are connected.
           </p>
 
           {/* Disclaimer */}
@@ -112,7 +112,8 @@ export default function PartnerStage3Preview() {
             <div style={{ fontSize: 17, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em" }}>Multi-Site Operator View</div>
           </div>
 
-          <div style={{ border: "1px solid rgba(255,255,255,0.06)", overflow: "hidden" }}>
+          <div className="rtbx-table-scroll">
+          <div style={{ border: "1px solid rgba(255,255,255,0.06)", overflow: "hidden", minWidth: 700 }}>
             {/* Table header */}
             <div style={{
               display: "grid", gridTemplateColumns: "2fr 100px 110px 110px 130px 110px",
@@ -143,6 +144,7 @@ export default function PartnerStage3Preview() {
               </div>
             ))}
           </div>
+          </div>
           <div style={{ fontSize: 9, color: "rgba(255,255,255,0.18)", marginTop: 8, fontStyle: "italic" }}>
             Illustrative multi-site view. Values shown are for demonstration purposes only.
           </div>
@@ -158,7 +160,7 @@ export default function PartnerStage3Preview() {
             </p>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
+          <div className="rtbx-grid-4" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
             {SIGNAL_STREAMS.map(stream => (
               <div key={stream.label} style={{
                 padding: "20px 18px",
@@ -186,7 +188,7 @@ export default function PartnerStage3Preview() {
 
           <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
             {HEATMAP_ITEMS.map(item => (
-              <div key={item.site} style={{
+              <div key={item.site} className="rtbx-stack-mobile" style={{
                 display: "grid", gridTemplateColumns: "220px 1fr 90px 1fr",
                 gap: 0, alignItems: "center",
                 border: "1px solid rgba(255,255,255,0.06)",
@@ -225,7 +227,7 @@ export default function PartnerStage3Preview() {
 
           <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
             {PATTERN_INSIGHTS.map((item, i) => (
-              <div key={i} style={{
+              <div key={i} className="rtbx-stack-mobile" style={{
                 padding: "20px 24px",
                 background: i % 2 === 0 ? "rgba(255,255,255,0.02)" : "rgba(255,255,255,0.015)",
                 border: "1px solid rgba(255,255,255,0.06)",
@@ -247,7 +249,7 @@ export default function PartnerStage3Preview() {
             <div style={{ fontSize: 17, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em" }}>Role-Based Views at Stage 3</div>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
+          <div className="rtbx-grid-4" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
             {ROLE_VIEWS.map(role => (
               <div key={role.role} style={{
                 padding: "24px 20px",

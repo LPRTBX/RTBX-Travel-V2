@@ -1,21 +1,47 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { AlertCircle } from "lucide-react";
+import { Link } from "wouter";
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gray-50">
-      <Card className="w-full max-w-md mx-4">
-        <CardContent className="pt-6">
-          <div className="flex mb-4 gap-2">
-            <AlertCircle className="h-8 w-8 text-red-500" />
-            <h1 className="text-2xl font-bold text-gray-900">404 Page Not Found</h1>
-          </div>
-
-          <p className="mt-4 text-sm text-gray-600">
-            Did you forget to add the page to the router?
-          </p>
-        </CardContent>
-      </Card>
+    <div style={{
+      minHeight: "100dvh",
+      background: "hsl(220 13% 4%)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: 32,
+    }}>
+      <div style={{ width: "100%", maxWidth: 480, textAlign: "center" }}>
+        <div style={{ fontSize: 11, letterSpacing: "0.2em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 20 }}>
+          JALDO Travel
+        </div>
+        <div style={{ fontSize: 64, fontWeight: 800, color: "#fff", letterSpacing: "-0.03em", marginBottom: 12 }}>
+          404
+        </div>
+        <h1 style={{ fontSize: 22, fontWeight: 700, color: "#fff", marginBottom: 14 }}>
+          Page not found
+        </h1>
+        <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", lineHeight: 1.7, marginBottom: 32 }}>
+          The page you're looking for doesn't exist or may have moved. Check the link you followed, or return to a known starting point below.
+        </p>
+        <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+          <Link href="/">
+            <div style={{
+              padding: "12px 24px", fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase",
+              cursor: "pointer", background: "#c9a84c", color: "hsl(220 13% 5%)", border: "1px solid #c9a84c",
+            }}>
+              Homepage
+            </div>
+          </Link>
+          <Link href="/partner-room">
+            <div style={{
+              padding: "12px 24px", fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase",
+              cursor: "pointer", background: "transparent", color: "rgba(255,255,255,0.6)", border: "1px solid rgba(255,255,255,0.15)",
+            }}>
+              Partner Room
+            </div>
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }

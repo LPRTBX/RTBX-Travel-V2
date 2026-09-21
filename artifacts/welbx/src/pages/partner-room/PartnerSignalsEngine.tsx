@@ -7,7 +7,7 @@ import { SIGNAL_CATEGORIES } from "@/data/signals";
 
 const DEFAULT_LOGIC_CHAIN = [
   { step: "01", label: "Event Ingestion",      desc: "Signal arrives via push from source system in real time" },
-  { step: "02", label: "Normalisation",         desc: "Event mapped to RTBX Core signal schema, type and source tagged" },
+  { step: "02", label: "Normalisation",         desc: "Event mapped to JALDO Core signal schema, type and source tagged" },
   { step: "03", label: "Confidence Scoring",    desc: "Historical accuracy and source reliability applied to weighting" },
   { step: "04", label: "Pattern Matching",      desc: "Signal compared against configured moment patterns in the Context and Moment Layer — pilot configuration" },
   { step: "05", label: "Cluster Detection",     desc: "Co-occurring signals grouped; combined confidence calculated" },
@@ -26,7 +26,7 @@ const CATEGORY_COLORS: Record<string, string> = {
 export default function PartnerSignalsEngine() {
   const { content } = usePartnerContent();
   const logicChain = content?.signalsEngine?.logicChain ?? DEFAULT_LOGIC_CHAIN;
-  const subheadline = content?.signalsEngine?.subheadline ?? "RTBX Core captures staff, guest and operator-entered signals first, then approved integrations over time. Signals are normalised, weighted, and pattern-matched — creating an operating picture that the moment engine acts on, in real-time or near-real-time where integration access allows.";
+  const subheadline = content?.signalsEngine?.subheadline ?? "JALDO Core captures staff, guest and operator-entered signals first, then approved integrations over time. Signals are normalised, weighted, and pattern-matched — creating an operating picture that the moment engine acts on, in real-time or near-real-time where integration access allows.";
 
   return (
     <PartnerRoomLayout>
@@ -38,7 +38,7 @@ export default function PartnerSignalsEngine() {
             Travel Signal Registry
           </div>
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 24, maxWidth: 720 }}>
-            {"Travel Signal Registry — Travel Configuration of the RTBX Core Connection Layer".split("\n").map((line, i) => (
+            {"Travel Signal Registry — Travel Configuration of the JALDO Core Connection Layer".split("\n").map((line, i) => (
               <span key={i}>{i > 0 && <br />}{line}</span>
             ))}
           </h1>
@@ -50,7 +50,7 @@ export default function PartnerSignalsEngine() {
         {/* Positioning callout */}
         <div style={{ padding: "16px 20px", background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.18)", borderLeft: "3px solid #c9a84c", marginBottom: 32 }}>
           <p style={{ fontSize: 13, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, margin: 0, fontWeight: 600 }}>
-            The Travel Signal Registry is the Travel configuration of the RTBX Core Connection Layer. Every signal is classified, scored and mapped to the Context and Moment Layer — where it becomes part of a moment classification. No signal generates a response on its own.
+            The Travel Signal Registry is the Travel configuration of the JALDO Core Connection Layer. Every signal is classified, scored and mapped to the Context and Moment Layer — where it becomes part of a moment classification. No signal generates a response on its own.
           </p>
         </div>
 
@@ -191,7 +191,7 @@ export default function PartnerSignalsEngine() {
             onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(201,168,76,0.04)"; el.style.borderColor = "rgba(201,168,76,0.18)"; }}
             >
               <div>
-                <div style={{ fontSize: 10.5, fontWeight: 700, color: "#c9a84c", marginBottom: 2 }}>How RTBX Travel Captures Signals →</div>
+                <div style={{ fontSize: 10.5, fontWeight: 700, color: "#c9a84c", marginBottom: 2 }}>How JALDO Travel Captures Signals →</div>
                 <div style={{ fontSize: 10, color: "rgba(255,255,255,0.28)", lineHeight: 1.4 }}>Seven signal sources · Pipeline diagram · MVP vs Pilot · Deployment path</div>
               </div>
             </div>

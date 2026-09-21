@@ -297,7 +297,7 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
           }}>
             <a href="/partner-room" onClick={(e) => { e.preventDefault(); navigateFromMenu("/partner-room"); }}>
               <div className="rtbx-brand-lockup" style={{ display: "flex", alignItems: "baseline", gap: 8, cursor: "pointer" }}>
-                <span className="rtbx-brand-title" style={{ fontSize: 16, fontWeight: 800, letterSpacing: "0.2em", color: "#fff", textTransform: "uppercase" }}>RTBX Travel</span>
+                <span className="rtbx-brand-title" style={{ fontSize: 16, fontWeight: 800, letterSpacing: "0.2em", color: "#fff", textTransform: "uppercase" }}>JALDO Travel</span>
                 <span className="rtbx-brand-context" style={{ fontSize: 12, letterSpacing: "0.14em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, paddingBottom: 1 }}>Partner Room</span>
               </div>
             </a>
@@ -307,7 +307,7 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
                 className="rtbx-nav-desc"
                 style={{ fontSize: 12, letterSpacing: "0.1em", color: "rgba(255,255,255,0.46)", textTransform: "uppercase", fontWeight: 600 }}
               >
-                RTBX Travel is powered by RTBX Core — governed signal-to-action infrastructure for travel and hospitality
+                JALDO Travel is powered by JALDO Core — governed signal-to-action infrastructure for travel and hospitality
               </span>
               <div className="rtbx-nav-private" style={{ display: "flex", alignItems: "center", gap: 6 }}>
                 <div style={{ width: 4, height: 4, borderRadius: "50%", background: "#c9a84c" }} aria-hidden="true" />
@@ -703,14 +703,14 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
         gap: 8,
       }}>
          <p style={{ fontSize: 16, letterSpacing: "0.01em", color: "rgba(255,255,255,0.62)", margin: 0, lineHeight: 1.55, maxWidth: 900 }}>
-          Travel Partner Room materials are provided for strategic partner and operator review and should not be redistributed without RTBX approval.
+          Travel Partner Room materials are provided for strategic partner and operator review and should not be redistributed without JALDO approval.
         </p>
         <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
           {[
-            `RTBX Travel Partner Room v1.0`,
+            `JALDO Travel Partner Room v1.0`,
             `Content: ${contentVersion}`,
             `Updated: ${lastUpdated}`,
-            `Powered by RTBX Core`,
+            `Powered by JALDO Core`,
           ].map((item, i, arr) => (
             <span key={item} style={{ display: "flex", alignItems: "center", gap: 16 }}>
                <span style={{ fontSize: 12, letterSpacing: "0.08em", color: "rgba(255,255,255,0.48)", textTransform: "uppercase", fontWeight: 600 }}>{item}</span>

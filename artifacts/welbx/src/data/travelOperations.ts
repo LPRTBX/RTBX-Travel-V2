@@ -1,5 +1,5 @@
 /**
- * RTBX Execution Centre — Travel Environment, Outcome Ledger, Evidence Ledger and Value Dashboard.
+ * JALDO Execution Centre — Travel Environment, Outcome Ledger, Evidence Ledger and Value Dashboard.
  *
  * Synthetic demo data only. Values marked `demo: true` in the value
  * dashboard are illustrative/estimated and must be labelled as such in the
@@ -8,11 +8,11 @@
  */
 
 export type ActionStatus =
-  | "New" | "Acknowledged" | "In progress" | "Waiting approval"
+  | "New" | "Acknowledged" | "In progress" | "Approval Required"
   | "Escalated" | "Completed" | "Follow-up required" | "Closed";
 
 export const ACTION_STATUS_SEQUENCE: ActionStatus[] = [
-  "New", "Acknowledged", "In progress", "Waiting approval", "Completed", "Closed",
+  "New", "Acknowledged", "In progress", "Approval Required", "Completed", "Closed",
 ];
 
 export type TravelOperatingSystemName =
@@ -84,7 +84,7 @@ export const TRAVEL_ACTION_CARDS: TravelActionCard[] = [
     evidenceRequired: "Approval record, guest acknowledgement",
     outcomeRequired: "Guest recovered and sentiment restored",
     operatingSystem: "Service Recovery & Staff Response OS",
-    status: "Waiting approval",
+    status: "Approval Required",
     linkedCommunicationIds: ["comm-recovery-followup"],
     linkedEvidenceIds: ["ev-guest-distress-1"],
     linkedOutcomeId: "out-guest-distress-followup",

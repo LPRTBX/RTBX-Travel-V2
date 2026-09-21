@@ -75,7 +75,7 @@ export function HierarchyMode({
         >
           Layer origin:
         </span>
-        {(["RTBX Core", "Travel Configuration", "Property Configuration"] as const).map((origin) => (
+        {(["JALDO Core", "Travel Configuration", "Property Configuration"] as const).map((origin) => (
           <div
             key={origin}
             style={{

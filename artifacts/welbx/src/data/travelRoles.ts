@@ -1,5 +1,5 @@
 /**
- * RTBX Travel — Canonical Role Register.
+ * JALDO Travel — Canonical Role Register.
  *
  * Thirteen governed roles covering every accountable function across
  * Travel operating systems. Use these IDs consistently across scenarios,
@@ -35,7 +35,7 @@ export const TRAVEL_ROLES: TravelRole[] = [
       "Respond to guest requests at the front desk",
       "Coordinate room allocation and readiness confirmations",
       "Relay guest needs to relevant departments",
-      "Action operational prompts from RTBX within approved parameters",
+      "Action operational prompts from JALDO within approved parameters",
     ],
     decisionRights: [
       "Acknowledge and assign incoming guest requests",
@@ -99,7 +99,7 @@ export const TRAVEL_ROLES: TravelRole[] = [
       "Provide personalised guest assistance and recommendations",
       "Coordinate premium guest experience and VIP protocols",
       "Manage partner activations for dining, activities and experiences",
-      "Review and action RTBX opportunity prompts for eligible guests",
+      "Review and action JALDO opportunity prompts for eligible guests",
     ],
     decisionRights: [
       "Recommend and present approved offers to eligible guests",
@@ -128,7 +128,7 @@ export const TRAVEL_ROLES: TravelRole[] = [
     responsibilities: [
       "Maintain room readiness to property standard",
       "Prioritise rooms against guest arrival schedule",
-      "Respond to housekeeping task prompts from RTBX",
+      "Respond to housekeeping task prompts from JALDO",
       "Report maintenance defects identified during service",
       "Complete room service and turndown within SLA",
     ],
@@ -240,7 +240,7 @@ export const TRAVEL_ROLES: TravelRole[] = [
     ],
     communicationPermissions: [
       "Send internal operational briefings and reallocation instructions",
-      "Receive and action RTBX backlog and pressure alerts",
+      "Receive and action JALDO backlog and pressure alerts",
       "Must not send guest-facing communications without Duty Manager approval",
     ],
   },
@@ -354,7 +354,7 @@ export const TRAVEL_ROLES: TravelRole[] = [
     ],
     communicationPermissions: [
       "Communicate operational guidance to General Managers",
-      "Receive portfolio-level RTBX performance reports",
+      "Receive portfolio-level JALDO performance reports",
     ],
   },
   {
@@ -363,7 +363,7 @@ export const TRAVEL_ROLES: TravelRole[] = [
     level: "group",
     responsibilities: [
       "Set operating standards and policies across the property group",
-      "Review portfolio-level RTBX performance and risk",
+      "Review portfolio-level JALDO performance and risk",
       "Approve governance and playbook standards",
     ],
     decisionRights: [
@@ -385,7 +385,7 @@ export const TRAVEL_ROLES: TravelRole[] = [
     name: "Partner / Service Provider",
     level: "partner",
     responsibilities: [
-      "Deliver contracted services activated through RTBX (transport, dining, activities)",
+      "Deliver contracted services activated through JALDO (transport, dining, activities)",
       "Confirm activation and delivery of partner bookings",
       "Provide feedback on referral and conversion outcomes",
     ],

@@ -118,13 +118,13 @@ export default function PartnerValidationReplay() {
         </div>
 
         {/* Mode selector */}
-        <div style={{ display: "flex", gap: 2, marginBottom: 24 }}>
+        <div style={{ display: "flex", gap: 2, marginBottom: 24, flexWrap: "wrap" }}>
           {MODES.map(m => (
             <div
               key={m}
               onClick={() => handleModeChange(m)}
               style={{
-                flex: 1, padding: "18px 20px", cursor: "pointer", transition: "all 0.15s",
+                flex: "1 1 160px", minWidth: 0, padding: "18px 20px", cursor: "pointer", transition: "all 0.15s",
                 background: m === mode ? `${MODE_COLORS[m]}12` : "rgba(255,255,255,0.02)",
                 border: `1px solid ${m === mode ? MODE_COLORS[m] + "50" : "rgba(255,255,255,0.06)"}`,
                 borderTop: `2px solid ${m === mode ? MODE_COLORS[m] : "transparent"}`,
@@ -173,6 +173,7 @@ export default function PartnerValidationReplay() {
             return (
               <div
                 key={i}
+                className="rtbx-stack-mobile"
                 onClick={() => setActiveStep(i)}
                 style={{
                   display: "grid", gridTemplateColumns: "36px 40px 220px 1fr 100px",

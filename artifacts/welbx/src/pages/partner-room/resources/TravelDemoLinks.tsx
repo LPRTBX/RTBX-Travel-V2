@@ -9,20 +9,20 @@ const SECTIONS = [
     label: "Working Proof",
     tag: "Simulation",
     tagColor: "#c9a84c",
-    desc: "The first interactive RTBX Travel product loop, demonstrated with synthetic inputs and no connected dispatch.",
+    desc: "The first interactive JALDO Travel product loop, demonstrated with synthetic inputs and no connected dispatch.",
     items: [
-      { label: "RTBX Travel Moment Response", desc: "A synthetic signal is captured → classified → assigned to a named owner → a guest-facing message is drafted → escalation and assurance logging are demonstrated.", href: WORKING_PROOF_PATH, cta: "Open Working Proof", color: "#c9a84c", ext: false },
+      { label: "JALDO Travel Moment Response", desc: "A synthetic signal is captured → classified → assigned to a named owner → a guest-facing message is drafted → escalation and assurance logging are demonstrated.", href: WORKING_PROOF_PATH, cta: "Open Working Proof", color: "#c9a84c", ext: false },
     ],
   },
   {
     label: "Demo Pathways",
     tag: "Deployment Timeline",
     tagColor: "#a78bfa",
-    desc: "Three views across the RTBX Travel pathway — the current Working Proof and Planned pilot and Stage 3 states.",
+    desc: "Three views across the JALDO Travel pathway — the current Working Proof and Planned pilot and Stage 3 states.",
     items: [
       { label: "Moment Response Working Proof", desc: "Interactive, synthetic capture, classification, assignment, drafted communication, escalation and assurance logging.", href: WORKING_PROOF_PATH, cta: "Open Working Proof", color: "#c9a84c", ext: false },
       { label: "Integration-Assisted Pilot Preview", desc: "How the Moment Response workflow becomes faster and more automated when PMS, task, messaging, weather and marketplace integrations are approved and connected.", href: "/partner-room/product-proof/pilot-expansion-preview", cta: "View Pilot Expansion", color: "#10b981" },
-      { label: "Stage 3 Operating Layer Preview", desc: "Multi-site signal visibility, pattern insights, action routing, assurance reporting, value proof and marketplace activation. What RTBX Travel becomes at scale.", href: "/partner-room/product-proof/stage-3-operating-layer", cta: "View Stage 3 Preview", color: "#a78bfa" },
+      { label: "Stage 3 Operating Layer Preview", desc: "Multi-site signal visibility, pattern insights, action routing, assurance reporting, value proof and marketplace activation. What JALDO Travel becomes at scale.", href: "/partner-room/product-proof/stage-3-operating-layer", cta: "View Stage 3 Preview", color: "#a78bfa" },
     ],
   },
   {
@@ -33,7 +33,7 @@ const SECTIONS = [
     items: [
       { label: "Scenario Builder", desc: "Choose environment, scenario, risk level and role. Step through full Signal → Classify → Decide → Execute → Assure → Value flow.", href: "/partner-room/scenario-builder", cta: "Open Builder", color: "#c9a84c" },
       { label: "Dual View Demo", desc: "Same simulated moment seen from guest, operator and command layer through synchronised perspectives.", href: "/partner-room/dual-view-demo", cta: "Open Dual View", color: "#3b82f6" },
-      { label: "Communications Routing Demo", desc: "Select a scenario — watch RTBX Core route the right message to the right person across the right channel.", href: "/partner-room/comms-demo", cta: "Open Demo", color: "#10b981" },
+      { label: "Communications Routing Demo", desc: "Select a scenario — watch JALDO Core route the right message to the right person across the right channel.", href: "/partner-room/comms-demo", cta: "Open Demo", color: "#10b981" },
       { label: "Decision Spine Demo", desc: "Toggle synthetic inputs and watch the illustrative classification, decision, intervention and assurance path update immediately.", href: "/partner-room/decision-spine", cta: "Open Demo", color: "#f97316" },
       { label: "Proof of Value Calculator", desc: "Adjust property size, environment type and signal volume. Get an indicative monthly value estimate.", href: "/partner-room/proof-calculator", cta: "Open Calculator", color: "#22d3ee" },
     ],
@@ -75,13 +75,13 @@ const SECTIONS = [
     label: "Core Systems Preview",
     tag: "System Explorers",
     tagColor: "#22d3ee",
-    desc: "Interactive and information explorers across the core RTBX Travel operating systems.",
+    desc: "Interactive and information explorers across the core JALDO Travel operating systems.",
     items: [
       { label: "Moment Economy Explorer", desc: "Select from 8 moment types. See Signal → Risk Classification → Action → Value → Assurance Record for each.", href: "/partner-room/moments-economy", cta: "Open Explorer", color: "#c9a84c" },
       { label: "Signals Engine Brief", desc: "247+ configured signal types across 4 categories. Seven-step classification chain from raw event to moment creation.", href: "/partner-room/signals-engine", cta: "View Brief", color: "#3b82f6" },
       { label: "Decision & Action Layer", desc: "The intervention logic that governs which action is triggered at which threshold across which moment type.", href: "/partner-room/product-proof", cta: "View Layer", color: "#10b981" },
       { label: "Intervention Library", desc: "Pre-configured playbooks for guest recovery, welfare, commercial activation and service response moments.", href: "/partner-room/product-proof", cta: "View Library", color: "#a78bfa" },
-      { label: "Execution and Communication Layer", desc: "How RTBX Core routes the right message to guest, staff, manager and command layer per moment type.", href: "/partner-room/comms-demo", cta: "View Layer", color: "#f97316" },
+      { label: "Execution and Communication Layer", desc: "How JALDO Core routes the right message to guest, staff, manager and command layer per moment type.", href: "/partner-room/comms-demo", cta: "View Layer", color: "#f97316" },
       { label: "Registry & Assurance Layer", desc: "How every moment, action and outcome is logged as an auditable assurance record.", href: "/partner-room/product-proof", cta: "View Registry", color: "#22d3ee" },
     ],
   },
@@ -95,7 +95,7 @@ export default function TravelDemoLinks() {
         {/* Header */}
         <div style={{ marginBottom: 56 }}>
           <div style={{ fontSize: 8.5, letterSpacing: "0.2em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>Partner Resource · Demo Links</div>
-          <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 14, maxWidth: 680 }}>RTBX Travel — Demo Directory</h1>
+          <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 14, maxWidth: 680 }}>JALDO Travel — Demo Directory</h1>
           <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.75, maxWidth: 600, margin: 0 }}>
             Every link opens either the current Working Proof, a Simulation or a clearly labelled Planned preview. Demos use synthetic inputs and do not dispatch actions or prove production outcomes.
           </p>
@@ -116,7 +116,7 @@ export default function TravelDemoLinks() {
                 </div>
                 <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.6, margin: 0, maxWidth: 640 }}>{section.desc}</p>
               </div>
-              <div style={{ display: "grid", gridTemplateColumns: section.items.length >= 5 ? "repeat(3, 1fr)" : "repeat(2, 1fr)", gap: 2 }}>
+              <div className={section.items.length >= 5 ? "rtbx-grid-3" : "rtbx-grid-2"} style={{ display: "grid", gridTemplateColumns: section.items.length >= 5 ? "repeat(3, 1fr)" : "repeat(2, 1fr)", gap: 2 }}>
                 {section.items.map(item => (
                   <div key={item.label} style={{ padding: "22px 22px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: `2px solid ${item.color}`, display: "flex", flexDirection: "column" }}>
                     <div style={{ fontSize: 12, fontWeight: 700, color: "#fff", marginBottom: 8, letterSpacing: "-0.01em" }}>{item.label}</div>

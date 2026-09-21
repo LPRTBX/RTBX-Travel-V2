@@ -54,10 +54,10 @@ export function PartnerAccessGate({ children }: PartnerAccessGateProps) {
         {/* Brand hierarchy */}
         <div style={{ marginBottom: 36 }}>
           <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.18)", textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>
-            RTBX Group · Travel Vertical
+            JALDO · Travel Vertical
           </div>
           <div style={{ fontSize: 8.5, letterSpacing: "0.22em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700 }}>
-            RTBX Travel · Partner Room
+            JALDO Travel · Partner Room
           </div>
         </div>
 
@@ -65,7 +65,7 @@ export function PartnerAccessGate({ children }: PartnerAccessGateProps) {
           Controlled Partner Preview
         </h1>
         <p style={{ fontSize: 13, color: "rgba(255,255,255,0.38)", lineHeight: 1.7, marginBottom: 40 }}>
-          This room is for invited partners reviewing RTBX Travel — the travel and hospitality operating vertical, powered by RTBX Core.
+          This room is for invited partners reviewing JALDO Travel — the travel and hospitality operating vertical, powered by JALDO Core.
         </p>
 
         <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -121,7 +121,7 @@ export function PartnerAccessGate({ children }: PartnerAccessGateProps) {
         </p>
 
         <div style={{ marginTop: 20, fontSize: 9, letterSpacing: "0.12em", color: "rgba(255,255,255,0.12)", textTransform: "uppercase", fontWeight: 600 }}>
-          RTBX Travel Partner Room v1.0
+          JALDO Travel Partner Room v1.0
         </div>
       </div>
     </div>

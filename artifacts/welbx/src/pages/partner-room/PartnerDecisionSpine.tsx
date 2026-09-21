@@ -47,9 +47,9 @@ function Select({ label, options, value, onChange }: { label: string; options: s
 
 function ResultRow({ label, value, color }: { label: string; value: string; color?: string }) {
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "160px 1fr", gap: 0, borderBottom: "1px solid rgba(255,255,255,0.04)", padding: "14px 0" }}>
+    <div className="rtbx-stack-mobile" style={{ display: "grid", gridTemplateColumns: "160px 1fr", gap: 0, borderBottom: "1px solid rgba(255,255,255,0.04)", padding: "14px 0" }}>
       <div style={{ fontSize: 8.5, letterSpacing: "0.12em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, paddingRight: 16, paddingTop: 2 }}>{label}</div>
-      <div style={{ fontSize: 12.5, color: color || "rgba(255,255,255,0.72)", fontWeight: 600, lineHeight: 1.5 }}>{value}</div>
+      <div style={{ fontSize: 12.5, color: color || "rgba(255,255,255,0.72)", fontWeight: 600, lineHeight: 1.5, minWidth: 0, overflowWrap: "anywhere" }}>{value}</div>
     </div>
   );
 }
@@ -153,7 +153,7 @@ export default function PartnerDecisionSpine() {
         {/* Decision Chain */}
         <div style={{ marginBottom: 72 }}>
           <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>
-            The RTBX Core Decision Spine — Travel Configuration
+            The JALDO Core Decision Spine — Travel Configuration
           </div>
           <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.5)", lineHeight: 1.7, maxWidth: 640, marginBottom: 28 }}>
             This diagram illustrates the intended chain before any real action. Travel policies would configure the shared Decision Spine; this Working Proof does not execute it.
@@ -196,7 +196,7 @@ export default function PartnerDecisionSpine() {
           <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.5)", lineHeight: 1.7, maxWidth: 640, marginBottom: 24 }}>
             These are illustrative governance sources that could configure the shared Decision Spine in a future governed deployment.
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2 }}>
+          <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2 }}>
             {[
               { label: "Guest Service Recovery Policy", desc: "Defines compensation levels, recovery pathway requirements and SLA thresholds for service failure moments. Determines what the front desk may resolve independently and what requires manager authorisation.", color: "#c9a84c" },
               { label: "Compensation Approval Matrix", desc: "Sets approval authority by role and compensation value. Monetary compensation above defined thresholds requires a named authoriser. AI may not approve any compensation.", color: "#3b82f6" },
@@ -218,7 +218,7 @@ export default function PartnerDecisionSpine() {
         </div>
 
         {/* Interactive demo */}
-        <div style={{ display: "grid", gridTemplateColumns: "340px 1fr", gap: 2 }}>
+        <div className="rtbx-stack-mobile" style={{ display: "grid", gridTemplateColumns: "340px 1fr", gap: 2 }}>
           {/* Inputs */}
           <div>
             <div style={{ fontSize: 9, letterSpacing: "0.18em", color: "rgba(255,255,255,0.28)", textTransform: "uppercase", fontWeight: 700, marginBottom: 14, paddingLeft: 2 }}>Synthetic Scenario Inputs</div>

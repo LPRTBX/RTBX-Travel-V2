@@ -227,7 +227,7 @@ function CanonicalContractPreview({ builderScenario }: { builderScenario: string
         <div style={{ fontSize: 9, color: "rgba(255,255,255,0.25)", fontStyle: "italic" }}>Prototype — configuration not persisted</div>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 0 }}>
+      <div className="rtbx-grid-3" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 0 }}>
         {/* Column 1: Core config */}
         <div style={{ padding: "16px 18px", borderRight: "1px solid rgba(255,255,255,0.05)" }}>
           <div style={{ fontSize: 8, letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 700, color: "rgba(255,255,255,0.25)", marginBottom: 14 }}>Core Configuration</div>
@@ -342,7 +342,7 @@ export default function PartnerScenarioBuilder() {
             Build a Scenario
           </div>
           <p style={{ fontSize: 13, color: "rgba(255,255,255,0.38)", lineHeight: 1.7, maxWidth: 600 }}>
-            Select an environment, scenario type, risk level and role view — then step through a model of how RTBX Core could handle it.
+            Select an environment, scenario type, risk level and role view — then step through a model of how JALDO Core could handle it.
             The Canonical Contract Preview below shows how the selected scenario type maps to the governed scenario data model.
           </p>
         </div>
@@ -351,7 +351,7 @@ export default function PartnerScenarioBuilder() {
         <CanonicalContractPreview builderScenario={scenario} />
 
         {/* Selectors */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 2, marginBottom: 2 }}>
+        <div className="rtbx-stack-mobile" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 2, marginBottom: 2 }}>
           {[
             { label: "Environment", items: ENVS, value: env, setter: setEnv, color: "#10b981" },
             { label: "Scenario Type", items: SCENARIOS, value: scenario, setter: setScenario, color: "#c9a84c" },
@@ -392,7 +392,7 @@ export default function PartnerScenarioBuilder() {
           <div style={{ fontSize: 8, letterSpacing: "0.18em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>
             Illustrative rules-based signal chain — click any stage
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 2 }}>
+          <div className="rtbx-stack-mobile" style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 2 }}>
             {stages.map((st, i) => (
               <div
                 key={i}
@@ -417,7 +417,7 @@ export default function PartnerScenarioBuilder() {
         </div>
 
         {/* Step detail + Role view — two columns */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2, marginBottom: 32 }}>
+        <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2, marginBottom: 32 }}>
           {/* Step detail */}
           <div style={{ padding: "28px 26px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: "2px solid #c9a84c" }}>
             <div style={{ fontSize: 8, letterSpacing: "0.18em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>

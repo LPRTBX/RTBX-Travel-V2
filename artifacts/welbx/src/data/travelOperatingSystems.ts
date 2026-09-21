@@ -1,14 +1,14 @@
 /**
  * Travel Operating Systems & Module Catalogue.
  *
- * RTBX Core provides the shared execution architecture (signal ingestion,
+ * JALDO Core provides the shared execution architecture (signal ingestion,
  * moment classification, governance, decision spine, action routing,
- * communications and the assurance/outcome registry). RTBX Travel extends
+ * communications and the assurance/outcome registry). JALDO Travel extends
  * that same core through tailored operating systems — each one grouping
  * vertical-specific modules around a major hotel or travel operating problem.
  *
  * This file does not define a new engine. It configures how the existing
- * RTBX Core systems are packaged, scoped and rolled out for Travel.
+ * JALDO Core systems are packaged, scoped and rolled out for Travel.
  */
 
 import type { MaturityStatus } from "./travelScenarios";
@@ -249,7 +249,7 @@ export const TRAVEL_OPERATING_SYSTEMS: TravelOperatingSystem[] = [
     governance: ["Guest Safety Procedure", "Medical Assistance Procedure", "Critical Incident Procedure", "Privacy and Consent Rules"],
     playbooks: ["Welfare Check", "Medical Response Protocol", "Security Response Protocol"],
     communications: ["Draft critical-incident communications (not sent)", "Draft escalation notifications (not sent)"],
-    actions: ["Proposed welfare check for named human dispatch outside RTBX", "Draft incident pathway for human coordination outside RTBX", "Illustrative evidence entry"],
+    actions: ["Proposed welfare check for named human dispatch outside JALDO", "Draft incident pathway for human coordination outside JALDO", "Illustrative evidence entry"],
     outcomes: ["Illustrative target: response completion", "Illustrative target: escalation completion", "Illustrative target: evidence capture"],
     valueMeasures: ["Proposed, unmeasured safety escalation quality", "Proposed, unmeasured evidence completeness", "Proposed, unmeasured governance alignment"],
     modules: [
@@ -338,7 +338,7 @@ export const TRAVEL_SPECIALIST_EXTENSIONS: TravelSpecialistExtension[] = [
 // ── Hierarchy visual ────────────────────────────────────────────────────────
 
 export const TRAVEL_HIERARCHY_STAGES: string[] = [
-  "RTBX Core",
+  "JALDO Core",
   "Travel Intelligence Pack",
   "Travel Operating System",
   "Proposed Modules",

@@ -30,7 +30,7 @@ export default function PartnerTravelAiComms() {
 
         {/* ── HEADER ── */}
         <div style={{ marginBottom: 40 }}>
-          <SectionLabel>RTBX Travel · Communications</SectionLabel>
+          <SectionLabel>JALDO Travel · Communications</SectionLabel>
           <h1 style={{ fontSize: 40, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 16, maxWidth: 760 }}>
             Prompt &amp; Nudge Engine and Central Comms OS
           </h1>
@@ -79,7 +79,7 @@ export default function PartnerTravelAiComms() {
           <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, marginBottom: 20, maxWidth: 760 }}>
             {TRAVEL_AI_ASSISTANTS.length} proposed role-scoped assistants. These capabilities are Planned, not current; deterministic rules show the present drafts, while named humans own approval and accountability.
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2 }}>
+          <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2 }}>
             {TRAVEL_AI_ASSISTANTS.map(a => (
               <div key={a.id} style={{ padding: "20px 22px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: `2px solid ${a.color}` }}>
                 <div style={{ fontSize: 13.5, fontWeight: 800, color: "#fff", marginBottom: 2 }}>{a.name}</div>
@@ -150,9 +150,9 @@ export default function PartnerTravelAiComms() {
                 <div key={c.id} style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
                   <div
                     onClick={() => setOpenId(isOpen ? null : c.id)}
-                    style={{ padding: "14px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", cursor: "pointer" }}
+                    style={{ padding: "14px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", cursor: "pointer", flexWrap: "wrap", gap: 8 }}
                   >
-                    <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap", minWidth: 0 }}>
                       <div style={{ fontSize: 9.5, fontWeight: 700, color: "rgba(201,168,76,0.5)", letterSpacing: "0.04em" }}>{c.id.replace("comm-", "").toUpperCase()}</div>
                       <div style={{ fontSize: 12.5, fontWeight: 700, color: "#fff" }}>{c.name}</div>
                       <div style={{ fontSize: 10, color: "rgba(255,255,255,0.35)" }}>{c.momentType}</div>
@@ -160,7 +160,7 @@ export default function PartnerTravelAiComms() {
                     <div style={{ fontSize: 15, color: C.gold, flexShrink: 0, marginLeft: 16 }}>{isOpen ? "\u2212" : "+"}</div>
                   </div>
                   {isOpen && (
-                    <div style={{ padding: "0 20px 18px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px 24px" }}>
+                    <div className="rtbx-grid-2" style={{ padding: "0 20px 18px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px 24px" }}>
                       {[
                         ["Audience", c.audience], ["Role", c.role], ["Channel", c.channel],
                         ["Tone", c.tone], ["Approval rule", c.approvalRule], ["Escalation rule", c.escalationRule],
@@ -214,7 +214,7 @@ export default function PartnerTravelAiComms() {
           <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 20 }}>
             Planned AI Operating Boundary
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2, marginBottom: 20 }}>
+          <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2, marginBottom: 20 }}>
             <div style={{ padding: "22px 24px", background: "rgba(16,185,129,0.04)", border: "1px solid rgba(16,185,129,0.2)", borderTop: "2px solid #10b981" }}>
               <div style={{ fontSize: 9, letterSpacing: "0.14em", color: "#10b981", textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>Planned AI Scope</div>
               {[

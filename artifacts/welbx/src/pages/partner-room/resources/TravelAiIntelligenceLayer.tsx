@@ -49,7 +49,7 @@ export default function TravelAiIntelligenceLayer() {
         <div style={{ marginBottom: 56 }}>
           <div style={{ fontSize: 8.5, letterSpacing: "0.2em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>Partner Resource · AI Intelligence Layer</div>
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 18, maxWidth: 720 }}>
-            RTBX Travel — AI Intelligence Layer
+            JALDO Travel — AI Intelligence Layer
           </h1>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 700, marginBottom: 18 }}>
             The planned AI layer is designed to assist signal interpretation, classification confidence, recommendations and communication drafting. Governed rules and named human owners remain accountable for decisions and dispatch.
@@ -64,7 +64,7 @@ export default function TravelAiIntelligenceLayer() {
         {/* AI model stack */}
         <div style={{ marginBottom: 56 }}>
           <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>AI Model Stack</div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
+          <div className="rtbx-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
             {MODEL_CARDS.map(m => (
               <div key={m.label} style={{ padding: "20px 20px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: `2px solid ${C.blue}` }}>
                 <div style={{ fontSize: 11.5, fontWeight: 700, color: "#fff", marginBottom: 8 }}>{m.label}</div>
@@ -77,7 +77,7 @@ export default function TravelAiIntelligenceLayer() {
         {/* Stages */}
         <div style={{ marginBottom: 56 }}>
           <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>Progressive Rollout</div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
+          <div className="rtbx-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
             {STAGES.map(s => (
               <div key={s.num} style={{ padding: "22px 22px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: `2px solid ${s.color}` }}>
                 <div style={{ fontSize: 9, fontWeight: 700, color: s.color, letterSpacing: "0.1em", marginBottom: 8 }}>STAGE {s.num}</div>
@@ -90,7 +90,7 @@ export default function TravelAiIntelligenceLayer() {
 
         {/* Moment Graph */}
         <div style={{ marginBottom: 56 }}>
-          <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>RTBX Travel Moment Graph</div>
+          <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>JALDO Travel Moment Graph</div>
           <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.7, maxWidth: 700, marginBottom: 20 }}>
             Every moment is a node connecting a captured signal to a classified outcome. Over time, the graph accumulates pattern intelligence — repeat moments, high-risk windows, recovery effectiveness — that strengthens classification and forecasting.
           </p>
@@ -108,7 +108,7 @@ export default function TravelAiIntelligenceLayer() {
         <div style={{ marginBottom: 56 }}>
           <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>Build vs Buy</div>
           <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.75, maxWidth: 700, margin: 0 }}>
-            RTBX Travel builds the classification, decision spine and assurance layer in-house — this is the proprietary moat. Underlying language and pattern-recognition models are sourced from established providers where it accelerates delivery without compromising governance, auditability or data control.
+            JALDO Travel builds the classification, decision spine and assurance layer in-house — this is the proprietary moat. Underlying language and pattern-recognition models are sourced from established providers where it accelerates delivery without compromising governance, auditability or data control.
           </p>
         </div>
 

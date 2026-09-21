@@ -1,5 +1,5 @@
 /**
- * RTBX Travel — Deployment Configuration Model.
+ * JALDO Travel — Deployment Configuration Model.
  *
  * Defines the canonical typed model for a Travel deployment environment.
  * All data is local synthetic demonstration data — not a production customer

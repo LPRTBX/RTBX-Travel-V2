@@ -110,18 +110,18 @@ export default function TravelSystemsMap() {
         {/* Header */}
         <div style={{ marginBottom: 56 }}>
           <div style={{ fontSize: 8.5, letterSpacing: "0.2em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>Partner Resource · Connection Map / Systems Map</div>
-          <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 18, maxWidth: 680 }}>RTBX Travel — Operating Systems &amp; Connection Map</h1>
+          <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 18, maxWidth: 680 }}>JALDO Travel — Operating Systems &amp; Connection Map</h1>
           <div style={{ padding: "16px 20px", background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.22)", borderLeft: "3px solid #c9a84c", maxWidth: 680 }}>
             <p style={{ fontSize: 13, color: "rgba(255,255,255,0.7)", lineHeight: 1.75, margin: 0, fontStyle: "italic" }}>
-              "The environment changes. The RTBX Travel operating logic does not."
+              "The environment changes. The JALDO Travel operating logic does not."
             </p>
           </div>
         </div>
 
         {/* Head systems */}
         <div style={{ marginBottom: 56 }}>
-          <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>RTBX Travel — Five Head Systems</div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2 }}>
+          <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>JALDO Travel — Five Head Systems</div>
+          <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2 }}>
             {HEAD_SYSTEMS.map(hs => (
               <div key={hs.label} id={hs.id} style={{ padding: "24px 22px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: `2px solid ${hs.color}`, scrollMarginTop: 90 }}>
                 <div style={{ fontSize: 12, fontWeight: 800, color: hs.color, marginBottom: 4, letterSpacing: "0.02em" }}>{hs.label}</div>
@@ -140,11 +140,11 @@ export default function TravelSystemsMap() {
           </div>
         </div>
 
-        {/* RTBX Core note */}
+        {/* JALDO Core note */}
         <div style={{ marginBottom: 40, padding: "20px 22px", background: "rgba(201,168,76,0.04)", border: "1px solid rgba(201,168,76,0.15)" }}>
-          <div style={{ fontSize: 8, letterSpacing: "0.14em", color: C.gold, textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>RTBX Core — Powers Every Head System</div>
+          <div style={{ fontSize: 8, letterSpacing: "0.14em", color: C.gold, textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>JALDO Core — Powers Every Head System</div>
           <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, margin: 0 }}>
-            All five head systems run on RTBX Core infrastructure — the same signal ingestion, moment classification, decision spine, action routing and assurance registry. Guest Experience appears only as the guest-facing delivery surface inside the Guest Experience OS. Every other layer is operator and partner-facing.
+            All five head systems run on JALDO Core infrastructure — the same signal ingestion, moment classification, decision spine, action routing and assurance registry. Guest Experience appears only as the guest-facing delivery surface inside the Guest Experience OS. Every other layer is operator and partner-facing.
           </p>
         </div>
 

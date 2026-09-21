@@ -1,7 +1,7 @@
 /**
  * travelCommercialModel.ts — Sprint 5
  *
- * Canonical commercial model data for RTBX Travel.
+ * Canonical commercial model data for JALDO Travel.
  *
  * Covers commercial components, commercial proof boundaries, value framework,
  * partner commercial models and commercial status labelling.
@@ -92,18 +92,18 @@ export const COMMERCIAL_COMPONENTS: CommercialComponent[] = [
     id: "cc-configuration-implementation",
     name: "Configuration and Implementation Fee",
     summary:
-      "Covers Travel environment configuration, scenario and playbook setup, role mapping, communication configuration, evidence and outcome configuration. May be delivered by RTBX or a deployment partner.",
+      "Covers Travel environment configuration, scenario and playbook setup, role mapping, communication configuration, evidence and outcome configuration. May be delivered by JALDO or a deployment partner.",
     appliesTo: ["All pilots and deployments"],
     status: "subject-to-proposal",
     sourceStatus: "indicative-assumption",
     mandatory: false,
-    note: "Subject to proposal. May be split between RTBX and a deployment partner.",
+    note: "Subject to proposal. May be split between JALDO and a deployment partner.",
   },
   {
     id: "cc-platform-licence",
     name: "Platform Licence",
     summary:
-      "Access to the RTBX Travel platform, intelligence engine, operating systems, scenario and playbook framework, Build & Configure and Execution Centre.",
+      "Access to the JALDO Travel platform, intelligence engine, operating systems, scenario and playbook framework, Build & Configure and Execution Centre.",
     appliesTo: ["All deployments"],
     status: "indicative",
     sourceStatus: "indicative-assumption",
@@ -136,7 +136,7 @@ export const COMMERCIAL_COMPONENTS: CommercialComponent[] = [
     id: "cc-managed-intelligence",
     name: "Managed Intelligence or Support Service",
     summary:
-      "Ongoing intelligence review, playbook improvement, governance update and operational support service delivered by RTBX or a deployment partner.",
+      "Ongoing intelligence review, playbook improvement, governance update and operational support service delivered by JALDO or a deployment partner.",
     appliesTo: ["Ongoing deployments"],
     status: "subject-to-proposal",
     sourceStatus: "indicative-assumption",
@@ -147,7 +147,7 @@ export const COMMERCIAL_COMPONENTS: CommercialComponent[] = [
     id: "cc-training-change",
     name: "Training and Change Support",
     summary:
-      "Staff training, change management and adoption support. May be delivered by RTBX or a deployment partner.",
+      "Staff training, change management and adoption support. May be delivered by JALDO or a deployment partner.",
     appliesTo: ["Pilots", "Production deployments"],
     status: "subject-to-proposal",
     sourceStatus: "indicative-assumption",
@@ -169,7 +169,7 @@ export const COMMERCIAL_COMPONENTS: CommercialComponent[] = [
     id: "cc-partner-service-revenue",
     name: "Partner Service Revenue",
     summary:
-      "Revenue from intervention, marketplace or distribution partner services delivered through the RTBX platform where attribution, governance and commercial approval are in place.",
+      "Revenue from intervention, marketplace or distribution partner services delivered through the JALDO platform where attribution, governance and commercial approval are in place.",
     appliesTo: ["Mature deployments with active partner ecosystem"],
     status: "customer-specific",
     sourceStatus: "unapproved",
@@ -180,7 +180,7 @@ export const COMMERCIAL_COMPONENTS: CommercialComponent[] = [
     id: "cc-transaction-revenue-share",
     name: "Transaction or Revenue Share",
     summary:
-      "A transaction fee or revenue-share arrangement where commercial activation is attributed to RTBX and approved by customer and partner.",
+      "A transaction fee or revenue-share arrangement where commercial activation is attributed to JALDO and approved by customer and partner.",
     appliesTo: ["Marketplace and Loyalty Activation", "Approved partner services"],
     status: "partner-specific",
     sourceStatus: "unapproved",
@@ -209,7 +209,7 @@ export const COMMERCIAL_STATUS_COLORS: Record<CommercialStatus, string> = {
 
 export const SOURCE_STATUS_LABELS: Record<CommercialSourceStatus, string> = {
   "customer-provided":    "Customer-provided",
-  "rtbx-approved":        "RTBX-approved",
+  "rtbx-approved":        "JALDO-approved",
   "partner-provided":     "Partner-provided",
   "external-source":      "External source",
   "indicative-assumption":"Indicative assumption",
@@ -226,7 +226,7 @@ export const PARTNER_COMMERCIAL_MODELS: PartnerCommercialModel[] = [
     id: "referral",
     partnerType: "Referral",
     summary:
-      "Partner introduces a qualified customer who proceeds to an RTBX engagement.",
+      "Partner introduces a qualified customer who proceeds to an JALDO engagement.",
     potentialModels: [
       "Referral fee — fixed introduction fee (subject to agreement)",
       "Percentage of first-year contract value (subject to agreement)",
@@ -238,7 +238,7 @@ export const PARTNER_COMMERCIAL_MODELS: PartnerCommercialModel[] = [
     id: "reseller",
     partnerType: "Reseller",
     summary:
-      "Partner sells RTBX Travel under agreed commercial terms within a defined market or territory.",
+      "Partner sells JALDO Travel under agreed commercial terms within a defined market or territory.",
     potentialModels: [
       "Wholesale licence with reseller margin (subject to agreement)",
       "Market or territory conditions (subject to agreement)",
@@ -253,7 +253,7 @@ export const PARTNER_COMMERCIAL_MODELS: PartnerCommercialModel[] = [
       "Partner delivers configuration, integration, training or rollout services to the customer.",
     potentialModels: [
       "Partner charges customer for implementation services",
-      "RTBX charges platform and licence fees to the customer",
+      "JALDO charges platform and licence fees to the customer",
       "Joint delivery package (subject to proposal)",
     ],
     statusNote:
@@ -263,7 +263,7 @@ export const PARTNER_COMMERCIAL_MODELS: PartnerCommercialModel[] = [
     id: "strategic-technology",
     partnerType: "Strategic Technology Partner",
     summary:
-      "Partner provides signals, distribution or embedded technology that extends RTBX capability.",
+      "Partner provides signals, distribution or embedded technology that extends JALDO capability.",
     potentialModels: [
       "Joint proposition (subject to agreement)",
       "Connector fee or co-selling arrangement",
@@ -277,7 +277,7 @@ export const PARTNER_COMMERCIAL_MODELS: PartnerCommercialModel[] = [
     id: "intervention-marketplace",
     partnerType: "Intervention or Marketplace Partner",
     summary:
-      "Partner delivers services or goods through RTBX-triggered moments where attribution and governance are in place.",
+      "Partner delivers services or goods through JALDO-triggered moments where attribution and governance are in place.",
     potentialModels: [
       "Service fee per delivery",
       "Qualified lead fee",

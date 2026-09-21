@@ -26,7 +26,7 @@ const STAGES = [
     label: "Demonstration",
     sublabel: "What exists today",
     color: "#3b82f6",
-    description: "RTBX Travel is working in an interactive simulation environment. Deployment configuration, scenario execution, governance, evidence and outcomes can all be demonstrated without a live hotel connection.",
+    description: "JALDO Travel is working in an interactive simulation environment. Deployment configuration, scenario execution, governance, evidence and outcomes can all be demonstrated without a live hotel connection.",
     includes: [
       "Interactive Build & Configure flow",
       "All six scenarios running end-to-end",
@@ -113,9 +113,9 @@ export default function PartnerRolloutModel() {
 
         {/* ── HEADER ── */}
         <div style={{ marginBottom: 48 }}>
-          <SectionLabel>RTBX Travel · Rollout Model</SectionLabel>
+          <SectionLabel>JALDO Travel · Rollout Model</SectionLabel>
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 14, maxWidth: 760 }}>
-            RTBX Travel Rollout Model
+            JALDO Travel Rollout Model
           </h1>
           <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.8, maxWidth: 700, marginBottom: 20 }}>
             From a working demonstration, through a controlled pilot, to production deployment and multi-property scale. Each stage has a clear boundary. Do not describe a previous stage as the next one.
@@ -147,7 +147,7 @@ export default function PartnerRolloutModel() {
                   </Link>
                 </div>
                 <p style={{ fontSize: 11.5, color: C.muted, lineHeight: 1.7, marginBottom: 16, maxWidth: 760 }}>{stage.description}</p>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px 24px" }}>
+                <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px 24px" }}>
                   <div>
                     <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 700, marginBottom: 6 }}>Includes</div>
                     {stage.includes.map((item, i) => (
@@ -177,7 +177,7 @@ export default function PartnerRolloutModel() {
           <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, maxWidth: 760, marginBottom: 16 }}>
             Seven expansion stages after the pilot is proven. Each requires a defined maturity gate before activation.
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2 }}>
+          <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2 }}>
             {EXPANSION_STAGES.map((stage, i) => (
               <div key={stage.id} style={{ padding: "14px 16px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: `2px solid ${i === 0 ? C.gold : "rgba(255,255,255,0.12)"}` }}>
                 <div style={{ fontSize: 11, fontWeight: 800, color: "#fff", marginBottom: 5 }}>{stage.label}</div>
