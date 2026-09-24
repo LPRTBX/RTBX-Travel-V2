@@ -436,7 +436,7 @@ export default function PartnerProductProof() {
                 <p style={{ fontSize: 13, color: "rgba(255,255,255,0.42)", lineHeight: 1.65, flex: 1, marginBottom: 20 }}>
                   An interactive, synthetic walkthrough of capture, classification, assignment, drafted guest communication, escalation and evidence logging.
                 </p>
-                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#c9a84c" }}>Open Working Proof →</div>
+                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#c9a84c" }}>Explore today · Open Working Proof →</div>
               </div>
             </Link>
             {/* Card 2: Pilot Expansion */}
@@ -478,7 +478,7 @@ export default function PartnerProductProof() {
                 <p style={{ fontSize: 13, color: "rgba(255,255,255,0.42)", lineHeight: 1.65, flex: 1, marginBottom: 20 }}>
                   Multi-site signal visibility, pattern insights, action routing, assurance reporting, value proof and marketplace activation — once the pilot is validated and integrations are approved.
                 </p>
-                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#a78bfa" }}>View Stage 3 Preview →</div>
+                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#a78bfa" }}>Experience Stage 3 · Planned simulation →</div>
               </div>
             </Link>
           </div>

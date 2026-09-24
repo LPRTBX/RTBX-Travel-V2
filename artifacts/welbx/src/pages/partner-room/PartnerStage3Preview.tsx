@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { Link } from "wouter";
 import { WORKING_PROOF_PATH } from "@/lib/proofLanguage";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
+import Stage3ScenarioExperience from "./Stage3ScenarioExperience";
 
 
 const SITES = [
@@ -12,25 +14,25 @@ const SITES = [
 ];
 
 const SIGNAL_STREAMS = [
-  { label: "Guest signals",                    color: "#3b82f6",  count: "64 active",  desc: "Guest-entered inputs via Guest Channel QR, SMS link, kiosk or staff relay" },
-  { label: "Staff signals",                    color: "#c9a84c",  count: "38 active",  desc: "Staff-entered operational moments through dashboard, mobile or manager console" },
-  { label: "PMS / booking signals",            color: "#a78bfa",  count: "22 active",  desc: "Arrival times, room status, loyalty flags, special requests — via approved integration" },
-  { label: "Task / housekeeping signals",      color: "#f97316",  count: "17 active",  desc: "Room readiness, cleaning delays, maintenance alerts — via approved task system feed" },
-  { label: "Weather and disruption signals",   color: "#22d3ee",  count: "5 active",   desc: "Weather alerts, transport disruptions, external events — via approved API feed" },
-  { label: "Partner / marketplace signals",    color: "#10b981",  count: "9 active",   desc: "Partner availability, local activity windows, marketplace triggers" },
-  { label: "Communication signals",            color: "#e879f9",  count: "31 active",  desc: "Guest messages, unresolved replies, escalation flags, sentiment tags" },
+  { label: "Guest signals",                    color: "#3b82f6",  count: "Illustrative", desc: "Simulated guest-entered inputs; no QR, SMS or kiosk connection" },
+  { label: "Staff signals",                    color: "#c9a84c",  count: "Illustrative", desc: "Simulated staff-entered operational moments; no staff task sent" },
+  { label: "PMS / booking signals",            color: "#a78bfa",  count: "Planned", desc: "Modelled arrival and room context; no PMS integration connected" },
+  { label: "Task / housekeeping signals",      color: "#f97316",  count: "Planned", desc: "Modelled room readiness; no housekeeping system connected" },
+  { label: "Weather and disruption signals",   color: "#22d3ee",  count: "Planned", desc: "Modelled external disruption; no API feed connected" },
+  { label: "Partner / marketplace signals",    color: "#10b981",  count: "Expansion only", desc: "Proposed partner availability; not part of the initial pilot" },
+  { label: "Communication signals",            color: "#e879f9",  count: "Planned", desc: "Modelled replies and escalations; no guest messages sent" },
 ];
 
 const HEATMAP_ITEMS = [
   { site: "Harbour Hotel",               moment: "Arrival friction rising",               level: "Medium", color: "#f97316", detail: "4 concurrent early arrivals, 2 rooms delayed" },
-  { site: "Coastal Holiday Park",        moment: "Weather disruption active",              level: "High",   color: "#ef4444", detail: "Wind advisory affecting outdoor activities, 7 active guest pathways" },
+  { site: "Coastal Holiday Park",        moment: "Weather disruption modelled",            level: "High",   color: "#ef4444", detail: "Illustrative wind advisory; seven synthetic guest pathways" },
   { site: "City Corporate Hotel",        moment: "Checkout sentiment risk increasing",     level: "Medium", color: "#f97316", detail: "3 unresolved service requests from past 24 hours" },
-  { site: "Destination Partner Network", moment: "Revenue opportunity window open",        level: "Active", color: "#10b981", detail: "11 guests with itinerary gaps, 3 partner availability windows open" },
+  { site: "Destination Partner Network", moment: "Proposed commercial opportunity",         level: "Modelled", color: "#10b981", detail: "Illustrative itinerary gaps and partner availability; no transactions" },
 ];
 
 const PATTERN_INSIGHTS = [
   { insight: "Room readiness delays spike between 1:30pm and 3:00pm across two properties.", sites: "Harbour Hotel · Coastal Holiday Park", action: "Pre-shift housekeeping briefing recommended" },
-  { insight: "Weather disruptions are creating service recovery moments in family bookings.", sites: "Coastal Holiday Park", action: "Proactive alternative pathway triggered for weather-sensitive bookings" },
+  { insight: "Illustrative weather disruptions could create recovery moments in family bookings.", sites: "Coastal Holiday Park", action: "Proposed alternative pathway for human review; not triggered" },
   { insight: "Unresolved guest requests are more likely to escalate when no owner is assigned within 12 minutes.", sites: "All sites", action: "Assignment threshold review recommended" },
   { insight: "Checkout sentiment improves when recovery action is completed before departure.", sites: "City Corporate Hotel · Harbour Hotel", action: "Pre-departure recovery window flagged in escalation logic" },
 ];
@@ -39,7 +41,7 @@ const ROLE_VIEWS = [
   { role: "Frontline staff", color: "#c9a84c", sees: "Assigned actions only. What to do, who to tell, when to escalate.", icon: "◎" },
   { role: "Property manager", color: "#10b981", sees: "Escalation watch and site performance. Open moments, overdue actions, today's outcome log.", icon: "◈" },
   { role: "Operator executive", color: "#3b82f6", sees: "Multi-site patterns, value proof and risk. Portfolio view across all properties.", icon: "◆" },
-  { role: "Partner / funder", color: "#a78bfa", sees: "De-identified assurance and deployment evidence. Pilot metrics and recovery effectiveness.", icon: "◍" },
+  { role: "Partner / funder", color: "#a78bfa", sees: "Proposed de-identified assurance view. All pilot metrics and recovery examples here are illustrative.", icon: "◍" },
 ];
 
 const STAGE3_FLOW = [
@@ -54,9 +56,10 @@ const STAGE3_FLOW = [
 ];
 
 export default function PartnerStage3Preview() {
+  const [view, setView] = useState<"today" | "stage3">("stage3");
   return (
     <PartnerRoomLayout>
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "72px 32px 140px" }}>
+      <div className="rtbx-page-pad" style={{ maxWidth: 1280, margin: "0 auto", padding: "72px 32px 140px" }}>
 
         {/* Breadcrumb */}
         <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10, display: "flex", gap: 8, alignItems: "center" }}>
@@ -69,14 +72,14 @@ export default function PartnerStage3Preview() {
         <div style={{ marginBottom: 40 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
             <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#a78bfa", border: "1px solid rgba(167,139,250,0.3)", padding: "3px 10px" }}>
-              Future-State Operating Preview
+              JALDO · Future-State Operating Preview
             </div>
           </div>
           <h1 style={{ fontSize: 34, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", marginBottom: 14, lineHeight: 1.1 }}>
-            Stage 3 Operating Layer Preview
+            JALDO Stage 3 · Connected scenario
           </h1>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.45)", lineHeight: 1.8, maxWidth: 720, marginBottom: 24 }}>
-            What JALDO Travel becomes after the Moment Response workflow is validated and approved integrations are connected.
+            Compare today’s working demonstration with a proposed future-state walkthrough for Travel and a clearly unapproved Enterprise concept.
           </p>
 
           {/* Disclaimer */}
@@ -89,7 +92,7 @@ export default function PartnerStage3Preview() {
             marginBottom: 12,
           }}>
             <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.4)", lineHeight: 1.7, margin: 0 }}>
-              This preview shows the intended Stage 3 operating layer once the Moment Response workflow has been validated and approved integrations are connected. It is not presented as the current MVP.
+              Stage 3 is planned. All people, properties, signals, decisions, assignments, notifications, outcomes and metrics here are simulated. No live integration, message, task, partner request, room allocation or private-support action occurs. Enterprise is a proposed concept, not approved roadmap scope.
             </p>
           </div>
 
@@ -105,6 +108,30 @@ export default function PartnerStage3Preview() {
           </Link>
         </div>
 
+        <div role="group" aria-label="Demo view" style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 24 }}>
+          <button type="button" aria-pressed={view === "today"} onClick={() => setView("today")} style={{ padding: "12px 18px", cursor: "pointer", border: "1px solid #c9a84c", background: view === "today" ? "#c9a84c" : "transparent", color: view === "today" ? "#101113" : "#c9a84c", fontWeight: 700 }}>
+            Explore today · Working Proof
+          </button>
+          <button type="button" aria-pressed={view === "stage3"} onClick={() => setView("stage3")} style={{ padding: "12px 18px", cursor: "pointer", border: "1px solid #a78bfa", background: view === "stage3" ? "#a78bfa" : "transparent", color: view === "stage3" ? "#101113" : "#a78bfa", fontWeight: 700 }}>
+            Experience Stage 3 · Planned simulation
+          </button>
+        </div>
+
+        {view === "today" ? (
+          <section aria-label="Explore today" style={{ border: "1px solid rgba(201,168,76,0.3)", padding: 24, marginBottom: 48, background: "rgba(201,168,76,0.04)" }}>
+            <h2 style={{ fontSize: 22, color: "#fff", margin: "0 0 12px" }}>Explore today · unchanged Working Proof</h2>
+            <p style={{ color: "rgba(255,255,255,0.72)", lineHeight: 1.7, maxWidth: 760 }}>The existing JALDO Travel demonstration remains available at its original routes. It uses synthetic inputs and local interface state only; no external actions are dispatched.</p>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
+              <Link href="/partner-room/guest-demo" style={{ color: "#c9a84c", padding: "12px 16px", border: "1px solid rgba(201,168,76,0.5)" }}>Open the current guest journey →</Link>
+              <Link href={WORKING_PROOF_PATH} style={{ color: "#c9a84c", padding: "12px 16px", border: "1px solid rgba(201,168,76,0.5)" }}>Open the current Working Proof →</Link>
+            </div>
+          </section>
+        ) : (
+          <>
+            <Stage3ScenarioExperience />
+            <details style={{ marginTop: 48 }}>
+              <summary style={{ cursor: "pointer", color: "#c9a84c", fontSize: 14, fontWeight: 700, padding: "16px 0" }}>Explore the documented Travel roadmap reference · illustrative only</summary>
+              <p style={{ color: "rgba(255,255,255,0.65)", lineHeight: 1.7 }}>This reference is a simulated future-state model, not current delivery. Marketplace and loyalty concepts are expansion-only. Enterprise workplace risk and private support are proposed concepts, not approved Travel roadmap capabilities.</p>
         {/* Section A: Multi-Site Operator View */}
         <div style={{ marginBottom: 72 }}>
           <div style={{ marginBottom: 18 }}>
@@ -120,7 +147,7 @@ export default function PartnerStage3Preview() {
               padding: "10px 20px", background: "rgba(255,255,255,0.03)",
               borderBottom: "1px solid rgba(255,255,255,0.06)",
             }}>
-              {["Property", "Open", "Escalated", "Closed today", "Value protected", "Risk level"].map(h => (
+              {["Illustrative property", "Open · modelled", "Escalated", "Closed · modelled", "Value · illustrative", "Risk level"].map(h => (
                 <div key={h} style={{ fontSize: 7.5, letterSpacing: "0.12em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700 }}>{h}</div>
               ))}
             </div>
@@ -146,7 +173,7 @@ export default function PartnerStage3Preview() {
           </div>
           </div>
           <div style={{ fontSize: 9, color: "rgba(255,255,255,0.18)", marginTop: 8, fontStyle: "italic" }}>
-            Illustrative multi-site view. Values shown are for demonstration purposes only.
+            Synthetic multi-site model. Names, counts, risk and £ values are illustrative hypotheses, not measured results or completed actions.
           </div>
         </div>
 
@@ -221,7 +248,7 @@ export default function PartnerStage3Preview() {
             <div style={{ fontSize: 8, letterSpacing: "0.18em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase", fontWeight: 700, marginBottom: 6 }}>Section D</div>
             <div style={{ fontSize: 17, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", marginBottom: 6 }}>Pattern Insights</div>
             <p style={{ fontSize: 12, color: "rgba(255,255,255,0.28)", lineHeight: 1.65, maxWidth: 600, margin: 0 }}>
-              Patterns identified from accumulated signal and outcome data. Not presented as predictive automation.
+              Illustrative pattern hypotheses from synthetic signal and outcome examples. No accumulated customer data or predictive automation.
             </p>
           </div>
 
@@ -326,6 +353,9 @@ export default function PartnerStage3Preview() {
           </div>
         </div>
 
+            </details>
+          </>
+        )}
       </div>
     </PartnerRoomLayout>
   );

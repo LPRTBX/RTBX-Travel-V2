@@ -1,6 +1,6 @@
 kind = "web"
 previewPath = "/"
-title = "RTBX Travel Partner Room"
+title = "JALDO Travel Partner Room"
 version = "1.0.0"
 id = "artifacts/welbx"
 router = "path"
