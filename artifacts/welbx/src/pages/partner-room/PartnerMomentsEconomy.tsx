@@ -26,7 +26,7 @@ const MOMENTS: Moment[] = [
     id: "arrival-friction",
     title: "Arrival Friction",
     icon: "◎",
-    color: "#c9a84c",
+    color: "#a8dedb",
     signal: "Synthetic early-arrival signal + illustrative room-readiness delay + loyalty tier + elevated front-desk load",
     context: "Illustrative loyalty tier, early-arrival window and front-desk load applied",
     classification: "HIGH_RISK_ARRIVAL — synthetic service-recovery window for review",
@@ -90,7 +90,7 @@ const MOMENTS: Moment[] = [
     id: "dining-activation",
     title: "Dining Activation",
     icon: "◇",
-    color: "#c9a84c",
+    color: "#a8dedb",
     signal: "Synthetic dwell window + illustrative free period + guest dining preference + modelled propensity indicator",
     context: "Illustrative dwell window, loyalty profile and propensity score applied",
     classification: "COMMERCIAL_ACTIVATION — proposed dining recommendation for human review",
@@ -170,7 +170,7 @@ export default function PartnerMomentsEconomy() {
 
         {/* Header */}
         <div style={{ marginBottom: 52 }}>
-          <div style={{ fontSize: 9, letterSpacing: "0.22em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>
+          <div style={{ fontSize: 9, letterSpacing: "0.22em", color: "#a8dedb", textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>
             Product Proof · Core Systems
           </div>
           <h1 style={{ fontSize: 36, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 20, maxWidth: 680 }}>
@@ -182,9 +182,9 @@ export default function PartnerMomentsEconomy() {
           <p style={{ fontSize: 12, color: "rgba(255,255,255,0.28)", lineHeight: 1.6, maxWidth: 500, marginTop: 12 }}>
             Select a moment below to explore a synthetic classification, proposed action and illustrative evidence state.
           </p>
-          <div style={{ marginTop: 18, padding: "12px 16px", border: "1px solid rgba(201,168,76,0.25)", borderLeft: "3px solid #c9a84c", background: "rgba(201,168,76,0.04)", maxWidth: 760 }}>
+          <div style={{ marginTop: 18, padding: "12px 16px", border: "1px solid rgba(168,222,219,0.25)", borderLeft: "3px solid #a8dedb", background: "rgba(168,222,219,0.04)", maxWidth: 760 }}>
             <p style={{ margin: 0, fontSize: 11.5, color: "rgba(255,255,255,0.58)", lineHeight: 1.65 }}>
-              <strong style={{ color: "#c9a84c" }}>Simulation boundary:</strong> every signal, action, outcome and assurance record on this page is illustrative. No guest message, staff task, welfare action, partner activation or external-system update is dispatched.
+              <strong style={{ color: "#a8dedb" }}>Simulation boundary:</strong> every signal, action, outcome and assurance record on this page is illustrative. No guest message, staff task, welfare action, partner activation or external-system update is dispatched.
             </p>
           </div>
         </div>
@@ -217,7 +217,7 @@ export default function PartnerMomentsEconomy() {
         </div>
 
         {/* Positioning callout */}
-        <div style={{ padding: "14px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderLeft: "3px solid #c9a84c", marginBottom: 2 }}>
+        <div style={{ padding: "14px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderLeft: "3px solid #a8dedb", marginBottom: 2 }}>
           <p style={{ fontSize: 12, color: "rgba(255,255,255,0.6)", lineHeight: 1.7, margin: 0 }}>
             Moments are classified by the Context and Moment Layer — a Travel-configured layer of JALDO Core. A moment is not a notification or an alert. It is a classified signal cluster with risk level, value at stake, and governance requirements that determine the response path.
           </p>
@@ -311,9 +311,9 @@ export default function PartnerMomentsEconomy() {
               padding: "28px 24px",
               background: "rgba(255,255,255,0.02)",
               border: "1px solid rgba(255,255,255,0.06)",
-              borderTop: "2px solid rgba(201,168,76,0.3)",
+              borderTop: "2px solid rgba(168,222,219,0.3)",
             }}>
-              <div style={{ fontSize: 32, fontWeight: 800, color: "#c9a84c", marginBottom: 8, letterSpacing: "-0.02em" }}>{stat.num}</div>
+              <div style={{ fontSize: 32, fontWeight: 800, color: "#a8dedb", marginBottom: 8, letterSpacing: "-0.02em" }}>{stat.num}</div>
               <div style={{ fontSize: 12, fontWeight: 600, color: "#fff", marginBottom: 4 }}>{stat.label}</div>
               <div style={{ fontSize: 10, color: "rgba(255,255,255,0.3)", letterSpacing: "0.06em" }}>{stat.sub}</div>
             </div>
@@ -329,15 +329,15 @@ export default function PartnerMomentsEconomy() {
             <div style={{
               display: "inline-flex", alignItems: "center", gap: 12,
               padding: "14px 20px",
-              background: "rgba(201,168,76,0.04)",
-              border: "1px solid rgba(201,168,76,0.18)",
+              background: "rgba(168,222,219,0.04)",
+              border: "1px solid rgba(168,222,219,0.18)",
               cursor: "pointer", transition: "all 0.15s",
             }}
-            onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(201,168,76,0.08)"; el.style.borderColor = "rgba(201,168,76,0.3)"; }}
-            onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(201,168,76,0.04)"; el.style.borderColor = "rgba(201,168,76,0.18)"; }}
+            onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(168,222,219,0.08)"; el.style.borderColor = "rgba(168,222,219,0.3)"; }}
+            onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(168,222,219,0.04)"; el.style.borderColor = "rgba(168,222,219,0.18)"; }}
             >
               <div>
-                <div style={{ fontSize: 10.5, fontWeight: 700, color: "#c9a84c", marginBottom: 2 }}>How JALDO Travel Captures Signals →</div>
+                <div style={{ fontSize: 10.5, fontWeight: 700, color: "#a8dedb", marginBottom: 2 }}>How JALDO Travel Captures Signals →</div>
                 <div style={{ fontSize: 10, color: "rgba(255,255,255,0.28)", lineHeight: 1.4 }}>Seven signal sources · Signal pipeline · MVP vs Pilot Phase · Deployment stages</div>
               </div>
             </div>

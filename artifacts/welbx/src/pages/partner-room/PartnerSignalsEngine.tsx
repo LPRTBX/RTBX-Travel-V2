@@ -16,7 +16,7 @@ const DEFAULT_LOGIC_CHAIN = [
 ];
 
 const CATEGORY_COLORS: Record<string, string> = {
-  guest: "#c9a84c",
+  guest: "#a8dedb",
   workforce: "#3b82f6",
   operational: "#10b981",
   commercial: "#a78bfa",
@@ -48,7 +48,7 @@ export default function PartnerSignalsEngine() {
         </div>
 
         {/* Positioning callout */}
-        <div style={{ padding: "16px 20px", background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.18)", borderLeft: "3px solid #c9a84c", marginBottom: 32 }}>
+        <div style={{ padding: "16px 20px", background: "rgba(168,222,219,0.06)", border: "1px solid rgba(168,222,219,0.18)", borderLeft: "3px solid #a8dedb", marginBottom: 32 }}>
           <p style={{ fontSize: 13, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, margin: 0, fontWeight: 600 }}>
             The Travel Signal Registry is the Travel configuration of the JALDO Core Connection Layer. Every signal is classified, scored and mapped to the Context and Moment Layer — where it becomes part of a moment classification. No signal generates a response on its own.
           </p>
@@ -75,10 +75,10 @@ export default function PartnerSignalsEngine() {
               <div key={node.label} style={{ display: "flex", alignItems: "center", gap: 6 }}>
                 <div style={{
                   padding: "10px 14px",
-                  background: i === 0 ? "rgba(59,130,246,0.08)" : i === arr.length - 1 ? "rgba(201,168,76,0.08)" : "rgba(255,255,255,0.02)",
-                  border: `1px solid ${i === 0 ? "rgba(59,130,246,0.3)" : i === arr.length - 1 ? "rgba(201,168,76,0.3)" : "rgba(255,255,255,0.1)"}`,
+                  background: i === 0 ? "rgba(59,130,246,0.08)" : i === arr.length - 1 ? "rgba(168,222,219,0.08)" : "rgba(255,255,255,0.02)",
+                  border: `1px solid ${i === 0 ? "rgba(59,130,246,0.3)" : i === arr.length - 1 ? "rgba(168,222,219,0.3)" : "rgba(255,255,255,0.1)"}`,
                 }}>
-                  <div style={{ fontSize: 10.5, fontWeight: 700, color: i === 0 ? "#3b82f6" : i === arr.length - 1 ? "#c9a84c" : "#fff", marginBottom: 3 }}>{node.label}</div>
+                  <div style={{ fontSize: 10.5, fontWeight: 700, color: i === 0 ? "#3b82f6" : i === arr.length - 1 ? "#a8dedb" : "#fff", marginBottom: 3 }}>{node.label}</div>
                   <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", lineHeight: 1.4 }}>{node.sub}</div>
                 </div>
                 {i < arr.length - 1 && <span style={{ fontSize: 11, color: "rgba(255,255,255,0.2)" }}>→</span>}
@@ -90,7 +90,7 @@ export default function PartnerSignalsEngine() {
         {/* Signal category sections */}
         <div style={{ marginBottom: 80, display: "flex", flexDirection: "column", gap: 2 }}>
           {SIGNAL_CATEGORIES.filter(c => ["guest", "workforce", "operational", "commercial"].includes(c.id)).map(cat => {
-            const color = CATEGORY_COLORS[cat.id] ?? "#c9a84c";
+            const color = CATEGORY_COLORS[cat.id] ?? "#a8dedb";
             return (
               <div key={cat.id} style={{
                 border: "1px solid rgba(255,255,255,0.06)",
@@ -135,7 +135,7 @@ export default function PartnerSignalsEngine() {
                       </div>
                       <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)" }}>{sig.source}</div>
                       <div style={{ fontSize: 11, color: color, fontWeight: 600 }}>{sig.frequency}</div>
-                      <div style={{ fontSize: 12, fontWeight: 700, color: sig.confidence >= 90 ? "#10b981" : sig.confidence >= 75 ? "#c9a84c" : "rgba(255,255,255,0.5)" }}>
+                      <div style={{ fontSize: 12, fontWeight: 700, color: sig.confidence >= 90 ? "#10b981" : sig.confidence >= 75 ? "#a8dedb" : "rgba(255,255,255,0.5)" }}>
                         {sig.confidence}%
                       </div>
                       <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.35)", lineHeight: 1.5 }}>
@@ -183,15 +183,15 @@ export default function PartnerSignalsEngine() {
             <div style={{
               display: "inline-flex", alignItems: "center", gap: 12,
               padding: "14px 20px",
-              background: "rgba(201,168,76,0.04)",
-              border: "1px solid rgba(201,168,76,0.18)",
+              background: "rgba(168,222,219,0.04)",
+              border: "1px solid rgba(168,222,219,0.18)",
               cursor: "pointer", transition: "all 0.15s",
             }}
-            onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(201,168,76,0.08)"; el.style.borderColor = "rgba(201,168,76,0.3)"; }}
-            onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(201,168,76,0.04)"; el.style.borderColor = "rgba(201,168,76,0.18)"; }}
+            onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(168,222,219,0.08)"; el.style.borderColor = "rgba(168,222,219,0.3)"; }}
+            onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(168,222,219,0.04)"; el.style.borderColor = "rgba(168,222,219,0.18)"; }}
             >
               <div>
-                <div style={{ fontSize: 10.5, fontWeight: 700, color: "#c9a84c", marginBottom: 2 }}>How JALDO Travel Captures Signals →</div>
+                <div style={{ fontSize: 10.5, fontWeight: 700, color: "#a8dedb", marginBottom: 2 }}>How JALDO Travel Captures Signals →</div>
                 <div style={{ fontSize: 10, color: "rgba(255,255,255,0.28)", lineHeight: 1.4 }}>Seven signal sources · Pipeline diagram · MVP vs Pilot · Deployment path</div>
               </div>
             </div>

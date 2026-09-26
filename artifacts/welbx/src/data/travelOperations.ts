@@ -530,7 +530,7 @@ export const TRAVEL_VALUE_CATEGORIES: TravelValueCategory[] = [
   {
     id: "commercial",
     label: "Commercial",
-    color: "#c9a84c",
+    color: "#a8dedb",
     measures: [
       { id: "partner-activations",  label: "Partner activations",       value: "4 this week", demo: true },
       { id: "ancillary-opportunities", label: "Ancillary revenue opportunities", value: "9 identified", demo: true },

@@ -10,7 +10,7 @@ const PROOF_MODES = [
   {
     num: "01",
     label: "Travel Scenario Library",
-    color: "#c9a84c",
+    color: "#a8dedb",
     desc: "Inspect one canonical scenario definition, then hand it to configuration or the single Execution Centre runtime.",
     href: travelScenarioPath("repeat-guest-room-not-ready"),
     cta: "Open Scenario Detail",
@@ -45,7 +45,7 @@ const CORE_SYSTEMS = [
   {
     label: "Moment Economy",
     tag: "Brief",
-    tagColor: "#c9a84c",
+    tagColor: "#a8dedb",
     href: "/partner-room/moments-economy",
     does: "Categorises every guest interaction into one of ten moment types — from arrival friction to welfare, revenue activation and VIP service.",
     matters: "The moment layer is what turns raw signal data into something a system can act on with a governed, repeatable response.",
@@ -53,7 +53,7 @@ const CORE_SYSTEMS = [
   {
     label: "Signals Engine Brief",
     tag: "Brief",
-    tagColor: "#c9a84c",
+    tagColor: "#a8dedb",
     href: "/partner-room/signals-engine",
     does: "Captures staff, guest and operator-entered signals first, then approved PMS, POS, workforce, messaging and environmental integrations over time — converting captured signals into classified moments.",
     matters: "Without a structured signal layer, operators are reactive. With it, JALDO Core acts before the guest needs to say anything.",
@@ -61,7 +61,7 @@ const CORE_SYSTEMS = [
   {
     label: "Signal Capture — How JALDO Collects Signals",
     tag: "Brief",
-    tagColor: "#c9a84c",
+    tagColor: "#a8dedb",
     href: "/partner-room/product-proof/signal-capture",
     does: "Explains the seven signal sources, the pipeline from intake to assurance log, what is real for MVP vs pilot phase, and the four-stage deployment path.",
     matters: "A partner or funder needs to understand exactly how JALDO captures signals now and why the push-first MVP is a credible first step — not a fake automation claim.",
@@ -77,7 +77,7 @@ const CORE_SYSTEMS = [
   {
     label: "Intervention Library",
     tag: "Brief",
-    tagColor: "#c9a84c",
+    tagColor: "#a8dedb",
     href: "/partner-room/signals-engine",
     does: "A library of pre-built and configurable response playbooks — one for every moment category, risk level and deployment environment.",
     matters: "Operators don't need to write protocols from scratch. The library gives them a tested, editable starting point for every scenario.",
@@ -93,7 +93,7 @@ const CORE_SYSTEMS = [
   {
     label: "Registry & Assurance Layer",
     tag: "Brief",
-    tagColor: "#c9a84c",
+    tagColor: "#a8dedb",
     href: "/partner-room/signals-engine",
     does: "Logs every resolution with evidence — who actioned it, when, what outcome was reached, and what value was captured.",
     matters: "Operators and funders need evidence the designed capability performs as intended. The registry creates an auditable record for every moment handled in the synthetic demonstration, subject to pilot validation.",
@@ -169,7 +169,7 @@ function SystemCard({ sys }: { sys: typeof CORE_SYSTEMS[0] }) {
       display: "flex", flexDirection: "column",
       transition: "border-color 0.15s",
     }}
-    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(201,168,76,0.18)"; }}
+    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(168,222,219,0.18)"; }}
     onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.06)"; }}
     >
       <div className="rtbx-responsive-card-header" style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 10, marginBottom: 16 }}>
@@ -198,11 +198,11 @@ function SystemCard({ sys }: { sys: typeof CORE_SYSTEMS[0] }) {
       <Link href={sys.href}>
         <div style={{
           fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase",
-          color: "#c9a84c", cursor: "pointer", transition: "color 0.12s",
+          color: "#a8dedb", cursor: "pointer", transition: "color 0.12s",
           display: "inline-flex", alignItems: "center", gap: 6,
         }}
-        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "#d4b35e"; }}
-        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = "#c9a84c"; }}
+        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "#c4eeea"; }}
+        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = "#a8dedb"; }}
         >
           View {sys.tag} →
         </div>
@@ -230,8 +230,8 @@ export default function PartnerProductProof() {
         </div>
 
         {/* Honesty statement */}
-        <div style={{ padding: "20px 24px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.08)", borderLeft: "3px solid #c9a84c", marginBottom: 48 }}>
-          <div style={{ fontSize: 11, letterSpacing: "0.14em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
+        <div style={{ padding: "20px 24px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.08)", borderLeft: "3px solid #a8dedb", marginBottom: 48 }}>
+          <div style={{ fontSize: 11, letterSpacing: "0.14em", color: "#a8dedb", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
             What This Proof Shows
           </div>
           <p style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", lineHeight: 1.75, margin: 0 }}>
@@ -291,9 +291,9 @@ export default function PartnerProductProof() {
               },
             ].map(stage => (
               <div key={stage.stageLabel} style={{ border: "1px solid rgba(255,255,255,0.07)", overflow: "hidden" }}>
-                <div style={{ padding: "14px 22px", background: "rgba(201,168,76,0.05)", borderBottom: "1px solid rgba(255,255,255,0.06)", display: "flex", alignItems: "center", gap: 14 }}>
-                  <span style={{ fontSize: 11, fontWeight: 800, color: "rgba(201,168,76,0.4)", letterSpacing: "0.08em" }}>{stage.stageNum}</span>
-                  <span style={{ fontSize: 13, fontWeight: 700, color: "#c9a84c", letterSpacing: "0.04em", textTransform: "uppercase" }}>{stage.stageLabel}</span>
+                <div style={{ padding: "14px 22px", background: "rgba(168,222,219,0.05)", borderBottom: "1px solid rgba(255,255,255,0.06)", display: "flex", alignItems: "center", gap: 14 }}>
+                  <span style={{ fontSize: 11, fontWeight: 800, color: "rgba(168,222,219,0.4)", letterSpacing: "0.08em" }}>{stage.stageNum}</span>
+                  <span style={{ fontSize: 13, fontWeight: 700, color: "#a8dedb", letterSpacing: "0.04em", textTransform: "uppercase" }}>{stage.stageLabel}</span>
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
                   {stage.items.map((item, j) => (
@@ -331,20 +331,20 @@ export default function PartnerProductProof() {
           <Link href="/partner-room/guest-demo">
              <div className="rtbx-responsive-split" style={{
               padding: "28px 32px",
-              background: "rgba(201,168,76,0.06)",
-              border: "1px solid rgba(201,168,76,0.28)",
-              borderTop: "2px solid #c9a84c",
+              background: "rgba(168,222,219,0.06)",
+              border: "1px solid rgba(168,222,219,0.28)",
+              borderTop: "2px solid #a8dedb",
               display: "flex", alignItems: "center", justifyContent: "space-between", gap: 32,
               cursor: "pointer", transition: "all 0.15s",
             }}
-            onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(201,168,76,0.1)"; el.style.borderColor = "rgba(201,168,76,0.45)"; }}
-            onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(201,168,76,0.06)"; el.style.borderColor = "rgba(201,168,76,0.28)"; }}
+            onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(168,222,219,0.1)"; el.style.borderColor = "rgba(168,222,219,0.45)"; }}
+            onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(168,222,219,0.06)"; el.style.borderColor = "rgba(168,222,219,0.28)"; }}
             >
               <div style={{ flex: 1 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                    <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#c9a84c" }} />
-                    <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#c9a84c" }}>Working Proof</span>
+                    <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#a8dedb" }} />
+                    <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#a8dedb" }}>Working Proof</span>
                   </div>
                   <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.3)", border: "1px solid rgba(255,255,255,0.1)", padding: "2px 8px" }}>Simulation</div>
                 </div>
@@ -360,7 +360,7 @@ export default function PartnerProductProof() {
               </div>
                <div className="rtbx-responsive-cta" style={{
                 padding: "12px 24px", fontSize: 11, fontWeight: 700, letterSpacing: "0.08em",
-                textTransform: "uppercase", color: "#c9a84c", border: "1px solid rgba(201,168,76,0.4)",
+                textTransform: "uppercase", color: "#a8dedb", border: "1px solid rgba(168,222,219,0.4)",
                 whiteSpace: "nowrap", flexShrink: 0,
               }}>
                 Open Working Proof →
@@ -421,22 +421,22 @@ export default function PartnerProductProof() {
             {/* Card 1: Working Proof */}
             <Link href="/partner-room/guest-demo">
               <div style={{
-                padding: "28px 24px", background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.2)",
-                borderTop: "2px solid #c9a84c", display: "flex", flexDirection: "column", height: "100%",
+                padding: "28px 24px", background: "rgba(168,222,219,0.06)", border: "1px solid rgba(168,222,219,0.2)",
+                borderTop: "2px solid #a8dedb", display: "flex", flexDirection: "column", height: "100%",
                 cursor: "pointer", transition: "all 0.15s",
               }}
-              onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(201,168,76,0.1)"; el.style.borderColor = "rgba(201,168,76,0.38)"; }}
-              onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(201,168,76,0.06)"; el.style.borderColor = "rgba(201,168,76,0.2)"; }}
+              onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(168,222,219,0.1)"; el.style.borderColor = "rgba(168,222,219,0.38)"; }}
+              onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(168,222,219,0.06)"; el.style.borderColor = "rgba(168,222,219,0.2)"; }}
               >
                 <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 14 }}>
-                  <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#c9a84c", flexShrink: 0 }} />
-                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#c9a84c" }}>Working Proof</div>
+                  <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#a8dedb", flexShrink: 0 }} />
+                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#a8dedb" }}>Working Proof</div>
                 </div>
                 <div style={{ fontSize: 14, fontWeight: 800, color: "#fff", marginBottom: 12, lineHeight: 1.3 }}>Moment Response Working Proof</div>
                 <p style={{ fontSize: 13, color: "rgba(255,255,255,0.42)", lineHeight: 1.65, flex: 1, marginBottom: 20 }}>
                   An interactive, synthetic walkthrough of capture, classification, assignment, drafted guest communication, escalation and evidence logging.
                 </p>
-                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#c9a84c" }}>Open Working Proof →</div>
+                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#a8dedb" }}>Open Working Proof →</div>
               </div>
             </Link>
             {/* Card 2: Pilot Expansion */}
@@ -505,7 +505,7 @@ export default function PartnerProductProof() {
                 <div style={{ fontSize: 13, fontWeight: 700, color: "#fff", marginBottom: 8, lineHeight: 1.35 }}>{w.label}</div>
                 <p style={{ fontSize: 12, color: "rgba(255,255,255,0.38)", lineHeight: 1.6, flex: 1, marginBottom: 16 }}>{w.desc}</p>
                 <Link href={w.href}>
-                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#c9a84c", cursor: "pointer" }}>{w.cta} →</div>
+                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#a8dedb", cursor: "pointer" }}>{w.cta} →</div>
                 </Link>
               </div>
             ))}

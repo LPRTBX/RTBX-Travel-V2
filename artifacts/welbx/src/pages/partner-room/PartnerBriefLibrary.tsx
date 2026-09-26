@@ -15,7 +15,7 @@ import { useState } from "react";
 import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 
-const C = { muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,255,0.22)", gold: "#c9a84c", green: "#10b981", blue: "#3b82f6" };
+const C = { muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,255,0.22)", gold: "#a8dedb", green: "#10b981", blue: "#3b82f6" };
 
 export type PartnerResourceAccessLevel = "general-partner" | "pilot-partner" | "technical-partner" | "deployment-partner" | "commercially-restricted" | "internal-only";
 export type PartnerResourceMaturity = "draft" | "working" | "review" | "approved" | "archived";
@@ -46,7 +46,7 @@ const CLASSIFICATION_LABELS: Record<PartnerResourceAccessLevel, string> = {
 
 const CLASSIFICATION_COLORS: Record<PartnerResourceAccessLevel, string> = {
   "general-partner":         "#10b981",
-  "pilot-partner":           "#c9a84c",
+  "pilot-partner":           "#a8dedb",
   "technical-partner":       "#3b82f6",
   "deployment-partner":      "#a78bfa",
   "commercially-restricted": "#f97316",
@@ -56,7 +56,7 @@ const CLASSIFICATION_COLORS: Record<PartnerResourceAccessLevel, string> = {
 const MATURITY_COLORS: Record<PartnerResourceMaturity, string> = {
   "draft":    "rgba(255,255,255,0.3)",
   "working":  "#3b82f6",
-  "review":   "#c9a84c",
+  "review":   "#a8dedb",
   "approved": "#10b981",
   "archived": "rgba(255,255,255,0.2)",
 };
@@ -313,13 +313,13 @@ export default function PartnerBriefLibrary() {
           <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
             <div
               onClick={() => setClassFilter(null)}
-              style={{ padding: "5px 12px", fontSize: 9, fontWeight: 700, cursor: "pointer", color: !classFilter ? "#080c14" : "rgba(255,255,255,0.4)", background: !classFilter ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.03)", border: `1px solid ${!classFilter ? "rgba(255,255,255,0.6)" : "rgba(255,255,255,0.1)"}` }}
+              style={{ padding: "5px 12px", fontSize: 9, fontWeight: 700, cursor: "pointer", color: !classFilter ? "#102d39" : "rgba(255,255,255,0.4)", background: !classFilter ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.03)", border: `1px solid ${!classFilter ? "rgba(255,255,255,0.6)" : "rgba(255,255,255,0.1)"}` }}
             >All</div>
             {ALL_CLASSIFICATIONS.map(cls => (
               <div
                 key={cls}
                 onClick={() => setClassFilter(classFilter === cls ? null : cls)}
-                style={{ padding: "5px 12px", fontSize: 9, fontWeight: 700, cursor: "pointer", color: classFilter === cls ? "#080c14" : CLASSIFICATION_COLORS[cls], background: classFilter === cls ? CLASSIFICATION_COLORS[cls] : "rgba(255,255,255,0.02)", border: `1px solid ${CLASSIFICATION_COLORS[cls]}50` }}
+                style={{ padding: "5px 12px", fontSize: 9, fontWeight: 700, cursor: "pointer", color: classFilter === cls ? "#102d39" : CLASSIFICATION_COLORS[cls], background: classFilter === cls ? CLASSIFICATION_COLORS[cls] : "rgba(255,255,255,0.02)", border: `1px solid ${CLASSIFICATION_COLORS[cls]}50` }}
               >{CLASSIFICATION_LABELS[cls]}</div>
             ))}
           </div>

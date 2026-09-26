@@ -16,7 +16,7 @@
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 import { Link } from "wouter";
 
-const C = { muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,255,0.22)", gold: "#c9a84c", green: "#10b981", blue: "#3b82f6" };
+const C = { muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,255,0.22)", gold: "#a8dedb", green: "#10b981", blue: "#3b82f6" };
 
 function SectionLabel({ children }: { children: string }) {
   return <div style={{ fontSize: 8.5, letterSpacing: "0.2em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>{children}</div>;
@@ -150,7 +150,7 @@ export default function PartnerNextStep() {
         <div style={{ display: "flex", gap: 4, flexWrap: "wrap", marginBottom: 48 }}>
           {ENGAGEMENTS.map(eng => (
             <a key={eng.id} href={`#${eng.id}`} style={{ textDecoration: "none" }}>
-              <div style={{ padding: eng.primary ? "9px 16px" : "7px 14px", fontSize: 9.5, fontWeight: 700, color: eng.primary ? "#080c14" : eng.color, border: `1px solid ${eng.color}40`, background: eng.primary ? eng.color : `${eng.color}08`, cursor: "pointer" }}>
+              <div style={{ padding: eng.primary ? "9px 16px" : "7px 14px", fontSize: 9.5, fontWeight: 700, color: eng.primary ? "#102d39" : eng.color, border: `1px solid ${eng.color}40`, background: eng.primary ? eng.color : `${eng.color}08`, cursor: "pointer" }}>
                 {eng.primary ? "Explore a Design Partnership" : `${eng.label} ${eng.name}`}
               </div>
             </a>
@@ -160,7 +160,7 @@ export default function PartnerNextStep() {
         {/* ── ENGAGEMENTS ── */}
         <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
           {ENGAGEMENTS.map(eng => (
-            <div key={eng.id} id={eng.id} style={{ scrollMarginTop: 90, padding: eng.primary ? "34px 32px" : "28px 28px", background: eng.primary ? "rgba(201,168,76,0.08)" : "rgba(255,255,255,0.02)", border: `1px solid ${eng.primary ? "rgba(201,168,76,0.36)" : "rgba(255,255,255,0.06)"}`, borderLeft: `4px solid ${eng.color}`, boxShadow: eng.primary ? "0 18px 44px rgba(0,0,0,0.24)" : "none" }}>
+            <div key={eng.id} id={eng.id} style={{ scrollMarginTop: 90, padding: eng.primary ? "34px 32px" : "28px 28px", background: eng.primary ? "rgba(168,222,219,0.08)" : "rgba(255,255,255,0.02)", border: `1px solid ${eng.primary ? "rgba(168,222,219,0.36)" : "rgba(255,255,255,0.06)"}`, borderLeft: `4px solid ${eng.color}`, boxShadow: eng.primary ? "0 18px 44px rgba(0,0,0,0.24)" : "none" }}>
               <div style={{ display: "flex", alignItems: "flex-start", gap: 16, marginBottom: 16, flexWrap: "wrap" }}>
                 <div style={{ width: 36, height: 36, borderRadius: "50%", background: `${eng.color}12`, border: `1px solid ${eng.color}40`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 800, color: eng.color, flexShrink: 0 }}>
                   {eng.label}
@@ -214,13 +214,13 @@ export default function PartnerNextStep() {
         </div>
 
         {/* ── WORKING PROOF ── */}
-        <div style={{ marginTop: 48, padding: "22px 24px", background: "rgba(201,168,76,0.04)", border: "1px solid rgba(201,168,76,0.2)" }}>
+        <div style={{ marginTop: 48, padding: "22px 24px", background: "rgba(168,222,219,0.04)", border: "1px solid rgba(168,222,219,0.2)" }}>
           <div style={{ fontSize: 13, fontWeight: 800, color: "#fff", marginBottom: 8 }}>Not ready for a conversation yet?</div>
           <p style={{ fontSize: 11.5, color: C.muted, lineHeight: 1.65, marginBottom: 16 }}>
             Explore the working proof first. The Execution Centre, Build & Configure and the scenario library are all available to try directly.
           </p>
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-            <Link href="/partner-room/operations"><div style={{ padding: "9px 18px", background: C.gold, fontSize: 10, fontWeight: 700, color: "#080c14", cursor: "pointer" }}>Try the Execution Centre →</div></Link>
+            <Link href="/partner-room/operations"><div style={{ padding: "9px 18px", background: C.gold, fontSize: 10, fontWeight: 700, color: "#102d39", cursor: "pointer" }}>Try the Execution Centre →</div></Link>
             <Link href="/partner-room/build-configure"><div style={{ padding: "9px 18px", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.12)", fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.65)", cursor: "pointer" }}>Build & Configure →</div></Link>
             <Link href="/partner-room/pilot-model"><div style={{ padding: "9px 18px", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.12)", fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.55)", cursor: "pointer" }}>Review the Pilot Model →</div></Link>
           </div>

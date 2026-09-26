@@ -66,7 +66,7 @@ describe("JALDO Travel release blocker regressions", () => {
     const story = source("src/pages/StoryHub.tsx");
     const styles = source("src/index.css");
     expect(story).toContain('className="rtbx-story-page"');
-    expect(story).toContain('className="rtbx-story-grid"');
+    expect(story).toMatch(/className="rtbx-story-grid(?: [^"]*)?"/);
     expect(story).toContain('key={`${mode.path}-${mode.label}`}');
     expect(story).toContain('flexWrap: "wrap"');
     expect(styles).toContain(".rtbx-story-grid");

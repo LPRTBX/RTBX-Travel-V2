@@ -20,7 +20,7 @@ const SCENARIO_MESSAGES: Record<string, { headline: string; trigger: string; mes
       { recipient: "Front Desk", role: "Staff App", color: "#10b981", channel: "Proposed Staff Draft", content: "Proposed room-delay response for human review: assess lounge availability and consider a ten-minute update cadence.", time: "14:02", status: "proposed" },
       { recipient: "Housekeeping", role: "Staff App", color: "#10b981", channel: "Proposed Priority Draft", content: "Proposed priority review: a named housekeeping lead could assess Room 412 against other room-readiness needs.", time: "14:02", status: "proposed" },
       { recipient: "Duty Manager", role: "Manager Console", color: "#f97316", channel: "Proposed Alert Draft", content: "Modelled room-delay context for Duty Manager approval: review a possible escalation threshold at 14:30.", time: "14:03", status: "approval-required" },
-      { recipient: "Command", role: "Assurance Dashboard", color: "#c9a84c", channel: "Modelled Local Trace", content: "Modelled trace #4821 | SERVICE_RECOVERY | proposed review | synthetic delay input | no record created.", time: "14:03", status: "modelled" },
+      { recipient: "Command", role: "Assurance Dashboard", color: "#a8dedb", channel: "Modelled Local Trace", content: "Modelled trace #4821 | SERVICE_RECOVERY | proposed review | synthetic delay input | no record created.", time: "14:03", status: "modelled" },
       { recipient: "Guest (proposed follow-up)", role: "Guest View", color: "#3b82f6", channel: "Proposed Guest Draft", content: "Draft follow-up: a named operator could provide room-readiness details after human review. No key is sent.", time: "14:22", status: "draft" },
     ],
   },
@@ -31,9 +31,9 @@ const SCENARIO_MESSAGES: Record<string, { headline: string; trigger: string; mes
       { recipient: "Welfare Officer", role: "Staff App", color: "#10b981", channel: "Proposed Welfare Draft", content: "Proposed discreet welfare-check draft for named Welfare Officer review. No welfare action is created.", time: "10:15", status: "approval-required" },
       { recipient: "Duty Manager", role: "Manager Console", color: "#f97316", channel: "Proposed Alert Draft", content: "Modelled welfare context for Duty Manager review; a named human decides whether a check is appropriate.", time: "10:16", status: "approval-required" },
       { recipient: "Guest", role: "Guest View", color: "#3b82f6", channel: "Courtesy Draft", content: "Draft: Good morning Ms. Harper. Would you like to discuss comfort or support options with a named staff member?", time: "10:17", status: "draft" },
-      { recipient: "Command", role: "Assurance Dashboard", color: "#c9a84c", channel: "Modelled Local Trace", content: "Modelled trace #5503 | GUEST_WELFARE | rules classification | human review required | no record created.", time: "10:16", status: "modelled" },
+      { recipient: "Command", role: "Assurance Dashboard", color: "#a8dedb", channel: "Modelled Local Trace", content: "Modelled trace #5503 | GUEST_WELFARE | rules classification | human review required | no record created.", time: "10:16", status: "modelled" },
       { recipient: "Welfare Officer", role: "Staff App", color: "#10b981", channel: "Proposed Follow-up Draft", content: "Modelled follow-up prompt: a named Welfare Officer could document an outcome if a real check were approved.", time: "10:28", status: "proposed" },
-      { recipient: "Command", role: "Assurance Dashboard", color: "#c9a84c", channel: "Modelled Review Trace", content: "Modelled trace #5503 | outcome not measured | no closure or escalation recorded.", time: "10:28", status: "modelled" },
+      { recipient: "Command", role: "Assurance Dashboard", color: "#a8dedb", channel: "Modelled Review Trace", content: "Modelled trace #5503 | outcome not measured | no closure or escalation recorded.", time: "10:28", status: "modelled" },
     ],
   },
   "Staff response timeout — service request 14 min": {
@@ -45,7 +45,7 @@ const SCENARIO_MESSAGES: Record<string, { headline: string; trigger: string; mes
       { recipient: "Backup Staff", role: "Staff App", color: "#10b981", channel: "Proposed Reassignment Draft", content: "Proposed reassignment option for named staff review; no task is assigned.", time: "15:35", status: "proposed" },
       { recipient: "Guest", role: "Guest View", color: "#3b82f6", channel: "Proposed Apology Draft", content: "Draft apology: a named operator could review a delay update and possible goodwill option.", time: "15:35", status: "draft" },
       { recipient: "Duty Manager", role: "Manager Console", color: "#f97316", channel: "Proposed Staffing Draft", content: "Modelled staffing context for Duty Manager review; no performance conclusion or compensation is recorded.", time: "15:36", status: "approval-required" },
-      { recipient: "Command", role: "Assurance Dashboard", color: "#c9a84c", channel: "Modelled Local Trace", content: "Modelled trace #6701 | STAFF_TIMEOUT | proposed human review | no reassignment or record created.", time: "15:38", status: "modelled" },
+      { recipient: "Command", role: "Assurance Dashboard", color: "#a8dedb", channel: "Modelled Local Trace", content: "Modelled trace #6701 | STAFF_TIMEOUT | proposed human review | no reassignment or record created.", time: "15:38", status: "modelled" },
     ],
   },
   "VIP arrival — platinum guest suite": {
@@ -56,7 +56,7 @@ const SCENARIO_MESSAGES: Record<string, { headline: string; trigger: string; mes
       { recipient: "F&B", role: "Staff App", color: "#10b981", channel: "Proposed Setup Draft", content: "Draft suite-setup options for named F&B approval; no preferences are loaded and no preparation occurs.", time: "13:01", status: "proposed" },
       { recipient: "Duty Manager", role: "Manager Console", color: "#f97316", channel: "Proposed VIP Draft", content: "Modelled VIP context for Duty Manager approval; no notification is sent.", time: "13:02", status: "approval-required" },
       { recipient: "Mr. Harrison", role: "Guest View", color: "#3b82f6", channel: "Proposed Welcome Draft", content: "Draft welcome: a named concierge could be introduced after human approval. No guest message is sent.", time: "15:05", status: "draft" },
-      { recipient: "Command", role: "Assurance Dashboard", color: "#c9a84c", channel: "Modelled Local Trace", content: "Modelled trace #1104 | VIP_ARRIVAL | proposed concierge review | no record created.", time: "13:02", status: "modelled" },
+      { recipient: "Command", role: "Assurance Dashboard", color: "#a8dedb", channel: "Modelled Local Trace", content: "Modelled trace #1104 | VIP_ARRIVAL | proposed concierge review | no record created.", time: "13:02", status: "modelled" },
       { recipient: "Corporate Account", role: "Account Dashboard", color: "#a78bfa", channel: "Proposed Account Draft", content: "Draft account update for named account-manager approval; no external account update occurs.", time: "15:06", status: "approval-required" },
     ],
   },
@@ -68,7 +68,7 @@ const SCENARIO_MESSAGES: Record<string, { headline: string; trigger: string; mes
       { recipient: "Activities Team", role: "Staff App", color: "#10b981", channel: "Proposed Operations Draft", content: "Proposed weather-response options for human review, including indoor capacity and family-priority considerations.", time: "13:44", status: "proposed" },
       { recipient: "F&B Manager", role: "Staff App", color: "#10b981", channel: "Proposed Capacity Draft", content: "Modelled capacity considerations for named F&B Manager review; no venue or staffing change occurs.", time: "13:44", status: "proposed" },
       { recipient: "Duty Manager", role: "Manager Console", color: "#f97316", channel: "Proposed Operations Draft", content: "Modelled weather context: synthetic booking count, alternative options and indicative value only. No communications or refunds are queued.", time: "13:46", status: "approval-required" },
-      { recipient: "Command", role: "Assurance Dashboard", color: "#c9a84c", channel: "Modelled Local Trace", content: "Modelled trace #7840 | WEATHER_DISRUPTION | proposed review | no acceptance, refund or value outcome measured.", time: "13:46", status: "modelled" },
+      { recipient: "Command", role: "Assurance Dashboard", color: "#a8dedb", channel: "Modelled Local Trace", content: "Modelled trace #7840 | WEATHER_DISRUPTION | proposed review | no acceptance, refund or value outcome measured.", time: "13:46", status: "modelled" },
       { recipient: "Affected Guests (proposed follow-up)", role: "Guest View", color: "#3b82f6", channel: "Proposed Follow-up Draft", content: "Draft follow-up for human approval: a named operator could discuss future options. No voucher is added.", time: "18:10", status: "draft" },
     ],
   },
@@ -104,9 +104,9 @@ export default function PartnerCommsDemo() {
           </p>
         </div>
 
-        <div style={{ padding: "14px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderLeft: "3px solid #c9a84c", marginBottom: 32 }}>
+        <div style={{ padding: "14px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderLeft: "3px solid #a8dedb", marginBottom: 32 }}>
           <p style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", lineHeight: 1.7, margin: 0 }}>
-            <strong style={{ color: "#c9a84c" }}>Working Proof · Simulation boundary:</strong> all inputs are synthetic and classification is deterministic and rules-based. Every communication is an unsent draft and is never delivered. People, records, tasks, welfare checks, keys, offers, evidence, outcomes and value are fictional, illustrative or modelled. No guest or staff message, task, welfare or emergency action, partner activation, refund, compensation or external-system update occurs. Named people remain accountable for approval and real-world action.
+            <strong style={{ color: "#a8dedb" }}>Working Proof · Simulation boundary:</strong> all inputs are synthetic and classification is deterministic and rules-based. Every communication is an unsent draft and is never delivered. People, records, tasks, welfare checks, keys, offers, evidence, outcomes and value are fictional, illustrative or modelled. No guest or staff message, task, welfare or emergency action, partner activation, refund, compensation or external-system update occurs. Named people remain accountable for approval and real-world action.
           </p>
         </div>
 
@@ -119,9 +119,9 @@ export default function PartnerCommsDemo() {
               style={{
                 padding: "9px 16px", fontSize: 10, fontWeight: 700, letterSpacing: "0.06em",
                 textTransform: "uppercase", cursor: "pointer", transition: "all 0.15s",
-                border: `1px solid ${s === scenario ? "rgba(201,168,76,0.5)" : "rgba(255,255,255,0.08)"}`,
-                background: s === scenario ? "rgba(201,168,76,0.1)" : "transparent",
-                color: s === scenario ? "#c9a84c" : "rgba(255,255,255,0.35)",
+                border: `1px solid ${s === scenario ? "rgba(168,222,219,0.5)" : "rgba(255,255,255,0.08)"}`,
+                background: s === scenario ? "rgba(168,222,219,0.1)" : "transparent",
+                color: s === scenario ? "#a8dedb" : "rgba(255,255,255,0.35)",
               }}
             >{s}</div>
           ))}
@@ -129,7 +129,7 @@ export default function PartnerCommsDemo() {
 
         {/* Trigger banner */}
         <div style={{ padding: "12px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", marginBottom: 24, display: "flex", gap: 16, alignItems: "flex-start", flexWrap: "wrap" }}>
-          <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginTop: 2, whiteSpace: "nowrap" }}>Trigger</div>
+          <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#a8dedb", marginTop: 2, whiteSpace: "nowrap" }}>Trigger</div>
           <div style={{ fontSize: 11.5, color: "rgba(255,255,255,0.45)", lineHeight: 1.55, minWidth: 0, flex: "1 1 200px" }}>Synthetic input — {data.trigger}</div>
           <div style={{ marginLeft: "auto", fontSize: 8.5, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#f97316", border: "1px solid rgba(249,115,22,0.3)", padding: "3px 10px", maxWidth: "100%" }}>
             Rules classification · {data.headline.split("·")[0].trim()}

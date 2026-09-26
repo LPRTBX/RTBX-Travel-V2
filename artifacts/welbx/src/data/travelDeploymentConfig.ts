@@ -370,7 +370,7 @@ export const GOVERNANCE_SOURCE_LABELS: Record<GovernanceRuleSource, string> = {
 export const GOVERNANCE_SOURCE_COLORS: Record<GovernanceRuleSource, string> = {
   "brand-standard":     "#3b82f6",
   "property-procedure": "#10b981",
-  "demo-default":       "#c9a84c",
+  "demo-default":       "#a8dedb",
   "regulatory":         "#ef4444",
   "to-be-agreed":       "rgba(255,255,255,0.4)",
 };

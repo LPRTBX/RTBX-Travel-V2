@@ -102,7 +102,7 @@ export default function PartnerOverview() {
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "72px 32px 120px" }}>
 
         <div style={{ marginBottom: 64 }}>
-          <div style={{ fontSize: 11, letterSpacing: "0.18em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>
+          <div style={{ fontSize: 11, letterSpacing: "0.18em", color: "#a8dedb", textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>
             Briefing Room · Platform Overview
           </div>
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.15, marginBottom: 20 }}>
@@ -112,9 +112,9 @@ export default function PartnerOverview() {
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 8, flexWrap: "wrap" }}>
             <span style={{ fontSize: 12, color: "rgba(255,255,255,0.35)" }}>JALDO</span>
             <span style={{ fontSize: 11, color: "rgba(255,255,255,0.2)" }}>→</span>
-            <span style={{ fontSize: 12, fontWeight: 700, color: "#c9a84c" }}>JALDO Core</span>
+            <span style={{ fontSize: 12, fontWeight: 700, color: "#a8dedb" }}>JALDO Core</span>
             <span style={{ fontSize: 11, color: "rgba(255,255,255,0.2)" }}>→</span>
-            <span style={{ fontSize: 12, fontWeight: 700, color: "#c9a84c" }}>JALDO Travel</span>
+            <span style={{ fontSize: 12, fontWeight: 700, color: "#a8dedb" }}>JALDO Travel</span>
             <span style={{ fontSize: 11, color: "rgba(255,255,255,0.2)" }}>→</span>
             <span style={{ fontSize: 12, fontWeight: 700, color: "#3b82f6" }}>Guest Experience</span>
             <Link href="/partner-room/operating-model">
@@ -126,9 +126,9 @@ export default function PartnerOverview() {
         <Link href="/partner-room/travel-intelligence">
           <div style={{
             display: "inline-flex", alignItems: "center", gap: 10, padding: "12px 18px", marginBottom: 8,
-            background: "rgba(201,168,76,0.05)", border: "1px solid rgba(201,168,76,0.2)", cursor: "pointer",
+            background: "rgba(168,222,219,0.05)", border: "1px solid rgba(168,222,219,0.2)", cursor: "pointer",
           }}>
-            <span style={{ fontSize: 12, fontWeight: 700, color: "#c9a84c", letterSpacing: "0.04em" }}>
+            <span style={{ fontSize: 12, fontWeight: 700, color: "#a8dedb", letterSpacing: "0.04em" }}>
               See how JALDO Core is configured for Travel — JALDO Travel Intelligence →
             </span>
           </div>
@@ -144,7 +144,7 @@ export default function PartnerOverview() {
               gap: 40,
             }}>
               <div style={{ paddingTop: 4 }}>
-                <div style={{ fontSize: 11, fontWeight: 800, color: "rgba(201,168,76,0.35)", letterSpacing: "0.08em" }}>{section.num}</div>
+                <div style={{ fontSize: 11, fontWeight: 800, color: "rgba(168,222,219,0.35)", letterSpacing: "0.08em" }}>{section.num}</div>
               </div>
               <div>
                 <h2 style={{ fontSize: 22, fontWeight: 700, color: "#fff", marginBottom: 24, letterSpacing: "-0.01em", lineHeight: 1.3 }}>

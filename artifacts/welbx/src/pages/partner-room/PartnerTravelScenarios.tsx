@@ -16,7 +16,7 @@ import {
 } from "@/lib/travelScenarioRouting";
 
 const C = {
-  gold: "#c9a84c", green: "#10b981", blue: "#3b82f6",
+  gold: "#a8dedb", green: "#10b981", blue: "#3b82f6",
   orange: "#f97316", red: "#ef4444", purple: "#a78bfa",
   muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,255,0.22)",
 };
@@ -97,7 +97,7 @@ function ScenarioDetailPanel({ scenario }: { scenario: TravelScenario }) {
             textTransform: "uppercase", cursor: "pointer", whiteSpace: "nowrap",
             color: tab === t.id ? C.gold : "rgba(255,255,255,0.3)",
             borderBottom: tab === t.id ? `2px solid ${C.gold}` : "2px solid transparent",
-            background: tab === t.id ? "rgba(201,168,76,0.04)" : "transparent",
+            background: tab === t.id ? "rgba(168,222,219,0.04)" : "transparent",
           }}>
             {t.label}
           </div>
@@ -219,7 +219,7 @@ function ScenarioDetailPanel({ scenario }: { scenario: TravelScenario }) {
                 <TextValue>{scenario.decision.recommendedDecision}</TextValue>
               </FieldBlock>
               <FieldBlock label="Accountable Role">
-                <div style={{ padding: "10px 14px", background: "rgba(201,168,76,0.05)", border: "1px solid rgba(201,168,76,0.2)", borderLeft: "3px solid #c9a84c" }}>
+                <div style={{ padding: "10px 14px", background: "rgba(168,222,219,0.05)", border: "1px solid rgba(168,222,219,0.2)", borderLeft: "3px solid #a8dedb" }}>
                   <div style={{ fontSize: 13, fontWeight: 800, color: "#fff" }}>{roleName(scenario.decision.accountableRoleId)}</div>
                   {scenario.decision.decisionDeadline && (
                     <div style={{ fontSize: 10, color: "rgba(255,255,255,0.4)", marginTop: 4 }}>Deadline: {scenario.decision.decisionDeadline}</div>
@@ -408,7 +408,7 @@ export default function PartnerTravelScenarios() {
             <Badge color={C.orange}>{SCENARIO_LABELS.approval}</Badge>
             <Badge color={C.blue}>Rules-based</Badge>
           </div>
-          <div style={{ marginTop: 16, padding: "12px 16px", border: "1px solid rgba(201,168,76,0.25)", borderLeft: "3px solid #c9a84c", background: "rgba(201,168,76,0.04)", maxWidth: 760 }}>
+          <div style={{ marginTop: 16, padding: "12px 16px", border: "1px solid rgba(168,222,219,0.25)", borderLeft: "3px solid #a8dedb", background: "rgba(168,222,219,0.04)", maxWidth: 760 }}>
             <p style={{ margin: 0, fontSize: 11.5, color: "rgba(255,255,255,0.58)", lineHeight: 1.65 }}>
               <strong style={{ color: C.gold }}>Library boundary:</strong> this page is a read-only explorer, not a runtime. Build &amp; Configure controls deployment selection and validation. The Execution Centre is the only canonical local scenario runtime; no communication, task, booking or external-system record is dispatched or completed.
             </p>
@@ -424,8 +424,8 @@ export default function PartnerTravelScenarios() {
               <Link key={s.id} href={travelScenarioPath(s.id)}>
                 <div aria-current={isActive ? "page" : undefined} style={{
                   padding: "14px 16px", cursor: "pointer", height: "100%", boxSizing: "border-box",
-                  background: isActive ? "rgba(201,168,76,0.08)" : "rgba(255,255,255,0.02)",
-                  border: `1px solid ${isActive ? "rgba(201,168,76,0.4)" : "rgba(255,255,255,0.07)"}`,
+                  background: isActive ? "rgba(168,222,219,0.08)" : "rgba(255,255,255,0.02)",
+                  border: `1px solid ${isActive ? "rgba(168,222,219,0.4)" : "rgba(255,255,255,0.07)"}`,
                   borderTop: `2px solid ${isActive ? C.gold : "transparent"}`,
                 }}>
                   <div style={{ fontSize: 8, fontWeight: 800, color: "rgba(255,255,255,0.25)", marginBottom: 4 }}>{s.num}</div>
@@ -447,7 +447,7 @@ export default function PartnerTravelScenarios() {
         {activeScenario ? (
           <>
             <ScenarioDetailPanel key={`detail-${activeScenario.id}`} scenario={activeScenario} />
-            <div style={{ padding: "22px 24px", background: "rgba(10,20,40,0.5)", border: "1px solid rgba(201,168,76,0.22)", borderTop: "none", marginBottom: 4 }}>
+            <div style={{ padding: "22px 24px", background: "rgba(10,20,40,0.5)", border: "1px solid rgba(168,222,219,0.22)", borderTop: "none", marginBottom: 4 }}>
               <div style={{ fontSize: 9, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: C.gold, marginBottom: 8 }}>
                 Explore → Configure → Run
               </div>
@@ -456,7 +456,7 @@ export default function PartnerTravelScenarios() {
               </p>
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                 <Link href={travelScenarioConfigurePath(activeScenario.id)}>
-                  <div style={{ padding: "10px 18px", background: C.gold, color: "#080c14", fontSize: 10, fontWeight: 800, letterSpacing: "0.06em", textTransform: "uppercase", cursor: "pointer" }}>
+                  <div style={{ padding: "10px 18px", background: C.gold, color: "#102d39", fontSize: 10, fontWeight: 800, letterSpacing: "0.06em", textTransform: "uppercase", cursor: "pointer" }}>
                     Preselect in Build &amp; Configure →
                   </div>
                 </Link>

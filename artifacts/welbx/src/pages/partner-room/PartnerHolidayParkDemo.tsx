@@ -36,7 +36,7 @@ const FLOW_STEPS = [
   {
     key: "decide",
     label: "Decide",
-    color: "#c9a84c",
+    color: "#a8dedb",
     icon: "◇",
     summary: "Response draft proposed",
     detail: [
@@ -86,8 +86,8 @@ const FLOW_STEPS = [
 const PROOF_POINTS = [
   { label: "Modelled escalation-avoidance hypothesis", color: "#10b981" },
   { label: "Proposed review-risk reduction", color: "#10b981" },
-  { label: "Illustrative consistent staff response", color: "#c9a84c" },
-  { label: "Proposed guest-experience recovery", color: "#c9a84c" },
+  { label: "Illustrative consistent staff response", color: "#a8dedb" },
+  { label: "Proposed guest-experience recovery", color: "#a8dedb" },
   { label: "Illustrative partner opportunity", color: "#3b82f6" },
 ];
 
@@ -134,8 +134,8 @@ export default function PartnerHolidayParkDemo() {
           </p>
         </div>
 
-        <div style={{ padding: "18px 22px", background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.24)", borderLeft: "3px solid #c9a84c", marginBottom: 32, maxWidth: 820 }}>
-          <div style={{ fontSize: 9, letterSpacing: "0.16em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>Working Proof Boundary</div>
+        <div style={{ padding: "18px 22px", background: "rgba(168,222,219,0.06)", border: "1px solid rgba(168,222,219,0.24)", borderLeft: "3px solid #a8dedb", marginBottom: 32, maxWidth: 820 }}>
+          <div style={{ fontSize: 9, letterSpacing: "0.16em", color: "#a8dedb", textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>Working Proof Boundary</div>
           <div style={{ fontSize: 12, color: "rgba(255,255,255,0.62)", lineHeight: 1.65 }}>Rules-based classification using synthetic scenario inputs only. Every response is a proposed draft; nothing is dispatched, no external system is updated, and accountable humans retain all operational, welfare and commercial decisions.</div>
         </div>
 
@@ -306,7 +306,7 @@ export default function PartnerHolidayParkDemo() {
                 textTransform: "uppercase",
                 cursor: activeStep === FLOW_STEPS.length - 1 ? "default" : "pointer",
                 background: activeStep === FLOW_STEPS.length - 1 ? "transparent" : step.color,
-                color: activeStep === FLOW_STEPS.length - 1 ? "rgba(255,255,255,0.15)" : "#080c14",
+                color: activeStep === FLOW_STEPS.length - 1 ? "rgba(255,255,255,0.15)" : "#102d39",
                 border: `1px solid ${activeStep === FLOW_STEPS.length - 1 ? "rgba(255,255,255,0.06)" : step.color}`,
                 transition: "all 0.15s",
               }}
@@ -350,7 +350,7 @@ export default function PartnerHolidayParkDemo() {
           </div>
           <div className="rtbx-grid-3" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 24 }}>
             {[
-               { role: "Operator", color: "#c9a84c", points: ["Proposed consistent staff response", "Illustrative escalation record for human review", "Hypothesis for protecting sentiment at a high-risk moment"] },
+               { role: "Operator", color: "#a8dedb", points: ["Proposed consistent staff response", "Illustrative escalation record for human review", "Hypothesis for protecting sentiment at a high-risk moment"] },
                { role: "Guest", color: "#10b981", points: ["Proposed acknowledgement draft", "Illustrative practical-support options", "Modelled recovery before a first impression is lost"] },
                { role: "Partner", color: "#3b82f6", points: ["Illustrative local-experience option", "Proposed café and activity options", "No partner revenue is generated or measured in this proof"] },
             ].map(group => (
@@ -381,13 +381,13 @@ export default function PartnerHolidayParkDemo() {
               letterSpacing: "0.1em",
               textTransform: "uppercase",
               cursor: "pointer",
-              background: "#c9a84c",
-              color: "#080c14",
-              border: "1px solid #c9a84c",
+              background: "#a8dedb",
+              color: "#102d39",
+              border: "1px solid #a8dedb",
               transition: "all 0.15s",
             }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "#d4b35e"; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "#c9a84c"; }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "#c4eeea"; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "#a8dedb"; }}
             >
               See Simulated Dual View Demo
             </div>

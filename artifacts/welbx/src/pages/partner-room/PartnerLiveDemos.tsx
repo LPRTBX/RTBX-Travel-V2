@@ -2,8 +2,8 @@ import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 
 const P = {
-  bg: "#080c14", navy: "#0d1220", border: "rgba(255,255,255,0.08)",
-  amber: "#c9a84c", amberDim: "rgba(201,168,76,0.07)",
+  bg: "#102d39", navy: "#173b47", border: "rgba(255,255,255,0.08)",
+  amber: "#a8dedb", amberDim: "rgba(168,222,219,0.07)",
   white: "#f8f9fb", muted: "rgba(255,255,255,0.5)", dimmed: "rgba(255,255,255,0.22)",
   green: "#10b981", blue: "#3b82f6",
 };

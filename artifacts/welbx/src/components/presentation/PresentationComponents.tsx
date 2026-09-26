@@ -1,12 +1,13 @@
 import { ReactNode } from "react";
 import { ChevronLeft, ChevronRight, X, Printer } from "lucide-react";
+import { TravelWordmark } from "@/components/TravelWordmark";
 
 export const C = {
-  bg:     "hsl(220 13% 5%)",
-  card:   "hsl(220 13% 8%)",
-  card2:  "hsl(220 13% 11%)",
-  border: "hsl(220 13% 11%)",
-  amber:  "#c9a84c",
+  bg:     "hsl(198 56% 14%)",
+  card:   "hsl(195 40% 18%)",
+  card2:  "hsl(195 25% 29%)",
+  border: "hsl(195 25% 29%)",
+  amber:  "#a8dedb",
   white:  "#ffffff",
   muted:  "hsl(215 16% 66%)",
   dimmed: "hsl(215 16% 52%)",
@@ -23,7 +24,7 @@ export const FOOTER = "JALDO Travel  |  The Operating Layer Between Signal And A
 export function PresentationSlide({ children, className }: { children: ReactNode; className?: string }) {
   return (
     <div
-      className={className}
+      className={`travel-presentation-slide ${className ?? ""}`}
       style={{
         minHeight: "100vh",
         background: C.bg,
@@ -44,9 +45,9 @@ export function PresentationSlide({ children, className }: { children: ReactNode
 /* ─── Header ──────────────────────────────────────────────────────── */
 export function SlideHeader({ label }: { label?: string }) {
   return (
-    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 44 }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-        <span style={{ fontSize: 12, fontWeight: 800, letterSpacing: "0.24em", color: C.white, textTransform: "uppercase" }}>JALDO Travel</span>
+    <div className="travel-slide-header" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 44 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
+        <TravelWordmark />
         {label && (
           <>
             <span style={{ color: C.dimmed, fontSize: 10 }}>·</span>

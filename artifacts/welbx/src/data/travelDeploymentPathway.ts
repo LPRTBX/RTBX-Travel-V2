@@ -370,7 +370,7 @@ export const INTEGRATION_MATURITY_LABELS: Record<IntegrationMaturity, string> = 
 export const INTEGRATION_MATURITY_COLORS: Record<IntegrationMaturity, string> = {
   "planned":    "rgba(255,255,255,0.3)",
   "mapped":     "#3b82f6",
-  "mocked":     "#c9a84c",
+  "mocked":     "#a8dedb",
   "tested":     "#10b981",
   "integrated": "#10b981",
   "production": "#10b981",

@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 
-const C = { gold: "#c9a84c", muted: "rgba(255,255,255,0.45)", dim: "rgba(255,255,255,0.22)", green: "#10b981", blue: "#3b82f6" };
+const C = { gold: "#a8dedb", muted: "rgba(255,255,255,0.45)", dim: "rgba(255,255,255,0.22)", green: "#10b981", blue: "#3b82f6" };
 
 const ROLES = [
   {
@@ -26,7 +26,7 @@ const ROLES = [
   },
   {
     role: "Operator / Manager View",
-    color: "#c9a84c",
+    color: "#a8dedb",
     tag: "Command layer",
     needs: "Planned visibility of service-risk hypotheses, subject to operator approval, integration and measurement.",
     action: "Could review a future moment registry and approve actions; human accountability remains required.",
@@ -85,13 +85,13 @@ export default function TravelUxBlueprint() {
         <div style={{ marginBottom: 56 }}>
           <div style={{ fontSize: 8.5, letterSpacing: "0.2em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>Partner Resource · UX Blueprint</div>
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 18, maxWidth: 680 }}>JALDO Travel — UX Blueprint</h1>
-          <div style={{ padding: "16px 20px", background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.22)", borderLeft: "3px solid #c9a84c", maxWidth: 700 }}>
+          <div style={{ padding: "16px 20px", background: "rgba(168,222,219,0.06)", border: "1px solid rgba(168,222,219,0.22)", borderLeft: "3px solid #a8dedb", maxWidth: 700 }}>
             <p style={{ fontSize: 13, color: "rgba(255,255,255,0.7)", lineHeight: 1.75, margin: 0, fontStyle: "italic" }}>
               "JALDO Travel makes execution visible by showing what each person sees, does and creates."
             </p>
           </div>
         </div>
-        <div style={{ padding: "16px 20px", background: "rgba(201,168,76,0.05)", border: "1px solid rgba(201,168,76,0.2)", borderLeft: "3px solid #c9a84c", marginBottom: 28, maxWidth: 900 }}>
+        <div style={{ padding: "16px 20px", background: "rgba(168,222,219,0.05)", border: "1px solid rgba(168,222,219,0.2)", borderLeft: "3px solid #a8dedb", marginBottom: 28, maxWidth: 900 }}>
           <div style={{ fontSize: 9, color: C.gold, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 7 }}>Working Proof Boundary</div>
           <div style={{ fontSize: 11.5, color: C.muted, lineHeight: 1.6 }}>This blueprint is a synthetic future-state simulation. Any live workflow, pilot, signal, offer, integration, transaction or revenue outcome is contingent on approval, implementation, integration and measurement. No dispatches or external updates occur here, and named people retain accountability.</div>
         </div>
@@ -129,7 +129,7 @@ export default function TravelUxBlueprint() {
           <div style={{ display: "flex", gap: 28, flexWrap: "wrap" }}>
             {["Signal classification draft", "Proposed moment", "Proposed action route", "Human owner assignment", "Potential timer", "Proposed assurance record", "Future outcome measurement", "Value hypothesis"].map(item => (
               <div key={item} style={{ display: "flex", alignItems: "center", gap: 7 }}>
-                <div style={{ width: 6, height: 6, borderRadius: "50%", background: "rgba(201,168,76,0.4)", flexShrink: 0 }} />
+                <div style={{ width: 6, height: 6, borderRadius: "50%", background: "rgba(168,222,219,0.4)", flexShrink: 0 }} />
                 <span style={{ fontSize: 11.5, color: C.muted }}>{item}</span>
               </div>
             ))}

@@ -1,12 +1,13 @@
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { ArrowRight, Clock, BookOpen, Play } from "lucide-react";
+import { TravelWordmark } from "@/components/TravelWordmark";
 
 const C = {
-  bg:     "hsl(220 13% 5%)",
-  card:   "hsl(220 13% 8%)",
-  border: "hsl(220 13% 11%)",
-  amber:  "#c9a84c",
+  bg:     "hsl(198 56% 14%)",
+  card:   "hsl(195 40% 18%)",
+  border: "hsl(195 25% 29%)",
+  amber:  "#a8dedb",
   white:  "#ffffff",
   muted:  "hsl(215 16% 66%)",
   dimmed: "hsl(215 16% 52%)",
@@ -87,9 +88,10 @@ export default function StoryHub() {
       <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg, ${C.amber} 0%, transparent 50%)` }} />
 
       {/* Header */}
+      <div className="travel-story-intro">
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} style={{ marginBottom: 52 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 24 }}>
-          <span style={{ fontSize: 12, fontWeight: 800, letterSpacing: "0.24em", color: C.white, textTransform: "uppercase" }}>JALDO Travel</span>
+          <Link href="/" aria-label="JALDO Travel home"><TravelWordmark /></Link>
           <span style={{ color: C.dimmed }}>·</span>
           <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.22em", color: C.amber, textTransform: "uppercase" }}>OPERATOR STORY LAB</span>
         </div>
@@ -114,8 +116,14 @@ export default function StoryHub() {
         </div>
       </motion.div>
 
+      <figure className="travel-story-photo">
+        <img src={`${import.meta.env.BASE_URL}images/travel/team-coordination.webp`} alt="Illustrative hotel team reviewing a shared response around a tablet." width="1000" height="750" />
+        <figcaption>People behind the experience. Illustrative AI-generated imagery.</figcaption>
+      </figure>
+      </div>
+
       {/* Mode cards */}
-      <div className="rtbx-story-grid" style={{ display: "grid", gridTemplateColumns: "repeat(5, minmax(0, 1fr))", gap: 14, flex: 1, minWidth: 0 }}>
+      <div className="rtbx-story-grid travel-story-choices" style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 20, flex: 1, minWidth: 0 }}>
         {MODES.map((mode, fi) => (
           <motion.div
             key={`${mode.path}-${mode.label}`}
@@ -127,10 +135,10 @@ export default function StoryHub() {
             <Link href={mode.path}>
               <div
                 style={{ padding: 28, background: C.card, border: `1px solid ${C.border}`, cursor: "pointer", transition: "border-color 0.18s, background 0.18s", height: "100%", display: "flex", flexDirection: "column" }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = `${mode.accent}50`; e.currentTarget.style.background = `hsl(220 13% 9%)`; }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = `${mode.accent}50`; e.currentTarget.style.background = `hsl(195 38% 22%)`; }}
                 onMouseLeave={e => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.background = C.card; }}
               >
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, marginBottom: 12 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
                     <mode.icon size={13} color={mode.accent} />
                     <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.18em", color: mode.accent, textTransform: "uppercase" }}>{mode.label}</span>
