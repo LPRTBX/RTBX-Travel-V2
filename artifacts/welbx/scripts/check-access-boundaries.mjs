@@ -167,7 +167,12 @@ function walkFiles(dir) {
   });
 }
 
-const approvedPublicFiles = new Set(["favicon.svg", "opengraph.jpg"]);
+// Public marketing imagery only; no documents or partner data.
+const approvedPublicFiles = new Set(["favicon.svg", "opengraph.jpg",
+  "brand/jaldo-logo-white.webp",
+  "images/travel/arrival-hero.webp",
+  "images/travel/team-coordination.webp",
+]);
 for (const publicFile of walkFiles(join(root, "public"))) {
   const publicPath = relative(join(root, "public"), publicFile);
   if (!approvedPublicFiles.has(publicPath)) failures.push(`Unclassified public/downloadable file: public/${publicPath}`);

@@ -504,24 +504,25 @@ button { min-height: 44px; }
     color: hsl(var(--foreground));
   }
 
-  .rtbx-readable-content p {
+  /* The public homepage has its own responsive typography; these clamps serve legacy pages. */
+  .rtbx-readable-content p:not(:where(#jaldo-travel-home *)) {
     font-size: var(--text-base) !important;
     line-height: var(--leading-body) !important;
     max-width: 78ch;
   }
 
-  .rtbx-readable-content h1 {
+  .rtbx-readable-content h1:not(:where(#jaldo-travel-home *)) {
     font-size: clamp(2rem, 4vw, 3rem) !important;
     line-height: var(--leading-tight) !important;
   }
 
-  .rtbx-readable-content h2 {
+  .rtbx-readable-content h2:not(:where(#jaldo-travel-home *)) {
     font-size: clamp(1.5rem, 3vw, 2rem) !important;
     line-height: var(--leading-tight) !important;
   }
 
-  .rtbx-readable-content h3,
-  .rtbx-readable-content h4 {
+  .rtbx-readable-content h3:not(:where(#jaldo-travel-home *)),
+  .rtbx-readable-content h4:not(:where(#jaldo-travel-home *)) {
     font-size: var(--text-lg) !important;
     line-height: 1.3 !important;
   }

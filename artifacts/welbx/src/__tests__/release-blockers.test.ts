@@ -25,28 +25,24 @@ describe("JALDO Travel release blocker regressions", () => {
       ...app.matchAll(/path\s*(?::|=)\s*["']([^"']+)["']/g),
     ].map((match) => match[1]);
 
-    expect(landing).toContain('<Link className="rtbx-landing-cta-link" href="/partner-room">');
-    expect(landing).toContain("Enter the Operating Layer →");
-    expect(landing).toContain('<Link className="rtbx-landing-cta-link" href="/story">');
-    expect(landing).toContain("The Framework →");
+    expect(landing).toMatch(/<Link[^>]+href="\/partner-room"[^>]*>Enter the Operating Layer/);
+    expect(landing).toMatch(/<Link[^>]+href="\/story"[^>]*>The Framework/);
     expect(registeredRoutes).toContain("/partner-room");
     expect(registeredRoutes).toContain("/story");
   });
 
   it("keeps the public Landing structure responsive at narrow widths", () => {
-    const styles = source("src/index.css");
+    const styles = source("src/pages/Landing.css");
 
     expect(landing).toContain('className="rtbx-landing-page"');
-    expect(landing).toContain('className="rtbx-landing-header"');
-    expect(landing).toContain('className="rtbx-landing-main"');
-    expect(landing).toContain('className="rtbx-landing-causal-grid"');
-    expect(landing).toContain('className="rtbx-landing-cta-group"');
-    expect(landing).toContain('className="rtbx-landing-footer"');
-    expect(styles).toContain("@media (max-width: 768px)");
-    expect(styles).toContain(".rtbx-landing-causal-grid");
-    expect(styles).toContain("grid-template-columns: minmax(0, 1fr) !important");
-    expect(styles).toContain(".rtbx-landing-cta-group");
-    expect(styles).toContain("flex-direction: column");
+    expect(landing).toContain('className="travel-header"');
+    expect(landing).toContain('id="travel-main"');
+    expect(landing).toContain('className="travel-actions"');
+    expect(landing).toContain('className="travel-footer"');
+    expect(styles).toContain("@media(max-width:640px)");
+    expect(styles).toContain("grid-template-columns:minmax(0,1fr)");
+    expect(styles).toContain("flex-wrap:wrap");
+    expect(styles).toContain("flex-direction:column");
   });
 
   it("keeps the commercial page outside the runtime route and import graph", () => {
