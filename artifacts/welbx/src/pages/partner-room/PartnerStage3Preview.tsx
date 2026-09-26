@@ -13,7 +13,7 @@ const SITES = [
 
 const SIGNAL_STREAMS = [
   { label: "Guest signals",                    color: "#3b82f6",  count: "64 active",  desc: "Guest-entered inputs via Guest Channel QR, SMS link, kiosk or staff relay" },
-  { label: "Staff signals",                    color: "#c9a84c",  count: "38 active",  desc: "Staff-entered operational moments through dashboard, mobile or manager console" },
+  { label: "Staff signals",                    color: "#a8dedb",  count: "38 active",  desc: "Staff-entered operational moments through dashboard, mobile or manager console" },
   { label: "PMS / booking signals",            color: "#a78bfa",  count: "22 active",  desc: "Arrival times, room status, loyalty flags, special requests — via approved integration" },
   { label: "Task / housekeeping signals",      color: "#f97316",  count: "17 active",  desc: "Room readiness, cleaning delays, maintenance alerts — via approved task system feed" },
   { label: "Weather and disruption signals",   color: "#22d3ee",  count: "5 active",   desc: "Weather alerts, transport disruptions, external events — via approved API feed" },
@@ -36,7 +36,7 @@ const PATTERN_INSIGHTS = [
 ];
 
 const ROLE_VIEWS = [
-  { role: "Frontline staff", color: "#c9a84c", sees: "Assigned actions only. What to do, who to tell, when to escalate.", icon: "◎" },
+  { role: "Frontline staff", color: "#a8dedb", sees: "Assigned actions only. What to do, who to tell, when to escalate.", icon: "◎" },
   { role: "Property manager", color: "#10b981", sees: "Escalation watch and site performance. Open moments, overdue actions, today's outcome log.", icon: "◈" },
   { role: "Operator executive", color: "#3b82f6", sees: "Multi-site patterns, value proof and risk. Portfolio view across all properties.", icon: "◆" },
   { role: "Partner / funder", color: "#a78bfa", sees: "De-identified assurance and deployment evidence. Pilot metrics and recovery effectiveness.", icon: "◍" },
@@ -97,8 +97,8 @@ export default function PartnerStage3Preview() {
           <Link href={WORKING_PROOF_PATH}>
             <div style={{
               display: "inline-flex", alignItems: "center", gap: 8, fontSize: 9, fontWeight: 700,
-              letterSpacing: "0.1em", textTransform: "uppercase", color: "#c9a84c",
-              border: "1px solid rgba(201,168,76,0.25)", padding: "7px 14px", cursor: "pointer",
+              letterSpacing: "0.1em", textTransform: "uppercase", color: "#a8dedb",
+              border: "1px solid rgba(168,222,219,0.25)", padding: "7px 14px", cursor: "pointer",
             }}>
               ← View Working Proof
             </div>
@@ -136,7 +136,7 @@ export default function PartnerStage3Preview() {
                 <div style={{ fontSize: 13, fontWeight: 700, color: site.openMoments > 5 ? "#f97316" : "rgba(255,255,255,0.7)" }}>{site.openMoments}</div>
                 <div style={{ fontSize: 13, fontWeight: 700, color: site.escalated > 1 ? "#ef4444" : site.escalated === 1 ? "#f97316" : "#10b981" }}>{site.escalated}</div>
                 <div style={{ fontSize: 13, color: "rgba(255,255,255,0.55)" }}>{site.closedToday}</div>
-                <div style={{ fontSize: 12, fontWeight: 700, color: "#c9a84c" }}>{site.valueProtected}</div>
+                <div style={{ fontSize: 12, fontWeight: 700, color: "#a8dedb" }}>{site.valueProtected}</div>
                 <div style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
                   <div style={{ width: 6, height: 6, borderRadius: "50%", background: site.riskColor, flexShrink: 0 }} />
                   <span style={{ fontSize: 10, fontWeight: 600, color: site.riskColor }}>{site.risk}</span>
@@ -231,12 +231,12 @@ export default function PartnerStage3Preview() {
                 padding: "20px 24px",
                 background: i % 2 === 0 ? "rgba(255,255,255,0.02)" : "rgba(255,255,255,0.015)",
                 border: "1px solid rgba(255,255,255,0.06)",
-                borderLeft: "3px solid rgba(201,168,76,0.35)",
+                borderLeft: "3px solid rgba(168,222,219,0.35)",
                 display: "grid", gridTemplateColumns: "1fr 200px 240px", gap: 20, alignItems: "center",
               }}>
                 <div style={{ fontSize: 12, color: "rgba(255,255,255,0.65)", lineHeight: 1.55 }}>{item.insight}</div>
                 <div style={{ fontSize: 9.5, color: "rgba(255,255,255,0.3)", lineHeight: 1.5 }}>{item.sites}</div>
-                <div style={{ fontSize: 10, color: "#c9a84c", fontStyle: "italic", lineHeight: 1.5 }}>{item.action}</div>
+                <div style={{ fontSize: 10, color: "#a8dedb", fontStyle: "italic", lineHeight: 1.5 }}>{item.action}</div>
               </div>
             ))}
           </div>
@@ -298,7 +298,7 @@ export default function PartnerStage3Preview() {
           <div style={{ fontSize: 8, letterSpacing: "0.18em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>Related</div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
             {[
-              { label: "Working Proof", href: WORKING_PROOF_PATH, ext: false, color: "#c9a84c" },
+              { label: "Working Proof", href: WORKING_PROOF_PATH, ext: false, color: "#a8dedb" },
               { label: "Pilot Expansion Preview", href: "/partner-room/product-proof/pilot-expansion-preview", ext: false, color: "" },
               { label: "Signal Capture", href: "/partner-room/product-proof/signal-capture", ext: false, color: "" },
               { label: "Product Proof", href: "/partner-room/product-proof", ext: false, color: "" },
@@ -306,7 +306,7 @@ export default function PartnerStage3Preview() {
             ].map(link => (
               link.ext
                 ? <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
-                    <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#c9a84c", border: "1px solid rgba(201,168,76,0.25)", padding: "8px 14px", cursor: "pointer" }}>
+                    <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#a8dedb", border: "1px solid rgba(168,222,219,0.25)", padding: "8px 14px", cursor: "pointer" }}>
                       {link.label}
                     </div>
                   </a>
@@ -316,7 +316,7 @@ export default function PartnerStage3Preview() {
                       color: "rgba(255,255,255,0.35)", border: "1px solid rgba(255,255,255,0.08)",
                       padding: "8px 14px", cursor: "pointer", transition: "all 0.12s",
                     }}
-                    onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.color = "#c9a84c"; el.style.borderColor = "rgba(201,168,76,0.3)"; }}
+                    onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.color = "#a8dedb"; el.style.borderColor = "rgba(168,222,219,0.3)"; }}
                     onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.color = "rgba(255,255,255,0.35)"; el.style.borderColor = "rgba(255,255,255,0.08)"; }}
                     >
                       {link.label} →

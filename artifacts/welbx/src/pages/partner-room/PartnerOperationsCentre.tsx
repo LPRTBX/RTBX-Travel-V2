@@ -45,7 +45,7 @@ import {
 
 // ── Style constants ───────────────────────────────────────────────────────────
 
-const C = { muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,255,0.22)", gold: "#c9a84c", green: "#10b981", red: "#ef4444", blue: "#3b82f6" };
+const C = { muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,255,0.22)", gold: "#a8dedb", green: "#10b981", red: "#ef4444", blue: "#3b82f6" };
 
 const OPERATING_SYSTEMS: TravelOperatingSystemName[] = [
   "Guest Experience OS", "Service Recovery & Staff Response OS", "Marketplace & Loyalty Activation OS",
@@ -54,7 +54,7 @@ const OPERATING_SYSTEMS: TravelOperatingSystemName[] = [
 const ROLES: TravelRole[] = ["Guest", "Frontline", "Manager", "Operator", "Partner", "Executive"];
 
 const STATUS_COLORS: Record<ActionStatus, string> = {
-  "New": "#3b82f6", "Acknowledged": "#a78bfa", "In progress": "#c9a84c",
+  "New": "#3b82f6", "Acknowledged": "#a78bfa", "In progress": "#a8dedb",
   "Approval Required": "#f97316", "Escalated": "#ef4444", "Completed": "#10b981",
   "Follow-up required": "#f97316", "Closed": "rgba(255,255,255,0.35)",
 };
@@ -73,7 +73,7 @@ function FilterPill({ label, active, color, onClick }: { label: string; active: 
   return (
     <div onClick={onClick} style={{
       padding: "6px 13px", fontSize: 10, fontWeight: 700, cursor: "pointer",
-      color: active ? "#080c14" : "rgba(255,255,255,0.5)",
+      color: active ? "#102d39" : "rgba(255,255,255,0.5)",
       background: active ? color : "rgba(255,255,255,0.03)",
       border: `1px solid ${active ? color : "rgba(255,255,255,0.12)"}`,
     }}>
@@ -94,7 +94,7 @@ function DeploymentBanner({ deployment }: { deployment: TravelDeploymentConfig |
           Configure three initial scenarios for one initial hotel property / 1–5-property cohort, then review their local traces in the interactive Execution Centre. The Action Centre, Outcome Ledger and Value Dashboard below contain synthetic, illustrative and modelled demonstration data only.
         </p>
         <Link href="/partner-room/build-configure">
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "9px 18px", background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.25)", cursor: "pointer" }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "9px 18px", background: "rgba(168,222,219,0.06)", border: "1px solid rgba(168,222,219,0.25)", cursor: "pointer" }}>
             <span style={{ fontSize: 10, fontWeight: 700, color: C.gold, letterSpacing: "0.06em" }}>Configure Deployment →</span>
           </div>
         </Link>
@@ -113,11 +113,11 @@ function DeploymentBanner({ deployment }: { deployment: TravelDeploymentConfig |
 
   const MATURITY_COLORS: Record<string, string> = {
     simulated: "#3b82f6", manual: "rgba(255,255,255,0.45)",
-    demonstrated: "#10b981", "connector-ready": "#c9a84c", planned: "rgba(255,255,255,0.3)",
+    demonstrated: "#10b981", "connector-ready": "#a8dedb", planned: "rgba(255,255,255,0.3)",
   };
 
   return (
-    <div style={{ marginBottom: 36, padding: "20px 24px", background: "rgba(10,20,40,0.5)", border: "1px solid rgba(201,168,76,0.2)", borderLeft: "3px solid #c9a84c" }}>
+    <div style={{ marginBottom: 36, padding: "20px 24px", background: "rgba(10,20,40,0.5)", border: "1px solid rgba(168,222,219,0.2)", borderLeft: "3px solid #a8dedb" }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap", marginBottom: 14 }}>
         <div>
           <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: "rgba(255,255,255,0.3)", textTransform: "uppercase", fontWeight: 700, marginBottom: 4 }}>Selected Local Simulation Configuration</div>
@@ -272,7 +272,7 @@ function ExecTracePanel({
           {scenario.context.riskOrOpportunity}
         </div>
         <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-          <button onClick={launch} style={{ padding: "10px 22px", fontSize: 10, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", background: C.gold, border: "none", color: "#080c14", cursor: "pointer" }}>
+          <button onClick={launch} style={{ padding: "10px 22px", fontSize: 10, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", background: C.gold, border: "none", color: "#102d39", cursor: "pointer" }}>
             Start Local Simulation →
           </button>
           <div style={{ fontSize: 9.5, color: "rgba(255,255,255,0.3)" }}>
@@ -419,8 +419,8 @@ function ExecTracePanel({
                           aria-disabled={needsApproval}
                           style={{
                             padding: "6px 14px", fontSize: 12, fontWeight: 700, minHeight: 44,
-                            background: needsApproval ? "rgba(255,255,255,0.04)" : "rgba(201,168,76,0.1)",
-                            border: `1px solid ${needsApproval ? "rgba(255,255,255,0.1)" : "rgba(201,168,76,0.3)"}`,
+                            background: needsApproval ? "rgba(255,255,255,0.04)" : "rgba(168,222,219,0.1)",
+                            border: `1px solid ${needsApproval ? "rgba(255,255,255,0.1)" : "rgba(168,222,219,0.3)"}`,
                             color: needsApproval ? "rgba(255,255,255,0.25)" : C.gold,
                             cursor: needsApproval ? "not-allowed" : "pointer",
                           }}
@@ -493,7 +493,7 @@ function ExecTracePanel({
                     {(["met", "partially-met", "not-met", "not-measured"] as OutcomeStatus[]).map(s => (
                       <button type="button" key={s} onClick={() => handleOutcome(o.id, s)} aria-pressed={o.status === s} style={{
                         padding: "3px 9px", fontSize: 8.5, fontWeight: 700, cursor: "pointer",
-                        color: o.status === s ? "#080c14" : "rgba(255,255,255,0.4)",
+                        color: o.status === s ? "#102d39" : "rgba(255,255,255,0.4)",
                         background: o.status === s ? (s === "met" ? C.green : s === "partially-met" ? C.gold : C.red) : "rgba(255,255,255,0.03)",
                         border: `1px solid ${o.status === s ? (s === "met" ? C.green : s === "partially-met" ? C.gold : C.red) : "rgba(255,255,255,0.1)"}`,
                       }}>
@@ -529,8 +529,8 @@ function ExecTracePanel({
               style={{
                 padding: "8px 16px", fontSize: 10, fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase",
                 cursor: action.toState ? "pointer" : "default",
-                background: action.toState ? (action.id === "escalate" ? "rgba(239,68,68,0.1)" : "rgba(201,168,76,0.08)") : "rgba(255,255,255,0.03)",
-                border: `1px solid ${action.toState ? (action.id === "escalate" ? "rgba(239,68,68,0.35)" : "rgba(201,168,76,0.3)") : "rgba(255,255,255,0.08)"}`,
+                background: action.toState ? (action.id === "escalate" ? "rgba(239,68,68,0.1)" : "rgba(168,222,219,0.08)") : "rgba(255,255,255,0.03)",
+                border: `1px solid ${action.toState ? (action.id === "escalate" ? "rgba(239,68,68,0.35)" : "rgba(168,222,219,0.3)") : "rgba(255,255,255,0.08)"}`,
                 color: action.toState ? (action.id === "escalate" ? C.red : C.gold) : "rgba(255,255,255,0.25)",
               }}
             >
@@ -544,7 +544,7 @@ function ExecTracePanel({
 
   // Learning output
   const LearningPanel = () => learning ? (
-    <div style={{ marginTop: 12, padding: "16px 20px", background: "rgba(201,168,76,0.04)", border: "1px solid rgba(201,168,76,0.2)" }}>
+    <div style={{ marginTop: 12, padding: "16px 20px", background: "rgba(168,222,219,0.04)", border: "1px solid rgba(168,222,219,0.2)" }}>
       <div style={{ fontSize: 8.5, letterSpacing: "0.14em", color: C.gold, textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>Modelled Learning Output — Local Sequence End</div>
       <div style={{ marginBottom: 12 }}>
         <div style={{ fontSize: 9, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700, marginBottom: 6 }}>Patterns Detected</div>
@@ -597,7 +597,7 @@ function ExecTracePanel({
               aria-pressed={view === v}
               style={{
                 padding: "5px 12px", fontSize: 9, fontWeight: 700, cursor: "pointer", textTransform: "uppercase",
-                color: view === v ? "#080c14" : "rgba(255,255,255,0.4)",
+                color: view === v ? "#102d39" : "rgba(255,255,255,0.4)",
                 background: view === v ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.03)",
                 border: `1px solid ${view === v ? "rgba(255,255,255,0.6)" : "rgba(255,255,255,0.1)"}`,
               }}
@@ -625,7 +625,7 @@ function ExecTracePanel({
                   width: 22, height: 22, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center",
                   fontSize: 8.5, fontWeight: 800, flexShrink: 0,
                   background: isDone ? C.green : isCurrent ? C.gold : "rgba(255,255,255,0.07)",
-                  color: isDone || isCurrent ? "#080c14" : "rgba(255,255,255,0.35)",
+                  color: isDone || isCurrent ? "#102d39" : "rgba(255,255,255,0.35)",
                   border: `1px solid ${isDone ? C.green : isCurrent ? C.gold : "rgba(255,255,255,0.12)"}`,
                 }}>
                   {i + 1}
@@ -763,7 +763,7 @@ export default function PartnerOperationsCentre() {
           </p>
         </div>
 
-        <div style={{ padding: "14px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderLeft: "3px solid #c9a84c", marginBottom: 36 }}>
+        <div style={{ padding: "14px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderLeft: "3px solid #a8dedb", marginBottom: 36 }}>
           <p style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", lineHeight: 1.7, margin: 0 }}>
             <strong style={{ color: C.gold }}>Working Proof · Simulation boundary:</strong> all operational inputs and states below are synthetic and local. Current classification is deterministic and rules-based. Communications remain drafts and are never sent or delivered; actions, evidence and outcomes are illustrative, and value is modelled rather than measured. No task, partner activation or external-system update occurs. Named humans retain approval and real-world accountability.
           </p>
@@ -871,9 +871,9 @@ export default function PartnerOperationsCentre() {
         <Link href="/partner-room/travel-ai-comms">
           <div style={{
             display: "inline-flex", alignItems: "center", gap: 10, padding: "12px 18px", marginBottom: 40,
-            background: "rgba(201,168,76,0.05)", border: "1px solid rgba(201,168,76,0.2)", cursor: "pointer",
+            background: "rgba(168,222,219,0.05)", border: "1px solid rgba(168,222,219,0.2)", cursor: "pointer",
           }}>
-            <span style={{ fontSize: 11, fontWeight: 700, color: "#c9a84c", letterSpacing: "0.04em" }}>
+            <span style={{ fontSize: 11, fontWeight: 700, color: "#a8dedb", letterSpacing: "0.04em" }}>
               Explore the planned Central Comms model — Travel AI & Central Comms →
             </span>
           </div>
@@ -893,13 +893,13 @@ export default function PartnerOperationsCentre() {
               {["Synthetic Signals", "Modelled Moments", "Recommendations", "Illustrative Actions", "Draft Comms", "Modelled Escalations", "Illustrative Evidence", "Modelled Outcomes & Learning"].map((d, i) => (
                 <div key={d} style={{
                   padding: "5px 12px", fontSize: 9, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase",
-                  color: i === 0 ? "#c9a84c" : "rgba(255,255,255,0.4)",
-                  border: `1px solid ${i === 0 ? "rgba(201,168,76,0.3)" : "rgba(255,255,255,0.1)"}`,
-                  background: i === 0 ? "rgba(201,168,76,0.06)" : "rgba(255,255,255,0.02)",
+                  color: i === 0 ? "#a8dedb" : "rgba(255,255,255,0.4)",
+                  border: `1px solid ${i === 0 ? "rgba(168,222,219,0.3)" : "rgba(255,255,255,0.1)"}`,
+                  background: i === 0 ? "rgba(168,222,219,0.06)" : "rgba(255,255,255,0.02)",
                 }}>{d}</div>
               ))}
             </div>
-            <div style={{ padding: "14px 18px", background: "rgba(255,255,255,0.015)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: "2px solid rgba(201,168,76,0.4)" }}>
+            <div style={{ padding: "14px 18px", background: "rgba(255,255,255,0.015)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: "2px solid rgba(168,222,219,0.4)" }}>
               <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.5)", lineHeight: 1.65, margin: 0 }}>
                 This local Travel simulation shows how governed information could flow through an operator interface. It does not prove execution, delivery, evidence capture or outcomes.
               </p>
@@ -979,7 +979,7 @@ export default function PartnerOperationsCentre() {
                           disabled={!canAdvance}
                           style={{
                             padding: "8px 16px", fontSize: 10, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase",
-                            color: canAdvance ? "#080c14" : "rgba(255,255,255,0.25)", background: canAdvance ? C.gold : "rgba(255,255,255,0.04)",
+                            color: canAdvance ? "#102d39" : "rgba(255,255,255,0.25)", background: canAdvance ? C.gold : "rgba(255,255,255,0.04)",
                             border: "none", cursor: canAdvance ? "pointer" : "default",
                           }}
                         >
@@ -1057,7 +1057,7 @@ export default function PartnerOperationsCentre() {
                       <span style={{ color: "rgba(255,255,255,0.3)", fontWeight: 700 }}>{label}: </span>Illustrative — {val}
                     </div>
                   ))}
-                  <div style={{ gridColumn: "1 / -1", marginTop: 4, padding: "10px 14px", background: "rgba(201,168,76,0.04)", border: "1px solid rgba(201,168,76,0.15)", fontSize: 10.5, color: "rgba(255,255,255,0.55)" }}>
+                  <div style={{ gridColumn: "1 / -1", marginTop: 4, padding: "10px 14px", background: "rgba(168,222,219,0.04)", border: "1px solid rgba(168,222,219,0.15)", fontSize: 10.5, color: "rgba(255,255,255,0.55)" }}>
                     <span style={{ color: C.gold, fontWeight: 700 }}>Learning note: </span>{o.learningNote}
                   </div>
                 </div>
@@ -1111,7 +1111,7 @@ export default function PartnerOperationsCentre() {
         <div id="value-dashboard" style={{ marginBottom: 56, scrollMarginTop: 90 }}>
           <SectionLabel>04 · Value</SectionLabel>
           <H2>Modelled Travel Value Dashboard</H2>
-          <div style={{ padding: "12px 16px", background: "rgba(201,168,76,0.05)", border: "1px solid rgba(201,168,76,0.2)", marginBottom: 24, maxWidth: 760 }}>
+          <div style={{ padding: "12px 16px", background: "rgba(168,222,219,0.05)", border: "1px solid rgba(168,222,219,0.2)", marginBottom: 24, maxWidth: 760 }}>
             <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.6)", lineHeight: 1.6, margin: 0, fontWeight: 600 }}>{VALUE_DEMO_LABEL_NOTE}</p>
           </div>
           <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2, marginBottom: 32 }}>
@@ -1141,9 +1141,9 @@ export default function PartnerOperationsCentre() {
                 <div key={step} style={{ display: "flex", alignItems: "center", gap: 6 }}>
                   <div style={{
                     padding: "9px 14px", fontSize: 10, fontWeight: 700,
-                    color: i === arr.length - 1 ? "#080c14" : "rgba(255,255,255,0.65)",
-                    background: i === arr.length - 1 ? "#c9a84c" : "rgba(255,255,255,0.03)",
-                    border: i === arr.length - 1 ? "1px solid #c9a84c" : "1px solid rgba(255,255,255,0.1)",
+                    color: i === arr.length - 1 ? "#102d39" : "rgba(255,255,255,0.65)",
+                    background: i === arr.length - 1 ? "#a8dedb" : "rgba(255,255,255,0.03)",
+                    border: i === arr.length - 1 ? "1px solid #a8dedb" : "1px solid rgba(255,255,255,0.1)",
                   }}>
                     {step}
                   </div>

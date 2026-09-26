@@ -12,7 +12,7 @@
 import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 
-const C = { muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,255,0.22)", gold: "#c9a84c", green: "#10b981", blue: "#3b82f6" };
+const C = { muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,255,0.22)", gold: "#a8dedb", green: "#10b981", blue: "#3b82f6" };
 
 function SectionLabel({ children }: { children: string }) {
   return <div style={{ fontSize: 8.5, letterSpacing: "0.2em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>{children}</div>;
@@ -113,7 +113,7 @@ export default function PartnerDeployments() {
         </div>
 
         {/* ── ARCHITECTURE NOTE ── */}
-        <div style={{ padding: "14px 18px", background: "rgba(201,168,76,0.04)", border: "1px solid rgba(201,168,76,0.2)", marginBottom: 40 }}>
+        <div style={{ padding: "14px 18px", background: "rgba(168,222,219,0.04)", border: "1px solid rgba(168,222,219,0.2)", marginBottom: 40 }}>
           <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.6)", lineHeight: 1.65, margin: 0 }}>
             <strong style={{ color: C.gold }}>One core, configurable for context.</strong> The JALDO Intelligence Engine, six intelligence layers, Decision Spine and Execution Centre are the same across all environments. What changes is the signal configuration, scenario library, playbook content and role model — each aligned to the specific operational context.
           </p>

@@ -1,0 +1,956 @@
+{
+  "results": [
+    {
+      "route": "/partner-room/overview",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "JALDO Travel — The Operating Case",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/deployments",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "JALDO Travel Deployment Environments",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/product-proof",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "Product Proof",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/validation",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/next-step",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "Explore a Design Partnership",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/operator-brief",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "The Execution Gap That JALDO Core Closes",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/integration-brief",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "Your System Already Captures the Signal",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/moments-economy",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "Moment Economy Explorer",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/signals-engine",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "Travel Signal Registry — Travel Configuration of the JALDO Core Connection Layer",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/pilot-model",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "Hotel Moment Response and Service Recovery Pilot",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/demo-paths",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "JALDO Core — Interactive Working Proofs",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/live-demos",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "Interactive UX Demos",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/guest-demo",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "One Stay. Seven Moments.",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "07 · Checkout"
+        }
+      ]
+    },
+    {
+      "route": "/partner-room/operator-demo",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "What the Operator Sees",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/dual-view-demo",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "JALDO Orchestration — Dual View Demo",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/holiday-park-demo",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "The arrival that almost went wrong —and didn't.",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/deployments/hotels-resorts/demo",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "A high-value guest arrives early.A proposed response shown for review.",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/deployments/corporate-travel/demo",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "A delayed business traveller, back-to-back meetings.Duty-of-care response modelled.",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/deployments/events-venues/demo",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "A crowd flow issue, 40 minutes to program start.A response and outcome modelled.",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/deployments/destination-tourism/demo",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "A transport delay cascades across 34 guest itineraries.A multi-partner response modelled.",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/scenario-builder",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/proof-calculator",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/comms-demo",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/travel-ai-comms",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "Prompt & Nudge Engine and Central Comms OS",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/travel-ai-comms",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "Prompt & Nudge Engine and Central Comms OS",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/decision-spine",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/validation-replay",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/product-proof/signal-capture",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "How JALDO Travel Captures Signals",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/product-proof/pilot-expansion-preview",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "Integration-Assisted Pilot Preview",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/operating-model",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "The JALDO Core Operating Model",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/intelligence-model",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "JALDO Travel Intelligence",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/travel-intelligence",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "JALDO Travel Intelligence",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/travel-intelligence",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "JALDO Travel Intelligence",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/travel-operating-systems",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "JALDO Travel Operating Systems",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/travel-operating-systems",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "JALDO Travel Operating Systems",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/travel-action-centre",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "JALDO Operations Centre — Working Proof",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/travel-outcomes",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "JALDO Operations Centre — Working Proof",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/travel-value",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "JALDO Operations Centre — Working Proof",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/travel-scenarios",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "Travel Scenario Library",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/travel-scenarios",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "Travel Scenario Library",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/rollout-model",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "JALDO Travel Rollout Model",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/partner-ecosystem",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "JALDO Travel Partner Ecosystem",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/resources/travel-partnership-overview",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "JALDO Travel Partnership Overview",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/resources/travel-ux-blueprint",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "JALDO Travel — UX Blueprint",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/resources/travel-systems-map",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "JALDO Travel — Operating Systems & Connection Map",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/resources/travel-pilot-model",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "JALDO Travel — Pilot Model",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/resources/travel-demo-links",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "JALDO Travel — Demo Directory",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/resources/travel-ai-intelligence-layer",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "JALDO Travel — AI Intelligence Layer",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/resources/travel-architecture-modelling-ux-qa",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "JALDO Travel — Architecture, Modelling, UX & QA",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "Exceptional stays.Intelligentlycoordinated.",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        },
+        {
+          "src": "/images/travel/arrival-hero.webp",
+          "loaded": true
+        },
+        {
+          "src": "/images/travel/team-coordination.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/story",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "Operator Story Lab",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        },
+        {
+          "src": "/images/travel/team-coordination.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/story/operator",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/story/guest",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "JALDO TravelPartner Room",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/operations",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "JALDO Operations Centre — Working Proof",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/build-configure",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "Configure Your Travel Deployment",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/product-proof/stage-3-operating-layer",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "Stage 3 Operating Layer Preview",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/brief-library",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "title": "JALDO Travel Brief Library",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/story",
+      "width": 390,
+      "scrollWidth": 390,
+      "title": "Operator Story Lab",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        },
+        {
+          "src": "/images/travel/team-coordination.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/story/operator",
+      "width": 390,
+      "scrollWidth": 390,
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/story/guest",
+      "width": 390,
+      "scrollWidth": 390,
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room",
+      "width": 390,
+      "scrollWidth": 390,
+      "title": "JALDO TravelPartner Room",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    },
+    {
+      "route": "/partner-room/operations",
+      "width": 390,
+      "scrollWidth": 390,
+      "title": "JALDO Operations Centre — Working Proof",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": [
+        {
+          "tag": "TABLE",
+          "cls": "",
+          "text": "Illustrative RecordModelled TimeAccountable OwnerAction Requireme"
+        },
+        {
+          "tag": "THEAD",
+          "cls": "",
+          "text": "Illustrative RecordModelled TimeAccountable OwnerAction Requireme"
+        },
+        {
+          "tag": "TR",
+          "cls": "",
+          "text": "Illustrative RecordModelled TimeAccountable OwnerAction Requireme"
+        },
+        {
+          "tag": "TH",
+          "cls": "",
+          "text": "Draft State"
+        },
+        {
+          "tag": "TH",
+          "cls": "",
+          "text": "Approval Requirement"
+        }
+      ]
+    },
+    {
+      "route": "/partner-room/build-configure",
+      "width": 390,
+      "scrollWidth": 390,
+      "title": "Configure Your Travel Deployment",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": [
+        {
+          "tag": "OL",
+          "cls": "",
+          "text": "1Env2Sys3Roles4OS5Gov6Scen7Comms8Evid9Activate"
+        },
+        {
+          "tag": "LI",
+          "cls": "",
+          "text": "6Scen"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "6Scen"
+        },
+        {
+          "tag": "DIV",
+          "cls": "",
+          "text": "6"
+        },
+        {
+          "tag": "DIV",
+          "cls": "",
+          "text": "Scen"
+        }
+      ]
+    },
+    {
+      "route": "/partner-room/product-proof/stage-3-operating-layer",
+      "width": 390,
+      "scrollWidth": 390,
+      "title": "Stage 3 Operating Layer Preview",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": [
+        {
+          "tag": "DIV",
+          "cls": "",
+          "text": "PropertyOpenEscalatedClosed todayValue protectedRisk levelHarbour"
+        },
+        {
+          "tag": "DIV",
+          "cls": "",
+          "text": "PropertyOpenEscalatedClosed todayValue protectedRisk level"
+        },
+        {
+          "tag": "DIV",
+          "cls": "",
+          "text": "Closed today"
+        },
+        {
+          "tag": "DIV",
+          "cls": "",
+          "text": "Value protected"
+        },
+        {
+          "tag": "DIV",
+          "cls": "",
+          "text": "Risk level"
+        }
+      ]
+    },
+    {
+      "route": "/partner-room/brief-library",
+      "width": 390,
+      "scrollWidth": 390,
+      "title": "JALDO Travel Brief Library",
+      "images": [
+        {
+          "src": "/brand/jaldo-logo-white.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": []
+    }
+  ],
+  "errors": [],
+  "menuWorks": true,
+  "narrativeWidth": 390,
+  "finalStep": true
+}

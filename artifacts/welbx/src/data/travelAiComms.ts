@@ -95,7 +95,7 @@ export const TRAVEL_AI_ASSISTANTS: TravelAiAssistant[] = [
   {
     id: "concierge-partner-assistant",
     name: "Concierge / Partner Assistant",
-    color: "#c9a84c",
+    color: "#a8dedb",
     role: "Concierge / Partner",
     can: [
       "Planned: suggest relevant guest interests for review",

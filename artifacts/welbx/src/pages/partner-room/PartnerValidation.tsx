@@ -3,7 +3,7 @@ import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 
 const TYPE_COLORS: Record<string, string> = {
   Interactive: "#10b981",
-  Simulation: "#c9a84c",
+  Simulation: "#a8dedb",
   Walkthrough: "#3b82f6",
   Briefing: "#a78bfa",
 };
@@ -42,20 +42,20 @@ export default function PartnerValidation() {
           <Link href="/partner-room/guest-demo">
             <div className="rtbx-responsive-split" style={{
               padding: "24px 32px",
-              background: "rgba(201,168,76,0.05)",
-              border: "1px solid rgba(201,168,76,0.22)",
-              borderTop: "2px solid #c9a84c",
+              background: "rgba(168,222,219,0.05)",
+              border: "1px solid rgba(168,222,219,0.22)",
+              borderTop: "2px solid #a8dedb",
               display: "flex", alignItems: "center", justifyContent: "space-between", gap: 32,
               cursor: "pointer", transition: "all 0.15s",
             }}
-            onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(201,168,76,0.09)"; el.style.borderColor = "rgba(201,168,76,0.4)"; }}
-            onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(201,168,76,0.05)"; el.style.borderColor = "rgba(201,168,76,0.22)"; }}
+            onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(168,222,219,0.09)"; el.style.borderColor = "rgba(168,222,219,0.4)"; }}
+            onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = "rgba(168,222,219,0.05)"; el.style.borderColor = "rgba(168,222,219,0.22)"; }}
             >
               <div>
                 <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                    <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#c9a84c" }} />
-                    <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: "#c9a84c" }}>Working Proof</span>
+                    <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#a8dedb" }} />
+                    <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: "#a8dedb" }}>Working Proof</span>
                   </div>
                   <div style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,0.25)", border: "1px solid rgba(255,255,255,0.1)", padding: "2px 8px" }}>Simulation</div>
                 </div>
@@ -66,7 +66,7 @@ export default function PartnerValidation() {
               </div>
               <div className="rtbx-responsive-cta" style={{
                 padding: "10px 22px", fontSize: 9.5, fontWeight: 700, letterSpacing: "0.1em",
-                textTransform: "uppercase", color: "#c9a84c", border: "1px solid rgba(201,168,76,0.4)",
+                textTransform: "uppercase", color: "#a8dedb", border: "1px solid rgba(168,222,219,0.4)",
                 whiteSpace: "nowrap", flexShrink: 0,
               }}>
                  Open Working Proof →
@@ -122,7 +122,7 @@ export default function PartnerValidation() {
                 items: ["All scenario replays use representative guest profiles and synthesised signals", "Moment outcomes are illustrative — not drawn from a live property", "Comms demo messages are simulated deliveries"],
               },
               {
-                num: "03", label: "Planned", color: "#c9a84c",
+                num: "03", label: "Planned", color: "#a8dedb",
                 desc: "Components fully specified and modelled but not yet live-integrated.",
                 items: ["JALDO Integration Hub (connection model specified)", "Travel Governance Sources (11 canonical policies defined)", "Evidence Ledger schema (structure and fields defined)", "Travel Signal Registry taxonomy (30+ classified types defined)", "Decision Spine chain (10-step governance model complete)"],
               },
@@ -147,7 +147,7 @@ export default function PartnerValidation() {
                 items: ["Decision Spine logic reviewed against human-approval requirements", "Compensation Approval Matrix — role authority levels specified", "Critical Incident Procedure — escalation path defined", "Privacy & Consent Rules — data handling boundaries defined", "AI boundary — what AI may and may not do, explicitly specified"],
               },
               {
-                num: "08", label: "Planned", color: "#c9a84c",
+                num: "08", label: "Planned", color: "#a8dedb",
                 desc: "What the evidence trail would contain in a live production deployment.",
                 items: ["Moment record: signal cluster, classification, risk level, value at stake", "Governance decision: source applied, rule, threshold, permission granted", "Action log: role owner, channel, message/instruction, timestamp", "Outcome log: resolution type, guest response, value attributed", "Learning signal: playbook performance, detection accuracy update"],
               },

@@ -200,7 +200,7 @@ export const COMMERCIAL_STATUS_LABELS: Record<CommercialStatus, string> = {
 
 export const COMMERCIAL_STATUS_COLORS: Record<CommercialStatus, string> = {
   "approved":            "#10b981",
-  "indicative":          "#c9a84c",
+  "indicative":          "#a8dedb",
   "configurable":        "#3b82f6",
   "subject-to-proposal": "#a78bfa",
   "partner-specific":    "#f97316",
@@ -319,7 +319,7 @@ export const COMMERCIAL_PROOF_BOUNDARIES: ProofBoundaryCategory[] = [
   {
     id: "pilot-dependent",
     label: "Pilot-Dependent",
-    color: "#c9a84c",
+    color: "#a8dedb",
     items: [
       "Staff adoption and workflow acceptance",
       "Operational outcomes and performance",

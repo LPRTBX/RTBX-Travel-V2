@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useLocation } from "wouter";
 import { usePartnerContent } from "@/context/PartnerContentContext";
+import { TravelWordmark } from "@/components/TravelWordmark";
 
 interface NavItem { label: string; path: string; }
 interface NavGroup { label: string; items: NavItem[]; }
@@ -268,7 +269,7 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
   }
 
   return (
-    <div style={{ minHeight: "100dvh", background: "#080c14", color: "#fff", display: "flex", flexDirection: "column" }}>
+    <div style={{ minHeight: "100dvh", background: "#102d39", color: "#fff", display: "flex", flexDirection: "column" }}>
       {/* ── Top Nav ────────────────────────────────────────────────────────── */}
       <header>
         <nav
@@ -278,8 +279,8 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
             position: "sticky",
             top: 0,
             zIndex: 50,
-            background: "rgba(8,12,20,0.98)",
-            borderBottom: "1px solid rgba(201,168,76,0.15)",
+            background: "rgba(16,45,57,0.98)",
+            borderBottom: "1px solid rgba(168,222,219,0.15)",
             backdropFilter: "blur(10px)",
           }}
         >
@@ -292,13 +293,13 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
             alignItems: "center",
             justifyContent: "space-between",
             borderBottom: "1px solid rgba(255,255,255,0.04)",
-            minHeight: 44,
+            minHeight: 64,
             gap: 12,
           }}>
             <a href="/partner-room" onClick={(e) => { e.preventDefault(); navigateFromMenu("/partner-room"); }}>
-              <div className="rtbx-brand-lockup" style={{ display: "flex", alignItems: "baseline", gap: 8, cursor: "pointer" }}>
-                <span className="rtbx-brand-title" style={{ fontSize: 16, fontWeight: 800, letterSpacing: "0.2em", color: "#fff", textTransform: "uppercase" }}>JALDO Travel</span>
-                <span className="rtbx-brand-context" style={{ fontSize: 12, letterSpacing: "0.14em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, paddingBottom: 1 }}>Partner Room</span>
+              <div className="rtbx-brand-lockup" style={{ display: "flex", alignItems: "center", gap: 16, cursor: "pointer" }}>
+                <span className="rtbx-brand-title"><TravelWordmark /></span>
+                <span className="rtbx-brand-context" style={{ fontSize: 12, letterSpacing: "0.14em", color: "#a8dedb", textTransform: "uppercase", fontWeight: 700, paddingBottom: 1 }}>Partner Room</span>
               </div>
             </a>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -307,11 +308,11 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
                 className="rtbx-nav-desc"
                 style={{ fontSize: 12, letterSpacing: "0.1em", color: "rgba(255,255,255,0.46)", textTransform: "uppercase", fontWeight: 600 }}
               >
-                JALDO Travel is powered by JALDO Core — governed signal-to-action infrastructure for travel and hospitality
+                Powered by JALDO Core
               </span>
               <div className="rtbx-nav-private" style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                <div style={{ width: 4, height: 4, borderRadius: "50%", background: "#c9a84c" }} aria-hidden="true" />
-                <span style={{ fontSize: 12, letterSpacing: "0.12em", color: "rgba(201,168,76,0.82)", textTransform: "uppercase", fontWeight: 700 }}>Controlled Preview</span>
+                <div style={{ width: 4, height: 4, borderRadius: "50%", background: "#a8dedb" }} aria-hidden="true" />
+                <span style={{ fontSize: 12, letterSpacing: "0.12em", color: "rgba(168,222,219,0.82)", textTransform: "uppercase", fontWeight: 700 }}>Controlled Preview</span>
               </div>
               {/* Mobile hamburger */}
               <button
@@ -385,7 +386,7 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
                     letterSpacing: "0.06em",
                     textTransform: "uppercase",
                     color: itemActive ? "#fff" : "rgba(255,255,255,0.5)",
-                    borderBottom: itemActive ? "2px solid #c9a84c" : "2px solid transparent",
+                    borderBottom: itemActive ? "2px solid #a8dedb" : "2px solid transparent",
                     whiteSpace: "nowrap",
                   }}
                 >
@@ -442,7 +443,7 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
                       textTransform: "uppercase" as const,
                       color: isGroupActive ? "#fff" : "rgba(255,255,255,0.38)",
                       border: "none",
-                      borderBottom: isGroupActive ? "2px solid #c9a84c" : "2px solid transparent",
+                      borderBottom: isGroupActive ? "2px solid #a8dedb" : "2px solid transparent",
                       background: "transparent",
                       cursor: "pointer",
                       transition: "color 0.15s",
@@ -478,8 +479,8 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
                         top: dropdownPosition.top,
                         left: dropdownPosition.left,
                         width: DROPDOWN_WIDTH,
-                        background: "#0c1220",
-                        border: "1px solid rgba(201,168,76,0.2)",
+                        background: "#173b47",
+                        border: "1px solid rgba(168,222,219,0.2)",
                         boxShadow: "0 12px 28px rgba(0,0,0,0.6)",
                         zIndex: 9999,
                         padding: "6px 0",
@@ -533,14 +534,14 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
                                 fontSize: 14,
                                 fontWeight: 600,
                                 letterSpacing: "0.02em",
-                                color: itemActive ? "#c9a84c" : "rgba(255,255,255,0.62)",
+                                color: itemActive ? "#a8dedb" : "rgba(255,255,255,0.62)",
                                 cursor: "pointer",
                                 whiteSpace: "nowrap",
                                 transition: "background 0.12s",
                                  minHeight: 44,
                                 display: "flex",
                                 alignItems: "center",
-                                borderLeft: itemActive ? "2px solid #c9a84c" : "2px solid transparent",
+                                borderLeft: itemActive ? "2px solid #a8dedb" : "2px solid transparent",
                               }}
                               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.05)"; }}
                               onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "transparent"; }}
@@ -566,7 +567,7 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
               aria-label="Mobile navigation"
               ref={mobileNavPanelRef}
               style={{
-                background: "#0c1220",
+                background: "#173b47",
                 borderTop: "1px solid rgba(255,255,255,0.08)",
                 padding: "8px 0 16px",
                 // Full-width stacked layout — never horizontally scrollable
@@ -594,8 +595,8 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
                       fontWeight: 700,
                       letterSpacing: "0.08em",
                       textTransform: "uppercase",
-                      color: itemActive ? "#c9a84c" : "rgba(255,255,255,0.72)",
-                      borderLeft: itemActive ? "2px solid #c9a84c" : "2px solid transparent",
+                      color: itemActive ? "#a8dedb" : "rgba(255,255,255,0.72)",
+                      borderLeft: itemActive ? "2px solid #a8dedb" : "2px solid transparent",
                     }}
                   >
                     {item.label}
@@ -622,7 +623,7 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
                         padding: "12px 20px",
                          fontSize: 14,
                          letterSpacing: "0.08em",
-                        color: isGroupActive ? "#c9a84c" : "rgba(201,168,76,0.5)",
+                        color: isGroupActive ? "#a8dedb" : "rgba(168,222,219,0.5)",
                         textTransform: "uppercase",
                         fontWeight: 700,
                         background: "transparent",
@@ -666,9 +667,9 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
                               padding: "10px 28px",
                                fontSize: 14,
                               fontWeight: itemActive ? 700 : 500,
-                              color: itemActive ? "#c9a84c" : "rgba(255,255,255,0.7)",
+                              color: itemActive ? "#a8dedb" : "rgba(255,255,255,0.7)",
                               cursor: "pointer",
-                              borderLeft: itemActive ? "2px solid #c9a84c" : "2px solid transparent",
+                              borderLeft: itemActive ? "2px solid #a8dedb" : "2px solid transparent",
                               transition: "all 0.1s",
                               minHeight: 44,
                               display: "flex",
@@ -702,6 +703,7 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
         flexDirection: "column",
         gap: 8,
       }}>
+        <a className="jaldo-return-home" href="/" onClick={(e) => { e.preventDefault(); navigateFromMenu("/"); }}>← JALDO Travel home</a>
          <p style={{ fontSize: 16, letterSpacing: "0.01em", color: "rgba(255,255,255,0.62)", margin: 0, lineHeight: 1.55, maxWidth: 900 }}>
           Travel Partner Room materials are provided for strategic partner and operator review and should not be redistributed without JALDO approval.
         </p>

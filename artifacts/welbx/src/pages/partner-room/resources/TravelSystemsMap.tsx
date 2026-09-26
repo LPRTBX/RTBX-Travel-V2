@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 
-const C = { gold: "#c9a84c", muted: "rgba(255,255,255,0.45)", dim: "rgba(255,255,255,0.22)", green: "#10b981", blue: "#3b82f6" };
+const C = { gold: "#a8dedb", muted: "rgba(255,255,255,0.45)", dim: "rgba(255,255,255,0.22)", green: "#10b981", blue: "#3b82f6" };
 
 const HEAD_SYSTEMS = [
   {
@@ -38,7 +38,7 @@ const HEAD_SYSTEMS = [
   {
     id: "marketplace-loyalty-os",
     label: "Marketplace & Loyalty Activation OS",
-    color: "#c9a84c",
+    color: "#a8dedb",
     note: "Commercial activation layer",
     desc: "The system that turns dwell time, guest readiness and contextual signals into activated commercial moments — dining, experiences, loyalty and local partner offers.",
     modules: [
@@ -83,7 +83,7 @@ const HEAD_SYSTEMS = [
 ];
 
 const ENVS = [
-  { label: "Hotels & Resorts", color: "#c9a84c", systems: ["Guest Experience OS", "Service Recovery OS", "Marketplace & Loyalty OS", "Operator Intelligence OS", "Guest Welfare OS"] },
+  { label: "Hotels & Resorts", color: "#a8dedb", systems: ["Guest Experience OS", "Service Recovery OS", "Marketplace & Loyalty OS", "Operator Intelligence OS", "Guest Welfare OS"] },
   { label: "Holiday Parks & Outdoor", color: "#10b981", systems: ["Guest Experience OS", "Service Recovery OS", "Marketplace & Loyalty OS", "Operator Intelligence OS", "Guest Welfare OS"] },
   { label: "Corporate & Business Travel", color: "#3b82f6", systems: ["Guest Experience OS", "Service Recovery OS", "Operator Intelligence OS"] },
   { label: "Events & Venues", color: "#a78bfa", systems: ["Service Recovery OS", "Operator Intelligence OS", "Guest Welfare OS"] },
@@ -111,7 +111,7 @@ export default function TravelSystemsMap() {
         <div style={{ marginBottom: 56 }}>
           <div style={{ fontSize: 8.5, letterSpacing: "0.2em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>Partner Resource · Connection Map / Systems Map</div>
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 18, maxWidth: 680 }}>JALDO Travel — Operating Systems &amp; Connection Map</h1>
-          <div style={{ padding: "16px 20px", background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.22)", borderLeft: "3px solid #c9a84c", maxWidth: 680 }}>
+          <div style={{ padding: "16px 20px", background: "rgba(168,222,219,0.06)", border: "1px solid rgba(168,222,219,0.22)", borderLeft: "3px solid #a8dedb", maxWidth: 680 }}>
             <p style={{ fontSize: 13, color: "rgba(255,255,255,0.7)", lineHeight: 1.75, margin: 0, fontStyle: "italic" }}>
               "The environment changes. The JALDO Travel operating logic does not."
             </p>
@@ -141,7 +141,7 @@ export default function TravelSystemsMap() {
         </div>
 
         {/* JALDO Core note */}
-        <div style={{ marginBottom: 40, padding: "20px 22px", background: "rgba(201,168,76,0.04)", border: "1px solid rgba(201,168,76,0.15)" }}>
+        <div style={{ marginBottom: 40, padding: "20px 22px", background: "rgba(168,222,219,0.04)", border: "1px solid rgba(168,222,219,0.15)" }}>
           <div style={{ fontSize: 8, letterSpacing: "0.14em", color: C.gold, textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>JALDO Core — Powers Every Head System</div>
           <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, margin: 0 }}>
             All five head systems run on JALDO Core infrastructure — the same signal ingestion, moment classification, decision spine, action routing and assurance registry. Guest Experience appears only as the guest-facing delivery surface inside the Guest Experience OS. Every other layer is operator and partner-facing.

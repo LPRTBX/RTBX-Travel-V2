@@ -3,7 +3,7 @@ import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 import { ENGINE_STAGES, INTELLIGENCE_LAYERS } from "@/data/rtbxArchitecture";
 import { CURRENT_PROOF_BOUNDARY } from "@/lib/proofLanguage";
 
-const C = { gold: "#c9a84c", muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,255,0.22)", green: "#10b981", blue: "#3b82f6", purple: "#a78bfa" };
+const C = { gold: "#a8dedb", muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,255,0.22)", green: "#10b981", blue: "#3b82f6", purple: "#a78bfa" };
 
 const HIERARCHY = [
   { label: "JALDO Core", sub: "Signal-to-action infrastructure" },
@@ -54,7 +54,7 @@ function Chain({ items }: { items: { label: string; sub?: string; desc?: string 
         <div key={item.label} style={{ display: "flex", alignItems: "flex-start", gap: 16 }}>
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: 20, flexShrink: 0 }}>
             <div style={{ width: 8, height: 8, borderRadius: "50%", background: C.gold, flexShrink: 0, marginTop: 4 }} />
-            {i < items.length - 1 && <div style={{ width: 1, flex: 1, minHeight: 28, background: "rgba(201,168,76,0.25)" }} />}
+            {i < items.length - 1 && <div style={{ width: 1, flex: 1, minHeight: 28, background: "rgba(168,222,219,0.25)" }} />}
           </div>
           <div style={{ paddingBottom: 22 }}>
             <div style={{ fontSize: 14, fontWeight: 700, color: "#fff", marginBottom: 3 }}>{item.label}</div>
@@ -78,7 +78,7 @@ export default function PartnerOperatingModel() {
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.15, marginBottom: 20, maxWidth: 720 }}>
             The JALDO Core Operating Model
           </h1>
-          <div style={{ padding: "16px 20px", background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.22)", borderLeft: "3px solid #c9a84c", maxWidth: 700, marginBottom: 20 }}>
+          <div style={{ padding: "16px 20px", background: "rgba(168,222,219,0.06)", border: "1px solid rgba(168,222,219,0.22)", borderLeft: "3px solid #a8dedb", maxWidth: 700, marginBottom: 20 }}>
             <div style={{ fontSize: 11, letterSpacing: "0.14em", color: C.gold, textTransform: "uppercase", fontWeight: 800, marginBottom: 8 }}>
               {CURRENT_PROOF_BOUNDARY.maturity} · {CURRENT_PROOF_BOUNDARY.evidence}
             </div>
@@ -108,12 +108,12 @@ export default function PartnerOperatingModel() {
           </div>
           <div className="rtbx-grid-4" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
             {PUBLIC_PROMISE.map((step, i) => (
-              <div key={step.label} style={{ padding: "20px 16px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: "2px solid #c9a84c", position: "relative" }}>
-                <div style={{ fontSize: 11, letterSpacing: "0.14em", color: "rgba(201,168,76,0.45)", textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>{String(i + 1).padStart(2, "0")}</div>
+              <div key={step.label} style={{ padding: "20px 16px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: "2px solid #a8dedb", position: "relative" }}>
+                <div style={{ fontSize: 11, letterSpacing: "0.14em", color: "rgba(168,222,219,0.45)", textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>{String(i + 1).padStart(2, "0")}</div>
                 <div style={{ fontSize: 13, fontWeight: 700, color: "#fff", marginBottom: 8, lineHeight: 1.3 }}>{step.label}</div>
                 <div style={{ fontSize: 12, color: C.muted, lineHeight: 1.55 }}>{step.desc}</div>
                 {i < PUBLIC_PROMISE.length - 1 && (
-                  <div style={{ position: "absolute", right: -7, top: "50%", transform: "translateY(-50%)", width: 12, height: 1, background: "rgba(201,168,76,0.25)", zIndex: 1 }} />
+                  <div style={{ position: "absolute", right: -7, top: "50%", transform: "translateY(-50%)", width: 12, height: 1, background: "rgba(168,222,219,0.25)", zIndex: 1 }} />
                 )}
               </div>
             ))}
@@ -143,8 +143,8 @@ export default function PartnerOperatingModel() {
           </p>
           <div className="rtbx-grid-5" style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 2 }}>
             {ENGINE_STAGES.map((stage, i) => (
-              <div key={stage.id} style={{ padding: "20px 16px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: "2px solid #c9a84c", position: "relative" }}>
-                <div style={{ fontSize: 11, letterSpacing: "0.14em", color: "rgba(201,168,76,0.45)", textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>{String(i + 1).padStart(2, "0")}</div>
+              <div key={stage.id} style={{ padding: "20px 16px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: "2px solid #a8dedb", position: "relative" }}>
+                <div style={{ fontSize: 11, letterSpacing: "0.14em", color: "rgba(168,222,219,0.45)", textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>{String(i + 1).padStart(2, "0")}</div>
                 <div style={{ fontSize: 13, fontWeight: 700, color: "#fff", marginBottom: 8 }}>{stage.label}</div>
                 <div style={{ fontSize: 12, color: C.muted, lineHeight: 1.55 }}>{stage.summary}</div>
               </div>
@@ -162,10 +162,10 @@ export default function PartnerOperatingModel() {
           </p>
           <div className="rtbx-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
             {INTELLIGENCE_LAYERS.map(layer => (
-              <div key={layer.id} style={{ padding: "20px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: "2px solid #c9a84c" }}>
+              <div key={layer.id} style={{ padding: "20px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: "2px solid #a8dedb" }}>
                 <div style={{ fontSize: 13, fontWeight: 700, color: "#fff", marginBottom: 6 }}>{layer.label}</div>
                 <div style={{ fontSize: 12, color: C.muted, lineHeight: 1.55, marginBottom: 10 }}>{layer.summary}</div>
-                <div style={{ fontSize: 11, fontWeight: 700, color: "rgba(201,168,76,0.5)", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 6 }}>Primary Stage: {layer.primaryStage}</div>
+                <div style={{ fontSize: 11, fontWeight: 700, color: "rgba(168,222,219,0.5)", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 6 }}>Primary Stage: {layer.primaryStage}</div>
                 {layer.sharedCapabilities.map(cap => (
                   <div key={cap} style={{ fontSize: 11, color: "rgba(255,255,255,0.32)", marginBottom: 3, paddingLeft: 8, borderLeft: "1px solid rgba(255,255,255,0.1)" }}>{cap}</div>
                 ))}

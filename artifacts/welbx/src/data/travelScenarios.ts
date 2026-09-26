@@ -1244,6 +1244,6 @@ export const MATURITY_COLORS: Record<MaturityStatus, string> = {
   "simulation": "#a78bfa",
   "connector-ready": "#3b82f6",
   "integrated": "#06b6d4",
-  "production": "#c9a84c",
+  "production": "#a8dedb",
   "planned": "rgba(255,255,255,0.3)",
 };

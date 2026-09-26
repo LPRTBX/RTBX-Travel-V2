@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { TravelWordmark } from "@/components/TravelWordmark";
 
 const SESSION_KEY = "partner_room_access";
 const REQUIRED_CODE = import.meta.env.VITE_PARTNER_ROOM_CODE as string | undefined;
@@ -43,7 +44,7 @@ export function PartnerAccessGate({ children }: PartnerAccessGateProps) {
   return (
     <div style={{
       minHeight: "100dvh",
-      background: "#080c14",
+      background: "#102d39",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
@@ -52,11 +53,12 @@ export function PartnerAccessGate({ children }: PartnerAccessGateProps) {
       <div style={{ width: "100%", maxWidth: 440, textAlign: "center" }}>
 
         {/* Brand hierarchy */}
+        <div style={{ display: "flex", justifyContent: "center", marginBottom: 28 }}><TravelWordmark /></div>
         <div style={{ marginBottom: 36 }}>
           <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.18)", textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>
             JALDO · Travel Vertical
           </div>
-          <div style={{ fontSize: 8.5, letterSpacing: "0.22em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700 }}>
+          <div style={{ fontSize: 8.5, letterSpacing: "0.22em", color: "#a8dedb", textTransform: "uppercase", fontWeight: 700 }}>
             JALDO Travel · Partner Room
           </div>
         </div>
@@ -87,7 +89,7 @@ export function PartnerAccessGate({ children }: PartnerAccessGateProps) {
               transition: "border-color 0.15s",
               boxSizing: "border-box",
             }}
-            onFocus={e => { if (!error) (e.target as HTMLInputElement).style.borderColor = "rgba(201,168,76,0.5)"; }}
+            onFocus={e => { if (!error) (e.target as HTMLInputElement).style.borderColor = "rgba(168,222,219,0.5)"; }}
             onBlur={e => { if (!error) (e.target as HTMLInputElement).style.borderColor = "rgba(255,255,255,0.1)"; }}
           />
           {error && (
@@ -99,8 +101,8 @@ export function PartnerAccessGate({ children }: PartnerAccessGateProps) {
             type="submit"
             style={{
               padding: "13px 24px",
-              background: "#c9a84c",
-              color: "#080c14",
+              background: "#a8dedb",
+              color: "#102d39",
               border: "none",
               fontSize: 11,
               fontWeight: 700,
@@ -109,8 +111,8 @@ export function PartnerAccessGate({ children }: PartnerAccessGateProps) {
               cursor: "pointer",
               transition: "background 0.15s",
             }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "#d4b35e"; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "#c9a84c"; }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "#c4eeea"; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "#a8dedb"; }}
           >
             Enter Partner Room
           </button>

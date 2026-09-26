@@ -3,8 +3,8 @@ import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 
 const P = {
-  bg: "#080c14", navy: "#0d1220", navy2: "#111827", border: "rgba(255,255,255,0.08)",
-  amber: "#c9a84c", white: "#f8f9fb", muted: "rgba(255,255,255,0.5)",
+  bg: "#102d39", navy: "#173b47", navy2: "#111827", border: "rgba(255,255,255,0.08)",
+  amber: "#a8dedb", white: "#f8f9fb", muted: "rgba(255,255,255,0.5)",
   dimmed: "rgba(255,255,255,0.22)", green: "#10b981", red: "#ef4444",
   orange: "#f59e0b", blue: "#3b82f6",
 };
@@ -222,7 +222,7 @@ export default function PartnerOperatorDemo() {
 
       {/* Context callout */}
       <div className="rtbx-page-pad" style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px 0" }}>
-        <div style={{ padding: "14px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderLeft: "3px solid #c9a84c", marginBottom: 24 }}>
+        <div style={{ padding: "14px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderLeft: "3px solid #a8dedb", marginBottom: 24 }}>
           <p style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", lineHeight: 1.7, margin: 0 }}>
             This Working Proof uses synthetic moments to demonstrate classification, governance, named role assignment and recommended actions. Outcomes, confidence values and timestamps are illustrative; no staff task or guest communication is dispatched.
           </p>
