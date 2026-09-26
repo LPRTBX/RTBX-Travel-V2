@@ -1,270 +1,81 @@
-import { motion } from "framer-motion";
+import { ArrowRight, ArrowUpRight, Building2, CheckCircle2, Eye, Layers3 } from "lucide-react";
 import { Link } from "wouter";
+import { CURRENT_PROOF_BOUNDARY, WORKING_PROOF_PATH } from "@/lib/proofLanguage";
+import "./Landing.css";
 
-const FLOW_STEPS = [
-  { label: "Signals", desc: "Behavioural data surfaces from environment and people" },
-  { label: "Moments", desc: "Patterns condense into a moment of consequence" },
-  { label: "Visibility", desc: "The right person sees what matters, when it matters" },
-  { label: "Decisions", desc: "Governed response is triggered at the point of relevance" },
-  { label: "Actions", desc: "Execution is deployed with consistency and attribution" },
-  { label: "Outcomes", desc: "Results are measured against defined thresholds" },
-  { label: "Value", desc: "Compounding improvement across every interaction" },
-];
-
-const fadeUp = (delay: number) => ({
-  initial: { opacity: 0, y: 14 },
-  animate: { opacity: 1, y: 0 },
-  transition: { delay, duration: 0.45, ease: "easeOut" as const },
-});
+const STAGE_3_PATH = "/partner-room/product-proof/stage-3-operating-layer";
+const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
 
 export default function Landing() {
   return (
-    <div className="rtbx-landing-page" style={{
-      position: "fixed", inset: 0, zIndex: 60,
-      background: "hsl(220 13% 4%)",
-      display: "flex", flexDirection: "column",
-      overflow: "hidden",
-    }}>
-
-      {/* Header */}
-      <motion.header
-        className="rtbx-landing-header"
-        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.35 }}
-        style={{
-          padding: "22px 60px",
-          display: "flex", justifyContent: "space-between", alignItems: "center",
-          borderBottom: "1px solid hsl(220 13% 8%)",
-          flexShrink: 0,
-        }}
-      >
-        <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.32em", color: "#fff", textTransform: "uppercase" }}>
-          Guest Experience
-        </div>
-        <div style={{ fontSize: 8, letterSpacing: "0.14em", color: "hsl(215 16% 22%)", textTransform: "uppercase", fontWeight: 600 }}>
-          Behavioural Infrastructure
-        </div>
-      </motion.header>
-
-      {/* Main — scrollable */}
-      <div className="rtbx-landing-main" style={{ flex: 1, overflowY: "auto", padding: "0 60px" }}>
-        <div style={{ maxWidth: 960, margin: "0 auto", paddingTop: 72, paddingBottom: 80 }}>
-
-          {/* Section label */}
-          <motion.div {...fadeUp(0.06)} style={{
-            fontSize: 8.5, fontWeight: 700, letterSpacing: "0.28em",
-            color: "#c9a84c", textTransform: "uppercase", marginBottom: 28,
-          }}>
-            WHY GUEST EXPERIENCE EXISTS
-          </motion.div>
-
-          {/* Hero headline */}
-          <motion.h1 {...fadeUp(0.14)} style={{
-            fontSize: "clamp(32px, 4.2vw, 54px)", fontWeight: 800,
-            color: "#ffffff", letterSpacing: "-0.03em", lineHeight: 1.1,
-            margin: 0, marginBottom: 28,
-          }}>
-            Hotels Have Solved Information.
-            <br />
-            They Have Not Solved Execution.
-          </motion.h1>
-
-          {/* Subheading */}
-          <motion.p {...fadeUp(0.22)} style={{
-            fontSize: "clamp(14px, 1.4vw, 17px)", fontWeight: 400,
-            color: "hsl(215 16% 52%)", letterSpacing: "-0.01em", lineHeight: 1.5,
-            margin: 0, marginBottom: 64, maxWidth: 600,
-          }}>
-            Guest Experience is the Behavioural Infrastructure layer between signal and action.
-          </motion.p>
-
-          {/* Divider */}
-          <motion.div
-            initial={{ scaleX: 0, originX: 0 }} animate={{ scaleX: 1 }}
-            transition={{ delay: 0.28, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-            style={{ height: 1, background: "hsl(220 13% 9%)", marginBottom: 64 }}
-          />
-
-          {/* Two-column layout: flow + execution gap */}
-          <div className="rtbx-landing-causal-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "start" }}>
-
-            {/* Left — vertical flow */}
-            <motion.div {...fadeUp(0.34)}>
-              <div style={{
-                fontSize: 8.5, fontWeight: 700, letterSpacing: "0.24em",
-                color: "#c9a84c", textTransform: "uppercase", marginBottom: 32,
-              }}>
-                The Causal Chain
-              </div>
-
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                {FLOW_STEPS.map((step, i) => (
-                  <motion.div
-                    key={step.label}
-                    initial={{ opacity: 0, x: -8 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.38 + i * 0.07, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                    style={{ display: "flex", gap: 20, alignItems: "flex-start" }}
-                  >
-                    {/* Connector column */}
-                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", flexShrink: 0, width: 16 }}>
-                      <div style={{
-                        width: 7, height: 7, borderRadius: "50%",
-                        background: i === 0 ? "#c9a84c" : i === 6 ? "#c9a84c" : "hsl(220 13% 18%)",
-                        border: i === 0 || i === 6 ? "none" : "1px solid #c9a84c",
-                        marginTop: 3, flexShrink: 0,
-                      }} />
-                      {i < FLOW_STEPS.length - 1 && (
-                        <div style={{ width: 1, flex: 1, minHeight: 28, background: "linear-gradient(to bottom, #c9a84c44, #c9a84c22)", marginTop: 2 }} />
-                      )}
-                    </div>
-
-                    {/* Label + desc */}
-                    <div style={{ paddingBottom: i < FLOW_STEPS.length - 1 ? 20 : 0 }}>
-                      <div style={{
-                        fontSize: 12, fontWeight: 700, letterSpacing: "0.1em",
-                        color: "#fff", textTransform: "uppercase", marginBottom: 3,
-                      }}>
-                        {step.label}
-                      </div>
-                      <div style={{ fontSize: 11.5, color: "hsl(215 16% 38%)", lineHeight: 1.6 }}>
-                        {step.desc}
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* Right — Execution Gap */}
-            <motion.div {...fadeUp(0.42)}>
-              <div style={{
-                fontSize: 8.5, fontWeight: 700, letterSpacing: "0.24em",
-                color: "#c9a84c", textTransform: "uppercase", marginBottom: 32,
-              }}>
-                THE EXECUTION GAP
-              </div>
-
-              <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
-                {[
-                  "Most organisations collect information.",
-                  "Most organisations employ people to act.",
-                  "Very few improve what happens in between.",
-                ].map((sentence, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 + i * 0.1, duration: 0.4 }}
-                    style={{
-                      padding: "22px 0",
-                      borderBottom: i < 2 ? "1px solid hsl(220 13% 9%)" : "none",
-                    }}
-                  >
-                    <p style={{
-                      margin: 0,
-                      fontSize: i === 2 ? "clamp(15px, 1.5vw, 19px)" : "clamp(13px, 1.2vw, 15px)",
-                      fontWeight: i === 2 ? 600 : 400,
-                      color: i === 2 ? "#fff" : "hsl(215 16% 46%)",
-                      letterSpacing: i === 2 ? "-0.02em" : "0",
-                      lineHeight: 1.45,
-                    }}>
-                      {sentence}
-                    </p>
-                  </motion.div>
-                ))}
-              </div>
-
-              {/* Spacer */}
-              <div style={{ marginTop: 48 }} />
-
-              {/* What Guest Experience does */}
-              <motion.div {...fadeUp(0.8)} style={{
-                padding: "28px 28px",
-                border: "1px solid hsl(220 13% 10%)",
-                borderLeft: "2px solid #c9a84c",
-                background: "hsl(220 13% 6%)",
-              }}>
-                <div style={{
-                  fontSize: 8, fontWeight: 700, letterSpacing: "0.22em",
-                  color: "#c9a84c", textTransform: "uppercase", marginBottom: 14,
-                }}>
-                  What Guest Experience Does
-                </div>
-                <p style={{
-                  margin: 0, fontSize: 13, color: "hsl(215 16% 52%)",
-                  lineHeight: 1.75, letterSpacing: "0.01em",
-                }}>
-                  Guest Experience occupies the space between knowing and doing. It turns operational signals into governed actions — consistently, at scale, without loss of institutional intelligence.
-                </p>
-              </motion.div>
-            </motion.div>
+    <div id="jaldo-travel-home" className="rtbx-landing-page">
+      <a className="travel-skip" href="#travel-main">Skip to content</a>
+      <header className="travel-header">
+        <Link href="/" className="travel-brand" aria-label="JALDO Travel home">
+          <img src={asset("brand/jaldo-logo-white.webp")} alt="JALDO" width="160" height="42" />
+          <span>Travel</span>
+        </Link>
+        <nav aria-label="Main navigation">
+          <Link href="/story">The experience</Link>
+          <a href="#travel-proof">Working proof</a>
+          <Link href="/partner-room" className="travel-nav-partner">Partner Room <ArrowUpRight size={15} aria-hidden="true" /></Link>
+        </nav>
+      </header>
+      <main id="travel-main">
+        <section className="travel-hero" aria-labelledby="travel-headline">
+          <img className="travel-hero-photo" src={asset("images/travel/arrival-hero.webp")} alt="Illustrative hotel arrival: a concierge welcomes a guest at a warmly lit entrance." width="1672" height="941" fetchPriority="high" />
+          <div className="travel-hero-shade" />
+          <div className="travel-container travel-hero-content">
+            <p className="travel-eyebrow">JALDO Travel / Guest Experience</p>
+            <h1 id="travel-headline">Exceptional stays.<br /><span>Intelligently<br />coordinated.</span></h1>
+            <p className="travel-hero-intro">Connect guest needs, team decisions and follow-through. Give the people behind every stay a clearer next step.</p>
+            <div className="travel-actions">
+              <Link href={WORKING_PROOF_PATH} className="travel-button travel-button-light">Explore the working demo <ArrowRight size={19} aria-hidden="true" /></Link>
+              <a href="#travel-stage-3" className="travel-text-link">See the bigger picture <ArrowUpRight size={17} aria-hidden="true" /></a>
+            </div>
+            <p className="travel-access-note">Partner Room access code required when enabled. Synthetic demonstration.</p>
           </div>
-
-          {/* CTA */}
-          <motion.div
-            className="rtbx-landing-cta-group"
-            initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.9, duration: 0.4 }}
-            style={{ marginTop: 72, display: "flex", alignItems: "center", gap: 14 }}
-          >
-            <Link className="rtbx-landing-cta-link" href="/partner-room">
-              <button
-                style={{
-                  padding: "14px 34px",
-                  background: "#c9a84c", color: "hsl(220 13% 5%)",
-                  fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", fontSize: 10,
-                  border: "none", cursor: "pointer", transition: "opacity 0.18s",
-                }}
-                onMouseOver={e => (e.currentTarget.style.opacity = "0.82")}
-                onMouseOut={e => (e.currentTarget.style.opacity = "1")}
-              >
-                Enter the Operating Layer →
-              </button>
-            </Link>
-            <Link className="rtbx-landing-cta-link" href="/story">
-              <button
-                style={{
-                  padding: "13px 28px",
-                  background: "transparent", color: "hsl(215 16% 44%)",
-                  fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", fontSize: 10,
-                  border: "1px solid hsl(220 13% 14%)", cursor: "pointer", transition: "all 0.18s",
-                }}
-                onMouseOver={e => {
-                  e.currentTarget.style.borderColor = "rgba(201,168,76,0.3)";
-                  e.currentTarget.style.color = "#c9a84c";
-                }}
-                onMouseOut={e => {
-                  e.currentTarget.style.borderColor = "hsl(220 13% 14%)";
-                  e.currentTarget.style.color = "hsl(215 16% 44%)";
-                }}
-              >
-                The Framework →
-              </button>
-            </Link>
-          </motion.div>
-
-        </div>
-      </div>
-
-      {/* Footer */}
-      <motion.footer
-        className="rtbx-landing-footer"
-        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8, duration: 0.4 }}
-        style={{
-          padding: "14px 60px",
-          borderTop: "1px solid hsl(220 13% 8%)",
-          display: "flex", justifyContent: "space-between", alignItems: "center",
-          flexShrink: 0,
-        }}
-      >
-        <div style={{ fontSize: 8, letterSpacing: "0.1em", color: "hsl(215 16% 18%)" }}>
-          Guest Experience · Behavioural Infrastructure · Operating Framework
-        </div>
-        <div style={{ fontSize: 8, letterSpacing: "0.08em", color: "hsl(215 16% 16%)" }}>
-          Guest Experience · Confidential
-        </div>
-      </motion.footer>
-
+          <div className="travel-hero-bottom travel-container"><span>People. Decisions. Service.</span><span>Travel &amp; hospitality operating layer</span></div>
+        </section>
+        <section className="travel-editorial travel-container" aria-labelledby="travel-team-heading">
+          <div>
+            <p className="travel-eyebrow">Behind the experience</p>
+            <h2 id="travel-team-heading">A seamless stay.<br /><span>A connected team.</span></h2>
+            <p>A guest sees one hotel. Behind the scenes, front desk, housekeeping and management each hold part of the picture.</p>
+            <p>JALDO Travel explores how those signals become a shared understanding, an accountable decision and a recorded response.</p>
+            <Link href="/story" className="travel-text-link">The Framework <ArrowRight size={18} aria-hidden="true" /></Link>
+          </div>
+          <figure>
+            <img src={asset("images/travel/team-coordination.webp")} alt="Illustrative hotel team coordinating a response together around a tablet." width="1000" height="750" loading="lazy" decoding="async" />
+            <figcaption>Frontline context. Shared understanding. Human decisions.</figcaption>
+          </figure>
+        </section>
+        <section id="travel-proof" className="travel-proof" aria-labelledby="travel-proof-heading">
+          <div className="travel-container">
+            <div className="travel-section-heading"><div><p className="travel-eyebrow">01 / Explore today</p><h2 id="travel-proof-heading">From a guest moment<br />to a recorded response.</h2></div><span className="travel-tag">Working Proof · Synthetic scenarios</span></div>
+            <ol className="travel-proof-steps">
+              <li><span className="travel-step-number">01</span><Eye aria-hidden="true" /><h3>Understand the moment</h3><p>Review the guest or operational input and the context around it.</p></li>
+              <li><span className="travel-step-number">02</span><Layers3 aria-hidden="true" /><h3>Make the decision visible</h3><p>Explore ownership, response options and the human decision points.</p></li>
+              <li><span className="travel-step-number">03</span><CheckCircle2 aria-hidden="true" /><h3>Follow the response through</h3><p>Inspect the simulated action state and its recorded outcome.</p></li>
+            </ol>
+            <div className="travel-proof-footer"><Link href={WORKING_PROOF_PATH} className="travel-button travel-button-dark">Open Working Proof <ArrowRight size={18} aria-hidden="true" /></Link><p>{CURRENT_PROOF_BOUNDARY.notice}</p></div>
+          </div>
+        </section>
+        <section id="travel-stage-3" className="travel-stage" aria-labelledby="travel-stage-heading">
+          <div className="travel-container travel-stage-grid">
+            <div><p className="travel-eyebrow">02 / The bigger picture</p><h2 id="travel-stage-heading">Beyond one moment.<br /><span>Across the operation.</span></h2><p>The Stage 3 preview explores an intended multi-site operating layer: multiple signal streams, role-specific visibility, action routing and assurance records.</p><p className="travel-stage-boundary">Future-state preview—not the current MVP. Dependent on workflow validation and approved integrations.</p><Link href={STAGE_3_PATH} className="travel-button travel-button-light">Explore Stage 3 preview <ArrowUpRight size={18} aria-hidden="true" /></Link><p className="travel-access-note">Opens in the Partner Room; the existing access gate applies.</p></div>
+            <div className="travel-role-preview" aria-label="Overview of roles described in the future-state Stage 3 preview">
+              <div className="travel-preview-top"><Building2 size={21} aria-hidden="true" /><span>Stage 3 / Role visibility</span><span className="travel-tag">Future state</span></div>
+              <div><span className="travel-role-index">01</span><h3>Frontline staff</h3><p>Assigned actions and escalation guidance.</p></div>
+              <div><span className="travel-role-index">02</span><h3>Property manager</h3><p>Open moments, overdue actions and site visibility.</p></div>
+              <div><span className="travel-role-index">03</span><h3>Operator executive</h3><p>Patterns and evidence across multiple properties.</p></div>
+              <p className="travel-preview-caption">Overview of the intended model. No live property data.</p>
+            </div>
+          </div>
+        </section>
+        <section className="travel-closing travel-container" aria-labelledby="travel-closing-heading"><div><p className="travel-eyebrow">Explore with purpose</p><h2 id="travel-closing-heading">See the experience.<br />Understand the operating layer.</h2></div><div><Link href="/partner-room" className="travel-button travel-button-dark">Enter the Operating Layer <ArrowRight size={18} aria-hidden="true" /></Link><Link href="/story/operator" className="travel-text-link">Read the operator story <ArrowUpRight size={17} aria-hidden="true" /></Link></div></section>
+      </main>
+      <footer className="travel-footer"><div className="travel-container"><div><strong>JALDO Travel</strong><span>Guest Experience · Behavioural Infrastructure</span></div><p>Illustrative AI-generated hospitality imagery; no customer deployment or endorsement implied.</p></div></footer>
     </div>
   );
 }

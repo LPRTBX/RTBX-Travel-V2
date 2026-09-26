@@ -1,0 +1,74 @@
+#jaldo-travel-home{--travel-navy:#102d39;--travel-teal:#226f74;--travel-mist:#a8dedb;--travel-orange:#ee8c50;--travel-ivory:#f8f6f1;--travel-muted:#52646b;background:var(--travel-ivory);color:var(--travel-navy);font-family:Inter,Arial,sans-serif;overflow-wrap:break-word}
+#jaldo-travel-home *{box-sizing:border-box}
+#jaldo-travel-home a{text-decoration:none;color:inherit}
+#jaldo-travel-home a:focus-visible{outline:3px solid var(--travel-orange);outline-offset:5px}
+#jaldo-travel-home .travel-container{width:min(1200px,calc(100% - 112px));margin-inline:auto}
+#jaldo-travel-home h1,#jaldo-travel-home h2,#jaldo-travel-home h3{font-family:Manrope,Inter,Arial,sans-serif;letter-spacing:-.045em;margin:0;font-weight:600}
+#jaldo-travel-home h1{font-size:clamp(44px,5.7vw,82px);line-height:1.06}
+#jaldo-travel-home h2{font-size:clamp(32px,3.5vw,48px);line-height:1.15}
+#jaldo-travel-home h3{font-size:20px;line-height:1.3;letter-spacing:-.025em}
+#jaldo-travel-home p{font-size:16px;line-height:1.75;margin:20px 0;color:var(--travel-muted)}
+#jaldo-travel-home .travel-eyebrow{font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;margin:0 0 25px;display:flex;align-items:center;gap:14px;color:inherit}
+#jaldo-travel-home .travel-eyebrow::before{content:"";width:25px;height:2px;background:var(--travel-orange);flex-shrink:0}
+#jaldo-travel-home .travel-header{background:var(--travel-navy);color:white;display:flex;align-items:center;justify-content:space-between;gap:28px;padding:23px 56px}
+#jaldo-travel-home .travel-brand{display:flex;align-items:center;gap:20px;flex-shrink:0}
+#jaldo-travel-home .travel-brand img{width:133px;height:auto}
+#jaldo-travel-home .travel-brand span{font-size:13px;text-transform:uppercase;letter-spacing:.23em;border-left:1px solid #ffffff55;padding-left:20px}
+#jaldo-travel-home nav{display:flex;gap:30px;align-items:center;flex-wrap:wrap;font-size:13px}
+#jaldo-travel-home nav a{min-height:44px;display:inline-flex;align-items:center;gap:10px}
+#jaldo-travel-home .travel-nav-partner{border-bottom:1px solid #ffffff60}
+#jaldo-travel-home .travel-hero{position:relative;isolation:isolate;color:white;background:var(--travel-navy)}
+#jaldo-travel-home .travel-hero-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:65% center;z-index:-2}
+#jaldo-travel-home .travel-hero-shade{position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(6,26,37,.91) 0%,rgba(6,26,37,.78) 32%,rgba(6,26,37,.18) 72%),linear-gradient(0deg,rgba(6,26,37,.55),transparent 35%)}
+#jaldo-travel-home .travel-hero-content{padding-block:88px 80px}
+#jaldo-travel-home h1 span{color:var(--travel-mist)}
+#jaldo-travel-home .travel-hero-intro{color:#e6eded;font-size:18px;max-width:470px;line-height:1.65;margin:28px 0 32px}
+#jaldo-travel-home .travel-actions{display:flex;gap:25px;align-items:center;flex-wrap:wrap}
+#jaldo-travel-home .travel-button{display:inline-flex;align-items:center;justify-content:space-between;gap:24px;padding:18px 24px;min-height:54px;font-size:14px;font-weight:600;border:1px solid transparent;transition:background .2s,color .2s}
+#jaldo-travel-home .travel-button svg{color:var(--travel-orange);flex-shrink:0}
+#jaldo-travel-home .travel-button-light{background:var(--travel-ivory);color:var(--travel-navy)}
+#jaldo-travel-home .travel-button-dark{background:var(--travel-navy);color:white}
+#jaldo-travel-home .travel-button:hover{background:var(--travel-teal);color:white}
+#jaldo-travel-home .travel-text-link{display:inline-flex;align-items:center;gap:14px;min-height:44px;font-size:14px;font-weight:500}
+#jaldo-travel-home .travel-text-link:hover{text-decoration:underline;text-underline-offset:6px}
+#jaldo-travel-home .travel-access-note{font-size:12px;color:#d7e3e6;line-height:1.6;margin:16px 0 0;max-width:440px}
+#jaldo-travel-home .travel-hero-bottom{display:flex;justify-content:space-between;gap:20px;padding-block:24px;border-top:1px solid #ffffff40;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:#e5ebed}
+#jaldo-travel-home .travel-editorial{display:grid;grid-template-columns:1fr 1.06fr;gap:76px;align-items:center;padding-block:94px}
+#jaldo-travel-home .travel-editorial h2 span{color:var(--travel-teal)}
+#jaldo-travel-home figure{margin:0;min-width:0}
+#jaldo-travel-home figure img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover}
+#jaldo-travel-home figcaption{font-size:11px;line-height:1.6;padding-top:14px;letter-spacing:.03em;color:var(--travel-muted)}
+#jaldo-travel-home .travel-proof{background:#ecefe9;padding-block:76px;scroll-margin-top:24px}
+#jaldo-travel-home .travel-section-heading{display:flex;align-items:end;justify-content:space-between;gap:30px}
+#jaldo-travel-home .travel-tag{display:inline-block;font-size:11px;line-height:1.6;padding:7px 10px;border:1px solid #587b7d70;letter-spacing:.03em}
+#jaldo-travel-home .travel-proof-steps{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));padding:0;margin:44px 0 30px;gap:38px}
+#jaldo-travel-home .travel-proof-steps li{border-top:1px solid #81959770;padding-top:25px;position:relative}
+#jaldo-travel-home .travel-proof-steps svg{width:25px;height:25px;color:var(--travel-teal);margin:0 0 20px}
+#jaldo-travel-home .travel-step-number{position:absolute;right:0;top:24px;font-size:12px;letter-spacing:.12em;color:var(--travel-muted)}
+#jaldo-travel-home .travel-proof-steps p{font-size:14px;line-height:1.7;margin:14px 0 0}
+#jaldo-travel-home .travel-proof-footer{display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:center;border-top:1px solid #81959770;padding-top:28px}
+#jaldo-travel-home .travel-proof-footer p{font-size:12px;line-height:1.7;margin:0}
+#jaldo-travel-home .travel-stage{background:var(--travel-navy);color:white;padding-block:88px;scroll-margin-top:20px}
+#jaldo-travel-home .travel-stage-grid{display:grid;grid-template-columns:1fr 1fr;gap:78px;align-items:center}
+#jaldo-travel-home .travel-stage h2 span{color:var(--travel-mist)}
+#jaldo-travel-home .travel-stage p{color:#d0dee1}
+#jaldo-travel-home .travel-stage .travel-stage-boundary{font-size:13px;line-height:1.7;border-left:2px solid var(--travel-orange);padding-left:16px;margin-block:24px}
+#jaldo-travel-home .travel-role-preview{background:var(--travel-ivory);color:var(--travel-navy);padding:28px}
+#jaldo-travel-home .travel-role-preview>div:not(:first-child){padding:24px 0 22px 36px;border-bottom:1px solid #81959750;position:relative}
+#jaldo-travel-home .travel-preview-top{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding-bottom:20px;border-bottom:1px solid #81959750;font-size:12px;font-weight:600}
+#jaldo-travel-home .travel-preview-top .travel-tag{margin-left:auto}
+#jaldo-travel-home .travel-role-index{position:absolute;top:26px;left:0;font-size:11px;color:var(--travel-teal)}
+#jaldo-travel-home .travel-role-preview p{color:var(--travel-muted);font-size:13px;margin:7px 0 0;line-height:1.6}
+#jaldo-travel-home .travel-role-preview .travel-preview-caption{font-size:11px;padding-top:17px}
+#jaldo-travel-home .travel-closing{padding-block:76px;display:flex;justify-content:space-between;gap:40px;align-items:center}
+#jaldo-travel-home .travel-closing h2{font-size:clamp(28px,3vw,38px)}
+#jaldo-travel-home .travel-closing>div:last-child{display:flex;flex-direction:column;align-items:flex-start;gap:13px}
+#jaldo-travel-home .travel-footer{border-top:1px solid #81959750;padding-block:25px}
+#jaldo-travel-home .travel-footer .travel-container{display:flex;justify-content:space-between;align-items:center;gap:35px}
+#jaldo-travel-home .travel-footer strong{font-size:14px;font-weight:600;display:block;margin-bottom:5px}
+#jaldo-travel-home .travel-footer span,#jaldo-travel-home .travel-footer p{font-size:11px;line-height:1.7;color:var(--travel-muted);margin:0}
+#jaldo-travel-home .travel-footer p{max-width:330px}
+#jaldo-travel-home .travel-skip{position:absolute;top:8px;left:10px;transform:translateY(-200%);z-index:5;background:var(--travel-ivory);color:var(--travel-navy);padding:15px}
+#jaldo-travel-home .travel-skip:focus{transform:none}
+@media(max-width:900px){#jaldo-travel-home .travel-container{width:calc(100% - 56px)}#jaldo-travel-home .travel-header{padding:18px 28px;flex-wrap:wrap;gap:8px}#jaldo-travel-home nav{gap:24px}#jaldo-travel-home .travel-editorial,#jaldo-travel-home .travel-stage-grid{gap:35px}#jaldo-travel-home .travel-section-heading{align-items:start;flex-direction:column}#jaldo-travel-home .travel-closing{align-items:start;flex-direction:column}}
+@media(max-width:640px){#jaldo-travel-home .travel-container{width:calc(100% - 40px)}#jaldo-travel-home .travel-header{padding:18px 20px}#jaldo-travel-home .travel-brand img{width:115px}#jaldo-travel-home nav{width:100%;justify-content:space-between;gap:8px;font-size:11px}#jaldo-travel-home .travel-hero-content{padding-block:62px 48px}#jaldo-travel-home .travel-hero-photo{object-position:73% center}#jaldo-travel-home .travel-hero-shade{background:linear-gradient(90deg,rgba(6,26,37,.92),rgba(6,26,37,.65))}#jaldo-travel-home h1{font-size:clamp(39px,9vw,56px)}#jaldo-travel-home .travel-hero-intro{font-size:16px;max-width:340px}#jaldo-travel-home .travel-actions{gap:10px}#jaldo-travel-home .travel-button{padding:16px 19px;font-size:13px;max-width:100%}#jaldo-travel-home .travel-hero-bottom{flex-direction:column;gap:9px;font-size:10px}#jaldo-travel-home .travel-editorial,#jaldo-travel-home .travel-stage-grid,#jaldo-travel-home .travel-proof-footer{grid-template-columns:minmax(0,1fr);gap:30px}#jaldo-travel-home .travel-editorial,#jaldo-travel-home .travel-stage,#jaldo-travel-home .travel-proof,#jaldo-travel-home .travel-closing{padding-block:54px}#jaldo-travel-home .travel-proof-steps{grid-template-columns:1fr;gap:25px;margin-top:30px}#jaldo-travel-home .travel-proof-footer .travel-button{justify-self:start}#jaldo-travel-home .travel-role-preview{padding:20px}#jaldo-travel-home .travel-footer .travel-container{align-items:start;flex-direction:column;gap:17px}}

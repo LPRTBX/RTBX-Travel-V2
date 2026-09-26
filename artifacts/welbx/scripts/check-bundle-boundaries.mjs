@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
-import { basename, join, relative } from "node:path";
+import { join, relative } from "node:path";
 
 const root = join(new URL(".", import.meta.url).pathname, "..");
 const dist = join(root, "dist");
@@ -22,7 +22,12 @@ const files = walk(dist);
 const searchableFiles = files.filter(path => /\.(?:js|css|html|json|txt|map)$/i.test(path));
 const bundleText = searchableFiles.map(path => readFileSync(path, "utf8")).join("\n");
 const fileNames = files.join("\n");
-const approvedNonTextAssets = new Set(["favicon.svg", "opengraph.jpg"]);
+// Public marketing imagery only; keep every other unclassified asset blocked.
+const approvedNonTextAssets = new Set(["favicon.svg", "opengraph.jpg",
+  "brand/jaldo-logo-white.webp",
+  "images/travel/arrival-hero.webp",
+  "images/travel/team-coordination.webp",
+]);
 
 const forbiddenModuleNames = [
   "TravelBusinessPlan",
@@ -55,7 +60,7 @@ const failures = [
     .filter(text => bundleText.includes(text))
     .map(text => `restricted content leaked into dist: ${text}`),
   ...files
-    .filter(path => !searchableFiles.includes(path) && !approvedNonTextAssets.has(basename(path)))
+    .filter(path => !searchableFiles.includes(path) && !approvedNonTextAssets.has(relative(join(dist, "public"), path)))
     .map(path => `unclassified non-text asset emitted: ${relative(dist, path)}`),
 ];
 
