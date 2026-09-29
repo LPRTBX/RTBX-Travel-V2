@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 
-const C = { gold: "#c9a84c", muted: "rgba(255,255,255,0.45)", dim: "rgba(255,255,255,0.22)", green: "#10b981" };
+const C = { gold: "#a8dedb", muted: "rgba(255,255,255,0.45)", dim: "rgba(255,255,255,0.22)", green: "#10b981" };
 
 const PHASES = [
   { n: "01", label: "Proposed Operator Alignment", weeks: "Readiness · Week 1–2", desc: "Propose objectives, proof environments, operator contact and governance for approval.", output: "Draft pilot brief, moment map and contact matrix." },
@@ -26,7 +26,7 @@ const METRICS = [
 ];
 
 const PILOT_ENVS = [
-  { label: "Hotels & Resorts", color: "#c9a84c", best: "Proposed first proof environment based on assumed signal density; value remains to be measured.", demo: "/partner-room/deployments/hotels-resorts/demo" },
+  { label: "Hotels & Resorts", color: "#a8dedb", best: "Proposed first proof environment based on assumed signal density; value remains to be measured.", demo: "/partner-room/deployments/hotels-resorts/demo" },
   { label: "Holiday Parks", color: "#10b981", best: "Proposed environment for testing welfare and weather signal hypotheses.", demo: "/partner-room/holiday-park-demo" },
   { label: "Corporate Travel", color: "#3b82f6", best: "Proposed environment for repeat-guest and duty-of-care hypotheses; integration effort remains unvalidated.", demo: "/partner-room/deployments/corporate-travel/demo" },
   { label: "Events & Venues", color: "#a78bfa", best: "High-density, high-risk. Welfare and safety signals create auditable value.", demo: "/partner-room/deployments/events-venues/demo" },
@@ -49,14 +49,14 @@ export default function TravelPilotModel() {
               { label: "Pilot fee (indicative)", value: "A$15K–A$45K" },
               { label: "Output", value: "Outcome report + value proof" },
             ].map(s => (
-              <div key={s.label} style={{ padding: "18px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: "2px solid rgba(201,168,76,0.35)" }}>
+              <div key={s.label} style={{ padding: "18px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: "2px solid rgba(168,222,219,0.35)" }}>
                 <div style={{ fontSize: 8, letterSpacing: "0.14em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 6 }}>{s.label}</div>
                 <div style={{ fontSize: 14, fontWeight: 700, color: "#fff" }}>{s.value}</div>
               </div>
             ))}
           </div>
         </div>
-        <div style={{ padding: "16px 20px", background: "rgba(201,168,76,0.05)", border: "1px solid rgba(201,168,76,0.2)", borderLeft: "3px solid #c9a84c", marginBottom: 28 }}>
+        <div style={{ padding: "16px 20px", background: "rgba(168,222,219,0.05)", border: "1px solid rgba(168,222,219,0.2)", borderLeft: "3px solid #a8dedb", marginBottom: 28 }}>
           <div style={{ fontSize: 9, color: C.gold, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 7 }}>Planned Pilot Model</div>
           <div style={{ fontSize: 11.5, color: C.muted, lineHeight: 1.6 }}>Timing, fees, targets and outcomes are illustrative planning assumptions, not live commitments or proven results. Any pilot, integration, guest/staff interaction, measurement or commercial conversion requires approval and agreed governance.</div>
         </div>

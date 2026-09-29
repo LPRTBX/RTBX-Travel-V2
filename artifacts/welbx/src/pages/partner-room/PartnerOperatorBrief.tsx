@@ -6,12 +6,12 @@ const VALUE_CARDS = [
   {
     title: "Execution Before Escalation",
     desc: "The Working Proof models how a playbook could surface a proposed response before a guest notices a gap. A named human remains accountable for approval and execution.",
-    color: "#c9a84c",
+    color: "#a8dedb",
   },
   {
     title: "Consistent Standards at Scale",
     desc: "Planned: operators could configure consistent decision rules across a portfolio while retaining human ownership of each response.",
-    color: "#c9a84c",
+    color: "#a8dedb",
   },
   {
     title: "Auditable Decisions",
@@ -53,7 +53,7 @@ export default function PartnerOperatorBrief() {
 
         {/* Header */}
         <div style={{ marginBottom: 72 }}>
-          <div style={{ fontSize: 9, letterSpacing: "0.22em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>
+          <div style={{ fontSize: 9, letterSpacing: "0.22em", color: "#a8dedb", textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>
             Operator Brief
           </div>
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 24, maxWidth: 680 }}>
@@ -62,11 +62,11 @@ export default function PartnerOperatorBrief() {
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 680 }}>
             Travel operators do not lack data. They lack a governed operating layer between the signals their systems generate and the actions their teams take. This Working Proof illustrates a proposed layer that could surface the right action to an accountable person. Guest Experience is the proposed guest-facing layer.
           </p>
-          <div style={{ marginTop: 20, padding: "14px 18px", border: "1px solid rgba(201,168,76,0.3)", borderLeft: "3px solid #c9a84c", color: "rgba(255,255,255,0.58)", fontSize: 11.5, lineHeight: 1.65, maxWidth: 760 }}>
-            <strong style={{ color: "#c9a84c" }}>Working Proof · Simulation boundary:</strong> Synthetic inputs are classified by rules and communications are drafts. No guest message, staff task, welfare action, partner activation, dispatch or external-system update occurs. Named humans remain accountable for every decision and action; integrations and pilots are Planned.
+          <div style={{ marginTop: 20, padding: "14px 18px", border: "1px solid rgba(168,222,219,0.3)", borderLeft: "3px solid #a8dedb", color: "rgba(255,255,255,0.58)", fontSize: 11.5, lineHeight: 1.65, maxWidth: 760 }}>
+            <strong style={{ color: "#a8dedb" }}>Working Proof · Simulation boundary:</strong> Synthetic inputs are classified by rules and communications are drafts. No guest message, staff task, welfare action, partner activation, dispatch or external-system update occurs. Named humans remain accountable for every decision and action; integrations and pilots are Planned.
           </div>
           <Link href={WORKING_PROOF_PATH}>
-            <div style={{ display: "inline-flex", marginTop: 16, padding: "10px 18px", border: "1px solid rgba(201,168,76,0.35)", color: "#c9a84c", fontSize: 11, fontWeight: 700, cursor: "pointer" }}>
+            <div style={{ display: "inline-flex", marginTop: 16, padding: "10px 18px", border: "1px solid rgba(168,222,219,0.35)", color: "#a8dedb", fontSize: 11, fontWeight: 700, cursor: "pointer" }}>
               Open the Working Proof →
             </div>
           </Link>
@@ -80,7 +80,7 @@ export default function PartnerOperatorBrief() {
           <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
             {[
               {
-                step: "01", label: "Connect", color: "#c9a84c",
+                step: "01", label: "Connect", color: "#a8dedb",
                 ops: "The simulation accepts synthetic arrival, room-status, guest-app and housekeeping inputs. Live system connections are Planned.",
                 example: "Illustrative inputs model a VIP arrival, a 45-minute room delay, remote check-in and housekeeping capacity.",
               },
@@ -162,7 +162,7 @@ export default function PartnerOperatorBrief() {
               }}>
                 <div style={{ fontSize: 12.5, fontWeight: 600, color: "#fff" }}>{m.label}</div>
                 <div style={{ fontSize: 11.5, color: "rgba(255,255,255,0.4)" }}>{m.desc}</div>
-                <div style={{ fontSize: 13, fontWeight: 700, color: "#c9a84c", textAlign: "right", letterSpacing: "0.04em" }}>{m.target}</div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: "#a8dedb", textAlign: "right", letterSpacing: "0.04em" }}>{m.target}</div>
               </div>
             ))}
           </div>

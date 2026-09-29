@@ -11,7 +11,7 @@ import {
   TRAVEL_AI_COMMS_POSITIONING_STATEMENT,
 } from "@/data/travelAiComms";
 
-const C = { gold: "#c9a84c", muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,255,0.22)", green: "#10b981", red: "#ef4444" };
+const C = { gold: "#a8dedb", muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,255,0.22)", green: "#10b981", red: "#ef4444" };
 
 const SectionLabel = ({ children }: { children: string }) => (
   <div style={{ fontSize: 8.5, letterSpacing: "0.2em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>{children}</div>
@@ -46,7 +46,7 @@ export default function PartnerTravelAiComms() {
           </p>
         </div>
 
-        <div style={{ padding: "16px 20px", background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.18)", borderLeft: "3px solid #c9a84c", maxWidth: 700, marginBottom: 32 }}>
+        <div style={{ padding: "16px 20px", background: "rgba(168,222,219,0.06)", border: "1px solid rgba(168,222,219,0.18)", borderLeft: "3px solid #a8dedb", maxWidth: 700, marginBottom: 32 }}>
           <p style={{ fontSize: 13, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, margin: 0, fontWeight: 600 }}>
             The current Prompt &amp; Nudge Engine uses deterministic rules to show draft recommendations. Planned AI may assist with drafting later, but cannot replace the deterministic fallback or named human approval. This proof does not contact guests, staff, partners or external channels.
           </p>
@@ -60,9 +60,9 @@ export default function PartnerTravelAiComms() {
               <div key={step} style={{ display: "flex", alignItems: "center", gap: 6 }}>
                 <div style={{
                   padding: "8px 13px", fontSize: 10, fontWeight: 700,
-                  color: step.includes("Planned AI") ? "#080c14" : "rgba(255,255,255,0.6)",
-                  background: step.includes("Planned AI") ? "#c9a84c" : "rgba(255,255,255,0.03)",
-                  border: step.includes("Planned AI") ? "1px solid #c9a84c" : "1px solid rgba(255,255,255,0.1)",
+                  color: step.includes("Planned AI") ? "#102d39" : "rgba(255,255,255,0.6)",
+                  background: step.includes("Planned AI") ? "#a8dedb" : "rgba(255,255,255,0.03)",
+                  border: step.includes("Planned AI") ? "1px solid #a8dedb" : "1px solid rgba(255,255,255,0.1)",
                 }}>
                   {step}
                 </div>
@@ -153,7 +153,7 @@ export default function PartnerTravelAiComms() {
                     style={{ padding: "14px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", cursor: "pointer", flexWrap: "wrap", gap: 8 }}
                   >
                     <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap", minWidth: 0 }}>
-                      <div style={{ fontSize: 9.5, fontWeight: 700, color: "rgba(201,168,76,0.5)", letterSpacing: "0.04em" }}>{c.id.replace("comm-", "").toUpperCase()}</div>
+                      <div style={{ fontSize: 9.5, fontWeight: 700, color: "rgba(168,222,219,0.5)", letterSpacing: "0.04em" }}>{c.id.replace("comm-", "").toUpperCase()}</div>
                       <div style={{ fontSize: 12.5, fontWeight: 700, color: "#fff" }}>{c.name}</div>
                       <div style={{ fontSize: 10, color: "rgba(255,255,255,0.35)" }}>{c.momentType}</div>
                     </div>
@@ -192,9 +192,9 @@ export default function PartnerTravelAiComms() {
               <div key={stage} style={{ display: "flex", alignItems: "center", gap: 6 }}>
                 <div style={{
                   padding: "9px 14px", fontSize: 10, fontWeight: 700,
-                  color: stage === "Named Human Approval" ? "#080c14" : "rgba(255,255,255,0.65)",
-                  background: stage === "Named Human Approval" ? "#c9a84c" : "rgba(255,255,255,0.03)",
-                  border: stage === "Named Human Approval" ? "1px solid #c9a84c" : "1px solid rgba(255,255,255,0.1)",
+                  color: stage === "Named Human Approval" ? "#102d39" : "rgba(255,255,255,0.65)",
+                  background: stage === "Named Human Approval" ? "#a8dedb" : "rgba(255,255,255,0.03)",
+                  border: stage === "Named Human Approval" ? "1px solid #a8dedb" : "1px solid rgba(255,255,255,0.1)",
                 }}>
                   {stage}
                 </div>
@@ -202,7 +202,7 @@ export default function PartnerTravelAiComms() {
               </div>
             ))}
           </div>
-          <div style={{ padding: "18px 22px", background: "rgba(201,168,76,0.05)", border: "1px solid rgba(201,168,76,0.2)", borderLeft: "3px solid #c9a84c" }}>
+          <div style={{ padding: "18px 22px", background: "rgba(168,222,219,0.05)", border: "1px solid rgba(168,222,219,0.2)", borderLeft: "3px solid #a8dedb" }}>
             <p style={{ fontSize: 13, color: "rgba(255,255,255,0.75)", lineHeight: 1.7, margin: 0, fontWeight: 600 }}>
               {TRAVEL_AI_OPERATING_MODEL_STATEMENT}
             </p>
@@ -246,7 +246,7 @@ export default function PartnerTravelAiComms() {
               ))}
             </div>
           </div>
-          <div style={{ padding: "14px 18px", background: "rgba(201,168,76,0.04)", border: "1px solid rgba(201,168,76,0.15)", borderLeft: "3px solid #c9a84c" }}>
+          <div style={{ padding: "14px 18px", background: "rgba(168,222,219,0.04)", border: "1px solid rgba(168,222,219,0.15)", borderLeft: "3px solid #a8dedb" }}>
             <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.6)", lineHeight: 1.65, margin: 0 }}>
               AI assistance is Planned only. Current classifications and draft suggestions are deterministic, with a deterministic fallback retained for future assistance. The proof cannot act, deliver, confirm welfare or create evidence; a named human role owner approves and remains accountable outside the simulation.
             </p>

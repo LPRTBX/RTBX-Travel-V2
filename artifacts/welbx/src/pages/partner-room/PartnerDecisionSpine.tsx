@@ -34,9 +34,9 @@ function Select({ label, options, value, onChange }: { label: string; options: s
             style={{
               padding: "6px 12px", fontSize: 10, fontWeight: 700, letterSpacing: "0.06em",
               cursor: "pointer", transition: "all 0.12s",
-              border: `1px solid ${o === value ? "#c9a84c50" : "rgba(255,255,255,0.08)"}`,
-              background: o === value ? "rgba(201,168,76,0.12)" : "transparent",
-              color: o === value ? "#c9a84c" : "rgba(255,255,255,0.35)",
+              border: `1px solid ${o === value ? "#a8dedb50" : "rgba(255,255,255,0.08)"}`,
+              background: o === value ? "rgba(168,222,219,0.12)" : "transparent",
+              color: o === value ? "#a8dedb" : "rgba(255,255,255,0.35)",
             }}
           >{o}</div>
         ))}
@@ -173,12 +173,12 @@ export default function PartnerDecisionSpine() {
             ].map((item, i, arr) => (
               <div key={item.n} style={{ display: "flex", alignItems: "flex-start", gap: 16 }}>
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: 24, flexShrink: 0 }}>
-                  <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#c9a84c", flexShrink: 0, marginTop: 4 }} />
-                  {i < arr.length - 1 && <div style={{ width: 1, flex: 1, minHeight: 32, background: "rgba(201,168,76,0.2)" }} />}
+                  <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#a8dedb", flexShrink: 0, marginTop: 4 }} />
+                  {i < arr.length - 1 && <div style={{ width: 1, flex: 1, minHeight: 32, background: "rgba(168,222,219,0.2)" }} />}
                 </div>
                 <div style={{ paddingBottom: 24 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}>
-                    <span style={{ fontSize: 8.5, fontWeight: 700, color: "rgba(201,168,76,0.4)", letterSpacing: "0.08em" }}>{item.n}</span>
+                    <span style={{ fontSize: 8.5, fontWeight: 700, color: "rgba(168,222,219,0.4)", letterSpacing: "0.08em" }}>{item.n}</span>
                     <span style={{ fontSize: 13, fontWeight: 700, color: "#fff" }}>{item.label}</span>
                   </div>
                   <div style={{ fontSize: 11.5, color: "rgba(255,255,255,0.45)", lineHeight: 1.65, maxWidth: 640 }}>{item.desc}</div>
@@ -198,7 +198,7 @@ export default function PartnerDecisionSpine() {
           </p>
           <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2 }}>
             {[
-              { label: "Guest Service Recovery Policy", desc: "Defines compensation levels, recovery pathway requirements and SLA thresholds for service failure moments. Determines what the front desk may resolve independently and what requires manager authorisation.", color: "#c9a84c" },
+              { label: "Guest Service Recovery Policy", desc: "Defines compensation levels, recovery pathway requirements and SLA thresholds for service failure moments. Determines what the front desk may resolve independently and what requires manager authorisation.", color: "#a8dedb" },
               { label: "Compensation Approval Matrix", desc: "Sets approval authority by role and compensation value. Monetary compensation above defined thresholds requires a named authoriser. AI may not approve any compensation.", color: "#3b82f6" },
               { label: "Critical Incident Procedure", desc: "Mandates immediate escalation path for welfare, safety or legal moments. No autonomous AI action permitted. Named duty manager must own every critical incident response.", color: "#ef4444" },
               { label: "Privacy & Consent Rules", desc: "Governs what guest data may be captured, processed and acted on under what consent conditions. Welfare signals require privacy-safe handling. No guest data used without authorised consent.", color: "#a78bfa" },
@@ -211,9 +211,9 @@ export default function PartnerDecisionSpine() {
           </div>
         </div>
 
-        <div style={{ padding: "14px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderLeft: "3px solid #c9a84c", marginBottom: 24 }}>
+        <div style={{ padding: "14px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderLeft: "3px solid #a8dedb", marginBottom: 24 }}>
           <div style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", lineHeight: 1.7 }}>
-            <strong style={{ color: "#c9a84c" }}>Working Proof · Simulation boundary:</strong> controls below change synthetic inputs in local state only. Classification is deterministic and rules-based. Recommendations, interventions, evidence and outcomes are illustrative; communications remain unsent drafts, value is not measured, and no external system is updated. Named humans retain approval and action accountability.
+            <strong style={{ color: "#a8dedb" }}>Working Proof · Simulation boundary:</strong> controls below change synthetic inputs in local state only. Classification is deterministic and rules-based. Recommendations, interventions, evidence and outcomes are illustrative; communications remain unsent drafts, value is not measured, and no external system is updated. Named humans retain approval and action accountability.
           </div>
         </div>
 
@@ -267,7 +267,7 @@ export default function PartnerDecisionSpine() {
             <ResultRow label="Classification"       value={result.classification}  color={result.riskColor} />
             <ResultRow label="Recommended Decision" value={result.decision} />
             <ResultRow label="Intervention"         value={result.intervention} />
-            <ResultRow label="Assigned Owner"       value={result.owner} color="#c9a84c" />
+            <ResultRow label="Assigned Owner"       value={result.owner} color="#a8dedb" />
             <ResultRow label="Escalation Threshold" value={result.escalation} color="#f97316" />
             <ResultRow label="Assurance Record"     value={result.assurance} color="#a78bfa" />
 

@@ -5,15 +5,15 @@ export function PartnerCTAFooter() {
     <div style={{
       marginTop: 80,
       padding: "48px 40px",
-      background: "rgba(201,168,76,0.04)",
-      border: "1px solid rgba(201,168,76,0.12)",
+      background: "rgba(168,222,219,0.04)",
+      border: "1px solid rgba(168,222,219,0.12)",
       display: "flex",
       flexDirection: "column",
       alignItems: "flex-start",
       gap: 28,
     }}>
       <div>
-        <div style={{ fontSize: 9, letterSpacing: "0.2em", color: "rgba(201,168,76,0.6)", textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>
+        <div style={{ fontSize: 9, letterSpacing: "0.2em", color: "rgba(168,222,219,0.6)", textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>
           Next Step
         </div>
         <div style={{ fontSize: 22, fontWeight: 700, color: "#fff", letterSpacing: "-0.01em" }}>
@@ -29,13 +29,13 @@ export function PartnerCTAFooter() {
             letterSpacing: "0.1em",
             textTransform: "uppercase",
             cursor: "pointer",
-            background: "#c9a84c",
-            color: "#080c14",
-            border: "1px solid #c9a84c",
+            background: "#a8dedb",
+            color: "#102d39",
+            border: "1px solid #a8dedb",
             transition: "all 0.15s",
           }}
-          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "#d4b35e"; }}
-          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "#c9a84c"; }}
+          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "#c4eeea"; }}
+          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "#a8dedb"; }}
           >
             Open Dual View Demo
           </div>

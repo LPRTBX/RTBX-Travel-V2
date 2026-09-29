@@ -3,8 +3,8 @@ import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 
 const P = {
-  bg: "#080c14", navy: "#0d1220", navy2: "#111827", border: "rgba(255,255,255,0.08)",
-  amber: "#c9a84c", white: "#f8f9fb", muted: "rgba(255,255,255,0.5)",
+  bg: "#102d39", navy: "#173b47", navy2: "#111827", border: "rgba(255,255,255,0.08)",
+  amber: "#a8dedb", white: "#f8f9fb", muted: "rgba(255,255,255,0.5)",
   dimmed: "rgba(255,255,255,0.22)", green: "#10b981", red: "#ef4444",
   orange: "#f59e0b", blue: "#3b82f6",
 };
@@ -127,7 +127,7 @@ function MiniPhone({ step, scenario }: { step: StepContent; scenario: string }) 
       <div style={{ fontSize: 7.5, letterSpacing: "0.14em", color: P.dimmed, textTransform: "uppercase", fontWeight: 700, marginBottom: 10, textAlign: "center" }}>GUEST SIDE</div>
       <div style={{
         background: "#1a1b2e", borderRadius: 32, padding: "8px",
-        boxShadow: hasGuest ? `0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(201,168,76,0.15)` : "0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.06)",
+        boxShadow: hasGuest ? `0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(168,222,219,0.15)` : "0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.06)",
       }}>
         <div style={{ background: hasGuest ? "#faf9f6" : "#0a0c16", borderRadius: 26, overflow: "hidden", height: 420 }}>
           {/* Status bar */}
@@ -136,14 +136,14 @@ function MiniPhone({ step, scenario }: { step: StepContent; scenario: string }) 
             <span style={{ fontSize: 6.5, color: "rgba(255,255,255,0.5)" }}>●●● WiFi ▌▌</span>
           </div>
           <div style={{ background: "#0d0d1a", padding: "6px 16px 10px", textAlign: "center" }}>
-            <div style={{ fontSize: 7, letterSpacing: "0.22em", color: "rgba(201,168,76,0.85)", textTransform: "uppercase", fontWeight: 700 }}>GRAND MERIDIAN</div>
+            <div style={{ fontSize: 7, letterSpacing: "0.22em", color: "rgba(168,222,219,0.85)", textTransform: "uppercase", fontWeight: 700 }}>GRAND MERIDIAN</div>
           </div>
 
           {!hasGuest ? (
             <div style={{ padding: "30px 16px", textAlign: "center" }}>
               <div style={{ fontSize: 9, color: "rgba(255,255,255,0.2)", lineHeight: 1.6 }}>Awaiting moment classification…</div>
               <div style={{ marginTop: 20, display: "flex", justifyContent: "center", gap: 4 }}>
-                {[1,2,3].map(i => <div key={i} style={{ width: 5, height: 5, borderRadius: "50%", background: `rgba(201,168,76,${0.1 + i * 0.15})` }} />)}
+                {[1,2,3].map(i => <div key={i} style={{ width: 5, height: 5, borderRadius: "50%", background: `rgba(168,222,219,${0.1 + i * 0.15})` }} />)}
               </div>
             </div>
           ) : (
@@ -158,7 +158,7 @@ function MiniPhone({ step, scenario }: { step: StepContent; scenario: string }) 
                 </div>
               ) : (
                 <div>
-                  <div style={{ fontSize: 7.5, fontWeight: 700, color: "#c9a84c", marginBottom: 5 }}>UNSENT DRAFT</div>
+                  <div style={{ fontSize: 7.5, fontWeight: 700, color: "#a8dedb", marginBottom: 5 }}>UNSENT DRAFT</div>
                   <div style={{ fontSize: 11.5, fontWeight: 700, color: "#1a1a2e", marginBottom: 5, lineHeight: 1.3 }}>{step.guestMsg}</div>
                   <div style={{ fontSize: 9.5, color: "#4a4a6a", marginBottom: 12, lineHeight: 1.5 }}>{step.guestSub}</div>
                   {step.guestActions?.slice(0, 3).map(a => (
@@ -277,7 +277,7 @@ export default function PartnerDualViewDemo() {
 
       {/* Context callout */}
       <div className="rtbx-page-pad" style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px 0" }}>
-        <div style={{ padding: "14px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderLeft: "3px solid #c9a84c", marginBottom: 20 }}>
+        <div style={{ padding: "14px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderLeft: "3px solid #a8dedb", marginBottom: 20 }}>
           <p style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", lineHeight: 1.7, margin: 0 }}>
             <strong style={{ color: P.amber }}>Working Proof · Simulation boundary:</strong> synthetic inputs are classified with deterministic rules. Draft communications are never sent or delivered; assignments, actions, evidence and outcomes are illustrative, and value is modelled rather than measured. No external system is updated. Named human operators retain accountability.
           </p>

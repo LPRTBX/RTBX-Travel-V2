@@ -11,7 +11,7 @@ import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 import { EXPANSION_STAGES } from "@/data/travelPilotModel";
 
-const C = { muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,255,0.22)", gold: "#c9a84c", green: "#10b981", blue: "#3b82f6", red: "#ef4444" };
+const C = { muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,255,0.22)", gold: "#a8dedb", green: "#10b981", blue: "#3b82f6", red: "#ef4444" };
 
 function SectionLabel({ children }: { children: string }) {
   return <div style={{ fontSize: 8.5, letterSpacing: "0.2em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>{children}</div>;

@@ -15,7 +15,7 @@ import {
 import { CURRENT_PROOF_BOUNDARY } from "@/lib/proofLanguage";
 
 const C = {
-  gold: "#c9a84c", muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,255,0.28)",
+  gold: "#a8dedb", muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,255,0.28)",
   green: "#10b981", blue: "#3b82f6", purple: "#a78bfa", cyan: "#22d3ee", red: "#ef4444", orange: "#f97316",
 };
 
@@ -67,7 +67,7 @@ export default function PartnerIntelligenceModel() {
         </div>
 
         {/* ── CANONICAL PROOF BOUNDARY ── */}
-        <div style={{ padding: "20px 22px", background: "rgba(201,168,76,0.05)", border: "1px solid rgba(201,168,76,0.22)", borderLeft: "3px solid #c9a84c", marginBottom: 40 }}>
+        <div style={{ padding: "20px 22px", background: "rgba(168,222,219,0.05)", border: "1px solid rgba(168,222,219,0.22)", borderLeft: "3px solid #a8dedb", marginBottom: 40 }}>
           <div style={{ fontSize: 11, letterSpacing: "0.12em", color: C.gold, textTransform: "uppercase", fontWeight: 800, marginBottom: 8 }}>
             {CURRENT_PROOF_BOUNDARY.maturity} · {CURRENT_PROOF_BOUNDARY.evidence}
           </div>
@@ -126,8 +126,8 @@ export default function PartnerIntelligenceModel() {
                         <span style={{
                           fontSize: 11, fontWeight: 700, letterSpacing: "0.04em", textTransform: "uppercase",
                           padding: "1px 5px",
-                          color: cap.origin === "JALDO Core" ? "#c9a84c" : cap.origin === "Travel Configuration" ? "#3b82f6" : "#10b981",
-                          border: `1px solid ${cap.origin === "JALDO Core" ? "rgba(201,168,76,0.3)" : cap.origin === "Travel Configuration" ? "rgba(59,130,246,0.3)" : "rgba(16,185,129,0.3)"}`,
+                          color: cap.origin === "JALDO Core" ? "#a8dedb" : cap.origin === "Travel Configuration" ? "#3b82f6" : "#10b981",
+                          border: `1px solid ${cap.origin === "JALDO Core" ? "rgba(168,222,219,0.3)" : cap.origin === "Travel Configuration" ? "rgba(59,130,246,0.3)" : "rgba(16,185,129,0.3)"}`,
                         }}>{cap.origin === "JALDO Core" ? "Shared Core" : cap.origin === "Travel Configuration" ? "Travel Config" : "Property Config"}</span>
                       </div>
                     ))}
@@ -138,7 +138,7 @@ export default function PartnerIntelligenceModel() {
           </div>
           {/* Origin legend */}
           <div style={{ display: "flex", gap: 16, marginTop: 16 }}>
-            {[{ label: "Shared Core", color: "#c9a84c" }, { label: "Travel Config", color: "#3b82f6" }, { label: "Property Config", color: "#10b981" }].map(l => (
+            {[{ label: "Shared Core", color: "#a8dedb" }, { label: "Travel Config", color: "#3b82f6" }, { label: "Property Config", color: "#10b981" }].map(l => (
               <div key={l.label} style={{ display: "flex", alignItems: "center", gap: 6 }}>
                 <div style={{ width: 8, height: 8, background: l.color, borderRadius: 1 }} />
                 <span style={{ fontSize: 11, color: "rgba(255,255,255,0.45)", fontWeight: 700, letterSpacing: "0.04em" }}>{l.label}</span>
@@ -148,7 +148,7 @@ export default function PartnerIntelligenceModel() {
         </div>
 
         {/* ── SHARED ARCHITECTURE STATEMENT ── */}
-        <div style={{ padding: "18px 22px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderLeft: "3px solid #c9a84c", marginBottom: 40 }}>
+        <div style={{ padding: "18px 22px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderLeft: "3px solid #a8dedb", marginBottom: 40 }}>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, margin: 0, fontWeight: 600 }}>
             The architecture is shared. This simulation models what Travel Intelligence could classify, recommend, communicate and measure inside the travel environment.
           </p>
@@ -162,9 +162,9 @@ export default function PartnerIntelligenceModel() {
               <div key={step} style={{ display: "flex", alignItems: "center", gap: 6 }}>
                 <div style={{
                   padding: "8px 13px", fontSize: 12, fontWeight: 700,
-                  color: i === arr.length - 1 ? "#080c14" : "rgba(255,255,255,0.65)",
-                  background: i === arr.length - 1 ? "#c9a84c" : "rgba(255,255,255,0.03)",
-                  border: i === arr.length - 1 ? "1px solid #c9a84c" : "1px solid rgba(255,255,255,0.1)",
+                  color: i === arr.length - 1 ? "#102d39" : "rgba(255,255,255,0.65)",
+                  background: i === arr.length - 1 ? "#a8dedb" : "rgba(255,255,255,0.03)",
+                  border: i === arr.length - 1 ? "1px solid #a8dedb" : "1px solid rgba(255,255,255,0.1)",
                 }}>
                   {step}
                 </div>
@@ -299,7 +299,7 @@ export default function PartnerIntelligenceModel() {
               ))}
             </div>
           </div>
-          <div style={{ padding: "18px 22px", background: "rgba(201,168,76,0.05)", border: "1px solid rgba(201,168,76,0.2)", borderLeft: "3px solid #c9a84c" }}>
+          <div style={{ padding: "18px 22px", background: "rgba(168,222,219,0.05)", border: "1px solid rgba(168,222,219,0.2)", borderLeft: "3px solid #a8dedb" }}>
             <p style={{ fontSize: 14, color: "rgba(255,255,255,0.75)", lineHeight: 1.7, margin: 0, fontWeight: 600 }}>
               {TRAVEL_AI_ASSISTANT_MODEL.statement}
             </p>
@@ -353,7 +353,7 @@ export default function PartnerIntelligenceModel() {
         </div>
 
         {/* ── GOVERNED, NOT AUTONOMOUS ── */}
-        <div style={{ padding: "20px 22px", background: "rgba(201,168,76,0.04)", border: "1px solid rgba(201,168,76,0.15)", marginBottom: 48 }}>
+        <div style={{ padding: "20px 22px", background: "rgba(168,222,219,0.04)", border: "1px solid rgba(168,222,219,0.15)", marginBottom: 48 }}>
           <div style={{ fontSize: 11, letterSpacing: "0.12em", color: C.gold, textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>Governed, Not Autonomous</div>
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.65, margin: 0 }}>
             Current classification and routing are deterministic and rules-based. Planned AI could propose classifications, drafts or routing, but deterministic fallback and a named human owner remain accountable. This simulation does not dispatch tasks, make bookings or referrals, perform welfare checks, approve compensation, contact emergency services, close tasks or send external updates.

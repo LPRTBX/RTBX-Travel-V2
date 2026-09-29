@@ -16,7 +16,7 @@ import {
 import { MATURITY_LABELS, MATURITY_COLORS, type MaturityStatus } from "@/data/travelScenarios";
 import { CURRENT_PROOF_BOUNDARY } from "@/lib/proofLanguage";
 
-const C = { gold: "#c9a84c", muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,255,0.22)" };
+const C = { gold: "#a8dedb", muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,255,0.22)" };
 
 const SectionLabel = ({ children }: { children: string }) => (
   <div style={{ fontSize: 8.5, letterSpacing: "0.2em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>{children}</div>
@@ -171,7 +171,7 @@ export default function PartnerTravelOperatingSystems() {
         </div>
 
         {/* ── POSITIONING ── */}
-        <div style={{ padding: "18px 22px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderLeft: "3px solid #c9a84c", marginBottom: 40 }}>
+        <div style={{ padding: "18px 22px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderLeft: "3px solid #a8dedb", marginBottom: 40 }}>
           <p style={{ fontSize: 13.5, color: "rgba(255,255,255,0.72)", lineHeight: 1.8, margin: 0, fontWeight: 600 }}>
             JALDO Core provides the proposed shared architecture. JALDO Travel models how tailored operating systems could extend it. Each configuration groups vertical-specific modules around a major hotel or travel operating problem.
           </p>
@@ -182,7 +182,7 @@ export default function PartnerTravelOperatingSystems() {
           {[
             { label: "Lead Operating Systems", desc: "Three proposed OS configurations for consideration in a future Travel pilot.", position: "lead" as TravelOSPosition, color: "#3b82f6", count: leadOses.length },
             { label: "Cross-Cutting Control", desc: "Safety and Guest Welfare is modelled across every OS; any threshold would require named human review.", position: "cross-cutting" as TravelOSPosition, color: "#ef4444", count: crossCuttingOses.length },
-            { label: "Expansion Capability", desc: "Marketplace and Loyalty is planned only after trust, signals and governance are evidenced.", position: "expansion" as TravelOSPosition, color: "#c9a84c", count: expansionOses.length },
+            { label: "Expansion Capability", desc: "Marketplace and Loyalty is planned only after trust, signals and governance are evidenced.", position: "expansion" as TravelOSPosition, color: "#a8dedb", count: expansionOses.length },
           ].map(item => (
             <div key={item.label} style={{ padding: "20px 22px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: `2px solid ${item.color}` }}>
               <div style={{ fontSize: 8, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: item.color, marginBottom: 8 }}>{item.label}</div>
@@ -200,9 +200,9 @@ export default function PartnerTravelOperatingSystems() {
         </div>
 
         {/* ── EXPANSION NOTICE ── */}
-        <div style={{ padding: "14px 20px", background: "rgba(201,168,76,0.04)", border: "1px solid rgba(201,168,76,0.18)", borderLeft: "3px solid #c9a84c", marginBottom: 40 }}>
+        <div style={{ padding: "14px 20px", background: "rgba(168,222,219,0.04)", border: "1px solid rgba(168,222,219,0.18)", borderLeft: "3px solid #a8dedb", marginBottom: 40 }}>
           <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.7)", lineHeight: 1.75, margin: 0 }}>
-            <strong style={{ color: "#c9a84c" }}>Marketplace and Loyalty Activation is a planned expansion capability</strong> — not a current pilot entry point. Future use would depend on evidenced signal accuracy, operational adoption, customer permission, governance and approved response workflows. Current offers, referrals and bookings are illustrative drafts; nothing is delivered or confirmed externally.
+            <strong style={{ color: "#a8dedb" }}>Marketplace and Loyalty Activation is a planned expansion capability</strong> — not a current pilot entry point. Future use would depend on evidenced signal accuracy, operational adoption, customer permission, governance and approved response workflows. Current offers, referrals and bookings are illustrative drafts; nothing is delivered or confirmed externally.
           </p>
         </div>
 
@@ -248,21 +248,21 @@ export default function PartnerTravelOperatingSystems() {
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 12, marginBottom: 20 }}>
             {[
-              { label: "JALDO Core", sub: "Signal-to-action infrastructure", color: "#c9a84c", bg: "rgba(201,168,76,0.08)" },
+              { label: "JALDO Core", sub: "Signal-to-action infrastructure", color: "#a8dedb", bg: "rgba(168,222,219,0.08)" },
               { label: "+", sub: "", color: "rgba(255,255,255,0.3)", bg: "transparent", border: "none" },
               { label: "Travel Intelligence Pack", sub: "Signals, moments, governance, playbooks", color: "#3b82f6", bg: "rgba(59,130,246,0.08)" },
               { label: "+", sub: "", color: "rgba(255,255,255,0.3)", bg: "transparent", border: "none" },
               { label: "Property Configuration", sub: "Modules, roles, channels, rules", color: "#10b981", bg: "rgba(16,185,129,0.08)" },
               { label: "=", sub: "", color: "rgba(255,255,255,0.3)", bg: "transparent", border: "none" },
-              { label: "Travel Operating System", sub: "Purpose-built for a hotel problem domain", color: "#c9a84c", bg: "rgba(201,168,76,0.12)", highlight: true },
+              { label: "Travel Operating System", sub: "Purpose-built for a hotel problem domain", color: "#a8dedb", bg: "rgba(168,222,219,0.12)", highlight: true },
             ].map((item, i) => (
               item.sub === "" ? (
                 <div key={i} style={{ fontSize: 22, fontWeight: 300, color: item.color }}>{item.label}</div>
               ) : (
                 <div key={i} style={{
                   padding: "14px 18px", background: item.bg,
-                  border: `1px solid ${(item as any).highlight ? "#c9a84c" : "rgba(255,255,255,0.1)"}`,
-                  borderLeft: (item as any).highlight ? "3px solid #c9a84c" : undefined,
+                  border: `1px solid ${(item as any).highlight ? "#a8dedb" : "rgba(255,255,255,0.1)"}`,
+                  borderLeft: (item as any).highlight ? "3px solid #a8dedb" : undefined,
                 }}>
                   <div style={{ fontSize: 12, fontWeight: 700, color: item.color, marginBottom: 4 }}>{item.label}</div>
                   <div style={{ fontSize: 9.5, color: "rgba(255,255,255,0.4)" }}>{item.sub}</div>
@@ -280,9 +280,9 @@ export default function PartnerTravelOperatingSystems() {
               <div key={stage} style={{ display: "flex", alignItems: "center", gap: 6 }}>
                 <div style={{
                   padding: "9px 14px", fontSize: 10.5, fontWeight: 700,
-                  color: i === 0 ? "#080c14" : "rgba(255,255,255,0.65)",
-                  background: i === 0 ? "#c9a84c" : "rgba(255,255,255,0.03)",
-                  border: i === 0 ? "1px solid #c9a84c" : "1px solid rgba(255,255,255,0.1)",
+                  color: i === 0 ? "#102d39" : "rgba(255,255,255,0.65)",
+                  background: i === 0 ? "#a8dedb" : "rgba(255,255,255,0.03)",
+                  border: i === 0 ? "1px solid #a8dedb" : "1px solid rgba(255,255,255,0.1)",
                 }}>
                   {stage}
                 </div>
@@ -366,7 +366,7 @@ export default function PartnerTravelOperatingSystems() {
               </div>
             ))}
           </div>
-          <div style={{ padding: "18px 22px", background: "rgba(201,168,76,0.05)", border: "1px solid rgba(201,168,76,0.2)", borderLeft: "3px solid #c9a84c" }}>
+          <div style={{ padding: "18px 22px", background: "rgba(168,222,219,0.05)", border: "1px solid rgba(168,222,219,0.2)", borderLeft: "3px solid #a8dedb" }}>
             <p style={{ fontSize: 13, color: "rgba(255,255,255,0.75)", lineHeight: 1.7, margin: 0, fontWeight: 600 }}>
               {TRAVEL_EXPANSION_STATEMENT}
             </p>

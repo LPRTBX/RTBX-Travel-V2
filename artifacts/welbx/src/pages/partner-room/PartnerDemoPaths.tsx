@@ -6,12 +6,12 @@ const CORE_DEMOS = [
     num: "01",
     title: "Scenario Builder",
     tag: "Working Proof · Simulated Flow",
-    tagColor: "#c9a84c",
+    tagColor: "#a8dedb",
     desc: "Choose an environment, scenario type, risk level and role view — step through a simulated Signal → Classify → Decide → Execute → Assure → Value model.",
     audience: "Operators · Commercial leads · Partners",
     href: "/partner-room/scenario-builder",
     cta: "Open Scenario Builder",
-    color: "#c9a84c",
+    color: "#a8dedb",
   },
   {
     num: "02",
@@ -84,7 +84,7 @@ const CORE_DEMOS = [
 const DEPLOYMENT_DEMOS = [
   {
     label: "Hotels & Resorts",
-    color: "#c9a84c",
+    color: "#a8dedb",
     desc: "High-value arrival recovery in a city hotel.",
     href: "/partner-room/deployments/hotels-resorts/demo",
   },
@@ -121,7 +121,7 @@ export default function PartnerDemoPaths() {
 
         {/* Header */}
         <div style={{ marginBottom: 72 }}>
-          <div style={{ fontSize: 9, letterSpacing: "0.22em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>
+          <div style={{ fontSize: 9, letterSpacing: "0.22em", color: "#a8dedb", textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>
             Demo Room
           </div>
           <h1 style={{ fontSize: 36, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 18, maxWidth: 640 }}>
@@ -130,7 +130,7 @@ export default function PartnerDemoPaths() {
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.48)", lineHeight: 1.8, maxWidth: 600 }}>
             Every item is interactive, using synthetic inputs and illustrative rules. They are Working Proof simulations, not live deployments: outputs are proposed drafts, no external updates or dispatches occur, and named people remain accountable for approval and action.
           </p>
-          <div style={{ marginTop: 18, padding: "12px 18px", background: "rgba(201,168,76,0.05)", border: "1px solid rgba(201,168,76,0.15)", display: "inline-flex", alignItems: "center", gap: 10 }}>
+          <div style={{ marginTop: 18, padding: "12px 18px", background: "rgba(168,222,219,0.05)", border: "1px solid rgba(168,222,219,0.15)", display: "inline-flex", alignItems: "center", gap: 10 }}>
             <div style={{ width: 6, height: 6, background: "#10b981", borderRadius: "50%", flexShrink: 0 }} />
             <span style={{ fontSize: 10.5, color: "rgba(255,255,255,0.45)", letterSpacing: "0.04em" }}>Executive Briefing → Brief Library · Operator Deep Dive → Validation · Pilot Walkthrough → Commercial</span>
           </div>

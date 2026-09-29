@@ -3,6 +3,7 @@ import { useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { ScreenshotCard, Pill, C } from "@/components/presentation/PresentationComponents";
+import { TravelWordmark } from "@/components/TravelWordmark";
 
 type ViewMode = 'guest' | 'operating' | 'infrastructure';
 
@@ -198,7 +199,7 @@ function StepVisual({ step, viewColor }: { step: number; viewColor: string }) {
           </div>
           <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
             <span style={{ fontSize: 8, color: C.dimmed }}>Confidence</span>
-            <div style={{ flex: 1, height: 4, background: "hsl(220 13% 11%)" }}>
+            <div style={{ flex: 1, height: 4, background: "hsl(195 25% 29%)" }}>
               <div style={{ width: "91%", height: "100%", background: C.amber }} />
             </div>
             <span style={{ fontSize: 10, fontWeight: 700, color: C.amber }}>91%</span>
@@ -357,9 +358,9 @@ export default function StoryGuestStory() {
       <div style={{ height: 2, background: `linear-gradient(90deg, ${vc.color} 0%, transparent 50%)`, transition: "background 0.3s", flexShrink: 0 }} />
 
       {/* Header */}
-      <div style={{ padding: "16px 32px", borderBottom: `1px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0, background: "hsl(220 13% 4%)" }}>
+      <div className="travel-guest-header" style={{ padding: "16px 32px", borderBottom: `1px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0, background: "hsl(198 56% 12%)" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <span style={{ fontSize: 11, fontWeight: 800, letterSpacing: "0.22em", color: C.white, textTransform: "uppercase" }}>JALDO Travel</span>
+          <TravelWordmark />
           <span style={{ color: C.border }}>·</span>
           <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.2em", color: vc.color, textTransform: "uppercase" }}>THE DIAMOND ARRIVAL</span>
         </div>
@@ -373,17 +374,17 @@ export default function StoryGuestStory() {
             <span style={{ color: C.border }}>·</span>
             <span style={{ fontSize: 8.5, color: vc.color, fontWeight: 600 }}>Arrival in 12 Minutes</span>
           </div>
-          <button onClick={() => navigate("/story")} style={{ background: "none", border: `1px solid ${C.border}`, cursor: "pointer", color: C.dimmed, padding: "4px 8px", display: "flex", alignItems: "center" }}>
+          <button aria-label="Return to Story Hub" onClick={() => navigate("/story")} style={{ background: "none", border: `1px solid ${C.border}`, cursor: "pointer", color: C.dimmed, padding: "4px 8px", display: "flex", alignItems: "center" }}>
             <X size={11} />
           </button>
         </div>
       </div>
 
       {/* Main layout */}
-      <div style={{ flex: 1, display: "flex", overflow: "hidden" }}>
+      <div className="travel-guest-layout" style={{ flex: 1, display: "flex", overflow: "hidden" }}>
 
         {/* Left timeline */}
-        <div style={{ width: 220, flexShrink: 0, borderRight: `1px solid ${C.border}`, display: "flex", flexDirection: "column", padding: "24px 0", background: "hsl(220 13% 4%)", overflowY: "auto" }}>
+        <div className="travel-guest-timeline" style={{ width: 220, flexShrink: 0, borderRight: `1px solid ${C.border}`, display: "flex", flexDirection: "column", padding: "24px 0", background: "hsl(198 56% 12%)", overflowY: "auto" }}>
           <div style={{ fontSize: 7, fontWeight: 700, letterSpacing: "0.2em", color: C.dimmed, textTransform: "uppercase", padding: "0 20px", marginBottom: 16 }}>The Diamond Arrival</div>
           {STEPS.map((s, i) => {
             const isActive = i === currentStep;
@@ -396,7 +397,7 @@ export default function StoryGuestStory() {
                   width: "100%", border: "none", cursor: "pointer",
                   padding: "10px 20px", textAlign: "left",
                   borderLeft: isActive ? `2px solid ${vc.color}` : `2px solid transparent`,
-                  background: isActive ? "hsl(220 13% 8%)" : "transparent",
+                  background: isActive ? "hsl(195 40% 18%)" : "transparent",
                   transition: "all 0.15s",
                 }}
               >
@@ -421,10 +422,10 @@ export default function StoryGuestStory() {
         </div>
 
         {/* Right content */}
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+        <div className="travel-guest-content" style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
 
           {/* View toggle */}
-          <div style={{ display: "flex", alignItems: "center", gap: 0, padding: "16px 32px", borderBottom: `1px solid ${C.border}`, flexShrink: 0 }}>
+          <div className="travel-guest-toggle" style={{ display: "flex", alignItems: "center", gap: 0, padding: "16px 32px", borderBottom: `1px solid ${C.border}`, flexShrink: 0 }}>
             {(Object.entries(VIEW_CONFIG) as [ViewMode, typeof VIEW_CONFIG[ViewMode]][]).map(([mode, cfg]) => (
               <button
                 key={mode}
@@ -445,10 +446,11 @@ export default function StoryGuestStory() {
           </div>
 
           {/* Step content */}
-          <div style={{ flex: 1, display: "flex", gap: 0, overflow: "hidden" }}>
+          <div className="travel-guest-step" style={{ flex: 1, display: "flex", gap: 0, overflow: "hidden" }}>
             {/* Narrative panel */}
             <AnimatePresence mode="wait">
               <motion.div
+                className="travel-guest-narrative"
                 key={`${currentStep}-${viewMode}`}
                 initial={{ opacity: 0, x: 8 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -478,14 +480,14 @@ export default function StoryGuestStory() {
             </AnimatePresence>
 
             {/* Visual panel */}
-            <div style={{ width: 360, flexShrink: 0, borderLeft: `1px solid ${C.border}`, padding: "24px 20px", overflow: "auto", background: "hsl(220 13% 4%)" }}>
+            <div className="travel-guest-visual" style={{ width: 360, flexShrink: 0, borderLeft: `1px solid ${C.border}`, padding: "24px 20px", overflow: "auto", background: "hsl(198 56% 12%)" }}>
               <div style={{ fontSize: 7, fontWeight: 700, letterSpacing: "0.18em", color: C.dimmed, textTransform: "uppercase", marginBottom: 14 }}>JALDO Travel · SIMULATION</div>
               <StepVisual step={currentStep} viewColor={vc.color} />
             </div>
           </div>
 
           {/* Bottom navigation */}
-          <div style={{ padding: "14px 32px", borderTop: `1px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0 }}>
+          <div className="travel-guest-controls" style={{ padding: "14px 32px", borderTop: `1px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0 }}>
             <button
               onClick={() => navigate("/story")}
               style={{ background: "none", border: `1px solid ${C.border}`, cursor: "pointer", color: C.dimmed, padding: "7px 14px", fontSize: 9, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase" }}
@@ -496,6 +498,7 @@ export default function StoryGuestStory() {
               {STEPS.map((_, i) => (
                 <button
                   key={i}
+                  aria-label={`Go to step ${i + 1}`}
                   onClick={() => setCurrentStep(i)}
                   style={{
                     width: i === currentStep ? 20 : 6, height: 6, borderRadius: 3,

@@ -23,7 +23,7 @@ interface SliderInputProps {
   color?: string;
 }
 
-function SliderInput({ label, value, min, max, step, format, onChange, color = "#c9a84c" }: SliderInputProps) {
+function SliderInput({ label, value, min, max, step, format, onChange, color = "#a8dedb" }: SliderInputProps) {
   return (
     <div style={{ marginBottom: 20 }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 8 }}>
@@ -125,8 +125,8 @@ export default function PartnerProofCalculator() {
             <SliderInput label="Rooms / Sites" value={rooms} min={10} max={500} step={5}    format={v => `${v}`}         onChange={setRooms} color="#10b981" />
             <SliderInput label="Guests per month" value={guestVolume} min={100} max={10000} step={100} format={v => `${v.toLocaleString()}`} onChange={setGuestVolume} color="#10b981" />
             <SliderInput label="Issue frequency (% of guests)" value={issueFreq} min={0.02} max={0.25} step={0.01} format={v => `${Math.round(v * 100)}%`} onChange={setIssueFreq} color="#f97316" />
-            <SliderInput label="Recovery rate" value={recoveryRate} min={0.4} max={0.98} step={0.01} format={v => `${Math.round(v * 100)}%`} onChange={setRecoveryRate} color="#c9a84c" />
-            <SliderInput label="Illustrative value hypothesis per modelled recovery ($)" value={valuePerRecovery} min={50} max={1200} step={10} format={v => `$${v}`} onChange={setValuePerRecovery} color="#c9a84c" />
+            <SliderInput label="Recovery rate" value={recoveryRate} min={0.4} max={0.98} step={0.01} format={v => `${Math.round(v * 100)}%`} onChange={setRecoveryRate} color="#a8dedb" />
+            <SliderInput label="Illustrative value hypothesis per modelled recovery ($)" value={valuePerRecovery} min={50} max={1200} step={10} format={v => `$${v}`} onChange={setValuePerRecovery} color="#a8dedb" />
             <SliderInput label="Staff minutes saved per incident" value={minutesSaved} min={5} max={90} step={1} format={v => `${v} min`} onChange={setMinutesSaved} color="#3b82f6" />
             <SliderInput label="Marketplace conversion rate" value={conversionRate} min={0.05} max={0.55} step={0.01} format={v => `${Math.round(v * 100)}%`} onChange={setConversionRate} color="#a78bfa" />
             <SliderInput label="Avg revenue per conversion ($)" value={avgRevenuePerConversion} min={50} max={800} step={10} format={v => `$${v}`} onChange={setAvgRevenuePerConversion} color="#a78bfa" />
@@ -134,12 +134,12 @@ export default function PartnerProofCalculator() {
 
           {/* Outputs */}
           <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-            <div style={{ padding: "20px 24px", background: "rgba(201,168,76,0.05)", border: "1px solid rgba(201,168,76,0.15)", borderTop: "2px solid #c9a84c" }}>
-              <div style={{ fontSize: 9, letterSpacing: "0.18em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 18 }}>
+            <div style={{ padding: "20px 24px", background: "rgba(168,222,219,0.05)", border: "1px solid rgba(168,222,219,0.15)", borderTop: "2px solid #a8dedb" }}>
+              <div style={{ fontSize: 9, letterSpacing: "0.18em", color: "#a8dedb", textTransform: "uppercase", fontWeight: 700, marginBottom: 18 }}>
                 Illustrative Monthly Hypotheses
               </div>
               <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2 }}>
-                <OutputCard label="Modelled Value Protection" value={fmt(monthlyValueProtected)} sub="Service recovery × rate × avg value" color="#c9a84c" />
+                <OutputCard label="Modelled Value Protection" value={fmt(monthlyValueProtected)} sub="Service recovery × rate × avg value" color="#a8dedb" />
                 <OutputCard label="Modelled Revenue Opportunity" value={fmt(revenueCreated)} sub="Marketplace activations × conversion" color="#10b981" />
                 <OutputCard label="Modelled Staff Time" value={`${Math.round(staffHoursSaved)} hrs`} sub={`${minutesSaved} min × ${Math.round(incidents)} incidents`} color="#3b82f6" />
                 <OutputCard label="Modelled Escalation Reduction" value={`${escalationsPrevented}`} sub="~35% of recovered incidents" color="#f97316" />
@@ -158,7 +158,7 @@ export default function PartnerProofCalculator() {
 
             <div style={{ padding: "20px 24px", background: "rgba(255,255,255,0.015)", border: "1px solid rgba(255,255,255,0.05)" }}>
               <div style={{ fontSize: 9, letterSpacing: "0.16em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>Combined Monthly Hypothesis</div>
-              <div style={{ fontSize: 32, fontWeight: 800, color: "#c9a84c", letterSpacing: "-0.02em" }}>
+              <div style={{ fontSize: 32, fontWeight: 800, color: "#a8dedb", letterSpacing: "-0.02em" }}>
                 {fmt(monthlyValueProtected + revenueCreated)}
               </div>
               <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.28)", marginTop: 4 }}>

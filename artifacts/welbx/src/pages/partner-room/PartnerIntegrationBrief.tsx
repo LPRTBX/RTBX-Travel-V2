@@ -11,14 +11,14 @@ const INTEGRATION_CATEGORIES: { title: string; sub: string; desc: string; color:
     title: "Property Management Systems",
     sub: "PMS",
     desc: "Arrival manifests, room status, reservation data, loyalty tier, guest profile, check-in/out events.",
-    color: "#c9a84c",
+    color: "#a8dedb",
     status: "Planned",
   },
   {
     title: "Housekeeping Platforms",
     sub: "OPERATIONS",
     desc: "Room readiness pipeline, task assignment status, completion timestamps, staff capacity ratios.",
-    color: "#c9a84c",
+    color: "#a8dedb",
     status: "Planned",
   },
   {
@@ -183,10 +183,10 @@ export default function PartnerIntegrationBrief() {
                 <div style={{
                   flex: 1,
                   padding: "22px 16px",
-                  background: i === 0 ? "rgba(59,130,246,0.07)" : i === 5 ? "rgba(201,168,76,0.07)" : "rgba(255,255,255,0.02)",
+                  background: i === 0 ? "rgba(59,130,246,0.07)" : i === 5 ? "rgba(168,222,219,0.07)" : "rgba(255,255,255,0.02)",
                   border: "1px solid rgba(255,255,255,0.06)",
                   borderLeft: i === 0 ? "2px solid #3b82f6" : undefined,
-                  borderRight: i === 5 ? "2px solid #c9a84c" : undefined,
+                  borderRight: i === 5 ? "2px solid #a8dedb" : undefined,
                 }}>
                   <div style={{ fontSize: 11.5, fontWeight: 700, color: "#fff", marginBottom: 6, lineHeight: 1.3 }}>
                     {node.label}
@@ -196,7 +196,7 @@ export default function PartnerIntegrationBrief() {
                   </div>
                 </div>
                 {i < 5 && (
-                  <div style={{ display: "flex", alignItems: "center", padding: "0 6px", color: "rgba(201,168,76,0.3)", fontSize: 14 }}>→</div>
+                  <div style={{ display: "flex", alignItems: "center", padding: "0 6px", color: "rgba(168,222,219,0.3)", fontSize: 14 }}>→</div>
                 )}
               </div>
             ))}

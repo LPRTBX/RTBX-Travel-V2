@@ -112,7 +112,10 @@ describe("Terminology check — no active customer-facing RTBX branding", () => 
 describe("JALDO Travel brand hierarchy", () => {
   it("shows the JALDO Travel wordmark in the Partner Room nav", () => {
     const layout = readFileSync(join(srcRoot, "components/PartnerRoomLayout.tsx"), "utf8");
-    expect(layout).toMatch(/>JALDO Travel<\/span>/);
+    expect(layout).toContain("<TravelWordmark />");
+    const wordmark = readFileSync(join(srcRoot, "components/TravelWordmark.tsx"), "utf8");
+    expect(wordmark).toContain('aria-label="JALDO Travel"');
+    expect(wordmark).toContain("brand/jaldo-logo-white.webp");
   });
 
   it("names JALDO, JALDO Core and JALDO Travel as the brand hierarchy on the Partner Room landing page", () => {

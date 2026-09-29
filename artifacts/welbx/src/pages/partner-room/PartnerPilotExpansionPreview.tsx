@@ -99,8 +99,8 @@ export default function PartnerPilotExpansionPreview() {
           <Link href={WORKING_PROOF_PATH}>
             <div style={{
               display: "inline-flex", alignItems: "center", gap: 8, fontSize: 9, fontWeight: 700,
-              letterSpacing: "0.1em", textTransform: "uppercase", color: "#c9a84c",
-              border: "1px solid rgba(201,168,76,0.25)", padding: "7px 14px", cursor: "pointer",
+              letterSpacing: "0.1em", textTransform: "uppercase", color: "#a8dedb",
+              border: "1px solid rgba(168,222,219,0.25)", padding: "7px 14px", cursor: "pointer",
             }}>
               ← View Current Working Proof
             </div>
@@ -111,7 +111,7 @@ export default function PartnerPilotExpansionPreview() {
         <div style={{ marginBottom: 60 }}>
           <div className="rtbx-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
             {[
-              { stage: "Stage 1 — Push-First MVP", color: "#c9a84c", desc: "Synthetic staff, guest and operator-entered signals. Manual intake. Governed workflow demonstrated.", status: "Working Proof" },
+              { stage: "Stage 1 — Push-First MVP", color: "#a8dedb", desc: "Synthetic staff, guest and operator-entered signals. Manual intake. Governed workflow demonstrated.", status: "Working Proof" },
               { stage: "Stage 2 — Integration-Assisted Pilot", color: "#10b981", desc: "PMS, task, messaging, weather and marketplace signals added only after integrations are approved.", status: "Planned" },
               { stage: "Stage 3 — Multi-Site Operating Layer", color: "#a78bfa", desc: "Proposed multi-property signal visibility, pattern insights, value evaluation and scale.", status: "Planned" },
             ].map(s => (
@@ -190,7 +190,7 @@ export default function PartnerPilotExpansionPreview() {
             ].map(link => (
               link.ext
                 ? <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
-                    <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#c9a84c", border: "1px solid rgba(201,168,76,0.25)", padding: "8px 14px", cursor: "pointer" }}>
+                    <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#a8dedb", border: "1px solid rgba(168,222,219,0.25)", padding: "8px 14px", cursor: "pointer" }}>
                       {link.label}
                     </div>
                   </a>
@@ -200,7 +200,7 @@ export default function PartnerPilotExpansionPreview() {
                       color: "rgba(255,255,255,0.35)", border: "1px solid rgba(255,255,255,0.08)",
                       padding: "8px 14px", cursor: "pointer", transition: "all 0.12s",
                     }}
-                    onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.color = "#c9a84c"; el.style.borderColor = "rgba(201,168,76,0.3)"; }}
+                    onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.color = "#a8dedb"; el.style.borderColor = "rgba(168,222,219,0.3)"; }}
                     onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.color = "rgba(255,255,255,0.35)"; el.style.borderColor = "rgba(255,255,255,0.08)"; }}
                     >
                       {link.label} →

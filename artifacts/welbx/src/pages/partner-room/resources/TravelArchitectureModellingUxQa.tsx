@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 
-const C = { gold: "#c9a84c", muted: "rgba(255,255,255,0.45)", dim: "rgba(255,255,255,0.22)", green: "#10b981", blue: "#3b82f6", violet: "#a78bfa" };
+const C = { gold: "#a8dedb", muted: "rgba(255,255,255,0.45)", dim: "rgba(255,255,255,0.22)", green: "#10b981", blue: "#3b82f6", violet: "#a78bfa" };
 
 const ARCHITECTURE_STAGES = [
   "Captured Signals",
@@ -27,7 +27,7 @@ const DATA_MODEL = [
 const ROLE_UX = [
   { role: "Guest", color: "#3b82f6", sees: "Guest-facing Experience layer — support prompts, recovery options, in-stay nudges." },
   { role: "Staff", color: "#10b981", sees: "Task queue, action cards, escalation alerts, resolution timers." },
-  { role: "Manager", color: "#c9a84c", sees: "Property-level moment dashboard, escalation breaches, team performance." },
+  { role: "Manager", color: "#a8dedb", sees: "Property-level moment dashboard, escalation breaches, team performance." },
   { role: "Executive", color: "#a78bfa", sees: "Portfolio-level value proof, recovery rate, assurance completeness." },
   { role: "Partner", color: "#f97316", sees: "Deployment brief, integration status, commercial reporting." },
   { role: "Funder", color: "#22d3ee", sees: "Outcome evidence, category opportunity, roadmap and traction reporting." },
@@ -51,7 +51,7 @@ export default function TravelArchitectureModellingUxQa() {
           <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 18, maxWidth: 720 }}>
             JALDO Travel — Architecture, Modelling, UX & QA
           </h1>
-          <div style={{ padding: "16px 20px", background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.22)", borderLeft: "3px solid #c9a84c", maxWidth: 700 }}>
+          <div style={{ padding: "16px 20px", background: "rgba(168,222,219,0.06)", border: "1px solid rgba(168,222,219,0.22)", borderLeft: "3px solid #a8dedb", maxWidth: 700 }}>
             <p style={{ fontSize: 13, color: "rgba(255,255,255,0.7)", lineHeight: 1.75, margin: 0, fontStyle: "italic" }}>
               "Same moment. Different view. One assurance trail."
             </p>

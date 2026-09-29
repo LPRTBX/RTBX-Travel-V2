@@ -32,12 +32,12 @@ import { PARTNER_COMMERCIAL_MODELS } from "@/data/travelCommercialModel";
 
 // ── Style constants ───────────────────────────────────────────────────────────
 
-const C = { muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,255,0.28)", gold: "#c9a84c", green: "#10b981", blue: "#3b82f6", red: "#ef4444", purple: "#a78bfa" };
+const C = { muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,255,0.28)", gold: "#a8dedb", green: "#10b981", blue: "#3b82f6", red: "#ef4444", purple: "#a78bfa" };
 
 const MATURITY_COLORS: Record<PartnerMaturityStatus, string> = {
   "planned":        "rgba(255,255,255,0.3)",
   "in-development": "#3b82f6",
-  "demonstrated":   "#c9a84c",
+  "demonstrated":   "#a8dedb",
   "pilot-ready":    "#10b981",
   "production":     "#10b981",
 };
@@ -46,7 +46,7 @@ const LANE_COLORS: Record<string, string> = {
   "signal-partners":       "#3b82f6",
   "governance-partners":   "#a78bfa",
   "intervention-partners": "#f97316",
-  "technology-partners":   "#c9a84c",
+  "technology-partners":   "#a8dedb",
   "deployment-partners":   "#10b981",
   "distribution-partners": "rgba(255,255,255,0.5)",
 };
@@ -193,7 +193,7 @@ export default function PartnerEcosystem() {
           </p>
            <div className="rtbx-responsive-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 2 }}>
             {RTBX_OWNED_CAPABILITIES.map((cap, i) => (
-              <div key={i} style={{ padding: "10px 14px", background: "rgba(201,168,76,0.04)", border: "1px solid rgba(201,168,76,0.12)", fontSize: 12, color: "rgba(255,255,255,0.72)" }}>
+              <div key={i} style={{ padding: "10px 14px", background: "rgba(168,222,219,0.04)", border: "1px solid rgba(168,222,219,0.12)", fontSize: 12, color: "rgba(255,255,255,0.72)" }}>
                 <span style={{ color: C.gold, marginRight: 8, fontWeight: 700 }}>◦</span>{cap}
               </div>
             ))}
@@ -403,7 +403,7 @@ export default function PartnerEcosystem() {
           </p>
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
             <Link href="/partner-room/next-step">
-              <div style={{ padding: "12px 22px", background: C.gold, fontSize: 12, fontWeight: 700, color: "#080c14", cursor: "pointer" }}>Explore a Partner Model →</div>
+              <div style={{ padding: "12px 22px", background: C.gold, fontSize: 12, fontWeight: 700, color: "#102d39", cursor: "pointer" }}>Explore a Partner Model →</div>
             </Link>
             <Link href="/partner-room/partner-ecosystem#integration-responsibility">
               <div style={{ padding: "12px 22px", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.15)", fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.7)", cursor: "pointer" }}>Review Responsibilities →</div>

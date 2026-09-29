@@ -279,7 +279,7 @@ function S5() {
                       <span style={{ fontSize: 8.5, color: C.muted }}>{prop.name}</span>
                       <span style={{ fontSize: 9, fontWeight: 700, color: prop.color }}>{prop.score}</span>
                     </div>
-                    <div style={{ height: 4, background: "hsl(220 13% 11%)" }}>
+                    <div style={{ height: 4, background: "hsl(195 25% 29%)" }}>
                       <div style={{ width: `${prop.score}%`, height: "100%", background: prop.color, opacity: 0.65 }} />
                     </div>
                   </div>
@@ -652,7 +652,7 @@ function S12() {
             <div key={i} style={{ padding: "12px 14px", background: C.card, border: `1px solid ${C.border}` }}>
               <div style={{ fontSize: 8, color: C.muted, marginBottom: 6, lineHeight: 1.35 }}>{p.name}</div>
               <div style={{ fontSize: 22, fontWeight: 700, color: p.color, marginBottom: 6 }}>{p.score}</div>
-              <div style={{ height: 4, background: "hsl(220 13% 11%)" }}>
+              <div style={{ height: 4, background: "hsl(195 25% 29%)" }}>
                 <div style={{ width: `${p.score}%`, height: "100%", background: p.color, opacity: 0.65 }} />
               </div>
             </div>

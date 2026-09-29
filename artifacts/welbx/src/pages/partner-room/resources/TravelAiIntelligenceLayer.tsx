@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 
-const C = { gold: "#c9a84c", muted: "rgba(255,255,255,0.45)", dim: "rgba(255,255,255,0.22)", green: "#10b981", blue: "#3b82f6", violet: "#a78bfa" };
+const C = { gold: "#a8dedb", muted: "rgba(255,255,255,0.45)", dim: "rgba(255,255,255,0.22)", green: "#10b981", blue: "#3b82f6", violet: "#a78bfa" };
 
 const MODEL_CARDS = [
   { label: "Signal Understanding", desc: "Interprets raw captured signals — text, structured events, sentiment cues — into normalised signal objects." },
@@ -21,7 +21,7 @@ const STAGES = [
   {
     num: "01",
     title: "Rules-Based MVP",
-    color: "#c9a84c",
+    color: "#a8dedb",
     desc: "The Working Proof uses deterministic rules and classification logic — no AI models in the response loop. Every demonstrated classification, routing decision and escalation is transparent and auditable by design.",
   },
   {
@@ -54,7 +54,7 @@ export default function TravelAiIntelligenceLayer() {
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 700, marginBottom: 18 }}>
             The planned AI layer is designed to assist signal interpretation, classification confidence, recommendations and communication drafting. Governed rules and named human owners remain accountable for decisions and dispatch.
           </p>
-          <div style={{ padding: "16px 20px", background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.22)", borderLeft: "3px solid #c9a84c", maxWidth: 700 }}>
+          <div style={{ padding: "16px 20px", background: "rgba(168,222,219,0.06)", border: "1px solid rgba(168,222,219,0.22)", borderLeft: "3px solid #a8dedb", maxWidth: 700 }}>
             <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.65)", lineHeight: 1.7, margin: 0 }}>
               The current Working Proof uses deterministic rules and synthetic inputs. AI assistance is Planned for approved pilot stages after data sources, fallback rules and human-review controls are agreed.
             </p>
@@ -113,7 +113,7 @@ export default function TravelAiIntelligenceLayer() {
         </div>
 
         {/* Safety and governance */}
-        <div style={{ marginBottom: 40, padding: "20px 22px", background: "rgba(201,168,76,0.04)", border: "1px solid rgba(201,168,76,0.15)" }}>
+        <div style={{ marginBottom: 40, padding: "20px 22px", background: "rgba(168,222,219,0.04)", border: "1px solid rgba(168,222,219,0.15)" }}>
           <div style={{ fontSize: 8, letterSpacing: "0.14em", color: C.gold, textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>Safety and Governance</div>
           <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.7, margin: 0 }}>
             AI-assisted outputs never bypass the governed decision system. Every AI-informed recommendation is logged, attributable and reviewable in the assurance registry. Operators retain override authority at every stage, and rules-based fallback logic remains active behind every AI model.

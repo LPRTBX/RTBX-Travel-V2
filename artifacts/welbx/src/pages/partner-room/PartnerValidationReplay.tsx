@@ -69,7 +69,7 @@ const STEPS: ReplayStep[] = [
 
 const STATUS_CONFIG = {
   pending:   { color: "rgba(255,255,255,0.15)", label: "Pending",   bg: "transparent" },
-  active:    { color: "#c9a84c",               label: "Active",    bg: "rgba(201,168,76,0.08)" },
+  active:    { color: "#a8dedb",               label: "Active",    bg: "rgba(168,222,219,0.08)" },
   complete:  { color: "#10b981",               label: "Simulated", bg: "rgba(16,185,129,0.06)" },
   breached:  { color: "#f97316",               label: "Modelled breach", bg: "rgba(249,115,22,0.06)" },
   failed:    { color: "#ef4444",               label: "Modelled failure", bg: "rgba(239,68,68,0.06)" },
@@ -145,7 +145,7 @@ export default function PartnerValidationReplay() {
             style={{
               padding: "10px 24px", fontSize: 10, fontWeight: 700, letterSpacing: "0.1em",
               textTransform: "uppercase", cursor: "pointer", transition: "all 0.15s",
-              background: modeColor, color: "#080c14",
+              background: modeColor, color: "#102d39",
             }}
             onMouseEnter={e => { (e.currentTarget as HTMLElement).style.opacity = "0.85"; }}
             onMouseLeave={e => { (e.currentTarget as HTMLElement).style.opacity = "1"; }}
@@ -190,7 +190,7 @@ export default function PartnerValidationReplay() {
                     stepData.status === "complete"  ? <div style={{ width: 18, height: 18, borderRadius: "50%", background: "#10b98125", border: "1.5px solid #10b981", display: "flex", alignItems: "center", justifyContent: "center" }}><span style={{ color: "#10b981", fontSize: 10, lineHeight: 1 }}>✓</span></div>
                     : stepData.status === "breached" ? <div style={{ width: 18, height: 18, borderRadius: "50%", background: "#f9731625", border: "1.5px solid #f97316", display: "flex", alignItems: "center", justifyContent: "center" }}><span style={{ color: "#f97316", fontSize: 9, lineHeight: 1 }}>!</span></div>
                     : stepData.status === "failed"  ? <div style={{ width: 18, height: 18, borderRadius: "50%", background: "#ef444425", border: "1.5px solid #ef4444", display: "flex", alignItems: "center", justifyContent: "center" }}><span style={{ color: "#ef4444", fontSize: 10, lineHeight: 1 }}>✕</span></div>
-                    : <div style={{ width: 18, height: 18, borderRadius: "50%", background: "#c9a84c25", border: "1.5px solid #c9a84c" }} />
+                    : <div style={{ width: 18, height: 18, borderRadius: "50%", background: "#a8dedb25", border: "1.5px solid #a8dedb" }} />
                   ) : <div style={{ width: 18, height: 18, borderRadius: "50%", border: "1.5px solid rgba(255,255,255,0.12)" }} />}
                 </div>
                 <div style={{ fontSize: 11, fontWeight: 700, color: isVisible ? "rgba(255,255,255,0.72)" : "rgba(255,255,255,0.25)", padding: "0 12px", paddingTop: 1 }}>
@@ -223,12 +223,12 @@ export default function PartnerValidationReplay() {
           </div>
         )}
 
-        <div style={{ marginTop: 24, padding: "16px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderLeft: "3px solid #c9a84c" }}>
+        <div style={{ marginTop: 24, padding: "16px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderLeft: "3px solid #a8dedb" }}>
           <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.5)", lineHeight: 1.65, margin: "0 0 10px" }}>
             This is a controlled synthetic replay for validation discussion, not a second runtime. Configured scenario state is created and advanced only in the Execution Centre.
           </p>
           <Link href={travelScenarioExecutionPath("repeat-guest-room-not-ready")}>
-            <span style={{ fontSize: 10, color: "#c9a84c", fontWeight: 700 }}>Check this scenario in the Execution Centre →</span>
+            <span style={{ fontSize: 10, color: "#a8dedb", fontWeight: 700 }}>Check this scenario in the Execution Centre →</span>
           </Link>
         </div>
 

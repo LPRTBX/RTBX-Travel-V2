@@ -35,6 +35,7 @@ const EXPECTED_NAVIGATION = [
     items: [
       ["Product Proof", "/partner-room/product-proof"],
       ["Validation", "/partner-room/validation"],
+      ["Simulation Lab", "/partner-room/operations?view=simulation"],
       ["Guest View", "/partner-room/guest-demo"],
       ["Operator View", "/partner-room/operator-demo"],
       ["Dual View", "/partner-room/dual-view-demo"],

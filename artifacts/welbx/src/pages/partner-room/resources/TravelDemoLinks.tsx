@@ -2,16 +2,16 @@ import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 import { WORKING_PROOF_PATH } from "@/lib/proofLanguage";
 
-const C = { gold: "#c9a84c", muted: "rgba(255,255,255,0.45)", dim: "rgba(255,255,255,0.22)", green: "#10b981" };
+const C = { gold: "#a8dedb", muted: "rgba(255,255,255,0.45)", dim: "rgba(255,255,255,0.22)", green: "#10b981" };
 
 const SECTIONS = [
   {
     label: "Working Proof",
     tag: "Simulation",
-    tagColor: "#c9a84c",
+    tagColor: "#a8dedb",
     desc: "The first interactive JALDO Travel product loop, demonstrated with synthetic inputs and no connected dispatch.",
     items: [
-      { label: "JALDO Travel Moment Response", desc: "A synthetic signal is captured → classified → assigned to a named owner → a guest-facing message is drafted → escalation and assurance logging are demonstrated.", href: WORKING_PROOF_PATH, cta: "Open Working Proof", color: "#c9a84c", ext: false },
+      { label: "JALDO Travel Moment Response", desc: "A synthetic signal is captured → classified → assigned to a named owner → a guest-facing message is drafted → escalation and assurance logging are demonstrated.", href: WORKING_PROOF_PATH, cta: "Open Working Proof", color: "#a8dedb", ext: false },
     ],
   },
   {
@@ -20,7 +20,7 @@ const SECTIONS = [
     tagColor: "#a78bfa",
     desc: "Three views across the JALDO Travel pathway — the current Working Proof and Planned pilot and Stage 3 states.",
     items: [
-      { label: "Moment Response Working Proof", desc: "Interactive, synthetic capture, classification, assignment, drafted communication, escalation and assurance logging.", href: WORKING_PROOF_PATH, cta: "Open Working Proof", color: "#c9a84c", ext: false },
+      { label: "Moment Response Working Proof", desc: "Interactive, synthetic capture, classification, assignment, drafted communication, escalation and assurance logging.", href: WORKING_PROOF_PATH, cta: "Open Working Proof", color: "#a8dedb", ext: false },
       { label: "Integration-Assisted Pilot Preview", desc: "How the Moment Response workflow becomes faster and more automated when PMS, task, messaging, weather and marketplace integrations are approved and connected.", href: "/partner-room/product-proof/pilot-expansion-preview", cta: "View Pilot Expansion", color: "#10b981" },
       { label: "Stage 3 Operating Layer Preview", desc: "Multi-site signal visibility, pattern insights, action routing, assurance reporting, value proof and marketplace activation. What JALDO Travel becomes at scale.", href: "/partner-room/product-proof/stage-3-operating-layer", cta: "View Stage 3 Preview", color: "#a78bfa" },
     ],
@@ -28,10 +28,10 @@ const SECTIONS = [
   {
     label: "Product Proof Demos",
     tag: "Interactive",
-    tagColor: "#c9a84c",
+    tagColor: "#a8dedb",
     desc: "Core interactive demos — each one shows Working Proof or Simulation behavior, not a connected production capability.",
     items: [
-      { label: "Scenario Builder", desc: "Choose environment, scenario, risk level and role. Step through full Signal → Classify → Decide → Execute → Assure → Value flow.", href: "/partner-room/scenario-builder", cta: "Open Builder", color: "#c9a84c" },
+      { label: "Scenario Builder", desc: "Choose environment, scenario, risk level and role. Step through full Signal → Classify → Decide → Execute → Assure → Value flow.", href: "/partner-room/scenario-builder", cta: "Open Builder", color: "#a8dedb" },
       { label: "Dual View Demo", desc: "Same simulated moment seen from guest, operator and command layer through synchronised perspectives.", href: "/partner-room/dual-view-demo", cta: "Open Dual View", color: "#3b82f6" },
       { label: "Communications Routing Demo", desc: "Select a scenario — watch JALDO Core route the right message to the right person across the right channel.", href: "/partner-room/comms-demo", cta: "Open Demo", color: "#10b981" },
       { label: "Decision Spine Demo", desc: "Toggle synthetic inputs and watch the illustrative classification, decision, intervention and assurance path update immediately.", href: "/partner-room/decision-spine", cta: "Open Demo", color: "#f97316" },
@@ -44,7 +44,7 @@ const SECTIONS = [
     tagColor: "#10b981",
     desc: "One fictional scenario per deployment environment — from synthetic signal to modelled outcome and indicative value.",
     items: [
-      { label: "Hotels & Resorts Demo", desc: "High-value guest, early arrival, room delay 35 min. Full Signal → Classify → Decide → Execute → Assure → Value cycle.", href: "/partner-room/deployments/hotels-resorts/demo", cta: "Run Scenario", color: "#c9a84c" },
+      { label: "Hotels & Resorts Demo", desc: "High-value guest, early arrival, room delay 35 min. Full Signal → Classify → Decide → Execute → Assure → Value cycle.", href: "/partner-room/deployments/hotels-resorts/demo", cta: "Run Scenario", color: "#a8dedb" },
       { label: "Holiday Parks & Outdoor Demo", desc: "Family arrival after a long drive. Cabin not ready, children unsettled. Weather change. Full recovery cycle.", href: "/partner-room/holiday-park-demo", cta: "Run Scenario", color: "#10b981" },
       { label: "Corporate Travel Demo", desc: "Business traveller, duty-of-care flag, back-to-back meetings. Silent intervention pathway.", href: "/partner-room/deployments/corporate-travel/demo", cta: "Run Scenario", color: "#3b82f6" },
       { label: "Events & Venues Demo", desc: "Crowd flow anomaly, catering shortfall, 40 minutes to program. Simulated staff-coordination pathway.", href: "/partner-room/deployments/events-venues/demo", cta: "Run Scenario", color: "#a78bfa" },
@@ -77,7 +77,7 @@ const SECTIONS = [
     tagColor: "#22d3ee",
     desc: "Interactive and information explorers across the core JALDO Travel operating systems.",
     items: [
-      { label: "Moment Economy Explorer", desc: "Select from 8 moment types. See Signal → Risk Classification → Action → Value → Assurance Record for each.", href: "/partner-room/moments-economy", cta: "Open Explorer", color: "#c9a84c" },
+      { label: "Moment Economy Explorer", desc: "Select from 8 moment types. See Signal → Risk Classification → Action → Value → Assurance Record for each.", href: "/partner-room/moments-economy", cta: "Open Explorer", color: "#a8dedb" },
       { label: "Signals Engine Brief", desc: "247+ configured signal types across 4 categories. Seven-step classification chain from raw event to moment creation.", href: "/partner-room/signals-engine", cta: "View Brief", color: "#3b82f6" },
       { label: "Decision & Action Layer", desc: "The intervention logic that governs which action is triggered at which threshold across which moment type.", href: "/partner-room/product-proof", cta: "View Layer", color: "#10b981" },
       { label: "Intervention Library", desc: "Pre-configured playbooks for guest recovery, welfare, commercial activation and service response moments.", href: "/partner-room/product-proof", cta: "View Library", color: "#a78bfa" },

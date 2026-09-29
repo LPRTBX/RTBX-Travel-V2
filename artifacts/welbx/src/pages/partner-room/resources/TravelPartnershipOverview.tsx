@@ -1,10 +1,10 @@
 import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 
-const C = { gold: "#c9a84c", bg: "#080c14", navy: "#0d1220", border: "rgba(255,255,255,0.07)", muted: "rgba(255,255,255,0.45)", dim: "rgba(255,255,255,0.22)", blue: "#3b82f6", green: "#10b981" };
+const C = { gold: "#a8dedb", bg: "#102d39", navy: "#173b47", border: "rgba(255,255,255,0.07)", muted: "rgba(255,255,255,0.45)", dim: "rgba(255,255,255,0.22)", blue: "#3b82f6", green: "#10b981" };
 
 const ENVS = [
-  { label: "Hotels & Resorts", color: "#c9a84c", desc: "City hotels, luxury resorts, boutique properties. Guest recovery, loyalty moments, in-stay service and commercial activation.", moat: "Loyalty + concierge revenue" },
+  { label: "Hotels & Resorts", color: "#a8dedb", desc: "City hotels, luxury resorts, boutique properties. Guest recovery, loyalty moments, in-stay service and commercial activation.", moat: "Loyalty + concierge revenue" },
   { label: "Holiday Parks & Outdoor Experiences", color: "#10b981", desc: "Caravan parks, cabins, camping, glamping. Family stays, weather disruption, welfare, maintenance and local experience routing.", moat: "Weather + welfare + local partner ecosystem" },
   { label: "Corporate & Business Travel", color: "#3b82f6", desc: "Business hotels, airport stays, conference venues. Repeat guests, duty-of-care, productivity support and silent loyalty execution.", moat: "Duty-of-care + repeat guest recognition" },
   { label: "Events & Venues", color: "#a78bfa", desc: "Concert venues, stadiums, exhibition centres. Crowd flow, incident coordination, accessibility, welfare and real-time staff response.", moat: "Safety + incident prevention + accessibility" },
@@ -12,12 +12,12 @@ const ENVS = [
 ];
 
 const PARTNER_TYPES = [
-  { label: "Operator Partners", color: "#c9a84c", role: "Deploy JALDO Travel in their property or estate", value: "Execution infrastructure, service recovery, staff response, commercial activation", earn: "Reduced operational risk, increased revenue per guest, assurance evidence" },
+  { label: "Operator Partners", color: "#a8dedb", role: "Deploy JALDO Travel in their property or estate", value: "Execution infrastructure, service recovery, staff response, commercial activation", earn: "Reduced operational risk, increased revenue per guest, assurance evidence" },
   { label: "Integration Partners", color: "#3b82f6", role: "Connect their platform (PMS, POS, CRM, workforce) via JALDO Core API", value: "Unlock real-time signal flow from their system into the operating layer", earn: "API revenue share, data partnership, deployment leverage" },
   { label: "Distribution Partners", color: "#a78bfa", role: "Bring JALDO Travel into their client portfolio", value: "Commercial pathway for their vertical clients across accommodation and experience", earn: "Revenue share on platform and deployment fees" },
   { label: "Marketplace Partners", color: "#10b981", role: "Activate services, experiences or local offers via JALDO Travel", value: "Reach guests at the right moment in their stay journey", earn: "Transaction revenue, partner activation fees" },
   { label: "Strategic Partners", color: "#f97316", role: "Co-own deployment in a vertical, geography or asset class", value: "First-mover infrastructure position across a priority deployment vertical", earn: "Equity pathway, vertical exclusivity, revenue co-participation" },
-  { label: "Strategic Advisory Partners", color: "#c9a84c", role: "Support controlled evaluation and deployment planning", value: "Structured evidence, governance review and scaling guidance", earn: "Participation subject to a separate approved agreement" },
+  { label: "Strategic Advisory Partners", color: "#a8dedb", role: "Support controlled evaluation and deployment planning", value: "Structured evidence, governance review and scaling guidance", earn: "Participation subject to a separate approved agreement" },
 ];
 
 const PATHWAY = [

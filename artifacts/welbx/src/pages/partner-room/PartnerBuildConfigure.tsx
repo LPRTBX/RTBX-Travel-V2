@@ -45,7 +45,7 @@ const C = {
   dim:    "rgba(255,255,255,0.22)",
   faint:  "rgba(255,255,255,0.08)",
   border: "rgba(255,255,255,0.08)",
-  gold:   "#c9a84c",
+  gold:   "#a8dedb",
   green:  "#10b981",
   red:    "#ef4444",
   blue:   "#3b82f6",
@@ -143,7 +143,7 @@ function StyledSelect({ value, onChange, options, id, "aria-label": ariaLabel }:
       onChange={e => onChange(e.target.value)}
       aria-label={ariaLabel}
       style={{
-        width: "100%", padding: "9px 12px", background: "#0e1320",
+        width: "100%", padding: "9px 12px", background: "#173b47",
         border: "1px solid rgba(255,255,255,0.12)", color: "#fff", fontSize: 12,
         cursor: "pointer", appearance: "none",
       }}
@@ -163,8 +163,8 @@ function Toggle({ active, onChange, label, sub }: { active: boolean; onChange: (
       style={{
         display: "flex", alignItems: "center", gap: 12, cursor: "pointer",
         padding: "10px 14px", width: "100%", textAlign: "left",
-        background: active ? "rgba(201,168,76,0.06)" : "rgba(255,255,255,0.02)",
-        border: `1px solid ${active ? "rgba(201,168,76,0.25)" : "rgba(255,255,255,0.06)"}`,
+        background: active ? "rgba(168,222,219,0.06)" : "rgba(255,255,255,0.02)",
+        border: `1px solid ${active ? "rgba(168,222,219,0.25)" : "rgba(255,255,255,0.06)"}`,
         userSelect: "none", color: "inherit",
       }}
     >
@@ -230,7 +230,7 @@ function ProgressBar({ current, onNavigate }: { current: number; onNavigate: (i:
                   width: 28, height: 28, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center",
                   background: active ? C.gold : done ? "rgba(16,185,129,0.15)" : "rgba(255,255,255,0.04)",
                   border: `2px solid ${active ? C.gold : done ? C.green : "rgba(255,255,255,0.12)"}`,
-                  fontSize: 10, fontWeight: 800, color: active ? "#080c14" : done ? C.green : "rgba(255,255,255,0.3)",
+                  fontSize: 10, fontWeight: 800, color: active ? "#102d39" : done ? C.green : "rgba(255,255,255,0.3)",
                   transition: "all 0.15s",
                 }}>
                   {done ? "✓" : s.num}
@@ -254,7 +254,7 @@ function ProgressBar({ current, onNavigate }: { current: number; onNavigate: (i:
 
 function Disclaimer() {
   return (
-    <div style={{ padding: "11px 16px", background: "rgba(201,168,76,0.04)", border: "1px solid rgba(201,168,76,0.18)", borderLeft: "3px solid rgba(201,168,76,0.6)", marginBottom: 28, display: "flex", gap: 12, alignItems: "flex-start" }}>
+    <div style={{ padding: "11px 16px", background: "rgba(168,222,219,0.04)", border: "1px solid rgba(168,222,219,0.18)", borderLeft: "3px solid rgba(168,222,219,0.6)", marginBottom: 28, display: "flex", gap: 12, alignItems: "flex-start" }}>
       <span style={{ fontSize: 9, letterSpacing: "0.1em", color: C.gold, fontWeight: 800, textTransform: "uppercase", whiteSpace: "nowrap", marginTop: 1 }}>Demo</span>
       <p style={{ fontSize: 11, color: "rgba(255,255,255,0.5)", lineHeight: 1.65, margin: 0 }}>
         This prototype stores synthetic deployment configuration locally for demonstration purposes. It is not a production customer environment and is not connected to any live system or data.
@@ -475,7 +475,7 @@ function Stage4({ draft, setDraft }: { draft: TravelDeploymentConfig; setDraft: 
                     <div style={{ marginTop: 8, fontSize: 10.5, color: "#ef444490" }}>⚠ Auto-activates with welfare scenarios — cannot be disabled while distressed-guest is active</div>
                   )}
                   {os.position === "expansion" && (
-                    <div style={{ marginTop: 8, fontSize: 10.5, color: "rgba(201,168,76,0.7)" }}>★ Expansion: activate after trust, signal accuracy and governance are confirmed</div>
+                    <div style={{ marginTop: 8, fontSize: 10.5, color: "rgba(168,222,219,0.7)" }}>★ Expansion: activate after trust, signal accuracy and governance are confirmed</div>
                   )}
                   {activeScenarios.length > 0 && (
                     <div style={{ marginTop: 8, display: "flex", gap: 6, flexWrap: "wrap" }}>
@@ -544,7 +544,7 @@ function Stage5({ draft, setDraft }: { draft: TravelDeploymentConfig; setDraft: 
                 value={gov.source}
                 onChange={e => updGov(gov.id, "source", e.target.value as GovernanceRuleSource)}
                 aria-label={`Source for ${gov.label}`}
-                style={{ padding: "4px 8px", background: "#0e1320", border: `1px solid ${GOVERNANCE_SOURCE_COLORS[gov.source]}40`, color: GOVERNANCE_SOURCE_COLORS[gov.source], fontSize: 10, cursor: "pointer" }}
+                style={{ padding: "4px 8px", background: "#173b47", border: `1px solid ${GOVERNANCE_SOURCE_COLORS[gov.source]}40`, color: GOVERNANCE_SOURCE_COLORS[gov.source], fontSize: 10, cursor: "pointer" }}
               >
                 {SOURCE_OPTS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
               </select>
@@ -589,7 +589,7 @@ function Stage6({ draft, setDraft, preselectedScenarioId }: {
     <div>
       <StageHeader title="Scenarios & Playbooks" description="Select which canonical scenarios are active in this deployment. Each scenario requires an active Operating System, an accountable role, and a linked playbook. Inactive prerequisites are shown as blocking conditions." />
       {preselectedScenarioId && (
-        <div style={{ marginBottom: 16, padding: "12px 16px", background: "rgba(201,168,76,0.05)", border: "1px solid rgba(201,168,76,0.25)", borderLeft: `3px solid ${C.gold}` }}>
+        <div style={{ marginBottom: 16, padding: "12px 16px", background: "rgba(168,222,219,0.05)", border: "1px solid rgba(168,222,219,0.25)", borderLeft: `3px solid ${C.gold}` }}>
           <div style={{ fontSize: 11.5, color: "rgba(255,255,255,0.65)", lineHeight: 1.65 }}>
             <strong style={{ color: C.gold }}>Preselected from the Travel Scenario Library:</strong>{" "}
             {TRAVEL_SCENARIOS.find(item => item.id === preselectedScenarioId)?.title}.
@@ -611,7 +611,7 @@ function Stage6({ draft, setDraft, preselectedScenarioId }: {
           const blocked = ds.active && (!osActive || !roleActive);
 
           return (
-            <div key={ds.scenarioId} style={{ padding: "18px 20px", background: ds.active ? "rgba(255,255,255,0.025)" : "rgba(255,255,255,0.01)", border: `1px solid ${preselectedScenarioId === ds.scenarioId ? "rgba(201,168,76,0.55)" : blocked ? "rgba(239,68,68,0.3)" : ds.active ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.05)"}`, borderLeft: `3px solid ${preselectedScenarioId === ds.scenarioId ? C.gold : ds.active ? (osDef?.color ?? C.gold) : "rgba(255,255,255,0.1)"}` }}>
+            <div key={ds.scenarioId} style={{ padding: "18px 20px", background: ds.active ? "rgba(255,255,255,0.025)" : "rgba(255,255,255,0.01)", border: `1px solid ${preselectedScenarioId === ds.scenarioId ? "rgba(168,222,219,0.55)" : blocked ? "rgba(239,68,68,0.3)" : ds.active ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.05)"}`, borderLeft: `3px solid ${preselectedScenarioId === ds.scenarioId ? C.gold : ds.active ? (osDef?.color ?? C.gold) : "rgba(255,255,255,0.1)"}` }}>
               <div style={{ display: "flex", alignItems: "flex-start", gap: 14, justifyContent: "space-between" }}>
                 <div style={{ flex: 1 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6, flexWrap: "wrap" }}>
@@ -815,7 +815,7 @@ function Stage8({ draft, setDraft }: { draft: TravelDeploymentConfig; setDraft: 
                 value={ev.ownerRoleId}
                 onChange={e => updEv(ev.id, "ownerRoleId", e.target.value)}
                 aria-label={`Owner role for ${ev.evidenceType}`}
-                style={{ padding: "6px 8px", background: "#0e1320", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", fontSize: 10.5 }}
+                style={{ padding: "6px 8px", background: "#173b47", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", fontSize: 10.5 }}
               >
                 {activeRoles.map(r => <option key={r.value} value={r.value}>{r.label}</option>)}
               </select>
@@ -835,7 +835,7 @@ function Stage8({ draft, setDraft }: { draft: TravelDeploymentConfig; setDraft: 
                 value={out.targetType}
                 onChange={e => updOut(out.id, "targetType", e.target.value as OutcomeTargetType)}
                 aria-label={`Target type for ${out.metric}`}
-                style={{ padding: "6px 8px", background: "#0e1320", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", fontSize: 10.5 }}
+                style={{ padding: "6px 8px", background: "#173b47", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", fontSize: 10.5 }}
               >
                 {TARGET_OPTS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
               </select>
@@ -968,7 +968,7 @@ function Stage9({ draft, onActivate }: { draft: TravelDeploymentConfig; onActiva
       </div>
 
       {/* Activate */}
-      <div style={{ padding: "22px 24px", background: canActivate ? "rgba(201,168,76,0.04)" : "rgba(255,255,255,0.015)", border: `1px solid ${canActivate ? "rgba(201,168,76,0.25)" : "rgba(255,255,255,0.07)"}` }}>
+      <div style={{ padding: "22px 24px", background: canActivate ? "rgba(168,222,219,0.04)" : "rgba(255,255,255,0.015)", border: `1px solid ${canActivate ? "rgba(168,222,219,0.25)" : "rgba(255,255,255,0.07)"}` }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
           <div>
             <div style={{ fontSize: 13, fontWeight: 800, color: canActivate ? "#fff" : "rgba(255,255,255,0.35)", marginBottom: 4 }}>
@@ -993,7 +993,7 @@ function Stage9({ draft, onActivate }: { draft: TravelDeploymentConfig; onActiva
               padding: "12px 28px", fontSize: 11, fontWeight: 800, letterSpacing: "0.08em",
               textTransform: "uppercase", border: "none", cursor: canActivate ? "pointer" : "not-allowed",
               background: canActivate ? C.gold : "rgba(255,255,255,0.06)",
-              color: canActivate ? "#080c14" : "rgba(255,255,255,0.2)",
+              color: canActivate ? "#102d39" : "rgba(255,255,255,0.2)",
               whiteSpace: "nowrap", minHeight: 44,
             }}
           >
@@ -1020,12 +1020,12 @@ function ActivationSuccess({ deployment }: { deployment: TravelDeploymentConfig 
           {deployment.organisationName} · {deployment.propertyType} · {deployment.roomCount} rooms<br />
           {activeScens.length} scenario{activeScens.length !== 1 ? "s" : ""} active · Status: active-simulation
         </p>
-        <div style={{ padding: "14px 18px", background: "rgba(201,168,76,0.04)", border: "1px solid rgba(201,168,76,0.2)", marginBottom: 32, fontSize: 11, color: "rgba(255,255,255,0.45)", lineHeight: 1.65 }}>
+        <div style={{ padding: "14px 18px", background: "rgba(168,222,219,0.04)", border: "1px solid rgba(168,222,219,0.2)", marginBottom: 32, fontSize: 11, color: "rgba(255,255,255,0.45)", lineHeight: 1.65 }}>
           Deployment configuration saved locally (synthetic demonstration data). This is not a production customer environment.
         </div>
         <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
           <Link href="/partner-room/operations">
-            <div style={{ padding: "13px 28px", fontSize: 11, fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", background: C.gold, color: "#080c14", cursor: "pointer", whiteSpace: "nowrap" }}>
+            <div style={{ padding: "13px 28px", fontSize: 11, fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", background: C.gold, color: "#102d39", cursor: "pointer", whiteSpace: "nowrap" }}>
               Open Execution Centre →
             </div>
           </Link>
@@ -1061,7 +1061,7 @@ function NavFooter({
       {!isLast ? (
         <button
           onClick={onNext}
-          style={{ padding: "10px 22px", fontSize: 10, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", background: C.gold, border: "none", color: "#080c14", cursor: "pointer" }}
+          style={{ padding: "10px 22px", fontSize: 10, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", background: C.gold, border: "none", color: "#102d39", cursor: "pointer" }}
         >
           Next →
         </button>
@@ -1087,7 +1087,7 @@ function ResetConfirmDialog({ onConfirm, onCancel }: { onConfirm: () => void; on
         background: "rgba(0,0,0,0.75)", padding: 24,
       }}
     >
-      <div style={{ maxWidth: 480, width: "100%", background: "#0d1220", border: "1px solid rgba(239,68,68,0.3)", padding: "28px 32px" }}>
+      <div style={{ maxWidth: 480, width: "100%", background: "#173b47", border: "1px solid rgba(239,68,68,0.3)", padding: "28px 32px" }}>
         <div id="reset-dialog-title" style={{ fontSize: 16, fontWeight: 800, color: "#fff", marginBottom: 10 }}>Reset configuration?</div>
         <p id="reset-dialog-desc" style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.7, marginBottom: 24, margin: "0 0 24px" }}>
           This will clear your current draft and restore all fields to the default state. Any unsaved changes will be lost. This cannot be undone.

@@ -3,8 +3,8 @@ import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 
 const P = {
-  bg: "#080c14", navy: "#0d1220", border: "rgba(255,255,255,0.08)",
-  amber: "#c9a84c", white: "#f8f9fb", muted: "rgba(255,255,255,0.5)",
+  bg: "#102d39", navy: "#173b47", border: "rgba(255,255,255,0.08)",
+  amber: "#a8dedb", white: "#f8f9fb", muted: "rgba(255,255,255,0.5)",
   dimmed: "rgba(255,255,255,0.22)", green: "#10b981",
 };
 
@@ -348,7 +348,7 @@ export const STAGES: Stage[] = [
   },
 ];
 
-const QUAD_COLORS = ["#c9a84c", "#3b82f6", "#10b981", "#a78bfa"];
+const QUAD_COLORS = ["#a8dedb", "#3b82f6", "#10b981", "#a78bfa"];
 
 function PhoneFrame({ stage, selected, onSelect }: {
   stage: Stage;
@@ -394,7 +394,7 @@ function PhoneFrame({ stage, selected, onSelect }: {
           textAlign: "center",
           flexShrink: 0,
         }}>
-          <div style={{ fontSize: 7.5, letterSpacing: "0.28em", color: "rgba(201,168,76,0.9)", textTransform: "uppercase", fontWeight: 700 }}>
+          <div style={{ fontSize: 7.5, letterSpacing: "0.28em", color: "rgba(168,222,219,0.9)", textTransform: "uppercase", fontWeight: 700 }}>
             GRAND MERIDIAN · LONDON
           </div>
           <div style={{ fontSize: 8, color: "rgba(255,255,255,0.2)", marginTop: 3, letterSpacing: "0.1em" }}>

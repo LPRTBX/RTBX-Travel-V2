@@ -270,7 +270,7 @@ export const TRAVEL_OPERATING_SYSTEMS: TravelOperatingSystem[] = [
   {
     id: "marketplace-loyalty-activation-os",
     name: "Marketplace & Loyalty Activation OS",
-    color: "#c9a84c",
+    color: "#a8dedb",
     position: "expansion",
     problem: "Commercial and loyalty opportunities may be poorly timed or irrelevant without accurate governed context, creating trust risk rather than value.",
     purpose: "Model possible commercial and loyalty moments without delivery. Future activation would require evidenced trust, signal accuracy, consent, governance and a named accountable owner.",
@@ -379,5 +379,5 @@ export const OS_POSITION_LABELS: Record<string, string> = {
 export const OS_POSITION_COLORS: Record<string, string> = {
   lead: "#3b82f6",
   "cross-cutting": "#ef4444",
-  expansion: "#c9a84c",
+  expansion: "#a8dedb",
 };

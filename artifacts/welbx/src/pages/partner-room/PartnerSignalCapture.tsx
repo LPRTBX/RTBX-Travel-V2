@@ -16,11 +16,11 @@ const SIGNAL_SOURCES = [
   {
     num: "01",
     label: "Manual Staff Signal Capture",
-    color: "#c9a84c",
+    color: "#a8dedb",
     explain: "In a future governed pilot, a staff member could enter an operational issue through an approved form or console. The current Working Proof uses fictional manual inputs only.",
     examples: ["Guest complaint", "Room delay", "Unresolved request", "Queue issue", "Guest frustration", "Maintenance problem", "Weather disruption", "Staff overload"],
     matters: "The Working Proof demonstrates rules-based classification and a recommended response; partner validation is still required.",
-    mattersColor: "#c9a84c",
+    mattersColor: "#a8dedb",
   },
   {
     num: "02",
@@ -117,7 +117,7 @@ const DEPLOYMENT_STAGES = [
   {
     num: "01",
     label: "Working Proof",
-    color: "#c9a84c",
+    color: "#a8dedb",
     desc: "Signals are captured through staff intake, guest QR/link, manager console, mock PMS data and simulated guest messages.",
     goal: "Demonstrate the interface and rules for partner review.",
   },
@@ -228,16 +228,16 @@ export default function PartnerSignalCapture() {
           {/* Core framing box */}
           <div style={{
             padding: "24px 28px",
-            background: "rgba(201,168,76,0.05)",
-            border: "1px solid rgba(201,168,76,0.18)",
-            borderLeft: "3px solid #c9a84c",
+            background: "rgba(168,222,219,0.05)",
+            border: "1px solid rgba(168,222,219,0.18)",
+            borderLeft: "3px solid #a8dedb",
             maxWidth: 760,
             marginBottom: 20,
           }}>
             <p style={{ fontSize: 13, color: "rgba(255,255,255,0.55)", lineHeight: 1.75, margin: "0 0 12px 0" }}>
-              <strong style={{ color: "#c9a84c" }}>Working Proof boundary:</strong> all inputs, owners, actions, messages, evidence, outcomes and value on this page are synthetic, drafted, illustrative or modelled. Current classification is rules-based. Nothing is dispatched or written to a partner system, and named people remain accountable.
+              <strong style={{ color: "#a8dedb" }}>Working Proof boundary:</strong> all inputs, owners, actions, messages, evidence, outcomes and value on this page are synthetic, drafted, illustrative or modelled. Current classification is rules-based. Nothing is dispatched or written to a partner system, and named people remain accountable.
             </p>
-            <div style={{ fontSize: 13.5, fontWeight: 800, color: "#c9a84c", letterSpacing: "-0.01em" }}>
+            <div style={{ fontSize: 13.5, fontWeight: 800, color: "#a8dedb", letterSpacing: "-0.01em" }}>
               Current evidence is Simulation, not integration, production operation or measured value.
             </div>
           </div>
@@ -264,14 +264,14 @@ export default function PartnerSignalCapture() {
                   border: "1px solid rgba(255,255,255,0.05)",
                   borderBottom: i < PIPELINE.length - 1 ? "none" : "1px solid rgba(255,255,255,0.05)",
                 }}>
-                  <div style={{ width: 8, height: 8, background: "#c9a84c", flexShrink: 0, opacity: 0.7 }} />
+                  <div style={{ width: 8, height: 8, background: "#a8dedb", flexShrink: 0, opacity: 0.7 }} />
                   <div style={{ flex: 1 }}>
                     <div style={{ fontSize: 11.5, fontWeight: 700, color: "#fff", marginBottom: 2 }}>{step.label}</div>
                     <div style={{ fontSize: 9.5, color: "rgba(255,255,255,0.28)", letterSpacing: "0.04em" }}>{step.sub}</div>
                   </div>
                 </div>
                 {i < PIPELINE.length - 1 && (
-                  <div style={{ paddingLeft: 23, color: "rgba(201,168,76,0.35)", fontSize: 16, lineHeight: 1 }}>↓</div>
+                  <div style={{ paddingLeft: 23, color: "rgba(168,222,219,0.35)", fontSize: 16, lineHeight: 1 }}>↓</div>
                 )}
               </div>
             ))}
@@ -289,13 +289,13 @@ export default function PartnerSignalCapture() {
               display: "flex", flexDirection: "column", gap: 10,
             }}>
               {[
-                { label: "Signal", value: "Housekeeping status + guest arrival timing + sentiment risk", color: "#c9a84c" },
+                { label: "Signal", value: "Housekeeping status + guest arrival timing + sentiment risk", color: "#a8dedb" },
                 { label: "Moment", value: "Room readiness delay", color: "#f97316" },
                 { label: "Classification", value: "Level 2 arrival recovery moment", color: "#a78bfa" },
                 { label: "Recommendation", value: "Draft front desk, housekeeping and guest-support pathway for review", color: "#10b981" },
                 { label: "Draft", value: "Illustrative staff, guest and manager messages", color: "#3b82f6" },
                 { label: "Trace", value: "Populate synthetic timestamp, owner and modelled action fields", color: "#22d3ee" },
-                { label: "Indicative value", value: "Hypothesis: review risk may be reduced · partner validation required", color: "#c9a84c" },
+                { label: "Indicative value", value: "Hypothesis: review risk may be reduced · partner validation required", color: "#a8dedb" },
               ].map((row, i, arr) => (
                 <div key={row.label}>
                   <div style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
@@ -342,14 +342,14 @@ export default function PartnerSignalCapture() {
 
           <div className="rtbx-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
             {/* Working Proof */}
-            <div style={{ padding: "28px 24px", background: "rgba(201,168,76,0.04)", border: "1px solid rgba(201,168,76,0.12)", borderTop: "2px solid #c9a84c" }}>
-              <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#c9a84c", marginBottom: 18 }}>
+            <div style={{ padding: "28px 24px", background: "rgba(168,222,219,0.04)", border: "1px solid rgba(168,222,219,0.12)", borderTop: "2px solid #a8dedb" }}>
+              <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#a8dedb", marginBottom: 18 }}>
                 Working Proof · Simulation
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
                 {WORKING_PROOF.map(item => (
                   <div key={item} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                    <div style={{ width: 4, height: 4, background: "#c9a84c", flexShrink: 0, marginTop: 5, borderRadius: "50%" }} />
+                    <div style={{ width: 4, height: 4, background: "#a8dedb", flexShrink: 0, marginTop: 5, borderRadius: "50%" }} />
                     <span style={{ fontSize: 11.5, color: "rgba(255,255,255,0.55)", lineHeight: 1.4 }}>{item}</span>
                   </div>
                 ))}
@@ -443,7 +443,7 @@ export default function PartnerSignalCapture() {
             </p>
             <div style={{
               paddingTop: 20, borderTop: "1px solid rgba(255,255,255,0.06)",
-              fontSize: 13, fontWeight: 700, color: "#c9a84c", lineHeight: 1.5,
+              fontSize: 13, fontWeight: 700, color: "#a8dedb", lineHeight: 1.5,
             }}>
               JALDO Travel is designed to turn captured signals into governed action. The MVP is intended to validate the response loop, subject to pilot validation. Integrations make the signal layer more automated over time.
             </div>
@@ -468,7 +468,7 @@ export default function PartnerSignalCapture() {
                   color: "rgba(255,255,255,0.35)", border: "1px solid rgba(255,255,255,0.08)",
                   padding: "8px 14px", cursor: "pointer", transition: "all 0.12s",
                 }}
-                onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.color = "#c9a84c"; el.style.borderColor = "rgba(201,168,76,0.3)"; }}
+                onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.color = "#a8dedb"; el.style.borderColor = "rgba(168,222,219,0.3)"; }}
                 onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.color = "rgba(255,255,255,0.35)"; el.style.borderColor = "rgba(255,255,255,0.08)"; }}
                 >
                   {link.label} →

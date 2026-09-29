@@ -163,7 +163,7 @@ const ROLE_KEYS: Record<string, keyof RoleContent> = {
 const ROLE_COLORS: Record<string, string> = {
   "Guest / Guest View": "#3b82f6",
   "Operator View": "#10b981",
-  "Command / Assurance View": "#c9a84c",
+  "Command / Assurance View": "#a8dedb",
   "Partner / Funder View": "#a78bfa",
 };
 
@@ -187,7 +187,7 @@ function roleName(id: string): string {
 }
 
 function Pill({ label, active, color, onClick }: { label: string; active: boolean; color?: string; onClick: () => void }) {
-  const c = color || "#c9a84c";
+  const c = color || "#a8dedb";
   return (
     <div onClick={onClick} style={{
       padding: "7px 14px", fontSize: 10, fontWeight: 700, letterSpacing: "0.08em",
@@ -354,7 +354,7 @@ export default function PartnerScenarioBuilder() {
         <div className="rtbx-stack-mobile" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 2, marginBottom: 2 }}>
           {[
             { label: "Environment", items: ENVS, value: env, setter: setEnv, color: "#10b981" },
-            { label: "Scenario Type", items: SCENARIOS, value: scenario, setter: setScenario, color: "#c9a84c" },
+            { label: "Scenario Type", items: SCENARIOS, value: scenario, setter: setScenario, color: "#a8dedb" },
             { label: "Risk Level", items: RISKS, value: risk, setter: setRisk, color: riskColor },
             { label: "Role View", items: ROLES, value: role, setter: setRole, color: roleColor },
           ].map(group => (
@@ -399,15 +399,15 @@ export default function PartnerScenarioBuilder() {
                 onClick={() => setActiveStep(i)}
                 style={{
                   padding: "14px 12px",
-                  background: i === activeStep ? "rgba(201,168,76,0.1)" : "rgba(255,255,255,0.02)",
-                  border: `1px solid ${i === activeStep ? "#c9a84c50" : "rgba(255,255,255,0.06)"}`,
-                  borderTop: `2px solid ${i === activeStep ? "#c9a84c" : "rgba(255,255,255,0.08)"}`,
+                  background: i === activeStep ? "rgba(168,222,219,0.1)" : "rgba(255,255,255,0.02)",
+                  border: `1px solid ${i === activeStep ? "#a8dedb50" : "rgba(255,255,255,0.06)"}`,
+                  borderTop: `2px solid ${i === activeStep ? "#a8dedb" : "rgba(255,255,255,0.08)"}`,
                   cursor: "pointer",
                 }}
                 onMouseEnter={e => { if (i !== activeStep) (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.04)"; }}
                 onMouseLeave={e => { if (i !== activeStep) (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.02)"; }}
               >
-                <div style={{ fontSize: 7.5, fontWeight: 800, color: i === activeStep ? "#c9a84c" : "rgba(255,255,255,0.2)", letterSpacing: "0.1em", marginBottom: 5 }}>0{i + 1}</div>
+                <div style={{ fontSize: 7.5, fontWeight: 800, color: i === activeStep ? "#a8dedb" : "rgba(255,255,255,0.2)", letterSpacing: "0.1em", marginBottom: 5 }}>0{i + 1}</div>
                 <div style={{ fontSize: 9.5, fontWeight: 700, color: i === activeStep ? "#fff" : "rgba(255,255,255,0.38)", letterSpacing: "0.06em", textTransform: "uppercase", lineHeight: 1.3 }}>
                   {st.label}
                 </div>
@@ -419,8 +419,8 @@ export default function PartnerScenarioBuilder() {
         {/* Step detail + Role view — two columns */}
         <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2, marginBottom: 32 }}>
           {/* Step detail */}
-          <div style={{ padding: "28px 26px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: "2px solid #c9a84c" }}>
-            <div style={{ fontSize: 8, letterSpacing: "0.18em", color: "#c9a84c", textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>
+          <div style={{ padding: "28px 26px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: "2px solid #a8dedb" }}>
+            <div style={{ fontSize: 8, letterSpacing: "0.18em", color: "#a8dedb", textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>
               Stage {activeStep + 1} · {step.label}
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
@@ -445,8 +445,8 @@ export default function PartnerScenarioBuilder() {
               >← Prev</div>
               <div
                 onClick={() => setActiveStep(Math.min(stages.length - 1, activeStep + 1))}
-                style={{ padding: "8px 16px", fontSize: 9, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", border: "1px solid rgba(201,168,76,0.4)", color: "#c9a84c", cursor: activeStep < stages.length - 1 ? "pointer" : "default", background: "transparent" }}
-                onMouseEnter={e => { if (activeStep < stages.length - 1) (e.currentTarget as HTMLElement).style.background = "rgba(201,168,76,0.08)"; }}
+                style={{ padding: "8px 16px", fontSize: 9, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", border: "1px solid rgba(168,222,219,0.4)", color: "#a8dedb", cursor: activeStep < stages.length - 1 ? "pointer" : "default", background: "transparent" }}
+                onMouseEnter={e => { if (activeStep < stages.length - 1) (e.currentTarget as HTMLElement).style.background = "rgba(168,222,219,0.08)"; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "transparent"; }}
               >Next →</div>
             </div>

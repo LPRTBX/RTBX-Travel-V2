@@ -31,7 +31,7 @@ import { TRAVEL_OPERATING_SYSTEMS } from "@/data/travelOperatingSystems";
 
 // ── Style constants ───────────────────────────────────────────────────────────
 
-const C = { muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,255,0.28)", gold: "#c9a84c", green: "#10b981", blue: "#3b82f6", red: "#ef4444" };
+const C = { muted: "rgba(255,255,255,0.5)", dim: "rgba(255,255,255,0.28)", gold: "#a8dedb", green: "#10b981", blue: "#3b82f6", red: "#ef4444" };
 
 const READINESS_COLORS: Record<ReadinessState, string> = {
   "not-started":                   "rgba(255,255,255,0.25)",
@@ -43,7 +43,7 @@ const READINESS_COLORS: Record<ReadinessState, string> = {
 
 const TARGET_COLORS: Record<SuccessMeasureTargetType, string> = {
   "customer-baseline": "#3b82f6",
-  "pilot-target":      "#c9a84c",
+  "pilot-target":      "#a8dedb",
   "indicative-target": "#a78bfa",
   "to-be-agreed":      "rgba(255,255,255,0.35)",
   "not-yet-measured":  "rgba(255,255,255,0.2)",
@@ -87,7 +87,7 @@ export default function PartnerPilotModel() {
             {PILOT_PROPOSITION.summary}
           </p>
           <div style={{ display: "inline-flex", gap: 6, flexWrap: "wrap" }}>
-            <div style={{ padding: "6px 14px", background: "rgba(201,168,76,0.06)", border: "1px solid rgba(201,168,76,0.25)", fontSize: 12, fontWeight: 700, color: C.gold }}>
+            <div style={{ padding: "6px 14px", background: "rgba(168,222,219,0.06)", border: "1px solid rgba(168,222,219,0.25)", fontSize: 12, fontWeight: 700, color: C.gold }}>
               Primary market: {PILOT_PROPOSITION.primaryMarket}
             </div>
             <div style={{ padding: "6px 14px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.1)", fontSize: 12, color: "rgba(255,255,255,0.45)", fontStyle: "italic" }}>
@@ -105,7 +105,7 @@ export default function PartnerPilotModel() {
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
             {PILOT_PROPOSITION.primaryBuyers.map((buyer, i) => (
-              <div key={i} style={{ padding: "8px 14px", background: i === 0 ? "rgba(201,168,76,0.06)" : "rgba(255,255,255,0.02)", border: `1px solid ${i === 0 ? "rgba(201,168,76,0.3)" : "rgba(255,255,255,0.1)"}`, fontSize: 12, fontWeight: i === 0 ? 700 : 500, color: i === 0 ? C.gold : "rgba(255,255,255,0.6)" }}>
+              <div key={i} style={{ padding: "8px 14px", background: i === 0 ? "rgba(168,222,219,0.06)" : "rgba(255,255,255,0.02)", border: `1px solid ${i === 0 ? "rgba(168,222,219,0.3)" : "rgba(255,255,255,0.1)"}`, fontSize: 12, fontWeight: i === 0 ? 700 : 500, color: i === 0 ? C.gold : "rgba(255,255,255,0.6)" }}>
                 {buyer}
               </div>
             ))}
@@ -179,7 +179,7 @@ export default function PartnerPilotModel() {
                     <div style={{ fontSize: 12, color: C.muted }}>{ps.note}</div>
                   </div>
                   <div style={{ display: "flex", gap: 6 }}>
-                    <div style={{ padding: "3px 9px", fontSize: 11, fontWeight: 700, color: ps.role === "primary" ? C.gold : "rgba(255,255,255,0.3)", border: `1px solid ${ps.role === "primary" ? "rgba(201,168,76,0.4)" : "rgba(255,255,255,0.1)"}` }}>
+                    <div style={{ padding: "3px 9px", fontSize: 11, fontWeight: 700, color: ps.role === "primary" ? C.gold : "rgba(255,255,255,0.3)", border: `1px solid ${ps.role === "primary" ? "rgba(168,222,219,0.4)" : "rgba(255,255,255,0.1)"}` }}>
                       {ps.role === "primary" ? "PRIMARY" : "OPTIONAL"}
                     </div>
                     <Link href={travelScenarioPath(ps.scenarioId)}>
@@ -221,7 +221,7 @@ export default function PartnerPilotModel() {
             {PILOT_STAGES.map((stage, i) => (
               <details key={stage.id} open={i < 3} style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: `3px solid ${i < 5 ? C.gold : "rgba(255,255,255,0.2)"}` }}>
                 <summary style={{ padding: "14px 20px", cursor: "pointer", listStyle: "none", display: "flex", alignItems: "center", gap: 14 }}>
-                  <div style={{ width: 28, height: 28, borderRadius: "50%", background: "rgba(201,168,76,0.1)", border: "1px solid rgba(201,168,76,0.3)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 800, color: C.gold, flexShrink: 0 }}>
+                  <div style={{ width: 28, height: 28, borderRadius: "50%", background: "rgba(168,222,219,0.1)", border: "1px solid rgba(168,222,219,0.3)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 800, color: C.gold, flexShrink: 0 }}>
                     {stage.label}
                   </div>
                   <div>
@@ -392,7 +392,7 @@ export default function PartnerPilotModel() {
           </p>
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
             <Link href="/partner-room/next-step#pilot-design">
-              <div style={{ padding: "12px 22px", background: C.gold, fontSize: 12, fontWeight: 700, color: "#080c14", cursor: "pointer" }}>Design a Pilot →</div>
+              <div style={{ padding: "12px 22px", background: C.gold, fontSize: 12, fontWeight: 700, color: "#102d39", cursor: "pointer" }}>Design a Pilot →</div>
             </Link>
             <Link href="/partner-room/pilot-model#readiness-checklist">
               <div style={{ padding: "12px 22px", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.15)", fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.7)", cursor: "pointer" }}>Review Pilot Readiness →</div>
