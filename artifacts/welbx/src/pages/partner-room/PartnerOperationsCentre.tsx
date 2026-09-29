@@ -1,3 +1,5 @@
+import { useSearch } from "wouter";
+import { TravelSimulationPanel } from "@/components/simulation/TravelSimulationPanel";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation } from "wouter";
 import { PartnerRoomLayout, schedulePartnerRoomHashScroll } from "@/components/PartnerRoomLayout";
@@ -670,6 +672,7 @@ function ExecTracePanel({
 // ── Main page ─────────────────────────────────────────────────────────────────
 
 export default function PartnerOperationsCentre() {
+  const simulationView = new URLSearchParams(useSearch()).get("view") === "simulation";
   const [location, navigate] = useLocation();
   useEffect(() => {
     const scrollToHash = () => {
@@ -745,6 +748,8 @@ export default function PartnerOperationsCentre() {
     setLaunchedScenarioId(requestedReadiness?.ready ? requestedScenarioId : null);
   }, [requestedScenarioId, requestedReadiness?.ready]);
 
+  if (simulationView) return <PartnerRoomLayout><TravelSimulationPanel activeDeployment={activeDeployment} /></PartnerRoomLayout>;
+
   return (
     <PartnerRoomLayout>
       <div className="rtbx-responsive-page rtbx-page-pad" style={{ maxWidth: 1160, margin: "0 auto", padding: "72px 32px 140px" }}>
@@ -768,6 +773,8 @@ export default function PartnerOperationsCentre() {
             <strong style={{ color: C.gold }}>Working Proof · Simulation boundary:</strong> all operational inputs and states below are synthetic and local. Current classification is deterministic and rules-based. Communications remain drafts and are never sent or delivered; actions, evidence and outcomes are illustrative, and value is modelled rather than measured. No task, partner activation or external-system update occurs. Named humans retain approval and real-world accountability.
           </p>
         </div>
+
+        <Link href="/partner-room/operations?view=simulation" style={{ display: "block", padding: "18px 22px", marginBottom: 30, background: "#20474e", border: "1px solid #81bcb8", borderRadius: 8, color: "#c5ece7", fontSize: 14, fontWeight: 700 }}>Open Simulation Lab — watch signals move through the engine →</Link>
 
         {/* ── DEPLOYMENT CONTEXT BANNER ── */}
         <div id="deployment-status" style={{ marginBottom: 40, scrollMarginTop: 90 }}>
