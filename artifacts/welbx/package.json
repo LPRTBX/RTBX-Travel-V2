@@ -17,7 +17,8 @@
     "check:legacy": "node scripts/check-legacy.mjs",
     "check:terminology": "node scripts/check-legacy.mjs",
     "check:assets": "node scripts/check-assets.mjs",
-    "check:bundle-boundaries": "node scripts/check-bundle-boundaries.mjs"
+    "check:bundle-boundaries": "node scripts/check-bundle-boundaries.mjs",
+    "test:simulation": "tsc -p tsconfig.simulation.json --noEmit && vitest run src/simulation/continuous.test.ts"
   },
   "devDependencies": {
     "@hookform/resolvers": "^3.10.0",
