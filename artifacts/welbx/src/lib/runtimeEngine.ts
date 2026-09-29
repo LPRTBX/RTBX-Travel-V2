@@ -190,7 +190,8 @@ export function createExecution(params: {
     throw new Error(`Scenario "${scenario.id}" is not linked to its canonical playbook.`);
   }
   const now = new Date().toISOString();
-  const id  = `exec-${scenario.id}-${Date.now()}`;
+  // Multiple signals can arrive in the same millisecond, including across tabs.
+  const id  = `exec-${scenario.id}-${crypto.randomUUID()}`;
 
   // Runtime evidence, outcomes and communications come from the validated
   // deployment configuration rather than a parallel page-local fixture.

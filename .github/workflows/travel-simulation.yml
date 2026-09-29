@@ -1,0 +1,61 @@
+name: JALDO Travel continuous simulation
+
+on:
+  pull_request:
+    branches: [main]
+    paths: ['artifacts/welbx/**', 'lib/**', 'package.json', 'pnpm-lock.yaml', 'pnpm-workspace.yaml', '.github/workflows/travel-simulation.yml']
+  push:
+    branches: [main]
+    paths: ['artifacts/welbx/**', 'lib/**', 'package.json', 'pnpm-lock.yaml', 'pnpm-workspace.yaml', '.github/workflows/travel-simulation.yml']
+  schedule:
+    # 18:23 UTC = 04:23 AEST / 05:23 AEDT the following morning.
+    - cron: '23 18 * * *'
+  workflow_dispatch:
+    inputs:
+      repetitions:
+        description: Sequential executions per scenario (not concurrent users)
+        type: choice
+        default: '100'
+        options: ['1', '10', '100', '1000']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: travel-simulation-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  simulation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      SIMULATION_REPETITIONS: ${{ inputs.repetitions || (github.event_name == 'schedule' && '100') || '10' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: pnpm/action-setup@v4
+        with:
+          version: '10.26.1'
+      - run: pnpm install --frozen-lockfile
+      - name: Exercise existing Travel engine
+        run: pnpm --filter @workspace/rtbx-travel test:simulation
+      - name: Publish run summary
+        if: always()
+        shell: bash
+        run: |
+          if [ -f artifacts/welbx/simulation-results/summary.md ]; then
+            cat artifacts/welbx/simulation-results/summary.md >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo 'Simulation did not produce results. Inspect the failed setup or test step.' >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Retain evidence, including failed runs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: travel-simulation-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/welbx/simulation-results/
+          if-no-files-found: warn
+          retention-days: 30
