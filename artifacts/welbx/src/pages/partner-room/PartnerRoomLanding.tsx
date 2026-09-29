@@ -126,7 +126,8 @@ const PROOF_LAYERS = [
     desc: "Scenario validation, shadow pilot mode, operator walkthroughs and the full guest story from signal to outcome.",
     links: [
       { label: "Validation Lab",                    href: "/partner-room/validation" },
-      { label: "Scenario Replay Lab",               href: "/partner-room/validation" },
+      { label: "Simulation Lab",                  href: "/partner-room/operations?view=simulation" },
+      { label: "Scenario Replay Lab",               href: "/partner-room/validation-replay" },
       { label: "Shadow Pilot Mode",                 href: "/partner-room/validation" },
       { label: "Operator Story Lab",                href: "/partner-room/validation" },
       { label: "Executive Walkthrough",             href: "/partner-room/validation" },

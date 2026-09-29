@@ -37,6 +37,8 @@ export default function PartnerValidation() {
           </div>
         </div>
 
+        <Link href="/partner-room/operations?view=simulation" style={{ display: "block", padding: "24px", marginBottom: 24, border: "1px solid #81bcb8", background: "#20474e", borderRadius: 8, color: "#d2eee9" }}><strong style={{ fontSize: 20 }}>Simulation Lab →</strong><p style={{ fontSize: 13, marginTop: 8 }}>Choose a scenario, adjust signal volume and inspect decisions, escalations and evidence in the Execution Centre.</p></Link>
+
         {/* Working Proof */}
         <div style={{ marginBottom: 24 }}>
           <Link href="/partner-room/guest-demo">

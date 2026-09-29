@@ -48,6 +48,7 @@ export const NAV_GROUPS: NavGroup[] = [
     items: [
       { label: "Product Proof",   path: "/partner-room/product-proof" },
       { label: "Validation",      path: "/partner-room/validation" },
+      { label: "Simulation Lab",  path: "/partner-room/operations?view=simulation" },
       { label: "Guest View",      path: "/partner-room/guest-demo" },
       { label: "Operator View",   path: "/partner-room/operator-demo" },
       { label: "Dual View",       path: "/partner-room/dual-view-demo" },
