@@ -3,3 +3,15 @@
 @media(max-width:1100px){.jsim{padding:32px 20px 60px}.jsim-header{align-items:flex-start}.jsim-environment{max-width:190px}.jsim-workspace{grid-template-columns:238px minmax(0,1fr);gap:16px}.jsim-controls{padding:19px}.jsim-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.jsim-detail-grid{grid-template-columns:1fr}.jsim-flow{gap:5px}.jsim-flow>div{padding:10px 7px}.jsim-flow p{font-size:9px}.jsim-signal-list{max-height:255px}}
 @media(max-width:720px){.jsim-header{display:block}.jsim-environment{margin-top:20px;max-width:none}.jsim-workspace{grid-template-columns:1fr}.jsim-controls{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}.jsim-controls>.jsim-section-title,.jsim-controls>.jsim-hint,.jsim-controls>.jsim-primary,.jsim-controls>.jsim-buttons,.jsim-controls>.jsim-error,.jsim-controls>.jsim-text-button{grid-column:1/-1}.jsim-controls .jsim-section-title{margin-bottom:0}.jsim-controls label{min-width:0}.jsim-monitor-heading{margin-top:16px}.jsim-flow{grid-template-columns:repeat(3,minmax(0,1fr))}.jsim-flow>div{min-height:105px;padding:12px}.jsim-monitor-heading h2{font-size:19px}.jsim-status{font-size:10px}.jsim-detail-grid{gap:15px}.jsim-bottom{flex-direction:column}.jsim-empty{min-height:200px;padding:35px 20px}}
 @media(prefers-reduced-motion:reduce){.jsim *{transition:none!important;animation:none!important}}
+.jhotel-mode { display: flex; flex-wrap: wrap; gap: 8px; padding: 20px 4%; background: #071421; }
+.jhotel-mode button { border: 1px solid #ffffff30; padding: 12px 18px; color: #fff; border-radius: 8px; }
+.jhotel-mode button[aria-pressed="true"] { background: #f28c45; color: #071421; border-color: #f28c45; }
+.jhotel-paths { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 20px 0; }
+.jhotel-paths > div { display: grid; gap: 8px; border: 1px solid #ffffff25; padding: 16px; border-radius: 8px; }
+.jhotel-paths span { color: #f28c45; }
+.jhotel-paths small { color: #ffffffa8; }
+.jsim-controls .jhotel-toggle { display: flex; align-items: center; gap: 10px; margin: 12px 0; }
+.jsim-controls .jhotel-toggle input { width: 18px; height: 18px; accent-color: #f28c45; }
+.jhotel-payload { white-space: pre-wrap; overflow-wrap: anywhere; padding: 14px; background: #ffffff08; font-size: 12px; }
+@media (max-width: 900px) { .jhotel-paths { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 480px) { .jhotel-paths { grid-template-columns: minmax(0, 1fr); } .jhotel-mode button { width: 100%; } }
