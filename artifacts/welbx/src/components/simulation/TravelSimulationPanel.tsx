@@ -9,6 +9,7 @@ import { getMandatoryEvidenceGaps, getStateLabel, STATE_TO_STEP, TRACE_STEPS } f
 import { startLabRun, advanceLabRun, approveLabRun, supplyLabEvidence, acknowledgeLabEscalation,
   type LabRun, type LabCondition } from '@/lib/visualSimulation';
 import './travelSimulation.css';
+import { HotelSimulationPanel } from './HotelSimulationPanel';
 
 type Session = { runs: LabRun[]; deployment: TravelDeploymentConfig; scenarioId: string;
   volume: number; condition: LabCondition; scripted: boolean; startedAt: string };
@@ -21,7 +22,15 @@ const blocked = (run: LabRun) => run.execution.state === 'approval-required' && 
   || run.execution.state === 'escalated' && run.execution.escalations.some(e => !e.acknowledged)
   || run.execution.state === 'resolved' && getMandatoryEvidenceGaps(run.execution).length > 0;
 
-export function TravelSimulationPanel({ activeDeployment }: { activeDeployment: TravelDeploymentConfig | null }) {
+export function TravelSimulationPanel(props: { activeDeployment: TravelDeploymentConfig | null }) {
+  const [mode, setMode] = useState<'scenario' | 'hotel'>('hotel');
+  return <><div className="jhotel-mode" role="group" aria-label="Simulation mode">
+    <button aria-pressed={mode === 'hotel'} onClick={() => setMode('hotel')}>Mock hotel · 100 signals / four paths</button>
+    <button aria-pressed={mode === 'scenario'} onClick={() => setMode('scenario')}>Single scenario lab</button>
+  </div>{mode === 'hotel' ? <HotelSimulationPanel /> : <ScenarioSimulationPanel {...props} />}</>;
+}
+
+function ScenarioSimulationPanel({ activeDeployment }: { activeDeployment: TravelDeploymentConfig | null }) {
   const [source, setSource] = useState<'preset' | 'configured'>('preset');
   const deployment = source === 'configured' && activeDeployment ? activeDeployment : DEFAULT_DEPLOYMENT;
   const readiness = getDeploymentActivationReadiness(deployment);

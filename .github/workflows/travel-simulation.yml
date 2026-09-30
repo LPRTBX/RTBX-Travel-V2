@@ -8,8 +8,8 @@ on:
     branches: [main]
     paths: ['artifacts/welbx/**', 'lib/**', 'package.json', 'pnpm-lock.yaml', 'pnpm-workspace.yaml', '.github/workflows/travel-simulation.yml']
   schedule:
-    # 18:23 UTC = 04:23 AEST / 05:23 AEDT the following morning.
-    - cron: '23 18 * * *'
+    # Repeat the full hotel and existing scenario checks every hour, at minute 23 UTC.
+    - cron: '23 * * * *'
   workflow_dispatch:
     inputs:
       repetitions:
@@ -40,7 +40,9 @@ jobs:
         with:
           version: '10.26.1'
       - run: pnpm install --frozen-lockfile
-      - name: Exercise existing Travel engine
+      - name: Build shared library types
+        run: pnpm run typecheck:libs
+      - name: Exercise Travel engine and 100-signal mock hotel
         run: pnpm --filter @workspace/rtbx-travel test:simulation
       - name: Publish run summary
         if: always()
@@ -50,6 +52,9 @@ jobs:
             cat artifacts/welbx/simulation-results/summary.md >> "$GITHUB_STEP_SUMMARY"
           else
             echo 'Simulation did not produce results. Inspect the failed setup or test step.' >> "$GITHUB_STEP_SUMMARY"
+          fi
+          if [ -f artifacts/welbx/simulation-results/mock-hotel-summary.md ]; then
+            cat artifacts/welbx/simulation-results/mock-hotel-summary.md >> "$GITHUB_STEP_SUMMARY"
           fi
       - name: Retain evidence, including failed runs
         if: always()
