@@ -42,3 +42,27 @@ Select 1, 10, 100 or 1000 repetitions. Reports are written to `artifacts/welbx/s
 ## Verification of this change
 
 The complete unit suite, shared-library build, application/simulation typechecks, production build and access/bundle checks are run locally. Interactive browser verification could not be completed in this workspace: the browser binary download failed and the cloud browser blocks local preview URLs. The pure driver behind browser playback is covered by batch drain and disconnect/reconnect tests; visual review and actual button/export behavior still require preview verification before publishing.
+
+## Outcome and learning cycle extension
+
+The original 100-signal intake profile remains a gate test. A second profile reuses the same 100 readings and canonical engine to test what happens after receipt. The Hotel Lab includes **Run 100 outcome journeys**, baseline traces, proposed changes, explicit approve/reject controls, before/after results and an evidence export.
+
+Each journey follows intake → understanding → accountable decision → scripted approval → mock action → correlated follow-up → outcome assessment → escalation or closure → improvement proposal → reviewer decision → isolated replay. Follow-up must match the event, execution, action and policy version. Dispatch cannot repeat and unapproved changes cannot replay.
+
+The additional synthetic metric requires delivery confirmation, measured restoration and a response within 20 minutes. It is a generic fixture metric, not a claimed hotel standard or welfare protocol. Other deployment outcome metrics stay unmeasured. Per batch, five fault profiles appear 20 times each across the four paths:
+
+| Profile | Baseline outcome | Next step |
+|---|---|---|
+| Successful action | Met; closed | Retain evidence |
+| Late response | Not met; closed after restoration | Review faster mock response and replay |
+| Ineffective action | Not met; stays in action | Escalate, review second intervention and replay |
+| Missing receipt | Pending; stays in action | Escalate, review receipt retry and replay |
+| Missing follow-up measurement | Pending; stays in action | Request measurement; no improvement inferred |
+
+The fixtures yield 20 met, 40 not met and 40 pending baseline outcomes. Sixty reviewed replay cases become met; twenty missing-measurement cases remain pending. This is deterministic synthetic evidence, not a measured service improvement. Failed expectations fail the suite even though deliberately injected operational faults are expected to pass their tests.
+
+Learning candidates are in-memory copies only. They never edit the deployed configuration, train a model or promote a production policy. Approval identity remains scripted. A new replay keeps the original failed execution intact. Real connectors, correlated vendor receipts, authentic reviewer permissions and production release gates need separate integration verification.
+
+`test:simulation` includes this suite automatically. The existing hourly workflow publishes `hotel-learning-summary.md` and retains `hotel-learning.json` with actual execution counts, outcome totals, review proposals and representative baseline/replay traces. Each scheduled 100-repetition run adds 10,000 baseline journeys and 6,000 reviewed replays alongside the original hotel tests. Do not add representative trace counts to execution totals.
+
+Daily reporting should read the new artifact when present, distinguish baseline outcomes from replay outcomes, separate gate-profile holds from follow-up-profile holds, and flag missing reports as unverified. The extension must reach main before hourly runs can exercise it.

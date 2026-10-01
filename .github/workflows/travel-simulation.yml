@@ -42,7 +42,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Build shared library types
         run: pnpm run typecheck:libs
-      - name: Exercise Travel engine and 100-signal mock hotel
+      - name: Exercise Travel engine, mock hotel and outcome learning loop
         run: pnpm --filter @workspace/rtbx-travel test:simulation
       - name: Publish run summary
         if: always()
@@ -55,6 +55,9 @@ jobs:
           fi
           if [ -f artifacts/welbx/simulation-results/mock-hotel-summary.md ]; then
             cat artifacts/welbx/simulation-results/mock-hotel-summary.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+          if [ -f artifacts/welbx/simulation-results/hotel-learning-summary.md ]; then
+            cat artifacts/welbx/simulation-results/hotel-learning-summary.md >> "$GITHUB_STEP_SUMMARY"
           fi
       - name: Retain evidence, including failed runs
         if: always()
