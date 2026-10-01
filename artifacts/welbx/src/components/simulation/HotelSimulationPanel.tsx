@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { HotelLearningPanel } from './HotelLearningPanel';
 import { Link } from 'wouter';
 import { Activity, Download, Pause, Play, RotateCcw, ShieldCheck } from 'lucide-react';
 import { TRAVEL_ROLES } from '@/data/travelRoles';
@@ -104,6 +105,7 @@ export function HotelSimulationPanel() {
       </section></div>
       <footer className="jsim-footer"><p>{history.length} recent batch results retained in this session. Export before leaving.</p><button className="jsim-secondary" disabled={!batch} onClick={download}><Download size={14} />Export hotel run</button></footer>
     </section></div>
+    <HotelLearningPanel />
     <div className="jsim-bottom"><Link href="/partner-room/operations">← Return to the Operations Centre</Link><span>Hourly automation activates when the workflow is merged into main.</span></div>
   </main>;
 }
