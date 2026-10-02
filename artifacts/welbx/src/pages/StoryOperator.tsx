@@ -62,7 +62,7 @@ function S1() {
   );
 }
 
-/* ─── S2: GHSOL Framework ────────────────────────────────────────── */
+/* ─── S2: JALDO Operating Loop ───────────────────────────────────── */
 function S2() {
   const steps = [
     { label: "Signal",   color: C.blue,   def: "A measurable behavioural or environmental indicator that something is occurring or about to occur.", module: "Signal Registry · Intelligence" },
@@ -77,8 +77,8 @@ function S2() {
       <SlideHeader label={LABEL} />
       <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 22 }}>
         <div>
-          <h2 style={{ fontSize: 28, fontWeight: 800, color: C.white, letterSpacing: "-0.01em", marginBottom: 8 }}>The GHSOL Framework</h2>
-          <p style={{ fontSize: 12, color: C.muted, maxWidth: 560, lineHeight: 1.65 }}>Every JALDO Travel operation follows one universal chain — from sensing a signal to capturing learning. The platform is built around this loop.</p>
+          <h2 style={{ fontSize: 28, fontWeight: 800, color: C.white, letterSpacing: "-0.01em", marginBottom: 8 }}>The JALDO Operating Loop</h2>
+          <p style={{ fontSize: 12, color: C.muted, maxWidth: 560, lineHeight: 1.65 }}>Every JALDO Travel operation follows one governed loop — from sensing a signal, through decision and action, to outcome and learning. The operating layer coordinates the people, systems and environments required at each step.</p>
         </div>
         <div style={{ display: "flex", alignItems: "stretch", gap: 0, flex: 1 }}>
           {steps.map((step, i) => (

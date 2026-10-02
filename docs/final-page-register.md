@@ -12,7 +12,7 @@
 | `/partner-room` | Landing — hero, brand hierarchy, five proof layers, deployment environments overview | All partners, first-time visitors | Explore the Room → anchor scroll | Production | **Keep** |
 | `/partner-room/overview` | RTBX Travel product and platform overview — what it is, who it's for, how RTBX Core powers it | Partners, operators, investors | View Deployments → | Production | **Keep** |
 | `/partner-room/operator-brief` | Operator-targeted briefing — the execution gap, what RTBX Travel solves, roles and responsibilities | COO, GM, Operations Directors | Request Operating Alignment Session → | Production | **Keep** |
-| `/partner-room/operating-model` | Full RTBX operating model — platform hierarchy, GHSOL loop, governance layer | Technical and strategic partners | See Pilot Model → | Production | **Keep** |
+| `/partner-room/operating-model` | Full RTBX operating model — platform hierarchy, JALDO Operating Loop, governance layer | Technical and strategic partners | See Pilot Model → | Production | **Keep** |
 | `/partner-room/travel-intelligence` | Travel Intelligence data model — signal taxonomies, roles, deployment contexts | Technical partners, integration teams | View Integration Brief → | Production | **Keep** (alias `/partner-room/intelligence-model`) |
 | `/partner-room/travel-operating-systems` | The five travel operating systems — what each does, how they activate | Operators, product leads | Configure Operating Systems → | Production | **Keep** |
 | `/partner-room/integration-brief` | Integration Hub overview — maturity model, connector types, system interfaces | Technical teams, integration partners | Request Technical Workshop → | Production | **Keep** |
