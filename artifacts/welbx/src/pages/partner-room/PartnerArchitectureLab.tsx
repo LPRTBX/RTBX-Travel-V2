@@ -1,7 +1,8 @@
 import { useMemo, useState } from "react";
 import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
-import { STATE_TO_STEP, TRACE_STEPS, transitionExecution, type ScenarioExecutionState } from "@/lib/runtimeEngine";
+import { STATE_TO_STEP, TRACE_STEPS, transitionExecution } from "@/lib/runtimeEngine";
+import type { ScenarioExecutionState } from "@/data/travelDeploymentConfig";
 import { MOCK_HOTEL } from "@/simulation/mockHotel";
 import { approveHotelDecision, createHotelCase, dispatchHotelAction, mockHotelFollowUp, verifyHotelOutcome, type Fault, type HotelCase } from "@/simulation/hotelLearning";
 import { ARCHITECTURE_SCENARIOS, architectureContext, architectureSignalFor, buildArchitectureNodes, type ArchitectureScenarioId } from "@/lib/architectureLabModel";
