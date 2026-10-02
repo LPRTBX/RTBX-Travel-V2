@@ -1,0 +1,46 @@
+name: Oracle OHIP sandbox qualification
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  qualify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: ohip-sandbox
+    env:
+      OHIP_GATEWAY_URL: ${{ secrets.OHIP_GATEWAY_URL }}
+      OHIP_APP_KEY: ${{ secrets.OHIP_APP_KEY }}
+      OHIP_CLIENT_ID: ${{ secrets.OHIP_CLIENT_ID }}
+      OHIP_CLIENT_SECRET: ${{ secrets.OHIP_CLIENT_SECRET }}
+      OHIP_ENTERPRISE_ID: ${{ secrets.OHIP_ENTERPRISE_ID }}
+      OHIP_HOTEL_ID: ${{ secrets.OHIP_HOTEL_ID }}
+      OHIP_SCOPE: ${{ vars.OHIP_SCOPE }}
+      OHIP_HOUSEKEEPING_SMOKE_PATH: ${{ vars.OHIP_HOUSEKEEPING_SMOKE_PATH }}
+      OHIP_RESERVATION_SMOKE_PATH: ${{ vars.OHIP_RESERVATION_SMOKE_PATH }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Run secret-gated OHIP sandbox smoke test
+        run: node artifacts/welbx/scripts/oracle-ohip-sandbox-smoke.mjs
+      - name: Publish qualification summary
+        if: always()
+        run: |
+          if [ -f simulation-results/oracle-ohip-sandbox-summary.md ]; then
+            cat simulation-results/oracle-ohip-sandbox-summary.md >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "OHIP sandbox qualification produced no result artifact." >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Retain redacted qualification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: oracle-ohip-sandbox-${{ github.run_id }}-${{ github.run_attempt }}
+          path: simulation-results/
+          if-no-files-found: warn
+          retention-days: 30
