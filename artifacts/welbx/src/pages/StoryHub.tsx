@@ -38,7 +38,7 @@ const MODES = [
     slides: "13 sections",
     format: "Inside the operating layer",
     desc: "A complete walkthrough of every layer — from signal sensing to value attribution. For operations directors and technology leads at multi-property hotel operators.",
-    steps: ["Problem Statement", "GHSOL Framework", "Signal Registry", "Moment Registry", "Strategic Visibility", "Decision Registry", "Execution Index", "Communications", "Guest Layer", "Outcome Layer", "Value Layer", "Executive Command", "Planned Future Vision"],
+    steps: ["Problem Statement", "JALDO Operating Loop", "Signal Registry", "Moment Registry", "Strategic Visibility", "Decision Registry", "Execution Index", "Communications", "Guest Layer", "Outcome Layer", "Value Layer", "Executive Command", "Planned Future Vision"],
     accent: C.green,
     badge: "OPERATIONS",
   },
