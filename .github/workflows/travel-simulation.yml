@@ -59,6 +59,9 @@ jobs:
           if [ -f artifacts/welbx/simulation-results/hotel-learning-summary.md ]; then
             cat artifacts/welbx/simulation-results/hotel-learning-summary.md >> "$GITHUB_STEP_SUMMARY"
           fi
+          if [ -f artifacts/welbx/simulation-results/phase4-summary.md ]; then
+            cat artifacts/welbx/simulation-results/phase4-summary.md >> "$GITHUB_STEP_SUMMARY"
+          fi
       - name: Retain evidence, including failed runs
         if: always()
         uses: actions/upload-artifact@v4
