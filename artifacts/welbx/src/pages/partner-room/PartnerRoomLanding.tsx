@@ -240,8 +240,8 @@ export default function PartnerRoomLanding() {
 
         {/* Operating platform statement */}
         <div style={{ padding: "16px 20px", background: "rgba(168,222,219,0.06)", border: "1px solid rgba(168,222,219,0.22)", borderLeft: "3px solid #a8dedb", maxWidth: 700, marginBottom: 24 }}>
-          <p style={{ fontSize: 14, color: "rgba(255,255,255,0.78)", lineHeight: 1.75, margin: 0, fontWeight: 600 }}>
-            This is the JALDO Core operating platform configured for Travel.
+          <p style={{ fontSize: 14, color: "rgba(255,255,255,0.82)", lineHeight: 1.75, margin: 0, fontWeight: 600 }}>
+            JALDO Travel is the operating layer that coordinates people, systems, buildings, guests, partners and intelligence into one governed decision-and-action flow.
           </p>
         </div>
 

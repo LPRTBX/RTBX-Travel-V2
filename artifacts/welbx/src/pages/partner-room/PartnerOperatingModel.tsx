@@ -75,9 +75,15 @@ export default function PartnerOperatingModel() {
           <div style={{ fontSize: 11, letterSpacing: "0.18em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
             Travel Intelligence · Operating Model
           </div>
-          <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.15, marginBottom: 20, maxWidth: 720 }}>
+          <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.15, marginBottom: 16, maxWidth: 720 }}>
             The JALDO Core Operating Model
           </h1>
+          <p style={{ fontSize: 18, color: "rgba(255,255,255,0.82)", lineHeight: 1.65, maxWidth: 820, margin: "0 0 12px", fontWeight: 700 }}>
+            JALDO Travel is the operating layer that coordinates the hotel around the moment — connecting guests, staff, systems, dashboards, buildings, partners, policies and communications so the right decision reaches the right person at the right time.
+          </p>
+          <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.7, maxWidth: 780, margin: "0 0 20px" }}>
+            The systems already exist. The people already exist. JALDO coordinates them into one governed decision-and-action flow.
+          </p>
           <div style={{ padding: "16px 20px", background: "rgba(168,222,219,0.06)", border: "1px solid rgba(168,222,219,0.22)", borderLeft: "3px solid #a8dedb", maxWidth: 700, marginBottom: 20 }}>
             <div style={{ fontSize: 11, letterSpacing: "0.14em", color: C.gold, textTransform: "uppercase", fontWeight: 800, marginBottom: 8 }}>
               {CURRENT_PROOF_BOUNDARY.maturity} · {CURRENT_PROOF_BOUNDARY.evidence}
