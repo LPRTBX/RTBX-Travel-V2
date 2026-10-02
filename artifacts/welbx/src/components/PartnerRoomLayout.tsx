@@ -27,6 +27,7 @@ export const NAV_GROUPS: NavGroup[] = [
   {
     label: "Platform",
     items: [
+      { label: "Architecture Lab",        path: "/partner-room/architecture-lab" },
       { label: "Operating Model",          path: "/partner-room/operating-model" },
       { label: "Travel Intelligence",      path: "/partner-room/travel-intelligence" },
       { label: "Travel Operating Systems", path: "/partner-room/travel-operating-systems" },
@@ -46,6 +47,7 @@ export const NAV_GROUPS: NavGroup[] = [
   {
     label: "Proof",
     items: [
+      { label: "Architecture Lab", path: "/partner-room/architecture-lab" },
       { label: "Product Proof",   path: "/partner-room/product-proof" },
       { label: "Validation",      path: "/partner-room/validation" },
       { label: "Simulation Lab",  path: "/partner-room/operations?view=simulation" },
