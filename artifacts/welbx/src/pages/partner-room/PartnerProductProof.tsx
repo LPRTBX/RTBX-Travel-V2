@@ -255,7 +255,7 @@ export default function PartnerProductProof() {
               {
                 stageLabel: "Connect", stageNum: "01",
                 items: [
-                  { label: "Integration Brief", desc: "Planned system interfaces, integration maturity and responsibility model.", href: "/partner-room/integration-brief", status: "Planned" },
+                  { label: "Architecture Lab", desc: "Interactive end-to-end trace from synthetic hotel signal through governance, human approval, evidence, outcome and learning.", href: "/partner-room/architecture-lab", status: "Working Proof" },\n                  { label: "Integration Brief", desc: "Planned system interfaces, integration maturity and responsibility model.", href: "/partner-room/integration-brief", status: "Planned" },
                   { label: "Travel Signal Registry", desc: "Signal taxonomy, source systems, signal-to-moment flow chain.", href: "/partner-room/signals-engine", status: "Working Proof" },
                 ],
               },
