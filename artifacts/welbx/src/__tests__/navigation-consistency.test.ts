@@ -14,6 +14,7 @@ const EXPECTED_NAVIGATION = [
   {
     label: "Platform",
     items: [
+      ["Architecture Lab", "/partner-room/architecture-lab"],
       ["Operating Model", "/partner-room/operating-model"],
       ["Travel Intelligence", "/partner-room/travel-intelligence"],
       ["Travel Operating Systems", "/partner-room/travel-operating-systems"],
