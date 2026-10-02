@@ -27,6 +27,7 @@ export const NAV_GROUPS: NavGroup[] = [
   {
     label: "Platform",
     items: [
+      { label: "Architecture Lab",        path: "/partner-room/architecture-lab" },
       { label: "Operating Model",          path: "/partner-room/operating-model" },
       { label: "Travel Intelligence",      path: "/partner-room/travel-intelligence" },
       { label: "Travel Operating Systems", path: "/partner-room/travel-operating-systems" },

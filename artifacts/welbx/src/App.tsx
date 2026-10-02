@@ -39,6 +39,7 @@ import PartnerTravelScenarios from "@/pages/partner-room/PartnerTravelScenarios"
 import PartnerCommsDemo from "@/pages/partner-room/PartnerCommsDemo";
 import PartnerTravelAiComms from "@/pages/partner-room/PartnerTravelAiComms";
 import PartnerOperatingModel from "@/pages/partner-room/PartnerOperatingModel";
+import PartnerArchitectureLab from "@/pages/partner-room/PartnerArchitectureLab";
 import PartnerIntelligenceModel from "@/pages/partner-room/PartnerIntelligenceModel";
 import PartnerTravelOperatingSystems from "@/pages/partner-room/PartnerTravelOperatingSystems";
 import PartnerEcosystem from "@/pages/partner-room/PartnerEcosystem";
@@ -122,6 +123,7 @@ const PARTNER_ROUTES = [
   { path: "/partner-room/product-proof/stage-3-operating-layer",  component: PartnerStage3Preview },
   { path: "/partner-room/product-proof/pilot-expansion-preview",  component: PartnerPilotExpansionPreview },
   { path: "/partner-room/operating-model",    component: PartnerOperatingModel },
+  { path: "/partner-room/architecture-lab",   component: PartnerArchitectureLab },
   { path: "/partner-room/intelligence-model", component: PartnerIntelligenceModel },
   { path: "/partner-room/travel-intelligence", component: PartnerIntelligenceModel },
   { path: "/travel-intelligence",              component: PartnerIntelligenceModel },
