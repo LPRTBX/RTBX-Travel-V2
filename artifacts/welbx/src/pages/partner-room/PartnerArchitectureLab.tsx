@@ -92,7 +92,9 @@ export default function PartnerArchitectureLab() {
         <div style={{ maxWidth: 1380, margin: "0 auto" }}>
           <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: ".16em", textTransform: "uppercase", color: "#f59e0b", marginBottom: 12 }}>Partner Room · Working Proof · Architecture Lab</div>
           <h1 style={{ fontSize: "clamp(34px,5vw,60px)", lineHeight: 1.03, letterSpacing: "-.045em", margin: "0 0 16px", maxWidth: 980 }}>Watch one hotel signal move through the operating architecture.</h1>
-          <p style={{ ...muted, maxWidth: 900, lineHeight: 1.7, fontSize: 15 }}>A live synthetic trace across connection, signal, classification, governance, decision, playbook, human authority, communications, evidence, outcome and learning. It uses the same canonical Travel scenarios, playbooks and runtime engine as the Execution Centre.</p>
+          <p style={{ fontSize: "clamp(17px,2vw,21px)", color: "rgba(255,255,255,.86)", lineHeight: 1.55, maxWidth: 1080, margin: "0 0 10px", fontWeight: 700 }}><span style={{ color: "#a8dedb" }}>JALDO Travel is the operating layer that coordinates the hotel around the moment</span> — connecting guests, staff, systems, dashboards, buildings, partners, policies and communications so the right decision reaches the right person at the right time.</p>
+          <p style={{ ...muted, maxWidth: 960, lineHeight: 1.65, fontSize: 14, margin: "0 0 12px" }}>The systems already exist. The people already exist. The dashboards and partners already exist. JALDO coordinates them into one governed decision-and-action flow.</p>
+          <p style={{ ...muted, maxWidth: 900, lineHeight: 1.7, fontSize: 15 }}>This Working Proof traces that model across connection, signal, classification, governance, decision, playbook, human authority, communications, evidence, outcome and learning using the canonical Travel scenario, playbook and runtime model.</p>
           <div style={{ marginTop: 18, fontSize: 12, color: "#a8dedb" }}>Working Proof · synthetic inputs · rules-based logic · named human approval · no live hotel-system write</div>
         </div>
       </section>
