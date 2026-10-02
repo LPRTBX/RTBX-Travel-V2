@@ -19,7 +19,7 @@ const fixtureIds=new Set(manifest.cases.map(x=>x.fixtureId));
 const rows:Array<Record<string,unknown>>=[];
 const initiated=new Date().toISOString();
 function eligible(c:Cohort){const reasons:string[]=[];
- for(const field of c.requires)if((c.testContext as Record<string,boolean>)[field]!==true) reasons.push(`missing-context:${field}`);
+ for(const field of c.requires)if((c.testContext as Record<string,boolean|undefined>)[field]!==true) reasons.push(`missing-context:${field}`);
  for(const id of c.sourceFixtures){if(!fixtureIds.has(id))reasons.push(`unknown:${id}`);
    const status=byId.get(id)?.mockOutcome;
    if(status!=='accepted')reasons.push(`mock-event-unavailable:${id}:${status??'missing'}`);
@@ -54,7 +54,7 @@ describe('Phase 4 guarded candidate runs through actual Travel canonical reducer
    const syntheticContext={...c.testContext};
    for(const required of c.requires){
      const broken={...syntheticContext,[required]:false};
-     expect(c.requires.every(key=>(broken as Record<string,boolean>)[key]===true)).toBe(false);
+     expect(c.requires.every(key=>(broken as Record<string,boolean|undefined>)[key]===true)).toBe(false);
    }
    if(issues.length){
      expect(['maintenance-defect','transport-disruption']).toContain(c.scenarioId);
