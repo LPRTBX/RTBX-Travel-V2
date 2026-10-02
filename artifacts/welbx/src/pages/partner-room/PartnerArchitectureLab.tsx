@@ -11,10 +11,19 @@ const box = { background: "rgba(255,255,255,.025)", border: "1px solid rgba(255,
 const muted = { color: "rgba(255,255,255,.5)" };
 const makeCase = (id: ArchitectureScenarioId) => createHotelCase(architectureSignalFor(id));
 
+const STAGE_NODE_MAP: Record<string, string> = {
+  Connect: "connections",
+  Understand: "moment",
+  Decide: "governance",
+  Act: "playbook",
+  Learn: "evidence",
+};
+
 export default function PartnerArchitectureLab() {
   const [selected, setSelected] = useState<ArchitectureScenarioId>("repeat-guest-room-not-ready");
   const [hotelCase, setHotelCase] = useState<HotelCase>(() => makeCase("repeat-guest-room-not-ready"));
   const [inspect, setInspect] = useState("signal");
+  const [focusStage, setFocusStage] = useState("Connect");
   const [fault, setFault] = useState<Fault>("none");
   const { scenario } = useMemo(() => architectureContext(selected), [selected]);
   const nodes = useMemo(() => buildArchitectureNodes(selected, hotelCase), [selected, hotelCase]);
@@ -22,20 +31,52 @@ export default function PartnerArchitectureLab() {
   const activeStep = STATE_TO_STEP[execution.state];
   const selectedNode = nodes.find(n => n.id === inspect) || nodes[1];
 
+  const focusArchitecture = (nodeId: string, stage?: string) => {
+    setInspect(nodeId);
+    if (stage) setFocusStage(stage);
+    window.setTimeout(() => {
+      document.getElementById(`architecture-node-${nodeId}`)?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }, 0);
+  };
+  const focusArchitectureStage = (stage: string) => {
+    const nodeId = STAGE_NODE_MAP[stage];
+    if (nodeId) focusArchitecture(nodeId, stage);
+  };
   const choose = (id: ArchitectureScenarioId) => {
-    setSelected(id); setHotelCase(makeCase(id)); setFault("none"); setInspect("signal");
+    setSelected(id); setHotelCase(makeCase(id)); setFault("none"); setInspect("signal"); setFocusStage("Connect");
   };
   const move = (to: ScenarioExecutionState, note: string) => setHotelCase(c => {
     const next = transitionExecution(c.execution, to, scenario, note);
     return next ? { ...c, execution: next, audit: [...c.audit, { step: to, detail: note }] } : c;
   });
   const advance = () => {
-    if (execution.state === "signal-received") return move("understanding", "Synthetic signal validated");
-    if (execution.state === "understanding") return move("decision-required", "Moment classified");
-    if (execution.state === "decision-required") return move("approval-required", "Governance and authority applied");
-    if (execution.state === "approval-required" && !hotelCase.approved) return setHotelCase(c => approveHotelDecision(c, c.execution.accountableRoleId));
-    if (execution.state === "approval-required") return setHotelCase(c => dispatchHotelAction(c));
-    if (execution.state === "in-action" && !hotelCase.observation) return setHotelCase(c => verifyHotelOutcome(c, mockHotelFollowUp(c, fault)));
+    if (execution.state === "signal-received") {
+      move("understanding", "Synthetic signal validated");
+      return focusArchitecture("signal", "Connect");
+    }
+    if (execution.state === "understanding") {
+      move("decision-required", "Moment classified");
+      return focusArchitecture("moment", "Understand");
+    }
+    if (execution.state === "decision-required") {
+      move("approval-required", "Governance and authority applied");
+      return focusArchitecture("governance", "Decide");
+    }
+    if (execution.state === "approval-required" && !hotelCase.approved) {
+      setHotelCase(c => approveHotelDecision(c, c.execution.accountableRoleId));
+      return focusArchitecture("authority", "Act");
+    }
+    if (execution.state === "approval-required") {
+      setHotelCase(c => dispatchHotelAction(c));
+      return focusArchitecture("comms", "Act");
+    }
+    if (execution.state === "in-action" && !hotelCase.observation) {
+      setHotelCase(c => verifyHotelOutcome(c, mockHotelFollowUp(c, fault)));
+      return focusArchitecture("outcome", "Learn");
+    }
   };
   const nextLabel =
     execution.state === "signal-received" ? "Validate signal"
@@ -78,15 +119,48 @@ export default function PartnerArchitectureLab() {
             </div>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(5,minmax(0,1fr))", gap: 4, marginTop: 22 }}>
-            {TRACE_STEPS.map((step,i) => <div key={step.id} style={{ padding: "12px 10px", borderTop: `3px solid ${i <= activeStep ? "#a8dedb" : "rgba(255,255,255,.08)"}`, background: i === activeStep ? "rgba(168,222,219,.08)" : "rgba(255,255,255,.015)" }}><div style={{ fontSize: 10, ...muted }}>0{i+1}</div><div style={{ fontSize: 13, fontWeight: 900, color: i <= activeStep ? "#a8dedb" : "rgba(255,255,255,.45)" }}>{step.label}</div></div>)}
+            {TRACE_STEPS.map((step,i) => <button
+              key={step.id}
+              onClick={() => focusArchitectureStage(step.label)}
+              aria-label={`Show ${step.label} in the architecture`}
+              style={{
+                padding: "12px 10px",
+                border: 0,
+                borderTop: `3px solid ${focusStage === step.label ? "#f59e0b" : i <= activeStep ? "#a8dedb" : "rgba(255,255,255,.08)"}`,
+                background: focusStage === step.label ? "rgba(245,158,11,.08)" : i === activeStep ? "rgba(168,222,219,.08)" : "rgba(255,255,255,.015)",
+                textAlign: "left",
+                cursor: "pointer",
+              }}
+            >
+              <div style={{ fontSize: 10, ...muted }}>0{i+1}</div>
+              <div style={{ fontSize: 13, fontWeight: 900, color: focusStage === step.label ? "#f59e0b" : i <= activeStep ? "#a8dedb" : "rgba(255,255,255,.45)" }}>{step.label}</div>
+            </button>)}
           </div>
         </section>
 
         <div className="rtbx-responsive-split" style={{ display: "grid", gridTemplateColumns: "minmax(0,1.5fr) minmax(320px,.7fr)", gap: 16, alignItems: "start" }}>
-          <section>
+          <section id="architecture-map">
             <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: ".12em", textTransform: "uppercase", ...muted, marginBottom: 10 }}>Architecture · click any layer to inspect</div>
             <div style={{ display: "grid", gap: 5 }}>
-              {nodes.map(node => <button key={node.id} onClick={() => setInspect(node.id)} style={{ ...box, cursor: "pointer", padding: "14px 16px", textAlign: "left", display: "grid", gridTemplateColumns: "86px minmax(150px,.6fr) minmax(0,1fr) 20px", gap: 12, alignItems: "center", borderColor: inspect === node.id ? "rgba(168,222,219,.55)" : "rgba(255,255,255,.08)" }}>
+              {nodes.map(node => <button
+                id={`architecture-node-${node.id}`}
+                key={node.id}
+                onClick={() => focusArchitecture(node.id, node.stage)}
+                style={{
+                  ...box,
+                  cursor: "pointer",
+                  padding: "14px 16px",
+                  textAlign: "left",
+                  display: "grid",
+                  gridTemplateColumns: "86px minmax(150px,.6fr) minmax(0,1fr) 20px",
+                  gap: 12,
+                  alignItems: "center",
+                  borderColor: inspect === node.id ? "#f59e0b" : node.stage === focusStage ? "rgba(245,158,11,.28)" : "rgba(255,255,255,.08)",
+                  background: inspect === node.id ? "rgba(245,158,11,.08)" : node.stage === focusStage ? "rgba(245,158,11,.035)" : "rgba(255,255,255,.025)",
+                  boxShadow: inspect === node.id ? "0 0 0 1px rgba(245,158,11,.18)" : "none",
+                  transition: "border-color .18s ease, background .18s ease, box-shadow .18s ease",
+                }}
+              >
                 <span style={{ fontSize: 10, color: "#f59e0b", textTransform: "uppercase", letterSpacing: ".08em", fontWeight: 800 }}>{node.stage}</span>
                 <strong style={{ color: "#fff", fontSize: 13 }}>{node.label}</strong>
                 <span style={{ ...muted, fontSize: 12, lineHeight: 1.45 }}>{node.text}</span><span style={{ color: "#a8dedb" }}>→</span>
