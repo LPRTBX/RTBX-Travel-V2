@@ -1,6 +1,6 @@
 # JALDO continuous simulation — Travel first implementation
 
-Status: prepared locally for review. Scheduling becomes active only after this workflow is committed to the default branch and GitHub Actions is enabled. No site deployment is required for this engine-only suite.
+The simulation workflow runs from main. Engine-only changes require no site deployment. Scheduled execution is best effort; observed coverage must be checked separately.
 
 ## Run and inspect
 
@@ -14,7 +14,7 @@ SIMULATION_REPETITIONS=100 pnpm --filter @workspace/rtbx-travel test:simulation
 
 Choose 1, 10, 100 or 1000 repetitions per scenario. The six configured scenarios run against the existing `runtimeEngine.ts`, deployment configuration and canonical playbooks. Dormant scenarios are enabled in test copies only. No configuration is written back.
 
-GitHub Actions → **JALDO Travel continuous simulation** → **Run workflow** allows a volume choice. On relevant pushes and pull requests, 10 executions per scenario run. The nightly run uses 100 per scenario at 18:23 UTC (04:23 AEST / 05:23 AEDT). GitHub scheduling is not an exact-time guarantee. The workflow has a 15-minute limit and read-only repository permissions.
+GitHub Actions → **JALDO Travel continuous simulation** → **Run workflow** allows a volume choice. On relevant pushes and pull requests, 10 executions per scenario run. The hourly schedule requests 100 per scenario at minute 23 UTC. GitHub scheduling is not an exact-time guarantee. The workflow has a 15-minute limit and read-only repository permissions.
 
 Each run creates `artifacts/welbx/simulation-results/travel.json` and `summary.md`. The workflow attaches these for 30 days and displays the summary even when tests fail. Setup failures are reported separately if no simulation results exist. Local results are ignored by Git.
 
@@ -30,7 +30,7 @@ Each run creates `artifacts/welbx/simulation-results/travel.json` and `summary.m
 
 The input matrix and logical clock are fixed for replay; execution IDs deliberately remain unique. Re-run the same commit with the same repetition count. Timing and IDs will differ. Each JSON result carries scenario/deployment identity and the final repetition's transition trace. Assertion failures produce a failed check and a non-zero test exit.
 
-All actors, evidence and communications are synthetic. Passing a scripted approval step does not verify a person's identity or permissions. Outcomes are recorded as `not-measured`; no external messages or vendor calls occur.
+All actors, evidence and communications are synthetic. Passing a scripted approval step does not verify a person's identity or permissions. The original reducer gate suite records deployment outcomes as `not-measured`. The separate hotel-learning suite measures one synthetic follow-up metric. No external messages or vendor calls occur.
 
 ## Shared evidence format
 
@@ -48,3 +48,7 @@ All actors, evidence and communications are synthetic. Passing a scripted approv
 ## Defect found by this suite
 
 Execution IDs previously used scenario ID plus milliseconds. A 100-event burst at the same timestamp produced a single repeated ID, also duplicating related evidence IDs. The engine now uses `crypto.randomUUID()` so simultaneous executions do not overwrite or confuse one another by sharing a timestamp-derived identifier. This does not implement incoming-event deduplication; that remains an adapter responsibility.
+
+## Coverage, reviewed learning and pilot progression
+
+See [SIMULATION_ACTION_AND_PILOT_PLAN.md](SIMULATION_ACTION_AND_PILOT_PLAN.md) for cadence recovery, review evidence, challenge coverage and the first sandbox journey.
