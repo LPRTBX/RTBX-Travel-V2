@@ -5,19 +5,29 @@ const required = [
   'OHIP_GATEWAY_URL', 'OHIP_APP_KEY', 'OHIP_CLIENT_ID', 'OHIP_CLIENT_SECRET',
   'OHIP_ENTERPRISE_ID', 'OHIP_HOTEL_ID',
 ];
+function blocked(reason, missing = []) {
+  const report = { schemaVersion: 'jaldo.vendor-qualification.oracle-ohip.v1', evidenceLevel: 'qualification-blocked',
+    generatedAt: new Date().toISOString(), status: 'blocked', reason, missingEnvironmentKeys: missing,
+    liveCallsAttempted: 0, secretsPersisted: false, responseBodiesPersisted: false, streamingTested: false, results: [] };
+  mkdirSync('simulation-results', { recursive: true });
+  writeFileSync('simulation-results/oracle-ohip-sandbox.json', JSON.stringify(report, null, 2) + '\n');
+  writeFileSync('simulation-results/oracle-ohip-sandbox-summary.md', '# Oracle OHIP sandbox qualification\n\nBlocked: ' + reason + '\nNo vendor calls attempted.\n');
+  console.error('OHIP sandbox qualification blocked: ' + reason);
+  process.exit(2);
+}
 const missing = required.filter(key => !process.env[key]?.trim());
 if (missing.length) {
-  console.error('OHIP sandbox qualification cannot run. Missing environment keys: ' + missing.join(', '));
-  process.exit(2);
+  blocked('Missing environment keys: ' + missing.join(', '), missing);
 }
 
 const gateway = process.env.OHIP_GATEWAY_URL.replace(/\/+$/, '');
-if (!gateway.startsWith('https://')) {
-  console.error('OHIP_GATEWAY_URL must use HTTPS.');
-  process.exit(2);
-}
+let gatewayUrl;
+try { gatewayUrl = new URL(gateway); } catch { blocked('Invalid gateway URL.'); }
+if (gatewayUrl.protocol !== 'https:' || gatewayUrl.username || gatewayUrl.password || gatewayUrl.search || gatewayUrl.hash) blocked('Gateway must use HTTPS without embedded credentials, query or fragment.');
 const scope = process.env.OHIP_SCOPE || 'urn:opc:hgbu:ws:__myscopes__';
-const timeoutMs = Math.max(1000, Math.min(Number(process.env.OHIP_TIMEOUT_MS || 15000), 60000));
+const requestedTimeout = Number(process.env.OHIP_TIMEOUT_MS || 15000);
+if (!Number.isFinite(requestedTimeout)) blocked('Invalid timeout.');
+const timeoutMs = Math.max(1000, Math.min(requestedTimeout, 60000));
 const results = [];
 const record = (id, started, status, httpStatus, note) => {
   results.push({ id, status, httpStatus, elapsedMs: Math.round((performance.now() - started) * 100) / 100, note });

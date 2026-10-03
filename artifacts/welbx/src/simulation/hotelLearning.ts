@@ -1,4 +1,5 @@
 /** Closed-loop synthetic hotel driver. No live dispatch or production configuration writes. */
+import type { TravelDeploymentConfig } from '../data/travelDeploymentConfig';
 import { TRAVEL_SCENARIOS } from '../data/travelScenarios';
 import { transitionExecution, sendCommunication, captureEvidence, recordOutcome,
   triggerEscalation, acknowledgeEscalation, type ScenarioExecution } from '../lib/runtimeEngine';
@@ -13,25 +14,28 @@ export interface Observation {
   evidenceSource: 'synthetic-follow-up';
 }
 export interface HotelCase {
-  signal: HotelSignal; execution: ScenarioExecution; policy: LearningPolicy;
+  signal: HotelSignal; deployment: TravelDeploymentConfig; execution: ScenarioExecution; policy: LearningPolicy;
   actionId: string; approved: boolean; observation?: Observation;
   outcome: 'pending' | 'met' | 'not-met'; reasons: string[];
   audit: Array<{ step: string; detail: string }>;
 }
 export interface Proposal {
-  eventId: string; baselineVersion: string; sourceExecutionId: string;
+  id: string; eventId: string; baselineVersion: string; sourceExecutionId: string;
   reasons: string[]; candidate: LearningPolicy;
-  decision: 'pending' | 'approved' | 'rejected'; reviewer?: string;
+  decision: 'pending' | 'approved' | 'rejected'; reviewer?: string; reviewedAt?: string;
+  reviewedCandidate?: LearningPolicy; reviewId?: string;
 }
 const TARGET_MINUTES = 20;
-export function createHotelCase(signal: HotelSignal, policy = BASELINE_POLICY): HotelCase {
+export function createHotelCase(signal: HotelSignal, policy = BASELINE_POLICY, deployment?: TravelDeploymentConfig): HotelCase {
   if (!policy.version.trim() || !Number.isFinite(policy.responseMinutes) || policy.responseMinutes < 0
     || !Number.isSafeInteger(policy.interventionAttempts) || policy.interventionAttempts < 1
     || !Number.isSafeInteger(policy.receiptAttempts) || policy.receiptAttempts < 1) throw new Error('Invalid learning policy');
-  const intake = ingestHotelSignal(createHotelSession(), signal);
+  const session = createHotelSession();
+  if (deployment) session.deployment = structuredClone(deployment);
+  const intake = ingestHotelSignal(session, signal);
   if (!intake.reads.length) throw new Error('Signal rejected by hotel intake');
   const execution = intake.reads[0].run.execution;
-  return { signal: structuredClone(signal), execution, policy: { ...policy }, actionId: `${execution.id}:action`,
+  return { signal: structuredClone(signal), deployment: structuredClone(session.deployment), execution, policy: { ...policy }, actionId: `${execution.id}:action`,
     approved: false, outcome: 'pending', reasons: [], audit: [{ step: 'signal-received', detail: signal.eventId }] };
 }
 function move(c: HotelCase, state: ScenarioExecution['state']): HotelCase {
@@ -54,13 +58,18 @@ export function dispatchHotelAction(c: HotelCase): HotelCase {
     execution: sendCommunication(next.execution, comm.id, next.execution.accountableRoleId) };
   return { ...next, audit: [...next.audit, { step: 'mock-dispatch', detail: c.actionId }] };
 }
-export function mockHotelFollowUp(c: HotelCase, fault: Fault): Observation {
+export interface FollowUpConditions {
+  minimumResponseMinutes?: number; requiredInterventionAttempts?: number; requiredReceiptAttempts?: number;
+}
+export function mockHotelFollowUp(c: HotelCase, fault: Fault, conditions: FollowUpConditions = {}): Observation {
   if (c.execution.state !== 'in-action') throw new Error('Follow-up requires a dispatched action');
+  if (conditions.minimumResponseMinutes !== undefined && (!Number.isFinite(conditions.minimumResponseMinutes) || conditions.minimumResponseMinutes < 0)
+    || [conditions.requiredInterventionAttempts, conditions.requiredReceiptAttempts].some(v => v !== undefined && (!Number.isSafeInteger(v) || v < 1))) throw new Error('Invalid mock follow-up conditions');
   return { eventId: c.signal.eventId, executionId: c.execution.id, policyVersion: c.policy.version, actionId: c.actionId,
-    receipt: fault !== 'missing-receipt' || c.policy.receiptAttempts >= 2,
+    receipt: fault !== 'missing-receipt' || c.policy.receiptAttempts >= (conditions.requiredReceiptAttempts ?? 2),
     measured: fault !== 'missing-measurement',
-    elapsedMinutes: fault === 'late-response' ? c.policy.responseMinutes : 10,
-    restored: fault !== 'ineffective-action' || c.policy.interventionAttempts >= 2,
+    elapsedMinutes: Math.max(fault === 'late-response' ? c.policy.responseMinutes : 10, conditions.minimumResponseMinutes ?? 0),
+    restored: fault !== 'ineffective-action' || c.policy.interventionAttempts >= (conditions.requiredInterventionAttempts ?? 2),
     evidenceSource: 'synthetic-follow-up' };
 }
 export function verifyHotelOutcome(c: HotelCase, observation: Observation): HotelCase {
@@ -106,22 +115,45 @@ export function proposeHotelLearning(c: HotelCase): Proposal | null {
   if (c.reasons.includes('late-response')) candidate.responseMinutes = 15;
   if (c.reasons.includes('ineffective-action')) candidate.interventionAttempts = 2;
   if (c.reasons.includes('missing-receipt')) candidate.receiptAttempts = 2;
-  return { eventId: c.signal.eventId, sourceExecutionId: c.execution.id, baselineVersion: c.policy.version,
+  return { id: `${c.execution.id}:learning`, eventId: c.signal.eventId, sourceExecutionId: c.execution.id, baselineVersion: c.policy.version,
     reasons: [...c.reasons], candidate, decision: 'pending' };
 }
 export function reviewHotelLearning(p: Proposal, decision: 'approved' | 'rejected', reviewer: string): Proposal {
-  if (p.decision !== 'pending' || reviewer !== 'synthetic-duty-manager') throw new Error('Learning requires designated scripted reviewer');
-  return { ...p, candidate: { ...p.candidate }, decision, reviewer };
+  if (!['approved', 'rejected'].includes(decision) || p.decision !== 'pending' || reviewer !== 'synthetic-duty-manager') throw new Error('Learning requires designated scripted reviewer');
+  return { ...p, candidate: { ...p.candidate }, decision, reviewer, reviewedAt: new Date().toISOString(),
+    reviewedCandidate: { ...p.candidate }, reviewId: `${p.id}:review` };
 }
 export function replayHotelLearning(c: HotelCase, p: Proposal, fault: Fault): HotelCase {
   if (p.decision !== 'approved' || p.reviewer !== 'synthetic-duty-manager' || p.eventId !== c.signal.eventId
-    || p.sourceExecutionId !== c.execution.id || p.baselineVersion !== c.policy.version) throw new Error('Approved correlated proposal required');
-  return simulateHotelCase(c.signal, fault, p.candidate);
+    || p.sourceExecutionId !== c.execution.id || p.baselineVersion !== c.policy.version
+    || p.id !== `${c.execution.id}:learning` || p.reviewId !== `${p.id}:review`
+    || !p.reviewedAt || !Number.isFinite(Date.parse(p.reviewedAt))
+    || JSON.stringify(p.reviewedCandidate) !== JSON.stringify(p.candidate)) throw new Error('Approved correlated proposal required');
+  const replay = simulateHotelCase(c.signal, fault, p.candidate, c.deployment);
+  return { ...replay, audit: [...replay.audit, { step: 'reviewed-learning-replay',
+    detail: JSON.stringify({ proposalId: p.id, reviewId: p.reviewId, reviewer: p.reviewer, reviewedAt: p.reviewedAt,
+      sourceExecutionId: c.execution.id, replayExecutionId: replay.execution.id, candidate: p.reviewedCandidate }) }] };
 }
-export function simulateHotelCase(signal: HotelSignal, fault: Fault, policy = BASELINE_POLICY): HotelCase {
-  let c = prepareHotelDecision(createHotelCase(signal, policy));
+export function simulateHotelCase(signal: HotelSignal, fault: Fault, policy = BASELINE_POLICY, deployment?: TravelDeploymentConfig, conditions?: FollowUpConditions): HotelCase {
+  let c = prepareHotelDecision(createHotelCase(signal, policy, deployment));
   c = dispatchHotelAction(approveHotelDecision(c, c.execution.accountableRoleId));
-  return verifyHotelOutcome(c, mockHotelFollowUp(c, fault));
+  return verifyHotelOutcome(c, mockHotelFollowUp(c, fault, conditions));
 }
 export const HOTEL_FAULTS: Fault[] = ['none', 'late-response', 'ineffective-action', 'missing-receipt', 'missing-measurement'];
 export function hotelFaultForSignal(index: number): Fault { return HOTEL_FAULTS[Math.floor(index / 4) % 5]; }
+
+/** Later correlated evidence can resolve a pending case; its earlier result is retained in the audit. */
+export function reconcileHotelFollowUp(c: HotelCase, observation: Observation): HotelCase {
+  if (c.outcome !== 'pending' || !c.observation || c.execution.state !== 'in-action') throw new Error('Only a pending case accepts later evidence');
+  const fresh = { ...c, observation: undefined, audit: [...c.audit, {
+    step: 'prior-observation-retained', detail: JSON.stringify(c.observation),
+  }] };
+  return verifyHotelOutcome(fresh, observation);
+}
+/** A renewed signal creates a fresh governed execution; closed evidence remains intact. */
+export function reopenHotelCase(c: HotelCase, signal: HotelSignal): HotelCase {
+  if (c.execution.state !== 'closed' || signal.eventId === c.signal.eventId
+    || signal.hotelId !== c.signal.hotelId || signal.guestId !== c.signal.guestId || signal.room !== c.signal.room) throw new Error('A new correlated signal is required to reopen');
+  const reopened = createHotelCase(signal, c.policy, c.deployment);
+  return { ...reopened, audit: [...reopened.audit, { step: 'reopened-from', detail: c.execution.id }] };
+}

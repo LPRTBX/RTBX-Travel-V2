@@ -4,7 +4,7 @@ import { DEFAULT_DEPLOYMENT } from '../data/travelDeploymentConfig';
 import { createHotelSignals, HOTEL_PATHS } from './mockHotel';
 import { BASELINE_POLICY, createHotelCase, prepareHotelDecision, approveHotelDecision, dispatchHotelAction,
   mockHotelFollowUp, verifyHotelOutcome, simulateHotelCase, proposeHotelLearning,
-  reviewHotelLearning, replayHotelLearning, hotelFaultForSignal, type HotelCase } from './hotelLearning';
+  reviewHotelLearning, replayHotelLearning, hotelFaultForSignal, type HotelCase, type Proposal } from './hotelLearning';
 
 const signals = createHotelSignals();
 const repetitions = Number(process.env.SIMULATION_REPETITIONS ?? '10');
@@ -23,7 +23,7 @@ function check(name: string, run: () => void) {
   });
 }
 afterAll(() => {
-  const report = { schemaVersion: 'jaldo.hotel-learning.v1', evidenceLevel: 'synthetic-closed-loop',
+  const report = { schemaVersion: 'jaldo.hotel-learning.v2', evidenceLevel: 'synthetic-closed-loop',
     startedAt, finishedAt: new Date().toISOString(), commit: process.env.GITHUB_SHA ?? null,
     repetitions, uniqueSignals: signals.length, baselineExecutions: executed, improvedReplays: improved,
     actualBaselineOutcomes: outcomeTotals, actualReplayOutcomes: replayTotals,
@@ -40,10 +40,10 @@ afterAll(() => {
   writeFileSync('simulation-results/hotel-learning-summary.md', ['# Hotel outcome and learning loop', '',
     `Passed: ${report.summary.passed}; failed: ${report.summary.failed}. Baseline executions: ${executed}; improved replays: ${improved}.`,
     'Evidence: synthetic closed-loop. One correlated metric; other deployment metrics remain unmeasured.', '',
-    '| Per 100-signal batch | Baseline | After approved replay |', '|---|---:|---:|',
-    '| Outcome met | 20 | 80 |', '| Outcome not met | 40 | 0 |', '| Pending: missing receipt / measurement | 40 | 20 |',
+    '| Per 100-signal batch | Baseline | Approved replay executions |', '|---|---:|---:|',
+    '| Outcome met | 20 | 60 |', '| Outcome not met | 40 | 0 |', '| Pending: missing receipt / measurement | 40 | 0 |',
     '| Approved improvement replays | — | 60 |', '',
-    'Expected fixture results above are not operational KPIs. Use actual execution and check totals to establish whether the batch passed.', '',
+    'Replays cover only 60 proposed changes; 20 originally successful cases and 20 missing-measurement cases are not replayed. Expected fixture results above are not operational KPIs. Use actual execution and check totals to establish whether the batch passed.', '',
     ...report.limits.map(l => `- ${l}`), ''].join('\n'));
 });
 
@@ -69,23 +69,29 @@ describe('Hotel decisions → verified outcomes → reviewed learning → replay
         }
         const proposal = proposeHotelLearning(c);
         let replay: HotelCase | undefined;
+        let reviewedProposal: Proposal | undefined;
         if (fault === 'none' || fault === 'missing-measurement') expect(proposal).toBeNull();
         else {
           expect(proposal?.decision).toBe('pending');
           expect(() => replayHotelLearning(c, proposal!, fault)).toThrow(/Approved/);
           const reviewed = reviewHotelLearning(proposal!, 'approved', 'synthetic-duty-manager');
+          reviewedProposal = reviewed;
           replay = replayHotelLearning(c, reviewed, fault);
           improved++;
           replayTotals[replay.outcome]++;
           expect(replay.outcome).toBe('met');
           expect(replay.execution.state).toBe('closed');
           expect(replay.execution.id).not.toBe(c.execution.id);
+          expect(reviewed.reviewedAt).toBeTruthy();
+          expect(reviewed.reviewedCandidate).toEqual(replay.policy);
+          expect(replay.audit.at(-1)?.detail).toContain(reviewed.reviewId);
+          expect(reviewedProposal?.decision).toBe('approved');
           expect(c.outcome).toBe(expected);
           expect(c.policy).toEqual(BASELINE_POLICY);
           expect(replay.execution.outcomes.filter(o => o.status === 'met')).toHaveLength(1);
         }
         if (n === repetitions - 1) traces.push({ eventId: signal.eventId, path: signal.path, fault,
-          baseline: c, proposal, replay });
+          baseline: c, proposed: proposal, proposal: reviewedProposal ?? proposal, replay });
       }
     });
   }

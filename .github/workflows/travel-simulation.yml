@@ -1,5 +1,7 @@
 name: JALDO Travel continuous simulation
 
+run-name: Travel simulation · ${{ inputs.trigger_source || github.event_name }}
+
 on:
   pull_request:
     branches: [main]
@@ -12,6 +14,11 @@ on:
     - cron: '23 * * * *'
   workflow_dispatch:
     inputs:
+      trigger_source:
+        description: Origin of this requested execution
+        type: choice
+        default: manual
+        options: [manual, cadence-recovery, external-watchdog]
       repetitions:
         description: Sequential executions per scenario (not concurrent users)
         type: choice
@@ -40,6 +47,8 @@ jobs:
         with:
           version: '10.26.1'
       - run: pnpm install --frozen-lockfile
+      - name: Verify cadence observer behaviour
+        run: node --test artifacts/welbx/scripts/simulation-cadence.check.mjs artifacts/welbx/scripts/oracle-ohip-blocked.check.mjs
       - name: Build shared library types
         run: pnpm run typecheck:libs
       - name: Exercise Travel engine, mock hotel and outcome learning loop
@@ -70,6 +79,12 @@ jobs:
           fi
           if [ -f artifacts/welbx/simulation-results/ohip-sandbox-readiness-summary.md ]; then
             cat artifacts/welbx/simulation-results/ohip-sandbox-readiness-summary.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Publish learning challenge summary
+        if: always()
+        run: |
+          if [ -f artifacts/welbx/simulation-results/hotel-learning-challenges-summary.md ]; then
+            cat artifacts/welbx/simulation-results/hotel-learning-challenges-summary.md >> "$GITHUB_STEP_SUMMARY"
           fi
       - name: Retain evidence, including failed runs
         if: always()

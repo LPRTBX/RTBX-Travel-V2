@@ -1,0 +1,47 @@
+name: Travel simulation cadence observer
+
+on:
+  schedule:
+    - cron: '47 * * * *'
+  workflow_dispatch:
+  workflow_run:
+    workflows: ['JALDO Travel continuous simulation']
+    types: [completed]
+    branches: [main]
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: travel-simulation-cadence
+  cancel-in-progress: false
+
+jobs:
+  observe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Account for gaps and request one recovery if stale
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          CADENCE_RECOVER: 'true'
+        run: node artifacts/welbx/scripts/simulation-cadence.mjs
+      - name: Publish coverage and recovery status
+        if: always()
+        run: |
+          if [ -f simulation-results/cadence-summary.md ]; then
+            cat simulation-results/cadence-summary.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: travel-cadence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: simulation-results/
+          retention-days: 30
