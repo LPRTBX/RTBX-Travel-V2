@@ -104,6 +104,12 @@ export interface DeploymentCommunicationConfig {
   approvalRequired: boolean;
   generationMode: CommunicationGenerationMode;
   distressedGuestRestricted: boolean;  // must be true for welfare scenarios
+  /**
+   * Scenarios this communication applies to. Omitted = every scenario.
+   * Welfare scenarios only ever receive distressedGuestRestricted communications,
+   * and restricted communications are never attached to non-welfare scenarios.
+   */
+  scenarioIds?: string[];
 }
 
 export interface DeploymentEvidenceConfig {
@@ -112,6 +118,8 @@ export interface DeploymentEvidenceConfig {
   required: boolean;
   ownerRoleId: string;
   completionRule: string;
+  /** Scenarios this evidence item applies to. Omitted = every scenario. */
+  scenarioIds?: string[];
 }
 
 export interface DeploymentOutcomeConfig {
@@ -120,6 +128,8 @@ export interface DeploymentOutcomeConfig {
   targetType: OutcomeTargetType;
   targetValue?: string;
   measurementMethod: string;
+  /** Scenarios this outcome metric applies to. Omitted = every scenario. */
+  scenarioIds?: string[];
 }
 
 // ── Main deployment configuration ─────────────────────────────────────────────
@@ -273,29 +283,36 @@ export const DEFAULT_DEPLOYMENT: TravelDeploymentConfig = {
 
   communications: [
     { id: "comm-01", communicationType: "Guest Acknowledgement",       audience: "Guest",           channel: "Approved Guest Channel", approvalRequired: false, generationMode: "ai-draft-human-review",  distressedGuestRestricted: false },
-    { id: "comm-02", communicationType: "Recovery Offer",              audience: "Guest",           channel: "Approved Guest Channel", approvalRequired: true,  generationMode: "template-human-review",  distressedGuestRestricted: false },
+    { id: "comm-02", communicationType: "Recovery Offer",              audience: "Guest",           channel: "Approved Guest Channel", approvalRequired: true,  generationMode: "template-human-review",  distressedGuestRestricted: false, scenarioIds: ["repeat-guest-room-not-ready", "service-backlog", "maintenance-defect"] },
     { id: "comm-03", communicationType: "Internal Staff Prompt",       audience: "Frontline Staff", channel: "Staff App",         approvalRequired: false, generationMode: "ai-draft-human-review",  distressedGuestRestricted: false },
     { id: "comm-04", communicationType: "Manager Escalation Alert",    audience: "Duty Manager",    channel: "In-app Alert",      approvalRequired: false, generationMode: "ai-draft-human-review",  distressedGuestRestricted: false },
-    { id: "comm-05", communicationType: "Welfare Escalation",          audience: "Duty Manager",    channel: "In-app Alert",      approvalRequired: false, generationMode: "human-authored",         distressedGuestRestricted: true  },
-    { id: "comm-06", communicationType: "Room Ready Notification",     audience: "Guest",           channel: "Approved Guest Channel", approvalRequired: true,  generationMode: "template-human-review",  distressedGuestRestricted: false },
-    { id: "comm-07", communicationType: "Reallocation Briefing",       audience: "Staff",           channel: "Staff App",         approvalRequired: false, generationMode: "ai-draft-human-review",  distressedGuestRestricted: false },
+    { id: "comm-05", communicationType: "Welfare Escalation",          audience: "Duty Manager",    channel: "In-app Alert",      approvalRequired: false, generationMode: "human-authored",         distressedGuestRestricted: true,  scenarioIds: ["distressed-guest"] },
+    { id: "comm-06", communicationType: "Room Ready Notification",     audience: "Guest",           channel: "Approved Guest Channel", approvalRequired: true,  generationMode: "template-human-review",  distressedGuestRestricted: false, scenarioIds: ["repeat-guest-room-not-ready"] },
+    { id: "comm-07", communicationType: "Reallocation Briefing",       audience: "Staff",           channel: "Staff App",         approvalRequired: false, generationMode: "ai-draft-human-review",  distressedGuestRestricted: false, scenarioIds: ["service-backlog"] },
+    { id: "comm-08", communicationType: "Security or Emergency Pathway Activation", audience: "Safety and Security Lead", channel: "In-app Alert", approvalRequired: true, generationMode: "human-authored", distressedGuestRestricted: true, scenarioIds: ["distressed-guest"] },
+    { id: "comm-09", communicationType: "High-impact Welfare Notification", audience: "General Manager", channel: "In-app Alert", approvalRequired: false, generationMode: "human-authored", distressedGuestRestricted: true, scenarioIds: ["distressed-guest"] },
+    { id: "comm-10", communicationType: "Alternative Transport Activation Request", audience: "Partner Transport Provider", channel: "Partner Request", approvalRequired: true, generationMode: "template-human-review", distressedGuestRestricted: false, scenarioIds: ["transport-disruption"] },
+    { id: "comm-11", communicationType: "Personalised Offer",          audience: "Guest",           channel: "Approved Guest Channel", approvalRequired: true,  generationMode: "template-human-review",  distressedGuestRestricted: false, scenarioIds: ["premium-guest-opportunity"] },
   ],
 
   evidence: [
     { id: "ev-01", evidenceType: "Signal verification record",         required: true,  ownerRoleId: "front-office",        completionRule: "Recorded before action is taken" },
-    { id: "ev-02", evidenceType: "Guest acknowledgement delivery",     required: true,  ownerRoleId: "front-office",        completionRule: "Delivery confirmation recorded" },
-    { id: "ev-03", evidenceType: "Recovery decision and approval",     required: true,  ownerRoleId: "duty-manager",        completionRule: "Recorded at time of decision — not retrospectively" },
-    { id: "ev-04", evidenceType: "Room readiness confirmation",        required: true,  ownerRoleId: "housekeeping",        completionRule: "Housekeeping system updated before guest notified" },
+    { id: "ev-02", evidenceType: "Guest acknowledgement delivery",     required: true,  ownerRoleId: "front-office",        completionRule: "Delivery confirmation recorded", scenarioIds: ["repeat-guest-room-not-ready", "service-backlog", "maintenance-defect", "transport-disruption", "premium-guest-opportunity"] },
+    { id: "ev-03", evidenceType: "Recovery decision and approval",     required: true,  ownerRoleId: "duty-manager",        completionRule: "Recorded at time of decision — not retrospectively", scenarioIds: ["repeat-guest-room-not-ready", "service-backlog", "maintenance-defect"] },
+    { id: "ev-04", evidenceType: "Room readiness confirmation",        required: true,  ownerRoleId: "housekeeping",        completionRule: "Housekeeping system updated before guest notified", scenarioIds: ["repeat-guest-room-not-ready"] },
     { id: "ev-05", evidenceType: "Owner assignment record",            required: true,  ownerRoleId: "duty-manager",        completionRule: "Named owner confirmed before action" },
-    { id: "ev-06", evidenceType: "Task assignment confirmation",       required: true,  ownerRoleId: "operations-manager",  completionRule: "Recorded when task is assigned" },
-    { id: "ev-07", evidenceType: "Welfare signal record",              required: true,  ownerRoleId: "front-office",        completionRule: "Minimum necessary — privacy boundaries applied" },
-    { id: "ev-08", evidenceType: "Defect report and classification",   required: true,  ownerRoleId: "maintenance-lead",    completionRule: "Recorded when defect is identified" },
+    { id: "ev-06", evidenceType: "Task assignment confirmation",       required: true,  ownerRoleId: "operations-manager",  completionRule: "Recorded when task is assigned", scenarioIds: ["service-backlog", "maintenance-defect"] },
+    { id: "ev-07", evidenceType: "Welfare signal record",              required: true,  ownerRoleId: "front-office",        completionRule: "Minimum necessary — privacy boundaries applied", scenarioIds: ["distressed-guest"] },
+    { id: "ev-08", evidenceType: "Defect report and classification",   required: true,  ownerRoleId: "maintenance-lead",    completionRule: "Recorded when defect is identified", scenarioIds: ["maintenance-defect"] },
     { id: "ev-09", evidenceType: "Escalation notification record",     required: false, ownerRoleId: "duty-manager",        completionRule: "Recorded when escalation is triggered" },
     { id: "ev-10", evidenceType: "Guest outcome record",               required: true,  ownerRoleId: "duty-manager",        completionRule: "Recorded within 15 minutes of resolution" },
+    { id: "ev-11", evidenceType: "Post-incident review record",        required: true,  ownerRoleId: "duty-manager",        completionRule: "Review scheduled within 24 hours; welfare events cannot be closed by AI", scenarioIds: ["distressed-guest"] },
+    { id: "ev-12", evidenceType: "Partner activation confirmation",    required: true,  ownerRoleId: "guest-services",      completionRule: "Partner confirmation recorded before guest is told transport is arranged", scenarioIds: ["transport-disruption"] },
+    { id: "ev-13", evidenceType: "Consent confirmation",               required: true,  ownerRoleId: "concierge",           completionRule: "Guest consent recorded before any personalised offer", scenarioIds: ["premium-guest-opportunity"] },
   ],
 
   outcomes: [
-    { id: "out-01", metric: "Time from signal to guest acknowledgement", targetType: "customer-configured", targetValue: "Within 10 minutes",     measurementMethod: "Timestamp delta: signal → first guest message delivered" },
+    { id: "out-01", metric: "Time from signal to guest acknowledgement", targetType: "customer-configured", targetValue: "Within 10 minutes",     measurementMethod: "Timestamp delta: signal → first guest message delivered", scenarioIds: ["repeat-guest-room-not-ready", "service-backlog", "maintenance-defect", "transport-disruption", "premium-guest-opportunity"] },
     { id: "out-02", metric: "Time from signal to resolution",            targetType: "indicative",           targetValue: "Within 30 minutes",     measurementMethod: "Timestamp delta: signal → scenario closed" },
     { id: "out-03", metric: "Escalation rate",                           targetType: "pilot-defined",        measurementMethod: "Percentage of scenarios requiring Duty Manager escalation" },
     { id: "out-04", metric: "Evidence completion rate",                  targetType: "indicative",           targetValue: "100%",                  measurementMethod: "Required evidence fields completed vs total required" },

@@ -12,7 +12,7 @@ import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join, extname } from "node:path";
 import {
   createExecution, transitionExecution, captureEvidence,
-  sendCommunication, getAvailableActions, canTransition,
+  sendCommunication, getAvailableActions, canTransition, approveDecision, returnDecision,
   type ScenarioExecution,
 } from "./runtimeEngine";
 import { DEFAULT_DEPLOYMENT } from "../data/travelDeploymentConfig";
@@ -378,6 +378,14 @@ describe("Accessibility — static analysis of partner room pages", () => {
       const actions = getAvailableActions(exec, scenario);
       for (const action of actions) {
         if (!action.toState) continue;
+        if (action.via) {
+          // Gate actions record the authorised decision first; they must succeed for the approval role.
+          const decided = action.via === "approveDecision"
+            ? approveDecision(exec, exec.approvalRoleId, scenario)
+            : returnDecision(exec, exec.approvalRoleId, "Alternative required", scenario);
+          if (decided.state !== action.toState) violations.push(`State '${state}': ${action.label} did not reach ${action.toState}`);
+          continue;
+        }
         const check = canTransition(exec, action.toState, scenario);
         if (!check.allowed) {
           violations.push(`State '${state}': action '${action.label}' → '${action.toState}' rejected: ${check.reason}`);
@@ -425,6 +433,10 @@ describe("Communication Approval Gate", () => {
       scenarioTitle: "Test",
       deploymentId: "test",
       deploymentName: "Test Deployment",
+      accountableRoleId: "duty-manager",
+      approvalRoleId: "duty-manager",
+      approvalRequired: true,
+      decisions: [],
       state: "in-action",
       stateHistory: [{ state: "signal-received" as const, timestamp: new Date().toISOString() }],
       startedAt: new Date().toISOString(),
@@ -460,6 +472,11 @@ describe("Communication Approval Gate", () => {
     expect(comm.sent).toBe(true);
     expect(comm.approvedBy).toBe("duty-manager");
     expect(comm.sentAt).toBeTruthy();
+  });
+
+  it("approval-required communication cannot be approved by a role without authority", () => {
+    const exec = makeExecWithComm(true);
+    expect(() => sendCommunication(exec, "comm-1", "front-office")).toThrow(/authority/i);
   });
 
   it("non-approval-required communication can be sent without approvedBy", () => {

@@ -36,7 +36,7 @@ afterAll(() => {
   writeFileSync('simulation-results/mock-hotel-summary.md', ['# Mock hotel — four input paths', '',
     `100 distinct synthetic readings, 25 per path. ${repetitions} planned replays per reading; ${signalExecutions} signal executions.`,
     `Passed: ${report.summary.passed}; failed: ${report.summary.failed}. Evidence: synthetic engine and mock adapters.`, '',
-    'Expected per 100-signal batch: **60 closed, 20 held for approval, 20 held for evidence**. Expected holds are successful gate checks.', '',
+    'Expected per 100-signal batch: **63 closed, 17 held for approval, 20 held for evidence** (3 withheld approvals route to delegated-authority transport cases). Expected holds are successful gate checks.', '',
     '| Check | Result |', '|---|---|', ...results.map(r => `| ${r.name} | ${r.status} |`), '',
     '## Limits', ...report.limits.map(l => `- ${l}`), ''].join('\n'));
 });
@@ -93,7 +93,8 @@ describe('100-signal mock hotel', () => {
         expect(checkHotelRead(read)).toEqual([]);
         expect(read.run.execution.state).toBe(expectedHotelState(signal));
         expect(read.run.execution.accountableRoleId).toBe(session.deployment.scenarios.find(s => s.scenarioId === read.scenarioId)!.accountableRoleId);
-        expect(read.run.execution.stateHistory.some(h => h.state === 'approval-required')).toBe(true);
+        // Approval gate applies exactly where the scenario's governance configures one.
+        expect(read.run.execution.stateHistory.some(h => h.state === 'approval-required')).toBe(read.run.execution.approvalRequired);
         trace = { signal, execution: read.run.execution, checks: checkHotelRead(read) };
       }
       return { executions: repetitions, trace };
@@ -106,8 +107,9 @@ describe('100-signal mock hotel', () => {
     expect(new Set(session.reads.map(r => r.run.execution.id)).size).toBe(100);
     for (let step = 0; step < 12; step++) session = advanceHotelSession(session);
     expect(session.reads.flatMap(checkHotelRead)).toEqual([]);
-    expect(session.reads.filter(r => r.run.execution.state === 'closed')).toHaveLength(60);
-    expect(session.reads.filter(r => r.run.execution.state === 'approval-required')).toHaveLength(20);
+    // 3 withheld-approval readings route to transport disruption, which acts within delegated authority.
+    expect(session.reads.filter(r => r.run.execution.state === 'closed')).toHaveLength(63);
+    expect(session.reads.filter(r => r.run.execution.state === 'approval-required')).toHaveLength(17);
     expect(session.reads.filter(r => r.run.execution.state === 'resolved')).toHaveLength(20);
     expect(JSON.stringify(DEFAULT_DEPLOYMENT)).toBe(original);
   });
@@ -158,8 +160,12 @@ describe('100-signal mock hotel', () => {
   check('Visitor mode preserves every approval gate', () => {
     let session = signals.reduce(ingestHotelSignal, createHotelSession());
     for (let step = 0; step < 12; step++) session = advanceHotelSession(session, false);
-    expect(session.reads.every(r => r.run.execution.state === 'approval-required')).toBe(true);
-    expect(session.reads.every(r => !r.run.approval && r.run.execution.communications.every(c => !c.sent))).toBe(true);
+    const gated = session.reads.filter(r => r.run.execution.approvalRequired);
+    expect(gated.length).toBeGreaterThan(0);
+    expect(gated.every(r => r.run.execution.state === 'approval-required')).toBe(true);
+    expect(gated.every(r => !r.run.approval && r.run.execution.decisions.length === 0 && r.run.execution.communications.every(c => !c.sent))).toBe(true);
+    // Delegated-authority scenarios never wait on an approver that governance does not require.
+    expect(session.reads.filter(r => !r.run.execution.approvalRequired).every(r => r.run.execution.state !== 'approval-required')).toBe(true);
   });
   check('Held approvals and evidence can resume through the same engine', () => {
     let session = signals.reduce(ingestHotelSignal, createHotelSession());

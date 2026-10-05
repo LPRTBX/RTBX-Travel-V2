@@ -182,6 +182,7 @@ describe("Scenario lifecycle reaches Closed", () => {
       captureEvidence,
       getMandatoryEvidenceGaps,
       canTransition,
+      approveDecision,
     } = await import("@/lib/runtimeEngine");
 
     const configured = DEFAULT_DEPLOYMENT.scenarios.find((s) => s.active);
@@ -204,7 +205,9 @@ describe("Scenario lifecycle reaches Closed", () => {
     expect(exec).not.toBeNull();
 
     if (exec.state === "approval-required") {
-      exec = transitionExecution(exec, "in-action", scenario)!;
+      // Without a recorded decision by the approval role, the gate holds.
+      expect(transitionExecution(exec, "in-action", scenario)).toBeNull();
+      exec = approveDecision(exec, exec.approvalRoleId, scenario);
     }
     expect(exec.state).toBe("in-action");
 

@@ -2,8 +2,8 @@
 import type { TravelDeploymentConfig } from '../data/travelDeploymentConfig';
 import { TRAVEL_SCENARIOS } from '../data/travelScenarios';
 import { transitionExecution, sendCommunication, captureEvidence, recordOutcome,
-  triggerEscalation, acknowledgeEscalation, type ScenarioExecution } from '../lib/runtimeEngine';
-import { createHotelSession, ingestHotelSignal, type HotelSignal } from './mockHotel';
+  triggerEscalation, acknowledgeEscalation, approveDecision, type ScenarioExecution } from '../lib/runtimeEngine';
+import { createHotelSession, createHotelSignals, ingestHotelSignal, type HotelSignal } from './mockHotel';
 
 export type Fault = 'none' | 'late-response' | 'ineffective-action' | 'missing-receipt' | 'missing-measurement';
 export interface LearningPolicy { version: string; responseMinutes: number; interventionAttempts: number; receiptAttempts: number }
@@ -45,17 +45,26 @@ function move(c: HotelCase, state: ScenarioExecution['state']): HotelCase {
   return { ...c, execution, audit: [...c.audit, { step: state, detail: execution.accountableRoleId }] };
 }
 export function prepareHotelDecision(c: HotelCase): HotelCase {
-  return move(move(move(c, 'understanding'), 'decision-required'), 'approval-required');
+  const decided = move(move(c, 'understanding'), 'decision-required');
+  // Delegated-authority scenarios have no approval gate; the accountable role decides.
+  return decided.execution.approvalRequired ? move(decided, 'approval-required') : decided;
 }
 export function approveHotelDecision(c: HotelCase, role: string): HotelCase {
-  if (c.execution.state !== 'approval-required' || role !== c.execution.accountableRoleId) throw new Error('Accountable scripted role must approve at decision gate');
-  return { ...c, approved: true, audit: [...c.audit, { step: 'approval', detail: `Synthetic actor: ${role}` }] };
+  const gate = c.execution.approvalRequired ? 'approval-required' : 'decision-required';
+  const authority = c.execution.approvalRequired ? c.execution.approvalRoleId : c.execution.accountableRoleId;
+  if (c.execution.state !== gate || role !== authority) throw new Error('Authorised scripted role must approve at decision gate');
+  return { ...c, approved: true, audit: [...c.audit, { step: c.execution.approvalRequired ? 'approval' : 'delegated-authority', detail: `Synthetic actor: ${role}` }] };
 }
 export function dispatchHotelAction(c: HotelCase): HotelCase {
-  if (!c.approved || c.execution.state !== 'approval-required') throw new Error('Action requires approval and cannot be redispatched');
-  let next = move(c, 'in-action');
+  const gate = c.execution.approvalRequired ? 'approval-required' : 'decision-required';
+  if (!c.approved || c.execution.state !== gate) throw new Error('Action requires approval and cannot be redispatched');
+  const scenario = TRAVEL_SCENARIOS.find(s => s.id === c.execution.scenarioId)!;
+  let next: HotelCase = c.execution.approvalRequired
+    ? { ...c, execution: approveDecision(c.execution, c.execution.approvalRoleId, scenario, 'Scripted approval'),
+        audit: [...c.audit, { step: 'in-action', detail: c.execution.accountableRoleId }] }
+    : move(c, 'in-action');
   for (const comm of next.execution.communications) next = { ...next,
-    execution: sendCommunication(next.execution, comm.id, next.execution.accountableRoleId) };
+    execution: sendCommunication(next.execution, comm.id, next.execution.approvalRoleId) };
   return { ...next, audit: [...next.audit, { step: 'mock-dispatch', detail: c.actionId }] };
 }
 export interface FollowUpConditions {
@@ -136,7 +145,7 @@ export function replayHotelLearning(c: HotelCase, p: Proposal, fault: Fault): Ho
 }
 export function simulateHotelCase(signal: HotelSignal, fault: Fault, policy = BASELINE_POLICY, deployment?: TravelDeploymentConfig, conditions?: FollowUpConditions): HotelCase {
   let c = prepareHotelDecision(createHotelCase(signal, policy, deployment));
-  c = dispatchHotelAction(approveHotelDecision(c, c.execution.accountableRoleId));
+  c = dispatchHotelAction(approveHotelDecision(c, c.execution.approvalRequired ? c.execution.approvalRoleId : c.execution.accountableRoleId));
   return verifyHotelOutcome(c, mockHotelFollowUp(c, fault, conditions));
 }
 export const HOTEL_FAULTS: Fault[] = ['none', 'late-response', 'ineffective-action', 'missing-receipt', 'missing-measurement'];
@@ -156,4 +165,26 @@ export function reopenHotelCase(c: HotelCase, signal: HotelSignal): HotelCase {
     || signal.hotelId !== c.signal.hotelId || signal.guestId !== c.signal.guestId || signal.room !== c.signal.room) throw new Error('A new correlated signal is required to reopen');
   const reopened = createHotelCase(signal, c.policy, c.deployment);
   return { ...reopened, audit: [...reopened.audit, { step: 'reopened-from', detail: c.execution.id }] };
+}
+
+/**
+ * Combine reviewed, approved proposals into one policy for the next cycle.
+ * Pending and rejected proposals are ignored. Each approved change can only
+ * tighten the baseline; this is a synthetic policy, never a production release.
+ */
+export function mergeApprovedHotelPolicy(proposals: Array<Proposal | null>, base = BASELINE_POLICY, cycle = 2): LearningPolicy {
+  const approved = proposals.filter((p): p is Proposal => !!p && p.decision === 'approved' && !!p.reviewedCandidate
+    && p.reviewer === 'synthetic-duty-manager' && JSON.stringify(p.reviewedCandidate) === JSON.stringify(p.candidate));
+  if (!Number.isSafeInteger(cycle) || cycle < 2) throw new Error('Next cycle must follow cycle 1');
+  return approved.reduce<LearningPolicy>((policy, p) => ({
+    version: policy.version,
+    responseMinutes: Math.min(policy.responseMinutes, p.reviewedCandidate!.responseMinutes),
+    interventionAttempts: Math.max(policy.interventionAttempts, p.reviewedCandidate!.interventionAttempts),
+    receiptAttempts: Math.max(policy.receiptAttempts, p.reviewedCandidate!.receiptAttempts),
+  }), { ...base, version: `${base.version}-cycle-${cycle}-reviewed-${approved.length}` });
+}
+
+/** Run a full synthetic cycle of 100 fresh signals with the same fault profile under a given policy. */
+export function runHotelLearningCycle(cycle: number, policy = BASELINE_POLICY): HotelCase[] {
+  return createHotelSignals(cycle).map((signal, index) => simulateHotelCase(signal, hotelFaultForSignal(index), policy));
 }

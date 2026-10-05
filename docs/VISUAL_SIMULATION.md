@@ -18,6 +18,7 @@ The panel drives the canonical `runtimeEngine.ts`. It does not introduce an inde
 - Withheld required evidence blocks closure until the visitor supplies synthetic evidence.
 - Signals show stage counts, accountable role, state history and evidence capture.
 - JSON export records conditions, actors and complete execution traces. Sessions are otherwise temporary.
+- Approval is recorded against the scenario’s governance approval role; scenarios without an approval gate (Transport Disruption) act under delegated authority.
 - Outcomes remain unmeasured. No vendor calls, real communications, real authorisation checks or capacity claims are made.
 
 ## Verification

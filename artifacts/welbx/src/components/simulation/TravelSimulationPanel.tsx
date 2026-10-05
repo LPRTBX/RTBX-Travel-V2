@@ -22,6 +22,20 @@ const blocked = (run: LabRun) => run.execution.state === 'approval-required' && 
   || run.execution.state === 'escalated' && run.execution.escalations.some(e => !e.acknowledged)
   || run.execution.state === 'resolved' && getMandatoryEvidenceGaps(run.execution).length > 0;
 
+/** Explains why each recorded state change happened, from the execution's own trace. */
+function timelineNote(execution: LabRun['execution'], index: number, approval: LabRun['approval']): string {
+  const event = execution.stateHistory[index];
+  const previous = execution.stateHistory[index - 1]?.state;
+  if (index === 0) return 'Synthetic input accepted';
+  if (event.state === 'in-action' && previous === 'approval-required')
+    return `Approved as ${roleName(execution.approvalRoleId)} — ${approval === 'visitor' ? 'by you' : 'scripted test actor'}`;
+  if (event.state === 'in-action' && previous === 'decision-required')
+    return `Delegated authority: ${roleName(execution.accountableRoleId)}, no approval gate configured`;
+  if (event.state === 'in-action' && previous === 'escalated') return 'Escalation acknowledged; work resumed';
+  if (event.state === 'escalated') return `Escalated to ${roleName(execution.escalations.at(-1)?.escalateToRoleId ?? '')}`;
+  return 'Recorded by the Travel engine';
+}
+
 export function TravelSimulationPanel(props: { activeDeployment: TravelDeploymentConfig | null }) {
   const [mode, setMode] = useState<'scenario' | 'hotel'>('hotel');
   return <><div className="jhotel-mode" role="group" aria-label="Simulation mode">
@@ -131,7 +145,7 @@ function ScenarioSimulationPanel({ activeDeployment }: { activeDeployment: Trave
         <label>Decision mode<select value={String(scripted)} disabled={!!session} onChange={e => setScripted(e.target.value === 'true')}>
           <option value="false">I approve each decision</option><option value="true">Scripted test approvals</option>
         </select></label>
-        <p className="jsim-hint">{scripted ? 'Test actors advance approvals. This does not verify human authorisation.' : 'Signals wait for you at the decision gate.'}</p>
+        <p className="jsim-hint">{scripted ? 'Test actors advance approvals. This does not verify human authorisation.' : 'Signals wait for you at the decision gate. Scenarios without an approval gate proceed under the accountable role’s delegated authority.'}</p>
         <label>Playback speed <span className="jsim-speed-label">{speed}×</span><input aria-label="Playback speed" type="range" min="1" max="4" step="1" value={speed} onChange={e => setSpeed(Number(e.target.value))} /></label>
         <p className="jsim-hint">One new signal per tick. Playback speed is not a capacity benchmark.</p>
         {!session ? <button className="jsim-primary" onClick={start} disabled={!readiness.ready || !selectedScenarioId}><Play size={15} />Start simulation</button>
@@ -164,10 +178,10 @@ function ScenarioSimulationPanel({ activeDeployment }: { activeDeployment: Trave
             {!execution ? <div className="jsim-empty"><ShieldCheck size={28} /><h3>Every step has an owner.</h3><p>Inspect the decision, approval gate, evidence requirements and recorded state changes.</p></div> : <>
               <p className="jsim-owner">Accountable role<strong>{roleName(execution.accountableRoleId)}</strong></p>
               {run?.error && <p role="alert" className="jsim-error">{run.error}</p>}
-              {execution.state === 'approval-required' && !run?.approval && <div className="jsim-action-card"><span>DECISION REQUIRED</span><h3>A person must decide.</h3><p>Approve this synthetic decision to advance the test pathway.</p><button className="jsim-primary" onClick={() => updateSelected(r => approveLabRun(r, 'visitor'))}>Approve test decision<ArrowRight size={15} /></button></div>}
-              {execution.state === 'escalated' && execution.escalations.some(e => !e.acknowledged) && <div className="jsim-action-card"><span>ESCALATION INJECTED</span><h3>Waiting for acknowledgement.</h3><p>The test escalation has been recorded. No alert was dispatched.</p><button className="jsim-primary" onClick={() => updateSelected(acknowledgeLabEscalation)}>Acknowledge test escalation</button></div>}
+              {execution.state === 'approval-required' && !run?.approval && <div className="jsim-action-card"><span>DECISION REQUIRED</span><h3>{roleName(execution.approvalRoleId)} must decide.</h3><p>You act as the {roleName(execution.approvalRoleId)} for this synthetic case. Nothing moves to action until the decision is recorded.</p><button className="jsim-primary" onClick={() => updateSelected(r => approveLabRun(r, 'visitor'))}>Approve as {roleName(execution.approvalRoleId)}<ArrowRight size={15} /></button></div>}
+              {execution.state === 'escalated' && execution.escalations.some(e => !e.acknowledged) && <div className="jsim-action-card"><span>ESCALATION INJECTED</span><h3>Waiting for {roleName(execution.escalations.find(e => !e.acknowledged)!.escalateToRoleId)}.</h3><p>The test escalation has been recorded. No alert was dispatched. Work resumes only after acknowledgement.</p><button className="jsim-primary" onClick={() => updateSelected(acknowledgeLabEscalation)}>Acknowledge as {roleName(execution.escalations.find(e => !e.acknowledged)!.escalateToRoleId)}</button></div>}
               {execution.state === 'resolved' && getMandatoryEvidenceGaps(execution).length > 0 && <div className="jsim-action-card"><span>CLOSURE BLOCKED</span><h3>Required evidence is missing.</h3><p>{getMandatoryEvidenceGaps(execution).length} required records must be supplied before this signal can close.</p><button className="jsim-primary" onClick={() => updateSelected(supplyLabEvidence)}>Supply synthetic evidence</button></div>}
-              <ol className="jsim-timeline">{execution.stateHistory.map((event, i) => <li key={`${i}-${event.state}`}><span className="jsim-timeline-dot" /><div><strong>{getStateLabel(event.state)}</strong><small>{i === 0 ? 'Synthetic input accepted' : event.state === 'in-action' ? `Test approval: ${run?.approval === 'visitor' ? 'visitor' : 'scripted actor'}` : 'Recorded by the Travel engine'}</small></div><time>{new Date(event.timestamp).toLocaleTimeString('en-AU', { hour12: false })}</time></li>)}</ol>
+              <ol className="jsim-timeline">{execution.stateHistory.map((event, i) => <li key={`${i}-${event.state}`}><span className="jsim-timeline-dot" /><div><strong>{getStateLabel(event.state)}</strong><small>{timelineNote(execution, i, run?.approval)}</small></div><time>{new Date(event.timestamp).toLocaleTimeString('en-AU', { hour12: false })}</time></li>)}</ol>
               <div className="jsim-evidence"><span>Required evidence</span><strong>{execution.evidence.filter(e => e.required && e.captured).length} / {execution.evidence.filter(e => e.required).length}</strong></div>
               <progress aria-label="Required evidence captured" value={execution.evidence.filter(e => e.required && e.captured).length} max={Math.max(1, execution.evidence.filter(e => e.required).length)} />
               <p className="jsim-hint">Outcomes remain “not measured”. Completion here is a synthetic pathway result.</p>

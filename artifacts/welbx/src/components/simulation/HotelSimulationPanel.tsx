@@ -50,7 +50,7 @@ export function HotelSimulationPanel() {
     if (!batch) return;
     const payload = { schemaVersion: 'jaldo.hotel-browser.v1', evidenceLevel: 'synthetic-engine-and-mock-adapters',
       exportedAt: new Date().toISOString(), hotel: MOCK_HOTEL, batch: batch.hotel,
-      expected: { closed: 60, approvalHeld: 20, evidenceHeld: 20 }, recentCycles: history,
+      expected: { closed: 63, approvalHeld: 17, evidenceHeld: 20, delegatedAuthorityProceeded: 3 }, recentCycles: history,
       limits: 'Local browser session, scripted actors, no vendor calls or measured business outcomes. Continuous browser replay stops when the page closes.' };
     const url = URL.createObjectURL(new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' }));
     const link = document.createElement('a'); link.href = url; link.download = `jaldo-mock-hotel-cycle-${batch.hotel.cycle}.json`; link.click();
@@ -67,7 +67,7 @@ export function HotelSimulationPanel() {
       <div className="jsim-section-title"><Activity size={16} /><h2>Hotel operating profile</h2></div>
       <p className="jsim-hint">76 occupied rooms · 16 arrivals · 8 departures. Front office, guest services, housekeeping, maintenance, duty management and safety.</p>
       <label>Run profile<select value="mixed" disabled><option value="mixed">100 signals / 25 per path</option></select></label>
-      <p className="jsim-hint">Five event types × five readings per path. Expected: 60 closed, 20 held for approval, 20 held for evidence. Each gate is checked.</p>
+      <p className="jsim-hint">Five event types × five readings per path. Expected: 63 closed, 17 held for approval, 20 held for evidence. Three withheld approvals are transport cases, which act within guest services’ delegated authority and so do not wait. Each gate is checked.</p>
       <label className="jhotel-toggle"><input type="checkbox" checked={repeat} onChange={e => setRepeat(e.target.checked)} />Repeat complete batches</label>
       <p className="jsim-hint">A failed check stops replay. Browser replay runs while this page is open. Scheduled GitHub checks run separately.</p>
       <label>Playback speed · {speed}×<input aria-label="Hotel playback speed" type="range" min="1" max="4" value={speed} onChange={e => setSpeed(Number(e.target.value))} /></label>
@@ -83,7 +83,7 @@ export function HotelSimulationPanel() {
     </aside><section className="jsim-monitor" aria-label="Mock hotel monitor">
       <div className="jsim-monitor-heading"><div><p className="jsim-eyebrow">HOTEL SIGNAL → DECISION → EVIDENCE</p><h2>Hotel activity</h2></div>
         <span role="status" className={`jsim-status ${playing ? 'running' : ''}`}>{batch?.finished ? latest?.passed ? 'Checks passed' : latest ? 'Check failed' : 'Checking' : playing ? `Batch ${batch?.hotel.cycle} running` : batch ? 'Paused' : 'Ready'}</span></div>
-      <div className="jsim-metrics">{[['Signals read', reads.length, '100 unique readings per batch'], ['Closed', closed, 'Expected: 60'], ['Approval held', approvals, 'Expected final hold: 20'], ['Evidence held', evidence, 'Expected final hold: 20']].map(([label, number, note]) =>
+      <div className="jsim-metrics">{[['Signals read', reads.length, '100 unique readings per batch'], ['Closed', closed, 'Expected: 63'], ['Approval held', approvals, 'Expected final hold: 17'], ['Evidence held', evidence, 'Expected final hold: 20']].map(([label, number, note]) =>
         <div key={label}><span>{label}</span><strong>{number}</strong><small>{note}</small></div>)}</div>
       <div className="jhotel-paths">{HOTEL_PATHS.map(path => <div key={path}><strong>{PATH_LABELS[path]}</strong><span>{reads.filter(r => r.signal.path === path).length} / 25 read</span>
         <small>{batch?.hotel.online[path] === false ? 'Connection paused · signals queued' : 'Mock connection available'}</small></div>)}</div>

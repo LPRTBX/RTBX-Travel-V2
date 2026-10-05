@@ -7,7 +7,7 @@ import {mkdirSync,writeFileSync} from 'node:fs';
 import {DEFAULT_DEPLOYMENT} from '../data/travelDeploymentConfig';
 import {TRAVEL_SCENARIOS} from '../data/travelScenarios';
 import {TRAVEL_PLAYBOOKS} from '../data/travelPlaybooks';
-import {createExecution,transitionExecution,sendCommunication,triggerEscalation,
+import {createExecution,transitionExecution,approveDecision,sendCommunication,triggerEscalation,
  acknowledgeEscalation,captureEvidence,recordOutcome,getMandatoryEvidenceGaps,
  type ScenarioExecution} from '../lib/runtimeEngine';
 import cohortList from './phase4-cohorts.json';
@@ -80,11 +80,13 @@ describe('Phase 4 guarded candidate runs through actual Travel canonical reducer
    if(e.isWelfareScenario&&scenario!.governanceConfig.humanApprovalRequired){
      expect(transitionExecution(e,'in-action',scenario!)).toBeNull();
    }
-   move('approval-required');move('in-action'); // simulation ONLY: no verified human approval
+   move('approval-required');
+   expect(transitionExecution(e,'in-action',scenario!)).toBeNull(); // no recorded decision → gate holds
+   e=approveDecision(e,e.approvalRoleId,scenario!,'Synthetic Phase 4 test'); // simulation ONLY: no verified human approval
    let gateChecks=0;
    for(const comm of e.communications){
      if(comm.approvalRequired){expect(()=>sendCommunication(e,comm.id)).toThrow(/approval/i);gateChecks++;
-       e=sendCommunication(e,comm.id,dc!.accountableRoleId); // synthetic role identifier, NOT auth
+       e=sendCommunication(e,comm.id,e.approvalRoleId); // synthetic role identifier, NOT auth
      } else e=sendCommunication(e,comm.id);
    }
    e=triggerEscalation(e,'Synthetic escalation',dc!.accountableRoleId);

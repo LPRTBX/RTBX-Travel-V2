@@ -4,7 +4,7 @@ import { TRAVEL_SCENARIOS } from '@/data/travelScenarios';
 import { TRAVEL_PLAYBOOKS } from '@/data/travelPlaybooks';
 import { getScenarioRuntimeReadiness } from './travelScenarioRouting';
 import { createExecution, transitionExecution, captureEvidence, recordOutcome,
-  sendCommunication, triggerEscalation, acknowledgeEscalation,
+  sendCommunication, triggerEscalation, acknowledgeEscalation, approveDecision,
   getMandatoryEvidenceGaps, type ScenarioExecution } from './runtimeEngine';
 
 export type LabCondition = 'normal' | 'escalation' | 'missing-evidence';
@@ -51,11 +51,14 @@ export function advanceLabRun(run: LabRun, scriptedApprovals: boolean): LabRun {
     switch (execution.state) {
       case 'signal-received': move('understanding'); break;
       case 'understanding': move('decision-required'); break;
-      case 'decision-required': move('approval-required'); break;
+      case 'decision-required':
+        // Scenarios without a configured approval gate act within the accountable role's delegated authority.
+        move(execution.approvalRequired ? 'approval-required' : 'in-action'); break;
       case 'approval-required':
         if (!run.approval && scriptedApprovals) nextRun = approveLabRun(run, 'scripted');
         if (!nextRun.approval) return run;
-        move('in-action');
+        execution = approveDecision(execution, execution.approvalRoleId, scenario,
+          nextRun.approval === 'visitor' ? 'Visitor approved, acting as approval role' : 'Scripted test approval');
         break;
       case 'in-action':
         if (run.condition === 'escalation' && execution.escalations.length === 0) {
@@ -64,8 +67,10 @@ export function advanceLabRun(run: LabRun, scriptedApprovals: boolean): LabRun {
           break;
         }
         for (const comm of execution.communications) {
+          // Approval-required drafts are reviewed by the approval role once the decision is recorded
+          // (or by the accountable role when acting within delegated authority).
           execution = sendCommunication(execution, comm.id,
-            nextRun.approval ? execution.accountableRoleId : undefined);
+            nextRun.approval || !execution.approvalRequired ? execution.approvalRoleId : undefined);
         }
         for (const item of execution.evidence.filter(e => e.required)) {
           if (run.condition !== 'missing-evidence') {
