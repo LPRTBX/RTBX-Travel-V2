@@ -123,13 +123,13 @@ export function reviewHotelLearning(p: Proposal, decision: 'approved' | 'rejecte
   return { ...p, candidate: { ...p.candidate }, decision, reviewer, reviewedAt: new Date().toISOString(),
     reviewedCandidate: { ...p.candidate }, reviewId: `${p.id}:review` };
 }
-export function replayHotelLearning(c: HotelCase, p: Proposal, fault: Fault): HotelCase {
+export function replayHotelLearning(c: HotelCase, p: Proposal, fault: Fault, conditions?: FollowUpConditions): HotelCase {
   if (p.decision !== 'approved' || p.reviewer !== 'synthetic-duty-manager' || p.eventId !== c.signal.eventId
     || p.sourceExecutionId !== c.execution.id || p.baselineVersion !== c.policy.version
     || p.id !== `${c.execution.id}:learning` || p.reviewId !== `${p.id}:review`
     || !p.reviewedAt || !Number.isFinite(Date.parse(p.reviewedAt))
     || JSON.stringify(p.reviewedCandidate) !== JSON.stringify(p.candidate)) throw new Error('Approved correlated proposal required');
-  const replay = simulateHotelCase(c.signal, fault, p.candidate, c.deployment);
+  const replay = simulateHotelCase(c.signal, fault, p.candidate, c.deployment, conditions);
   return { ...replay, audit: [...replay.audit, { step: 'reviewed-learning-replay',
     detail: JSON.stringify({ proposalId: p.id, reviewId: p.reviewId, reviewer: p.reviewer, reviewedAt: p.reviewedAt,
       sourceExecutionId: c.execution.id, replayExecutionId: replay.execution.id, candidate: p.reviewedCandidate }) }] };

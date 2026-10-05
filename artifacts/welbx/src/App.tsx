@@ -56,6 +56,8 @@ const PartnerCorporateTravelDemo   = lazy(() => import("@/pages/partner-room/Par
 const PartnerEventsVenuesDemo      = lazy(() => import("@/pages/partner-room/PartnerEventsVenuesDemo"));
 const PartnerDestinationTourismDemo = lazy(() => import("@/pages/partner-room/PartnerDestinationTourismDemo"));
 
+const PartnerImpactMap = lazy(() => import("@/pages/partner-room/PartnerImpactMap"));
+
 // Product proof utilities
 const PartnerScenarioBuilder       = lazy(() => import("@/pages/partner-room/PartnerScenarioBuilder"));
 const PartnerProofCalculator       = lazy(() => import("@/pages/partner-room/PartnerProofCalculator"));
@@ -90,6 +92,7 @@ const PageFallback = () => (
 );
 
 const PARTNER_ROUTES = [
+  { path: "/partner-room/impact-map", component: PartnerImpactMap },
   { path: "/partner-room",                    component: PartnerRoomLanding },
   { path: "/partner-room/overview",           component: PartnerOverview },
   { path: "/partner-room/deployments",        component: PartnerDeployments },

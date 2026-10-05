@@ -8,6 +8,7 @@ export const ARCHITECTURE_SCENARIOS = [
   ["service-backlog", "Service backlog"],
   ["maintenance-defect", "Maintenance"],
   ["distressed-guest", "Guest welfare"],
+  ["transport-disruption", "Transport disruption"],
 ] as const;
 export type ArchitectureScenarioId = typeof ARCHITECTURE_SCENARIOS[number][0];
 

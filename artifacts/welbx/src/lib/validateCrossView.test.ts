@@ -27,7 +27,7 @@ const playbook  = TRAVEL_PLAYBOOKS.find(p => p.id === "pb-repeat-guest-room-not-
 /** Advance execution to a target state through the happy path. */
 function advanceTo(targetState: "resolved") {
   let exec = createExecution({ deployment: DEFAULT_DEPLOYMENT, scenario, playbook });
-  const path = ["understanding", "decision-required", "in-action", "resolved"] as const;
+  const path = ["understanding", "decision-required", "approval-required", "in-action", "resolved"] as const;
   for (const st of path) {
     exec = transitionExecution(exec, st, scenario)!;
     if (exec.state === targetState) break;
@@ -83,6 +83,7 @@ describe("Cross-View — shared execution state", () => {
     let exec = createExecution({ deployment: DEFAULT_DEPLOYMENT, scenario, playbook });
     exec = transitionExecution(exec, "understanding", scenario)!;
     exec = transitionExecution(exec, "decision-required", scenario)!;
+    exec = transitionExecution(exec, "approval-required", scenario)!;
     exec = transitionExecution(exec, "in-action", scenario)!;
     exec = transitionExecution(exec, "escalated", scenario)!;
     expect(exec.state).toBe("escalated");
@@ -135,6 +136,7 @@ describe("Guest View — data restriction rules", () => {
     let exec = createExecution({ deployment: DEFAULT_DEPLOYMENT, scenario, playbook });
     exec = transitionExecution(exec, "understanding", scenario)!;
     exec = transitionExecution(exec, "decision-required", scenario)!;
+    exec = transitionExecution(exec, "approval-required", scenario)!;
     exec = transitionExecution(exec, "in-action", scenario)!;
     exec = transitionExecution(exec, "escalated", scenario)!;
     // Escalation records exist
@@ -192,7 +194,7 @@ describe("Configuration — serialisation round-trip", () => {
 
   it("full execution trace serialises at each state", () => {
     let exec = createExecution({ deployment: DEFAULT_DEPLOYMENT, scenario, playbook });
-    const states = ["understanding", "decision-required", "in-action", "resolved"] as const;
+    const states = ["understanding", "decision-required", "approval-required", "in-action", "resolved"] as const;
     for (const st of states) {
       exec = transitionExecution(exec, st, scenario)!;
       expect(() => JSON.stringify(exec)).not.toThrow();

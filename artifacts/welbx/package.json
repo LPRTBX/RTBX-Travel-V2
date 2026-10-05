@@ -18,7 +18,7 @@
     "check:terminology": "node scripts/check-legacy.mjs",
     "check:assets": "node scripts/check-assets.mjs",
     "check:bundle-boundaries": "node scripts/check-bundle-boundaries.mjs",
-    "test:simulation": "tsc -p tsconfig.simulation.json --noEmit && vitest run src/simulation",
+    "test:simulation": "tsc -p tsconfig.simulation.json --noEmit && vitest run src/simulation src/lib/scenarioAudit.test.ts",
     "test:cadence": "node --test scripts/simulation-cadence.check.mjs scripts/oracle-ohip-blocked.check.mjs"
   },
   "devDependencies": {

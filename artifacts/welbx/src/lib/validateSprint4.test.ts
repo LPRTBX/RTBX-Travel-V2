@@ -237,7 +237,7 @@ describe("RuntimeEngine.transitionExecution — valid transitions", () => {
 
   it("can advance through full happy-path (non-welfare): signal-received → closed", () => {
     let exec: ScenarioExecution | null = base;
-    const path = ["understanding", "decision-required", "in-action", "resolved"] as const;
+    const path = ["understanding", "decision-required", "approval-required", "in-action", "resolved"] as const;
     for (const st of path) {
       exec = transitionExecution(exec!, st, scenario);
       expect(exec).not.toBeNull();
@@ -256,7 +256,7 @@ describe("RuntimeEngine.transitionExecution — valid transitions", () => {
 
   it("can transition through escalation pathway: in-action → escalated → resolved", () => {
     let exec: ScenarioExecution | null = base;
-    for (const st of ["understanding", "decision-required", "in-action"] as const) {
+    for (const st of ["understanding", "decision-required", "approval-required", "in-action"] as const) {
       exec = transitionExecution(exec!, st, scenario);
     }
     const escalated = transitionExecution(exec!, "escalated", scenario);
@@ -291,7 +291,7 @@ describe("RuntimeEngine.transitionExecution — blocked transitions", () => {
 
   it("blocks closure when mandatory evidence is incomplete", () => {
     let exec: ScenarioExecution | null = base;
-    for (const st of ["understanding", "decision-required", "in-action", "resolved"] as const) {
+    for (const st of ["understanding", "decision-required", "approval-required", "in-action", "resolved"] as const) {
       exec = transitionExecution(exec!, st, scenario);
     }
     // Do NOT capture evidence
@@ -548,7 +548,7 @@ describe("RuntimeEngine helpers", () => {
     const scenario = TRAVEL_SCENARIOS.find(s => s.id === "repeat-guest-room-not-ready")!;
     const playbook = TRAVEL_PLAYBOOKS.find(p => p.id === "pb-repeat-guest-room-not-ready")!;
     let exec: ScenarioExecution | null = createExecution({ deployment: DEFAULT_DEPLOYMENT, scenario, playbook });
-    for (const st of ["understanding", "decision-required", "in-action", "resolved"] as const) {
+    for (const st of ["understanding", "decision-required", "approval-required", "in-action", "resolved"] as const) {
       exec = transitionExecution(exec!, st, scenario);
     }
     for (const ev of exec!.evidence.filter(e => e.required)) {
