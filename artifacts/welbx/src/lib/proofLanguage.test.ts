@@ -15,6 +15,7 @@ function sourceFiles(dir: string): string[] {
 }
 
 const PRIMARY_PROOF_ROUTE_FILES = [
+  "src/pages/partner-room/PartnerOperatingEvolution.tsx",
   "src/pages/partner-room/PartnerGuestDemo.tsx",
   "src/pages/partner-room/PartnerScenarioBuilder.tsx",
   "src/pages/partner-room/PartnerDualViewDemo.tsx",

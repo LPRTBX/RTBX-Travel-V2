@@ -213,6 +213,7 @@ export default function PartnerArchitectureLab() {
           <div className="travel-architecture-actions">
             <Link className="travel-architecture-action" href="/partner-room/build-configure">Build & Configure →</Link>
             <Link className="travel-architecture-action" href="/partner-room/integration-brief">Integration →</Link>
+            <Link className="travel-architecture-action" href="/partner-room/operating-evolution">Watch the operation evolve →</Link>
             <Link className="travel-architecture-action" href="/partner-room/impact-map">Scenario impact map →</Link>
             <Link className="travel-architecture-action" href="/partner-room/proof-calculator">Value / ROI →</Link>
           </div>

@@ -7,6 +7,7 @@ import {
 } from "@/lib/travelScenarioRouting";
 
 const PROOF_MODES = [
+  { num: "05", label: "Operating Evolution", color: "#a8dedb", desc: "Run successive synthetic cycles: discover a pattern, review earlier preparation, challenge capacity and compare the measured impact.", href: "/partner-room/operating-evolution", cta: "Work Through the Full Loop" },
   { num: "00", label: "Scenario Impact Map", color: "#a8dedb", desc: "Inspect all six canonical scenarios, trace the impact across the operation and challenge the learning loop.", href: "/partner-room/impact-map", cta: "Explore Scenario Impact" },
   {
     num: "01",

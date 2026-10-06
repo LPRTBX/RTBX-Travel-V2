@@ -923,6 +923,8 @@ export default function PartnerOperationsCentre() {
           </p>
         </div>
 
+        <Link href="/partner-room/operating-evolution" style={{ display: "block", padding: "18px 22px", marginBottom: 24, border: "1px solid #81bcb8", borderRadius: 8, color: "#c5ece7", fontSize: 14 }}>Watch the operation evolve — reviewed patterns, earlier preparation and the next cycle’s impact →</Link>
+
         <ProofSummary />
 
         <Link href="/partner-room/operations?view=simulation" style={{ display: "block", padding: "18px 22px", marginBottom: 30, background: "#20474e", border: "1px solid #81bcb8", borderRadius: 8, color: "#c5ece7", fontSize: 14, fontWeight: 700 }}>Open Simulation Lab — watch signals move through the engine →</Link>
