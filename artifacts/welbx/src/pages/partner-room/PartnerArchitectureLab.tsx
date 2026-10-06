@@ -210,11 +210,11 @@ export default function PartnerArchitectureLab() {
         <section style={{ ...box, marginTop: 26, padding: 24, borderTop: "2px solid #f59e0b" }}>
           <h3 style={{ margin: "0 0 8px" }}>One moment is the entry point. The whole operation is the opportunity.</h3>
           <p style={{ ...muted, lineHeight: 1.65, margin: "0 0 16px", maxWidth: 900 }}>Inspect the impact across every canonical scenario, then move into configuration, integrations and modelled value. The Architecture Lab does not convert illustrative outcomes into measured ROI.</p>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-            <Link href="/partner-room/build-configure"><button style={{ padding: "10px 13px", cursor: "pointer" }}>Build & Configure →</button></Link>
-            <Link href="/partner-room/integration-brief"><button style={{ padding: "10px 13px", cursor: "pointer" }}>Integration →</button></Link>
-            <Link href="/partner-room/impact-map">Scenario impact map →</Link>
-            <Link href="/partner-room/proof-calculator"><button style={{ padding: "10px 13px", cursor: "pointer" }}>Value / ROI →</button></Link>
+          <div className="travel-architecture-actions">
+            <Link className="travel-architecture-action" href="/partner-room/build-configure">Build & Configure →</Link>
+            <Link className="travel-architecture-action" href="/partner-room/integration-brief">Integration →</Link>
+            <Link className="travel-architecture-action" href="/partner-room/impact-map">Scenario impact map →</Link>
+            <Link className="travel-architecture-action" href="/partner-room/proof-calculator">Value / ROI →</Link>
           </div>
         </section>
       </main>
