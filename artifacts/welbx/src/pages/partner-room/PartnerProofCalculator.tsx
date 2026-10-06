@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
+import "./proof-calculator.css";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 
 const DEFAULT_ASSUMPTIONS = {
@@ -30,13 +31,13 @@ function SliderInput({ label, value, min, max, step, format, onChange, color = "
         <div style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: "0.06em", color: "rgba(255,255,255,0.6)" }}>{label}</div>
         <div style={{ fontSize: 14, fontWeight: 800, color: color }}>{format(value)}</div>
       </div>
-      <div style={{ position: "relative", height: 4, background: "rgba(255,255,255,0.08)", cursor: "pointer" }}>
-        <div style={{ position: "absolute", left: 0, top: 0, height: "100%", width: `${((value - min) / (max - min)) * 100}%`, background: color, transition: "width 0.1s" }} />
-      </div>
       <input
+        className="travel-value-slider"
         type="range" min={min} max={max} step={step} value={value}
+        aria-label={label}
+        aria-valuetext={format(value)}
         onChange={e => onChange(Number(e.target.value))}
-        style={{ width: "100%", marginTop: -4, opacity: 0, position: "relative", cursor: "pointer", height: 12 }}
+        style={{ "--slider-color": color, "--slider-progress": `${((value - min) / (max - min)) * 100}%` } as CSSProperties}
       />
     </div>
   );
