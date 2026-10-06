@@ -82,3 +82,5 @@
 .travel-value input:focus-visible, .travel-value button:focus-visible, .travel-value summary:focus-visible { outline: 3px solid #ed9b66; outline-offset: 4px; }
 @media (max-width: 1000px) { .travel-value-input-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
 @media (max-width: 650px) { .travel-value-input-grid { grid-template-columns: 1fr; gap: 18px; } .travel-value-moment { padding: 18px; } .travel-value-tiers { gap: 8px; } .travel-value th, .travel-value td { padding: 12px 8px; } }
+
+.travel-value-frequency { width: 76px; min-height: 44px; padding: 8px; border: 1px solid #709299; border-radius: 4px; background: #071d27; color: #fff; font: inherit; }

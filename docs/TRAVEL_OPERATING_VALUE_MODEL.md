@@ -9,8 +9,8 @@ The Value Calculator models everyday coordination, opportunities, prevention, re
 - Estimated room stays = occupied room nights ÷ average length of stay.
 - Estimated guest arrivals = room stays × guests per occupied room.
 - Estimated guest nights = occupied room nights × guests per occupied room.
-- Interactions per room stay = guests per occupied room × average length of stay × interactions per guest per night.
-- Estimated monthly guest interactions = guest nights × interactions per guest per night. At fixed occupancy, longer stays reduce arrivals but do not increase total guest nights.
+- Guest interactions use the editable service journey: lifecycle exchanges per room stay + shared daily exchanges per occupied room night + individual exchanges per guest night.
+- At fixed occupancy, longer stays reduce lifecycle exchange volume while daily service volume stays constant.
 - Category moments = room stays × moments per 100 room stays ÷ 100.
 - Successful actions = category moments × assumed outcome rate.
 
@@ -26,10 +26,10 @@ Staff time is kept outside the monetary sum. The model estimates time released, 
 
 ## Example assumptions
 
-Defaults are synthetic examples, not industry benchmarks. At 1 site, 120 rooms, 30 days, 75% occupancy, 3-night stays and 1.5 guests per occupied room, the model estimates 2,700 occupied room nights, 900 room stays and 1,350 guest arrivals. At two illustrative interactions per guest per night, this is 4,050 guest nights and 8,100 guest interactions, averaging nine per room stay. This rate is an editable example, not an industry benchmark. Arrival/departure exchanges should not be counted twice, and shared exchanges must not automatically be multiplied by every guest. Category defaults generate 3,240 operational moments. Financial benefit is shown separately from staff capacity and welfare activity.
+Defaults are synthetic examples, not industry benchmarks. At 1 site, 120 rooms, 30 days, 75% occupancy, 3-night stays and 1.5 guests per occupied room, the model estimates 2,700 occupied room nights, 900 room stays and 1,350 guest arrivals. The worked service journey has six lifecycle exchanges, three shared daily exchanges and two individual daily exchanges. This produces 24 exchanges per room stay and 21,600 monthly guest-facing exchanges at 1.5 guests per room. The guide produces 21 for a solo guest and 27 for two independently interacting guests. These are chosen full-service examples, not standards or industry averages. See [the three-night walkthrough](TRAVEL_THREE_NIGHT_GUEST_INTERACTION_GUIDE.md). Shared exchanges count once, and unopened automated messages do not count. Category defaults generate 3,240 operational moments. Financial benefit is shown separately from staff capacity and welfare activity.
 
 All controls are editable, with visible sliders and numeric fields. Assumptions remain in the browser component for this visit; nothing is promoted to a deployment or drawn from live hotel data.
 
 ## Verification
 
-681 Vitest tests across 26 files passed, including 11 operating-model checks for occupancy propagation, portfolio scaling, stay counting, interactions, non-financial welfare/capacity, attribution and overlap deductions, zero activity, negative net estimates and invalid assumptions. Application TypeScript, production build, internal links, routes, access and bundle boundaries passed. GitHub QA verifies the published branch. Rendered verification of the new page requires Replit to pull main and restart.
+683 Vitest tests across 26 files passed, including 13 operating-model checks for occupancy propagation, portfolio scaling, stay counting, interactions, non-financial welfare/capacity, attribution and overlap deductions, zero activity, negative net estimates and invalid assumptions. Application TypeScript, production build, internal links, routes, access and bundle boundaries passed. GitHub QA verifies the published branch. Rendered verification of the new page requires Replit to pull main and restart.

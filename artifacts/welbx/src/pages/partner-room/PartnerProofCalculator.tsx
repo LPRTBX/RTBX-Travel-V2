@@ -1,6 +1,7 @@
 import { useState, type CSSProperties } from "react";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 import { calculateTravelValue, DEFAULT_VALUE_ASSUMPTIONS, type TravelValueAssumptions, type MomentKind, type ValueTier } from "@/lib/travelValueModel";
+import { INTERACTION_BASIS_LABELS } from "@/lib/travelGuestJourney";
 import "./proof-calculator.css";
 
 const number = (n: number) => Math.round(n).toLocaleString();
@@ -25,7 +26,8 @@ function Assumption({ label, value, min, max, step = 1, onChange, unit = "", hin
 export default function PartnerProofCalculator() {
   const [a, setA] = useState<TravelValueAssumptions>(() => structuredClone(DEFAULT_VALUE_ASSUMPTIONS));
   const result = calculateTravelValue(a);
-  const update = (key: Exclude<keyof TravelValueAssumptions, "moments">, value: number) => setA(current => ({ ...current, [key]: value }));
+  const update = (key: Exclude<keyof TravelValueAssumptions, "moments" | "journey">, value: number) => setA(current => ({ ...current, [key]: value }));
+  const updateJourney = (id: string, frequency: number) => setA(current => ({ ...current, journey: current.journey.map(j => j.id === id ? { ...j, frequency } : j) }));
   const updateMoment = (kind: MomentKind, key: "momentsPer100Stays" | "actionRate" | "minutesSaved", value: number) =>
     setA(current => ({ ...current, moments: current.moments.map(m => m.kind === kind ? { ...m, [key]: value } : m) }));
   const updateTier = (kind: MomentKind, tier: ValueTier, value: number) => setA(current => ({ ...current, moments: current.moments.map(m => {
@@ -57,7 +59,6 @@ export default function PartnerProofCalculator() {
         <Assumption label="Monthly occupancy" value={Math.round(a.occupancy * 100)} min={0} max={100} unit="%" onChange={v => update("occupancy", v / 100)} />
         <Assumption label="Average length of stay" value={a.lengthOfStay} min={0.5} max={30} step={0.5} unit=" nights" onChange={v => update("lengthOfStay", v)} />
         <Assumption label="Guests per occupied room" value={a.guestsPerRoom} min={1} max={6} step={0.1} onChange={v => update("guestsPerRoom", v)} />
-        <Assumption label="Interactions per guest per night" value={a.interactionsPerGuestNight} min={0} max={20} step={0.5} onChange={v => update("interactionsPerGuestNight", v)} hint="Editable daily touchpoint assumption, not an industry average. Not every interaction becomes a moment." />
       </div>
       <div className="travel-value-stats" aria-live="polite" aria-atomic="true">
         <div><strong>{number(result.rooms)}</strong><span>Total rooms</span></div>
@@ -68,8 +69,16 @@ export default function PartnerProofCalculator() {
         <div><strong>{result.interactionsPerRoomStay.toLocaleString(undefined, { maximumFractionDigits: 1 })}</strong><span>Interactions per room stay</span></div>
         <div><strong>{number(result.interactions)}</strong><span>Estimated guest interactions</span></div>
       </div>
-      <p className="travel-value-result">{a.guestsPerRoom} guests × {a.lengthOfStay} nights × {a.interactionsPerGuestNight} interactions per guest per night = {result.interactionsPerRoomStay.toLocaleString(undefined, { maximumFractionDigits: 1 })} interactions per room stay.</p>
-      <details><summary>How these volumes connect</summary><p>Occupied room nights = sites × rooms per site × days × occupancy. Room stays = occupied room nights ÷ average length of stay. Guest arrivals = room stays × guests per occupied room. Guest nights = occupied room nights × guests per occupied room. Monthly interactions = guest nights × interactions per guest per night.</p><p>This is a steady-state estimate; it does not track unique people, actual reservations or stays crossing month boundaries. At fixed occupancy, longer stays mean fewer arrivals but the same guest-night volume, so monthly daily interactions remain unchanged. Staff and system signals can create moments independently of guest interactions; one shared exchange should not be counted separately for each guest. Arrival and departure touchpoints can be estimated separately rather than included twice in the daily rate.</p></details>
+      <details><summary>How occupancy and stays connect</summary><p>Occupied room nights = sites × rooms per site × days × occupancy. Room stays = occupied room nights ÷ average length of stay. Guest arrivals = room stays × guests per occupied room. Guest nights = occupied room nights × guests per occupied room.</p><p>This is a steady-state estimate; it does not track unique people, actual reservations or stays crossing month boundaries.</p></details>
+      <h3 style={{ marginTop: 28 }}>Build the guest interaction plan</h3>
+      <p>This worked example includes pre-arrival, arrival, daily service, departure and follow-up. It is a full-service pattern, not a standard or industry average. Change each frequency to match the property: zero excludes an exchange; 0.5 means it occurs in half of the relevant stays or nights.</p>
+      <p>Shared check-ins, meals and room-service exchanges count once per room party. Individual exchanges scale with guest nights only when guests interact independently. Count a complete service episode once, not every message, click or retry. An automated message counts only if it becomes a meaningful exchange.</p>
+      <div className="travel-value-table-wrap"><table><caption>Editable interaction guide · {a.lengthOfStay}-night average stay</caption><thead><tr><th scope="col">Exchange</th><th scope="col">Counting basis</th><th scope="col">Frequency</th><th scope="col">Per room stay</th><th scope="col">Monthly</th></tr></thead><tbody>
+        {result.journeyRows.map(j => <tr key={j.id}><th scope="row">{j.label}<span className="travel-value-hint">{j.stage} · {j.purpose}</span></th><td>{INTERACTION_BASIS_LABELS[j.basis]}</td><td><input className="travel-value-frequency" type="number" aria-label={`${j.label}: frequency`} min={0} max={10} step={0.5} value={j.frequency} onFocus={e => e.currentTarget.select()} onChange={e => { if (e.target.value !== "" && Number.isFinite(e.target.valueAsNumber)) updateJourney(j.id, Math.max(0, Math.min(10, e.target.valueAsNumber))); }} /></td><td>{j.perStay.toLocaleString(undefined, { maximumFractionDigits: 2 })}</td><td>{number(j.monthly)}</td></tr>)}
+        <tr className="travel-value-total"><th scope="row">Total distinct guest-facing exchanges</th><td colSpan={2}>Shared + individual</td><td>{result.interactionsPerRoomStay.toLocaleString(undefined, { maximumFractionDigits: 2 })}</td><td>{number(result.interactions)}</td></tr>
+      </tbody></table></div>
+      <p className="travel-value-result">Monthly: {number(result.sharedInteractions)} shared exchanges + {number(result.individualInteractions)} individual exchanges = {number(result.interactions)} guest-facing interactions.</p>
+      <p>Stay-level exchanges scale with room stays; daily shared exchanges scale with occupied room nights; individual daily exchanges scale with guest nights. At fixed occupancy, longer stays reduce arrival/departure exchanges but not daily service volume. Before/after-stay exchanges are allocated to the stay for planning, not dated live records. Staff, system and partner exchanges are not included in this guest-facing total.</p>
     </section>
 
     <section className="travel-value-section" aria-labelledby="moments-title">

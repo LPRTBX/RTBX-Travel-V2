@@ -5,7 +5,7 @@ const inputs = () => structuredClone(DEFAULT_VALUE_ASSUMPTIONS);
 describe("Travel operating value model", () => {
   it("counts room nights, stays and arrivals separately", () => {
     const r = calculateTravelValue(inputs());
-    expect([r.rooms, r.occupiedRoomNights, r.stays, r.guests, r.interactions]).toEqual([120, 2700, 900, 1350, 8100]);
+    expect([r.rooms, r.occupiedRoomNights, r.stays, r.guests, r.interactions]).toEqual([120, 2700, 900, 1350, 21600]);
     expect(r.rows.find(m => m.kind === "recovery")?.moments).toBe(72);
     expect(r.moments).toBe(3240);
   });
@@ -32,23 +32,41 @@ describe("Travel operating value model", () => {
     expect(after.guests).toBe(before.guests / 2);
     expect(after.moments).toBe(before.moments / 2);
     expect(after.guestNights).toBe(before.guestNights);
-    expect(after.interactions).toBe(before.interactions);
-    expect(after.interactionsPerRoomStay).toBe(before.interactionsPerRoomStay * 2);
+    expect(after.individualInteractions).toBe(before.individualInteractions);
+    expect(after.interactions).toBeLessThan(before.interactions);
+    expect(after.interactionsPerRoomStay).toBe(42);
   });
   it("derives interactions from guest nights and average guests, including zero occupancy", () => {
     const a = inputs(); const r = calculateTravelValue(a);
     expect(r.guestNights).toBe(4050);
-    expect(r.interactionsPerRoomStay).toBe(9);
+    expect(r.interactionsPerRoomStay).toBe(24);
     expect(r.interactions).toBe(r.stays * r.interactionsPerRoomStay);
     a.guestsPerRoom = 3;
-    expect(calculateTravelValue(a).interactions).toBe(r.interactions * 2);
+    expect(calculateTravelValue(a).individualInteractions).toBe(r.individualInteractions * 2);
+    expect(calculateTravelValue(a).sharedInteractions).toBe(r.sharedInteractions);
     a.occupancy = 0;
     expect(calculateTravelValue(a).guestNights).toBe(0);
     expect(calculateTravelValue(a).interactions).toBe(0);
   });
+  it("counts shared service once and excludes unused services", () => {
+    const a = inputs(); a.guestsPerRoom = 1;
+    expect(calculateTravelValue(a).interactionsPerRoomStay).toBe(21);
+    a.guestsPerRoom = 2;
+    expect(calculateTravelValue(a).interactionsPerRoomStay).toBe(27);
+    a.journey.forEach(j => { j.frequency = 0; });
+    a.journey.find(j => j.id === "check-in")!.frequency = 1;
+    expect(calculateTravelValue(a).interactionsPerRoomStay).toBe(1);
+    expect(calculateTravelValue(a).interactions).toBe(900);
+  });
+  it("rejects duplicate exchanges and invalid journey rates", () => {
+    const a = inputs(); a.journey.push(a.journey[0]);
+    expect(() => calculateTravelValue(a)).toThrow(/unique/);
+    const b = inputs(); b.journey[0].frequency = -1;
+    expect(() => calculateTravelValue(b)).toThrow();
+  });
   it("treats interactions as activity, not extra financial moments", () => {
     const a = inputs(); const before = calculateTravelValue(a);
-    a.interactionsPerGuestNight = 50; const after = calculateTravelValue(a);
+    a.journey.find(j => j.id === "activity")!.frequency = 5; const after = calculateTravelValue(a);
     expect(after.interactions).toBeGreaterThan(before.interactions);
     expect(after.gross).toEqual(before.gross);
     expect(after.moments).toBe(before.moments);
