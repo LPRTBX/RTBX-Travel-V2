@@ -18,9 +18,9 @@ export default function PartnerValidation() {
           <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
             Partner Room · Validation
           </div>
-          <div style={{ fontSize: 32, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", marginBottom: 14 }}>
+          <h1 style={{ fontSize: 32, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", marginBottom: 14 }}>
             Validation & Operator Stories
-          </div>
+          </h1>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.42)", lineHeight: 1.75, maxWidth: 640 }}>
             Scenario validation, shadow pilot mode, operator walkthroughs and the full guest story from signal to outcome.
             Use interactive labs to test the system, or structured walkthroughs to build confidence before a pilot.

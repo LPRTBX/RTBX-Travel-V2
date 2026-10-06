@@ -1,0 +1,237 @@
+[
+  {
+    "name": "Partner Room",
+    "url": "https://557c817c-5b57-4f89-853f-727501b877fb-00-2h2vde0mauq0g.spock.replit.dev/partner-room",
+    "brokenImages": [],
+    "headings": [
+      "JALDO TravelPartner Room"
+    ],
+    "pageOverflow": false
+  },
+  {
+    "name": "Overview",
+    "url": "https://557c817c-5b57-4f89-853f-727501b877fb-00-2h2vde0mauq0g.spock.replit.dev/partner-room/overview",
+    "brokenImages": [],
+    "headings": [
+      "JALDO Travel — The Operating Case"
+    ],
+    "pageOverflow": false
+  },
+  {
+    "name": "Operator Brief",
+    "url": "https://557c817c-5b57-4f89-853f-727501b877fb-00-2h2vde0mauq0g.spock.replit.dev/partner-room/operator-brief",
+    "brokenImages": [],
+    "headings": [
+      "The Execution Gap That JALDO Core Closes"
+    ],
+    "pageOverflow": false
+  },
+  {
+    "name": "Next Step",
+    "url": "https://557c817c-5b57-4f89-853f-727501b877fb-00-2h2vde0mauq0g.spock.replit.dev/partner-room/next-step",
+    "brokenImages": [],
+    "headings": [
+      "Explore a Design Partnership"
+    ],
+    "pageOverflow": false
+  },
+  {
+    "name": "Architecture Lab",
+    "url": "https://557c817c-5b57-4f89-853f-727501b877fb-00-2h2vde0mauq0g.spock.replit.dev/partner-room/architecture-lab",
+    "brokenImages": [],
+    "headings": [
+      "Watch one hotel signal move through the operating architecture."
+    ],
+    "pageOverflow": false
+  },
+  {
+    "name": "Operating Model",
+    "url": "https://557c817c-5b57-4f89-853f-727501b877fb-00-2h2vde0mauq0g.spock.replit.dev/partner-room/operating-model",
+    "brokenImages": [],
+    "headings": [
+      "The JALDO Core Operating Model"
+    ],
+    "pageOverflow": false
+  },
+  {
+    "name": "Travel Intelligence",
+    "url": "https://557c817c-5b57-4f89-853f-727501b877fb-00-2h2vde0mauq0g.spock.replit.dev/partner-room/travel-intelligence",
+    "brokenImages": [],
+    "headings": [
+      "JALDO Travel Intelligence"
+    ],
+    "pageOverflow": false
+  },
+  {
+    "name": "Travel Operating Systems",
+    "url": "https://557c817c-5b57-4f89-853f-727501b877fb-00-2h2vde0mauq0g.spock.replit.dev/partner-room/travel-operating-systems",
+    "brokenImages": [],
+    "headings": [
+      "JALDO Travel Operating Systems"
+    ],
+    "pageOverflow": false
+  },
+  {
+    "name": "Integration",
+    "url": "https://557c817c-5b57-4f89-853f-727501b877fb-00-2h2vde0mauq0g.spock.replit.dev/partner-room/integration-brief",
+    "brokenImages": [],
+    "headings": [
+      "Your System Already Captures the Signal"
+    ],
+    "pageOverflow": false
+  },
+  {
+    "name": "Build & Configure",
+    "url": "https://557c817c-5b57-4f89-853f-727501b877fb-00-2h2vde0mauq0g.spock.replit.dev/partner-room/build-configure",
+    "brokenImages": [],
+    "headings": [
+      "Configure Your Travel Deployment"
+    ],
+    "pageOverflow": false
+  },
+  {
+    "name": "Execution Centre",
+    "url": "https://557c817c-5b57-4f89-853f-727501b877fb-00-2h2vde0mauq0g.spock.replit.dev/partner-room/operations",
+    "brokenImages": [],
+    "headings": [
+      "JALDO Operations Centre — Working Proof"
+    ],
+    "pageOverflow": false
+  },
+  {
+    "name": "Decision Spine",
+    "url": "https://557c817c-5b57-4f89-853f-727501b877fb-00-2h2vde0mauq0g.spock.replit.dev/partner-room/decision-spine",
+    "brokenImages": [],
+    "headings": [],
+    "intro": "Product Proof · Decision & Action LayerDecision Spine DemoScenario: Holiday Park family arrival disruption. Adjust synthetic inputs to see a deterministic, rule",
+    "pageOverflow": false
+  },
+  {
+    "name": "Communications",
+    "url": "https://557c817c-5b57-4f89-853f-727501b877fb-00-2h2vde0mauq0g.spock.replit.dev/partner-room/travel-ai-comms",
+    "brokenImages": [],
+    "headings": [
+      "Prompt & Nudge Engine and Central Comms OS"
+    ],
+    "intro": "JALDO Travel · CommunicationsPrompt & Nudge Engine and Central Comms OSA deterministic Working Proof of governed draft communications across guest, staff and op",
+    "pageOverflow": false
+  },
+  {
+    "name": "Evidence and Outcomes",
+    "url": "https://557c817c-5b57-4f89-853f-727501b877fb-00-2h2vde0mauq0g.spock.replit.dev/partner-room/operations#outcome-ledger",
+    "brokenImages": [],
+    "headings": [
+      "JALDO Operations Centre — Working Proof"
+    ],
+    "intro": "JALDO Travel · OperationsJALDO Operations Centre — Working ProofTravel Operations Centre — Operator InterfaceThis Working Proof provides local scenario traces. ",
+    "pageOverflow": false
+  },
+  {
+    "name": "Scenario Impact Map",
+    "url": "https://557c817c-5b57-4f89-853f-727501b877fb-00-2h2vde0mauq0g.spock.replit.dev/partner-room/impact-map",
+    "brokenImages": [],
+    "headings": [
+      "One moment. A coordinated operation. A better next response."
+    ],
+    "intro": "JALDO TRAVEL · SCENARIO IMPACT MAPOne moment. A coordinated operation. A better next response.Follow the impact from the guest to the team, the property and the",
+    "pageOverflow": false
+  },
+  {
+    "name": "Product Proof",
+    "url": "https://557c817c-5b57-4f89-853f-727501b877fb-00-2h2vde0mauq0g.spock.replit.dev/partner-room/product-proof",
+    "brokenImages": [],
+    "headings": [
+      "Product Proof"
+    ],
+    "intro": "Partner Room · Product ProofProduct ProofExplore the JALDO Travel Working Proof across simulated scenarios, role views, drafted communications, decision logic a",
+    "pageOverflow": false
+  },
+  {
+    "name": "Validation",
+    "url": "https://557c817c-5b57-4f89-853f-727501b877fb-00-2h2vde0mauq0g.spock.replit.dev/partner-room/validation",
+    "brokenImages": [],
+    "headings": [],
+    "intro": "Partner Room · ValidationValidation & Operator StoriesScenario validation, shadow pilot mode, operator walkthroughs and the full guest story from signal to outc",
+    "pageOverflow": false
+  },
+  {
+    "name": "Simulation Lab",
+    "url": "https://557c817c-5b57-4f89-853f-727501b877fb-00-2h2vde0mauq0g.spock.replit.dev/partner-room/operations?view=simulation",
+    "brokenImages": [],
+    "headings": [
+      "A hotel operating in four directions."
+    ],
+    "intro": "Mock hotel · 100 signals / four pathsSingle scenario labJALDO TRAVEL / MOCK HOTELA hotel operating in four directions.100 distinct readings. Four input paths. F",
+    "pageOverflow": false
+  },
+  {
+    "name": "Guest View",
+    "url": "https://557c817c-5b57-4f89-853f-727501b877fb-00-2h2vde0mauq0g.spock.replit.dev/partner-room/guest-demo",
+    "brokenImages": [],
+    "headings": [
+      "One Stay. Seven Moments."
+    ],
+    "intro": "Guest Experience SimulationOne Stay. Seven Moments.Follow a fictional guest from arrival to checkout and explore illustrative interface states, rules-based reco",
+    "pageOverflow": false
+  },
+  {
+    "name": "Operator View",
+    "url": "https://557c817c-5b57-4f89-853f-727501b877fb-00-2h2vde0mauq0g.spock.replit.dev/partner-room/operator-demo",
+    "brokenImages": [],
+    "headings": [
+      "What the Operator Sees"
+    ],
+    "intro": "OPERATOR RESPONSE DEMOWhat the Operator SeesA focused, action-first console. No complex dashboard. Every moment with a clear recommendation, owner and outcome p",
+    "pageOverflow": false
+  },
+  {
+    "name": "Dual View",
+    "url": "https://557c817c-5b57-4f89-853f-727501b877fb-00-2h2vde0mauq0g.spock.replit.dev/partner-room/dual-view-demo",
+    "brokenImages": [],
+    "headings": [
+      "JALDO Orchestration — Dual View Demo"
+    ],
+    "intro": "DUAL VIEW DEMOJALDO Orchestration — Dual View DemoThe same simulated moment shown from two perspectives. Step through the illustrative signal-to-value chain on ",
+    "pageOverflow": false
+  },
+  {
+    "name": "Pilot Model",
+    "url": "https://557c817c-5b57-4f89-853f-727501b877fb-00-2h2vde0mauq0g.spock.replit.dev/partner-room/pilot-model",
+    "brokenImages": [],
+    "headings": [
+      "Hotel Moment Response and Service Recovery Pilot"
+    ],
+    "intro": "JALDO Travel · Pilot ModelHotel Moment Response and Service Recovery PilotConnect signals. Govern action. Prove value.A controlled working pilot that activates ",
+    "pageOverflow": false
+  },
+  {
+    "name": "Deployment",
+    "url": "https://557c817c-5b57-4f89-853f-727501b877fb-00-2h2vde0mauq0g.spock.replit.dev/partner-room/rollout-model",
+    "brokenImages": [],
+    "headings": [
+      "JALDO Travel Rollout Model"
+    ],
+    "intro": "JALDO Travel · Rollout ModelJALDO Travel Rollout ModelFrom a working demonstration, through a controlled pilot, to production deployment and multi-property scal",
+    "pageOverflow": false
+  },
+  {
+    "name": "Partner Ecosystem",
+    "url": "https://557c817c-5b57-4f89-853f-727501b877fb-00-2h2vde0mauq0g.spock.replit.dev/partner-room/partner-ecosystem",
+    "brokenImages": [],
+    "headings": [
+      "JALDO Travel Partner Ecosystem"
+    ],
+    "intro": "JALDO Travel · Partner EcosystemJALDO Travel Partner EcosystemJALDO Travel is designed to operate within an ecosystem of partners — not as a standalone replacem",
+    "pageOverflow": false
+  },
+  {
+    "name": "Resource Library",
+    "url": "https://557c817c-5b57-4f89-853f-727501b877fb-00-2h2vde0mauq0g.spock.replit.dev/partner-room/brief-library",
+    "brokenImages": [],
+    "headings": [
+      "JALDO Travel Brief Library"
+    ],
+    "intro": "JALDO Travel · Resource LibraryJALDO Travel Brief LibraryClassified by audience, owner and access level. Each resource shows its version, maturity, last review ",
+    "pageOverflow": false
+  }
+]

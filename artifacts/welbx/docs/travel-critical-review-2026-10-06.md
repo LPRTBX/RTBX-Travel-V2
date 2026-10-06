@@ -6,7 +6,7 @@ Date: 6 October 2026 (Australia/Sydney). Baseline: main `cf79e82`.
 
 The review found a concrete approval bypass in the shared reducer and a presentation gap between learning proposals and reviewed replay in the Architecture Lab. Both are corrected in this branch. The new Scenario Impact Map explains the breadth of impact, connects every canonical scenario to its definition/configuration/runtime and gives a specific design-partnership close.
 
-This is a source, contract and synthetic execution review. It is not a completed live browser or production audit. The known published address displayed Replit’s “This app isn’t live yet”; the referenced Replit project showed a 404/access invitation page. The cloud browser also could not reach the local development address. No claim is made that these changes are visible on Replit or visually verified in a live session.
+The initial source review was followed by a live desktop browser pass using the working Replit Preview supplied on 6 October. PR #21 changes are visible in that Preview. The browser checks below cover the six Impact Map selectors, five Architecture Lab traces, a full hotel batch, the separate outcome profile and all 25 reference-navigation destinations. This remains synthetic proof, not a production audit. Category positioning (PR #22) and subsequent browser-found copy/navigation corrections require a Replit pull before their updated rendering can be verified.
 
 ## Findings and disposition
 
@@ -93,3 +93,41 @@ The existing build emits a large-entry-chunk warning and a tooltip sourcemap war
 6. Verify the first post-merge scheduled run includes the new scenario audit; inspect retained artifacts and gaps rather than treating the schedule itself as proof of execution.
 
 Production qualification remains outside synthetic proof: vendor sandbox tests with authorised credentials, server-side authentication/authorisation, tenancy and durability, channel delivery, real task receipts and measured pilot outcomes. The current code gate explicitly states it is not a production security boundary.
+
+
+## Live Preview verification — 6 October 2026
+
+The supplied Preview rendered the merged Impact Map and reviewed replay. The former published-address blocker is resolved for this development Preview.
+
+| Browser check | Observed result |
+|---|---|
+| Six Impact Map selections | Each switches to its canonical title, definition, configuration and runtime-readiness links |
+| Five Architecture traces × normal response | All five: met and closed; no correction proposed |
+| Five traces × late response | All five: not-met, closed, late-response correction available |
+| Five traces × ineffective action | All five: not-met and in-action; intervention correction available |
+| Five traces × missing receipt | All five: pending and in-action; receipt correction available |
+| Five traces × missing measurement | All five: pending and in-action; no improvement claim; correlated recheck offered |
+| Welfare measurement reconciliation | Pending becomes met and closed with supplied synthetic measurement |
+| Room delay reviewed replay | Late baseline 30 minutes / not-met → approved replay 15 minutes / met |
+| Room delay capacity challenge | Same reviewed change, insufficient capacity: 35 minutes / not-met |
+| Transport rejected review | Review retained as rejected; no replay control offered |
+| Full mock hotel batch | Checks passed: 100 read, 60 closed, 20 approval held, 20 evidence held; 25 per input path |
+| Separate 100 outcome journeys | 20 met, 40 not-met, 40 pending |
+| All 25 reference menu destinations | Rendered at 1348×927 desktop viewport; no page-wide overflow or broken main images detected |
+
+The route evidence is retained in [travel-live-route-audit-2026-10-06.json](travel-live-route-audit-2026-10-06.json). The batch evidence is shown below.
+
+![Live synthetic hotel batch with all expectations passing](travel-live-hotel-checks-2026-10-06.jpg)
+
+### Additional corrections found in the browser
+
+- Replace named hotel brands with five travel and hospitality categories. Include everyday accommodation, independent operators and large groups. PR #22 merged into main; QA, simulation and cadence observer passed.
+- Landing links named Dual View, Moment Economy, Decision & Action, Signals Engine and Story Lab opened generic hubs. Point them to the matching existing views; identify playbook configuration and shadow pilot planning accurately.
+- Decision Spine and Validation titles were generic divs. Use semantic h1 headings.
+- Canonical moment text claimed AI classification with unqualified confidence percentages despite the deterministic demo. Label the classifier rules-based and the values illustrative.
+- Landing copy claimed operation without manual oversight and deployment across all five environments. State accountable human oversight and planned expansion.
+- Next Step repeated its Pilot Model footer link; Partner Ecosystem had two links to Next Step keyed by the same route, producing a React warning. Remove the redundant entries.
+
+### Verification limits
+
+This pass does not certify every control on every page, narrow-screen rendering, real integration delivery, production security, or measured operator value. The Preview's optional access gate was disabled in this session; source-level access checks remain separate. Premium opportunity has Impact Map and isolated runtime coverage but no hotel input adapter or Architecture Lab trace. Updated copy and heading/link fixes are source-verified until Replit pulls main. These distinctions prevent a synthetic success from being presented as a live customer outcome.

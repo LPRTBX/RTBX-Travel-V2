@@ -416,7 +416,6 @@ export default function PartnerEcosystem() {
           {[
             { label: "Pilot Model", href: "/partner-room/pilot-model" },
             { label: "Explore a Design Partnership", href: "/partner-room/next-step" },
-            { label: "Next Step", href: "/partner-room/next-step" },
             { label: "Build & Configure", href: "/partner-room/build-configure" },
           ].map(b => <Link key={b.href} href={b.href}><div style={{ padding: "8px 16px", border: "1px solid rgba(255,255,255,0.1)", fontSize: 11, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "rgba(255,255,255,0.48)", cursor: "pointer" }}>{b.label} →</div></Link>)}
         </div>
