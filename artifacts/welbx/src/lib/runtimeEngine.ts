@@ -272,11 +272,9 @@ export function canTransition(
     return { allowed: false, reason: `Cannot transition from "${exec.state}" to "${to}"` };
   }
 
-  // Welfare scenario: approval-required is mandatory — cannot skip to in-action
-  if (exec.isWelfareScenario && exec.state === "decision-required" && to === "in-action") {
-    if (scenario.governanceConfig.humanApprovalRequired) {
-      return { allowed: false, reason: "Welfare scenario: human approval is mandatory before action. Must go through approval-required state." };
-    }
+  // Enforce the canonical approval rule for every scenario, not only welfare.
+  if (exec.state === "decision-required" && to === "in-action" && scenario.governanceConfig.humanApprovalRequired) {
+    return { allowed: false, reason: "Human approval is mandatory before action. Must go through approval-required state." };
   }
 
   // Cannot close if mandatory evidence is incomplete

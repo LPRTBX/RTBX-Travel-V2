@@ -43,7 +43,7 @@ The full layer architecture is documented on the Operating Model page.`,
     heading: "Travel Configuration",
     body: `The Travel Intelligence Pack configures JALDO Core for the specific operating environment of travel and hospitality. It provides:
 
-Travel Signal Registry — 30+ classified signal types across guest experience, operations, safety and welfare, commercial and partner domains. The full library runs to hundreds of types per deployment.
+Travel Signal Registry — 30+ classified signal types across guest experience, operations, safety and welfare, commercial and partner domains. The signal taxonomy can be extended for a deployment; the current canonical scenario library contains six defined scenarios.
 
 Travel Moment Taxonomy — 10 canonical moment types, from Service Recovery and Guest Welfare to Commercial Activation and Post-Stay Recovery.
 
@@ -75,7 +75,7 @@ Each OS groups specific modules around its problem domain. Every OS depends on J
   {
     num: "08",
     heading: "Working Proof",
-    body: `The system is architecturally complete and demonstrable in this Partner Room. The sections of this room show working interfaces, scenario replay, configurable data models, governance logic and evidence trail design.
+    body: `The Partner Room demonstrates the operating architecture with local working interfaces and synthetic tests. Production integration, identity enforcement and measured customer outcomes still require qualification. The sections of this room show working interfaces, scenario replay, configurable data models, governance logic and evidence trail design.
 
 This is not a claim that the site is a fully integrated production platform. Each demonstration is labelled with its current status: working interface in this environment, synthetic scenario using representative data, architecturally defined but not yet connected, or requiring a pilot to validate at full signal volume.
 
@@ -88,7 +88,7 @@ The internal Working Proof (available from the Product Proof section) demonstrat
 
 JALDO Core remains consistent through every stage. What changes at each stage is the Travel environment — which systems are connected, which operating systems are activated, which governance rules are configured, which roles are assigned, and which outcome targets are set.
 
-The Pilot Model section of this room describes the 8–10 week implementation and readiness structure followed by a 2–3 month controlled pilot, success criteria and evidence standard. The Commercial Model section describes partnership structure, investment and return model.`,
+The Pilot Model section of this room describes the 8–10 week implementation and readiness structure followed by a 2–3 month controlled pilot, success criteria and evidence standard. The Partner Ecosystem section describes proposed partnership roles and responsibilities.`,
   },
 ];
 
@@ -133,6 +133,8 @@ export default function PartnerOverview() {
             </span>
           </div>
         </Link>
+
+        <Link href="/partner-room/impact-map"><div style={{ padding: "18px", margin: "20px 0", color: "#a8dedb", border: "1px solid #527179", fontSize: 17, fontWeight: 700 }}>Explore every scenario and its impact on the operation →</div></Link>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
           {sections.map((section) => (

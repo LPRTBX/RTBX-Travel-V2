@@ -92,7 +92,8 @@ function ScenarioDetailPanel({ scenario }: { scenario: TravelScenario }) {
       {/* Tab bar */}
       <div style={{ display: "flex", borderBottom: "1px solid rgba(255,255,255,0.07)", overflowX: "auto" }}>
         {DETAIL_TABS.map(t => (
-          <div key={t.id} onClick={() => setTab(t.id)} style={{
+          <button type="button" aria-pressed={tab === t.id} key={t.id} onClick={() => setTab(t.id)} style={{
+            border: 0, textAlign: "left",
             padding: "10px 16px", fontSize: 9.5, fontWeight: 700, letterSpacing: "0.06em",
             textTransform: "uppercase", cursor: "pointer", whiteSpace: "nowrap",
             color: tab === t.id ? C.gold : "rgba(255,255,255,0.3)",
@@ -100,7 +101,7 @@ function ScenarioDetailPanel({ scenario }: { scenario: TravelScenario }) {
             background: tab === t.id ? "rgba(168,222,219,0.04)" : "transparent",
           }}>
             {t.label}
-          </div>
+          </button>
         ))}
       </div>
 

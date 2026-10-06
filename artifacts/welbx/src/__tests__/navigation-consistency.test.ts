@@ -34,6 +34,7 @@ const EXPECTED_NAVIGATION = [
   {
     label: "Proof",
     items: [
+      ["Scenario Impact Map", "/partner-room/impact-map"],
       ["Product Proof", "/partner-room/product-proof"],
       ["Validation", "/partner-room/validation"],
       ["Simulation Lab", "/partner-room/operations?view=simulation"],

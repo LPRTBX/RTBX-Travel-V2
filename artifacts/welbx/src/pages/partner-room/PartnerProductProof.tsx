@@ -7,6 +7,7 @@ import {
 } from "@/lib/travelScenarioRouting";
 
 const PROOF_MODES = [
+  { num: "00", label: "Scenario Impact Map", color: "#a8dedb", desc: "Inspect all six canonical scenarios, trace the impact across the operation and challenge the learning loop.", href: "/partner-room/impact-map", cta: "Explore Scenario Impact" },
   {
     num: "01",
     label: "Travel Scenario Library",
@@ -72,7 +73,7 @@ const CORE_SYSTEMS = [
     tagColor: "#f97316",
     href: "/partner-room/decision-spine",
     does: "Matches each classified moment to a governed playbook — selects a decision, assigns an owner and sets an escalation threshold.",
-    matters: "Consistent, auditable decisions across every property and shift — no reliance on individual judgement or memory.",
+    matters: "Consistent, auditable decisions across every property and shift — named humans retain judgement and approval authority.",
   },
   {
     label: "Intervention Library",
@@ -80,7 +81,7 @@ const CORE_SYSTEMS = [
     tagColor: "#a8dedb",
     href: "/partner-room/signals-engine",
     does: "A library of pre-built and configurable response playbooks — one for every moment category, risk level and deployment environment.",
-    matters: "Operators don't need to write protocols from scratch. The library gives them a tested, editable starting point for every scenario.",
+    matters: "Operators don't need to write protocols from scratch. The library gives them a configurable starting point to review and validate in a pilot.",
   },
   {
     label: "Execution and Communication Layer",

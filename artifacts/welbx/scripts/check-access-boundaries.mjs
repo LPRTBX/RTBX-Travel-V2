@@ -60,6 +60,7 @@ const approvedRoutes = [
   "/partner-room/product-proof/pilot-expansion-preview",
   "/partner-room/operating-model",
   "/partner-room/architecture-lab",
+  "/partner-room/impact-map",
   "/partner-room/intelligence-model",
   "/partner-room/travel-intelligence",
   "/travel-intelligence",

@@ -1,10 +1,11 @@
+import "./travel-impact.css";
 import { useMemo, useState } from "react";
 import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 import { STATE_TO_STEP, TRACE_STEPS, transitionExecution } from "@/lib/runtimeEngine";
 import type { ScenarioExecutionState } from "@/data/travelDeploymentConfig";
 import { MOCK_HOTEL } from "@/simulation/mockHotel";
-import { approveHotelDecision, createHotelCase, dispatchHotelAction, mockHotelFollowUp, verifyHotelOutcome, type Fault, type HotelCase } from "@/simulation/hotelLearning";
+import { approveHotelDecision, createHotelCase, dispatchHotelAction, mockHotelFollowUp, verifyHotelOutcome, type Fault, proposeHotelLearning, reviewHotelLearning, replayHotelLearning, reconcileHotelFollowUp, type Proposal, type HotelCase } from "@/simulation/hotelLearning";
 import { ARCHITECTURE_SCENARIOS, architectureContext, architectureSignalFor, buildArchitectureNodes, type ArchitectureScenarioId } from "@/lib/architectureLabModel";
 
 const box = { background: "rgba(255,255,255,.025)", border: "1px solid rgba(255,255,255,.08)" };
@@ -25,6 +26,25 @@ export default function PartnerArchitectureLab() {
   const [inspect, setInspect] = useState("signal");
   const [focusStage, setFocusStage] = useState("Connect");
   const [fault, setFault] = useState<Fault>("none");
+  const [reviewed, setReviewed] = useState<Proposal | null>(null);
+  const [replay, setReplay] = useState<HotelCase | null>(null);
+  const [constrained, setConstrained] = useState(false);
+  const [reviewError, setReviewError] = useState("");
+  const proposal = hotelCase.observation ? proposeHotelLearning(hotelCase) : null;
+  const resetLearning = () => { setReviewed(null); setReplay(null); setConstrained(false); setReviewError(""); };
+  const reviewChange = (decision: "approved" | "rejected") => {
+    if (!proposal || reviewed) return;
+    setReviewed(reviewHotelLearning(proposal, decision, "synthetic-duty-manager"));
+  };
+  const replayChange = () => {
+    if (!reviewed || reviewed.decision !== "approved") return;
+    try {
+      const conditions = !constrained ? undefined : fault === "late-response" ? { minimumResponseMinutes: 35 }
+        : fault === "ineffective-action" ? { requiredInterventionAttempts: 3 } : { requiredReceiptAttempts: 3 };
+      setReplay(replayHotelLearning(hotelCase, reviewed, fault, conditions));
+      setReviewError("");
+    } catch (error) { setReviewError(error instanceof Error ? error.message : String(error)); }
+  };
   const { scenario } = useMemo(() => architectureContext(selected), [selected]);
   const nodes = useMemo(() => buildArchitectureNodes(selected, hotelCase), [selected, hotelCase]);
   const execution = hotelCase.execution;
@@ -46,7 +66,7 @@ export default function PartnerArchitectureLab() {
     if (nodeId) focusArchitecture(nodeId, stage);
   };
   const choose = (id: ArchitectureScenarioId) => {
-    setSelected(id); setHotelCase(makeCase(id)); setFault("none"); setInspect("signal"); setFocusStage("Connect");
+    resetLearning(); setSelected(id); setHotelCase(makeCase(id)); setFault("none"); setInspect("signal"); setFocusStage("Connect");
   };
   const move = (to: ScenarioExecutionState, note: string) => setHotelCase(c => {
     const next = transitionExecution(c.execution, to, scenario, note);
@@ -87,7 +107,7 @@ export default function PartnerArchitectureLab() {
     : execution.state === "in-action" && !hotelCase.observation ? "Verify synthetic outcome" : null;
 
   return <PartnerRoomLayout>
-    <div style={{ minHeight: "100vh", background: "#071315", color: "#fff" }}>
+    <div className="travel-architecture" style={{ minHeight: "100vh", background: "#071315", color: "#fff" }}>
       <section style={{ padding: "56px clamp(20px,5vw,72px) 42px", background: "linear-gradient(135deg,#081719,#10282b)", borderBottom: "1px solid rgba(168,222,219,.14)" }}>
         <div style={{ maxWidth: 1380, margin: "0 auto" }}>
           <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: ".16em", textTransform: "uppercase", color: "#f59e0b", marginBottom: 12 }}>Partner Room · Working Proof · Architecture Lab</div>
@@ -102,7 +122,7 @@ export default function PartnerArchitectureLab() {
       <main style={{ maxWidth: 1380, margin: "0 auto", padding: "32px clamp(20px,5vw,72px) 80px" }}>
         <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: ".12em", textTransform: "uppercase", ...muted, marginBottom: 10 }}>Choose trace</div>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 26 }}>
-          {ARCHITECTURE_SCENARIOS.map(([id,label]) => <button key={id} onClick={() => choose(id)} style={{ padding: "10px 14px", cursor: "pointer", color: selected === id ? "#071315" : "#fff", background: selected === id ? "#a8dedb" : "rgba(255,255,255,.035)", border: selected === id ? "1px solid #a8dedb" : "1px solid rgba(255,255,255,.1)", fontWeight: 800 }}>{label}</button>)}
+          {ARCHITECTURE_SCENARIOS.map(([id,label]) => <button key={id} onClick={() => choose(id)} aria-pressed={selected === id} style={{ padding: "10px 14px", cursor: "pointer", color: selected === id ? "#071315" : "#fff", background: selected === id ? "#a8dedb" : "rgba(255,255,255,.035)", border: selected === id ? "1px solid #a8dedb" : "1px solid rgba(255,255,255,.1)", fontWeight: 800 }}>{label}</button>)}
         </div>
 
         <section style={{ ...box, padding: 22, marginBottom: 24 }}>
@@ -113,14 +133,14 @@ export default function PartnerArchitectureLab() {
               <div style={{ ...muted, fontSize: 12 }}>{hotelCase.signal.title} · state: <strong style={{ color: "#fff" }}>{execution.state}</strong></div>
             </div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-              <select value={fault} onChange={e => setFault(e.target.value as Fault)} disabled={execution.state !== "in-action"} style={{ padding: "10px 12px", background: "#0b1d1f", color: "#fff", border: "1px solid rgba(255,255,255,.12)" }}>
-                <option value="none">Normal follow-up</option><option value="late-response">Late response</option><option value="ineffective-action">Ineffective action</option><option value="missing-receipt">Missing receipt</option>
+              <select value={fault} onChange={e => setFault(e.target.value as Fault)} aria-label="Synthetic follow-up condition" disabled={execution.state !== "in-action" || !!hotelCase.observation} style={{ padding: "10px 12px", background: "#0b1d1f", color: "#fff", border: "1px solid rgba(255,255,255,.12)" }}>
+                <option value="none">Normal follow-up</option><option value="late-response">Late response</option><option value="ineffective-action">Ineffective action</option><option value="missing-receipt">Missing receipt</option><option value="missing-measurement">Missing measurement</option>
               </select>
               {nextLabel && <button onClick={advance} style={{ padding: "11px 16px", background: "#f59e0b", color: "#111", border: 0, fontWeight: 900, cursor: "pointer" }}>{nextLabel} →</button>}
-              <button onClick={() => setHotelCase(makeCase(selected))} style={{ padding: "10px 13px", background: "transparent", color: "#fff", border: "1px solid rgba(255,255,255,.14)", cursor: "pointer" }}>Reset</button>
+              <button onClick={() => choose(selected)} style={{ padding: "10px 13px", background: "transparent", color: "#fff", border: "1px solid rgba(255,255,255,.14)", cursor: "pointer" }}>Reset</button>
             </div>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(5,minmax(0,1fr))", gap: 4, marginTop: 22 }}>
+          <div className="travel-architecture-stages" style={{ display: "grid", gridTemplateColumns: "repeat(5,minmax(0,1fr))", gap: 4, marginTop: 22 }}>
             {TRACE_STEPS.map((step,i) => <button
               key={step.id}
               onClick={() => focusArchitectureStage(step.label)}
@@ -145,6 +165,7 @@ export default function PartnerArchitectureLab() {
             <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: ".12em", textTransform: "uppercase", ...muted, marginBottom: 10 }}>Architecture · click any layer to inspect</div>
             <div style={{ display: "grid", gap: 5 }}>
               {nodes.map(node => <button
+                className="travel-architecture-node"
                 id={`architecture-node-${node.id}`}
                 key={node.id}
                 onClick={() => focusArchitecture(node.id, node.stage)}
@@ -179,12 +200,51 @@ export default function PartnerArchitectureLab() {
           </aside>
         </div>
 
+        {hotelCase.observation && <section className="travel-loop-review" style={{ ...box, marginTop: 26, padding: 24, borderTop: "2px solid #a8dedb" }} aria-label="Review and replay learning">
+          <div style={{ color: "#a8dedb", fontSize: 12, fontWeight: 800 }}>LEARN → HUMAN REVIEW → REPLAY → VERIFY AGAIN</div>
+          <h2 style={{ fontSize: 26, margin: "10px 0" }}>Did the response work—and what changes next?</h2>
+          <p style={{ color: "rgba(255,255,255,.75)", lineHeight: 1.7 }}>Baseline outcome: <strong>{hotelCase.outcome}</strong> · case: <strong>{execution.state}</strong>. {hotelCase.reasons.join(", ") || "Receipt, restoration and the synthetic 20-minute target confirmed."}</p>
+          <p style={{ ...muted, lineHeight: 1.7 }}>This fixture tests restoration with a receipt within 20 minutes. It does not measure each scenario’s guest, safety or commercial outcomes. A closed case can still miss its target; a pending case stays open.</p>
+          {proposal ? <>
+            <h3>Proposed adjustment</h3>
+            <dl style={{ display: "grid", gap: 8, lineHeight: 1.6 }}>
+              <div><dt>Response window</dt><dd>{hotelCase.policy.responseMinutes} → {proposal.candidate.responseMinutes} minutes</dd></div>
+              <div><dt>Intervention attempts</dt><dd>{hotelCase.policy.interventionAttempts} → {proposal.candidate.interventionAttempts}</dd></div>
+              <div><dt>Receipt attempts</dt><dd>{hotelCase.policy.receiptAttempts} → {proposal.candidate.receiptAttempts}</dd></div>
+            </dl>
+            {!reviewed && <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
+              <button className="travel-loop-button" onClick={() => reviewChange("approved")}>Approve synthetic improvement</button>
+              <button className="travel-loop-button travel-loop-secondary" onClick={() => reviewChange("rejected")}>Reject improvement</button>
+            </div>}
+            {reviewed && <p role="status">Review: <strong>{reviewed.decision}</strong> · {reviewed.reviewer} · {reviewed.reviewedAt}. Original configuration retained.</p>}
+            {reviewed?.decision === "approved" && <>
+              <label style={{ display: "block", margin: "18px 0", lineHeight: 1.7 }}><input type="checkbox" checked={constrained} onChange={e => setConstrained(e.target.checked)} /> Challenge the improvement with insufficient response capacity</label>
+              <button className="travel-loop-button" onClick={replayChange}>Replay approved improvement</button>
+            </>}
+            {reviewError && <p role="alert">{reviewError}</p>}
+            {replay && <div role="status" style={{ marginTop: 20, padding: 18, border: "1px solid #a8dedb", lineHeight: 1.8 }}>
+              <strong>Baseline {hotelCase.outcome} → replay {replay.outcome}</strong>
+              <p style={{ margin: "8px 0" }}>Response: {hotelCase.observation.elapsedMinutes} → {replay.observation?.elapsedMinutes} minutes. Case: {replay.execution.state}. {replay.reasons.join(", ") || "Synthetic target met."}</p>
+              <p style={{ margin: 0 }}>New execution, same source event, original evidence retained. {replay.outcome === "met" ? "Candidate passed this fixture; broader validation is still required." : "Approval did not guarantee improvement. Keep the unresolved work and reassess capacity."} No change is promoted to a saved deployment.</p>
+            </div>}
+          </> : hotelCase.outcome === "pending" ? <>
+            <p>Missing measurement blocks an improvement claim. Collect a correlated follow-up first.</p>
+            <button className="travel-loop-button" onClick={() => { resetLearning(); setHotelCase(c => reconcileHotelFollowUp(c, { ...c.observation!, measured: true })); }}>Supply synthetic measurement and recheck</button>
+          </> : <p>No correction proposed for this successful fixture. Continue monitoring the next moment.</p>}
+          <details style={{ marginTop: 20 }}><summary>Inspect retained baseline and review evidence</summary>
+            <ol style={{ lineHeight: 1.8, paddingLeft: 24 }}>{hotelCase.audit.map((entry, index) => <li key={index}><strong>{entry.step}</strong>: {entry.detail}</li>)}</ol>
+            {reviewed && <p>Source execution: {reviewed.sourceExecutionId} · review: {reviewed.reviewId} · candidate: {reviewed.candidate.version}</p>}
+            {replay && <p>Replay execution: {replay.execution.id}</p>}
+          </details>
+        </section>}
+
         <section style={{ ...box, marginTop: 26, padding: 24, borderTop: "2px solid #f59e0b" }}>
-          <h3 style={{ margin: "0 0 8px" }}>From architecture proof to commercial proof</h3>
-          <p style={{ ...muted, lineHeight: 1.65, margin: "0 0 16px", maxWidth: 900 }}>Once the trace is understood, move into configuration, integrations and modelled value. The Architecture Lab does not convert illustrative outcomes into measured ROI.</p>
+          <h3 style={{ margin: "0 0 8px" }}>One moment is the entry point. The whole operation is the opportunity.</h3>
+          <p style={{ ...muted, lineHeight: 1.65, margin: "0 0 16px", maxWidth: 900 }}>Inspect the impact across every canonical scenario, then move into configuration, integrations and modelled value. The Architecture Lab does not convert illustrative outcomes into measured ROI.</p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
             <Link href="/partner-room/build-configure"><button style={{ padding: "10px 13px", cursor: "pointer" }}>Build & Configure →</button></Link>
             <Link href="/partner-room/integration-brief"><button style={{ padding: "10px 13px", cursor: "pointer" }}>Integration →</button></Link>
+            <Link href="/partner-room/impact-map">Scenario impact map →</Link>
             <Link href="/partner-room/proof-calculator"><button style={{ padding: "10px 13px", cursor: "pointer" }}>Value / ROI →</button></Link>
           </div>
         </section>
