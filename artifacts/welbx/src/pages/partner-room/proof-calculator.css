@@ -42,3 +42,43 @@
 .travel-value-slider:active::-webkit-slider-thumb { cursor: grabbing; }
 .travel-value-slider:active::-moz-range-thumb { cursor: grabbing; }
 .travel-value-slider:focus-visible { outline: 3px solid #ed9b66; outline-offset: 4px; }
+
+.travel-value { max-width: 1280px; margin: auto; padding: 64px clamp(20px,4vw,48px) 100px; color: #fff; }
+.travel-value p { color: #ccd7da; font-size: 16px; line-height: 1.7; }
+.travel-value h1 { font-size: clamp(32px,4vw,52px); line-height: 1.1; max-width: 1000px; margin: 18px 0; }
+.travel-value h2 { font-size: 27px; margin: 0 0 18px; }
+.travel-value h3 { font-size: 23px; margin: 0; }
+.travel-value h4 { font-size: 16px; margin: 18px 0 12px; }
+.travel-value .travel-value-eyebrow { color: #a8dedb; font-size: 12px; font-weight: 750; letter-spacing: .1em; text-transform: uppercase; }
+.travel-value .travel-value-lead { font-size: 20px; max-width: 950px; }
+.travel-value-boundary { border-left: 3px solid #ed9b66; background: #193b40; padding: 16px 20px; }
+.travel-value-toolbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin: 28px 0; color: #ccd7da; }
+.travel-value-toolbar button { padding: 12px 18px; border: 1px solid #a8dedb; color: #a8dedb; background: transparent; cursor: pointer; font-weight: 700; }
+.travel-value-section { margin: 32px 0; padding: clamp(20px,3vw,32px); border: 1px solid #527179; background: #122e38; }
+.travel-value-input-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 24px; margin: 22px 0; }
+.travel-value-input { display: block; min-width: 0; }
+.travel-value-input-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 14px; font-weight: 700; color: #edf5f6; min-height: 48px; }
+.travel-value-number-wrap { display: inline-flex; align-items: center; gap: 4px; flex-shrink: 0; color: #a8dedb; }
+.travel-value-number-wrap input, .travel-value-tiers input { width: 88px; min-height: 44px; padding: 8px; border: 1px solid #709299; background: #071d27; color: #fff; font: inherit; border-radius: 4px; }
+.travel-value .travel-value-hint { display: block; color: #afc2c9; font-size: 13px; line-height: 1.6; margin-top: 6px; }
+.travel-value-stats { display: grid; grid-template-columns: repeat(auto-fit,minmax(150px,1fr)); gap: 12px; margin: 22px 0; }
+.travel-value-stats > div { padding: 16px; background: #1b3c46; border-top: 2px solid #a8dedb; }
+.travel-value-stats strong { display: block; font-size: 27px; color: #fff; }
+.travel-value-stats span { display: block; color: #ccd7da; line-height: 1.5; margin-top: 6px; font-size: 14px; }
+.travel-value summary { cursor: pointer; color: #a8dedb; line-height: 1.6; }
+.travel-value-moments { display: grid; gap: 20px; }
+.travel-value-moment { background: #173842; padding: 24px; border-left: 3px solid #a8dedb; }
+.travel-value .travel-value-result { color: #a8dedb; font-weight: 700; }
+.travel-value-tiers { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; max-width: 650px; }
+.travel-value-tiers label { color: #ccd7da; text-transform: capitalize; font-size: 14px; }
+.travel-value-tiers input { display: block; width: 100%; margin-top: 8px; }
+.travel-value-table-wrap { overflow-x: auto; }
+.travel-value table { width: 100%; border-collapse: collapse; color: #edf5f6; }
+.travel-value caption { text-align: left; font-size: 20px; font-weight: 700; padding: 18px 0; }
+.travel-value th, .travel-value td { padding: 16px 12px; border-bottom: 1px solid #527179; text-align: right; white-space: nowrap; }
+.travel-value th:first-child { text-align: left; white-space: normal; min-width: 190px; }
+.travel-value-total { background: #1b454b; color: #a8dedb; font-weight: 800; }
+.travel-value-close { border-top: 3px solid #ed9b66; }
+.travel-value input:focus-visible, .travel-value button:focus-visible, .travel-value summary:focus-visible { outline: 3px solid #ed9b66; outline-offset: 4px; }
+@media (max-width: 1000px) { .travel-value-input-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media (max-width: 650px) { .travel-value-input-grid { grid-template-columns: 1fr; gap: 18px; } .travel-value-moment { padding: 18px; } .travel-value-tiers { gap: 8px; } .travel-value th, .travel-value td { padding: 12px 8px; } }
