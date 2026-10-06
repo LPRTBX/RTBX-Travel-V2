@@ -42,3 +42,9 @@
   .travel-architecture-node { grid-template-columns: 1fr !important; gap: 8px !important; }
   .travel-architecture-stages { grid-template-columns: repeat(2,minmax(0,1fr)) !important; }
 }
+
+.travel-architecture-actions { display: flex; flex-wrap: wrap; align-items: stretch; gap: 10px; }
+.travel-architecture-action { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 10px 16px; border: 1px solid #527179; color: #a8dedb; font-size: 15px; font-weight: 700; line-height: 1.5; text-decoration: none; }
+.travel-architecture-action:hover { background: #173842; border-color: #a8dedb; }
+.travel-architecture-action:focus-visible { outline: 3px solid #ed9b66; outline-offset: 4px; }
+@media (max-width: 520px) { .travel-architecture-action { width: 100%; } }
