@@ -4,7 +4,7 @@ import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 const C = { gold: "#a8dedb", bg: "#102d39", navy: "#173b47", border: "rgba(255,255,255,0.07)", muted: "rgba(255,255,255,0.45)", dim: "rgba(255,255,255,0.22)", blue: "#3b82f6", green: "#10b981" };
 
 const ENVS = [
-  { label: "Hotels & Resorts", color: "#a8dedb", desc: "City hotels, luxury resorts, boutique properties. Guest recovery, loyalty moments, in-stay service and commercial activation.", moat: "Loyalty + concierge revenue" },
+  { label: "Hotels & Resorts", color: "#a8dedb", desc: "Budget and midscale hotels, boutique properties, serviced accommodation and resorts. Guest recovery, loyalty moments, in-stay service and commercial activation.", moat: "Loyalty + concierge revenue" },
   { label: "Holiday Parks & Outdoor Experiences", color: "#10b981", desc: "Caravan parks, cabins, camping, glamping. Family stays, weather disruption, welfare, maintenance and local experience routing.", moat: "Weather + welfare + local partner ecosystem" },
   { label: "Corporate & Business Travel", color: "#3b82f6", desc: "Business hotels, airport stays, conference venues. Repeat guests, duty-of-care, productivity support and silent loyalty execution.", moat: "Duty-of-care + repeat guest recognition" },
   { label: "Events & Venues", color: "#a78bfa", desc: "Concert venues, stadiums, exhibition centres. Crowd flow, incident coordination, accessibility, welfare and real-time staff response.", moat: "Safety + incident prevention + accessibility" },

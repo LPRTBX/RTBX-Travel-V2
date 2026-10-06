@@ -37,7 +37,7 @@ const MODES = [
     duration: "15 Minutes",
     slides: "13 sections",
     format: "Inside the operating layer",
-    desc: "A complete walkthrough of every layer — from signal sensing to value attribution. For operations directors and technology leads at multi-property hotel operators.",
+    desc: "A complete walkthrough of every layer — from signal sensing to value attribution. For operations directors and technology leads across accommodation, travel and visitor experiences.",
     steps: ["Problem Statement", "JALDO Operating Loop", "Signal Registry", "Moment Registry", "Strategic Visibility", "Decision Registry", "Execution Index", "Communications", "Guest Layer", "Outcome Layer", "Value Layer", "Executive Command", "Planned Future Vision"],
     accent: C.green,
     badge: "OPERATIONS",
@@ -80,7 +80,7 @@ const MODES = [
   },
 ];
 
-const BRANDS = ["Hyatt", "Marriott", "Accor", "Hilton", "IHG-scale operators"];
+const TRAVEL_CATEGORIES = ["Hotels & Resorts", "Holiday Parks & Outdoor Stays", "Corporate & Business Travel", "Events & Venues", "Destination & Tourism Operators"];
 
 export default function StoryHub() {
   return (
@@ -109,11 +109,14 @@ export default function StoryHub() {
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", minWidth: 0 }}>
-          <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: C.dimmed, textTransform: "uppercase" }}>Designed for</span>
-          {BRANDS.map((b, i) => (
-            <span key={i} style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.1em", color: C.dimmed, padding: "3px 8px", border: `1px solid ${C.border}`, textTransform: "uppercase" }}>{b}</span>
+          <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: "0.14em", color: C.muted, textTransform: "uppercase" }}>Designed for travel & hospitality</span>
+          {TRAVEL_CATEGORIES.map(category => (
+            <span key={category} style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: "0.1em", color: C.muted, padding: "3px 8px", border: `1px solid ${C.border}`, textTransform: "uppercase" }}>{category}</span>
           ))}
         </div>
+        <p style={{ fontSize: 11.5, color: C.muted, maxWidth: 760, lineHeight: 1.7, marginTop: 12 }}>
+          From everyday accommodation to premium stays, independent operators to large groups: wherever guest needs, team decisions and service follow-through need to connect. The current Working Proof uses hotel scenarios; deployments across the wider categories are Planned.
+        </p>
       </motion.div>
 
       <figure className="travel-story-photo">
