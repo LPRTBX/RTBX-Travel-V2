@@ -31,10 +31,24 @@ describe("Travel operating value model", () => {
     expect(after.occupiedRoomNights).toBe(before.occupiedRoomNights);
     expect(after.guests).toBe(before.guests / 2);
     expect(after.moments).toBe(before.moments / 2);
+    expect(after.guestNights).toBe(before.guestNights);
+    expect(after.interactions).toBe(before.interactions);
+    expect(after.interactionsPerRoomStay).toBe(before.interactionsPerRoomStay * 2);
+  });
+  it("derives interactions from guest nights and average guests, including zero occupancy", () => {
+    const a = inputs(); const r = calculateTravelValue(a);
+    expect(r.guestNights).toBe(4050);
+    expect(r.interactionsPerRoomStay).toBe(9);
+    expect(r.interactions).toBe(r.stays * r.interactionsPerRoomStay);
+    a.guestsPerRoom = 3;
+    expect(calculateTravelValue(a).interactions).toBe(r.interactions * 2);
+    a.occupancy = 0;
+    expect(calculateTravelValue(a).guestNights).toBe(0);
+    expect(calculateTravelValue(a).interactions).toBe(0);
   });
   it("treats interactions as activity, not extra financial moments", () => {
     const a = inputs(); const before = calculateTravelValue(a);
-    a.interactionsPerGuest = 50; const after = calculateTravelValue(a);
+    a.interactionsPerGuestNight = 50; const after = calculateTravelValue(a);
     expect(after.interactions).toBeGreaterThan(before.interactions);
     expect(after.gross).toEqual(before.gross);
     expect(after.moments).toBe(before.moments);

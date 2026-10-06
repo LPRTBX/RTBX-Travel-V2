@@ -57,16 +57,19 @@ export default function PartnerProofCalculator() {
         <Assumption label="Monthly occupancy" value={Math.round(a.occupancy * 100)} min={0} max={100} unit="%" onChange={v => update("occupancy", v / 100)} />
         <Assumption label="Average length of stay" value={a.lengthOfStay} min={0.5} max={30} step={0.5} unit=" nights" onChange={v => update("lengthOfStay", v)} />
         <Assumption label="Guests per occupied room" value={a.guestsPerRoom} min={1} max={6} step={0.1} onChange={v => update("guestsPerRoom", v)} />
-        <Assumption label="Interactions per guest stay" value={a.interactionsPerGuest} min={0} max={50} onChange={v => update("interactionsPerGuest", v)} hint="Illustrative guest touchpoints; not all interactions become moments." />
+        <Assumption label="Interactions per guest per night" value={a.interactionsPerGuestNight} min={0} max={20} step={0.5} onChange={v => update("interactionsPerGuestNight", v)} hint="Editable daily touchpoint assumption, not an industry average. Not every interaction becomes a moment." />
       </div>
       <div className="travel-value-stats" aria-live="polite" aria-atomic="true">
         <div><strong>{number(result.rooms)}</strong><span>Total rooms</span></div>
         <div><strong>{number(result.occupiedRoomNights)}</strong><span>Occupied room nights</span></div>
         <div><strong>{number(result.stays)}</strong><span>Estimated room stays</span></div>
         <div><strong>{number(result.guests)}</strong><span>Estimated guest arrivals</span></div>
+        <div><strong>{number(result.guestNights)}</strong><span>Estimated guest nights</span></div>
+        <div><strong>{result.interactionsPerRoomStay.toLocaleString(undefined, { maximumFractionDigits: 1 })}</strong><span>Interactions per room stay</span></div>
         <div><strong>{number(result.interactions)}</strong><span>Estimated guest interactions</span></div>
       </div>
-      <details><summary>How these volumes connect</summary><p>Occupied room nights = sites × rooms per site × days × occupancy. Room stays = occupied room nights ÷ average length of stay. Guest arrivals = room stays × guests per occupied room. Interactions = guest arrivals × interactions per guest stay.</p><p>This is a steady-state estimate; it does not track unique people, actual reservations or stays crossing month boundaries. Staff and system signals can create moments independently of guest interactions.</p></details>
+      <p className="travel-value-result">{a.guestsPerRoom} guests × {a.lengthOfStay} nights × {a.interactionsPerGuestNight} interactions per guest per night = {result.interactionsPerRoomStay.toLocaleString(undefined, { maximumFractionDigits: 1 })} interactions per room stay.</p>
+      <details><summary>How these volumes connect</summary><p>Occupied room nights = sites × rooms per site × days × occupancy. Room stays = occupied room nights ÷ average length of stay. Guest arrivals = room stays × guests per occupied room. Guest nights = occupied room nights × guests per occupied room. Monthly interactions = guest nights × interactions per guest per night.</p><p>This is a steady-state estimate; it does not track unique people, actual reservations or stays crossing month boundaries. At fixed occupancy, longer stays mean fewer arrivals but the same guest-night volume, so monthly daily interactions remain unchanged. Staff and system signals can create moments independently of guest interactions; one shared exchange should not be counted separately for each guest. Arrival and departure touchpoints can be estimated separately rather than included twice in the daily rate.</p></details>
     </section>
 
     <section className="travel-value-section" aria-labelledby="moments-title">
