@@ -23,6 +23,9 @@ import { TRAVEL_SCENARIOS } from "../data/travelScenarios";
 import { TRAVEL_PLAYBOOKS } from "../data/travelPlaybooks";
 import {
   createExecution,
+  approveDecision,
+  returnDecision,
+  getScenarioRuntimeRequirements,
   transitionExecution,
   captureEvidence,
   uncaptureEvidence,
@@ -171,7 +174,9 @@ describe("RuntimeEngine.createExecution", () => {
   it("initialises evidence from the deployment configuration", () => {
     const exec = createExecution({ deployment: DEFAULT_DEPLOYMENT, scenario, playbook });
     expect(exec.evidence.length).toBeGreaterThan(0);
-    expect(exec.evidence.length).toBe(DEFAULT_DEPLOYMENT.evidence.length);
+    // Only the deployment evidence that applies to this scenario is attached.
+    expect(exec.evidence.map(e => e.evidenceType)).toEqual(
+      getScenarioRuntimeRequirements(DEFAULT_DEPLOYMENT, scenario).evidence.map(e => e.evidenceType));
     for (const ev of exec.evidence) {
       expect(ev.captured).toBe(false);
     }
@@ -239,7 +244,7 @@ describe("RuntimeEngine.transitionExecution — valid transitions", () => {
     let exec: ScenarioExecution | null = base;
     const path = ["understanding", "decision-required", "approval-required", "in-action", "resolved"] as const;
     for (const st of path) {
-      exec = transitionExecution(exec!, st, scenario);
+      exec = st === "in-action" ? approveDecision(exec!, exec!.approvalRoleId, scenario) : transitionExecution(exec!, st, scenario);
       expect(exec).not.toBeNull();
     }
     // Capture all mandatory evidence
@@ -257,7 +262,7 @@ describe("RuntimeEngine.transitionExecution — valid transitions", () => {
   it("can transition through escalation pathway: in-action → escalated → resolved", () => {
     let exec: ScenarioExecution | null = base;
     for (const st of ["understanding", "decision-required", "approval-required", "in-action"] as const) {
-      exec = transitionExecution(exec!, st, scenario);
+      exec = st === "in-action" ? approveDecision(exec!, exec!.approvalRoleId, scenario) : transitionExecution(exec!, st, scenario);
     }
     const escalated = transitionExecution(exec!, "escalated", scenario);
     expect(escalated?.state).toBe("escalated");
@@ -292,7 +297,7 @@ describe("RuntimeEngine.transitionExecution — blocked transitions", () => {
   it("blocks closure when mandatory evidence is incomplete", () => {
     let exec: ScenarioExecution | null = base;
     for (const st of ["understanding", "decision-required", "approval-required", "in-action", "resolved"] as const) {
-      exec = transitionExecution(exec!, st, scenario);
+      exec = st === "in-action" ? approveDecision(exec!, exec!.approvalRoleId, scenario) : transitionExecution(exec!, st, scenario);
     }
     // Do NOT capture evidence
     const closed = transitionExecution(exec!, "closed", scenario);
@@ -333,9 +338,27 @@ describe("RuntimeEngine — welfare scenario constraints", () => {
     exec = transitionExecution(exec!, "understanding", scenario);
     exec = transitionExecution(exec!, "decision-required", scenario);
     exec = transitionExecution(exec!, "approval-required", scenario);
-    const actioned = transitionExecution(exec!, "in-action", scenario);
-    expect(actioned).not.toBeNull();
-    expect(actioned?.state).toBe("in-action");
+    // No recorded approval → blocked; wrong role → refused; approval role → in action with decision recorded.
+    expect(transitionExecution(exec!, "in-action", scenario)).toBeNull();
+    expect(() => approveDecision(exec!, "front-office", scenario)).toThrow(/authority/);
+    const actioned = approveDecision(exec!, exec!.approvalRoleId, scenario);
+    expect(actioned.state).toBe("in-action");
+    expect(actioned.decisions).toEqual([expect.objectContaining({ decision: "approved", roleId: exec!.approvalRoleId })]);
+  });
+
+  it("lets the approver disagree: the case returns to decision with the reason kept", () => {
+    let exec: ScenarioExecution | null = createExecution({ deployment: DEFAULT_DEPLOYMENT, scenario, playbook });
+    exec = transitionExecution(exec!, "understanding", scenario);
+    exec = transitionExecution(exec!, "decision-required", scenario);
+    exec = transitionExecution(exec!, "approval-required", scenario);
+    expect(() => returnDecision(exec!, exec!.approvalRoleId, "  ", scenario)).toThrow(/reason/);
+    const returned = returnDecision(exec!, exec!.approvalRoleId, "Offer lounge access instead of an upgrade", scenario);
+    expect(returned.state).toBe("decision-required");
+    expect(returned.stateHistory.at(-1)?.note).toContain("Offer lounge access");
+    // Re-entering the gate needs a fresh decision; the earlier return does not count as approval.
+    const again = transitionExecution(returned, "approval-required", scenario)!;
+    expect(transitionExecution(again, "in-action", scenario)).toBeNull();
+    expect(approveDecision(again, again.approvalRoleId, scenario).decisions).toHaveLength(2);
   });
 
   it("allows approval-required → escalated (approver unreachable / welfare escalation)", () => {
@@ -549,7 +572,7 @@ describe("RuntimeEngine helpers", () => {
     const playbook = TRAVEL_PLAYBOOKS.find(p => p.id === "pb-repeat-guest-room-not-ready")!;
     let exec: ScenarioExecution | null = createExecution({ deployment: DEFAULT_DEPLOYMENT, scenario, playbook });
     for (const st of ["understanding", "decision-required", "approval-required", "in-action", "resolved"] as const) {
-      exec = transitionExecution(exec!, st, scenario);
+      exec = st === "in-action" ? approveDecision(exec!, exec!.approvalRoleId, scenario) : transitionExecution(exec!, st, scenario);
     }
     for (const ev of exec!.evidence.filter(e => e.required)) {
       exec = captureEvidence(exec!, ev.id, {});

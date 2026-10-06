@@ -16,6 +16,7 @@ import {
   createExecution,
   transitionExecution,
   captureEvidence,
+  approveDecision,
   getMandatoryEvidenceGaps,
   getAvailableActions,
   VALID_TRANSITIONS,
@@ -184,7 +185,11 @@ function validateRuntimeEngine(): ValidationIssue[] {
   let execAdv: typeof exec | null = exec;
   const path: ScenarioExecutionState[] = ["understanding", "decision-required", "approval-required", "in-action", "resolved"];
   for (const st of path) {
-    if (execAdv) execAdv = transitionExecution(execAdv, st, scenario);
+    if (!execAdv) break;
+    // The approval gate is passed only through a recorded decision by the approval role.
+    execAdv = execAdv.state === "approval-required" && st === "in-action"
+      ? approveDecision(execAdv, execAdv.approvalRoleId, scenario)
+      : transitionExecution(execAdv, st, scenario);
   }
   if (!execAdv) {
     issues.push(error("RuntimeEngine", "Could not advance execution to resolved state for closure test"));

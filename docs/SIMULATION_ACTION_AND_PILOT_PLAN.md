@@ -89,3 +89,7 @@ Show these in sequence:
 Permitted claim: “We have tested a configurable governed process with synthetic inputs, explicit gates, follow-up verification and reviewed mock learning. These are the integration and operational requirements to prove it in your hotel.”
 
 Do not claim live hotel operation, verified vendor payload compatibility, autonomous learning, guaranteed cadence, authenticated human authority, concurrent capacity or real business ROI from these tests. Browser button/export verification is separate from engine tests.
+
+## Update — 5 October 2026
+
+Approval is now a recorded decision by the scenario's governance approval role (`approveDecision` / `returnDecision`); unacknowledged escalations block progress; runtime communications and evidence are scoped per scenario. Mock hotel expectations are 63 closed / 17 held for approval / 20 held for evidence because three withheld approvals route to delegated-authority transport cases. Reviewed learning is applied to a fresh 100-signal cycle (20 → 80 met, 20 pending without measurement). See [OPERATING_LOOP_REVIEW.md](OPERATING_LOOP_REVIEW.md).

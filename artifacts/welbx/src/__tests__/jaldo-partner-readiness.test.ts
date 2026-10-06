@@ -182,6 +182,7 @@ describe("Scenario lifecycle reaches Closed", () => {
       captureEvidence,
       getMandatoryEvidenceGaps,
       canTransition,
+      approveDecision,
     } = await import("@/lib/runtimeEngine");
 
     const configured = DEFAULT_DEPLOYMENT.scenarios.find((s) => s.active);
@@ -204,7 +205,9 @@ describe("Scenario lifecycle reaches Closed", () => {
     expect(exec).not.toBeNull();
 
     if (exec.state === "approval-required") {
-      exec = transitionExecution(exec, "in-action", scenario)!;
+      // Without a recorded decision by the approval role, the gate holds.
+      expect(transitionExecution(exec, "in-action", scenario)).toBeNull();
+      exec = approveDecision(exec, exec.approvalRoleId, scenario);
     }
     expect(exec.state).toBe("in-action");
 
@@ -226,11 +229,11 @@ describe("Scenario lifecycle reaches Closed", () => {
     expect(exec.closedAt).toBeTruthy();
   });
 
-  it("also reaches closed via the escalation branch (approval-required → escalated → in-action → resolved → closed)", async () => {
+  it("also reaches closed after escalation acknowledgement and recorded approval", async () => {
     const { DEFAULT_DEPLOYMENT } = await import("@/data/travelDeploymentConfig");
     const { TRAVEL_SCENARIOS } = await import("@/data/travelScenarios");
     const { TRAVEL_PLAYBOOKS } = await import("@/data/travelPlaybooks");
-    const { createExecution, transitionExecution, captureEvidence } = await import("@/lib/runtimeEngine");
+    const { createExecution, transitionExecution, captureEvidence, triggerEscalation, acknowledgeEscalation, approveDecision } = await import("@/lib/runtimeEngine");
 
     const configured = DEFAULT_DEPLOYMENT.scenarios.find(
       (s) => s.active && TRAVEL_SCENARIOS.find((sc) => sc.id === s.scenarioId)?.governanceConfig.humanApprovalRequired,
@@ -244,9 +247,13 @@ describe("Scenario lifecycle reaches Closed", () => {
     const next = scenario.governanceConfig.humanApprovalRequired ? "approval-required" : "in-action";
     exec = transitionExecution(exec, next, scenario)!;
     if (exec.state === "approval-required") {
-      exec = transitionExecution(exec, "escalated", scenario)!;
+      exec = transitionExecution(triggerEscalation(exec, "Approval deadline missed", "general-manager"), "escalated", scenario)!;
       expect(exec.state).toBe("escalated");
-      exec = transitionExecution(exec, "in-action", scenario)!;
+      expect(transitionExecution(exec, "in-action", scenario)).toBeNull();
+      exec = acknowledgeEscalation(exec, exec.escalations[0].id);
+      expect(transitionExecution(exec, "in-action", scenario)).toBeNull();
+      exec = transitionExecution(exec, "approval-required", scenario)!;
+      exec = approveDecision(exec, exec.approvalRoleId, scenario);
     }
     expect(exec.state).toBe("in-action");
     exec = transitionExecution(exec, "resolved", scenario)!;

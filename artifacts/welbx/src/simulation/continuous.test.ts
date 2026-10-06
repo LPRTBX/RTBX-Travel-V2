@@ -6,7 +6,7 @@ import { TRAVEL_SCENARIOS } from '../data/travelScenarios';
 import { TRAVEL_PLAYBOOKS } from '../data/travelPlaybooks';
 import {
   createExecution, transitionExecution, captureEvidence, sendCommunication,
-  triggerEscalation, acknowledgeEscalation, recordOutcome, getMandatoryEvidenceGaps,
+  triggerEscalation, acknowledgeEscalation, approveDecision, recordOutcome, getMandatoryEvidenceGaps,
   type ScenarioExecution,
 } from '../lib/runtimeEngine';
 
@@ -112,20 +112,32 @@ describe('Continuous Travel simulation', () => {
           blockedAttempts++;
         }
         move('approval-required');
+        // No recorded approval, or approval by a role without authority, cannot reach action.
+        expect(transitionExecution(run, 'in-action', scenario)).toBeNull();
+        expect(() => approveDecision(run, 'unauthorised-role', scenario)).toThrow(/authority/);
+        blockedAttempts += 2;
         // This represents a scripted actor advancing the demo, not verified authorisation.
-        move('in-action');
+        vi.setSystemTime(new Date(Date.parse(epoch) + transitionCount * 1000));
+        run = approveDecision(run, run.approvalRoleId, scenario, 'Synthetic test actor');
+        transitionCount++;
         for (const comm of run.communications) {
           if (comm.approvalRequired) {
             expect(() => sendCommunication(run, comm.id)).toThrow(/approval/i);
             expect(run.communications.find(c => c.id === comm.id)?.sent).toBe(false);
             blockedAttempts++;
           }
-          run = sendCommunication(run, comm.id, configured.accountableRoleId);
+          if (comm.approvalRequired) {
+            expect(() => sendCommunication(run, comm.id, 'unauthorised-role')).toThrow(/authority/i);
+            blockedAttempts++;
+          }
+          run = sendCommunication(run, comm.id, run.approvalRoleId);
           communicationCount++;
         }
         move('escalated');
         run = triggerEscalation(run, 'Synthetic unavailable-owner exercise', configured.accountableRoleId);
         expect(run.escalations[0].acknowledged).toBe(false);
+        expect(transitionExecution(run, 'in-action', scenario)).toBeNull();
+        blockedAttempts++;
         run = acknowledgeEscalation(run, run.escalations[0].id);
         expect(run.escalations[0].acknowledged).toBe(true);
         move('in-action');

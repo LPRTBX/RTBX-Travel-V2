@@ -1,7 +1,9 @@
 import { TRAVEL_SCENARIOS } from "@/data/travelScenarios";
 import { TRAVEL_PLAYBOOKS } from "@/data/travelPlaybooks";
 import { createHotelSignals, HOTEL_ROUTES, PATH_LABELS, type HotelSignal } from "@/simulation/mockHotel";
-import { proposeHotelLearning, type HotelCase } from "@/simulation/hotelLearning";
+import { approveHotelDecision, dispatchHotelAction, mockHotelFollowUp, verifyHotelOutcome, proposeHotelLearning, type Fault, type HotelCase } from "@/simulation/hotelLearning";
+
+import { transitionExecution } from "./runtimeEngine";
 
 export const ARCHITECTURE_SCENARIOS = [
   ["repeat-guest-room-not-ready", "Room delay"],
@@ -33,6 +35,38 @@ export function architectureContext(id: ArchitectureScenarioId) {
   const playbook = TRAVEL_PLAYBOOKS.find(p => p.id === scenario.playbookId);
   if (!playbook) throw new Error(`Missing playbook ${scenario.playbookId}`);
   return { scenario, playbook };
+}
+
+/** Shared driver for the visible step-through trace; uses canonical approval roles. */
+export function advanceArchitectureTrace(c: HotelCase, fault: Fault = "none") {
+  const { scenario } = architectureContext(c.execution.scenarioId as ArchitectureScenarioId);
+  const move = (to: "understanding" | "decision-required" | "approval-required", note: string) => {
+    const execution = transitionExecution(c.execution, to, scenario, note);
+    if (!execution) throw new Error(`Architecture trace blocked transition to ${to}`);
+    return { ...c, execution, audit: [...c.audit, { step: to, detail: note }] };
+  };
+  const state = c.execution.state;
+  if (state === "signal-received") return { hotelCase: move("understanding", "Synthetic signal validated"), node: "signal", stage: "Connect" };
+  if (state === "understanding") return { hotelCase: move("decision-required", "Moment classified"), node: "moment", stage: "Understand" };
+  if (state === "decision-required" && !c.approved) {
+    return c.execution.approvalRequired
+      ? { hotelCase: move("approval-required", "Governance and authority applied"), node: "governance", stage: "Decide" }
+      : { hotelCase: approveHotelDecision(c, c.execution.accountableRoleId), node: "authority", stage: "Decide" };
+  }
+  if (state === "approval-required" && !c.approved) return { hotelCase: approveHotelDecision(c, c.execution.approvalRoleId), node: "authority", stage: "Act" };
+  if ((state === "approval-required" || state === "decision-required") && c.approved) return { hotelCase: dispatchHotelAction(c), node: "comms", stage: "Act" };
+  if (state === "in-action" && !c.observation) return { hotelCase: verifyHotelOutcome(c, mockHotelFollowUp(c, fault)), node: "outcome", stage: "Learn" };
+  return null;
+}
+
+export function architectureNextLabel(c: HotelCase) {
+  const state = c.execution.state;
+  return state === "signal-received" ? "Validate signal"
+    : state === "understanding" ? "Classify moment"
+    : state === "decision-required" && !c.approved ? (c.execution.approvalRequired ? "Apply governance" : "Apply delegated authority")
+    : state === "approval-required" && !c.approved ? `Simulate approval as ${c.execution.approvalRoleId}`
+    : (state === "approval-required" || state === "decision-required") && c.approved ? "Dispatch synthetic action"
+    : state === "in-action" && !c.observation ? "Verify synthetic outcome" : null;
 }
 
 export interface ArchitectureNode {
@@ -84,7 +118,7 @@ export function buildArchitectureNodes(id: ArchitectureScenarioId, hotelCase: Ho
     {
       id: "authority", stage: "Act", label: "Human authority",
       text: `${execution.accountableRoleId} retains accountability.`,
-      details: [`Accountable · ${execution.accountableRoleId}`, `Supporting · ${scenario.rolesConfig.supportingRoleIds.join(", ")}`, `Approval · ${hotelCase.approved ? "approved by scripted role" : "not approved"}`, "AI / rules may propose; they do not authorise a real response."],
+      details: [`Accountable · ${execution.accountableRoleId}`, `Supporting · ${scenario.rolesConfig.supportingRoleIds.join(", ")}`, `Authority · ${execution.approvalRequired ? `${execution.approvalRoleId} approval ${hotelCase.approved ? "simulated" : "pending"}` : `${execution.accountableRoleId} delegated authority`}`, "AI / rules may propose; they do not authorise a real response."],
     },
     {
       id: "comms", stage: "Act", label: "Central comms",

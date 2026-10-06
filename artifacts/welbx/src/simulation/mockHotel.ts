@@ -2,6 +2,7 @@
 import { DEFAULT_DEPLOYMENT, type TravelDeploymentConfig } from '../data/travelDeploymentConfig';
 import { getDeploymentActivationReadiness } from '../lib/travelScenarioRouting';
 import { startLabRun, advanceLabRun, acknowledgeLabEscalation, type LabRun } from '../lib/visualSimulation';
+import { TRAVEL_SCENARIOS } from '../data/travelScenarios';
 
 export const HOTEL_PATHS = ['pms', 'guest', 'staff', 'sensor'] as const;
 export type HotelPath = typeof HOTEL_PATHS[number];
@@ -149,8 +150,14 @@ export function stepHotelBatch(batch: HotelBatch): HotelBatch {
   return { ...batch, hotel, drain, finished: drain >= 12 || hotel.reads.some(r => r.run.error)
     || hotel.intake.some(r => r.status === 'rejected') };
 }
+/** Whether the signal's routed scenario has a human approval gate (otherwise delegated authority applies). */
+export function hotelSignalNeedsApproval(signal: HotelSignal): boolean {
+  const scenarioId = (HOTEL_ROUTES[signal.path] as Record<string, string>)[signal.kind];
+  return TRAVEL_SCENARIOS.find(s => s.id === scenarioId)?.governanceConfig.humanApprovalRequired ?? true;
+}
 export function expectedHotelState(signal: HotelSignal): LabRun['execution']['state'] {
-  return signal.condition === 'approval-held' ? 'approval-required'
+  // A withheld approval only holds where an approval gate exists; delegated-authority cases proceed.
+  return signal.condition === 'approval-held' && hotelSignalNeedsApproval(signal) ? 'approval-required'
     : signal.condition === 'missing-evidence' ? 'resolved' : 'closed';
 }
 export function checkHotelRead(read: HotelRead): string[] {
@@ -160,7 +167,9 @@ export function checkHotelRead(read: HotelRead): string[] {
   if (e.state !== expectedHotelState(read.signal)) errors.push(`Expected ${expectedHotelState(read.signal)}, observed ${e.state}`);
   if (e.scenarioId !== read.scenarioId) errors.push('Wrong scenario');
   if (e.deploymentId !== MOCK_HOTEL.id || !e.isSynthetic) errors.push('Wrong hotel or evidence level');
-  if (read.signal.condition === 'approval-held' && (read.run.approval || e.communications.some(c => c.sent))) errors.push('Held approval dispatched action');
+  if (read.signal.condition === 'approval-held' && hotelSignalNeedsApproval(read.signal)
+    && (read.run.approval || e.decisions.length || e.communications.some(c => c.sent))) errors.push('Held approval dispatched action');
+  if (e.state === 'closed' && e.approvalRequired && !e.decisions.some(d => d.decision === 'approved' && d.roleId === e.approvalRoleId)) errors.push('Closed without recorded approval');
   if (read.signal.condition === 'missing-evidence' && (e.closedAt || !e.evidence.some(item => item.required && !item.captured))) errors.push('Missing-evidence gate bypassed');
   if (read.signal.condition === 'escalation' && !e.escalations.some(item => item.acknowledged)) errors.push('Escalation not acknowledged');
   if (e.state === 'closed' && (!e.closedAt || e.evidence.some(item => item.required && !item.captured))) errors.push('Closure lacks evidence');

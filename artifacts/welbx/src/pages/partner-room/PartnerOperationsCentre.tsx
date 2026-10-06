@@ -19,6 +19,10 @@ import {
   recordOutcome,
   sendCommunication,
   triggerEscalation,
+  acknowledgeEscalation,
+  approveDecision,
+  returnDecision,
+  getScenarioRuntimeRequirements,
   generateLearning,
   getAvailableActions,
   getMandatoryEvidenceGaps,
@@ -36,6 +40,8 @@ import {
 import { TRAVEL_SCENARIOS } from "@/data/travelScenarios";
 import { TRAVEL_PLAYBOOKS } from "@/data/travelPlaybooks";
 import { TRAVEL_OPERATING_SYSTEMS } from "@/data/travelOperatingSystems";
+import { TRAVEL_ROLES } from "@/data/travelRoles";
+import { getTravelEvidenceSnapshot } from "@/simulation/evidenceSnapshot";
 import type { TravelDeploymentConfig } from "@/data/travelDeploymentConfig";
 import {
   getScenarioIdFromQuery,
@@ -186,6 +192,61 @@ function DeploymentBanner({ deployment }: { deployment: TravelDeploymentConfig |
   );
 }
 
+const roleName = (id: string) => TRAVEL_ROLES.find(r => r.id === id)?.name ?? id;
+
+// ── Proof summary: implemented · simulated · required ──────────────────────────
+
+function ProofSummary() {
+  const snap = useMemo(() => getTravelEvidenceSnapshot(), []);
+  const columns: Array<{ label: string; color: string; note: string; items: string[] }> = [
+    {
+      label: "Implemented in this build", color: C.green,
+      note: "Working software. Runs in your browser now.",
+      items: [
+        "One Travel engine drives the Operations Centre trace, the Simulation Lab and the 100-signal mock hotel.",
+        "Authority is enforced: only the scenario's approval role can approve; disagreement returns the case with a reason; a missed deadline escalates and work waits for acknowledgement.",
+        "Closure is blocked until the scenario's own required evidence exists. Welfare cases receive internal, human-authored drafts only.",
+        "Learning is proposed, reviewed by a named role and only then carried into the next cycle.",
+      ],
+    },
+    {
+      label: "Simulated results", color: C.gold,
+      note: "Synthetic hotel, scripted actors, computed live from the engine.",
+      items: [
+        `${snap.signals} signals from ${snap.paths} input paths: ${snap.closed} closed, ${snap.approvalHeld} held at the approval gate, ${snap.evidenceHeld} held for missing evidence, ${snap.gateFailures} gate bypasses.`,
+        `Against a 20-minute restoration target: ${snap.cycle1.met} met in cycle 1 → ${snap.cycle2.met} in cycle 2 after ${snap.approvedChanges} reviewed changes; ${snap.cycle2.pending} stay pending because nobody measured them.`,
+        "These show the mechanism works. They are not a forecast for any hotel.",
+      ],
+    },
+    {
+      label: "Required to prove it in a hotel", color: "#f97316",
+      note: "Integration and operating inputs from the partner.",
+      items: [
+        "Reservation and housekeeping events from the PMS (Oracle OHIP field mapping drafted; sandbox credentials not yet configured).",
+        "Server-side sign-in and role permissions, so an approval is a named person's decision.",
+        "Task and guest-messaging adapters with delivery receipts, durable storage and duplicate handling.",
+        "One hotel-agreed outcome metric, its target and the person who measures it.",
+      ],
+    },
+  ];
+  return (
+    <div id="proof-summary" style={{ marginBottom: 36, scrollMarginTop: 90 }}>
+      <SectionLabel>What this Working Proof demonstrates</SectionLabel>
+      <div className="rtbx-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 2 }}>
+        {columns.map(col => (
+          <div key={col.label} style={{ padding: "18px 20px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderTop: `2px solid ${col.color}` }}>
+            <div style={{ fontSize: 13, fontWeight: 800, color: col.color, marginBottom: 4 }}>{col.label}</div>
+            <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.4)", marginBottom: 10 }}>{col.note}</div>
+            {col.items.map(item => (
+              <div key={item} style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", lineHeight: 1.6, padding: "6px 0", borderBottom: "1px solid rgba(255,255,255,0.04)" }}>{item}</div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ── Execution Trace Panel ─────────────────────────────────────────────────────
 
 type ExecView = "operator" | "guest" | "dual";
@@ -202,16 +263,46 @@ function ExecTracePanel({
   const [view, setView]     = useState<ExecView>("operator");
   const [learning, setLearning] = useState<RuntimeLearning | null>(null);
   const [blockMessage, setBlockMessage] = useState<string | null>(null);
+  const [returnReason, setReturnReason] = useState("");
+  const [cycle, setCycle] = useState(1);
+  const [priorLearning, setPriorLearning] = useState<RuntimeLearning | null>(null);
+  const requirements = getScenarioRuntimeRequirements(deployment, scenario);
 
   const launch = () => setExec(createExecution({ deployment, scenario, playbook }));
-  const reset  = () => { setExec(null); setLearning(null); onReset(); };
+  const reset  = () => { setExec(null); setLearning(null); setPriorLearning(null); setCycle(1); onReset(); };
+  // Next cycle: a fresh execution of the same scenario, carrying the reviewed learning forward as context only.
+  const runNextCycle = () => {
+    setPriorLearning(learning);
+    setLearning(null);
+    setReturnReason("");
+    setCycle(c => c + 1);
+    setExec(createExecution({ deployment, scenario, playbook }));
+  };
+  const flash = (message: string) => {
+    setBlockMessage(message);
+    setTimeout(() => setBlockMessage(null), 4000);
+  };
+
+  const handleApprove = () => {
+    if (!exec) return;
+    try { setExec(approveDecision(exec, exec.approvalRoleId, scenario, `Approved in local simulation by visitor acting as ${roleName(exec.approvalRoleId)}`)); setBlockMessage(null); }
+    catch (e) { flash(e instanceof Error ? e.message : String(e)); }
+  };
+  const handleReturn = () => {
+    if (!exec) return;
+    try { setExec(returnDecision(exec, exec.approvalRoleId, returnReason, scenario)); setReturnReason(""); setBlockMessage(null); }
+    catch (e) { flash(e instanceof Error ? e.message : String(e)); }
+  };
+  const handleAcknowledge = () => {
+    if (!exec) return;
+    setExec(exec.escalations.reduce((current, item) => item.acknowledged ? current : acknowledgeEscalation(current, item.id), exec));
+  };
 
   const handleAction = (toState: Parameters<typeof transitionExecution>[1] | undefined, note?: string) => {
     if (!exec || !toState) return;
     const check = canTransition(exec, toState, scenario);
     if (!check.allowed) {
-      setBlockMessage(check.reason ?? "This transition is not currently permitted.");
-      setTimeout(() => setBlockMessage(null), 4000);
+      flash(check.reason ?? "This transition is not currently permitted.");
       return;
     }
     const next = transitionExecution(exec, toState, scenario, note);
@@ -246,25 +337,37 @@ function ExecTracePanel({
     if (!comm) return;
     // Approval gate: do not auto-approve. approvedBy must come from explicit human action.
     if (comm.approvalRequired && !approvedComms[id]) {
-      setBlockMessage("This draft requires named human approval before it can be marked reviewed in the simulation.");
-      setTimeout(() => setBlockMessage(null), 4000);
+      flash(`This draft requires ${roleName(exec.approvalRoleId)} approval before it can be marked reviewed in the simulation.`);
       return;
     }
-    setExec(sendCommunication(exec, id, approvedComms[id]));
+    try { setExec(sendCommunication(exec, id, approvedComms[id])); }
+    catch (e) { flash(e instanceof Error ? e.message : String(e)); }
   };
 
   const handleEscalate = () => {
     if (!exec) return;
     const check = canTransition(exec, "escalated", scenario);
     if (!check.allowed) {
-      setBlockMessage(check.reason ?? "Escalation is not permitted from the current state.");
-      setTimeout(() => setBlockMessage(null), 4000);
+      flash(check.reason ?? "Escalation is not permitted from the current state.");
       return;
     }
-    const withEsc = triggerEscalation(exec, scenario.escalation[0]?.trigger ?? "Threshold exceeded", scenario.escalation[0]?.escalateToRoleId ?? "duty-manager");
+    const target = escalationTarget(exec);
+    const withEsc = triggerEscalation(exec, target.trigger, target.roleId);
     const next    = transitionExecution(withEsc, "escalated", scenario, "Escalation triggered");
     if (next) { setBlockMessage(null); setExec(next); }
   };
+
+  // Delay at the approval gate goes one level up (gov-06); delay during action follows the scenario's first escalation rule.
+  function escalationTarget(current: ScenarioExecution) {
+    if (current.state === "approval-required") {
+      // Welfare follows the scenario's own welfare escalation; other cases go one level up (gov-06).
+      const up = current.isWelfareScenario && scenario.escalation[0]
+        ? scenario.escalation[0].escalateToRoleId
+        : current.approvalRoleId === "general-manager" ? "regional-operations" : "general-manager";
+      return { roleId: up, trigger: `No decision from ${roleName(current.approvalRoleId)} by the deadline (${scenario.decision.decisionDeadline ?? "not configured"})` };
+    }
+    return { roleId: scenario.escalation[0]?.escalateToRoleId ?? "duty-manager", trigger: scenario.escalation[0]?.trigger ?? "Threshold exceeded" };
+  }
 
   if (!exec) {
     return (
@@ -278,8 +381,10 @@ function ExecTracePanel({
             Start Local Simulation →
           </button>
           <div style={{ fontSize: 9.5, color: "rgba(255,255,255,0.3)" }}>
-            {scenario.evidenceRequirements.filter(e => e.required).length} required evidence items · {scenario.communicationDetails.length} communications
-            {scenario.governanceConfig.humanApprovalRequired && " · Human approval required"}
+            {requirements.evidence.filter(e => e.required).length} required evidence items · {requirements.communications.length} communication drafts
+            {scenario.governanceConfig.humanApprovalRequired
+              ? ` · ${roleName(scenario.governanceConfig.approvalRole ?? scenario.rolesConfig.accountableRoleId)} approval required`
+              : ` · Delegated authority: ${roleName(scenario.rolesConfig.accountableRoleId)}`}
           </div>
         </div>
       </div>
@@ -368,9 +473,32 @@ function ExecTracePanel({
                 <div key={rule.id} style={{ padding: "3px 9px", fontSize: 9, color: "rgba(255,255,255,0.55)", border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.02)" }}>{rule.label}: {rule.value}</div>
               ))}
             </div>
-            {scenario.governanceConfig.humanApprovalRequired && (
-              <div style={{ padding: "8px 12px", background: "rgba(249,115,22,0.06)", border: "1px solid rgba(249,115,22,0.2)", fontSize: 10, color: "#f97316" }}>
-                Human approval required — {scenario.governanceConfig.approvalRole ?? "manager"} must approve before action
+            <div data-testid="decision-authority" style={{ padding: "12px 14px", background: "rgba(249,115,22,0.05)", border: "1px solid rgba(249,115,22,0.22)", fontSize: 11, color: "rgba(255,255,255,0.7)", lineHeight: 1.65 }}>
+              <div style={{ fontSize: 8.5, letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 700, color: "#f97316", marginBottom: 6 }}>Authority at this decision</div>
+              <div><strong style={{ color: "#fff" }}>Who decides:</strong> {exec.approvalRequired ? `${roleName(exec.approvalRoleId)} (approval gate)` : `${roleName(exec.accountableRoleId)} — within delegated authority, no approval gate`}</div>
+              <div><strong style={{ color: "#fff" }}>Accountable owner:</strong> {roleName(exec.accountableRoleId)}</div>
+              <div><strong style={{ color: "#fff" }}>Decision deadline:</strong> {scenario.decision.decisionDeadline ?? "Not configured"}</div>
+              {scenario.governanceConfig.permissions.slice(0, 2).map(p => <div key={p}>· {p}</div>)}
+              {exec.approvalRequired && <>
+                <div><strong style={{ color: "#fff" }}>If no decision in time:</strong> escalates to {roleName(escalationTarget({ ...exec, state: "approval-required" }).roleId)}, who must acknowledge before work resumes.</div>
+                <div><strong style={{ color: "#fff" }}>If the approver disagrees:</strong> the case returns to decision with their reason recorded; nothing is actioned.</div>
+              </>}
+              {exec.decisions.filter(d => d.decision === "returned").map((d, i) => (
+                <div key={i} style={{ marginTop: 6, color: "#f97316" }}>Returned by {roleName(d.roleId)}: “{d.reason}”</div>
+              ))}
+            </div>
+            {exec.state === "approval-required" && (
+              <div style={{ marginTop: 10 }}>
+                <label style={{ display: "block", fontSize: 10, color: "rgba(255,255,255,0.5)", marginBottom: 4 }} htmlFor={`return-${exec.id}`}>
+                  Reason, if {roleName(exec.approvalRoleId)} disagrees
+                </label>
+                <input
+                  id={`return-${exec.id}`}
+                  value={returnReason}
+                  onChange={e => setReturnReason(e.currentTarget.value)}
+                  placeholder="e.g. Offer lounge access instead of an upgrade"
+                  style={{ width: "100%", maxWidth: 520, padding: "8px 10px", fontSize: 12, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff" }}
+                />
               </div>
             )}
           </div>
@@ -391,7 +519,7 @@ function ExecTracePanel({
             {exec.communications.map(c => {
               const isApproved = !!approvedComms[c.id];
               const needsApproval = c.approvalRequired && !isApproved;
-              const approvalRole = exec.accountableRoleId;
+              const approvalRole = exec.approvalRoleId;
               return (
                 <div key={c.id} style={{ padding: "10px 0", borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
@@ -400,7 +528,7 @@ function ExecTracePanel({
                       <div style={{ fontSize: 12, color: "rgba(255,255,255,0.35)" }}>Proposed route: {c.channel} → {c.audience}</div>
                       {c.approvalRequired && (
                         <div style={{ fontSize: 12, color: isApproved ? C.green : "#f97316", marginTop: 3 }}>
-                          {isApproved ? `Simulation approval recorded for ${approvedComms[c.id]}` : `Requires named ${approvalRole} approval before any future delivery`}
+                          {isApproved ? `Simulation approval recorded for ${roleName(approvedComms[c.id])}` : `Requires ${roleName(approvalRole)} approval before any future delivery`}
                         </div>
                       )}
                     </div>
@@ -411,13 +539,13 @@ function ExecTracePanel({
                             onClick={() => handleApproveComm(c.id, approvalRole)}
                             style={{ padding: "6px 14px", fontSize: 12, fontWeight: 700, background: "rgba(249,115,22,0.1)", border: "1px solid rgba(249,115,22,0.35)", color: "#f97316", cursor: "pointer", minHeight: 44 }}
                           >
-                            Approve
+                            Approve as {roleName(approvalRole)}
                           </button>
                         )}
                         <button
                           onClick={() => handleSendComm(c.id)}
                           disabled={needsApproval}
-                          title={needsApproval ? `${approvalRole} approval required before sending` : undefined}
+                          title={needsApproval ? `${roleName(approvalRole)} approval required before review` : undefined}
                           aria-disabled={needsApproval}
                           style={{
                             padding: "6px 14px", fontSize: 12, fontWeight: 700, minHeight: 44,
@@ -441,10 +569,15 @@ function ExecTracePanel({
               <div style={{ marginTop: 12, padding: "10px 14px", background: "rgba(239,68,68,0.06)", border: "1px solid rgba(239,68,68,0.2)" }}>
                 <div style={{ fontSize: 8.5, color: C.red, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 6 }}>Active Escalation</div>
                 {exec.escalations.map(e => (
-                  <div key={e.id} style={{ fontSize: 10, color: "rgba(255,255,255,0.6)" }}>
-                    Illustrative: {e.trigger} → {e.escalateToRoleId} {e.acknowledged ? "· acknowledgement modelled" : "· acknowledgement not modelled"}
+                  <div key={e.id} style={{ fontSize: 10.5, color: "rgba(255,255,255,0.65)" }}>
+                    Simulated: {e.trigger} → {roleName(e.escalateToRoleId)} · {e.acknowledged ? "acknowledged (simulated)" : "awaiting acknowledgement — no alert was sent"}
                   </div>
                 ))}
+                {exec.escalations.some(e => !e.acknowledged) && (
+                  <button type="button" onClick={handleAcknowledge} style={{ marginTop: 8, padding: "6px 14px", minHeight: 44, fontSize: 11, fontWeight: 700, background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.35)", color: C.red, cursor: "pointer" }}>
+                    Acknowledge as {roleName(exec.escalations.find(e => !e.acknowledged)!.escalateToRoleId)}
+                  </button>
+                )}
               </div>
             )}
           </div>
@@ -525,6 +658,8 @@ function ExecTracePanel({
               key={action.id}
               onClick={() => {
                 if (action.id === "escalate") { handleEscalate(); }
+                else if (action.via === "approveDecision") { handleApprove(); }
+                else if (action.via === "returnDecision") { handleReturn(); }
                 else { handleAction(action.toState); }
               }}
               disabled={!action.toState}
@@ -536,7 +671,7 @@ function ExecTracePanel({
                 color: action.toState ? (action.id === "escalate" ? C.red : C.gold) : "rgba(255,255,255,0.25)",
               }}
             >
-              Model: {action.label}
+              {action.via === "approveDecision" ? `Approve as ${roleName(exec.approvalRoleId)}` : action.label}
             </button>
           ))}
         </div>
@@ -564,11 +699,19 @@ function ExecTracePanel({
           </div>
         ))}
       </div>
+      <div style={{ marginTop: 12, padding: "10px 14px", background: "rgba(167,139,250,0.06)", border: "1px solid rgba(167,139,250,0.25)", fontSize: 11, color: "rgba(255,255,255,0.7)", lineHeight: 1.65 }}>
+        <div><strong style={{ color: "#fff" }}>Review trigger:</strong> {learning.reviewTrigger}</div>
+        <div><strong style={{ color: "#fff" }}>Next action:</strong> {learning.nextAction}</div>
+        <div style={{ fontSize: 10, color: "rgba(255,255,255,0.4)", marginTop: 4 }}>A proposal only. A named reviewer approves any playbook change; nothing is applied automatically.</div>
+      </div>
       <div style={{ marginTop: 10, fontSize: 9.5, color: "rgba(255,255,255,0.3)" }}>
         Evidence quality: <span style={{ fontWeight: 700, color: learning.evidenceQuality === "complete" ? C.green : learning.evidenceQuality === "partial" ? C.gold : C.red }}>
           {learning.evidenceQuality}
-        </span> · Generated {new Date(learning.generatedAt).toLocaleTimeString()}
+        </span> · Outcome evidence: <span style={{ fontWeight: 700, color: learning.outcomeEvidence === "measured" ? C.gold : "rgba(255,255,255,0.5)" }}>{learning.outcomeEvidence === "measured" ? "values entered in simulation" : "not measured"}</span> · Cycle {cycle} · Generated {new Date(learning.generatedAt).toLocaleTimeString()}
       </div>
+      <button type="button" onClick={runNextCycle} style={{ marginTop: 12, padding: "9px 18px", minHeight: 44, fontSize: 11, fontWeight: 700, background: C.gold, border: "none", color: "#102d39", cursor: "pointer" }}>
+        Run cycle {cycle + 1} with this learning in view →
+      </button>
     </div>
   ) : null;
 
@@ -579,7 +722,7 @@ function ExecTracePanel({
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
           <div>
             <div style={{ fontSize: 13, fontWeight: 800, color: "#fff" }}>{scenario.title}</div>
-            <div style={{ fontSize: 9.5, color: "rgba(255,255,255,0.4)" }}>{exec.playbookName} · {exec.accountableRoleId}</div>
+            <div style={{ fontSize: 9.5, color: "rgba(255,255,255,0.4)" }}>{exec.playbookName} · Accountable: {roleName(exec.accountableRoleId)}</div>
           </div>
           <div style={{ padding: "4px 10px", fontSize: 9, fontWeight: 700, color: stateColor, border: `1px solid ${stateColor}40`, background: `${stateColor}0a` }}>
             Illustrative state · {stateLabel}
@@ -646,6 +789,12 @@ function ExecTracePanel({
 
       {/* Main panel */}
       <div style={{ padding: "16px 20px", background: "rgba(255,255,255,0.015)", border: "1px solid rgba(255,255,255,0.06)" }}>
+        {priorLearning && (
+          <div role="note" style={{ marginBottom: 12, padding: "10px 14px", background: "rgba(167,139,250,0.06)", border: "1px solid rgba(167,139,250,0.25)", fontSize: 11, color: "rgba(255,255,255,0.7)", lineHeight: 1.6 }}>
+            <strong style={{ color: "#a78bfa" }}>Cycle {cycle} · carried from cycle {cycle - 1}:</strong> {priorLearning.nextAction}
+            <div style={{ fontSize: 10, color: "rgba(255,255,255,0.4)" }}>Shown to the deciding role as context. The playbook itself is unchanged until a reviewer approves an update.</div>
+          </div>
+        )}
         {view === "dual" ? (
           <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
             <div>
@@ -773,6 +922,8 @@ export default function PartnerOperationsCentre() {
             <strong style={{ color: C.gold }}>Working Proof · Simulation boundary:</strong> all operational inputs and states below are synthetic and local. Current classification is deterministic and rules-based. Communications remain drafts and are never sent or delivered; actions, evidence and outcomes are illustrative, and value is modelled rather than measured. No task, partner activation or external-system update occurs. Named humans retain approval and real-world accountability.
           </p>
         </div>
+
+        <ProofSummary />
 
         <Link href="/partner-room/operations?view=simulation" style={{ display: "block", padding: "18px 22px", marginBottom: 30, background: "#20474e", border: "1px solid #81bcb8", borderRadius: 8, color: "#c5ece7", fontSize: 14, fontWeight: 700 }}>Open Simulation Lab — watch signals move through the engine →</Link>
 
