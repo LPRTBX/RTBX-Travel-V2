@@ -84,3 +84,5 @@
 @media (max-width: 650px) { .travel-value-input-grid { grid-template-columns: 1fr; gap: 18px; } .travel-value-moment { padding: 18px; } .travel-value-tiers { gap: 8px; } .travel-value th, .travel-value td { padding: 12px 8px; } }
 
 .travel-value-frequency { width: 76px; min-height: 44px; padding: 8px; border: 1px solid #709299; border-radius: 4px; background: #071d27; color: #fff; font: inherit; }
+
+.travel-value-impact { border-top: 3px solid #a8dedb; background: linear-gradient(135deg,#173b43,#102d39); }

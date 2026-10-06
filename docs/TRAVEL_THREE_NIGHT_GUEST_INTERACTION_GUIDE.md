@@ -72,3 +72,9 @@ For each recorded exchange, ask whether there is a decision, coordination need, 
 For a towel request, the guest request, internal assignment and completion update might be three operational exchanges supporting one moment. In this guest-facing guide, the request/response service episode counts once; its internal events sit in a separate ledger. Do not add the whole operational chain to the guest total or multiply revenue by every exchange.
 
 A pilot should replace frequencies with observed exchanges and unique moment records, measure existing service performance, then compare the changed outcome and effort. The calculator's financial moment assumptions remain separate until that evidence establishes a defensible relationship.
+
+## Read the impact at the bottom
+
+The interaction plan estimates activity. Moment volumes, successful-action rates and value assumptions determine the impact; increasing interaction counts alone does not manufacture value. Under the separate default moment assumptions, gross potential staff capacity is approximately 184.8 hours/month. After 50% incremental attribution and a 20% overlap allowance, that becomes approximately 73.9 hours, or 0.46 FTE-equivalent capacity at an entered 160 hours/month. These are model assumptions, not staff savings established by the journey.
+
+At an illustrative loaded hourly cost of $45, that time has a cost equivalent of approximately $3,327. Cash realisation defaults to zero, so none of that cost equivalent is added to the dollar bottom line. If a named pilot supports lower overtime or agency spend, enter the defensible share. The final low/base/high table shows attributed service contribution/avoided cost plus only the entered staff cash-saving hypothesis, less total entered programme cost. Exclude any labour already counted in avoided-cost tiers. Redeployed hours, welfare, safety and service-quality improvements stay visible separately.

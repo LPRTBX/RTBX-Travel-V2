@@ -106,6 +106,26 @@ describe("Travel operating value model", () => {
     expect(r.rows.find(m => m.kind === "recovery")!.gross.base).toBe(0);
     expect(r.rows.find(m => m.kind === "opportunity")!.gross.base).toBe(0);
   });
+  it("shows incremental human capacity without automatically claiming payroll savings", () => {
+    const a = inputs(); const r = calculateTravelValue(a);
+    expect(r.adjustedStaffHours).toBeCloseTo(r.staffHours * a.incrementalShare * (1 - a.overlapAllowance));
+    expect(r.fteEquivalent).toBeCloseTo(r.adjustedStaffHours / 160);
+    expect(r.staffCapacityValue).toBeCloseTo(r.adjustedStaffHours * 45);
+    expect(r.cashStaffSavings).toBe(0);
+    expect(r.bottomLine).toEqual(r.net);
+    a.cashRealisationRate = 0.25;
+    const paid = calculateTravelValue(a);
+    expect(paid.cashStaffSavings).toBeCloseTo(paid.staffCapacityValue * 0.25);
+    expect(paid.bottomLine.base).toBeCloseTo(paid.net.base + paid.cashStaffSavings);
+    a.incrementalShare = 0;
+    expect(calculateTravelValue(a).adjustedStaffHours).toBe(0);
+    expect(calculateTravelValue(a).cashStaffSavings).toBe(0);
+  });
+  it("rejects invalid staff-cost and FTE assumptions", () => {
+    const a = inputs(); a.hoursPerFteMonth = 0; expect(() => calculateTravelValue(a)).toThrow();
+    const b = inputs(); b.cashRealisationRate = 1.1; expect(() => calculateTravelValue(b)).toThrow();
+    const c = inputs(); c.hourlyStaffCost = -1; expect(() => calculateTravelValue(c)).toThrow();
+  });
   it("rejects invalid occupancy, duration, categories and unordered tiers", () => {
     for (const value of [NaN, Infinity, -0.1, 1.1]) {
       const a = inputs(); a.occupancy = value; expect(() => calculateTravelValue(a)).toThrow();

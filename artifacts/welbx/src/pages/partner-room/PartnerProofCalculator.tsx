@@ -95,7 +95,7 @@ export default function PartnerProofCalculator() {
         {m.value ? <>
           <h4>{m.kind === "opportunity" ? "Net contribution per successful opportunity" : "Avoided cost per successful action"} · $</h4>
           <div className="travel-value-tiers">{(["low", "base", "high"] as const).map(tier => <label key={tier}>{tier}<input type="number" onFocus={e => e.currentTarget.select()} aria-label={`${m.label}: ${tier} value per successful action`} min={0} max={10000} step={1} value={m.value![tier]} onChange={e => { if (e.target.value !== "" && Number.isFinite(e.target.valueAsNumber)) updateTier(m.kind, tier, Math.max(0, Math.min(10000, e.target.valueAsNumber))); }} /></label>)}</div>
-          <p className="travel-value-hint">Editable assumptions, not prices or validated savings. Adjacent tiers adjust if needed to keep low ≤ base ≤ high.</p>
+          <p className="travel-value-hint">Editable assumptions, not prices or validated savings. Exclude staff labour that is accounted for in the human-resource section below. Adjacent tiers adjust if needed to keep low ≤ base ≤ high.</p>
         </> : <p className="travel-value-hint">{m.kind === "welfare" ? "No dollar value or time-saving target is assigned to welfare and safety. Validate response time, human ownership and follow-through separately; action rate alone does not establish safety." : "Potential staff time is shown separately; it is not added to financial value or treated as cash savings."}</p>}
       </article>)}</div>
     </section>
@@ -104,7 +104,7 @@ export default function PartnerProofCalculator() {
       <h2 id="value-title">3. Attribute value carefully</h2>
       <div className="travel-value-input-grid">
         <Assumption label="Incremental share attributable to JALDO" value={Math.round(a.incrementalShare * 100)} min={0} max={100} unit="%" onChange={v => update("incrementalShare", v / 100)} hint="Exclude outcomes the existing operation would achieve anyway." />
-        <Assumption label="Allowance for overlapping financial benefits" value={Math.round(a.overlapAllowance * 100)} min={0} max={100} unit="%" onChange={v => update("overlapAllowance", v / 100)} hint="A planning deduction; verify overlap from unique events during the pilot." />
+        <Assumption label="Allowance for overlapping benefits" value={Math.round(a.overlapAllowance * 100)} min={0} max={100} unit="%" onChange={v => update("overlapAllowance", v / 100)} hint="Applied to financial benefit and staff time; verify overlap from unique events during the pilot." />
         <Assumption label="Monthly programme cost" value={a.monthlyCost} min={0} max={100000} step={100} unit=" $" onChange={v => update("monthlyCost", v)} hint="Enter total recurring cost plus allocated activation cost. Zero means cost is not included." />
       </div>
       <div className="travel-value-table-wrap"><table><caption>Illustrative monthly financial range</caption><thead><tr><th scope="col">Component</th><th scope="col">Low</th><th scope="col">Base</th><th scope="col">High</th></tr></thead><tbody>
@@ -120,6 +120,29 @@ export default function PartnerProofCalculator() {
         <div><strong>{number(result.staffHours)} hrs</strong><span>Potential staff capacity · before overlap review</span></div>
       </div>
       <p>Staff time, financial benefits and welfare outcomes stay separate. Time released is not cash saved unless it changes actual cost. Nothing here proves guest satisfaction, safety, avoided harm, delivered actions or ROI.</p>
+    </section>
+    <section className="travel-value-section travel-value-impact" aria-labelledby="bottom-impact-title">
+      <h2 id="bottom-impact-title">4. Human-resource impact and the financial bottom line</h2>
+      <p>What could this mean for the team and the operation each month? Use the same {percent(a.incrementalShare)} attribution and {percent(a.overlapAllowance)} overlap allowance to estimate incremental staff capacity.</p>
+      <div className="travel-value-input-grid">
+        <Assumption label="Working hours per full-time equivalent per month" value={a.hoursPerFteMonth} min={1} max={240} onChange={v => update("hoursPerFteMonth", v)} hint="Your working-hours basis; the default is an example, not a staffing standard." />
+        <Assumption label="Loaded staff cost per hour" value={a.hourlyStaffCost} min={0} max={200} unit=" $" onChange={v => update("hourlyStaffCost", v)} hint="Use the full hourly cost in the same currency as the value tiers." />
+        <Assumption label="Released time that actually reduces cash cost" value={Math.round(a.cashRealisationRate * 100)} min={0} max={100} unit="%" onChange={v => update("cashRealisationRate", v / 100)} hint="Default 0%. Increase only for a defensible reduction in paid overtime, agency hours or other actual spend." />
+      </div>
+      <div className="travel-value-stats" aria-live="polite" aria-atomic="true">
+        <div><strong>{number(result.adjustedStaffHours)} hrs</strong><span>Incremental staff capacity per month</span></div>
+        <div><strong>{result.fteEquivalent.toLocaleString(undefined, { maximumFractionDigits: 2 })}</strong><span>FTE-equivalent capacity · not headcount reduction</span></div>
+        <div><strong>{money(result.staffCapacityValue)}</strong><span>Cost equivalent of released time · not cash savings</span></div>
+        <div><strong>{money(result.cashStaffSavings)}</strong><span>Entered cash-saving hypothesis at {percent(a.cashRealisationRate)}</span></div>
+      </div>
+      <p>{number(result.staffHours)} gross potential hours × {percent(a.incrementalShare)} attribution × {percent(1 - a.overlapAllowance)} after overlap = {number(result.adjustedStaffHours)} incremental hours. Equivalent capacity = hours ÷ {a.hoursPerFteMonth}; cost equivalent = hours × {money(a.hourlyStaffCost)}. Redeployment may improve service and workload without lowering payroll.</p>
+      <div className="travel-value-table-wrap"><table><caption>Monthly bottom-line hypothesis · after entered costs</caption><thead><tr><th scope="col">Component</th><th scope="col">Low</th><th scope="col">Base</th><th scope="col">High</th></tr></thead><tbody>
+        <tr><th scope="row">Attributed service contribution / avoided cost</th>{(["low", "base", "high"] as const).map(t => <td key={t}>{money(result.adjusted[t])}</td>)}</tr>
+        <tr><th scope="row">Entered staff cash-saving hypothesis</th>{(["low", "base", "high"] as const).map(t => <td key={t}>{money(result.cashStaffSavings)}</td>)}</tr>
+        <tr><th scope="row">Entered programme cost</th>{(["low", "base", "high"] as const).map(t => <td key={t}>−{money(a.monthlyCost)}</td>)}</tr>
+        <tr className="travel-value-total"><th scope="row">Net monthly impact hypothesis</th>{(["low", "base", "high"] as const).map(t => <td key={t}>{money(result.bottomLine[t])}</td>)}</tr>
+      </tbody></table></div>
+      <p>Exclude labour costs already included in prevention/recovery value tiers. The overlap allowance is a planning adjustment, not proof of deduplication. This is not an accounting profit forecast: attribution, avoided costs, actual cash savings and complete programme costs still need pilot evidence. Welfare, safety and guest satisfaction remain separate outcomes.</p>
     </section>
     <section className="travel-value-section travel-value-close"><h2>Turn assumptions into a named pilot.</h2><p>Baseline moment volumes and outcomes, record who authorised each response, compare the result with existing practice, and review unique-event evidence. Use those findings to replace the assumptions and configure the next cycle.</p></section>
   </main></PartnerRoomLayout>;

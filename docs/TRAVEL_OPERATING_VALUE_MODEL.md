@@ -22,7 +22,7 @@ Routine coordination shows potential staff capacity, not financial savings. Oppo
 
 Gross category benefit = successful actions × value tier. Combined gross benefit is multiplied by the entered incremental share attributable to JALDO, then by (1 − overlap allowance). Entered monthly programme cost is subtracted afterward. Negative net estimates remain visible. A zero cost means costs have not been included. The overlap deduction is a planning assumption; it does not prove real event deduplication or eliminate double counting in the underlying evidence.
 
-Staff time is kept outside the monetary sum. The model estimates time released, which must be checked against available capacity and actual baseline effort. Welfare and safety have no dollar or time-saving target. Their volume and action-rate hypotheses do not establish safety; pilots must separately validate response time, ownership, authorisation and follow-through.
+Gross staff time is shown separately. Incremental capacity applies the same attribution and overlap factor. Divide by entered monthly hours per FTE to show capacity equivalent, not a headcount cut. Multiply by loaded hourly cost to show a cost equivalent, not cash savings. Only the entered cash-realisation share (default zero) is added to the financial bottom-line hypothesis; exclude any labour already included in avoided-cost tiers. The model estimates time released, which must be checked against available capacity and actual baseline effort. Welfare and safety have no dollar or time-saving target. Their volume and action-rate hypotheses do not establish safety; pilots must separately validate response time, ownership, authorisation and follow-through.
 
 ## Example assumptions
 
@@ -32,4 +32,8 @@ All controls are editable, with visible sliders and numeric fields. Assumptions 
 
 ## Verification
 
-683 Vitest tests across 26 files passed, including 13 operating-model checks for occupancy propagation, portfolio scaling, stay counting, interactions, non-financial welfare/capacity, attribution and overlap deductions, zero activity, negative net estimates and invalid assumptions. Application TypeScript, production build, internal links, routes, access and bundle boundaries passed. GitHub QA verifies the published branch. Rendered verification of the new page requires Replit to pull main and restart.
+685 Vitest tests across 26 files passed, including 15 operating-model checks for occupancy propagation, portfolio scaling, stay counting, interactions, non-financial welfare/capacity, attribution and overlap deductions, zero activity, negative net estimates and invalid assumptions. Application TypeScript, production build, internal links, routes, access and bundle boundaries passed. GitHub QA verifies the published branch. Rendered verification of the new page requires Replit to pull main and restart.
+
+## Bottom impact summary
+
+The final calculator section exposes monthly FTE hours, loaded hourly staff cost and the share of released time that actually reduces cash spend. It shows incremental staff hours, FTE-equivalent capacity, cost-equivalent time and the entered staff cash-saving hypothesis. The low/base/high bottom-line table adds only the cash-saving portion to attributed contribution/avoided cost and subtracts programme cost. The defaults for staff hours and hourly cost are examples, not staffing or wage benchmarks.
