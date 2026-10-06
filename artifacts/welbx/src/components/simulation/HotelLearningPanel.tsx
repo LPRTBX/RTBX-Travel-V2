@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'wouter';
 import { TRAVEL_ROLES } from '@/data/travelRoles';
 import { createHotelSignals, PATH_LABELS } from '@/simulation/mockHotel';
 import { simulateHotelCase, hotelFaultForSignal, proposeHotelLearning, reviewHotelLearning,
@@ -107,6 +108,7 @@ export function HotelLearningPanel() {
           {current.proposal.decision === 'rejected' && <p className="jsim-hint">Rejected changes are kept on record and excluded from the next cycle.</p>}
         </> : <p className="jsim-hint">{current.baseline.outcome === 'met' ? 'No improvement needed in this fixture.' : 'No change is proposed without a measurement — collect the missing follow-up first.'}</p>}
       </section></div>}
+      <p className="jsim-hint"><Link href="/partner-room/operating-evolution">Go beyond faster response: work through reviewed early recognition, preparation and team impact →</Link></p>
       <div className="jsim-section-title"><h2>Next cycle</h2></div>
       <p className="jsim-hint">Approved changes are combined into one reviewed policy and applied to 100 fresh signals with the same fault profile. Rejected or unreviewed proposals are not applied. Same synthetic hotel; not a production release or a forecast.</p>
       <div className="jsim-buttons">
