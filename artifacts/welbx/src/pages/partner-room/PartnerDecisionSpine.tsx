@@ -142,9 +142,9 @@ export default function PartnerDecisionSpine() {
           <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.22)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
             Product Proof · Decision & Action Layer
           </div>
-          <div style={{ fontSize: 28, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", marginBottom: 10 }}>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", marginBottom: 10 }}>
             Decision Spine Demo
-          </div>
+          </h1>
           <p style={{ fontSize: 13, color: "rgba(255,255,255,0.38)", lineHeight: 1.7, maxWidth: 560 }}>
             Scenario: Holiday Park family arrival disruption. Adjust synthetic inputs to see a deterministic, rules-based classification and illustrative recommendation.
           </p>
