@@ -58,8 +58,10 @@ describe('Hotel decisions → verified outcomes → reviewed learning → replay
         const expected = fault === 'none' ? 'met' : fault === 'missing-receipt' || fault === 'missing-measurement' ? 'pending' : 'not-met';
         expect(c.outcome).toBe(expected);
         expect(c.execution.state).toBe(fault === 'none' || fault === 'late-response' ? 'closed' : 'in-action');
-        expect(c.audit.map(a => a.step).slice(0, 7)).toEqual(['signal-received', 'understanding', 'decision-required',
-          'approval-required', 'approval', 'in-action', 'mock-dispatch']);
+        // Gated scenarios record an approval; delegated-authority scenarios (transport) record the accountable role's decision.
+        expect(c.audit.map(a => a.step).slice(0, c.execution.approvalRequired ? 7 : 6)).toEqual(c.execution.approvalRequired
+          ? ['signal-received', 'understanding', 'decision-required', 'approval-required', 'approval', 'in-action', 'mock-dispatch']
+          : ['signal-received', 'understanding', 'decision-required', 'delegated-authority', 'in-action', 'mock-dispatch']);
         expect(c.observation?.eventId).toBe(signal.eventId);
         expect(c.execution.communications.every(comm => comm.sent)).toBe(true);
         expect(c.execution.escalations.length).toBe(fault === 'none' ? 0 : 1);
@@ -98,13 +100,14 @@ describe('Hotel decisions → verified outcomes → reviewed learning → replay
   check('Action gates reject absent/wrong approval and repeated dispatch', () => {
     const c = prepareHotelDecision(createHotelCase(signals[0]));
     expect(() => dispatchHotelAction(c)).toThrow(/approval/);
-    expect(() => approveHotelDecision(c, 'unrelated-role')).toThrow(/Accountable/);
-    const dispatched = dispatchHotelAction(approveHotelDecision(c, c.execution.accountableRoleId));
+    expect(() => approveHotelDecision(c, 'unrelated-role')).toThrow(/Authorised/);
+    const dispatched = dispatchHotelAction(approveHotelDecision(c, c.execution.approvalRoleId));
+    expect(dispatched.execution.decisions.at(-1)).toMatchObject({ decision: 'approved', roleId: c.execution.approvalRoleId });
     expect(() => dispatchHotelAction(dispatched)).toThrow(/redispatched/);
   });
   check('Cross-event, stale-policy, wrong-action and invalid observations cannot close a case', () => {
     const c = prepareHotelDecision(createHotelCase(signals[0]));
-    const dispatched = dispatchHotelAction(approveHotelDecision(c, c.execution.accountableRoleId));
+    const dispatched = dispatchHotelAction(approveHotelDecision(c, c.execution.approvalRoleId));
     const observation = mockHotelFollowUp(dispatched, 'none');
     for (const patch of [{ eventId: 'other-event' }, { executionId: 'other-execution' },
       { policyVersion: 'stale' }, { actionId: 'other-action' }, { elapsedMinutes: NaN },

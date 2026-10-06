@@ -2,11 +2,10 @@ import "./travel-impact.css";
 import { useMemo, useState } from "react";
 import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
-import { STATE_TO_STEP, TRACE_STEPS, transitionExecution } from "@/lib/runtimeEngine";
-import type { ScenarioExecutionState } from "@/data/travelDeploymentConfig";
+import { STATE_TO_STEP, TRACE_STEPS } from "@/lib/runtimeEngine";
 import { MOCK_HOTEL } from "@/simulation/mockHotel";
-import { approveHotelDecision, createHotelCase, dispatchHotelAction, mockHotelFollowUp, verifyHotelOutcome, type Fault, proposeHotelLearning, reviewHotelLearning, replayHotelLearning, reconcileHotelFollowUp, type Proposal, type HotelCase } from "@/simulation/hotelLearning";
-import { ARCHITECTURE_SCENARIOS, architectureContext, architectureSignalFor, buildArchitectureNodes, type ArchitectureScenarioId } from "@/lib/architectureLabModel";
+import { createHotelCase, type Fault, proposeHotelLearning, reviewHotelLearning, replayHotelLearning, reconcileHotelFollowUp, type Proposal, type HotelCase } from "@/simulation/hotelLearning";
+import { advanceArchitectureTrace, architectureNextLabel, ARCHITECTURE_SCENARIOS, architectureContext, architectureSignalFor, buildArchitectureNodes, type ArchitectureScenarioId } from "@/lib/architectureLabModel";
 
 const box = { background: "rgba(255,255,255,.025)", border: "1px solid rgba(255,255,255,.08)" };
 const muted = { color: "rgba(255,255,255,.5)" };
@@ -68,43 +67,13 @@ export default function PartnerArchitectureLab() {
   const choose = (id: ArchitectureScenarioId) => {
     resetLearning(); setSelected(id); setHotelCase(makeCase(id)); setFault("none"); setInspect("signal"); setFocusStage("Connect");
   };
-  const move = (to: ScenarioExecutionState, note: string) => setHotelCase(c => {
-    const next = transitionExecution(c.execution, to, scenario, note);
-    return next ? { ...c, execution: next, audit: [...c.audit, { step: to, detail: note }] } : c;
-  });
   const advance = () => {
-    if (execution.state === "signal-received") {
-      move("understanding", "Synthetic signal validated");
-      return focusArchitecture("signal", "Connect");
-    }
-    if (execution.state === "understanding") {
-      move("decision-required", "Moment classified");
-      return focusArchitecture("moment", "Understand");
-    }
-    if (execution.state === "decision-required") {
-      move("approval-required", "Governance and authority applied");
-      return focusArchitecture("governance", "Decide");
-    }
-    if (execution.state === "approval-required" && !hotelCase.approved) {
-      setHotelCase(c => approveHotelDecision(c, c.execution.accountableRoleId));
-      return focusArchitecture("authority", "Act");
-    }
-    if (execution.state === "approval-required") {
-      setHotelCase(c => dispatchHotelAction(c));
-      return focusArchitecture("comms", "Act");
-    }
-    if (execution.state === "in-action" && !hotelCase.observation) {
-      setHotelCase(c => verifyHotelOutcome(c, mockHotelFollowUp(c, fault)));
-      return focusArchitecture("outcome", "Learn");
-    }
+    const next = advanceArchitectureTrace(hotelCase, fault);
+    if (!next) return;
+    setHotelCase(next.hotelCase);
+    focusArchitecture(next.node, next.stage);
   };
-  const nextLabel =
-    execution.state === "signal-received" ? "Validate signal"
-    : execution.state === "understanding" ? "Classify moment"
-    : execution.state === "decision-required" ? "Apply governance"
-    : execution.state === "approval-required" && !hotelCase.approved ? "Human approve"
-    : execution.state === "approval-required" ? "Dispatch synthetic action"
-    : execution.state === "in-action" && !hotelCase.observation ? "Verify synthetic outcome" : null;
+  const nextLabel = architectureNextLabel(hotelCase);
 
   return <PartnerRoomLayout>
     <div className="travel-architecture" style={{ minHeight: "100vh", background: "#071315", color: "#fff" }}>
