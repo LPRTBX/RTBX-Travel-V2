@@ -5,6 +5,8 @@ import { parseNumericDraft, resolveNumericDraft } from "@/lib/numericDraft";
 import { createHotelSignals } from "@/simulation/mockHotel";
 import { hotelFaultForSignal, proposeHotelLearning, replayHotelLearning, reviewHotelLearning, simulateHotelCase } from "@/simulation/hotelLearning";
 import { describeJourneyOutcome, summariseLearningRows } from "@/simulation/hotelLearningSummary";
+import { DEFAULT_CYCLE_CONDITIONS, EVOLUTION_REVIEWER, describeArrival, describeConditions, initialEvolution, isMeaningfulReason, reviewEvolution, runEvolutionCycle } from "@/simulation/operatingEvolution";
+import { DEFAULT_VALUE_ASSUMPTIONS, calculateTravelValue } from "@/lib/travelValueModel";
 
 describe("Build & Configure required environment fields", () => {
   it("accepts the default deployment", () => {
@@ -70,5 +72,47 @@ describe("Simulation Lab recorded evidence", () => {
     expect(describeJourneyOutcome({ baseline: { outcome: "pending" }, reconciled: { outcome: "met" } }, labels))
       .toBe("Pending evidence → late evidence outcome met");
     expect(describeJourneyOutcome({ baseline: { outcome: "met" } }, labels)).toBe("Outcome met");
+  });
+});
+
+describe("Operating Evolution review and cycle records", () => {
+  const measured = { ...DEFAULT_CYCLE_CONDITIONS };
+  const baseline = () => runEvolutionCycle(runEvolutionCycle(initialEvolution(), measured), measured);
+
+  it("requires a meaningful reviewer reason in the model, not only the UI", () => {
+    expect(isMeaningfulReason("")).toBe(false);
+    expect(isMeaningfulReason("          ")).toBe(false);
+    expect(isMeaningfulReason("ok")).toBe(false);
+    expect(isMeaningfulReason("1234567890")).toBe(false);
+    expect(isMeaningfulReason("Two cycles show 20 delays")).toBe(true);
+    expect(() => reviewEvolution(baseline(), EVOLUTION_REVIEWER, true, "ok")).toThrow();
+    expect(reviewEvolution(baseline(), EVOLUTION_REVIEWER, true, "  Two cycles show 20 delays  ").reviews[0].reason).toBe("Two cycles show 20 delays");
+  });
+
+  it("keeps each cycle's conditions as they were when it ran", () => {
+    const settings = { ...DEFAULT_CYCLE_CONDITIONS };
+    const first = runEvolutionCycle(initialEvolution(), settings);
+    settings.capacity = 5;
+    settings.forecastAvailable = false;
+    const second = runEvolutionCycle(first, settings);
+    expect(describeConditions(second.cycles[0].conditions)).toBe("Capacity 20 · forecast available · measured");
+    expect(describeConditions(second.cycles[1].conditions)).toBe("Capacity 5 · no forecast · measured");
+  });
+
+  it("labels each arrival with its readiness, action and outcome", () => {
+    const labels = baseline().cycles[0].traces.map(describeArrival);
+    expect(labels[0]).toBe("Arrival 1 · room not ready · no preparation · delayed");
+    expect(labels[2]).toBe("Arrival 3 · room ready · no preparation · on time");
+    const unmeasured = runEvolutionCycle(initialEvolution(), { ...DEFAULT_CYCLE_CONDITIONS, measured: false });
+    expect(describeArrival(unmeasured.cycles[0].traces[0], 0)).toContain("outcome unconfirmed");
+  });
+});
+
+describe("Calculator programme cost", () => {
+  it("leaves the net calculation unchanged when no programme cost is entered", () => {
+    const result = calculateTravelValue({ ...structuredClone(DEFAULT_VALUE_ASSUMPTIONS), monthlyCost: 0 });
+    expect(result.net).toEqual(result.adjusted);
+    const withCost = calculateTravelValue({ ...structuredClone(DEFAULT_VALUE_ASSUMPTIONS), monthlyCost: 1000 });
+    expect(withCost.net.base).toBe(result.adjusted.base - 1000);
   });
 });

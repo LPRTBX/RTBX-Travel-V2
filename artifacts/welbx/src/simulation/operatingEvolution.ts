@@ -17,6 +17,17 @@ export interface EvolutionCycle {
 export interface Review { id: string; policy: ReadinessPolicy; role: string; decision: 'approved' | 'rejected' | 'rollback'; reason: string; sourceCycles: string[] }
 export interface EvolutionState { policy: ReadinessPolicy; cycles: EvolutionCycle[]; reviews: Review[] }
 export const initialEvolution = (): EvolutionState => ({ policy: 1, cycles: [], reviews: [] });
+export const DEFAULT_CYCLE_CONDITIONS: Readonly<CycleConditions> = { capacity: 20, measured: true, forecastAvailable: true };
+export const MIN_REVIEW_REASON_LENGTH = 10;
+/** A review reason must be the reviewer's own explanation: at least ten characters of non-whitespace text with words in it. */
+export const isMeaningfulReason = (reason: string) => reason.trim().length >= MIN_REVIEW_REASON_LENGTH && /\p{L}/u.test(reason);
+export const describeConditions = (c: CycleConditions) =>
+  `Capacity ${c.capacity} · ${c.forecastAvailable ? 'forecast available' : 'no forecast'} · ${c.measured ? 'measured' : 'not measured'}`;
+export function describeArrival(trace: ArrivalTrace, index: number): string {
+  const action = trace.prepared ? 'prepared early' : trace.capacityHeld ? 'capacity hold' : 'no preparation';
+  const outcome = trace.delayed === null ? 'outcome unconfirmed' : trace.delayed ? 'delayed' : 'on time';
+  return `Arrival ${index + 1} · room ${trace.roomReady ? 'ready' : 'not ready'} · ${action} · ${outcome}`;
+}
 export function runEvolutionCycle(state: EvolutionState, conditions: CycleConditions): EvolutionState {
   if (!Number.isSafeInteger(conditions.capacity) || conditions.capacity < 0 || conditions.capacity > 100) throw new Error('Invalid preparation capacity');
   const id = `cycle-${state.cycles.length + 1}`;
@@ -62,7 +73,7 @@ export function evolutionCandidate(state: EvolutionState): { policy: ReadinessPo
 }
 export function reviewEvolution(state: EvolutionState, role: string, approve: boolean, reason: string): EvolutionState {
   const candidate = evolutionCandidate(state);
-  if (!candidate || role !== EVOLUTION_REVIEWER || !reason.trim()) throw new Error('A current candidate, authorised reviewer and review reason are required');
+  if (!candidate || role !== EVOLUTION_REVIEWER || !isMeaningfulReason(reason)) throw new Error('A current candidate, authorised reviewer and review reason are required');
   const review: Review = { id: `review-${state.reviews.length + 1}`, policy: candidate.policy, role,
     decision: approve ? 'approved' : 'rejected', reason: reason.trim(), sourceCycles: [...candidate.sourceCycles] };
   return { ...state, policy: approve ? candidate.policy : state.policy, reviews: [...state.reviews, review] };

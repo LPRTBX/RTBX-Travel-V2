@@ -30,9 +30,11 @@
 .evolution-actions + button { margin-top:16px; }
 .evolution button:focus-visible,.evolution select:focus-visible,.evolution textarea:focus-visible { outline:3px solid #fff; outline-offset:3px; }
 .evolution-reason { display:block; margin-top:24px; font-weight:600; }
+.evolution-reason-hint { margin:8px 0 0; max-width:760px; color:#ffffffb3; font-size:14px; line-height:1.5; }
+.evolution textarea::placeholder { color:#ffffff73; }
 .evolution textarea { display:block; width:100%; max-width:760px; min-height:100px; margin-top:12px; padding:14px 16px; border:1px solid #577173; border-radius:8px; background:#142024; color:#fff; font-weight:400; line-height:1.6; resize:vertical; }
 .evolution-table { max-width:100%; overflow-x:auto; margin-bottom:24px; border:1px solid #ffffff20; border-radius:10px; }
-.evolution table { width:100%; min-width:780px; border-collapse:collapse; }
+.evolution table { width:100%; min-width:960px; border-collapse:collapse; }
 .evolution th,.evolution td { padding:16px; border-bottom:1px solid #ffffff20; text-align:left; vertical-align:top; line-height:1.5; }
 .evolution th { color:#a8dedb; }
 .evolution thead { background:#a8dedb08; }

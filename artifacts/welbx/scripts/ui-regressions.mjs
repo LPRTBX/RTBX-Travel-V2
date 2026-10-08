@@ -154,6 +154,116 @@ await check("Pilot model resource has no console errors", { width: 1440, height:
   assert(errors.length === 0, errors.join(" | "));
 });
 
+// Operating Evolution: reviewer reason, full reset, per-cycle conditions and labelled arrivals.
+const runCycle = page => page.getByRole("button", { name: /^Run cycle/ }).click();
+
+await check("Operating Evolution requires a meaningful review reason", { width: 1440, height: 900 }, async page => {
+  await open(page, "/partner-room/operating-evolution");
+  await runCycle(page);
+  await runCycle(page);
+  const reason = page.getByLabel("Review reason");
+  const approve = page.getByRole("button", { name: /Approve policy v2/ });
+  const reject = page.getByRole("button", { name: /Reject and retain/ });
+  assert(await reason.inputValue() === "", `review reason starts pre-filled: "${await reason.inputValue()}"`);
+  assert(await approve.isDisabled() && await reject.isDisabled(), "a review can be submitted without a reason");
+  await reason.fill("     ");
+  assert(await approve.isDisabled(), "whitespace counts as a review reason");
+  await reason.fill("ok");
+  assert(await approve.isDisabled(), "a two-character reason is accepted");
+  await reason.fill("Two measured cycles show 20 delays each.");
+  assert(!(await approve.isDisabled()), "a meaningful reason does not enable approval");
+  await approve.click();
+  assert((await page.locator("section", { hasText: "Review and version history" }).innerText()).includes("Two measured cycles show 20 delays each."), "history does not record the reviewer's words");
+});
+
+await check("Operating Evolution reset restores the whole walkthrough", { width: 1440, height: 900 }, async page => {
+  await open(page, "/partner-room/operating-evolution");
+  const capacity = page.getByLabel("Housekeeping preparation capacity");
+  await runCycle(page);
+  await runCycle(page);
+  await page.getByLabel("Review reason").fill("Approve earlier preparation for testing.");
+  await page.getByRole("button", { name: /Approve policy v2/ }).click();
+  await capacity.fill("5");
+  await page.getByLabel("Follow-up measurements available").uncheck();
+  await page.getByLabel("Readiness forecast available").uncheck();
+  await runCycle(page);
+  await page.locator("section", { hasText: "Inspect the moment, action and evidence" }).getByRole("combobox").selectOption({ index: 10 });
+  await page.getByRole("button", { name: "Reset walkthrough" }).click();
+  assert(await capacity.inputValue() === "20", `capacity stayed at ${await capacity.inputValue()} after reset`);
+  assert(await page.getByLabel("Follow-up measurements available").isChecked(), "measurement setting survived reset");
+  assert(await page.getByLabel("Readiness forecast available").isChecked(), "forecast setting survived reset");
+  assert(await page.getByRole("button", { name: /^Run cycle/ }).innerText() === "Run cycle 1", "cycle history survived reset");
+  assert((await page.locator("section", { hasText: "Review and version history" }).innerText()).includes("No reviewed changes yet"), "review history survived reset");
+  await runCycle(page);
+  const arrival = page.locator("section", { hasText: "Inspect the moment, action and evidence" }).getByRole("combobox");
+  assert(await arrival.inputValue() === "0", `arrival selection survived reset (${await arrival.inputValue()})`);
+});
+
+await check("Operating Evolution records each cycle's conditions", { width: 1440, height: 900 }, async page => {
+  await open(page, "/partner-room/operating-evolution");
+  await runCycle(page);
+  await page.getByLabel("Housekeeping preparation capacity").fill("5");
+  await page.getByLabel("Readiness forecast available").uncheck();
+  await runCycle(page);
+  const rows = await page.locator(".evolution-table tbody tr").evaluateAll(trs => trs.map(tr => tr.innerText));
+  assert(/capacity 20/i.test(rows[0]) && /forecast available/i.test(rows[0]), `cycle 1 row does not show its conditions: ${rows[0]}`);
+  assert(/capacity 5/i.test(rows[1]) && /no forecast/i.test(rows[1]), `cycle 2 row does not show its conditions: ${rows[1]}`);
+  await page.getByLabel("Housekeeping preparation capacity").fill("12");
+  const after = await page.locator(".evolution-table tbody tr").first().innerText();
+  assert(after === rows[0], "changing current settings rewrote cycle 1's conditions");
+});
+
+await check("Operating Evolution labels arrival selections", { width: 1440, height: 900 }, async page => {
+  await open(page, "/partner-room/operating-evolution");
+  await runCycle(page);
+  const select = page.locator("section", { hasText: "Inspect the moment, action and evidence" }).getByRole("combobox");
+  const options = await select.locator("option").allInnerTexts();
+  assert(options.length === 100, `expected 100 arrivals, found ${options.length}`);
+  assert(options.every(text => /^Arrival \d+ · /.test(text)), `arrival options are not labelled: ${options.slice(0, 3).join(" | ")}`);
+  assert(options.some(text => /delayed/i.test(text)), "no arrival option names its outcome");
+  const label = await select.evaluate(el => el.labels?.[0]?.innerText ?? el.getAttribute("aria-label") ?? "");
+  assert(/cycle 1/i.test(label), `arrival picker label does not name the cycle: "${label}"`);
+});
+
+// Calculator: frequency inputs usable at 390px; $0 programme cost is called out.
+await check("Calculator frequency inputs are usable at 390px", { width: 390, height: 844 }, async page => {
+  await open(page, "/partner-room/proof-calculator");
+  const inputs = page.getByLabel(/: frequency$/);
+  const count = await inputs.count();
+  assert(count === 11, `expected 11 frequency inputs, found ${count}`);
+  // Measure without any horizontal scrolling: a visitor will not discover a hidden sideways scroll.
+  const boxes = await inputs.evaluateAll(els => els.map(el => {
+    const wrap = el.closest(".travel-value-table-wrap");
+    const rect = el.getBoundingClientRect();
+    return { left: rect.left, right: rect.right, hiddenOverflow: wrap ? wrap.scrollWidth - wrap.clientWidth : 0 };
+  }));
+  boxes.forEach((box, index) => {
+    assert(box.left >= 0 && box.right <= 390, `frequency input ${index + 1} is off-screen (left ${Math.round(box.left)}px, right ${Math.round(box.right)}px)`);
+    assert(box.hiddenOverflow <= 1, `interaction table hides ${box.hiddenOverflow}px behind a sideways scroll`);
+  });
+  const first = inputs.first();
+  await first.click();
+  await first.pressSequentially("2");
+  await first.press("Enter");
+  assert(await first.inputValue() === "2", "frequency input did not accept a typed value");
+  assert(await page.evaluate(() => document.documentElement.scrollWidth) <= 390, "page scrolls horizontally");
+});
+
+await check("Calculator states when programme cost is not included", { width: 1440, height: 900 }, async page => {
+  await open(page, "/partner-room/proof-calculator");
+  const note = page.getByText("Programme costs are not included in this net estimate", { exact: false });
+  const netRow = () => page.locator("tr", { hasText: "Net monthly impact hypothesis" }).innerText();
+  assert(await note.first().isVisible(), "no statement that programme costs are excluded at $0");
+  const atZero = await netRow();
+  const cost = page.getByLabel("Monthly programme cost — exact value");
+  await cost.click();
+  await cost.pressSequentially("1000");
+  await cost.press("Enter");
+  assert(await note.count() === 0, "exclusion statement remains after a cost is entered");
+  const withCost = await netRow();
+  assert(atZero !== withCost, "entering a programme cost did not change the net estimate");
+});
+
 await browser.close();
 server?.kill();
 

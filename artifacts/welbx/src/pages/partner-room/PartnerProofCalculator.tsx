@@ -26,6 +26,8 @@ function Assumption({ label, value, min, max, step = 1, onChange, unit = "", hin
 export default function PartnerProofCalculator() {
   const [a, setA] = useState<TravelValueAssumptions>(() => structuredClone(DEFAULT_VALUE_ASSUMPTIONS));
   const result = calculateTravelValue(a);
+  const costIncluded = a.monthlyCost > 0;
+  const costNote = !costIncluded && <p className="travel-value-cost-note" role="note"><strong>Programme costs are not included in this net estimate.</strong> Monthly programme cost is $0; enter it in section 3 to deduct it.</p>;
   const update = (key: Exclude<keyof TravelValueAssumptions, "moments" | "journey">, value: number) => setA(current => ({ ...current, [key]: value }));
   const updateJourney = (id: string, frequency: number) => setA(current => ({ ...current, journey: current.journey.map(j => j.id === id ? { ...j, frequency } : j) }));
   const updateMoment = (kind: MomentKind, key: "momentsPer100Stays" | "actionRate" | "minutesSaved", value: number) =>
@@ -73,9 +75,9 @@ export default function PartnerProofCalculator() {
       <h3 style={{ marginTop: 28 }}>Build the guest interaction plan</h3>
       <p>This worked example includes pre-arrival, arrival, daily service, departure and follow-up. It is a full-service pattern, not a standard or industry average. Change each frequency to match the property: zero excludes an exchange; 0.5 means it occurs in half of the relevant stays or nights.</p>
       <p>Shared check-ins, meals and room-service exchanges count once per room party. Individual exchanges scale with guest nights only when guests interact independently. Count a complete service episode once, not every message, click or retry. An automated message counts only if it becomes a meaningful exchange.</p>
-      <div className="travel-value-table-wrap"><table><caption>Editable interaction guide · {a.lengthOfStay}-night average stay</caption><thead><tr><th scope="col">Exchange</th><th scope="col">Counting basis</th><th scope="col">Frequency</th><th scope="col">Per room stay</th><th scope="col">Monthly</th></tr></thead><tbody>
-        {result.journeyRows.map(j => <tr key={j.id}><th scope="row">{j.label}<span className="travel-value-hint">{j.stage} · {j.purpose}</span></th><td>{INTERACTION_BASIS_LABELS[j.basis]}</td><td><NumberField className="travel-value-frequency" aria-label={`${j.label}: frequency`} min={0} max={10} value={j.frequency} onCommit={v => updateJourney(j.id, v)} /></td><td>{j.perStay.toLocaleString(undefined, { maximumFractionDigits: 2 })}</td><td>{number(j.monthly)}</td></tr>)}
-        <tr className="travel-value-total"><th scope="row">Total distinct guest-facing exchanges</th><td colSpan={2}>Shared + individual</td><td>{result.interactionsPerRoomStay.toLocaleString(undefined, { maximumFractionDigits: 2 })}</td><td>{number(result.interactions)}</td></tr>
+      <div className="travel-value-table-wrap"><table className="travel-value-journey"><caption>Editable interaction guide · {a.lengthOfStay}-night average stay</caption><thead><tr><th scope="col">Exchange</th><th scope="col">Counting basis</th><th scope="col">Frequency</th><th scope="col">Per room stay</th><th scope="col">Monthly</th></tr></thead><tbody>
+        {result.journeyRows.map(j => <tr key={j.id}><th scope="row">{j.label}<span className="travel-value-hint">{j.stage} · {j.purpose}</span></th><td data-label="Counting basis">{INTERACTION_BASIS_LABELS[j.basis]}</td><td data-label="Frequency"><NumberField className="travel-value-frequency" aria-label={`${j.label}: frequency`} min={0} max={10} value={j.frequency} onCommit={v => updateJourney(j.id, v)} /></td><td data-label="Per room stay">{j.perStay.toLocaleString(undefined, { maximumFractionDigits: 2 })}</td><td data-label="Monthly">{number(j.monthly)}</td></tr>)}
+        <tr className="travel-value-total"><th scope="row">Total distinct guest-facing exchanges</th><td colSpan={2} data-label="Counting basis">Shared + individual</td><td data-label="Per room stay">{result.interactionsPerRoomStay.toLocaleString(undefined, { maximumFractionDigits: 2 })}</td><td data-label="Monthly">{number(result.interactions)}</td></tr>
       </tbody></table></div>
       <p className="travel-value-result">Monthly: {number(result.sharedInteractions)} shared exchanges + {number(result.individualInteractions)} individual exchanges = {number(result.interactions)} guest-facing interactions.</p>
       <p>Stay-level exchanges scale with room stays; daily shared exchanges scale with occupied room nights; individual daily exchanges scale with guest nights. At fixed occupancy, longer stays reduce arrival/departure exchanges but not daily service volume. Before/after-stay exchanges are allocated to the stay for planning, not dated live records. Staff, system and partner exchanges are not included in this guest-facing total.</p>
@@ -111,8 +113,9 @@ export default function PartnerProofCalculator() {
         {result.rows.filter(m => m.value).map(m => <tr key={m.kind}><th scope="row">{m.label} · before deductions</th>{(["low", "base", "high"] as const).map(t => <td key={t}>{money(m.gross[t])}</td>)}</tr>)}
         <tr><th scope="row">Gross modelled benefit</th>{(["low", "base", "high"] as const).map(t => <td key={t}>{money(result.gross[t])}</td>)}</tr>
         <tr><th scope="row">After attribution and overlap allowance</th>{(["low", "base", "high"] as const).map(t => <td key={t}>{money(result.adjusted[t])}</td>)}</tr>
-        <tr className="travel-value-total"><th scope="row">After entered programme cost</th>{(["low", "base", "high"] as const).map(t => <td key={t}>{money(result.net[t])}</td>)}</tr>
+        <tr className="travel-value-total"><th scope="row">{costIncluded ? "After entered programme cost" : "After programme cost · not included ($0 entered)"}</th>{(["low", "base", "high"] as const).map(t => <td key={t}>{money(result.net[t])}</td>)}</tr>
       </tbody></table></div>
+      {costNote}
       <p>Financial benefit = successful actions × value tier. Apply {percent(a.incrementalShare)} incremental attribution, then deduct {percent(a.overlapAllowance)} for overlap, then subtract {money(a.monthlyCost)} in entered monthly cost. Low/base/high vary the per-action value only; they are not statistical confidence bounds.</p>
       <div className="travel-value-stats">
         <div><strong>{number(result.moments)}</strong><span>Operational moments</span></div>
@@ -139,9 +142,10 @@ export default function PartnerProofCalculator() {
       <div className="travel-value-table-wrap"><table><caption>Monthly bottom-line hypothesis · after entered costs</caption><thead><tr><th scope="col">Component</th><th scope="col">Low</th><th scope="col">Base</th><th scope="col">High</th></tr></thead><tbody>
         <tr><th scope="row">Attributed service contribution / avoided cost</th>{(["low", "base", "high"] as const).map(t => <td key={t}>{money(result.adjusted[t])}</td>)}</tr>
         <tr><th scope="row">Entered staff cash-saving hypothesis</th>{(["low", "base", "high"] as const).map(t => <td key={t}>{money(result.cashStaffSavings)}</td>)}</tr>
-        <tr><th scope="row">Entered programme cost</th>{(["low", "base", "high"] as const).map(t => <td key={t}>−{money(a.monthlyCost)}</td>)}</tr>
-        <tr className="travel-value-total"><th scope="row">Net monthly impact hypothesis</th>{(["low", "base", "high"] as const).map(t => <td key={t}>{money(result.bottomLine[t])}</td>)}</tr>
+        <tr><th scope="row">Entered programme cost</th>{(["low", "base", "high"] as const).map(t => <td key={t}>{costIncluded ? `−${money(a.monthlyCost)}` : "Not entered"}</td>)}</tr>
+        <tr className="travel-value-total"><th scope="row">Net monthly impact hypothesis{costIncluded ? "" : " · programme cost not included"}</th>{(["low", "base", "high"] as const).map(t => <td key={t}>{money(result.bottomLine[t])}</td>)}</tr>
       </tbody></table></div>
+      {costNote}
       <p>Exclude labour costs already included in prevention/recovery value tiers. The overlap allowance is a planning adjustment, not proof of deduplication. This is not an accounting profit forecast: attribution, avoided costs, actual cash savings and complete programme costs still need pilot evidence. Welfare, safety and guest satisfaction remain separate outcomes.</p>
     </section>
     <section className="travel-value-section travel-value-close"><h2>Turn assumptions into a named pilot.</h2><p>Baseline moment volumes and outcomes, record who authorised each response, compare the result with existing practice, and review unique-event evidence. Use those findings to replace the assumptions and configure the next cycle.</p></section>
