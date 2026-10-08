@@ -58,7 +58,9 @@
 .travel-value-input-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 24px; margin: 22px 0; }
 .travel-value-input { display: block; min-width: 0; }
 .travel-value-input-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 14px; font-weight: 700; color: #edf5f6; min-height: 48px; }
-.travel-value-number-wrap { display: inline-flex; align-items: center; gap: 4px; flex-shrink: 0; color: #a8dedb; }
+.travel-value-number-wrap { display: inline-flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 4px; flex-shrink: 0; color: #a8dedb; }
+.number-field-hint { flex-basis: 100%; text-align: right; font-size: 12px; color: #f2b48a; }
+.travel-value [aria-invalid="true"] { border-color: #f2b48a; }
 .travel-value-number-wrap input, .travel-value-tiers input { width: 88px; min-height: 44px; padding: 8px; border: 1px solid #709299; background: #071d27; color: #fff; font: inherit; border-radius: 4px; }
 .travel-value .travel-value-hint { display: block; color: #afc2c9; font-size: 13px; line-height: 1.6; margin-top: 6px; }
 .travel-value-stats { display: grid; grid-template-columns: repeat(auto-fit,minmax(150px,1fr)); gap: 12px; margin: 22px 0; }

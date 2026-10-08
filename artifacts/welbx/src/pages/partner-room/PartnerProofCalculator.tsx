@@ -2,6 +2,7 @@ import { useState, type CSSProperties } from "react";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 import { calculateTravelValue, DEFAULT_VALUE_ASSUMPTIONS, type TravelValueAssumptions, type MomentKind, type ValueTier } from "@/lib/travelValueModel";
 import { INTERACTION_BASIS_LABELS } from "@/lib/travelGuestJourney";
+import { NumberField } from "@/components/NumberField";
 import "./proof-calculator.css";
 
 const number = (n: number) => Math.round(n).toLocaleString();
@@ -13,8 +14,7 @@ function Assumption({ label, value, min, max, step = 1, onChange, unit = "", hin
 }) {
   return <div className="travel-value-input">
     <span className="travel-value-input-header"><span>{label}</span><span className="travel-value-number-wrap">
-      <input type="number" onFocus={e => e.currentTarget.select()} aria-label={`${label} — exact value`} min={min} max={max} step={step} value={value}
-        onChange={e => { if (e.target.value !== "" && Number.isFinite(e.target.valueAsNumber)) onChange(Math.min(max, Math.max(min, e.target.valueAsNumber))); }} />{unit}
+      <NumberField aria-label={`${label} — exact value`} min={min} max={max} value={value} onCommit={onChange} />{unit}
     </span></span>
     <input className="travel-value-slider" type="range" aria-label={label} min={min} max={max} step={step} value={value}
       aria-valuetext={`${value}${unit}`} onChange={e => onChange(Number(e.target.value))}
@@ -74,7 +74,7 @@ export default function PartnerProofCalculator() {
       <p>This worked example includes pre-arrival, arrival, daily service, departure and follow-up. It is a full-service pattern, not a standard or industry average. Change each frequency to match the property: zero excludes an exchange; 0.5 means it occurs in half of the relevant stays or nights.</p>
       <p>Shared check-ins, meals and room-service exchanges count once per room party. Individual exchanges scale with guest nights only when guests interact independently. Count a complete service episode once, not every message, click or retry. An automated message counts only if it becomes a meaningful exchange.</p>
       <div className="travel-value-table-wrap"><table><caption>Editable interaction guide · {a.lengthOfStay}-night average stay</caption><thead><tr><th scope="col">Exchange</th><th scope="col">Counting basis</th><th scope="col">Frequency</th><th scope="col">Per room stay</th><th scope="col">Monthly</th></tr></thead><tbody>
-        {result.journeyRows.map(j => <tr key={j.id}><th scope="row">{j.label}<span className="travel-value-hint">{j.stage} · {j.purpose}</span></th><td>{INTERACTION_BASIS_LABELS[j.basis]}</td><td><input className="travel-value-frequency" type="number" aria-label={`${j.label}: frequency`} min={0} max={10} step={0.5} value={j.frequency} onFocus={e => e.currentTarget.select()} onChange={e => { if (e.target.value !== "" && Number.isFinite(e.target.valueAsNumber)) updateJourney(j.id, Math.max(0, Math.min(10, e.target.valueAsNumber))); }} /></td><td>{j.perStay.toLocaleString(undefined, { maximumFractionDigits: 2 })}</td><td>{number(j.monthly)}</td></tr>)}
+        {result.journeyRows.map(j => <tr key={j.id}><th scope="row">{j.label}<span className="travel-value-hint">{j.stage} · {j.purpose}</span></th><td>{INTERACTION_BASIS_LABELS[j.basis]}</td><td><NumberField className="travel-value-frequency" aria-label={`${j.label}: frequency`} min={0} max={10} value={j.frequency} onCommit={v => updateJourney(j.id, v)} /></td><td>{j.perStay.toLocaleString(undefined, { maximumFractionDigits: 2 })}</td><td>{number(j.monthly)}</td></tr>)}
         <tr className="travel-value-total"><th scope="row">Total distinct guest-facing exchanges</th><td colSpan={2}>Shared + individual</td><td>{result.interactionsPerRoomStay.toLocaleString(undefined, { maximumFractionDigits: 2 })}</td><td>{number(result.interactions)}</td></tr>
       </tbody></table></div>
       <p className="travel-value-result">Monthly: {number(result.sharedInteractions)} shared exchanges + {number(result.individualInteractions)} individual exchanges = {number(result.interactions)} guest-facing interactions.</p>
@@ -94,7 +94,7 @@ export default function PartnerProofCalculator() {
         <p className="travel-value-result">{number(m.moments)} modelled moments → {number(m.actions)} assumed successful actions{m.kind !== "welfare" && ` · ${number(m.staffHours)} hours of potential staff capacity`}</p>
         {m.value ? <>
           <h4>{m.kind === "opportunity" ? "Net contribution per successful opportunity" : "Avoided cost per successful action"} · $</h4>
-          <div className="travel-value-tiers">{(["low", "base", "high"] as const).map(tier => <label key={tier}>{tier}<input type="number" onFocus={e => e.currentTarget.select()} aria-label={`${m.label}: ${tier} value per successful action`} min={0} max={10000} step={1} value={m.value![tier]} onChange={e => { if (e.target.value !== "" && Number.isFinite(e.target.valueAsNumber)) updateTier(m.kind, tier, Math.max(0, Math.min(10000, e.target.valueAsNumber))); }} /></label>)}</div>
+          <div className="travel-value-tiers">{(["low", "base", "high"] as const).map(tier => <label key={tier}>{tier}<NumberField aria-label={`${m.label}: ${tier} value per successful action`} min={0} max={10000} value={m.value![tier]} commitWhileTyping={false} onCommit={v => updateTier(m.kind, tier, v)} /></label>)}</div>
           <p className="travel-value-hint">Editable assumptions, not prices or validated savings. Exclude staff labour that is accounted for in the human-resource section below. Adjacent tiers adjust if needed to keep low ≤ base ≤ high.</p>
         </> : <p className="travel-value-hint">{m.kind === "welfare" ? "No dollar value or time-saving target is assigned to welfare and safety. Validate response time, human ownership and follow-through separately; action rate alone does not establish safety." : "Potential staff time is shown separately; it is not added to financial value or treated as cash savings."}</p>}
       </article>)}</div>

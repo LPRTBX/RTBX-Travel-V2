@@ -129,7 +129,7 @@ export default function PartnerArchitectureLab() {
           </div>
         </section>
 
-        <div className="rtbx-responsive-split" style={{ display: "grid", gridTemplateColumns: "minmax(0,1.5fr) minmax(320px,.7fr)", gap: 16, alignItems: "start" }}>
+        <div className="travel-architecture-split" style={{ display: "grid", gridTemplateColumns: "minmax(0,1.5fr) minmax(320px,.7fr)", gap: 16, alignItems: "start" }}>
           <section id="architecture-map">
             <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: ".12em", textTransform: "uppercase", ...muted, marginBottom: 10 }}>Architecture · click any layer to inspect</div>
             <div style={{ display: "grid", gap: 5 }}>
@@ -160,7 +160,7 @@ export default function PartnerArchitectureLab() {
             </div>
           </section>
 
-          <aside style={{ ...box, borderTop: "2px solid #a8dedb", padding: 22, position: "sticky", top: 100 }}>
+          <aside className="travel-architecture-inspector" aria-label="Layer inspector" style={{ ...box, borderTop: "2px solid #a8dedb", padding: 22, position: "sticky", top: 100 }}>
             <div style={{ fontSize: 10, color: "#f59e0b", fontWeight: 800, letterSpacing: ".1em", textTransform: "uppercase" }}>{selectedNode.stage} · Inspector</div>
             <h3 style={{ margin: "7px 0 8px", fontSize: 20 }}>{selectedNode.label}</h3>
             <p style={{ ...muted, fontSize: 13, lineHeight: 1.6 }}>{selectedNode.text}</p>

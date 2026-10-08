@@ -154,10 +154,10 @@ export default function PartnerIntegrationBrief() {
                 borderLeft: `2px solid ${cat.color}`,
               }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, marginBottom: 10 }}>
-                  <div style={{ fontSize: 7.5, letterSpacing: "0.18em", color: cat.color, textTransform: "uppercase", fontWeight: 700 }}>
+                  <div style={{ fontSize: 11, letterSpacing: "0.14em", color: cat.color, textTransform: "uppercase", fontWeight: 700 }}>
                     {cat.sub}
                   </div>
-                  <div style={{ fontSize: 6.5, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: STATUS_COLORS[cat.status], border: `1px solid ${STATUS_COLORS[cat.status]}45`, padding: "2px 6px", whiteSpace: "nowrap" }}>
+                  <div className="integration-status-chip" style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: STATUS_COLORS[cat.status], border: `1px solid ${STATUS_COLORS[cat.status]}80`, padding: "3px 8px", whiteSpace: "nowrap" }}>
                     {cat.status}
                   </div>
                 </div>

@@ -49,6 +49,12 @@ jobs:
       - name: Run tests
         run: pnpm --filter @workspace/rtbx-travel run test
 
+      - name: Install Playwright Chromium
+        run: pnpm --filter @workspace/rtbx-travel exec playwright install --with-deps chromium
+
+      - name: UI regressions
+        run: pnpm --filter @workspace/rtbx-travel run test:ui
+
       - name: Check active terminology
         run: pnpm --filter @workspace/rtbx-travel run check:terminology
 
