@@ -201,6 +201,11 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
     return () => document.removeEventListener("keydown", handler);
   }, [openGroup]);
 
+  // Arriving with a section hash (e.g. "/partner-room/pilot-model#pilot-scope") scrolls to it once the page renders.
+  useEffect(() => {
+    return window.location.hash ? schedulePartnerRoomHashScroll(window.location.hash, "auto") : undefined;
+  }, [location]);
+
   // Close both navigation modes on route changes.
   useEffect(() => {
     setMobileOpen(false);

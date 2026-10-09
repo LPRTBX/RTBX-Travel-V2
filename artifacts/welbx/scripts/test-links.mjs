@@ -82,6 +82,11 @@ const APPROVED_HASHES = new Set([
   "guided-route",
   "operating-loop",
   "who-we-serve",
+  // Phase 4: Stage 3 portfolio, Integration Brief security, pilot scope, Calculator value section
+  "portfolio-coordination",
+  "security-data",
+  "pilot-scope",
+  "value-title",
   // Operating model sections
   "signal-layer",
   "intelligence-layer",

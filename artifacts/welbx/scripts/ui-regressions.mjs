@@ -870,6 +870,105 @@ for (const viewport of [{ width: 390, height: 844 }, { width: 820, height: 1180 
   });
 }
 
+// Phase 4: portfolio coordination → Calculator → Integration Brief security → pilot scope, as one journey.
+for (const viewport of [{ width: 390, height: 844 }, { width: 820, height: 1180 }, { width: 1440, height: 900 }]) {
+  await check(`Phase 4 journey: portfolio, security and pilot scope at ${viewport.width}px`, viewport, async page => {
+    const requests = [];
+    page.on("request", request => requests.push({ method: request.method(), url: request.url() }));
+    const inView = selector => page.waitForFunction(sel => {
+      const r = document.querySelector(sel)?.getBoundingClientRect();
+      return !!r && r.top >= -5 && r.top < innerHeight / 2;
+    }, selector, { timeout: 5000 });
+
+    // Stage 3: several properties, local accountability, governed portfolio exceptions.
+    await open(page, "/partner-room");
+    await goVia(page, "Stage 3", viewport.width);
+    const portfolio = page.locator("#portfolio-coordination");
+    await portfolio.waitFor();
+    assert(await portfolio.locator("[data-property]").count() === 4, "expected four properties");
+    assert(/Synthetic data\./.test(await page.getByTestId("portfolio-synthetic").innerText()), "portfolio not labelled synthetic");
+    for (const status of ["implemented", "simulated", "proposed"]) assert(await portfolio.locator(`[data-capability="${status}"]`).count() === 1, `capability group ${status} missing`);
+    const message = page.getByTestId("portfolio-message");
+    await portfolio.getByRole("button", { name: /Move a booked guest from Harbour Hotel to Coastal Resort/ }).click();
+    await page.locator("#pc-actor").selectOption("dm-harbour");
+    await portfolio.getByRole("button", { name: "Approve as selected role" }).click();
+    assert(/has no authority here/.test(await message.innerText()), "a local Duty Manager approved a cross-property move");
+    await page.locator("#pc-actor").selectOption("regional-ops");
+    await portfolio.getByRole("button", { name: "Approve as selected role" }).click();
+    assert(/Still needed: General Manager · Coastal Resort/.test(await message.innerText()), "second approval not required");
+    await page.locator("#pc-actor").selectOption("gm-coastal");
+    await portfolio.getByRole("button", { name: "Approve as selected role" }).click();
+    assert(/All required approvals are recorded \(simulated\); nothing was sent/.test(await message.innerText()), "move not approved after both approvals");
+    await portfolio.getByRole("button", { name: /Restricted welfare case at Bayside Holiday Park/ }).click();
+    await page.locator("#pc-actor").selectOption("regional-ops");
+    await portfolio.getByRole("button", { name: "Approve as selected role" }).click();
+    assert(/Welfare cases stay with Duty Manager · Bayside Holiday Park/.test(await message.innerText()), "the portfolio decided a welfare case");
+    await noHorizontalScroll(page, viewport.width);
+    await portfolio.getByRole("link", { name: /Scope a pilot/ }).click();
+    await page.waitForURL(url => url.pathname === "/partner-room/pilot-model" && url.hash === "#pilot-scope");
+    await inView("#pilot-scope");
+    assert(/Not modelled yet/.test(await page.getByTestId("scope-value").innerText()), "value shown before the Calculator was used");
+
+    // Calculator: carry the modelled value into the scope.
+    await goVia(page, "Calculator", viewport.width);
+    await page.getByRole("button", { name: "Use in pilot scope →" }).click();
+    await page.waitForURL(url => url.pathname === "/partner-room/pilot-model" && url.hash === "#pilot-scope");
+    await inView("#pilot-scope");
+    assert(/From the Calculator: 1 site\(s\) × 120 rooms; net monthly impact hypothesis .* Modelled, not a forecast/.test(await page.getByTestId("scope-value").innerText()), "Calculator value not carried");
+
+    // Integration Brief: verified, demonstrated and required kept apart; no certification claimed.
+    await goVia(page, "Integration", viewport.width);
+    await page.locator("#security-data").waitFor();
+    for (const group of ["verified", "demonstrated", "required"]) assert(await page.getByTestId(`security-${group}`).isVisible(), `${group} group missing`);
+    assert((await page.getByTestId("security-verified").locator("li").allInnerTexts()).every(text => /Evidence:/.test(text)), "a verified control has no evidence");
+    assert(!/Evidence:/.test(await page.getByTestId("security-demonstrated").innerText()), "demonstrated behaviour presented as verified");
+    assert(/makes no certification claim/.test(await page.getByTestId("security-certification").innerText()), "certification statement missing");
+    assert(/not authentication or access control/.test(await page.getByTestId("security-demonstrated").innerText()), "access code presented as a control");
+    await noHorizontalScroll(page, viewport.width);
+    await page.getByRole("link", { name: /Add integration and security prerequisites to a pilot scope/ }).click();
+    await page.waitForURL(url => url.pathname === "/partner-room/pilot-model");
+    await inView("#pilot-scope");
+
+    // Pilot scope: two properties, accountable people, moments, baseline, measures, prerequisites, review.
+    const scope = page.locator("#pilot-scope");
+    await scope.getByLabel("Property 1 name").fill("Harbour Hotel");
+    await scope.getByRole("button", { name: "Add a property" }).click();
+    await scope.getByLabel("Property 2 name").fill("Coastal Resort");
+    for (const role of ["Executive sponsor", "Pilot owner", "Property lead", "Approval role", "Measurement owner", "Integration and security owner", "Portfolio exception owner"]) {
+      await scope.getByLabel(role).fill(`Named ${role}`);
+    }
+    await scope.getByLabel("What the decision will be based on").fill("Acknowledgement time improves on the baseline at both properties");
+    assert(/Every part of the scope is filled in/.test(await page.getByTestId("scope-gaps").innerText()), `scope still has gaps: ${await page.getByTestId("scope-gaps").innerText()}`);
+    const prereqs = await page.getByTestId("scope-prerequisites").innerText();
+    assert(/Property Management Systems/.test(prereqs) && /Named sign-in and server-side permissions/.test(prereqs), "prerequisites missing");
+    assert(/Subject to proposal; not a quote or approved pricing/.test(await page.getByTestId("scope-commercial").innerText()), "commercial assumptions not labelled");
+    const summary = await page.getByTestId("scope-summary").inputValue();
+    for (const part of ["- Harbour Hotel", "- Coastal Resort", "Portfolio exception owner: Named Portfolio exception owner", "SELECTED MOMENTS", "BASELINE", "MEASURES", "INTEGRATION PREREQUISITES", "REVIEW DECISION", "From the Calculator", "NOT A QUOTE"]) {
+      assert(summary.includes(part), `summary lacks ${part}`);
+    }
+    // Honest enquiry fallback: an email draft for the visitor's own app, plus a download.
+    const mail = await page.getByTestId("scope-mailto").getAttribute("href");
+    assert(mail.startsWith("mailto:lance@rtbx.com.au?subject=") && decodeURIComponent(mail).includes("PROPERTIES"), "email draft not prepared");
+    assert(/This page cannot send enquiries/.test(await page.getByTestId("scope-send-notice").innerText()), "no honest sending notice");
+    const mailColours = await page.getByTestId("scope-mailto").evaluate(el => { const style = getComputedStyle(el); return [style.color, style.backgroundColor]; });
+    assert(mailColours[0] !== mailColours[1], `email link text is invisible (${mailColours[0]} on ${mailColours[1]})`);
+    const [download] = await Promise.all([page.waitForEvent("download"), scope.getByRole("button", { name: "Download as text" }).click()]);
+    assert(download.suggestedFilename() === "jaldo-travel-pilot-scope.txt", "scope not downloadable");
+    await noHorizontalScroll(page, viewport.width);
+
+    // The draft survives moving away and back within the session.
+    await goVia(page, "Stage 3", viewport.width);
+    await page.locator("#portfolio-coordination").waitFor();
+    await goVia(page, "Pilot", viewport.width);
+    assert(await page.locator("#pilot-scope").getByLabel("Property 2 name").inputValue() === "Coastal Resort", "scope lost on navigation");
+
+    // Nothing left the browser: only GETs, to the app itself or Google Fonts.
+    const origin = new URL(page.url()).host;
+    const unexpected = requests.filter(r => r.method !== "GET" || !(new URL(r.url).host === origin || /^fonts\.(googleapis|gstatic)\.com$/.test(new URL(r.url).host) || r.url.startsWith("blob:") || r.url.startsWith("data:")));
+    assert(unexpected.length === 0, `unexpected requests: ${unexpected.slice(0, 3).map(r => `${r.method} ${r.url}`).join(", ")}`);
+  });
+}
+
 await browser.close();
 server?.kill();
 

@@ -11,6 +11,7 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
+import { PilotScopeBuilder } from "@/components/partner-room/PilotScopeBuilder";
 import {
   PILOT_PROPOSITION,
   PILOT_OPERATING_SYSTEMS,
@@ -97,6 +98,8 @@ export default function PartnerPilotModel() {
         </div>
 
         {/* ── TARGET BUYER ── */}
+        <PilotScopeBuilder />
+
         <div id="target-buyer" style={{ marginBottom: 48, scrollMarginTop: 90 }}>
           <SectionLabel>01 · Buyer</SectionLabel>
           <H2>Target buyer and sponsor</H2>
