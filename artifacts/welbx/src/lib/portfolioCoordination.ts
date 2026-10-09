@@ -137,6 +137,19 @@ export const PORTFOLIO_EXCEPTIONS: PortfolioException[] = [
   },
 ];
 
+/** Raised by the Stage 3 peak-pressure scenario when break cover is one person short. */
+export const CROSS_PROPERTY_COVER_EXCEPTION: PortfolioException = {
+  id: "capacity-cross-property-cover",
+  kind: "authority",
+  title: "Lend one front-office team member from Coastal Resort to Harbour Hotel for the peak",
+  propertyIds: ["harbour", "coastal"],
+  rule: "Moving staff between properties exceeds either property's own authority.",
+  requiredApproverIds: ["regional-ops", "gm-coastal"],
+  proposedResponse: "Coastal Resort lends one trained front-office team member from 14:00 to 16:00 to close Harbour Hotel's break-cover gap.",
+  staysLocal: "Harbour Hotel's Duty Manager keeps the intervention. Coastal Resort's General Manager decides whether it can spare someone. No individual is named in the portfolio view.",
+  evidenceRequired: ["Portfolio approval", "Coastal Resort's confirmation that its own cover is safe", "Hours lent recorded at both properties"],
+};
+
 export const MIN_RETURN_REASON = 10;
 
 export interface PortfolioDecisionEntry { actorId: string; action: "approved" | "returned"; reason?: string; at: string }

@@ -218,16 +218,14 @@ await check("Simulation Lab keeps recorded cycle 1 outcomes", { width: 1440, hei
   assert((await page.getByLabel("Results recorded after cycle 1").innerText()).includes("replays of the same signals"), "replay results are not reported separately");
 });
 
-// #7 Stage 3: the final step leads somewhere.
+// #7 Stage 3: the scenario leads somewhere.
 await check("Stage 3 final step offers a forward path", { width: 1440, height: 900 }, async page => {
   await open(page, "/partner-room/product-proof/stage-3-operating-layer");
-  for (let step = 0; step < 5; step += 1) {
-    if (step === 3) await page.locator(".s3-decision-btn").first().click();
-    await page.getByRole("button", { name: /^Continue$/i }).click();
-  }
-  const next = page.getByRole("link", { name: /pilot would prove/ });
-  assert(await next.isVisible(), "no forward CTA on the final step");
-  assert((await next.getAttribute("href")).endsWith("/partner-room/pilot-model"), "CTA does not open the pilot model");
+  const next = page.locator("#peak-pressure").getByRole("link", { name: /what the pilot would prove/ });
+  assert(await next.isVisible(), "no forward CTA after the Stage 3 scenario");
+  assert((await next.getAttribute("href")).endsWith("/partner-room/pilot-model#pilot-scope"), "CTA does not open the pilot scope");
+  await next.click();
+  await page.waitForURL(url => url.pathname === "/partner-room/pilot-model" && url.hash === "#pilot-scope");
 });
 
 // #18 Integration Brief: status chips are legible.
@@ -966,6 +964,150 @@ for (const viewport of [{ width: 390, height: 844 }, { width: 820, height: 1180 
     assert(await page.locator("#pilot-scope").getByLabel("Property 2 name").inputValue() === "Coastal Resort", "scope lost on navigation");
 
     // Nothing left the browser: only GETs, to the app itself or Google Fonts.
+    const origin = new URL(page.url()).host;
+    const unexpected = requests.filter(r => r.method !== "GET" || r.body || !(new URL(r.url).host === origin || /^fonts\.(googleapis|gstatic)\.com$/.test(new URL(r.url).host) || r.url.startsWith("blob:") || r.url.startsWith("data:")));
+    assert(unexpected.length === 0, `unexpected requests: ${unexpected.slice(0, 3).map(r => `${r.method} ${r.url}`).join(", ")}`);
+  });
+}
+
+// Stage 3 replacement: peak-period team pressure, its five challenge paths and the portfolio, as one journey.
+for (const viewport of [{ width: 390, height: 844 }, { width: 820, height: 1180 }, { width: 1440, height: 900 }]) {
+  await check(`Stage 3 peak-pressure journey and challenge paths at ${viewport.width}px`, viewport, async page => {
+    const requests = [];
+    page.on("request", request => requests.push({ method: request.method(), url: request.url(), body: request.postData() }));
+    await open(page, "/partner-room");
+    await goVia(page, "Stage 3", viewport.width);
+    const peak = page.locator("#peak-pressure");
+    await peak.waitFor();
+    const approval = page.getByTestId("peak-approval");
+    const message = () => page.getByTestId("peak-message").innerText();
+    const stage = name => peak.locator(`[data-stage="${name}"] strong`).innerText();
+    const reason = () => approval.getByLabel("Reason, or the information you need");
+    const choose = name => peak.getByRole("group", { name: "Choose a path through the scenario" }).getByRole("button", { name: new RegExp(name) }).click();
+    const aggregate = page.getByTestId("portfolio-aggregate");
+    const recordAll = async () => {
+      for (let i = 0; i < 12; i += 1) {
+        const buttons = peak.getByRole("button", { name: /^Record as / });
+        if (await buttons.count() === 0) return;
+        await buttons.first().click();
+      }
+    };
+    const approveDraft = () => peak.getByRole("button", { name: "Approve draft as Duty Manager" }).click();
+
+    // Signals: source, time and reliability for each; the pattern is about the operation, not a person.
+    assert(/Synthetic data\./.test(await page.getByTestId("peak-synthetic").innerText()), "scenario not labelled synthetic");
+    const rows = page.getByTestId("peak-signals").locator("tbody tr");
+    assert(await rows.count() === 6, "expected six signals");
+    for (const cells of await rows.evaluateAll(trs => trs.map(tr => [...tr.querySelectorAll("td")].map(td => td.textContent.trim())))) {
+      assert(cells.slice(1, 4).every(Boolean), `a signal lacks source, time or reliability: ${cells.join(" | ")}`);
+    }
+    const why = await page.getByTestId("peak-why").innerText();
+    assert(/the operation, not any person/.test(why) && /not a diagnosis and it is not about any individual/.test(why), "review rationale labels a person");
+    assert(/Housekeeping afternoon staffing \(missing\)/.test(await page.getByTestId("peak-gaps").innerText()), "missing reading not shown");
+    assert(/Awaiting Duty Manager review/.test(await aggregate.innerText()), "portfolio does not show the response status");
+    await noHorizontalScroll(page, viewport.width);
+
+    // Challenge 3: the wrong approval role is refused and nothing moves.
+    await choose("Wrong approval role");
+    assert(await approval.getByLabel("Act as").inputValue() === "fo-supervisor", "wrong-role path does not start as the supervisor");
+    await approval.getByRole("button", { name: "Approve the intervention" }).click();
+    assert(/Only the Duty Manager · Harbour Hotel may/.test(await message()), "a supervisor approved the intervention");
+    assert(await page.getByTestId("peak-message").getAttribute("role") === "alert", "refusal is not announced");
+    assert(/Awaiting/.test(await stage("approval")) && /needs approval/.test(await stage("execution")), "state changed after a refused approval");
+
+    // Challenge 1: missing and conflicting signals; request information before deciding.
+    await choose("Missing or conflicting signals");
+    assert(await peak.locator('[data-signal="roster"]').getAttribute("data-status") === "conflicting", "roster conflict not shown");
+    assert(await peak.locator('[data-signal="breaks"]').getAttribute("data-status") === "missing", "missing break log not shown");
+    assert(await page.getByTestId("peak-confidence").innerText() === "Reduced", "confidence not reduced");
+    await approval.getByRole("button", { name: "Approve the intervention" }).click();
+    assert(/Request more information first/.test(await message()), "approved on conflicting signals without a reason");
+    await reason().fill("Confirm who is on the desk and the break log");
+    await approval.getByRole("button", { name: "Request more information" }).click();
+    assert(/More information requested/.test(await stage("approval")), "request not recorded");
+    assert(await approval.getByRole("button", { name: "Approve the intervention" }).count() === 0, "decision possible while waiting for information");
+    assert(/Information requested by the Duty Manager/.test(await aggregate.innerText()), "portfolio does not show the outstanding request");
+    await approval.getByRole("button", { name: "Receive the requested confirmation (simulated)" }).click();
+    assert(await page.getByTestId("peak-confidence").innerText() === "Normal", "confirmation did not restore confidence");
+    await approval.getByRole("button", { name: "Approve the intervention" }).click();
+    assert(/Approved by Duty Manager · Harbour Hotel/.test(await stage("approval")), "not approved after confirmation");
+
+    // Challenge 4: continue monitoring with a reason and review time, then decline; nothing executes.
+    await choose("Intervention declined or deferred");
+    await reason().fill("ok");
+    await approval.getByRole("button", { name: "Continue monitoring" }).click();
+    assert(/reason of at least 10 characters/.test(await message()), "monitoring accepted without a reason");
+    await reason().fill("Two agents return from lunch at 13:45");
+    await approval.getByLabel("Review again in (if monitoring)").selectOption("30");
+    await approval.getByRole("button", { name: "Continue monitoring" }).click();
+    assert(/reviews again in 30 minutes/.test(await approval.innerText()), "review time not shown");
+    assert(await peak.getByRole("button", { name: /^Record as / }).count() === 0, "actions executable while monitoring");
+    await approval.getByRole("button", { name: "Review time reached (simulated)" }).click();
+    await reason().fill("Agency cover already arranged by the General Manager");
+    await approval.getByRole("button", { name: "Decline" }).click();
+    assert(/Declined with a reason/.test(await stage("approval")) && /Nothing executed/.test(await stage("execution")), "decline not separated from execution");
+    assert(/Declined with a reason/.test(await aggregate.innerText()), "portfolio does not show the declined status");
+    assert(await peak.getByRole("button", { name: "Record follow-up measurements (synthetic)" }).isDisabled(), "outcome measurable after a decline");
+
+    // Challenge 2: not enough people; escalation, a two-role portfolio decision, then execution and outcome.
+    await choose("Not enough people to prepare");
+    await approval.getByRole("button", { name: "Approve the intervention" }).click();
+    assert(/Gap: 1 person/.test(await page.getByTestId("peak-capacity").innerText()), "capacity gap not shown");
+    assert(await peak.locator('[data-action="escalate"]').count() === 1, "no escalation action");
+    await recordAll();
+    assert(await peak.locator('[data-action="breaks"]').getAttribute("data-state") === "waiting", "break cover executed without enough people");
+    assert(/Cover gap closed by portfolio support/.test(await peak.locator('[data-action="breaks"]').innerText()), "break cover does not show its dependency");
+    assert(/Portfolio decision on cross-property cover/.test(await aggregate.innerText()), "portfolio decision not outstanding");
+    await peak.getByRole("link", { name: /Go to the portfolio decision/ }).click();
+    const portfolio = page.locator("#portfolio-coordination");
+    await page.waitForFunction(() => { const r = document.querySelector("#portfolio-coordination")?.getBoundingClientRect(); return !!r && r.top < innerHeight && r.bottom > 0; }, null, { timeout: 5000 });
+    assert(/Lend one front-office team member/.test(await page.getByTestId("portfolio-response").innerText()), "cover exception not selected");
+    await page.locator("#pc-actor").selectOption("dm-harbour");
+    await portfolio.getByRole("button", { name: "Approve as selected role" }).click();
+    assert(/has no authority here/.test(await page.getByTestId("portfolio-message").innerText()), "local Duty Manager approved cross-property cover");
+    for (const actor of ["regional-ops", "gm-coastal"]) {
+      await page.locator("#pc-actor").selectOption(actor);
+      await portfolio.getByRole("button", { name: "Approve as selected role" }).click();
+    }
+    assert(/All required approvals are recorded/.test(await page.getByTestId("portfolio-message").innerText()), "cover not approved by both roles");
+    assert(/Gap closed/.test(await page.getByTestId("peak-capacity").innerText()), "approved cover did not close the gap");
+    await approveDraft();
+    await recordAll();
+    assert(/6 of 6 actions recorded/.test(await page.getByTestId("peak-follow-through").innerText()), "follow-through incomplete");
+    assert(/Not measured yet/.test(await stage("outcome")), "outcome reported before measurement");
+    await peak.getByRole("button", { name: "Record follow-up measurements (synthetic)" }).click();
+    assert(/The case can close/.test(await page.getByTestId("peak-closure").innerText()), "complete outcome cannot close");
+    const learning = page.getByTestId("peak-learning");
+    await learning.getByLabel("Act as").selectOption("duty-manager");
+    await learning.getByRole("button", { name: "Approve the proposal" }).click();
+    assert(/Only the General Manager · Harbour Hotel may/.test(await page.getByTestId("peak-learning-message").innerText()), "wrong role approved the learning");
+    assert(/Proposed · not applied/.test(await page.getByTestId("peak-learning-status").innerText()), "learning applied before approval");
+    await learning.getByLabel("Act as").selectOption("general-manager");
+    await learning.getByRole("button", { name: "Approve the proposal" }).click();
+    assert(/Approved by General Manager · Harbour Hotel/.test(await page.getByTestId("peak-learning-status").innerText()), "learning not approved");
+    const portfolioView = await aggregate.innerText();
+    assert(/Outstanding decisions\s*None/.test(portfolioView), `decisions still outstanding: ${portfolioView}`);
+    assert(!/People & Culture|support contact|who uses/i.test(portfolioView), "personal support details reached the portfolio");
+    assert(/never who uses it/.test(await peak.getByTestId("peak-restricted").innerText()), "support not marked restricted");
+    await noHorizontalScroll(page, viewport.width);
+
+    // Challenge 5: a missing follow-up measurement stays unconfirmed and blocks closure.
+    await choose("Missing follow-up evidence");
+    await approval.getByRole("button", { name: "Approve the intervention" }).click();
+    await approveDraft();
+    await recordAll();
+    await peak.getByRole("button", { name: "Record follow-up measurements (synthetic)" }).click();
+    assert(/Not recorded/.test(await peak.locator('[data-measure="breaks"]').innerText()) && /Unconfirmed/.test(await peak.locator('[data-measure="breaks"]').innerText()), "missing measurement not unconfirmed");
+    assert(/cannot close/.test(await page.getByTestId("peak-closure").innerText()) && /Partly confirmed/.test(await stage("outcome")), "case closable with missing evidence");
+    await learning.getByRole("button", { name: "Approve the proposal" }).click();
+    assert(/reason of at least 10 characters/.test(await page.getByTestId("peak-learning-message").innerText()), "learning approved on an incomplete basis without a reason");
+    await peak.getByRole("button", { name: "Record the missing evidence late (simulated)" }).click();
+    assert(/The case can close/.test(await page.getByTestId("peak-closure").innerText()) && /recorded late/.test(await peak.locator('[data-measure="breaks"]').innerText()), "late evidence not labelled");
+    await noHorizontalScroll(page, viewport.width);
+
+    // Forward to the pilot scope; nothing left the browser.
+    await peak.getByRole("link", { name: /what the pilot would prove/ }).click();
+    await page.waitForURL(url => url.pathname === "/partner-room/pilot-model" && url.hash === "#pilot-scope");
     const origin = new URL(page.url()).host;
     const unexpected = requests.filter(r => r.method !== "GET" || r.body || !(new URL(r.url).host === origin || /^fonts\.(googleapis|gstatic)\.com$/.test(new URL(r.url).host) || r.url.startsWith("blob:") || r.url.startsWith("data:")));
     assert(unexpected.length === 0, `unexpected requests: ${unexpected.slice(0, 3).map(r => `${r.method} ${r.url}`).join(", ")}`);

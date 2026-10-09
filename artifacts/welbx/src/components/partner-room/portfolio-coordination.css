@@ -57,3 +57,12 @@
   .pc-response { padding: 14px; }
   .pc-response dl > div { grid-template-columns: minmax(0, 1fr); gap: 2px; }
 }
+.pc-aggregate { margin: 0 0 16px; padding: 16px 18px; border: 1px solid rgba(251, 191, 36, 0.4); border-left: 3px solid #fbbf24; background: rgba(251, 191, 36, 0.05); }
+.pc-aggregate h3 { font-size: 15px; font-weight: 800; color: #fff; margin: 0 0 8px; }
+.pc-aggregate dl { margin: 0 0 8px; }
+.pc-aggregate dl > div { display: grid; grid-template-columns: minmax(0, 12em) minmax(0, 1fr); gap: 10px; padding: 5px 0; font-size: 13.5px; border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
+.pc-aggregate dt { color: rgba(255, 255, 255, 0.6); }
+.pc-aggregate dd { margin: 0; color: rgba(255, 255, 255, 0.9); }
+.pc-aggregate dd ul { margin: 0; padding-left: 18px; }
+.pc-aggregate p { margin: 0; font-size: 12.5px; color: rgba(255, 255, 255, 0.65); }
+@media (max-width: 640px) { .pc-aggregate dl > div { grid-template-columns: minmax(0, 1fr); gap: 2px; } }

@@ -2,8 +2,7 @@ import { useState } from "react";
 import { Link } from "wouter";
 import { WORKING_PROOF_PATH } from "@/lib/proofLanguage";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
-import Stage3ScenarioExperience from "./Stage3ScenarioExperience";
-import { PortfolioCoordination } from "@/components/partner-room/PortfolioCoordination";
+import Stage3PeakExperience from "./Stage3PeakExperience";
 
 
 const SITES = [
@@ -80,7 +79,7 @@ export default function PartnerStage3Preview() {
             JALDO Stage 3 · Connected scenario
           </h1>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.45)", lineHeight: 1.8, maxWidth: 720, marginBottom: 24 }}>
-            Compare today’s working demonstration with a proposed future-state walkthrough for Travel and a clearly unapproved Enterprise concept.
+            Compare today’s working demonstration with the planned Stage 3 simulation: a peak-period team-pressure case at one property, decided by its accountable manager and coordinated across a synthetic portfolio.
           </p>
 
           {/* Disclaimer */}
@@ -129,8 +128,7 @@ export default function PartnerStage3Preview() {
           </section>
         ) : (
           <>
-            <Stage3ScenarioExperience />
-            <PortfolioCoordination />
+            <Stage3PeakExperience />
             <details style={{ marginTop: 48 }}>
               <summary style={{ cursor: "pointer", color: "#c9a84c", fontSize: 14, fontWeight: 700, padding: "16px 0" }}>Explore the documented Travel roadmap reference · illustrative only</summary>
               <p style={{ color: "rgba(255,255,255,0.65)", lineHeight: 1.7 }}>This reference is a simulated future-state model, not current delivery. Marketplace and loyalty concepts are expansion-only. Enterprise workplace risk and private support are proposed concepts, not approved Travel roadmap capabilities.</p>
