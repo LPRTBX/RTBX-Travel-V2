@@ -82,6 +82,88 @@ for (const viewport of [{ width: 390, height: 844 }, { width: 820, height: 1180 
   });
 }
 
+// #1 follow-up: the docked Inspector never hides the focused control, and its contents stay reachable by keyboard.
+const inspectorGeometry = page => page.evaluate(() => {
+  const active = document.activeElement;
+  const inspector = document.querySelector(".travel-architecture-inspector");
+  const panel = inspector.getBoundingClientRect();
+  const rect = active.getBoundingClientRect();
+  const style = getComputedStyle(active);
+  const ring = (parseFloat(style.outlineWidth) || 0) + (parseFloat(style.outlineOffset) || 0);
+  const docked = getComputedStyle(inspector).position === "sticky" && Math.abs(panel.bottom - innerHeight) < 2;
+  const inside = inspector.contains(active);
+  const overlap = docked && !inside && active !== document.body
+    ? Math.max(0, Math.min(rect.bottom + ring, panel.bottom) - Math.max(rect.top - ring, panel.top)) : 0;
+  const nav = document.querySelector("[data-partner-room-nav]").getBoundingClientRect();
+  const navOverlap = active.closest(".travel-architecture-split") && !inside ? Math.max(0, Math.min(rect.bottom + ring, nav.bottom) - Math.max(rect.top - ring, nav.top)) : 0;
+  return { label: (active.innerText || active.getAttribute("aria-label") || active.tagName).replace(/\s+/g, " ").slice(0, 40), inside, overlap: Math.round(overlap), navOverlap: Math.round(navOverlap) };
+});
+
+for (const viewport of [{ width: 390, height: 844 }, { width: 820, height: 1180 }]) {
+  await check(`Architecture Lab Inspector never hides keyboard focus at ${viewport.width}px`, viewport, async page => {
+    await open(page, "/partner-room/architecture-lab");
+    const nodeCount = await page.locator(".travel-architecture-node").count();
+    // Tab through every control on the page; nothing focused may sit behind the docked panel.
+    const seen = [];
+    for (let step = 0; step < 120; step += 1) {
+      await page.keyboard.press("Tab");
+      const geometry = await inspectorGeometry(page);
+      if (seen.length && geometry.label === seen[0].label) break;
+      seen.push(geometry);
+      assert(geometry.overlap === 0, `Tab focus on "${geometry.label}" is hidden ${geometry.overlap}px behind the Inspector`);
+      assert(geometry.navOverlap === 0, `Tab focus on "${geometry.label}" is hidden ${geometry.navOverlap}px under the navigation`);
+    }
+    // Activate every node with Enter: the node stays clear of the panel and the panel shows it.
+    for (let index = 0; index < nodeCount; index += 1) {
+      const node = page.locator(".travel-architecture-node").nth(index);
+      await node.focus();
+      await page.keyboard.press("Enter");
+      await page.waitForTimeout(450);
+      const geometry = await inspectorGeometry(page);
+      const label = (await node.locator("strong").innerText()).trim();
+      assert(geometry.overlap === 0, `after Enter, "${label}" is hidden ${geometry.overlap}px behind the Inspector`);
+      assert((await page.locator(".travel-architecture-inspector h3").innerText()).trim() === label, `Inspector does not show "${label}" after Enter`);
+      assert((await page.getByRole("status").filter({ hasText: "inspector" }).innerText()).includes(label), `selection of "${label}" is not announced`);
+    }
+    // Inspector contents: reachable by Tab straight after the last node, and scrollable from the keyboard when they overflow.
+    for (let index = 0; index < nodeCount; index += 1) {
+      const node = page.locator(".travel-architecture-node").nth(index);
+      await node.focus();
+      await page.keyboard.press("Enter");
+      await page.waitForTimeout(450); // let the selection render and its deferred scroll adjustment run
+      await page.locator(".travel-architecture-node").last().focus();
+      await page.keyboard.press("Tab");
+      const inspectorFocused = await page.evaluate(() => document.activeElement === document.querySelector(".travel-architecture-inspector"));
+      assert(inspectorFocused, "Tab from the last node skips the Inspector");
+      const before = await page.locator(".travel-architecture-inspector").evaluate(el => ({ overflow: el.scrollHeight - el.clientHeight, top: el.scrollTop }));
+      assert(before.top === 0, `Inspector for node ${index + 1} opens scrolled ${before.top}px down instead of at its top`);
+      if (before.overflow > 0) {
+        await page.keyboard.press("End");
+        // Keyboard scrolling is animated, so wait for it rather than reading scrollTop immediately.
+        const scrolled = await page.waitForFunction(top => document.querySelector(".travel-architecture-inspector").scrollTop > top, before.top, { timeout: 2000 }).then(() => true, () => false);
+        assert(scrolled, `Inspector content for node ${index + 1} overflows ${before.overflow}px but does not scroll from the keyboard`);
+        await page.keyboard.press("Home");
+        await page.waitForFunction(() => document.querySelector(".travel-architecture-inspector").scrollTop === 0, null, { timeout: 2000 });
+      }
+    }
+    // Scroll the whole map: every node must be fully visible above the panel at some point.
+    const height = await page.evaluate(() => document.documentElement.scrollHeight);
+    const hidden = new Set(Array.from({ length: nodeCount }, (_, index) => index));
+    for (let y = 0; y < height; y += 60) {
+      const visible = await page.evaluate(top => {
+        window.scrollTo(0, top);
+        const panel = document.querySelector(".travel-architecture-inspector").getBoundingClientRect();
+        return [...document.querySelectorAll(".travel-architecture-node")].map(node => {
+          const rect = node.getBoundingClientRect();
+          return rect.top >= 0 && rect.bottom <= Math.min(innerHeight, panel.top);
+        });
+      }, y);
+      visible.forEach((ok, index) => { if (ok) hidden.delete(index); });
+    }
+    assert(hidden.size === 0, `nodes ${[...hidden].map(index => index + 1).join(", ")} are never fully visible while scrolling`);
+  });
+}
+
 // #3 Build & Configure: blank required fields block Next and activation.
 await check("Build & Configure blocks blank required fields", { width: 1440, height: 900 }, async page => {
   await open(page, "/partner-room/build-configure");
