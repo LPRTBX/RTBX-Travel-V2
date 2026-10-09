@@ -17,19 +17,19 @@ describe("Stage 3 scenario boundaries", () => {
     expect(preview).toContain("Experience Stage 3 · Planned simulation");
   });
 
-  it("labels Enterprise as proposed and prevents decision-free progression", () => {
-    expect(scenario).toContain("Proposed concept · not approved roadmap");
-    expect(scenario).toContain('disabled={step === 3 && decision === null}');
-    expect(scenario).toContain("setDecision(null)");
-    expect(scenario).toContain("No real personal information is stored or shared.");
+  it("replaces the Enterprise and café walkthrough without changing today's links", () => {
+    expect(scenario).not.toContain("JALDO Enterprise");
+    expect(scenario).not.toContain("Standard Recovery");
+    expect(preview).not.toContain("Enterprise");
+    expect(preview).toContain("Safety intervention belongs earlier");
+    expect(preview).toContain("authenticated access controls");
+    expect(preview).toContain('href="/partner-room/product-proof/pilot-expansion-preview"');
   });
 
-  it("keeps both decision outcomes and evidence explicitly simulated", () => {
-    expect(scenario).toContain('decision === "A"');
-    expect(scenario).toContain("Multi-property coordination is a planned Stage 3 capability");
-    expect(scenario).toContain("no revenue or value measured");
-    expect(scenario).toContain("No PMS or task records changed");
-    expect(scenario).toContain("Completed in simulation");
-    expect(scenario).toContain("Unresolved responsibilities");
+  it("keeps scenario preview separate from live execution", () => {
+    expect(preview).toContain("All cases, signals, confirmations, receipts and outcomes are fictional");
+    expect(preview).toContain("not live execution");
+    expect(preview).toContain("Costs are modelled, not cash ROI");
+    expect(scenario).not.toMatch(/fetch\(|axios|localStorage/);
   });
 });

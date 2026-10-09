@@ -1,10 +1,10 @@
 ---
 name: Stage 3 scope boundaries
-description: How to distinguish documented Travel Stage 3 plans from unapproved Enterprise concepts.
+description: Approved Travel scenario scope, earlier safety intervention and fictional-execution boundaries.
 ---
 
-The Travel Stage 3 preview may demonstrate planned multi-property coordination, signal streams, proposed action routing, role views, assurance and illustrative value reporting. An Enterprise workplace-risk or private-support journey is a proposed concept, not approved roadmap scope. Keep both journeys synthetic and local-only; approval in the preview is not operational authority.
+The user approved two Travel-only fictional demonstrations: Portfolio disruption and Safety & wellbeing. Do not reintroduce the former early-arrival/café scenario or the Travel/Enterprise toggle.
 
-**Why:** The available Travel roadmap documents expansion and future-stage capabilities, but no approved Enterprise workplace-risk or private-support roadmap was found when this preview was built. Treating the latter as a planned product capability would overclaim readiness and mishandle a sensitive use case.
+**Why:** The user explicitly replaced the old Stage 3 scope and said, “Safety intervention belongs earlier; Stage 3 extends coordination and reviewed learning across properties.”
 
-**How to apply:** Label Enterprise explicitly as proposed wherever it appears, with private detail restricted to an authorised human role in any conceptual view. Do not present simulated decisions, assignments, messages or evidence as live execution. Reassess this boundary only after an approved Enterprise specification and privacy/security model exist.
+**How to apply:** Keep safety protection under delegated site authority rather than commercial approval. Maintain fictional/local-only execution and demo role-view boundaries, not claims of authenticated access control. Capacity or delivery failures reopen relevant confirmations; missing outcomes remain open rather than becoming successes. Learning approvals permit limited trials pending evidence, not automatic portfolio rollout.

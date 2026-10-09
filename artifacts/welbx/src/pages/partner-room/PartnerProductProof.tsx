@@ -479,7 +479,7 @@ export default function PartnerProductProof() {
                 </div>
                 <div style={{ fontSize: 14, fontWeight: 800, color: "#fff", marginBottom: 12, lineHeight: 1.3 }}>Stage 3 Operating Layer Preview</div>
                 <p style={{ fontSize: 13, color: "rgba(255,255,255,0.42)", lineHeight: 1.65, flex: 1, marginBottom: 20 }}>
-                  Multi-site signal visibility, pattern insights, action routing, assurance reporting, value proof and marketplace activation — once the pilot is validated and integrations are approved.
+                  Fictional Portfolio disruption and Safety &amp; wellbeing journeys: human authority, revised approvals, verified delivery and reviewed learning across properties. Safety intervention belongs earlier; Stage 3 extends coordination.
                 </p>
                 <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#a78bfa" }}>Experience Stage 3 · Planned simulation →</div>
               </div>

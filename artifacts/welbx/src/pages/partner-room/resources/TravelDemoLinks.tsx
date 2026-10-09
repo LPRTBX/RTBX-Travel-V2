@@ -22,7 +22,7 @@ const SECTIONS = [
     items: [
       { label: "Moment Response Working Proof", desc: "Interactive, synthetic capture, classification, assignment, drafted communication, escalation and assurance logging.", href: WORKING_PROOF_PATH, cta: "Open Working Proof", color: "#a8dedb", ext: false },
       { label: "Integration-Assisted Pilot Preview", desc: "How the Moment Response workflow becomes faster and more automated when PMS, task, messaging, weather and marketplace integrations are approved and connected.", href: "/partner-room/product-proof/pilot-expansion-preview", cta: "View Pilot Expansion", color: "#10b981" },
-      { label: "Stage 3 Operating Layer Preview", desc: "Multi-site signal visibility, pattern insights, action routing, assurance reporting, value proof and marketplace activation. What JALDO Travel becomes at scale.", href: "/partner-room/product-proof/stage-3-operating-layer", cta: "View Stage 3 Preview", color: "#a78bfa" },
+      { label: "Stage 3 Operating Layer Preview", desc: "Two fictional Travel journeys: Portfolio disruption and Safety & wellbeing. Human review, delivery evidence and limited learning trials across properties; not live execution.", href: "/partner-room/product-proof/stage-3-operating-layer", cta: "View Stage 3 Preview", color: "#a78bfa" },
     ],
   },
   {

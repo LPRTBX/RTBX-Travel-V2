@@ -1,6 +1,6 @@
 - [WELBX architecture](welbx-architecture.md) — 32+ routes, sectioned sidebar, AppContext with property/role/period/search state, 3 new pages (LearningLayer, CausalTrace, ValueProof)
 - [IHG Pilot Story structure](ihg-pilot-story.md) — 3 story routes under /story, sidebar IHG PILOT section, AppShell suppresses sidebar for /story/* same as /presentation-mode/*
-- [Stage 3 scope boundaries](stage3-scope-boundaries.md) — Travel roadmap can be simulated; Enterprise workplace-risk is not approved scope, so label it as a concept.
+- [Stage 3 scope boundaries](stage3-scope-boundaries.md) — Travel-only scenarios; safety intervention starts earlier, while Stage 3 extends coordination and reviewed learning.
 - [Guest-channel terminology](guest-channel-terminology.md) — guest-facing delivery is configurable and sits in the Execution and Communication Layer.
 - [Travel Intelligence data model](travel-intelligence-data-model.md) — central data file backs the Travel Intelligence page; new taxonomies/roles go there, not inline in the page
 - [Sprint 3 data model decisions](sprint3-data-model.md) — legacy scenario fields preserved; canonical S3 fields added alongside; travelPlaybooks.ts and travelRoles.ts are new; playbooks.ts untouched
