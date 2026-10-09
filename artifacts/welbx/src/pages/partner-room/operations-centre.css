@@ -54,3 +54,11 @@
   .ops-records td::before { content: attr(data-label) ": "; color: rgba(255, 255, 255, 0.5); }
 }
 .ops-config-columns { display: flex; flex-wrap: wrap; gap: 0 32px; }
+
+/* Generated evidence: decisions and recorded evidence from runs on this page. */
+#generated-evidence { scroll-margin-top: 110px; }
+.ops-records-none { border-color: rgba(249, 115, 22, 0.35); background: rgba(249, 115, 22, 0.04); }
+.ops-records-none .ops-records-empty { margin-bottom: 14px; }
+.ops-records-evidence { margin-top: 6px; font-weight: 400; }
+.ops-records-evidence summary { cursor: pointer; font-size: 12px; color: #a8dedb; min-height: 28px; }
+.ops-records-evidence ul { margin: 4px 0 0; padding-left: 18px; font-size: 12px; color: rgba(255, 255, 255, 0.72); }

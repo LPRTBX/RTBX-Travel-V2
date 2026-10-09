@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "wouter";
-import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
+import { PartnerRoomLayout, schedulePartnerRoomHashScroll } from "@/components/PartnerRoomLayout";
+import { GuidedRoute, OperatingLoop, WhoWeServe } from "@/components/partner-room/StartJourney";
 import { usePartnerContent } from "@/context/PartnerContentContext";
 import { PartnerProofBanner } from "@/components/PartnerProofBanner";
 import { ENGINE_STAGES, PLATFORM_HIERARCHY } from "@/data/rtbxArchitecture";
@@ -133,8 +134,8 @@ const PROOF_LAYERS = [
       { label: "Executive Walkthrough",             href: "/story/operator" },
       { label: "Operator Deep Dive Walkthrough",    href: "/story/operator" },
     ],
-    cta: "Review Evidence",
-    ctaHref: "/partner-room/operations#outcome-ledger",
+    cta: "Review Generated Evidence",
+    ctaHref: "/partner-room/operations#generated-evidence",
   },
   {
     num: "05",
@@ -190,6 +191,11 @@ export default function PartnerRoomLanding() {
   const [activeEnv, setActiveEnv] = useState(0);
   const { content } = usePartnerContent();
   const landing = content?.landing;
+
+  // Links such as "/partner-room#guided-route" arrive by pushState, so scroll once the page has rendered.
+  useEffect(() => {
+    return window.location.hash ? schedulePartnerRoomHashScroll(window.location.hash, "auto") : undefined;
+  }, []);
 
   return (
     <PartnerRoomLayout>
@@ -270,7 +276,7 @@ export default function PartnerRoomLanding() {
         </div>
 
         <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-          <a href="#proof-layers" style={{ textDecoration: "none" }}>
+          <a href="#guided-route" data-testid="hero-guided-route" style={{ textDecoration: "none" }}>
             <div style={{
               padding: "14px 28px", fontSize: 12, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase",
               cursor: "pointer", background: "#a8dedb", color: "#102d39", border: "1px solid #a8dedb", transition: "all 0.15s",
@@ -278,12 +284,17 @@ export default function PartnerRoomLanding() {
             onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "#c4eeea"; }}
             onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "#a8dedb"; }}
             >
-              Explore the Room
+              Take the Guided Route
             </div>
           </a>
+          <GhostBtn href="#proof-layers" ext>Explore the Room</GhostBtn>
           <GhostBtn href="/partner-room/next-step">Request Briefing</GhostBtn>
         </div>
       </div>
+
+      <WhoWeServe />
+      <OperatingLoop />
+      <GuidedRoute />
 
       {/* ── WHAT IT IS / IS NOT ── */}
       <div style={{ marginBottom: 72 }}>

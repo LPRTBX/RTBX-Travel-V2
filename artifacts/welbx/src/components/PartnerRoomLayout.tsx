@@ -1,24 +1,28 @@
 import { useState, useRef, useEffect } from "react";
-import { useLocation } from "wouter";
+import { useLocation, useSearch } from "wouter";
 import { usePartnerContent } from "@/context/PartnerContentContext";
 import { TravelWordmark } from "@/components/TravelWordmark";
+import { JourneyNext, JourneyProgress } from "@/components/JourneyBar";
 
 interface NavItem { label: string; path: string; }
 interface NavGroup { label: string; items: NavItem[]; }
 
 export const PRIMARY_NAV: NavItem[] = [
-  { label: "Overview", path: "/partner-room/overview" },
   { label: "Working Proof", path: "/partner-room/operations" },
+  { label: "Evidence", path: "/partner-room/operations#generated-evidence" },
+  { label: "Calculator", path: "/partner-room/proof-calculator" },
+  { label: "Stage 3", path: "/partner-room/product-proof/stage-3-operating-layer" },
   { label: "Pilot", path: "/partner-room/pilot-model" },
-  { label: "Evidence", path: "/partner-room/operations#outcome-ledger" },
   { label: "Next Step", path: "/partner-room/next-step" },
 ];
 
+/** Every Partner Room destination, grouped in the order of the guided route. Each page appears once. */
 export const NAV_GROUPS: NavGroup[] = [
   {
     label: "Start",
     items: [
       { label: "Partner Room",    path: "/partner-room" },
+      { label: "Guided Route",    path: "/partner-room#guided-route" },
       { label: "Overview",        path: "/partner-room/overview" },
       { label: "Operator Brief",  path: "/partner-room/operator-brief" },
       { label: "Next Step",       path: "/partner-room/next-step" },
@@ -39,19 +43,21 @@ export const NAV_GROUPS: NavGroup[] = [
     items: [
       { label: "Build & Configure",     path: "/partner-room/build-configure" },
       { label: "Execution Centre",      path: "/partner-room/operations" },
+      { label: "Generated Evidence",    path: "/partner-room/operations#generated-evidence" },
       { label: "Decision Spine",        path: "/partner-room/decision-spine" },
       { label: "Communications",        path: "/partner-room/travel-ai-comms" },
-      { label: "Evidence and Outcomes", path: "/partner-room/operations#outcome-ledger" },
     ],
   },
   {
     label: "Proof",
     items: [
+      { label: "Simulation Lab",  path: "/partner-room/operations?view=simulation" },
       { label: "Operating Evolution", path: "/partner-room/operating-evolution" },
+      { label: "Value Calculator", path: "/partner-room/proof-calculator" },
       { label: "Scenario Impact Map", path: "/partner-room/impact-map" },
       { label: "Product Proof",   path: "/partner-room/product-proof" },
       { label: "Validation",      path: "/partner-room/validation" },
-      { label: "Simulation Lab",  path: "/partner-room/operations?view=simulation" },
+      { label: "Static Examples: Outcomes and Value", path: "/partner-room/operations#outcome-ledger" },
       { label: "Guest View",      path: "/partner-room/guest-demo" },
       { label: "Operator View",   path: "/partner-room/operator-demo" },
       { label: "Dual View",       path: "/partner-room/dual-view-demo" },
@@ -60,6 +66,7 @@ export const NAV_GROUPS: NavGroup[] = [
   {
     label: "Pilot and Partnership",
     items: [
+      { label: "Stage 3 Operating Layer", path: "/partner-room/product-proof/stage-3-operating-layer" },
       { label: "Pilot Model",       path: "/partner-room/pilot-model" },
       { label: "Deployment",        path: "/partner-room/rollout-model" },
       { label: "Partner Ecosystem", path: "/partner-room/partner-ecosystem" },
@@ -102,12 +109,40 @@ export function schedulePartnerRoomHashScroll(hash: string, behavior: ScrollBeha
   return () => { cancelled = true; };
 }
 
+/**
+ * Navigate within the Partner Room. A link to a section of the page already open
+ * (same path and query) scrolls to it; pushState alone would not fire hashchange.
+ */
+export function usePartnerRoomNavigate() {
+  const [location, navigate] = useLocation();
+  const search = useSearch();
+  return (path: string) => {
+    const [target, hash] = path.split("#");
+    const current = search ? `${location}?${search.replace(/^\?/, "")}` : location;
+    if (hash && target === current) {
+      window.history.replaceState(window.history.state, "", `${window.location.pathname}${window.location.search}#${hash}`);
+      scrollToPartnerRoomHash(hash, "auto");
+      schedulePartnerRoomHashScroll(hash, "auto");
+      return;
+    }
+    navigate(path);
+  };
+}
+
 interface PartnerRoomLayoutProps {
   children: React.ReactNode;
 }
 
 export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
-  const [location, navigate] = useLocation();
+  const [location] = useLocation();
+  const navigateTo = usePartnerRoomNavigate();
+  const search = useSearch();
+  // A page is current when its path and query match; section links (#…) are never "the page".
+  const isCurrentPage = (path: string) => {
+    if (path.includes("#")) return false;
+    const [target, query = ""] = path.split("?");
+    return target === location && new URLSearchParams(query).toString() === new URLSearchParams(search).toString();
+  };
   const [openGroup, setOpenGroup] = useState<string | null>(null);
   const [dropdownPosition, setDropdownPosition] = useState<{ top: number; left: number } | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -262,14 +297,7 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
   }
 
   function navigateFromMenu(path: string) {
-    const [targetPath, hash] = path.split("#");
-    if (hash && location === targetPath) {
-      window.history.replaceState(window.history.state, "", `${window.location.pathname}${window.location.search}#${hash}`);
-      scrollToPartnerRoomHash(hash, "auto");
-      schedulePartnerRoomHashScroll(hash, "auto");
-      return;
-    }
-    navigate(path);
+    navigateTo(path);
   }
 
   return (
@@ -370,18 +398,18 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
             }}
           >
             {PRIMARY_NAV.map(item => {
-              const basePath = item.path.split("#")[0];
-              const itemActive = location === basePath;
+              const itemActive = isCurrentPage(item.path);
               return (
                 <a
                   key={item.label}
                   href={item.path}
+                  aria-current={itemActive ? "page" : undefined}
                   onClick={(e) => {
                     e.preventDefault();
                     navigateFromMenu(item.path);
                   }}
                   style={{
-                    padding: "11px 16px",
+                    padding: "11px 12px",
                     minHeight: 44,
                     display: "flex",
                     alignItems: "center",
@@ -440,7 +468,7 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
                       }
                     }}
                     style={{
-                      padding: "11px 16px",
+                      padding: "11px 12px",
                       fontSize: 14,
                       fontWeight: 700,
                       letterSpacing: "0.06em",
@@ -495,10 +523,11 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
                       }}
                     >
                       {group.items.map((item, index) => {
-                        const itemActive = location === item.path.split("#")[0];
+                        const itemActive = isCurrentPage(item.path);
                         return (
                           <a
                             key={item.path}
+                            aria-current={itemActive ? "page" : undefined}
                             ref={el => {
                               if (!menuItemRefs.current[group.label]) menuItemRefs.current[group.label] = [];
                               menuItemRefs.current[group.label][index] = el;
@@ -579,11 +608,12 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
               }}
             >
               {PRIMARY_NAV.map(item => {
-                const itemActive = location === item.path.split("#")[0];
+                const itemActive = isCurrentPage(item.path);
                 return (
                   <a
                     key={item.label}
                     href={item.path}
+                    aria-current={itemActive ? "page" : undefined}
                     onClick={(e) => {
                       e.preventDefault();
                       setMobileOpen(false);
@@ -656,10 +686,11 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
                     {isGroupOpen && (
                       <div id={`mobile-menu-${group.label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}>
                         {group.items.map(item => {
-                      const itemActive = location === item.path.split("#")[0];
+                      const itemActive = isCurrentPage(item.path);
                       return (
                         <a
                           key={item.path}
+                          aria-current={itemActive ? "page" : undefined}
                           href={item.path}
                           onClick={(e) => {
                             e.preventDefault();
@@ -696,7 +727,9 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
 
       {/* Page content */}
        <main className="rtbx-readable-content" style={{ flex: 1 }}>
+        <JourneyProgress />
         {children}
+        <JourneyNext />
       </main>
 
       {/* Footer */}
