@@ -64,9 +64,9 @@ describe("Step 6 proof and claims guardrails", () => {
 
   it("keeps the reviewed Partner Room journey and secondary references explicit", () => {
     const layout = readProjectSource("src/components/PartnerRoomLayout.tsx");
-    expect(layout).toMatch(/Overview[\s\S]*Working Proof[\s\S]*Pilot[\s\S]*Evidence[\s\S]*Next Step/);
+    expect(layout).toMatch(/PRIMARY_NAV[\s\S]*Working Proof[\s\S]*Evidence[\s\S]*Calculator[\s\S]*Stage 3[\s\S]*Pilot[\s\S]*Next Step/);
     expect(layout).toContain('{ label: "Working Proof", path: "/partner-room/operations" }');
-    expect(layout).toContain('{ label: "Evidence", path: "/partner-room/operations#outcome-ledger" }');
+    expect(layout).toContain('{ label: "Evidence", path: "/partner-room/operations#generated-evidence" }');
     expect(layout).toContain('label: "Reference Material"');
     expect(layout).not.toContain('className="rtbx-next-step"');
   });

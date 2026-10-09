@@ -73,6 +73,15 @@ const APPROVED_HASHES = new Set([
   "partner-paths",
   // Outcome ledger section
   "outcome-ledger",
+  // Operations Centre: configured operation, its runs and the evidence they generate
+  "configured-operation",
+  "runtime-execution",
+  "generated-evidence",
+  "static-examples",
+  // Partner Room start page: guided route
+  "guided-route",
+  "operating-loop",
+  "who-we-serve",
   // Operating model sections
   "signal-layer",
   "intelligence-layer",

@@ -588,6 +588,288 @@ for (const viewport of [{ width: 390, height: 844 }, { width: 1440, height: 900 
   });
 }
 
+// Phase 3: the start page, the guided route and navigation.
+const ROUTE = [
+  ["Architecture", "/partner-room/architecture-lab", ""],
+  ["Build & Configure", "/partner-room/build-configure", ""],
+  ["Configured execution and evidence", "/partner-room/operations", ""],
+  ["Simulation Lab", "/partner-room/operations", "?view=simulation"],
+  ["Operating Evolution", "/partner-room/operating-evolution", ""],
+  ["Value Calculator", "/partner-room/proof-calculator", ""],
+  ["Stage 3", "/partner-room/product-proof/stage-3-operating-layer", ""],
+  ["Pilot", "/partner-room/pilot-model", ""],
+];
+const inViewport = (page, selector) => page.evaluate(sel => {
+  const rect = document.querySelector(sel)?.getBoundingClientRect();
+  return !!rect && rect.top >= 0 && rect.top < window.innerHeight - 40;
+}, selector);
+
+for (const viewport of [{ width: 390, height: 844 }, { width: 820, height: 1180 }, { width: 1440, height: 900 }]) {
+  await check(`Start page explains who it serves and the operating loop at ${viewport.width}px`, viewport, async page => {
+    await open(page, "/partner-room");
+    assert(await page.locator("#who-we-serve li").count() === 4, "audiences missing");
+    const stages = await page.locator("#operating-loop .sj-loop-stage").allInnerTexts();
+    assert(stages.map(text => text.replace(/^\d+\s*/, "").trim()).join(" → ") === "Signal → Context → Governed decision → Action → Evidence → Reviewed learning → Improved next cycle", `loop order: ${stages}`);
+    // Keyboard: Enter on "Next stage" walks every stage, then returns to the first.
+    const detail = page.getByTestId("loop-detail");
+    await page.getByRole("button", { name: "Next stage →" }).focus();
+    for (let i = 2; i <= 7; i += 1) {
+      await page.keyboard.press("Enter");
+      assert((await detail.textContent()).includes(`Stage ${i} of 7`), `Enter did not reach stage ${i}`);
+    }
+    assert(/Improved next cycle[\s\S]*approved settings/.test(await detail.textContent()), "last stage does not loop back to the next cycle");
+    await page.keyboard.press("Enter");
+    assert((await detail.textContent()).includes("Stage 1 of 7"), "loop does not return to the first stage");
+    await page.getByRole("button", { name: /Evidence$/ }).click();
+    assert(await page.getByRole("button", { name: /Evidence$/ }).getAttribute("aria-current") === "step", "chosen stage not marked current");
+    assert((await detail.getByRole("link").getAttribute("href")) === "/partner-room/operations#generated-evidence", "evidence stage does not link to generated evidence");
+    const route = await page.locator('[data-testid="guided-route"] h3').allInnerTexts();
+    assert(JSON.stringify(route) === JSON.stringify(ROUTE.map(([title]) => title)), `route order: ${route}`);
+    await page.getByTestId("hero-guided-route").click();
+    await page.waitForFunction(() => { const r = document.querySelector("#guided-route").getBoundingClientRect(); return r.top >= 0 && r.top < innerHeight / 2; });
+    await noHorizontalScroll(page, viewport.width);
+  });
+
+  await check(`Guided route walks all eight steps by keyboard at ${viewport.width}px`, viewport, async page => {
+    await open(page, "/partner-room");
+    await page.getByTestId("guided-route-start").click();
+    for (const [index, [title, path, search]] of ROUTE.entries()) {
+      await page.waitForURL(url => url.pathname === path && url.search === search);
+      const progress = page.getByTestId("journey-progress");
+      await progress.waitFor();
+      assert((await progress.innerText()).includes(`Step ${index + 1} of 8: ${title}`), `step ${index + 1} shows "${await progress.innerText()}"`);
+      await noHorizontalScroll(page, viewport.width);
+      const next = page.getByTestId("journey-next-step");
+      await next.focus();
+      await page.keyboard.press("Enter");
+    }
+    await page.waitForURL(url => url.pathname === "/partner-room/next-step");
+    assert(await page.getByTestId("journey-progress").count() === 0, "progress shown off the route");
+  });
+}
+
+await check("Guided route back from the Simulation Lab returns to the configured operation", { width: 1440, height: 900 }, async page => {
+  await open(page, "/partner-room/operations?view=simulation");
+  await page.getByTestId("journey-next").getByRole("link", { name: /Configured execution and evidence/ }).click();
+  await page.waitForURL(url => url.pathname === "/partner-room/operations" && url.search === "" && url.hash === "#configured-operation");
+  await page.waitForFunction(() => { const r = document.querySelector("#configured-operation")?.getBoundingClientRect(); return !!r && r.top >= 0 && r.top < innerHeight / 2; }, null, { timeout: 5000 });
+});
+
+for (const viewport of [{ width: 390, height: 844 }, { width: 820, height: 1180 }, { width: 1440, height: 900 }]) {
+  await check(`Navigation reaches Calculator, Stage 3 and generated evidence at ${viewport.width}px`, viewport, async page => {
+    const desktop = viewport.width >= 1024;
+    const menu = async () => {
+      if (desktop) return page.getByRole("navigation", { name: "Partner Room navigation" });
+      await page.getByRole("button", { name: "Open navigation menu" }).click();
+      return page.locator("#mobile-nav-panel");
+    };
+    await open(page, "/partner-room");
+    await (await menu()).getByRole("link", { name: "Calculator", exact: true }).click();
+    await page.waitForURL(url => url.pathname === "/partner-room/proof-calculator");
+    await page.getByRole("heading", { level: 1, name: /Everyday operations/ }).waitFor();
+    await (await menu()).getByRole("link", { name: "Stage 3", exact: true }).click();
+    await page.waitForURL(url => url.pathname === "/partner-room/product-proof/stage-3-operating-layer");
+    await (await menu()).getByRole("link", { name: "Evidence", exact: true }).click();
+    await page.waitForURL(url => url.pathname === "/partner-room/operations" && url.hash === "#generated-evidence");
+    await page.waitForFunction(() => { const r = document.querySelector("#generated-evidence")?.getBoundingClientRect(); return !!r && r.top >= 0 && r.top < innerHeight / 2; }, null, { timeout: 5000 });
+    assert((await page.locator("#generated-evidence").innerText()).includes("No evidence has been generated."), "no empty state before a run");
+    assert(await page.locator("#generated-evidence").evaluate(el => !!el.closest("#configured-operation")), "generated evidence is not part of the configured operation");
+    await noHorizontalScroll(page, viewport.width);
+  });
+}
+
+await check("Reference menu works by keyboard and keeps every destination at 1440px", { width: 1440, height: 900 }, async page => {
+  await open(page, "/partner-room");
+  const trigger = page.getByRole("button", { name: /Reference Material/ });
+  await trigger.focus();
+  await page.keyboard.press("ArrowDown");
+  const items = page.getByRole("menuitem");
+  await items.first().waitFor();
+  assert(await items.first().evaluate(el => el === document.activeElement), "ArrowDown did not focus the first item");
+  const labels = await items.allInnerTexts();
+  for (const label of ["Guided Route", "Architecture Lab", "Build & Configure", "Generated Evidence", "Simulation Lab", "Operating Evolution", "Value Calculator", "Stage 3 Operating Layer", "Pilot Model", "Static Examples: Outcomes and Value"]) {
+    assert(labels.includes(label), `menu lacks ${label}`);
+  }
+  await page.keyboard.press("End");
+  await page.waitForFunction(() => { const all = document.querySelectorAll('[role="menuitem"]'); return all[all.length - 1] === document.activeElement; }, null, { timeout: 2000 }).catch(() => { throw new Error("End did not reach the last item"); });
+  await page.keyboard.press("Escape");
+  assert(await trigger.evaluate(el => el === document.activeElement), "Escape did not return focus to the trigger");
+});
+
+await check("Primary navigation fits on one row at 1024px", { width: 1024, height: 768 }, async page => {
+  await open(page, "/partner-room");
+  const row = await page.locator(".rtbx-desktop-nav").evaluate(el => ({ scroll: el.scrollWidth, client: el.clientWidth, height: el.getBoundingClientRect().height }));
+  assert(row.scroll <= row.client && row.height < 60, `navigation row overflows (${row.scroll} > ${row.client}, ${row.height}px tall)`);
+  await noHorizontalScroll(page, 1024);
+});
+
+await check("Evidence navigation shows the records a run generated at 1440px", { width: 1440, height: 900 }, async page => {
+  await activateDeployment(page);
+  await open(page, "/partner-room/operations");
+  assert((await page.locator("#generated-evidence").innerText()).includes("No runs yet, so no evidence has been generated."), "no empty state before a run");
+  await page.getByRole("button", { name: "Start Local Simulation →" }).first().click();
+  for (const name of ["Receive Signal", "Validate Signal & Context", "Route for Approval", "Approve as Duty Manager", "Resolve Scenario"]) {
+    await page.getByRole("button", { name, exact: true }).click();
+  }
+  const boxes = page.getByRole("checkbox", { name: /\(required\)$/ });
+  for (let i = 0; i < await boxes.count(); i += 1) await boxes.nth(i).check();
+  await page.getByRole("button", { name: "Close Scenario", exact: true }).click();
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.getByRole("navigation", { name: "Partner Room navigation" }).getByRole("link", { name: "Evidence", exact: true }).click();
+  await page.waitForFunction(() => { const r = document.querySelector("#generated-evidence").getBoundingClientRect(); return r.top >= 0 && r.top < innerHeight / 2; }, null, { timeout: 5000 });
+  const section = page.locator("#generated-evidence");
+  const row = await section.locator("tbody tr").first().innerText();
+  assert(/Closed/.test(row) && /Approved by Duty Manager \(simulated\)/.test(row), `record missing: ${row}`);
+  await section.locator("summary", { hasText: "Evidence recorded" }).click();
+  assert(/Room readiness confirmation · synthetic/.test(await section.innerText()), "recorded evidence not listed as synthetic");
+  assert(await page.locator("#static-examples").evaluate(el => /Static illustrative examples/.test(el.innerText)), "static examples lost their label");
+});
+
+// Generated evidence is a session record: it survives Partner Room navigation and never outlives its configuration.
+const PRIMARY = ["Working Proof", "Evidence", "Calculator", "Stage 3", "Pilot", "Next Step"];
+async function goVia(page, label, width) {
+  const desktop = width >= 1024;
+  if (!desktop) await page.getByRole("button", { name: "Open navigation menu" }).click();
+  const scope = desktop ? page.getByRole("navigation", { name: "Partner Room navigation" }) : page.locator("#mobile-nav-panel");
+  if (PRIMARY.includes(label)) return scope.getByRole("link", { name: label, exact: true }).first().click();
+  await scope.getByRole("button", { name: /Reference Material/ }).click();
+  await (desktop ? page.getByRole("menuitem", { name: label, exact: true }) : scope.getByRole("link", { name: label, exact: true })).click();
+}
+async function runRoomScenario(page) {
+  const panel = page.locator("#runtime-execution");
+  await panel.getByRole("button", { name: "Start Local Simulation →" }).first().click();
+  for (const name of ["Receive Signal", "Validate Signal & Context", "Route for Approval", "Approve as Duty Manager", "Resolve Scenario"]) {
+    await page.getByRole("button", { name, exact: true }).click();
+  }
+  const boxes = page.getByRole("checkbox", { name: /\(required\)$/ });
+  for (let i = 0; i < await boxes.count(); i += 1) await boxes.nth(i).check();
+  await page.getByRole("button", { name: "Close Scenario", exact: true }).click();
+}
+async function evidenceSnapshot(page) {
+  const section = page.locator("#generated-evidence");
+  await section.waitFor();
+  const rows = section.locator("tbody tr");
+  const count = await rows.count();
+  if (!count) return { count, row: "", items: "", heading: await section.locator("h3").innerText() };
+  const details = rows.first().locator("details");
+  if (!(await details.getAttribute("open") !== null)) await details.locator("summary").click();
+  return { count, row: await rows.first().innerText(), items: await details.locator("ul").innerText(), heading: await section.locator("h3").innerText() };
+}
+const waitForEvidenceInView = page => page.waitForFunction(() => {
+  const r = document.querySelector("#generated-evidence")?.getBoundingClientRect();
+  return !!r && r.top >= 0 && r.top < innerHeight / 2;
+}, null, { timeout: 5000 });
+
+for (const viewport of [{ width: 390, height: 844 }, { width: 820, height: 1180 }, { width: 1440, height: 900 }]) {
+  await check(`Generated evidence survives Partner Room navigation at ${viewport.width}px`, viewport, async page => {
+    await activateDeployment(page);
+    await open(page, "/partner-room/operations");
+    await runRoomScenario(page);
+    const before = await evidenceSnapshot(page);
+    assert(before.count === 1 && /Closed/.test(before.row) && /Approved by Duty Manager \(simulated\)/.test(before.row), `run not recorded: ${before.row}`);
+    assert(/Room readiness confirmation · synthetic/.test(before.items), "recorded evidence missing");
+
+    // Leave through the menu (Simulation Lab, Calculator, another page), then come back through Evidence.
+    await goVia(page, "Simulation Lab", viewport.width);
+    await page.waitForURL(url => url.search === "?view=simulation");
+    await goVia(page, "Calculator", viewport.width);
+    await page.waitForURL(url => url.pathname === "/partner-room/proof-calculator");
+    await goVia(page, "Pilot", viewport.width);
+    await page.waitForURL(url => url.pathname === "/partner-room/pilot-model");
+    await goVia(page, "Evidence", viewport.width);
+    await page.waitForURL(url => url.pathname === "/partner-room/operations" && url.hash === "#generated-evidence");
+    await waitForEvidenceInView(page);
+    const after = await evidenceSnapshot(page);
+    assert(after.row === before.row, `run changed after navigation:\n${before.row}\n→ ${after.row}`);
+    assert(after.items === before.items, "recorded evidence changed after navigation");
+    assert(after.heading === before.heading, "record attributed to a different configuration");
+    assert(await page.locator("#runtime-execution").getByText("Synthetic run · Closed").count() >= 1, "the closed run was not restored in its trace");
+    assert(/Refreshing or closing the page ends the session/.test(await page.getByTestId("session-notice").innerText({ timeout: 2000 })), "refresh notice missing");
+    await noHorizontalScroll(page, viewport.width);
+
+    // Refreshing ends the demonstration session.
+    await page.reload({ waitUntil: "networkidle" });
+    assert((await evidenceSnapshot(page)).count === 0, "records survived a refresh");
+  });
+
+  await check(`Reconfiguring or resetting never carries records over at ${viewport.width}px`, viewport, async page => {
+    await activateDeployment(page);
+    await open(page, "/partner-room/operations");
+    await runRoomScenario(page);
+    assert((await evidenceSnapshot(page)).count === 1, "no record to carry over");
+
+    // A changed configuration starts with no records and a fresh trace.
+    await goVia(page, "Build & Configure", viewport.width);
+    await page.locator("#deploy-name").fill("Bayside Resort — Pilot");
+    await page.getByRole("button", { name: /Activate/ }).first().click();
+    await page.getByRole("button", { name: /Activate Travel Environment/ }).click();
+    await page.waitForFunction(() => localStorage.getItem("rtbx_travel_deployment_v1")?.includes("Bayside Resort"));
+    await goVia(page, "Evidence", viewport.width);
+    await waitForEvidenceInView(page);
+    const changed = await evidenceSnapshot(page);
+    assert(changed.count === 0 && changed.heading.includes("Bayside Resort — Pilot"), `old record shown for the new configuration: ${changed.heading} / ${changed.row}`);
+    assert(/No runs yet/.test(await page.locator("#generated-evidence").innerText()), "no empty state for the new configuration");
+    assert(await page.locator("#runtime-execution").getByText(/Synthetic run ·/).count() === 0, "an old run was restored into the new configuration's trace");
+
+    // Run under the new configuration, then reset: nothing survives, and re-activating starts clean.
+    await runRoomScenario(page);
+    assert((await evidenceSnapshot(page)).count === 1, "new configuration's run not recorded");
+    await goVia(page, "Build & Configure", viewport.width);
+    await page.getByRole("button", { name: "Reset", exact: true }).click();
+    await page.getByRole("button", { name: "Reset to defaults" }).click();
+    await goVia(page, "Evidence", viewport.width);
+    await waitForEvidenceInView(page);
+    assert((await page.locator("#generated-evidence").innerText()).includes("No evidence has been generated."), "records shown after reset");
+    // Re-activate without reloading, so only the session rules (not a fresh page) can clear the records.
+    await goVia(page, "Build & Configure", viewport.width);
+    await page.getByRole("button", { name: /Activate/ }).first().click();
+    await page.getByRole("button", { name: /Activate Travel Environment/ }).click();
+    await goVia(page, "Evidence", viewport.width);
+    await waitForEvidenceInView(page);
+    assert((await evidenceSnapshot(page)).count === 0, "records from before the reset reappeared after re-activation");
+  });
+}
+
+// A draft approval recorded in a run, but not yet marked reviewed, is restored exactly.
+for (const viewport of [{ width: 390, height: 844 }, { width: 820, height: 1180 }, { width: 1440, height: 900 }]) {
+  await check(`Draft approval survives navigation unchanged at ${viewport.width}px`, viewport, async page => {
+    await activateDeployment(page);
+    await open(page, "/partner-room/operations");
+    const trace = page.locator('[data-testid="exec-trace"][data-trace-scenario="repeat-guest-room-not-ready"]');
+    await trace.getByRole("button", { name: "Start Local Simulation →" }).click();
+    for (const name of ["Receive Signal", "Validate Signal & Context", "Route for Approval", "Approve as Duty Manager"]) {
+      await trace.getByRole("button", { name, exact: true }).click();
+    }
+    // In action: approve the first draft that needs approval, but do not mark it reviewed.
+    const drafts = trace.getByRole("button", { name: "Approve as Duty Manager", exact: true });
+    const pendingBefore = await drafts.count();
+    assert(pendingBefore >= 2, `expected drafts awaiting approval, found ${pendingBefore}`);
+    await drafts.first().click();
+    const snapshot = async () => ({
+      text: (await trace.innerText()).replace(/\s+/g, " "),
+      approvals: await trace.getByText(/^Simulation approval recorded for Duty Manager$/).count(),
+      pending: await drafts.count(),
+      reviewed: await trace.getByText(/Draft reviewed locally/).count(),
+      enabled: await trace.getByRole("button").evaluateAll(buttons => buttons.filter(b => !b.disabled).map(b => b.textContent.trim())),
+    });
+    const before = await snapshot();
+    assert(before.approvals === 1 && before.pending === pendingBefore - 1 && before.reviewed === 0, `approval not recorded as expected: ${JSON.stringify(before)}`);
+    assert(before.enabled.includes("Resolve Scenario"), "next action missing before navigation");
+
+    await goVia(page, "Calculator", viewport.width);
+    await page.waitForURL(url => url.pathname === "/partner-room/proof-calculator");
+    await goVia(page, "Evidence", viewport.width);
+    await page.waitForURL(url => url.pathname === "/partner-room/operations");
+    await trace.getByText("Synthetic run ·").first().waitFor();
+    const after = await snapshot();
+    assert(after.approvals === 1, `approval lost after navigation (${after.approvals} recorded)`);
+    assert(after.pending === before.pending, `drafts awaiting approval changed: ${before.pending} → ${after.pending}`);
+    assert(after.reviewed === 0, "the approved draft was advanced to reviewed");
+    assert(JSON.stringify(after.enabled) === JSON.stringify(before.enabled), `available actions changed:\n${before.enabled}\n→ ${after.enabled}`);
+    assert(after.text === before.text, "the run's trace changed after navigation");
+  });
+}
+
 await browser.close();
 server?.kill();
 
