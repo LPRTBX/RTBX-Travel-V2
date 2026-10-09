@@ -20,7 +20,7 @@ export const OUTCOME_LABELS: Record<OutcomeStatus, string> = {
 export const FOLLOW_UP_REASON_LABELS: Record<string, string> = {
   "late-response": "response later than the 20-minute target",
   "ineffective-action": "action completed but the issue was not restored",
-  "missing-receipt": "no delivery receipt recorded",
+  "missing-receipt": "no synthetic delivery receipt recorded",
   "missing-measurement": "no follow-up measurement recorded",
 };
 
@@ -87,7 +87,7 @@ export function describeAuditEntry(entry: { step: string; detail: string }): Aud
     case "outcome-verification": {
       const [outcome, reasons = ""] = entry.detail.split(/:\s*/, 2);
       const label = OUTCOME_LABELS[outcome as OutcomeStatus] ?? outcome;
-      const why = reasons && !reasons.startsWith("receipt + restored") ? describeFollowUpReasons(reasons.split(/,\s*/)) : "receipt recorded, issue restored within 20 minutes";
+      const why = reasons && !reasons.startsWith("receipt + restored") ? describeFollowUpReasons(reasons.split(/,\s*/)) : "synthetic receipt recorded, issue restored within 20 minutes";
       return { title: `Follow-up checked: ${label.toLowerCase()}`, detail: why, technical };
     }
     case "escalated": return { title: "Escalated to the owner", detail: role(), technical };

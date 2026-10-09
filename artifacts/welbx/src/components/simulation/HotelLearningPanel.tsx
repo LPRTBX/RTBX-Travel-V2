@@ -99,7 +99,7 @@ export function HotelLearningPanel() {
         <details className="jsim-technical"><summary>Technical identifiers</summary><ol>{current.baseline.audit.map((a, i) => <li key={i}><code>{a.step}</code>: {a.detail}</li>)}</ol></details>
       </section><section className="jsim-inspector"><h3>Outcome and learning</h3>
         <p className="jsim-owner">Recorded outcome<strong>{OUTCOME_LABELS[current.baseline.outcome]}</strong></p>
-        <p className="jsim-hint">{current.baseline.reasons.length ? `Why: ${describe(current.baseline.reasons)}.` : 'Delivery confirmed, restoration measured and target met.'}</p>
+        <p className="jsim-hint">{current.baseline.reasons.length ? `Why: ${describe(current.baseline.reasons)}.` : 'Synthetic delivery receipt and restoration recorded; target met. Nothing was sent.'}</p>
         {current.baseline.outcome === 'pending' && !current.reconciled && <>
           <p className="jsim-hint">The case stays open with its owner until the missing evidence is recorded ({describe(current.baseline.reasons)}). It cannot close without it.</p>
           <button className="jsim-secondary" onClick={recordLateEvidence}>Record late follow-up measurement</button></>}

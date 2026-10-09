@@ -129,7 +129,7 @@ export function buildArchitectureNodes(id: ArchitectureScenarioId, hotelCase: Ho
     {
       id: "evidence", stage: "Learn", label: "Evidence ledger",
       text: "Mandatory evidence gates closure.",
-      details: execution.evidence.map(e => `${e.required ? "Required" : "Supporting"} · ${e.evidenceType} · ${roleLabel(e.ownerRoleId)} · ${e.captured ? "recorded" : "not yet recorded"}`),
+      details: execution.evidence.map(e => `${e.required ? "Required" : "Supporting"} · ${e.evidenceType} · ${roleLabel(e.ownerRoleId)} · ${e.captured ? "recorded (synthetic)" : "not yet recorded"}`),
     },
     {
       id: "outcome", stage: "Learn", label: "Outcome / value",

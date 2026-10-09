@@ -434,6 +434,38 @@ await check("Operating Evolution states unmeasured results plainly", { width: 14
   assert(cards.includes("not confirmed"), "impact cards do not say results are not confirmed");
 });
 
+await check("Delivery wording is conditional; recorded receipts are labelled synthetic", { width: 1440, height: 900 }, async page => {
+  // Every "sent"/"delivered" claim must be negated, conditional or a draft: nothing leaves this demonstration.
+  const unqualified = text => [...text.matchAll(/[^.\n]{0,60}\b(sent|delivered|notified)\b[^.\n]{0,20}/gi)]
+    .map(match => match[0].trim())
+    .filter(context => !/\b(not|never|nothing|no|unsent|would|draft|drafted|future|before|without|pilot|requires?|required)\b/i.test(context));
+  await open(page, "/partner-room/operations");
+  // Action Centre cards open one at a time; read each card's details as well as the rest of the page.
+  const moments = ["Room Readiness Recovery", "Guest Distress Follow-Up", "Repeat Guest Loyalty Protection", "Maintenance Escalation", "Staff Pressure Response", "Partner Transport Activation", "Post-Stay Complaint Recovery"];
+  let operationsText = await visibleText(page, "main");
+  for (const moment of moments) {
+    await page.getByText(moment, { exact: true }).first().click();
+    operationsText += `\n${await visibleText(page, "main")}`;
+  }
+  assert(operationsText.includes("Communication status"), "Action Centre card details were not opened");
+  const operations = unqualified(operationsText);
+  assert(operations.length === 0, `Operations Centre states delivery as fact: "${operations[0]}"`);
+  // Receipts the simulation records are synthetic evidence and must say so.
+  await open(page, "/partner-room/operations?view=simulation");
+  await page.getByRole("button", { name: "Run 100 outcome journeys" }).click();
+  const learning = await visibleText(page, 'section[aria-label="Hotel outcome and learning loop"]');
+  assert(learning.includes("Synthetic delivery receipt and restoration recorded"), "a met journey does not label its receipt as synthetic");
+  assert(!/Delivery confirmed/.test(learning), "Simulation Lab says delivery was confirmed");
+  await open(page, "/partner-room/architecture-lab");
+  const advanceButton = () => page.locator("main > section").first().locator("button:has-text(\"→\")");
+  for (let step = 0; step < 8 && await advanceButton().count(); step += 1) await advanceButton().click();
+  await page.locator("summary", { hasText: "Inspect the recorded case history" }).click();
+  const lab = await visibleText(page, "main");
+  const bareReceipts = [...lab.matchAll(/[^.\n]{0,30}receipt recorded/gi)].map(match => match[0]).filter(context => !/synthetic/i.test(context));
+  assert(bareReceipts.length === 0, `Architecture Lab shows a receipt without marking it synthetic: "${bareReceipts[0]}"`);
+  assert(/Evidence ledger[\s\S]*Mandatory evidence gates closure/.test(lab), "evidence ledger node missing");
+});
+
 await browser.close();
 server?.kill();
 
