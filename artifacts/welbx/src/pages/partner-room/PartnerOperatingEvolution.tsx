@@ -2,10 +2,12 @@ import { useState } from 'react';
 import { Link } from 'wouter';
 import { PartnerRoomLayout } from '@/components/PartnerRoomLayout';
 import { EVOLUTION_REVIEWER, DEFAULT_CYCLE_CONDITIONS, MIN_REVIEW_REASON_LENGTH, initialEvolution, runEvolutionCycle, evolutionCandidate, reviewEvolution, rollbackEvolution, isMeaningfulReason, describeConditions, describeArrival, type CycleConditions } from '@/simulation/operatingEvolution';
+import { roleLabel } from '@/lib/plainLanguage';
 import './travel-evolution.css';
 
 const POLICY = { 1: 'Respond after arrival', 2: 'Prepare 45 minutes earlier', 3: 'Corroborate and prioritise' };
 const value = (n: number | null, unit = '') => n === null ? 'Unconfirmed' : `${n}${unit}`;
+const REVIEW_DECISION_LABELS = { approved: 'Approved', rejected: 'Rejected', rollback: 'Rolled back' } as const;
 export default function PartnerOperatingEvolution() {
   const [state, setState] = useState(initialEvolution);
   const [conditions, setConditions] = useState<CycleConditions>(() => ({ ...DEFAULT_CYCLE_CONDITIONS }));
@@ -45,15 +47,21 @@ export default function PartnerOperatingEvolution() {
       {!state.cycles.length && <tr><td colSpan={8}>Run the first cycle to establish a baseline.</td></tr>}
     </tbody></table></div><p>Model assumptions: 2 staff minutes per arrival, 8 additional minutes per preparation, 22 additional minutes per delayed arrival, and a 30-minute guest wait per delay. The paired arrival-response reference is 640 staff minutes and 20 delays. Negative minutes released mean extra work. Unmeasured cycles cannot confirm a benefit.</p></section>
     {latest && <section aria-labelledby="evolution-human"><h2 id="evolution-human">What changes for people and the bottom line?</h2><div className="evolution-cards">
-      <article><h3>Guest</h3><p>{value(latest.prevented)} modelled delays avoided against the paired reference. {value(latest.guestWaitMinutes)} total guest waiting minutes remain.</p></article>
-      <article><h3>Housekeeping</h3><p>{latest.preparations} preparation tasks, {latest.holds} capacity holds, {value(latest.unnecessary)} unnecessary preparations. Earlier work still consumes real capacity.</p></article>
-      <article><h3>Reception and Duty Manager</h3><p>{value(latest.delays)} arrival delays need response. {value(latest.savedMinutes)} staff minutes released across the teams; review alerts and carry the approved policy into the next simulated shift.</p></article>
+      {latest.conditions.measured ? <>
+        <article><h3>Guest</h3><p>{latest.prevented} modelled delays avoided against the paired reference. {latest.guestWaitMinutes} total guest waiting minutes remain.</p></article>
+        <article><h3>Housekeeping</h3><p>{latest.preparations} preparation tasks, {latest.holds} capacity holds, {latest.unnecessary} unnecessary preparations. Earlier work still consumes real capacity.</p></article>
+        <article><h3>Reception and Duty Manager</h3><p>{latest.delays} arrival delays need response. {latest.savedMinutes} staff minutes released across the teams; review alerts and carry the approved policy into the next simulated shift.</p></article>
+      </> : <>
+        <article><h3>Guest</h3><p>This cycle ran without follow-up measurements, so delays avoided and guest waiting time are not confirmed.</p></article>
+        <article><h3>Housekeeping</h3><p>{latest.preparations} preparation tasks and {latest.holds} capacity holds were recorded. Whether any preparation was unnecessary is not confirmed without measurement.</p></article>
+        <article><h3>Reception and Duty Manager</h3><p>Arrival delays and staff minutes released are not confirmed for this cycle. Restore measurements before relying on its results.</p></article>
+      </>}
       <article><h3>Financial impact</h3><p>Released time is capacity, not automatic payroll savings. Avoided recovery spend and added revenue need separate evidence. <Link href="/partner-room/proof-calculator">Model labour and financial ranges →</Link></p></article>
     </div><p>Maintenance, partner activation and portfolio rollout are outside this readiness fixture. In a pilot, check that earlier housekeeping work does not displace other service commitments before expanding a reviewed rule.</p></section>}
     {trace && <section aria-labelledby="evolution-trace"><h2 id="evolution-trace">Inspect the moment, action and evidence</h2><label>Arrival in cycle {state.cycles.length} (latest, 100 synthetic arrivals) <select value={selection} onChange={e => setSelection(Number(e.target.value))}>{latest!.traces.map((t, i) => <option key={t.id} value={i}>{describeArrival(t, i)}</option>)}</select></label>
       <dl className="evolution-ledger"><dt>Correlation</dt><dd>{trace.id} · policy v{latest!.policy}</dd><dt>Cycle conditions</dt><dd>{describeConditions(latest!.conditions)}</dd><dt>Signals before arrival</dt><dd>Room {trace.roomReady ? 'ready' : 'not ready'}; housekeeping load {trace.housekeepingLoad}%; forecast {trace.forecastMinutes === null ? 'unavailable' : `${trace.forecastMinutes} minutes relative to arrival`}.</dd><dt>Recognition and action</dt><dd>{trace.prepared ? 'Flagged 45 minutes early; simulated housekeeping preparation recorded.' : trace.capacityHeld ? 'Flagged early; capacity hold retained for operator review.' : 'No preparation; arrival response remains available.'}</dd><dt>Follow-up</dt><dd>Delayed: {trace.delayed === null ? 'unconfirmed' : trace.delayed ? 'yes' : 'no'}. Staff minutes: {value(trace.staffMinutes)}. Outcome source: synthetic paired fixture.</dd></dl>
     </section>}
-    <section><h2>Review and version history</h2>{state.reviews.length ? <ol>{state.reviews.map(r => <li key={r.id}><strong>{r.id} · {r.decision} · v{r.policy}</strong> · {r.role}<p>{r.reason} Evidence: {r.sourceCycles.join(', ')}.</p></li>)}</ol> : <p>No reviewed changes yet. Policy v1 is the starting reference.</p>}<p>Learning means retaining measured outcomes, reviewing a proposed operating change, and testing the next cycle. A pilot must validate signal quality, approvals, workloads and outcomes before a property adopts the change.</p></section>
+    <section><h2>Review and version history</h2>{state.reviews.length ? <ol>{state.reviews.map(r => <li key={r.id}><strong>{r.id.replace('review-', 'Review ')} · {REVIEW_DECISION_LABELS[r.decision]} · policy v{r.policy}</strong> · {roleLabel(r.role)}<p>{r.reason} Evidence: {r.sourceCycles.join(', ')}.</p></li>)}</ol> : <p>No reviewed changes yet. Policy v1 is the starting reference.</p>}<p>Learning means retaining measured outcomes, reviewing a proposed operating change, and testing the next cycle. A pilot must validate signal quality, approvals, workloads and outcomes before a property adopts the change.</p></section>
     <footer className="evolution-actions"><Link href="/partner-room/architecture-lab">Inspect the architecture →</Link><Link href="/partner-room/operations">Execute a canonical scenario →</Link><Link href="/partner-room/impact-map">Explore the wider operation →</Link><Link href="/partner-room/pilot-model">Turn the loop into a pilot →</Link></footer>
   </main></PartnerRoomLayout>;
 }

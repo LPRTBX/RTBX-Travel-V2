@@ -1236,11 +1236,14 @@ export default function PartnerOperationsCentre() {
           <div style={{ padding: "14px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", marginBottom: 20, maxWidth: 760 }}>
             <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.55)", lineHeight: 1.65, margin: 0 }}>{EVIDENCE_WORDING_NOTE}</p>
           </div>
+          <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.7)", lineHeight: 1.6, margin: "0 0 12px", maxWidth: 760 }}>
+            <strong style={{ color: "#fff" }}>Modelled example.</strong> Each row shows what a pilot would record for a moment. Nothing below was sent, approved or captured in this demonstration.
+          </p>
           <div className="rtbx-table-scroll">
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 10.5, minWidth: 900 }}>
               <thead>
                 <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.1)" }}>
-                  {["Illustrative Record", "Modelled Time", "Accountable Owner", "Action Requirement", "Draft State", "Approval Requirement", "Escalation Model", "Guest Acknowledgement Model", "Closure Requirement"].map(h => (
+                  {["Example record", "Example time", "Accountable role", "Action evidence", "Message", "Approval", "Escalation", "Guest acknowledgement", "Closure review"].map(h => (
                     <th key={h} style={{ textAlign: "left", padding: "8px 10px", color: "rgba(255,255,255,0.35)", fontWeight: 700, letterSpacing: "0.03em", textTransform: "uppercase", fontSize: 8 }}>{h}</th>
                   ))}
                 </tr>
@@ -1248,15 +1251,15 @@ export default function PartnerOperationsCentre() {
               <tbody>
                 {TRAVEL_EVIDENCE_LEDGER.map(e => (
                   <tr key={e.id} style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
-                    <td style={{ padding: "9px 10px", fontWeight: 700, color: "#fff" }}>Illustrative: {e.label}</td>
-                    <td style={{ padding: "9px 10px", color: "rgba(255,255,255,0.5)" }}>Modelled: {e.timestamp}</td>
-                    <td style={{ padding: "9px 10px", color: "rgba(255,255,255,0.5)" }}>Accountable role: {e.owner}</td>
-                    <td style={{ padding: "9px 10px", color: "rgba(255,255,255,0.5)" }}>Illustrative only — {e.actionConfirmation}</td>
-                    <td style={{ padding: "9px 10px", color: "rgba(255,255,255,0.5)" }}>Illustrative only — {e.messageDelivery}</td>
-                    <td style={{ padding: "9px 10px", color: "rgba(255,255,255,0.5)" }}>Illustrative only — {e.approvalRecord}</td>
-                    <td style={{ padding: "9px 10px", color: "rgba(255,255,255,0.5)" }}>Illustrative only — {e.escalationRecord}</td>
-                    <td style={{ padding: "9px 10px", color: "rgba(255,255,255,0.5)" }}>Illustrative only — {e.guestAcknowledgement}</td>
-                    <td style={{ padding: "9px 10px", color: "rgba(255,255,255,0.5)" }}>Illustrative only — {e.closureReview}</td>
+                    <td style={{ padding: "9px 10px", fontWeight: 700, color: "#fff" }}>{e.label}</td>
+                    <td style={{ padding: "9px 10px", color: "rgba(255,255,255,0.5)" }}>{e.timestamp}</td>
+                    <td style={{ padding: "9px 10px", color: "rgba(255,255,255,0.5)" }}>{e.owner}</td>
+                    <td style={{ padding: "9px 10px", color: "rgba(255,255,255,0.5)" }}>{e.actionConfirmation}</td>
+                    <td style={{ padding: "9px 10px", color: "rgba(255,255,255,0.5)" }}>{e.messageDelivery}</td>
+                    <td style={{ padding: "9px 10px", color: "rgba(255,255,255,0.5)" }}>{e.approvalRecord}</td>
+                    <td style={{ padding: "9px 10px", color: "rgba(255,255,255,0.5)" }}>{e.escalationRecord}</td>
+                    <td style={{ padding: "9px 10px", color: "rgba(255,255,255,0.5)" }}>{e.guestAcknowledgement}</td>
+                    <td style={{ padding: "9px 10px", color: "rgba(255,255,255,0.5)" }}>{e.closureReview}</td>
                   </tr>
                 ))}
               </tbody>
@@ -1285,8 +1288,7 @@ export default function PartnerOperationsCentre() {
                       {m.note && <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", fontStyle: "italic" }}>{m.note}</div>}
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                      <span style={{ fontSize: 13, fontWeight: 800, color: "#fff" }}>{m.value} modelled</span>
-                      {m.demo && <span style={{ fontSize: 7, fontWeight: 700, letterSpacing: "0.06em", color: "rgba(255,255,255,0.3)", border: "1px solid rgba(255,255,255,0.15)", padding: "1px 5px", textTransform: "uppercase" }}>Demo</span>}
+                      <span style={{ fontSize: 13, fontWeight: 800, color: "#fff" }}>{m.value}</span>
                     </div>
                   </div>
                 ))}

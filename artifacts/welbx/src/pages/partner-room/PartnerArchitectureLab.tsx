@@ -5,6 +5,8 @@ import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 import { STATE_TO_STEP, TRACE_STEPS } from "@/lib/runtimeEngine";
 import { MOCK_HOTEL } from "@/simulation/mockHotel";
 import { createHotelCase, type Fault, proposeHotelLearning, reviewHotelLearning, replayHotelLearning, reconcileHotelFollowUp, type Proposal, type HotelCase } from "@/simulation/hotelLearning";
+import { OUTCOME_LABELS, describeAuditEntry, describeFollowUpReasons, formatRecordedTime, roleLabel, stateLabel } from "@/lib/plainLanguage";
+import { ProposalChanges } from "@/components/simulation/ProposalChanges";
 import { advanceArchitectureTrace, architectureNextLabel, ARCHITECTURE_SCENARIOS, architectureContext, architectureSignalFor, buildArchitectureNodes, type ArchitectureScenarioId } from "@/lib/architectureLabModel";
 
 const box = { background: "rgba(255,255,255,.025)", border: "1px solid rgba(255,255,255,.08)" };
@@ -100,6 +102,17 @@ export default function PartnerArchitectureLab() {
     focusArchitecture(next.node, next.stage);
   };
   const nextLabel = architectureNextLabel(hotelCase);
+  // The engine records approval and moves the case on at dispatch; say so rather than show a stale gate.
+  const statusText = execution.state === "approval-required" && hotelCase.approved
+    ? `Approved by ${roleLabel(execution.approvalRoleId)} · ready to dispatch`
+    : stateLabel(execution.state);
+  const followUpLocked = execution.state !== "in-action" || !!hotelCase.observation;
+  const followUpHint = hotelCase.observation
+    ? "Follow-up recorded. Reset to try another condition."
+    : followUpLocked
+      ? "Choose a follow-up condition once the action is dispatched."
+      : "Choose how the follow-up turns out, then verify.";
+  const lateEvidence = hotelCase.audit.some(entry => entry.step === "prior-observation-retained");
 
   return <PartnerRoomLayout>
     <div className="travel-architecture" style={{ minHeight: "100vh", background: "#071315", color: "#fff" }}>
@@ -125,14 +138,15 @@ export default function PartnerArchitectureLab() {
             <div>
               <div style={{ fontSize: 11, color: "#a8dedb", fontWeight: 800, letterSpacing: ".1em", textTransform: "uppercase" }}>{MOCK_HOTEL.name}</div>
               <h2 style={{ margin: "6px 0", fontSize: 22 }}>{scenario.title}</h2>
-              <div style={{ ...muted, fontSize: 12 }}>{hotelCase.signal.title} · state: <strong style={{ color: "#fff" }}>{execution.state}</strong></div>
+              <div style={{ ...muted, fontSize: 12 }}>{hotelCase.signal.title} · Status: <strong style={{ color: "#fff" }}>{statusText}</strong></div>
             </div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-              <select value={fault} onChange={e => setFault(e.target.value as Fault)} aria-label="Synthetic follow-up condition" disabled={execution.state !== "in-action" || !!hotelCase.observation} style={{ padding: "10px 12px", background: "#0b1d1f", color: "#fff", border: "1px solid rgba(255,255,255,.12)" }}>
+              <select value={fault} onChange={e => setFault(e.target.value as Fault)} aria-label="Synthetic follow-up condition" aria-describedby="follow-up-condition-hint" disabled={followUpLocked} style={{ padding: "10px 12px", background: "#0b1d1f", color: "#fff", border: "1px solid rgba(255,255,255,.12)" }}>
                 <option value="none">Normal follow-up</option><option value="late-response">Late response</option><option value="ineffective-action">Ineffective action</option><option value="missing-receipt">Missing receipt</option><option value="missing-measurement">Missing measurement</option>
               </select>
               {nextLabel && <button onClick={advance} style={{ padding: "11px 16px", background: "#f59e0b", color: "#111", border: 0, fontWeight: 900, cursor: "pointer" }}>{nextLabel} →</button>}
               <button onClick={() => choose(selected)} style={{ padding: "10px 13px", background: "transparent", color: "#fff", border: "1px solid rgba(255,255,255,.14)", cursor: "pointer" }}>Reset</button>
+              <p id="follow-up-condition-hint" style={{ ...muted, flexBasis: "100%", margin: 0, fontSize: 12, textAlign: "right" }}>{followUpHint}</p>
             </div>
           </div>
           <div className="travel-architecture-stages" style={{ display: "grid", gridTemplateColumns: "repeat(5,minmax(0,1fr))", gap: 4, marginTop: 22 }}>
@@ -200,38 +214,41 @@ export default function PartnerArchitectureLab() {
         {hotelCase.observation && <section className="travel-loop-review" style={{ ...box, marginTop: 26, padding: 24, borderTop: "2px solid #a8dedb" }} aria-label="Review and replay learning">
           <div style={{ color: "#a8dedb", fontSize: 12, fontWeight: 800 }}>LEARN → HUMAN REVIEW → REPLAY → VERIFY AGAIN</div>
           <h2 style={{ fontSize: 26, margin: "10px 0" }}>Did the response work—and what changes next?</h2>
-          <p style={{ color: "rgba(255,255,255,.75)", lineHeight: 1.7 }}>Baseline outcome: <strong>{hotelCase.outcome}</strong> · case: <strong>{execution.state}</strong>. {hotelCase.reasons.join(", ") || "Receipt, restoration and the synthetic 20-minute target confirmed."}</p>
+          <p style={{ color: "rgba(255,255,255,.75)", lineHeight: 1.7 }}>{lateEvidence ? "Outcome after late evidence" : "Recorded outcome"}: <strong>{OUTCOME_LABELS[hotelCase.outcome]}</strong> · Case: <strong>{stateLabel(execution.state)}</strong>. {hotelCase.reasons.length ? `Why: ${describeFollowUpReasons(hotelCase.reasons)}.` : "Receipt recorded and the issue restored within the 20-minute target."}</p>
+          {lateEvidence && <p style={{ ...muted, lineHeight: 1.7 }}>The earlier follow-up (pending evidence) stays on record. The late measurement was added alongside it, not in place of it.</p>}
           <p style={{ ...muted, lineHeight: 1.7 }}>This fixture tests restoration with a receipt within 20 minutes. It does not measure each scenario’s guest, safety or commercial outcomes. A closed case can still miss its target; a pending case stays open.</p>
           {proposal ? <>
-            <h3>Proposed adjustment</h3>
-            <dl style={{ display: "grid", gap: 8, lineHeight: 1.6 }}>
-              <div><dt>Response window</dt><dd>{hotelCase.policy.responseMinutes} → {proposal.candidate.responseMinutes} minutes</dd></div>
-              <div><dt>Intervention attempts</dt><dd>{hotelCase.policy.interventionAttempts} → {proposal.candidate.interventionAttempts}</dd></div>
-              <div><dt>Receipt attempts</dt><dd>{hotelCase.policy.receiptAttempts} → {proposal.candidate.receiptAttempts}</dd></div>
-            </dl>
+            <h3>Proposed change for the Duty Manager to review</h3>
+            <p style={{ ...muted, lineHeight: 1.7 }}>Raised because of: {describeFollowUpReasons(proposal.reasons)}. Only the settings below would change.</p>
+            <ProposalChanges before={hotelCase.policy} after={proposal.candidate} />
             {!reviewed && <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
-              <button className="travel-loop-button" onClick={() => reviewChange("approved")}>Approve synthetic improvement</button>
-              <button className="travel-loop-button travel-loop-secondary" onClick={() => reviewChange("rejected")}>Reject improvement</button>
+              <button className="travel-loop-button" onClick={() => reviewChange("approved")}>Approve change for testing</button>
+              <button className="travel-loop-button travel-loop-secondary" onClick={() => reviewChange("rejected")}>Reject change</button>
             </div>}
-            {reviewed && <p role="status">Review: <strong>{reviewed.decision}</strong> · {reviewed.reviewer} · {reviewed.reviewedAt}. Original configuration retained.</p>}
+            {reviewed && <p role="status">{reviewed.decision === "approved"
+              ? `Approved for testing by ${roleLabel(reviewed.reviewer ?? "")} at ${formatRecordedTime(reviewed.reviewedAt)}. It applies only to the replay below; the hotel's live settings are unchanged.`
+              : `Rejected by ${roleLabel(reviewed.reviewer ?? "")} at ${formatRecordedTime(reviewed.reviewedAt)}. The current settings stay in place and the proposal is kept on record.`}</p>}
             {reviewed?.decision === "approved" && <>
               <label style={{ display: "block", margin: "18px 0", lineHeight: 1.7 }}><input type="checkbox" checked={constrained} onChange={e => setConstrained(e.target.checked)} /> Challenge the improvement with insufficient response capacity</label>
               <button className="travel-loop-button" onClick={replayChange}>Replay approved improvement</button>
             </>}
             {reviewError && <p role="alert">{reviewError}</p>}
             {replay && <div role="status" style={{ marginTop: 20, padding: 18, border: "1px solid #a8dedb", lineHeight: 1.8 }}>
-              <strong>Baseline {hotelCase.outcome} → replay {replay.outcome}</strong>
-              <p style={{ margin: "8px 0" }}>Response: {hotelCase.observation.elapsedMinutes} → {replay.observation?.elapsedMinutes} minutes. Case: {replay.execution.state}. {replay.reasons.join(", ") || "Synthetic target met."}</p>
-              <p style={{ margin: 0 }}>New execution, same source event, original evidence retained. {replay.outcome === "met" ? "Candidate passed this fixture; broader validation is still required." : "Approval did not guarantee improvement. Keep the unresolved work and reassess capacity."} No change is promoted to a saved deployment.</p>
+              <strong>Recorded: {OUTCOME_LABELS[hotelCase.outcome].toLowerCase()} → replay: {OUTCOME_LABELS[replay.outcome].toLowerCase()}</strong>
+              <p style={{ margin: "8px 0" }}>Response time: {hotelCase.observation.elapsedMinutes} → {replay.observation?.elapsedMinutes} minutes. Replay case: {stateLabel(replay.execution.state)}. {replay.reasons.length ? `Why: ${describeFollowUpReasons(replay.reasons)}.` : "Target met in the replay."}</p>
+              <p style={{ margin: 0 }}>The replay is a new execution of the same signal; the recorded outcome above is unchanged. {replay.outcome === "met" ? "Candidate passed this fixture; broader validation is still required." : "Approval did not guarantee improvement. Keep the unresolved work and reassess capacity."} No change is promoted to a saved deployment.</p>
             </div>}
           </> : hotelCase.outcome === "pending" ? <>
-            <p>Missing measurement blocks an improvement claim. Collect a correlated follow-up first.</p>
+            <p>No follow-up measurement was recorded, so no change can be proposed yet. Record the measurement for this case first.</p>
             <button className="travel-loop-button" onClick={() => { resetLearning(); setHotelCase(c => reconcileHotelFollowUp(c, { ...c.observation!, measured: true })); }}>Supply synthetic measurement and recheck</button>
-          </> : <p>No correction proposed for this successful fixture. Continue monitoring the next moment.</p>}
-          <details style={{ marginTop: 20 }}><summary>Inspect retained baseline and review evidence</summary>
-            <ol style={{ lineHeight: 1.8, paddingLeft: 24 }}>{hotelCase.audit.map((entry, index) => <li key={index}><strong>{entry.step}</strong>: {entry.detail}</li>)}</ol>
-            {reviewed && <p>Source execution: {reviewed.sourceExecutionId} · review: {reviewed.reviewId} · candidate: {reviewed.candidate.version}</p>}
-            {replay && <p>Replay execution: {replay.execution.id}</p>}
+          </> : <p>The target was met, so no change is proposed. Continue monitoring the next moment.</p>}
+          <details style={{ marginTop: 20 }}><summary>Inspect the recorded case history</summary>
+            <ol style={{ lineHeight: 1.8, paddingLeft: 24 }}>{hotelCase.audit.map((entry, index) => { const line = describeAuditEntry(entry); return <li key={index}><strong>{line.title}</strong>{line.detail && ` · ${line.detail}`}</li>; })}</ol>
+            <details style={{ marginTop: 12 }}><summary>Technical identifiers</summary>
+              <ol style={{ lineHeight: 1.7, paddingLeft: 24, ...muted, fontSize: 12, overflowWrap: "anywhere" }}>{hotelCase.audit.map((entry, index) => <li key={index}><code>{entry.step}</code>: {entry.detail}</li>)}</ol>
+              {reviewed && <p style={{ ...muted, fontSize: 12, overflowWrap: "anywhere" }}>Source execution: {reviewed.sourceExecutionId} · review: {reviewed.reviewId} · reviewed at {reviewed.reviewedAt} · candidate: {reviewed.candidate.version}</p>}
+              {replay && <p style={{ ...muted, fontSize: 12, overflowWrap: "anywhere" }}>Replay execution: {replay.execution.id}</p>}
+            </details>
           </details>
         </section>}
 

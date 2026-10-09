@@ -52,7 +52,7 @@ const INTEGRATION_CATEGORIES: { title: string; sub: string; desc: string; color:
   {
     title: "Guest Messaging",
     sub: "MESSAGING",
-    desc: "Two-way guest communication channel used to deliver and confirm demo communications and staff-routed responses.",
+    desc: "Two-way guest messaging. In this demonstration, messages are drafted for staff approval and never sent; a pilot would deliver them through the property's messaging provider and record receipts.",
     color: "#a78bfa",
     status: "Working Proof",
   },

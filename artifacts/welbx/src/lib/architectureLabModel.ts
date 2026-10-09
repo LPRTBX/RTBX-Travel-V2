@@ -4,6 +4,7 @@ import { createHotelSignals, HOTEL_ROUTES, PATH_LABELS, type HotelSignal } from 
 import { approveHotelDecision, dispatchHotelAction, mockHotelFollowUp, verifyHotelOutcome, proposeHotelLearning, type Fault, type HotelCase } from "@/simulation/hotelLearning";
 
 import { transitionExecution } from "./runtimeEngine";
+import { OUTCOME_LABELS, describeFollowUpReasons, roleLabel, stateLabel } from "./plainLanguage";
 
 export const ARCHITECTURE_SCENARIOS = [
   ["repeat-guest-room-not-ready", "Room delay"],
@@ -64,7 +65,7 @@ export function architectureNextLabel(c: HotelCase) {
   return state === "signal-received" ? "Validate signal"
     : state === "understanding" ? "Classify moment"
     : state === "decision-required" && !c.approved ? (c.execution.approvalRequired ? "Apply governance" : "Apply delegated authority")
-    : state === "approval-required" && !c.approved ? `Simulate approval as ${c.execution.approvalRoleId}`
+    : state === "approval-required" && !c.approved ? `Simulate approval as ${roleLabel(c.execution.approvalRoleId)}`
     : (state === "approval-required" || state === "decision-required") && c.approved ? "Dispatch synthetic action"
     : state === "in-action" && !c.observation ? "Verify synthetic outcome" : null;
 }
@@ -89,7 +90,7 @@ export function buildArchitectureNodes(id: ArchitectureScenarioId, hotelCase: Ho
     },
     {
       id: "signal", stage: "Connect", label: "Signal registry",
-      text: `${PATH_LABELS[hotelCase.signal.path]} · ${hotelCase.signal.kind}`,
+      text: `${PATH_LABELS[hotelCase.signal.path]} · ${hotelCase.signal.kind.replaceAll("-", " ")}`,
       details: [`Event ID · ${hotelCase.signal.eventId}`, `Room · ${hotelCase.signal.room}`, `Condition · ${hotelCase.signal.condition}`, `Payload · ${JSON.stringify(hotelCase.signal.payload)}`],
     },
     {
@@ -109,16 +110,16 @@ export function buildArchitectureNodes(id: ArchitectureScenarioId, hotelCase: Ho
     {
       id: "decision", stage: "Decide", label: "Decision spine",
       text: scenario.decision.recommendedDecision,
-      details: [`Decision · ${scenario.decision.decisionRequired}`, `Owner · ${scenario.decision.accountableRoleId}`, `Runtime state · ${execution.state}`],
+      details: [`Decision · ${scenario.decision.decisionRequired}`, `Owner · ${roleLabel(scenario.decision.accountableRoleId)}`, `Case status · ${stateLabel(execution.state)}`],
     },
     {
       id: "playbook", stage: "Act", label: "Playbook library", text: playbook.name,
-      details: playbook.steps.map(s => `${s.step}. ${s.title} · ${s.ownerRoleId} · ${s.timing}${s.approvalRequired ? " · approval required" : ""}`),
+      details: playbook.steps.map(s => `${s.step}. ${s.title} · ${roleLabel(s.ownerRoleId)} · ${s.timing}${s.approvalRequired ? " · approval required" : ""}`),
     },
     {
       id: "authority", stage: "Act", label: "Human authority",
-      text: `${execution.accountableRoleId} retains accountability.`,
-      details: [`Accountable · ${execution.accountableRoleId}`, `Supporting · ${scenario.rolesConfig.supportingRoleIds.join(", ")}`, `Authority · ${execution.approvalRequired ? `${execution.approvalRoleId} approval ${hotelCase.approved ? "simulated" : "pending"}` : `${execution.accountableRoleId} delegated authority`}`, "AI / rules may propose; they do not authorise a real response."],
+      text: `${roleLabel(execution.accountableRoleId)} remains accountable.`,
+      details: [`Accountable · ${roleLabel(execution.accountableRoleId)}`, `Supporting · ${scenario.rolesConfig.supportingRoleIds.map(roleLabel).join(", ")}`, `Authority · ${execution.approvalRequired ? `${roleLabel(execution.approvalRoleId)} approval ${hotelCase.approved ? "given (scripted test actor)" : "pending"}` : `${roleLabel(execution.accountableRoleId)} decides within delegated authority`}`, "AI / rules may propose; they do not authorise a real response."],
     },
     {
       id: "comms", stage: "Act", label: "Central comms",
@@ -128,18 +129,18 @@ export function buildArchitectureNodes(id: ArchitectureScenarioId, hotelCase: Ho
     {
       id: "evidence", stage: "Learn", label: "Evidence ledger",
       text: "Mandatory evidence gates closure.",
-      details: execution.evidence.map(e => `${e.required ? "Required" : "Supporting"} · ${e.evidenceType} · ${e.ownerRoleId} · ${e.captured ? "captured" : "open"}`),
+      details: execution.evidence.map(e => `${e.required ? "Required" : "Supporting"} · ${e.evidenceType} · ${roleLabel(e.ownerRoleId)} · ${e.captured ? "recorded" : "not yet recorded"}`),
     },
     {
       id: "outcome", stage: "Learn", label: "Outcome / value",
-      text: hotelCase.observation ? `Synthetic result · ${hotelCase.outcome}` : "Pending synthetic verification.",
-      details: execution.outcomes.map(o => `${o.metric} · ${o.status}`),
+      text: hotelCase.observation ? `Simulated follow-up · ${OUTCOME_LABELS[hotelCase.outcome].toLowerCase()}` : "Waiting for the simulated follow-up.",
+      details: execution.outcomes.map(o => `${o.metric} · ${o.status.replaceAll("-", " ")}`),
     },
     {
       id: "learning", stage: "Learn", label: "Learning loop",
       text: proposal ? "Candidate change generated for human review." : "Outcomes can create governed improvement candidates.",
       details: proposal
-        ? [`Trigger · ${proposal.reasons.join(", ")}`, `Candidate · ${proposal.candidate.version}`, "Human review required before configuration change"]
+        ? [`Raised because of · ${describeFollowUpReasons(proposal.reasons)}`, "Proposed change to the response settings, shown in the review panel below", "A named reviewer must approve it before it is tested"]
         : [scenario.learningConfig.reviewTrigger, scenario.learningConfig.patternToDetect, scenario.learningConfig.improvementAction],
     },
   ];
