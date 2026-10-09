@@ -830,6 +830,46 @@ for (const viewport of [{ width: 390, height: 844 }, { width: 820, height: 1180 
   });
 }
 
+// A draft approval recorded in a run, but not yet marked reviewed, is restored exactly.
+for (const viewport of [{ width: 390, height: 844 }, { width: 820, height: 1180 }, { width: 1440, height: 900 }]) {
+  await check(`Draft approval survives navigation unchanged at ${viewport.width}px`, viewport, async page => {
+    await activateDeployment(page);
+    await open(page, "/partner-room/operations");
+    const trace = page.locator('[data-testid="exec-trace"][data-trace-scenario="repeat-guest-room-not-ready"]');
+    await trace.getByRole("button", { name: "Start Local Simulation →" }).click();
+    for (const name of ["Receive Signal", "Validate Signal & Context", "Route for Approval", "Approve as Duty Manager"]) {
+      await trace.getByRole("button", { name, exact: true }).click();
+    }
+    // In action: approve the first draft that needs approval, but do not mark it reviewed.
+    const drafts = trace.getByRole("button", { name: "Approve as Duty Manager", exact: true });
+    const pendingBefore = await drafts.count();
+    assert(pendingBefore >= 2, `expected drafts awaiting approval, found ${pendingBefore}`);
+    await drafts.first().click();
+    const snapshot = async () => ({
+      text: (await trace.innerText()).replace(/\s+/g, " "),
+      approvals: await trace.getByText(/^Simulation approval recorded for Duty Manager$/).count(),
+      pending: await drafts.count(),
+      reviewed: await trace.getByText(/Draft reviewed locally/).count(),
+      enabled: await trace.getByRole("button").evaluateAll(buttons => buttons.filter(b => !b.disabled).map(b => b.textContent.trim())),
+    });
+    const before = await snapshot();
+    assert(before.approvals === 1 && before.pending === pendingBefore - 1 && before.reviewed === 0, `approval not recorded as expected: ${JSON.stringify(before)}`);
+    assert(before.enabled.includes("Resolve Scenario"), "next action missing before navigation");
+
+    await goVia(page, "Calculator", viewport.width);
+    await page.waitForURL(url => url.pathname === "/partner-room/proof-calculator");
+    await goVia(page, "Evidence", viewport.width);
+    await page.waitForURL(url => url.pathname === "/partner-room/operations");
+    await trace.getByText("Synthetic run ·").first().waitFor();
+    const after = await snapshot();
+    assert(after.approvals === 1, `approval lost after navigation (${after.approvals} recorded)`);
+    assert(after.pending === before.pending, `drafts awaiting approval changed: ${before.pending} → ${after.pending}`);
+    assert(after.reviewed === 0, "the approved draft was advanced to reviewed");
+    assert(JSON.stringify(after.enabled) === JSON.stringify(before.enabled), `available actions changed:\n${before.enabled}\n→ ${after.enabled}`);
+    assert(after.text === before.text, "the run's trace changed after navigation");
+  });
+}
+
 await browser.close();
 server?.kill();
 

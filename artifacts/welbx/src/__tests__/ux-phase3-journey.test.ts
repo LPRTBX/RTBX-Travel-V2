@@ -86,3 +86,35 @@ describe("Generated evidence session", () => {
     expect(configurationKey({ ...base!, id: "dep-other", activatedAt: "2026-10-09T08:00:00.000Z" })).not.toBe(first);
   });
 });
+
+describe("Generated evidence session updates", () => {
+  const exec = (deploymentId: string) => ({ deploymentId, startedAt: "2026-10-09T08:00:00.000Z" }) as unknown as import("@/lib/runtimeEngine").ScenarioExecution;
+  const harbour = { id: "dep-harbour-hotel-melbourne", updatedAt: "2026-10-09T08:00:00.000Z" };
+
+  it("rejects an update carrying an earlier activation key after the same deployment is re-activated", async () => {
+    const { applyRunUpdate, configurationKey, startActivation } = await import("@/context/RunSessionContext");
+    const firstKey = configurationKey({ ...harbour, activatedAt: "2026-10-09T08:00:00.000Z" } as never)!;
+    const secondKey = configurationKey({ ...harbour, activatedAt: "2026-10-09T08:05:00.000Z" } as never)!;
+    expect(firstKey.split("@")[0]).toBe(secondKey.split("@")[0]);
+
+    let state = applyRunUpdate({ key: firstKey, runs: {} }, { configurationKey: firstKey, scenarioId: "repeat-guest-room-not-ready", exec: exec(harbour.id), cycle: 1, approvedComms: {} });
+    expect(Object.keys(state.runs)).toEqual(["repeat-guest-room-not-ready"]);
+
+    // Re-activating the same deployment discards the earlier run…
+    state = startActivation(state, secondKey);
+    expect(state.runs).toEqual({});
+    // …and a late update from the earlier activation, same deployment id, is rejected unchanged.
+    const stale = { configurationKey: firstKey, scenarioId: "repeat-guest-room-not-ready", exec: exec(harbour.id), cycle: 1, approvedComms: {} };
+    expect(applyRunUpdate(state, stale)).toBe(state);
+    expect(applyRunUpdate(state, { ...stale, configurationKey: null })).toBe(state);
+    expect(Object.keys(applyRunUpdate(state, { ...stale, configurationKey: secondKey }).runs)).toEqual(["repeat-guest-room-not-ready"]);
+  });
+
+  it("keeps draft approvals with the run, unchanged", async () => {
+    const { applyRunUpdate } = await import("@/context/RunSessionContext");
+    const key = "dep-harbour-hotel-melbourne@2026-10-09T08:00:00.000Z";
+    const approvedComms = { "comm-1": "duty-manager" };
+    const state = applyRunUpdate({ key, runs: {} }, { configurationKey: key, scenarioId: "s", exec: exec("dep-harbour-hotel-melbourne"), cycle: 2, approvedComms });
+    expect(state.runs.s).toMatchObject({ cycle: 2, approvedComms: { "comm-1": "duty-manager" }, configurationKey: key });
+  });
+});

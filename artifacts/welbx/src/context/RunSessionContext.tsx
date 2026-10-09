@@ -5,11 +5,13 @@
  * Partner Room pages and end when the page is refreshed or closed. Nothing is saved
  * or sent anywhere.
  *
- * Every record carries the key of the configuration that produced it. Activating a
- * different configuration, re-activating the same one or resetting it discards the
- * earlier records, so they can never be shown as results of the new configuration.
+ * Every record carries the key of the configuration activation that produced it.
+ * Activating a different configuration, re-activating the same one or resetting
+ * discards the earlier records, and an update is accepted only when it carries the
+ * exact key of the current activation, so a run can never be shown as a result of
+ * a different activation.
  */
-import { createContext, useCallback, useContext, useMemo, useRef, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
 import type { TravelDeploymentConfig } from "@/data/travelDeploymentConfig";
 import type { ScenarioExecution } from "@/lib/runtimeEngine";
 import { useDeployment } from "@/context/DeploymentContext";
@@ -17,6 +19,8 @@ import { useDeployment } from "@/context/DeploymentContext";
 export interface RunRecord {
   exec: ScenarioExecution;
   cycle: number;
+  /** Draft approvals recorded in the run but not yet marked reviewed: communication id → approving role. */
+  approvedComms: Record<string, string>;
   /** The configuration activation that produced this run. */
   configurationKey: string;
 }
@@ -26,53 +30,71 @@ export function configurationKey(deployment: TravelDeploymentConfig | null): str
   return deployment ? `${deployment.id}@${deployment.activatedAt ?? deployment.updatedAt}` : null;
 }
 
+export interface RunSessionState { key: string | null; runs: Record<string, RunRecord> }
+
+/** A change to one scenario's run, stamped with the activation the run belongs to. */
+export interface RunUpdate {
+  configurationKey: string | null;
+  scenarioId: string;
+  /** Null discards the scenario's run (e.g. after a reset of the trace). */
+  exec: ScenarioExecution | null;
+  cycle: number;
+  approvedComms: Record<string, string>;
+}
+
+/** The session after a new activation: earlier records are discarded, never re-labelled. */
+export function startActivation(state: RunSessionState, key: string | null): RunSessionState {
+  return state.key === key ? state : { key, runs: {} };
+}
+
+/**
+ * Apply one update. It is accepted only when it carries the exact key of the current
+ * activation; an update from an earlier activation of the same deployment is rejected.
+ */
+export function applyRunUpdate(state: RunSessionState, update: RunUpdate): RunSessionState {
+  if (!state.key || update.configurationKey !== state.key) return state;
+  const { scenarioId, exec, cycle, approvedComms } = update;
+  if (!exec) {
+    if (!(scenarioId in state.runs)) return state;
+    const { [scenarioId]: _removed, ...rest } = state.runs;
+    return { ...state, runs: rest };
+  }
+  const existing = state.runs[scenarioId];
+  if (existing && existing.exec === exec && existing.cycle === cycle && existing.approvedComms === approvedComms) return state;
+  return { ...state, runs: { ...state.runs, [scenarioId]: { exec, cycle, approvedComms, configurationKey: state.key } } };
+}
+
 interface RunSessionContextType {
-  /** Records produced by the active configuration, in the order the runs started. */
+  /** The current activation's key; pass it back with every update. */
+  activeKey: string | null;
+  /** Records produced by the current activation, in the order the runs started. */
   records: RunRecord[];
-  /** The stored run for one scenario of the active configuration, if any. */
+  /** The stored run for one scenario of the current activation, if any. */
   recordFor: (scenarioId: string) => RunRecord | undefined;
-  /** Store (or, with null, discard) a scenario's run for the active configuration. */
-  recordRun: (scenarioId: string, exec: ScenarioExecution | null, cycle: number) => void;
+  /** Store (or, with a null exec, discard) a scenario's run. Rejected unless the key matches the current activation. */
+  recordRun: (update: RunUpdate) => void;
 }
 
 const RunSessionContext = createContext<RunSessionContextType | null>(null);
 
-interface SessionState { key: string | null; runs: Record<string, RunRecord> }
-
 export function RunSessionProvider({ children }: { children: ReactNode }) {
   const { activeDeployment } = useDeployment();
   const activeKey = configurationKey(activeDeployment);
-  const [session, setSession] = useState<SessionState>({ key: activeKey, runs: {} });
+  const [session, setSession] = useState<RunSessionState>({ key: activeKey, runs: {} });
 
   // A different activation (or a reset) discards earlier records before anything renders them.
   let current = session;
   if (session.key !== activeKey) {
-    current = { key: activeKey, runs: {} };
+    current = startActivation(session, activeKey);
     setSession(current);
   }
-  const keyRef = useRef(activeKey);
-  keyRef.current = activeKey;
 
-  const recordRun = useCallback((scenarioId: string, exec: ScenarioExecution | null, cycle: number) => {
-    const key = keyRef.current;
-    setSession(prev => {
-      // A run reported for another configuration (e.g. by a page still unmounting) is never stored.
-      if (!key || prev.key !== key || (exec && exec.deploymentId !== key.split("@")[0])) return prev;
-      if (!exec) {
-        if (!(scenarioId in prev.runs)) return prev;
-        const { [scenarioId]: _removed, ...rest } = prev.runs;
-        return { ...prev, runs: rest };
-      }
-      const existing = prev.runs[scenarioId];
-      if (existing && existing.exec === exec && existing.cycle === cycle) return prev;
-      return { ...prev, runs: { ...prev.runs, [scenarioId]: { exec, cycle, configurationKey: key } } };
-    });
-  }, []);
+  const recordRun = useCallback((update: RunUpdate) => setSession(prev => applyRunUpdate(prev, update)), []);
 
   const value = useMemo<RunSessionContextType>(() => {
     const valid = current.key === activeKey ? current.runs : {};
     const records = Object.values(valid).sort((a, b) => a.exec.startedAt.localeCompare(b.exec.startedAt));
-    return { records, recordFor: scenarioId => valid[scenarioId], recordRun };
+    return { activeKey, records, recordFor: scenarioId => valid[scenarioId], recordRun };
   }, [current, activeKey, recordRun]);
 
   return <RunSessionContext.Provider value={value}>{children}</RunSessionContext.Provider>;

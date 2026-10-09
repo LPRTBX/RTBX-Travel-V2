@@ -14,7 +14,7 @@ import {
   type ActionStatus, type TravelOperatingSystemName, type TravelRole,
 } from "@/data/travelOperations";
 import { useDeployment } from "@/context/DeploymentContext";
-import { configurationKey, useRunSession, type RunRecord } from "@/context/RunSessionContext";
+import { configurationKey, useRunSession, type RunRecord, type RunUpdate } from "@/context/RunSessionContext";
 import {
   createExecution,
   transitionExecution,
@@ -328,17 +328,21 @@ function ProofSummary() {
 type ExecView = "operator" | "guest" | "dual";
 
 function ExecTracePanel({
-  deployment, scenario, playbook, onReset, onExecutionChange, restored,
+  deployment, scenario, playbook, onReset, onExecutionChange, restored, activationKey,
 }: {
   deployment: TravelDeploymentConfig;
   scenario: (typeof TRAVEL_SCENARIOS)[0];
   playbook: (typeof TRAVEL_PLAYBOOKS)[0];
   onReset: () => void;
   /** Reports each change to this scenario's run so the page can list what the configured operation generated. */
-  onExecutionChange?: (scenarioId: string, exec: ScenarioExecution | null, cycle: number) => void;
+  onExecutionChange?: (update: RunUpdate) => void;
   /** This scenario's run from earlier in the session, picked up where it was left. */
   restored?: RunRecord;
+  /** The configuration activation this panel was created for; every update it reports carries it. */
+  activationKey: string | null;
 }) {
+  // Fixed at creation: a panel never reports under a later activation's key.
+  const [originKey] = useState(activationKey);
   const [exec, setExec] = useState<ScenarioExecution | null>(() => restored?.exec ?? null);
   const [view, setView]     = useState<ExecView>("operator");
   const [learning, setLearning] = useState<RuntimeLearning | null>(
@@ -354,7 +358,6 @@ function ExecTracePanel({
     () => summariseScenarioExecution(deployment, createExecution({ deployment, scenario, playbook })),
     [deployment, scenario, playbook],
   );
-  useEffect(() => { onExecutionChange?.(scenario.id, exec, cycle); }, [exec, cycle, scenario.id, onExecutionChange]);
 
   const launch = () => setExec(createExecution({ deployment, scenario, playbook }));
   const reset  = () => { setExec(null); setLearning(null); setPriorLearning(null); setCycle(1); onReset(); };
@@ -413,7 +416,10 @@ function ExecTracePanel({
 
   // Track which approval-required communications have been explicitly approved by
   // a human action (not auto-recorded). Key: commId, value: approving role label.
-  const [approvedComms, setApprovedComms] = useState<Record<string, string>>({});
+  const [approvedComms, setApprovedComms] = useState<Record<string, string>>(() => restored?.approvedComms ?? {});
+  useEffect(() => {
+    onExecutionChange?.({ configurationKey: originKey, scenarioId: scenario.id, exec, cycle, approvedComms });
+  }, [exec, cycle, approvedComms, originKey, scenario.id, onExecutionChange]);
 
   const handleApproveComm = (id: string, role: string) => {
     setApprovedComms(prev => ({ ...prev, [id]: role }));
@@ -459,7 +465,7 @@ function ExecTracePanel({
 
   if (!exec) {
     return (
-      <div style={{ padding: "22px 24px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", marginBottom: 4 }}>
+      <div data-testid="exec-trace" data-trace-scenario={scenario.id} style={{ padding: "22px 24px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", marginBottom: 4 }}>
         <div style={{ fontSize: 14, fontWeight: 800, color: "#fff", marginBottom: 8 }}>{scenario.title}</div>
         <div style={{ fontSize: 11, color: C.muted, lineHeight: 1.65, marginBottom: 16, maxWidth: 680 }}>
           {scenario.context.riskOrOpportunity}
@@ -801,7 +807,7 @@ function ExecTracePanel({
   ) : null;
 
   return (
-    <div style={{ marginBottom: 4 }}>
+    <div data-testid="exec-trace" data-trace-scenario={scenario.id} style={{ marginBottom: 4 }}>
       {/* Panel header */}
       <div style={{ padding: "14px 20px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderBottom: "none", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
@@ -1096,6 +1102,7 @@ export default function PartnerOperationsCentre() {
                   <ExecTracePanel
                     key={`${configKey}:${launchedEntry.scenario.id}`}
                     restored={recordFor(launchedEntry.scenario.id)}
+                    activationKey={configKey}
                     deployment={activeDeployment}
                     scenario={launchedEntry.scenario}
                     playbook={launchedEntry.playbook}
@@ -1113,6 +1120,7 @@ export default function PartnerOperationsCentre() {
                       <ExecTracePanel
                         key={`${configKey}:${scenario.id}`}
                         restored={recordFor(scenario.id)}
+                        activationKey={configKey}
                         deployment={activeDeployment}
                         scenario={scenario}
                         playbook={playbook}
