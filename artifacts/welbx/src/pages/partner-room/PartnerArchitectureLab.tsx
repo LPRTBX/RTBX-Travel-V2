@@ -1,5 +1,5 @@
 import "./travel-impact.css";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 import { STATE_TO_STEP, TRACE_STEPS } from "@/lib/runtimeEngine";
@@ -50,15 +50,41 @@ export default function PartnerArchitectureLab() {
   const activeStep = STATE_TO_STEP[execution.state];
   const selectedNode = nodes.find(n => n.id === inspect) || nodes[1];
 
+  const inspectorRef = useRef<HTMLElement | null>(null);
+  const [scrollRequest, setScrollRequest] = useState(0);
+
+  // Below 900px the Inspector docks at the bottom of the screen. Browsers treat a control behind it as
+  // already in view, so neither focus nor scrollIntoView moves it; scroll by exactly the covered amount.
+  const keepClearOfInspector = (element: Element | null) => {
+    const inspector = inspectorRef.current;
+    if (!element || !inspector || inspector.contains(element)) return;
+    const panel = inspector.getBoundingClientRect();
+    const docked = getComputedStyle(inspector).position === "sticky" && Math.abs(panel.bottom - window.innerHeight) < 2;
+    if (!docked) return;
+    const rect = element.getBoundingClientRect();
+    const covered = rect.bottom + 12 - panel.top; // 12px keeps the 3px focus ring and its 4px offset visible
+    if (covered > 0) window.scrollBy({ top: covered, behavior: "auto" });
+  };
+
+  // A newly selected layer opens at the top of the Inspector, not at the previous layer's scroll position.
+  useEffect(() => {
+    if (inspectorRef.current) inspectorRef.current.scrollTop = 0;
+  }, [inspect]);
+
+  // After a selection renders (the Inspector may change height), bring the selected node into view and clear of the panel.
+  useEffect(() => {
+    if (!scrollRequest) return;
+    const node = document.getElementById(`architecture-node-${inspect}`);
+    if (!node) return;
+    const docked = window.matchMedia("(max-width: 900px)").matches;
+    node.scrollIntoView({ behavior: docked ? "auto" : "smooth", block: "nearest" });
+    if (docked) requestAnimationFrame(() => keepClearOfInspector(node));
+  }, [scrollRequest]);
+
   const focusArchitecture = (nodeId: string, stage?: string) => {
     setInspect(nodeId);
     if (stage) setFocusStage(stage);
-    window.setTimeout(() => {
-      document.getElementById(`architecture-node-${nodeId}`)?.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
-    }, 0);
+    setScrollRequest(request => request + 1);
   };
   const focusArchitectureStage = (stage: string) => {
     const nodeId = STAGE_NODE_MAP[stage];
@@ -129,7 +155,7 @@ export default function PartnerArchitectureLab() {
           </div>
         </section>
 
-        <div className="rtbx-responsive-split" style={{ display: "grid", gridTemplateColumns: "minmax(0,1.5fr) minmax(320px,.7fr)", gap: 16, alignItems: "start" }}>
+        <div className="travel-architecture-split" style={{ display: "grid", gridTemplateColumns: "minmax(0,1.5fr) minmax(320px,.7fr)", gap: 16, alignItems: "start" }}>
           <section id="architecture-map">
             <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: ".12em", textTransform: "uppercase", ...muted, marginBottom: 10 }}>Architecture · click any layer to inspect</div>
             <div style={{ display: "grid", gap: 5 }}>
@@ -138,6 +164,7 @@ export default function PartnerArchitectureLab() {
                 id={`architecture-node-${node.id}`}
                 key={node.id}
                 onClick={() => focusArchitecture(node.id, node.stage)}
+                onFocus={event => keepClearOfInspector(event.currentTarget)}
                 style={{
                   ...box,
                   cursor: "pointer",
@@ -160,7 +187,8 @@ export default function PartnerArchitectureLab() {
             </div>
           </section>
 
-          <aside style={{ ...box, borderTop: "2px solid #a8dedb", padding: 22, position: "sticky", top: 100 }}>
+          <aside ref={inspectorRef} className="travel-architecture-inspector" role="region" aria-label={`Layer inspector: ${selectedNode.label}`} tabIndex={0} style={{ ...box, borderTop: "2px solid #a8dedb", padding: 22, position: "sticky", top: 100 }}>
+            <span role="status" className="sr-only">{`Showing ${selectedNode.label} in the inspector`}</span>
             <div style={{ fontSize: 10, color: "#f59e0b", fontWeight: 800, letterSpacing: ".1em", textTransform: "uppercase" }}>{selectedNode.stage} · Inspector</div>
             <h3 style={{ margin: "7px 0 8px", fontSize: 20 }}>{selectedNode.label}</h3>
             <p style={{ ...muted, fontSize: 13, lineHeight: 1.6 }}>{selectedNode.text}</p>

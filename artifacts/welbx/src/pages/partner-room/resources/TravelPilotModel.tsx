@@ -119,9 +119,8 @@ export default function TravelPilotModel() {
             { label: "Explore a Design Partnership", href: "/partner-room/next-step" },
             { label: "Build & Configure", href: "/partner-room/build-configure" },
             { label: "Resource Library", href: "/partner-room/brief-library" },
-            { label: "Next Step", href: "/partner-room/next-step" },
           ].map(b => (
-            <Link key={b.href} href={b.href}><div style={{ padding: "9px 18px", border: "1px solid rgba(255,255,255,0.12)", fontSize: 9.5, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", cursor: "pointer" }}>{b.label} →</div></Link>
+            <Link key={b.label} href={b.href}><div style={{ padding: "9px 18px", border: "1px solid rgba(255,255,255,0.12)", fontSize: 9.5, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", cursor: "pointer" }}>{b.label} →</div></Link>
           ))}
         </div>
       </div>

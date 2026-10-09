@@ -343,7 +343,28 @@ export const READINESS_COLORS: Record<ReadinessState, string> = {
   "Production engineering required": "#a78bfa",
 };
 
+/** Stage 1 fields marked required (*) in Build & Configure. */
+export type RequiredEnvironmentField = "deploymentName" | "organisationName" | "propertyType" | "roomCount";
+
+export const REQUIRED_ENVIRONMENT_FIELD_LABELS: Record<RequiredEnvironmentField, string> = {
+  deploymentName:   "Deployment name",
+  organisationName: "Organisation name",
+  propertyType:     "Property type",
+  roomCount:        "Room / unit count",
+};
+
+export function getMissingEnvironmentFields(draft: TravelDeploymentConfig): RequiredEnvironmentField[] {
+  const missing: RequiredEnvironmentField[] = [];
+  if (!draft.deploymentName.trim())   missing.push("deploymentName");
+  if (!draft.organisationName.trim()) missing.push("organisationName");
+  if (!draft.propertyType.trim())     missing.push("propertyType");
+  if (!Number.isFinite(draft.roomCount) || draft.roomCount < 1) missing.push("roomCount");
+  return missing;
+}
+
 export function computeReadiness(draft: TravelDeploymentConfig): ReadinessState {
+  if (getMissingEnvironmentFields(draft).length > 0) return "Incomplete";
+
   const activeOSes    = draft.operatingSystems.filter(o => o.active);
   const activeScenarios = draft.scenarios.filter(s => s.active);
   const activeRoles   = draft.roles.filter(r => r.active);

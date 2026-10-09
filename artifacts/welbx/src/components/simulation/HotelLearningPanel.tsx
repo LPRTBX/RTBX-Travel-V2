@@ -5,6 +5,7 @@ import { createHotelSignals, PATH_LABELS } from '@/simulation/mockHotel';
 import { simulateHotelCase, hotelFaultForSignal, proposeHotelLearning, reviewHotelLearning,
   replayHotelLearning, reconcileHotelFollowUp, mockHotelFollowUp, mergeApprovedHotelPolicy,
   runHotelLearningCycle, BASELINE_POLICY, type HotelCase, type LearningPolicy, type Proposal } from '@/simulation/hotelLearning';
+import { describeJourneyOutcome, summariseLearningRows } from '@/simulation/hotelLearningSummary';
 
 type Row = { baseline: HotelCase; proposal: Proposal | null; replay?: HotelCase; reconciled?: HotelCase; index: number };
 type CycleResult = { cycle: number; policy: LearningPolicy; cases: HotelCase[] };
@@ -75,7 +76,7 @@ export function HotelLearningPanel() {
     const link = document.createElement('a'); link.href = url; link.download = 'jaldo-hotel-outcome-learning.json'; link.click();
     window.setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
-  const outcome = (r: Row) => (r.reconciled ?? r.replay ?? r.baseline).outcome;
+  const summary = summariseLearningRows(rows);
   return <section className="jsim-monitor" aria-label="Hotel outcome and learning loop">
     <div className="jsim-monitor-heading"><div><p className="jsim-eyebrow">DECISION → ACTION → OUTCOME → LEARNING → NEXT CYCLE</p>
       <h2>Did the action work?</h2></div><button className="jsim-secondary" onClick={run}>{rows.length ? 'Reset outcome cycle' : 'Run 100 outcome journeys'}</button></div>
@@ -83,11 +84,17 @@ export function HotelLearningPanel() {
       Scripted actors approve the initial actions. Failures produce a proposed change; a reviewer approves or rejects it; approved changes can be carried into the next cycle of 100 fresh signals. Nothing leaves this browser.</p>
     {error && <p className="jsim-error" role="alert">{error}</p>}
     {!!rows.length && <>
-      <div className="jsim-metrics">{(['met', 'not-met', 'pending'] as const).map(status => <div key={status}><span>{OUTCOME_LABELS[status]}</span>
-        <strong>{rows.filter(r => outcome(r) === status).length}</strong><small>Cycle 1, after reviews and late evidence</small></div>)}
+      <div className="jsim-metrics" aria-label="Cycle 1 recorded outcomes and proposals">{(['met', 'not-met', 'pending'] as const).map(status => <div key={status}><span>{OUTCOME_LABELS[status]}</span>
+        <strong>{summary.recorded[status]}</strong><small>Recorded in cycle 1 · original evidence, unchanged by reviews</small></div>)}
         <div><span>Proposals</span><strong>{approved}</strong><small>approved · {rejected} rejected · {pendingReview} awaiting review</small></div></div>
+      <p className="jsim-hint" role="status" aria-label="Results recorded after cycle 1">{summary.lateEvidence.journeys + summary.replays.journeys === 0
+        ? 'Later results appear here and never overwrite the recorded cycle 1 evidence.'
+        : `Later results, kept separately: ${[
+          summary.lateEvidence.journeys && `${summary.lateEvidence.journeys} late follow-up measurement${summary.lateEvidence.journeys === 1 ? '' : 's'} (${summary.lateEvidence.outcomes.met} met, ${summary.lateEvidence.outcomes['not-met']} not met)`,
+          summary.replays.journeys && `${summary.replays.journeys} replay${summary.replays.journeys === 1 ? '' : 's'} of the same signals (${summary.replays.outcomes.met} met, ${summary.replays.outcomes['not-met']} not met, ${summary.replays.outcomes.pending} pending)`,
+        ].filter(Boolean).join('; ')}.`}</p>
       <label>Select a journey <select value={selected} onChange={e => setSelected(Number(e.target.value))}>
-        {rows.map((r, i) => <option key={r.baseline.signal.eventId} value={i}>{PATH_LABELS[r.baseline.signal.path]} · Room {r.baseline.signal.room} · {OUTCOME_LABELS[outcome(r)]}{r.proposal?.decision === 'pending' ? ' · review needed' : ''}</option>)}
+        {rows.map((r, i) => <option key={r.baseline.signal.eventId} value={i}>{PATH_LABELS[r.baseline.signal.path]} · Room {r.baseline.signal.room} · {describeJourneyOutcome(r, OUTCOME_LABELS)}{r.proposal?.decision === 'pending' ? ' · review needed' : ''}</option>)}
       </select></label>
       {current && <div className="jsim-detail-grid"><section className="jsim-stream">
         <h3>Baseline journey</h3><p className="jsim-owner">Accountable role<strong>{TRAVEL_ROLES.find(r => r.id === current.baseline.execution.accountableRoleId)?.name ?? current.baseline.execution.accountableRoleId}</strong></p>

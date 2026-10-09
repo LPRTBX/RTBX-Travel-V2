@@ -1,5 +1,7 @@
 import {
   computeReadiness,
+  getMissingEnvironmentFields,
+  REQUIRED_ENVIRONMENT_FIELD_LABELS,
   type ReadinessState,
   type TravelDeploymentConfig,
 } from "@/data/travelDeploymentConfig";
@@ -54,6 +56,7 @@ export function getScenarioIdFromQuery(location: string, search = ""): string | 
 export type ScenarioRuntimeReadinessCode =
   | "ready"
   | "no-deployment"
+  | "environment-incomplete"
   | "deployment-inactive"
   | "unknown-scenario"
   | "scenario-not-configured"
@@ -158,8 +161,15 @@ export function getDeploymentActivationReadiness(
 ): DeploymentActivationReadiness {
   const baseReadiness = computeReadiness(deployment);
   const issues: DeploymentActivationReadiness["issues"] = [];
+  const missingEnvironment = getMissingEnvironmentFields(deployment);
 
-  if (baseReadiness !== "Ready for simulation" && baseReadiness !== "Ready for pilot design") {
+  if (missingEnvironment.length > 0) {
+    issues.push({
+      ready: false,
+      code: "environment-incomplete",
+      reason: `Stage 1 (Environment) is missing required fields: ${missingEnvironment.map(field => REQUIRED_ENVIRONMENT_FIELD_LABELS[field]).join(", ")}.`,
+    });
+  } else if (baseReadiness !== "Ready for simulation" && baseReadiness !== "Ready for pilot design") {
     issues.push({
       ready: false,
       code: "deployment-inactive",

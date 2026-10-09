@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "wouter";
 import "./stage3-scenario.css";
 
 // ── Types ──────────────────────────────────────────────────────────────────
@@ -416,7 +417,7 @@ export default function Stage3ScenarioExperience() {
             >
               Back
             </button>
-            {step < steps.length - 1 && (
+            {step < steps.length - 1 ? (
               <button
                 className="s3-btn s3-btn-primary"
                 onClick={() => setStep((s) => s + 1)}
@@ -424,6 +425,11 @@ export default function Stage3ScenarioExperience() {
               >
                 Continue
               </button>
+            ) : (
+              <div className="s3-footer-next">
+                <button className="s3-btn" onClick={handleReset}>Run again</button>
+                <Link className="s3-btn s3-btn-primary" href="/partner-room/pilot-model">See what a pilot would prove →</Link>
+              </div>
             )}
           </footer>
         </div>

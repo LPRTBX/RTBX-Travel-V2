@@ -58,7 +58,9 @@
 .travel-value-input-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 24px; margin: 22px 0; }
 .travel-value-input { display: block; min-width: 0; }
 .travel-value-input-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 14px; font-weight: 700; color: #edf5f6; min-height: 48px; }
-.travel-value-number-wrap { display: inline-flex; align-items: center; gap: 4px; flex-shrink: 0; color: #a8dedb; }
+.travel-value-number-wrap { display: inline-flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 4px; flex-shrink: 0; color: #a8dedb; }
+.number-field-hint { flex-basis: 100%; text-align: right; font-size: 12px; color: #f2b48a; }
+.travel-value [aria-invalid="true"] { border-color: #f2b48a; }
 .travel-value-number-wrap input, .travel-value-tiers input { width: 88px; min-height: 44px; padding: 8px; border: 1px solid #709299; background: #071d27; color: #fff; font: inherit; border-radius: 4px; }
 .travel-value .travel-value-hint { display: block; color: #afc2c9; font-size: 13px; line-height: 1.6; margin-top: 6px; }
 .travel-value-stats { display: grid; grid-template-columns: repeat(auto-fit,minmax(150px,1fr)); gap: 12px; margin: 22px 0; }
@@ -86,3 +88,15 @@
 .travel-value-frequency { width: 76px; min-height: 44px; padding: 8px; border: 1px solid #709299; border-radius: 4px; background: #071d27; color: #fff; font: inherit; }
 
 .travel-value-impact { border-top: 3px solid #a8dedb; background: linear-gradient(135deg,#173b43,#102d39); }
+
+.travel-value-cost-note { margin: 12px 0 0; padding: 12px 16px; border-left: 3px solid #f2b48a; background: #f2b48a14; color: #edf5f6; line-height: 1.6; }
+
+/* Phones: each interaction becomes a card so the editable frequency stays on screen. */
+@media (max-width: 640px) {
+  .travel-value-journey thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .travel-value-journey, .travel-value-journey caption, .travel-value-journey tbody, .travel-value-journey tr { display: block; width: 100%; }
+  .travel-value-journey tr { padding: 14px 0; border-bottom: 1px solid #527179; }
+  .travel-value-journey th[scope="row"] { display: block; min-width: 0; padding: 0 0 8px; border: 0; white-space: normal; }
+  .travel-value-journey td { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 6px 0; border: 0; text-align: right; white-space: normal; }
+  .travel-value-journey td::before { content: attr(data-label); color: #ccd7da; text-align: left; }
+}

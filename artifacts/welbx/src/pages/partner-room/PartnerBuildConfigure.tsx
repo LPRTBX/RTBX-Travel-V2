@@ -21,6 +21,9 @@ import {
   OUTCOME_TARGET_LABELS,
   COMM_MODE_LABELS,
   computeReadiness,
+  getMissingEnvironmentFields,
+  REQUIRED_ENVIRONMENT_FIELD_LABELS,
+  type RequiredEnvironmentField,
   READINESS_COLORS,
   type TravelDeploymentConfig,
   type SystemConfig,
@@ -86,9 +89,9 @@ function FieldLabel({ children, required, htmlFor }: { children: string; require
   );
 }
 
-function TextInput({ value, onChange, placeholder, id, required, "aria-describedby": describedBy }: {
+function TextInput({ value, onChange, placeholder, id, required, invalid, "aria-describedby": describedBy }: {
   value: string; onChange: (v: string) => void; placeholder?: string;
-  id?: string; required?: boolean; "aria-describedby"?: string;
+  id?: string; required?: boolean; invalid?: boolean; "aria-describedby"?: string;
 }) {
   return (
     <input
@@ -99,19 +102,20 @@ function TextInput({ value, onChange, placeholder, id, required, "aria-described
       placeholder={placeholder}
       required={required}
       aria-required={required}
+      aria-invalid={invalid || undefined}
       aria-describedby={describedBy}
       style={{
         width: "100%", padding: "9px 12px", background: "rgba(255,255,255,0.03)",
-        border: "1px solid rgba(255,255,255,0.12)", color: "#fff", fontSize: 12.5,
+        border: `1px solid ${invalid ? C.red : "rgba(255,255,255,0.12)"}`, color: "#fff", fontSize: 12.5,
         boxSizing: "border-box",
       }}
     />
   );
 }
 
-function NumberInput({ value, onChange, min, max, id, required }: {
+function NumberInput({ value, onChange, min, max, id, required, invalid, "aria-describedby": describedBy }: {
   value: number; onChange: (v: number) => void; min?: number; max?: number;
-  id?: string; required?: boolean;
+  id?: string; required?: boolean; invalid?: boolean; "aria-describedby"?: string;
 }) {
   return (
     <input
@@ -123,9 +127,11 @@ function NumberInput({ value, onChange, min, max, id, required }: {
       max={max}
       required={required}
       aria-required={required}
+      aria-invalid={invalid || undefined}
+      aria-describedby={describedBy}
       style={{
         width: "100%", padding: "9px 12px", background: "rgba(255,255,255,0.03)",
-        border: "1px solid rgba(255,255,255,0.12)", color: "#fff", fontSize: 12.5,
+        border: `1px solid ${invalid ? C.red : "rgba(255,255,255,0.12)"}`, color: "#fff", fontSize: 12.5,
         boxSizing: "border-box",
       }}
     />
@@ -265,7 +271,13 @@ function Disclaimer() {
 
 // ── Stage 1: Environment ──────────────────────────────────────────────────────
 
-function Stage1({ draft, setDraft }: { draft: TravelDeploymentConfig; setDraft: React.Dispatch<React.SetStateAction<TravelDeploymentConfig>> }) {
+function FieldError({ id, show, children }: { id: string; show: boolean; children: string }) {
+  if (!show) return null;
+  return <div id={id} style={{ fontSize: 12, color: "#f87171", marginTop: 5, lineHeight: 1.5 }}>{children}</div>;
+}
+
+function Stage1({ draft, setDraft, showErrors }: { draft: TravelDeploymentConfig; setDraft: React.Dispatch<React.SetStateAction<TravelDeploymentConfig>>; showErrors: boolean }) {
+  const missing = new Set(showErrors ? getMissingEnvironmentFields(draft) : []);
   const upd = (key: keyof TravelDeploymentConfig, val: unknown) => setDraft(prev => ({ ...prev, [key]: val, updatedAt: new Date().toISOString() }));
 
   const PROPERTY_TYPES = ["Hotel", "Resort", "Serviced Apartment", "Holiday Park", "Conference Venue", "Boutique Hotel", "Other"].map(v => ({ value: v, label: v }));
@@ -279,11 +291,13 @@ function Stage1({ draft, setDraft }: { draft: TravelDeploymentConfig; setDraft: 
       <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px 28px" }}>
         <div>
           <FieldLabel required htmlFor="deploy-name">Deployment name</FieldLabel>
-          <TextInput id="deploy-name" value={draft.deploymentName} onChange={v => upd("deploymentName", v)} placeholder="e.g. Harbour Hotel Melbourne — Pilot" required />
+          <TextInput id="deploy-name" value={draft.deploymentName} onChange={v => upd("deploymentName", v)} placeholder="e.g. Harbour Hotel Melbourne — Pilot" required invalid={missing.has("deploymentName")} aria-describedby={missing.has("deploymentName") ? "deploy-name-error" : undefined} />
+          <FieldError id="deploy-name-error" show={missing.has("deploymentName")}>Enter a deployment name.</FieldError>
         </div>
         <div>
           <FieldLabel required htmlFor="org-name">Organisation name</FieldLabel>
-          <TextInput id="org-name" value={draft.organisationName} onChange={v => upd("organisationName", v)} placeholder="e.g. Harbour Hotel Group" required />
+          <TextInput id="org-name" value={draft.organisationName} onChange={v => upd("organisationName", v)} placeholder="e.g. Harbour Hotel Group" required invalid={missing.has("organisationName")} aria-describedby={missing.has("organisationName") ? "org-name-error" : undefined} />
+          <FieldError id="org-name-error" show={missing.has("organisationName")}>Enter an organisation name.</FieldError>
         </div>
         <div>
           <FieldLabel required htmlFor="property-type">Property type</FieldLabel>
@@ -291,7 +305,8 @@ function Stage1({ draft, setDraft }: { draft: TravelDeploymentConfig; setDraft: 
         </div>
         <div>
           <FieldLabel required htmlFor="room-count">Room / unit count</FieldLabel>
-          <NumberInput id="room-count" value={draft.roomCount} onChange={v => upd("roomCount", v)} min={1} max={9999} required />
+          <NumberInput id="room-count" value={draft.roomCount} onChange={v => upd("roomCount", v)} min={1} max={9999} required invalid={missing.has("roomCount")} aria-describedby={missing.has("roomCount") ? "room-count-error" : undefined} />
+          <FieldError id="room-count-error" show={missing.has("roomCount")}>Enter at least 1 room or unit.</FieldError>
         </div>
         <div>
           <FieldLabel htmlFor="region">Region</FieldLabel>
@@ -1114,6 +1129,13 @@ function ResetConfirmDialog({ onConfirm, onCancel }: { onConfirm: () => void; on
   );
 }
 
+const ENVIRONMENT_FIELD_IDS: Record<RequiredEnvironmentField, string> = {
+  deploymentName:   "deploy-name",
+  organisationName: "org-name",
+  propertyType:     "property-type",
+  roomCount:        "room-count",
+};
+
 // ── Main component ─────────────────────────────────────────────────────────────
 
 export default function PartnerBuildConfigure() {
@@ -1124,6 +1146,8 @@ export default function PartnerBuildConfigure() {
   const [activated, setActivated] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [activationError, setActivationError] = useState<string | null>(null);
+  const [showEnvironmentErrors, setShowEnvironmentErrors] = useState(false);
+  const missingEnvironment = getMissingEnvironmentFields(draft);
   const requestedScenarioId = getScenarioIdFromQuery(
     location,
     typeof window === "undefined" ? "" : window.location.search,
@@ -1135,6 +1159,11 @@ export default function PartnerBuildConfigure() {
   useEffect(() => {
     if (preselectedScenarioId) setStage(5);
   }, [preselectedScenarioId]);
+
+  // Reaching Review & Activate with Stage 1 gaps highlights them if the user goes back.
+  useEffect(() => {
+    if (stage === STAGES.length - 1 && getMissingEnvironmentFields(draft).length > 0) setShowEnvironmentErrors(true);
+  }, [stage, draft]);
 
   function handleActivate() {
     try {
@@ -1206,7 +1235,12 @@ export default function PartnerBuildConfigure() {
 
         {/* Stage content */}
         <div style={{ minHeight: 460 }}>
-          {stage === 0 && <Stage1 draft={draft} setDraft={setDraft} />}
+          {stage === 0 && missingEnvironment.length > 0 && showEnvironmentErrors && (
+            <div role="alert" style={{ marginBottom: 18, padding: "12px 16px", background: "rgba(239,68,68,0.06)", border: "1px solid rgba(239,68,68,0.3)", color: "rgba(255,255,255,0.85)", fontSize: 12.5, lineHeight: 1.6 }}>
+              Complete the required fields before continuing: {missingEnvironment.map(field => REQUIRED_ENVIRONMENT_FIELD_LABELS[field]).join(", ")}.
+            </div>
+          )}
+          {stage === 0 && <Stage1 draft={draft} setDraft={setDraft} showErrors={showEnvironmentErrors} />}
           {stage === 1 && <Stage2 draft={draft} setDraft={setDraft} />}
           {stage === 2 && <Stage3 draft={draft} setDraft={setDraft} />}
           {stage === 3 && <Stage4 draft={draft} setDraft={setDraft} />}
@@ -1226,7 +1260,15 @@ export default function PartnerBuildConfigure() {
           stage={stage}
           total={STAGES.length}
           onPrev={() => { setStage(s => Math.max(0, s - 1)); window.scrollTo({ top: 0, behavior: "smooth" }); }}
-          onNext={() => { setStage(s => Math.min(STAGES.length - 1, s + 1)); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+          onNext={() => {
+            if (stage === 0 && missingEnvironment.length > 0) {
+              setShowEnvironmentErrors(true);
+              document.getElementById(ENVIRONMENT_FIELD_IDS[missingEnvironment[0]])?.focus();
+              return;
+            }
+            setStage(s => Math.min(STAGES.length - 1, s + 1));
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
         />
       </div>
     </PartnerRoomLayout>
