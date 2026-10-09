@@ -39,6 +39,35 @@ export const DEFAULT_VALUE_ASSUMPTIONS: TravelValueAssumptions = {
   ],
 };
 
+export interface ValueTierIssue {
+  kind: MomentKind;
+  label: string;
+  /** Tiers that break the order and should be marked invalid. */
+  tiers: ValueTier[];
+  message: string;
+}
+
+const TIER_NAMES: Record<ValueTier, string> = { low: "Low", base: "Base", high: "High" };
+const tierMoney = (n: number) => `$${n.toLocaleString()}`;
+
+/**
+ * Moments whose entered value tiers are not ordered Low ≤ Base ≤ High.
+ * Entered values are never adjusted; the caller pauses the financial estimate instead.
+ */
+export function getValueTierIssues(a: Pick<TravelValueAssumptions, "moments">): ValueTierIssue[] {
+  return a.moments.flatMap(m => {
+    if (!m.value) return [];
+    const { low, base, high } = m.value;
+    const pairs: Array<[ValueTier, ValueTier]> = [];
+    if (low > base) pairs.push(["low", "base"]);
+    if (base > high) pairs.push(["base", "high"]);
+    if (!pairs.length) return [];
+    const tiers = [...new Set(pairs.flat())];
+    const problems = pairs.map(([above, below]) => `${TIER_NAMES[above]} (${tierMoney(m.value![above])}) is higher than ${TIER_NAMES[below]} (${tierMoney(m.value![below])})`);
+    return [{ kind: m.kind, label: m.label, tiers, message: `${problems.join(" and ")}. Enter values so Low ≤ Base ≤ High.` }];
+  });
+}
+
 export function calculateTravelValue(a: TravelValueAssumptions) {
   const finite = (n: number, min = 0, max = Infinity) => {
     if (!Number.isFinite(n) || n < min || n > max) throw new Error("Invalid operating assumption");

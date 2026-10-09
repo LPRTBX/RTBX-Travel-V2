@@ -10,13 +10,17 @@ interface NumberFieldProps {
   className?: string;
   /** False when a partial value would disturb related inputs (e.g. ordered low/base/high tiers). */
   commitWhileTyping?: boolean;
+  /** Marks a committed value the caller has rejected, e.g. tiers out of order. */
+  invalid?: boolean;
+  /** Id of the caller's message explaining why the value is invalid. */
+  describedBy?: string;
 }
 
 /**
  * Exact numeric entry. In-range values apply as you type; anything else is held
  * as a draft with a visible range message and resolved on blur or Enter.
  */
-export function NumberField({ value, min, max, onCommit, "aria-label": ariaLabel, className, commitWhileTyping = true }: NumberFieldProps) {
+export function NumberField({ value, min, max, onCommit, "aria-label": ariaLabel, className, commitWhileTyping = true, invalid = false, describedBy }: NumberFieldProps) {
   const [draft, setDraft] = useState<string | null>(null);
   const hintId = useId();
   const parsed = draft === null ? null : parseNumericDraft(draft, min, max);
@@ -35,8 +39,8 @@ export function NumberField({ value, min, max, onCommit, "aria-label": ariaLabel
       inputMode="decimal"
       className={className}
       aria-label={ariaLabel}
-      aria-invalid={showHint || undefined}
-      aria-describedby={showHint ? hintId : undefined}
+      aria-invalid={showHint || invalid || undefined}
+      aria-describedby={[showHint ? hintId : "", invalid && describedBy ? describedBy : ""].filter(Boolean).join(" ") || undefined}
       value={draft ?? String(value)}
       onFocus={e => e.currentTarget.select()}
       onChange={e => {

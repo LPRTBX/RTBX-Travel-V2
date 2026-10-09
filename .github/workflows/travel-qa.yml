@@ -55,6 +55,16 @@ jobs:
       - name: UI regressions
         run: pnpm --filter @workspace/rtbx-travel run test:ui
 
+      - name: UI regressions at 390px
+        run: pnpm --filter @workspace/rtbx-travel run test:ui
+        env:
+          UI_WIDTH: "390"
+
+      - name: UI regressions at 820px
+        run: pnpm --filter @workspace/rtbx-travel run test:ui
+        env:
+          UI_WIDTH: "820"
+
       - name: Check active terminology
         run: pnpm --filter @workspace/rtbx-travel run check:terminology
 
