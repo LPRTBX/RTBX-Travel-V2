@@ -1,6 +1,6 @@
 import { useState, type CSSProperties } from "react";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
-import { calculateTravelValue, DEFAULT_VALUE_ASSUMPTIONS, type TravelValueAssumptions, type MomentKind, type ValueTier } from "@/lib/travelValueModel";
+import { calculateTravelValue, getValueTierIssues, DEFAULT_VALUE_ASSUMPTIONS, type TravelValueAssumptions, type MomentKind, type ValueTier } from "@/lib/travelValueModel";
 import { INTERACTION_BASIS_LABELS } from "@/lib/travelGuestJourney";
 import { NumberField } from "@/components/NumberField";
 import "./proof-calculator.css";
@@ -25,22 +25,25 @@ function Assumption({ label, value, min, max, step = 1, onChange, unit = "", hin
 
 export default function PartnerProofCalculator() {
   const [a, setA] = useState<TravelValueAssumptions>(() => structuredClone(DEFAULT_VALUE_ASSUMPTIONS));
-  const result = calculateTravelValue(a);
+  // Entered tiers are kept exactly as typed. While any range is out of order the
+  // financial estimate is paused; figures that do not use the tiers still update.
+  const tierIssues = getValueTierIssues(a);
+  const estimatePaused = tierIssues.length > 0;
+  const result = calculateTravelValue(estimatePaused
+    ? { ...a, moments: a.moments.map(m => tierIssues.some(issue => issue.kind === m.kind) ? { ...m, value: { low: 0, base: 0, high: 0 } } : m) }
+    : a);
+  const pausedNotice = (announce: boolean) => estimatePaused && <div className="travel-value-paused" data-testid="estimate-paused" role={announce ? "alert" : undefined}>
+    <strong>Financial estimate paused.</strong> {tierIssues.map(issue => <span key={issue.kind}> <a href={`#tiers-${issue.kind}`}>{issue.label}</a>: {issue.message}</span>)} Your entered values are kept; the range is not recalculated until they are in order.
+  </div>;
   const costIncluded = a.monthlyCost > 0;
   const costNote = !costIncluded && <p className="travel-value-cost-note" role="note"><strong>Programme costs are not included in this net estimate.</strong> Monthly programme cost is $0; enter it in section 3 to deduct it.</p>;
   const update = (key: Exclude<keyof TravelValueAssumptions, "moments" | "journey">, value: number) => setA(current => ({ ...current, [key]: value }));
   const updateJourney = (id: string, frequency: number) => setA(current => ({ ...current, journey: current.journey.map(j => j.id === id ? { ...j, frequency } : j) }));
   const updateMoment = (kind: MomentKind, key: "momentsPer100Stays" | "actionRate" | "minutesSaved", value: number) =>
     setA(current => ({ ...current, moments: current.moments.map(m => m.kind === kind ? { ...m, [key]: value } : m) }));
-  const updateTier = (kind: MomentKind, tier: ValueTier, value: number) => setA(current => ({ ...current, moments: current.moments.map(m => {
-    if (m.kind !== kind || !m.value) return m;
-    const next = { ...m.value, [tier]: value };
-    // Keep the edited tier and move adjacent tiers only if needed to preserve an ordered range.
-    if (tier === "low") { next.base = Math.max(next.base, value); next.high = Math.max(next.high, next.base); }
-    if (tier === "base") { next.low = Math.min(next.low, value); next.high = Math.max(next.high, value); }
-    if (tier === "high") { next.base = Math.min(next.base, value); next.low = Math.min(next.low, next.base); }
-    return { ...m, value: next };
-  }) }));
+  // Only the edited tier changes; ordering is validated, never repaired silently.
+  const updateTier = (kind: MomentKind, tier: ValueTier, value: number) => setA(current => ({ ...current, moments: current.moments.map(m =>
+    m.kind === kind && m.value ? { ...m, value: { ...m.value, [tier]: value } } : m) }));
 
   return <PartnerRoomLayout><main className="travel-value">
     <header>
@@ -96,8 +99,17 @@ export default function PartnerProofCalculator() {
         <p className="travel-value-result">{number(m.moments)} modelled moments → {number(m.actions)} assumed successful actions{m.kind !== "welfare" && ` · ${number(m.staffHours)} hours of potential staff capacity`}</p>
         {m.value ? <>
           <h4>{m.kind === "opportunity" ? "Net contribution per successful opportunity" : "Avoided cost per successful action"} · $</h4>
-          <div className="travel-value-tiers">{(["low", "base", "high"] as const).map(tier => <label key={tier}>{tier}<NumberField aria-label={`${m.label}: ${tier} value per successful action`} min={0} max={10000} value={m.value![tier]} commitWhileTyping={false} onCommit={v => updateTier(m.kind, tier, v)} /></label>)}</div>
-          <p className="travel-value-hint">Editable assumptions, not prices or validated savings. Exclude staff labour that is accounted for in the human-resource section below. Adjacent tiers adjust if needed to keep low ≤ base ≤ high.</p>
+          {(() => {
+            const issue = tierIssues.find(item => item.kind === m.kind);
+            // Show the values as entered; the calculation may have set aside an out-of-order range.
+            const entered = a.moments.find(item => item.kind === m.kind)!.value;
+            const errorId = `tiers-${m.kind}-error`;
+            return <>
+              <div className="travel-value-tiers" id={`tiers-${m.kind}`}>{(["low", "base", "high"] as const).map(tier => <label key={tier}>{tier}<NumberField aria-label={`${m.label}: ${tier} value per successful action`} min={0} max={10000} value={entered![tier]} commitWhileTyping={false} invalid={!!issue?.tiers.includes(tier)} describedBy={errorId} onCommit={v => updateTier(m.kind, tier, v)} /></label>)}</div>
+              {issue && <p id={errorId} className="travel-value-tier-error">{issue.message} The financial estimate is paused until this range is fixed.</p>}
+            </>;
+          })()}
+          <p className="travel-value-hint">Editable assumptions, not prices or validated savings. Exclude staff labour that is accounted for in the human-resource section below. Keep Low ≤ Base ≤ High; values are not adjusted for you.</p>
         </> : <p className="travel-value-hint">{m.kind === "welfare" ? "No dollar value or time-saving target is assigned to welfare and safety. Validate response time, human ownership and follow-through separately; action rate alone does not establish safety." : "Potential staff time is shown separately; it is not added to financial value or treated as cash savings."}</p>}
       </article>)}</div>
     </section>
@@ -109,13 +121,14 @@ export default function PartnerProofCalculator() {
         <Assumption label="Allowance for overlapping benefits" value={Math.round(a.overlapAllowance * 100)} min={0} max={100} unit="%" onChange={v => update("overlapAllowance", v / 100)} hint="Applied to financial benefit and staff time; verify overlap from unique events during the pilot." />
         <Assumption label="Monthly programme cost" value={a.monthlyCost} min={0} max={100000} step={100} unit=" $" onChange={v => update("monthlyCost", v)} hint="Enter total recurring cost plus allocated activation cost. Zero means cost is not included." />
       </div>
-      <div className="travel-value-table-wrap"><table><caption>Illustrative monthly financial range</caption><thead><tr><th scope="col">Component</th><th scope="col">Low</th><th scope="col">Base</th><th scope="col">High</th></tr></thead><tbody>
+      {pausedNotice(true)}
+      {!estimatePaused && <div className="travel-value-table-wrap"><table><caption>Illustrative monthly financial range</caption><thead><tr><th scope="col">Component</th><th scope="col">Low</th><th scope="col">Base</th><th scope="col">High</th></tr></thead><tbody>
         {result.rows.filter(m => m.value).map(m => <tr key={m.kind}><th scope="row">{m.label} · before deductions</th>{(["low", "base", "high"] as const).map(t => <td key={t}>{money(m.gross[t])}</td>)}</tr>)}
         <tr><th scope="row">Gross modelled benefit</th>{(["low", "base", "high"] as const).map(t => <td key={t}>{money(result.gross[t])}</td>)}</tr>
         <tr><th scope="row">After attribution and overlap allowance</th>{(["low", "base", "high"] as const).map(t => <td key={t}>{money(result.adjusted[t])}</td>)}</tr>
         <tr className="travel-value-total"><th scope="row">{costIncluded ? "After entered programme cost" : "After programme cost · not included ($0 entered)"}</th>{(["low", "base", "high"] as const).map(t => <td key={t}>{money(result.net[t])}</td>)}</tr>
-      </tbody></table></div>
-      {costNote}
+      </tbody></table></div>}
+      {!estimatePaused && costNote}
       <p>Financial benefit = successful actions × value tier. Apply {percent(a.incrementalShare)} incremental attribution, then deduct {percent(a.overlapAllowance)} for overlap, then subtract {money(a.monthlyCost)} in entered monthly cost. Low/base/high vary the per-action value only; they are not statistical confidence bounds.</p>
       <div className="travel-value-stats">
         <div><strong>{number(result.moments)}</strong><span>Operational moments</span></div>
@@ -139,13 +152,14 @@ export default function PartnerProofCalculator() {
         <div><strong>{money(result.cashStaffSavings)}</strong><span>Entered cash-saving hypothesis at {percent(a.cashRealisationRate)}</span></div>
       </div>
       <p>{number(result.staffHours)} gross potential hours × {percent(a.incrementalShare)} attribution × {percent(1 - a.overlapAllowance)} after overlap = {number(result.adjustedStaffHours)} incremental hours. Equivalent capacity = hours ÷ {a.hoursPerFteMonth}; cost equivalent = hours × {money(a.hourlyStaffCost)}. Redeployment may improve service and workload without lowering payroll.</p>
-      <div className="travel-value-table-wrap"><table><caption>Monthly bottom-line hypothesis · after entered costs</caption><thead><tr><th scope="col">Component</th><th scope="col">Low</th><th scope="col">Base</th><th scope="col">High</th></tr></thead><tbody>
+      {pausedNotice(false)}
+      {!estimatePaused && <div className="travel-value-table-wrap"><table><caption>Monthly bottom-line hypothesis · after entered costs</caption><thead><tr><th scope="col">Component</th><th scope="col">Low</th><th scope="col">Base</th><th scope="col">High</th></tr></thead><tbody>
         <tr><th scope="row">Attributed service contribution / avoided cost</th>{(["low", "base", "high"] as const).map(t => <td key={t}>{money(result.adjusted[t])}</td>)}</tr>
         <tr><th scope="row">Entered staff cash-saving hypothesis</th>{(["low", "base", "high"] as const).map(t => <td key={t}>{money(result.cashStaffSavings)}</td>)}</tr>
         <tr><th scope="row">Entered programme cost</th>{(["low", "base", "high"] as const).map(t => <td key={t}>{costIncluded ? `−${money(a.monthlyCost)}` : "Not entered"}</td>)}</tr>
         <tr className="travel-value-total"><th scope="row">Net monthly impact hypothesis{costIncluded ? "" : " · programme cost not included"}</th>{(["low", "base", "high"] as const).map(t => <td key={t}>{money(result.bottomLine[t])}</td>)}</tr>
-      </tbody></table></div>
-      {costNote}
+      </tbody></table></div>}
+      {!estimatePaused && costNote}
       <p>Exclude labour costs already included in prevention/recovery value tiers. The overlap allowance is a planning adjustment, not proof of deduplication. This is not an accounting profit forecast: attribution, avoided costs, actual cash savings and complete programme costs still need pilot evidence. Welfare, safety and guest satisfaction remain separate outcomes.</p>
     </section>
     <section className="travel-value-section travel-value-close"><h2>Turn assumptions into a named pilot.</h2><p>Baseline moment volumes and outcomes, record who authorised each response, compare the result with existing practice, and review unique-event evidence. Use those findings to replace the assumptions and configure the next cycle.</p></section>

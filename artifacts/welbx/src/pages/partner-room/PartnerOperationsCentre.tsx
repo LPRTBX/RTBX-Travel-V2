@@ -1,6 +1,9 @@
 import { useSearch } from "wouter";
 import { TravelSimulationPanel } from "@/components/simulation/TravelSimulationPanel";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { summariseDeployment, summariseScenarioExecution, type ScenarioConfigurationSummary } from "@/lib/deploymentOperation";
+import { stateLabel as plainStateLabel } from "@/lib/plainLanguage";
+import "./operations-centre.css";
 import { Link, useLocation } from "wouter";
 import { PartnerRoomLayout, schedulePartnerRoomHashScroll } from "@/components/PartnerRoomLayout";
 import {
@@ -92,107 +95,157 @@ function FilterPill({ label, active, color, onClick }: { label: string; active: 
 
 // ── Deployment Banner ─────────────────────────────────────────────────────────
 
+function ScenarioSettingsCard({ summary }: { summary: ScenarioConfigurationSummary }) {
+  return (
+    <li className="ops-config-scenario" data-scenario-id={summary.scenarioId}>
+      <div className="ops-config-scenario-title">{summary.title}{summary.welfare && <span className="ops-config-tag ops-config-tag-welfare">Welfare · human-only</span>}</div>
+      <dl>
+        <div><dt>Accountable owner</dt><dd>{summary.owner}</dd></div>
+        <div><dt>Who decides</dt><dd>{summary.approvalGate ? `${summary.decider} — approval gate` : `${summary.decider} — delegated authority`}</dd></div>
+        <div><dt>Closure requires</dt><dd data-testid="closure-requires">{summary.requiredEvidence.length} evidence item{summary.requiredEvidence.length === 1 ? "" : "s"}</dd></div>
+        <div><dt>Drafts needing approval</dt><dd>{summary.draftsNeedingApproval.length ? `${summary.draftsNeedingApproval.length} of ${summary.draftCount}` : `None of ${summary.draftCount}`}</dd></div>
+      </dl>
+      <details>
+        <summary>Evidence and drafts this scenario uses</summary>
+        <div className="ops-config-detail-label">Required before closure</div>
+        <ul>{summary.requiredEvidence.map(item => <li key={item}>{item}</li>)}</ul>
+        {summary.optionalEvidence.length > 0 && <>
+          <div className="ops-config-detail-label">Optional</div>
+          <ul>{summary.optionalEvidence.map(item => <li key={item}>{item}</li>)}</ul>
+        </>}
+        {summary.draftsNeedingApproval.length > 0 && <>
+          <div className="ops-config-detail-label">Drafts needing {summary.decider} approval</div>
+          <ul>{summary.draftsNeedingApproval.map(item => <li key={item}>{item}</li>)}</ul>
+        </>}
+      </details>
+    </li>
+  );
+}
+
 function DeploymentBanner({ deployment }: { deployment: TravelDeploymentConfig | null }) {
-  if (!deployment) {
+  const summary = useMemo(() => deployment ? summariseDeployment(deployment) : null, [deployment]);
+  if (!deployment || !summary) {
     return (
-      <div style={{ marginBottom: 36, padding: "20px 24px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.08)", borderLeft: "3px solid rgba(255,255,255,0.2)" }}>
-        <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", fontWeight: 700, marginBottom: 8 }}>Local Simulation Configuration</div>
-        <div style={{ fontSize: 14, color: "rgba(255,255,255,0.65)", marginBottom: 12 }}>Start the Working Proof three-scenario setup.</div>
-        <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.35)", marginBottom: 14, lineHeight: 1.65 }}>
-          Configure three initial scenarios for one initial hotel property / 1–5-property cohort, then review their local traces in the interactive Execution Centre. The Action Centre, Outcome Ledger and Value Dashboard below contain synthetic, illustrative and modelled demonstration data only.
+      <div className="ops-config ops-config-empty" data-testid="no-deployment">
+        <div className="ops-config-eyebrow">No deployment active</div>
+        <div className="ops-config-name">Nothing on this page comes from your configuration yet.</div>
+        <p>
+          Start the Working Proof three-scenario setup: in Build &amp; Configure, configure three initial scenarios for one initial hotel property / 1–5-property cohort and activate them. They then run here with your roles, approvals and evidence rules. Until then, the only content below is the static examples in Part 2, which are not results.
         </p>
-        <Link href="/partner-room/build-configure">
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "9px 18px", background: "rgba(168,222,219,0.06)", border: "1px solid rgba(168,222,219,0.25)", cursor: "pointer" }}>
-            <span style={{ fontSize: 10, fontWeight: 700, color: C.gold, letterSpacing: "0.06em" }}>Configure Deployment →</span>
-          </div>
-        </Link>
+        <Link href="/partner-room/build-configure" className="ops-config-cta">Go to Build &amp; Configure →</Link>
       </div>
     );
   }
 
-  const activeOSCount      = deployment.operatingSystems.filter(o => o.active).length;
-  const activeScenarios    = deployment.scenarios.filter(s => s.active);
-  const activeRoleCount    = deployment.roles.filter(r => r.active).length;
-  const systemMaturityMap  = Object.fromEntries(deployment.systems.map(s => [s.id, s.maturity]));
-  const maturityCounts     = Object.values(systemMaturityMap).reduce<Record<string, number>>((acc, m) => {
-    acc[m] = (acc[m] ?? 0) + 1;
+  const activeOS = deployment.operatingSystems.filter(o => o.active).map(o => {
+    const os = TRAVEL_OPERATING_SYSTEMS.find(item => item.id === o.osId);
+    return { id: o.osId, name: os?.name ?? o.osId, color: os?.color ?? C.gold };
+  });
+  const maturityCounts = deployment.systems.reduce<Record<string, number>>((acc, system) => {
+    acc[system.maturity] = (acc[system.maturity] ?? 0) + 1;
     return acc;
   }, {});
 
-  const MATURITY_COLORS: Record<string, string> = {
-    simulated: "#3b82f6", manual: "rgba(255,255,255,0.45)",
-    demonstrated: "#10b981", "connector-ready": "#a8dedb", planned: "rgba(255,255,255,0.3)",
-  };
-
   return (
-    <div style={{ marginBottom: 36, padding: "20px 24px", background: "rgba(10,20,40,0.5)", border: "1px solid rgba(168,222,219,0.2)", borderLeft: "3px solid #a8dedb" }}>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap", marginBottom: 14 }}>
+    <div className="ops-config" data-testid="deployment-summary">
+      <div className="ops-config-head">
         <div>
-          <div style={{ fontSize: 8.5, letterSpacing: "0.18em", color: "rgba(255,255,255,0.3)", textTransform: "uppercase", fontWeight: 700, marginBottom: 4 }}>Selected Local Simulation Configuration</div>
-          <div style={{ fontSize: 16, fontWeight: 800, color: "#fff" }}>{deployment.deploymentName}</div>
-          <div style={{ fontSize: 11, color: "rgba(255,255,255,0.45)", marginTop: 3 }}>{deployment.organisationName} · {deployment.propertyType} · {deployment.roomCount} rooms · {deployment.region}</div>
+          <div className="ops-config-eyebrow">Active deployment · local simulation</div>
+          <div className="ops-config-name">{summary.name}</div>
+          <div className="ops-config-meta">{summary.organisation} · <span data-testid="deployment-category">{summary.category}</span> · {summary.detail}</div>
+          <div className="ops-config-meta">Mode: {summary.mode} · Activated {deployment.activatedAt ? new Date(deployment.activatedAt).toLocaleString([], { dateStyle: "medium", timeStyle: "short" }) : "—"}</div>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <div style={{ padding: "5px 12px", fontSize: 9, fontWeight: 700, letterSpacing: "0.08em", background: "rgba(16,185,129,0.1)", border: "1px solid rgba(16,185,129,0.3)", color: "#10b981" }}>
-            WORKING PROOF · LOCAL SIMULATION
-          </div>
-          <div style={{ padding: "5px 12px", fontSize: 9, fontWeight: 700, letterSpacing: "0.08em", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.4)" }}>
-            SYNTHETIC DATA
-          </div>
+        <Link href="/partner-room/build-configure" className="ops-config-cta">Change configuration →</Link>
+      </div>
+
+      <div className="ops-config-columns">
+        <div className="ops-config-block">
+          <div className="ops-config-label">Operating systems ({activeOS.length})</div>
+          <ul className="ops-config-chips">{activeOS.map(os => <li key={os.id} style={{ color: os.color, borderColor: `${os.color}66` }}>{os.name}</li>)}</ul>
+        </div>
+        <div className="ops-config-block">
+          <div className="ops-config-label">Connection maturity</div>
+          <ul className="ops-config-chips">{Object.entries(maturityCounts).map(([maturity, count]) => <li key={maturity}>{count}× {maturity}</li>)}</ul>
         </div>
       </div>
 
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 20, marginBottom: 14 }}>
-        <div>
-          <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700, marginBottom: 6 }}>Selected OSes ({activeOSCount})</div>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
-            {deployment.operatingSystems.filter(o => o.active).map(os => {
-              const osData = TRAVEL_OPERATING_SYSTEMS.find(d => d.id === os.osId);
-              return (
-                <div key={os.osId} style={{ padding: "3px 9px", fontSize: 9, fontWeight: 700, color: osData?.color ?? C.gold, border: `1px solid ${osData?.color ?? C.gold}40`, background: `${osData?.color ?? C.gold}0a` }}>
-                  {osData?.name ?? os.osId}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-        <div>
-          <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700, marginBottom: 6 }}>Selected Scenarios ({activeScenarios.length})</div>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
-            {activeScenarios.map(ds => {
-              const sc = TRAVEL_SCENARIOS.find(s => s.id === ds.scenarioId);
-              return (
-                <div key={ds.scenarioId} style={{ padding: "3px 9px", fontSize: 9, fontWeight: 700, color: "rgba(255,255,255,0.6)", border: "1px solid rgba(255,255,255,0.12)", background: "rgba(255,255,255,0.03)" }}>
-                  {sc?.title ?? ds.scenarioId}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-        <div>
-          <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700, marginBottom: 6 }}>Connection Maturity</div>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
-            {Object.entries(maturityCounts).map(([m, count]) => (
-              <div key={m} style={{ padding: "3px 9px", fontSize: 9, fontWeight: 700, color: MATURITY_COLORS[m] ?? "rgba(255,255,255,0.4)", border: `1px solid ${MATURITY_COLORS[m] ?? "rgba(255,255,255,0.1)"}40` }}>
-                {count}× {m}
-              </div>
-            ))}
-          </div>
-        </div>
-        <div>
-          <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700, marginBottom: 6 }}>Selected Roles</div>
-          <div style={{ fontSize: 12, fontWeight: 800, color: "#fff" }}>{activeRoleCount} <span style={{ fontSize: 9, color: "rgba(255,255,255,0.35)", fontWeight: 500 }}>of {deployment.roles.length}</span></div>
-        </div>
+      <div className="ops-config-block">
+        <div className="ops-config-label">Active roles ({summary.roles.length})</div>
+        <ul className="ops-config-chips" data-testid="deployment-roles">{summary.roles.map(role => <li key={role}>{role}</li>)}</ul>
       </div>
 
-      <div style={{ fontSize: 9.5, color: "rgba(255,255,255,0.3)", fontStyle: "italic" }}>
-        Synthetic local state only. Deterministic rules model classifications; communications remain drafts and are never sent or delivered. Nothing updates an external system, and named humans retain accountability.
+      <div className="ops-config-block">
+        <div className="ops-config-label">Enabled scenarios ({summary.scenarios.length}) · the settings each run will use</div>
+        <ul className="ops-config-scenarios" data-testid="deployment-scenarios">
+          {summary.scenarios.map(item => <ScenarioSettingsCard key={item.scenarioId} summary={item} />)}
+        </ul>
+        {summary.notRunning.length > 0 && (
+          <div className="ops-config-note">Not running: {summary.notRunning.map(item => `${item.title} (${item.reason.replace(/\.$/, "").toLowerCase()})`).join("; ")}.</div>
+        )}
+      </div>
+
+      <details className="ops-config-block">
+        <summary>Governance settings ({summary.governance.length})</summary>
+        <dl className="ops-config-governance">
+          {summary.governance.map(rule => <div key={rule.label}><dt>{rule.label}</dt><dd>{rule.value}</dd></div>)}
+        </dl>
+      </details>
+
+      <div className="ops-config-note">
+        Changes made in Build &amp; Configure apply to the next run after you activate them. Each scenario's approval gate comes from its governance and cannot be switched off here, closure always waits for the required evidence, welfare cases stay human-only, and communications remain unsent drafts.
       </div>
     </div>
   );
 }
 
 const roleName = (id: string) => TRAVEL_ROLES.find(r => r.id === id)?.name ?? id;
+
+// ── Records generated by the configured operation ─────────────────────────────
+
+interface RunRecord { exec: ScenarioExecution; cycle: number }
+
+function decisionText(exec: ScenarioExecution): string {
+  if (!exec.approvalRequired) return `Delegated authority · ${roleName(exec.accountableRoleId)}`;
+  const last = exec.decisions.at(-1);
+  if (!last) return `Awaiting ${roleName(exec.approvalRoleId)}`;
+  return last.decision === "approved" ? `Approved by ${roleName(last.roleId)} (simulated)` : `Returned by ${roleName(last.roleId)}`;
+}
+
+function RunRecords({ deploymentName, records }: { deploymentName: string; records: RunRecord[] }) {
+  return (
+    <section className="ops-records" data-testid="run-records" aria-labelledby="run-records-title">
+      <h3 id="run-records-title">Generated by this configuration</h3>
+      <p>
+        Synthetic records from runs started on this page during this visit, produced with {deploymentName}'s settings. They are not saved, and nothing was sent or updated outside this browser.
+      </p>
+      {records.length === 0 ? (
+        <p className="ops-records-empty">No runs yet. Start a scenario above and its record appears here.</p>
+      ) : (
+        <div className="ops-records-wrap">
+          <table>
+            <caption className="sr-only">Synthetic run records for {deploymentName}</caption>
+            <thead><tr><th scope="col">Scenario</th><th scope="col">Status</th><th scope="col">Decision</th><th scope="col">Required evidence</th><th scope="col">Drafts reviewed</th></tr></thead>
+            <tbody>
+              {records.map(({ exec, cycle }) => {
+                const required = exec.evidence.filter(ev => ev.required);
+                const reviewed = exec.communications.filter(c => c.sent).length;
+                return (
+                  <tr key={exec.scenarioId}>
+                    <th scope="row">{exec.scenarioTitle}<span>Run {cycle} · synthetic</span></th>
+                    <td data-label="Status">{plainStateLabel(exec.state)}{exec.closedAt ? ` · ${new Date(exec.closedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}` : ""}</td>
+                    <td data-label="Decision">{decisionText(exec)}</td>
+                    <td data-label="Required evidence">{required.filter(ev => ev.captured).length} of {required.length} recorded (synthetic)</td>
+                    <td data-label="Drafts reviewed">{reviewed} of {exec.communications.length} · none sent</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </section>
+  );
+}
 
 // ── Proof summary: implemented · simulated · required ──────────────────────────
 
@@ -252,12 +305,14 @@ function ProofSummary() {
 type ExecView = "operator" | "guest" | "dual";
 
 function ExecTracePanel({
-  deployment, scenario, playbook, onReset,
+  deployment, scenario, playbook, onReset, onExecutionChange,
 }: {
   deployment: TravelDeploymentConfig;
   scenario: (typeof TRAVEL_SCENARIOS)[0];
   playbook: (typeof TRAVEL_PLAYBOOKS)[0];
   onReset: () => void;
+  /** Reports each change to this scenario's run so the page can list what the configured operation generated. */
+  onExecutionChange?: (scenarioId: string, exec: ScenarioExecution | null, cycle: number) => void;
 }) {
   const [exec, setExec] = useState<ScenarioExecution | null>(null);
   const [view, setView]     = useState<ExecView>("operator");
@@ -267,6 +322,12 @@ function ExecTracePanel({
   const [cycle, setCycle] = useState(1);
   const [priorLearning, setPriorLearning] = useState<RuntimeLearning | null>(null);
   const requirements = getScenarioRuntimeRequirements(deployment, scenario);
+  // The settings the next run will use, read from the execution the engine creates.
+  const configured = useMemo(
+    () => summariseScenarioExecution(deployment, createExecution({ deployment, scenario, playbook })),
+    [deployment, scenario, playbook],
+  );
+  useEffect(() => { onExecutionChange?.(scenario.id, exec, cycle); }, [exec, cycle, scenario.id, onExecutionChange]);
 
   const launch = () => setExec(createExecution({ deployment, scenario, playbook }));
   const reset  = () => { setExec(null); setLearning(null); setPriorLearning(null); setCycle(1); onReset(); };
@@ -381,10 +442,7 @@ function ExecTracePanel({
             Start Local Simulation →
           </button>
           <div style={{ fontSize: 9.5, color: "rgba(255,255,255,0.3)" }}>
-            {requirements.evidence.filter(e => e.required).length} required evidence items · {requirements.communications.length} communication drafts
-            {scenario.governanceConfig.humanApprovalRequired
-              ? ` · ${roleName(scenario.governanceConfig.approvalRole ?? scenario.rolesConfig.accountableRoleId)} approval required`
-              : ` · Delegated authority: ${roleName(scenario.rolesConfig.accountableRoleId)}`}
+            Owner: {configured.owner} · {configured.approvalGate ? `${configured.decider} approval required` : `Delegated authority: ${configured.decider}`} · closure requires {configured.requiredEvidence.length} evidence item{configured.requiredEvidence.length === 1 ? "" : "s"} · {requirements.communications.length} communication drafts
           </div>
         </div>
       </div>
@@ -589,7 +647,7 @@ function ExecTracePanel({
             <div style={{ marginBottom: 16 }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
                 <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700 }}>
-                  Illustrative Evidence Selection — {evidencePct}% selected
+                  Synthetic evidence for this run — {evidencePct}% of required recorded
                 </div>
                 {gaps.length > 0 && (
                   <div style={{ fontSize: 9, color: "#f97316" }}>{gaps.length} required item{gaps.length > 1 ? "s" : ""} outstanding</div>
@@ -612,7 +670,7 @@ function ExecTracePanel({
                     </div>
                     <div style={{ fontSize: 9, color: "rgba(255,255,255,0.3)" }}>{ev.completionRule}</div>
                     {ev.captured && ev.capturedAt && (
-                      <div style={{ fontSize: 9, color: C.green, marginTop: 2 }}>Selected locally {new Date(ev.capturedAt).toLocaleTimeString()}</div>
+                      <div style={{ fontSize: 9, color: C.green, marginTop: 2 }}>Recorded (synthetic) {new Date(ev.capturedAt).toLocaleTimeString()}</div>
                     )}
                   </div>
                 </label>
@@ -725,7 +783,7 @@ function ExecTracePanel({
             <div style={{ fontSize: 9.5, color: "rgba(255,255,255,0.4)" }}>{exec.playbookName} · Accountable: {roleName(exec.accountableRoleId)}</div>
           </div>
           <div style={{ padding: "4px 10px", fontSize: 9, fontWeight: 700, color: stateColor, border: `1px solid ${stateColor}40`, background: `${stateColor}0a` }}>
-            Illustrative state · {stateLabel}
+            Synthetic run · {stateLabel}
           </div>
           {exec.isWelfareScenario && (
             <div style={{ padding: "4px 10px", fontSize: 9, fontWeight: 700, color: C.red, border: "1px solid rgba(239,68,68,0.3)" }}>
@@ -839,6 +897,19 @@ export default function PartnerOperationsCentre() {
 
   const { activeDeployment } = useDeployment();
   const [launchedScenarioId, setLaunchedScenarioId] = useState<string | null>(null);
+  const [runRecords, setRunRecords] = useState<Record<string, RunRecord>>({});
+  const recordRun = useCallback((scenarioId: string, exec: ScenarioExecution | null, cycle: number) => {
+    setRunRecords(prev => {
+      if (!exec) {
+        if (!(scenarioId in prev)) return prev;
+        const { [scenarioId]: _removed, ...rest } = prev;
+        return rest;
+      }
+      return { ...prev, [scenarioId]: { exec, cycle } };
+    });
+  }, []);
+  // Records belong to one configuration; a different activation starts a clean list.
+  useEffect(() => { setRunRecords({}); }, [activeDeployment?.id, activeDeployment?.activatedAt]);
   const requestedScenarioId = getScenarioIdFromQuery(
     location,
     typeof window === "undefined" ? "" : window.location.search,
@@ -913,7 +984,7 @@ export default function PartnerOperationsCentre() {
             Travel Operations Centre — Operator Interface
           </div>
           <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.8, maxWidth: 700 }}>
-            This Working Proof provides local scenario traces. Synthetic inputs pass through deterministic rules; actions, evidence and outcomes are illustrative and value indicators are modelled.
+            This page has two parts. <a href="#configured-operation" style={{ color: C.gold }}>Part 1</a> runs the deployment you activated in Build &amp; Configure, using its roles, approvals and evidence rules, and lists the synthetic records it generates. <a href="#static-examples" style={{ color: C.gold }}>Part 2</a> holds fixed examples that do not change with your configuration.
           </p>
         </div>
 
@@ -929,6 +1000,12 @@ export default function PartnerOperationsCentre() {
 
         <Link href="/partner-room/operations?view=simulation" style={{ display: "block", padding: "18px 22px", marginBottom: 30, background: "#20474e", border: "1px solid #81bcb8", borderRadius: 8, color: "#c5ece7", fontSize: 14, fontWeight: 700 }}>Open Simulation Lab — watch signals move through the engine →</Link>
 
+        <section id="configured-operation" className="ops-part" aria-labelledby="configured-operation-title">
+          <div className="ops-part-head">
+            <div className="ops-part-kicker">Part 1</div>
+            <h2 id="configured-operation-title">Your configured operation</h2>
+            <p>Runs here use the active deployment's roles, approvals and evidence rules. Every state, decision and evidence record in this part is generated by those settings in your browser and is synthetic.</p>
+          </div>
         {/* ── DEPLOYMENT CONTEXT BANNER ── */}
         <div id="deployment-status" style={{ marginBottom: 40, scrollMarginTop: 90 }}>
           <SectionLabel>00 · Local Configuration</SectionLabel>
@@ -1004,6 +1081,7 @@ export default function PartnerOperationsCentre() {
                     scenario={launchedEntry.scenario}
                     playbook={launchedEntry.playbook}
                     onReset={() => setLaunchedScenarioId(null)}
+                    onExecutionChange={recordRun}
                   />
                 ) : launchedScenarioId ? (
                   // Scenario selected but not yet in launchedEntry (shouldn't happen)
@@ -1019,14 +1097,28 @@ export default function PartnerOperationsCentre() {
                         scenario={scenario}
                         playbook={playbook}
                         onReset={() => {}}
+                        onExecutionChange={recordRun}
                       />
                     ))}
                   </div>
                 )}
               </>
             )}
+            <RunRecords deploymentName={activeDeployment.deploymentName} records={Object.values(runRecords)} />
           </div>
         )}
+        </section>
+
+        <section id="static-examples" className="ops-part ops-part-examples" aria-labelledby="static-examples-title">
+          <div className="ops-part-head">
+            <div className="ops-part-kicker">Part 2</div>
+            <h2 id="static-examples-title">Static illustrative examples</h2>
+            <p data-testid="static-examples-note">
+              Fixed examples across four sample properties ({TRAVEL_PROPERTIES.join(", ")}). {activeDeployment
+                ? <>They do not change with <strong>{activeDeployment.deploymentName}</strong>'s configuration and are not results from it.</>
+                : "They do not change with any configuration and are not results."} Use them to see the kinds of actions, records and value a pilot would track.
+            </p>
+          </div>
 
         <Link href="/partner-room/travel-ai-comms">
           <div style={{
@@ -1042,7 +1134,7 @@ export default function PartnerOperationsCentre() {
         {/* ── EXECUTION CENTRE (existing action cards) ── */}
         <div id="action-centre" style={{ marginBottom: 64, scrollMarginTop: 90 }}>
           <SectionLabel>01 · Execution</SectionLabel>
-          <H2>JALDO Action Centre — Synthetic Simulation</H2>
+          <H2>Example Action Centre — static illustration</H2>
           <div style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", letterSpacing: "0.04em", marginBottom: 12, marginTop: -6 }}>Travel Operations Centre</div>
           <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65, marginBottom: 20, maxWidth: 760 }}>
             Review synthetic moments, accountable role owners and illustrative deadlines. Filters and controls change local demonstration state only.
@@ -1317,6 +1409,8 @@ export default function PartnerOperationsCentre() {
           </div>
           <Link href="/partner-room/proof-calculator"><div style={{ display: "inline-block", fontSize: 10, color: "rgba(255,255,255,0.35)", cursor: "pointer" }}>See also: Proof Calculator (model your own property) →</div></Link>
         </div>
+
+        </section>
 
         {/* ── FOOTER LINKS ── */}
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 32, display: "flex", gap: 10, flexWrap: "wrap" }}>

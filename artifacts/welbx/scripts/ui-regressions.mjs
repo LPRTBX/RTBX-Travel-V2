@@ -5,7 +5,8 @@
  * unit tests cannot see. Starts the Vite dev server, drives Chromium with
  * Playwright and exits non-zero if any check fails.
  *
- * Usage: node scripts/ui-regressions.mjs   (set UI_BASE_URL to reuse a running server)
+ * Usage: node scripts/ui-regressions.mjs   (set UI_BASE_URL to reuse a running server;
+ *        set UI_WIDTH to rerun the checks that are not tied to a width at another width)
  */
 
 import { spawn } from "node:child_process";
@@ -38,7 +39,14 @@ if (!base) {
 const browser = await chromium.launch();
 const results = [];
 
+// UI_WIDTH=390|820|1440 reruns every check that is not already tied to a width at that width.
+const forcedWidth = Number(process.env.UI_WIDTH) || 0;
+
 async function check(name, viewport, fn) {
+  if (forcedWidth && !/\d+px$/.test(name)) {
+    viewport = { width: forcedWidth, height: forcedWidth <= 390 ? 844 : forcedWidth <= 820 ? 1180 : 900 };
+    name = `${name} (at ${forcedWidth}px)`;
+  }
   const context = await browser.newContext({ viewport });
   const page = await context.newPage();
   const errors = [];
@@ -465,6 +473,120 @@ await check("Delivery wording is conditional; recorded receipts are labelled syn
   assert(bareReceipts.length === 0, `Architecture Lab shows a receipt without marking it synthetic: "${bareReceipts[0]}"`);
   assert(/Evidence ledger[\s\S]*Mandatory evidence gates closure/.test(lab), "evidence ledger node missing");
 });
+
+// Functional pass: the Operations Centre runs the activated deployment and keeps static examples separate.
+async function activateDeployment(page, edit) {
+  await open(page, "/partner-room/build-configure");
+  if (edit) await edit(page);
+  await page.getByRole("button", { name: /Activate/ }).first().click();
+  await page.getByRole("button", { name: /Activate Travel Environment/ }).click();
+  await page.waitForFunction(() => localStorage.getItem("rtbx_travel_deployment_v1")?.includes("active-simulation"));
+}
+const noHorizontalScroll = async (page, width) => {
+  const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth);
+  assert(scrollWidth <= width, `page scrolls horizontally (${scrollWidth}px at ${width}px)`);
+};
+
+for (const viewport of [{ width: 390, height: 844 }, { width: 820, height: 1180 }, { width: 1440, height: 900 }]) {
+  await check(`Operations Centre without a deployment routes to Build & Configure at ${viewport.width}px`, viewport, async page => {
+    await open(page, "/partner-room/operations");
+    const empty = page.getByTestId("no-deployment");
+    assert(await empty.isVisible(), "no empty state for a missing deployment");
+    assert(/Nothing on this page comes from your configuration/.test(await empty.innerText()), "empty state does not say nothing is from the configuration");
+    assert(await empty.getByRole("link", { name: "Go to Build & Configure →" }).getAttribute("href") === "/partner-room/build-configure", "no route to Build & Configure");
+    assert(/not results/.test(await page.getByTestId("static-examples-note").innerText()), "static examples are not marked as non-results");
+    await noHorizontalScroll(page, viewport.width);
+  });
+
+  await check(`Operations Centre reflects the activated deployment at ${viewport.width}px`, viewport, async page => {
+    await activateDeployment(page, async p => {
+      await p.locator("#deploy-name").fill("Bayside Resort — Pilot");
+      await p.locator("#property-type").selectOption("Resort");
+    });
+    await open(page, "/partner-room/operations");
+    const summary = page.getByTestId("deployment-summary");
+    const text = await summary.innerText();
+    assert(text.includes("Bayside Resort — Pilot"), "deployment name missing");
+    assert(await page.getByTestId("deployment-category").innerText() === "Resort · Owner-operated", "category does not follow the configuration");
+    const roles = await page.getByTestId("deployment-roles").locator("li").allInnerTexts();
+    assert(roles.includes("Duty Manager") && roles.length === 10, `active roles not listed (${roles.length})`);
+    const scenarios = await page.getByTestId("deployment-scenarios").locator(":scope > li").count();
+    assert(scenarios === 3, `expected 3 enabled scenarios, found ${scenarios}`);
+    assert(/Room Not Ready/i.test(text) && /Who decides/.test(text) && /Closure requires/.test(text), "scenario settings missing");
+    const note = await page.getByTestId("static-examples-note").innerText();
+    assert(note.includes("Bayside Resort — Pilot") && /not results from it/.test(note), "static examples are not separated from the deployment");
+    assert(await page.locator("#static-examples-title").innerText() === "Static illustrative examples", "static examples heading missing");
+    assert(await page.locator("#static-examples #action-centre").count() === 1 && await page.locator("#configured-operation #action-centre").count() === 0, "Action Centre is not in the static examples part");
+    await noHorizontalScroll(page, viewport.width);
+  });
+}
+
+await check("A configuration change reaches execution and closure", { width: 1440, height: 900 }, async page => {
+  const scenarioCard = () => page.locator('[data-scenario-id="repeat-guest-room-not-ready"]');
+  await activateDeployment(page);
+  await open(page, "/partner-room/operations");
+  const before = Number((await scenarioCard().getByTestId("closure-requires").innerText()).match(/\d+/)[0]);
+  // Make an optional evidence item required, then re-activate.
+  await activateDeployment(page, async p => {
+    await p.getByRole("button", { name: /Evidence/ }).first().click();
+    await p.getByRole("switch", { name: "Escalation notification record — optional" }).click();
+  });
+  await open(page, "/partner-room/operations");
+  const after = Number((await scenarioCard().getByTestId("closure-requires").innerText()).match(/\d+/)[0]);
+  assert(after === before + 1, `closure requirement did not change (${before} → ${after})`);
+  await scenarioCard().locator("summary").click();
+  assert((await scenarioCard().innerText()).includes("Escalation notification record"), "new requirement not listed");
+
+  // Run the scenario: closure waits for the newly required item and the run is recorded as synthetic.
+  const records = page.getByTestId("run-records");
+  assert(/No runs yet/.test(await records.innerText()), "records shown before any run");
+  await page.getByRole("button", { name: "Start Local Simulation →" }).first().click();
+  for (const name of ["Receive Signal", "Validate Signal & Context", "Route for Approval", "Approve as Duty Manager", "Resolve Scenario"]) {
+    await page.getByRole("button", { name, exact: true }).click();
+  }
+  const boxes = page.getByRole("checkbox", { name: /\(required\)$/ });
+  for (let i = 0; i < await boxes.count(); i += 1) {
+    const box = boxes.nth(i);
+    if (!(await box.getAttribute("aria-label")).startsWith("Escalation notification record")) await box.check();
+  }
+  assert(await page.getByRole("button", { name: "Close (blocked — evidence incomplete)" }).isVisible(), "closure is not blocked by the newly required item");
+  await page.getByRole("checkbox", { name: "Escalation notification record (required)" }).check();
+  await page.getByRole("button", { name: "Close Scenario", exact: true }).click();
+  const row = records.locator("tbody tr").first();
+  await row.filter({ hasText: "Closed" }).waitFor({ timeout: 5000 }).catch(() => {});
+  const rowText = await row.innerText();
+  assert(/Closed/.test(rowText) && /Approved by Duty Manager \(simulated\)/.test(rowText) && new RegExp(`${after} of ${after} recorded \\(synthetic\\)`).test(rowText), `run record incomplete: ${rowText}`);
+});
+
+for (const viewport of [{ width: 390, height: 844 }, { width: 1440, height: 900 }]) {
+  await check(`Calculator value tiers are validated, not adjusted, at ${viewport.width}px`, viewport, async page => {
+    await open(page, "/partner-room/proof-calculator");
+    const tier = name => page.getByLabel(`Service opportunities: ${name} value per successful action`);
+    const values = async () => [await tier("low").inputValue(), await tier("base").inputValue(), await tier("high").inputValue()];
+    // Draft typing: nothing commits or complains until editing ends.
+    await tier("low").click();
+    await tier("low").pressSequentially("900");
+    assert(await page.getByTestId("estimate-paused").count() === 0, "estimate paused while still typing");
+    await tier("low").press("Enter");
+    assert(JSON.stringify(await values()) === JSON.stringify(["900", "40", "80"]), `tiers changed each other: ${await values()}`);
+    const error = page.locator("#tiers-opportunity-error");
+    assert((await error.innerText()).includes("Low ($900) is higher than Base ($40)"), "no specific inline message");
+    assert(await tier("low").getAttribute("aria-invalid") === "true" && await tier("base").getAttribute("aria-invalid") === "true", "invalid tiers not marked");
+    assert((await tier("low").getAttribute("aria-describedby"))?.includes("tiers-opportunity-error"), "message not linked to the field");
+    assert(await page.getByTestId("estimate-paused").first().isVisible(), "estimate not paused");
+    assert(await page.getByText("Illustrative monthly financial range").count() === 0, "a financial range is still shown for an invalid range");
+    // Fixing the range keeps every entered value and restores the estimate.
+    for (const [name, value] of [["base", "1000"], ["high", "1200"]]) {
+      await tier(name).fill("");
+      await tier(name).pressSequentially(value);
+      await tier(name).press("Tab");
+    }
+    assert(JSON.stringify(await values()) === JSON.stringify(["900", "1000", "1200"]), `entered values not preserved: ${await values()}`);
+    assert(await error.count() === 0 && await page.getByTestId("estimate-paused").count() === 0, "message remains after the range is fixed");
+    assert(await page.getByText("Illustrative monthly financial range").isVisible(), "estimate did not return");
+    await noHorizontalScroll(page, viewport.width);
+  });
+}
 
 await browser.close();
 server?.kill();
