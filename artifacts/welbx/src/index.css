@@ -742,3 +742,10 @@ button { min-height: 44px; }
   0% { transform: translateY(0); }
   100% { transform: translateY(-100%); }
 }
+
+/* Learning proposal before → after table (Architecture Lab, Simulation Lab). */
+.proposal-changes { width: 100%; max-width: 640px; margin: 12px 0 16px; border-collapse: collapse; font-size: 14px; line-height: 1.5; }
+.proposal-changes th, .proposal-changes td { padding: 8px 12px; border-bottom: 1px solid rgba(255,255,255,0.12); text-align: left; vertical-align: top; }
+.proposal-changes thead th { color: #a8dedb; font-weight: 700; }
+.proposal-changes td:last-child { font-weight: 700; }
+.proposal-changes-none { margin: 12px 0; }

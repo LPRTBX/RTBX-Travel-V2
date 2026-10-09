@@ -346,6 +346,126 @@ await check("Calculator states when programme cost is not included", { width: 14
   assert(atZero !== withCost, "entering a programme cost did not change the net estimate");
 });
 
+// Phase 2: engine identifiers stay behind "Technical identifiers"; wording matches what the demo actually does.
+const ENGINE_TEXT = /\b(signal-received|decision-required|approval-required|in-action|mock-dispatch|outcome-verification|late-response|ineffective-action|missing-receipt|missing-measurement|synthetic-duty-manager|delegated-authority|duty-manager|hotel-loop-v\d)\b|\d{4}-\d{2}-\d{2}T\d{2}:\d{2}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|"responseMinutes"/;
+// innerText skips the contents of closed <details>, so this reads only what is shown by default.
+const visibleText = (page, selector) => page.locator(selector).first().innerText();
+const assertPlain = (text, where) => {
+  const match = text.match(ENGINE_TEXT);
+  assert(!match, `${where} shows the engine identifier "${match?.[0]}"`);
+};
+
+await check("Architecture Lab shows plain-language status, review and replay", { width: 1440, height: 900 }, async page => {
+  await open(page, "/partner-room/architecture-lab");
+  const main = "main";
+  const advanceButton = () => page.locator("main > section").first().locator("button:has-text(\"→\")");
+  for (let step = 0; step < 8 && await advanceButton().count(); step += 1) {
+    assertPlain(await visibleText(page, main), `Architecture Lab step ${step + 1}`);
+    const select = page.getByLabel("Synthetic follow-up condition");
+    if (!(await select.isDisabled())) await select.selectOption("late-response");
+    await advanceButton().click();
+  }
+  await page.getByRole("button", { name: "Approve change for testing" }).click();
+  await page.getByRole("button", { name: "Replay approved improvement" }).click();
+  await page.locator("summary", { hasText: "Inspect the recorded case history" }).click();
+  const text = await visibleText(page, main);
+  assertPlain(text, "Architecture Lab review, replay and case history");
+  assert(/Respond within\s+30 minutes\s+15 minutes/.test(text), "proposal does not show the changed setting as Now → Proposed");
+  assert(!/Intervention attempts before escalation/.test(text), "proposal lists a setting it does not change");
+  assert(/the hotel's live settings are unchanged/.test(text), "approval does not say the live settings are unchanged");
+});
+
+await check("Architecture Lab keeps late evidence distinct from the recorded follow-up", { width: 1440, height: 900 }, async page => {
+  await open(page, "/partner-room/architecture-lab");
+  const advanceButton = () => page.locator("main > section").first().locator("button:has-text(\"→\")");
+  for (let step = 0; step < 8 && await advanceButton().count(); step += 1) {
+    const select = page.getByLabel("Synthetic follow-up condition");
+    if (!(await select.isDisabled())) await select.selectOption("missing-measurement");
+    await advanceButton().click();
+  }
+  await page.getByRole("button", { name: /Supply synthetic measurement/ }).click();
+  const text = await visibleText(page, "main");
+  assert(text.includes("Outcome after late evidence"), "late evidence is still labelled as the recorded outcome");
+  assert(text.includes("The earlier follow-up (pending evidence) stays on record"), "the earlier follow-up is not shown as kept");
+});
+
+await check("Simulation Lab shows plain-language journeys and proposals", { width: 1440, height: 900 }, async page => {
+  await open(page, "/partner-room/operations?view=simulation");
+  await page.getByRole("button", { name: "Run 100 outcome journeys" }).click();
+  const panel = 'section[aria-label="Hotel outcome and learning loop"]';
+  const journey = page.locator(panel).getByRole("combobox");
+  const options = await journey.locator("option").allInnerTexts();
+  await journey.selectOption({ index: options.findIndex(text => /review needed/.test(text)) });
+  let text = await visibleText(page, panel);
+  assertPlain(text, "Simulation Lab journey awaiting review");
+  assert(/Respond within\s+30 minutes\s+15 minutes/.test(text), "proposal is not shown as a Now → Proposed setting change");
+  await page.getByRole("button", { name: "Approve change and replay" }).click();
+  text = await visibleText(page, panel);
+  assertPlain(text, "Simulation Lab approved journey");
+  assert(/Approved for testing by Duty Manager \(simulated\) at \d{2}:\d{2}/.test(text), "approval does not name the reviewer and time in plain language");
+  const pendingIndex = (await journey.locator("option").allInnerTexts()).findIndex(t => /Pending evidence/.test(t));
+  await journey.selectOption({ index: pendingIndex });
+  await page.getByRole("button", { name: "Record late follow-up measurement" }).click();
+  text = await visibleText(page, panel);
+  assertPlain(text, "Simulation Lab journey with late evidence");
+  assert(text.includes("The earlier follow-up stays on record"), "late evidence does not say the earlier follow-up is kept");
+  await page.getByRole("button", { name: /Approve all/ }).click();
+  assert(/Run cycle 2 with \d+ approved proposals \(3 setting changes\)/.test(await page.locator(panel).getByRole("button", { name: /Run cycle 2/ }).innerText()), "cycle 2 button does not say how many settings change");
+  const whole = await visibleText(page, "main");
+  assert(!/GitHub|merged into main/.test(whole), "Simulation Lab still shows engineering workflow copy");
+});
+
+await check("Operations Centre and Integration Brief never claim delivery", { width: 1440, height: 900 }, async page => {
+  await open(page, "/partner-room/operations");
+  const ledger = await visibleText(page, "#evidence-ledger");
+  assert(!ledger.includes("Illustrative only —"), "evidence ledger still prefixes every cell with a disclaimer");
+  assert(!/\bDelivered to guest\b|\bGuest notified\b/.test(await visibleText(page, "main")), "Operations Centre says guests were notified or messages delivered");
+  assert(ledger.includes("Nothing below was sent, approved or captured"), "ledger does not state once that its rows are modelled");
+  await open(page, "/partner-room/integration-brief");
+  assert(!(await visibleText(page, "main")).includes("deliver and confirm demo communications"), "Integration Brief says demo messages are delivered");
+});
+
+await check("Operating Evolution states unmeasured results plainly", { width: 1440, height: 900 }, async page => {
+  await open(page, "/partner-room/operating-evolution");
+  await page.getByLabel("Follow-up measurements available").uncheck();
+  await page.getByRole("button", { name: /^Run cycle/ }).click();
+  const cards = await visibleText(page, 'section[aria-labelledby="evolution-human"]');
+  assert(!/Unconfirmed (modelled|total|arrival|staff|unnecessary)/.test(cards), "impact cards still read \"Unconfirmed …\" as a number");
+  assert(cards.includes("not confirmed"), "impact cards do not say results are not confirmed");
+});
+
+await check("Delivery wording is conditional; recorded receipts are labelled synthetic", { width: 1440, height: 900 }, async page => {
+  // Every "sent"/"delivered" claim must be negated, conditional or a draft: nothing leaves this demonstration.
+  const unqualified = text => [...text.matchAll(/[^.\n]{0,60}\b(sent|delivered|notified)\b[^.\n]{0,20}/gi)]
+    .map(match => match[0].trim())
+    .filter(context => !/\b(not|never|nothing|no|unsent|would|draft|drafted|future|before|without|pilot|requires?|required)\b/i.test(context));
+  await open(page, "/partner-room/operations");
+  // Action Centre cards open one at a time; read each card's details as well as the rest of the page.
+  const moments = ["Room Readiness Recovery", "Guest Distress Follow-Up", "Repeat Guest Loyalty Protection", "Maintenance Escalation", "Staff Pressure Response", "Partner Transport Activation", "Post-Stay Complaint Recovery"];
+  let operationsText = await visibleText(page, "main");
+  for (const moment of moments) {
+    await page.getByText(moment, { exact: true }).first().click();
+    operationsText += `\n${await visibleText(page, "main")}`;
+  }
+  assert(operationsText.includes("Communication status"), "Action Centre card details were not opened");
+  const operations = unqualified(operationsText);
+  assert(operations.length === 0, `Operations Centre states delivery as fact: "${operations[0]}"`);
+  // Receipts the simulation records are synthetic evidence and must say so.
+  await open(page, "/partner-room/operations?view=simulation");
+  await page.getByRole("button", { name: "Run 100 outcome journeys" }).click();
+  const learning = await visibleText(page, 'section[aria-label="Hotel outcome and learning loop"]');
+  assert(learning.includes("Synthetic delivery receipt and restoration recorded"), "a met journey does not label its receipt as synthetic");
+  assert(!/Delivery confirmed/.test(learning), "Simulation Lab says delivery was confirmed");
+  await open(page, "/partner-room/architecture-lab");
+  const advanceButton = () => page.locator("main > section").first().locator("button:has-text(\"→\")");
+  for (let step = 0; step < 8 && await advanceButton().count(); step += 1) await advanceButton().click();
+  await page.locator("summary", { hasText: "Inspect the recorded case history" }).click();
+  const lab = await visibleText(page, "main");
+  const bareReceipts = [...lab.matchAll(/[^.\n]{0,30}receipt recorded/gi)].map(match => match[0]).filter(context => !/synthetic/i.test(context));
+  assert(bareReceipts.length === 0, `Architecture Lab shows a receipt without marking it synthetic: "${bareReceipts[0]}"`);
+  assert(/Evidence ledger[\s\S]*Mandatory evidence gates closure/.test(lab), "evidence ledger node missing");
+});
+
 await browser.close();
 server?.kill();
 

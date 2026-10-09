@@ -4,6 +4,7 @@ import { Link } from 'wouter';
 import { Activity, Download, Pause, Play, RotateCcw, ShieldCheck } from 'lucide-react';
 import { TRAVEL_ROLES } from '@/data/travelRoles';
 import { getStateLabel } from '@/lib/runtimeEngine';
+import { describeEngineNote } from '@/lib/plainLanguage';
 import { HOTEL_PATHS, MOCK_HOTEL, PATH_LABELS, createHotelBatch, stepHotelBatch,
   checkHotelRead, expectedHotelState, type HotelBatch } from '@/simulation/mockHotel';
 
@@ -69,7 +70,7 @@ export function HotelSimulationPanel() {
       <label>Run profile<select value="mixed" disabled><option value="mixed">100 signals / 25 per path</option></select></label>
       <p className="jsim-hint">Five event types × five readings per path. Expected: 63 closed, 17 held for approval, 20 held for evidence. Three withheld approvals are transport cases, which act within guest services’ delegated authority and so do not wait. Each gate is checked.</p>
       <label className="jhotel-toggle"><input type="checkbox" checked={repeat} onChange={e => setRepeat(e.target.checked)} />Repeat complete batches</label>
-      <p className="jsim-hint">A failed check stops replay. Browser replay runs while this page is open. Scheduled GitHub checks run separately.</p>
+      <p className="jsim-hint">A failed check stops repeating. Batches run only while this page is open.</p>
       <label>Playback speed · {speed}×<input aria-label="Hotel playback speed" type="range" min="1" max="4" value={speed} onChange={e => setSpeed(Number(e.target.value))} /></label>
       {!batch ? <button className="jsim-primary" onClick={() => { if (prepare(1)) setPlaying(true); }}><Play size={16} />Start hotel simulation</button>
         : batch.finished ? <button className="jsim-primary" onClick={() => { if (prepare(batch.hotel.cycle + 1)) setPlaying(true); }}><RotateCcw size={16} />Run next batch</button>
@@ -99,13 +100,13 @@ export function HotelSimulationPanel() {
           <p className="jsim-owner">Accountable role<strong>{roleName(selectedRead.run.execution.accountableRoleId)}</strong></p>
           <p className="jsim-owner">Expected terminal state<strong>{getStateLabel(expectedHotelState(selectedRead.signal))}</strong></p>
           <pre className="jhotel-payload">{JSON.stringify(selectedRead.signal.payload, null, 2)}</pre>
-          <ol className="jsim-timeline">{selectedRead.run.execution.stateHistory.map((event, i) => <li key={i}><span className="jsim-timeline-dot" /><div><strong>{getStateLabel(event.state)}</strong><small>{event.note}</small></div></li>)}</ol>
+          <ol className="jsim-timeline">{selectedRead.run.execution.stateHistory.map((event, i) => <li key={i}><span className="jsim-timeline-dot" /><div><strong>{getStateLabel(event.state)}</strong><small>{describeEngineNote(event.note)}</small></div></li>)}</ol>
           <p className="jsim-hint">Approval holds and evidence holds remain in place deliberately. Completed outcomes are recorded as “not measured”.</p>
         </>}
       </section></div>
       <footer className="jsim-footer"><p>{history.length} recent batch results retained in this session. Export before leaving.</p><button className="jsim-secondary" disabled={!batch} onClick={download}><Download size={14} />Export hotel run</button></footer>
     </section></div>
     <HotelLearningPanel />
-    <div className="jsim-bottom"><Link href="/partner-room/operations">← Return to the Operations Centre</Link><span>Hourly automation activates when the workflow is merged into main.</span></div>
+    <div className="jsim-bottom"><Link href="/partner-room/operations">← Return to the Operations Centre</Link></div>
   </main>;
 }
