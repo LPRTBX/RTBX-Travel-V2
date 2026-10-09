@@ -1,5 +1,5 @@
 import {
-  CERTIFICATION_STATEMENT, DEMONSTRATED_BEHAVIOUR, PILOT_SECURITY_REQUIREMENTS, VERIFIED_CONTROLS, type SecurityItem,
+  CERTIFICATION_STATEMENT, DEMONSTRATED_BEHAVIOUR, PILOT_SECURITY_REQUIREMENTS, VERIFICATION_SCOPE, VERIFIED_CONTROLS, type SecurityItem,
 } from "@/data/securityPosture";
 import { usePartnerRoomNavigate } from "@/components/PartnerRoomLayout";
 import "./security-and-data.css";
@@ -29,10 +29,11 @@ export function SecurityAndData() {
       <p className="sd-eyebrow">Security and data</p>
       <h2 id="security-data-title">What is verified today, what is only demonstrated, and what a pilot needs.</h2>
       <div className="sd-groups">
-        <Group id="verified" tone="verified" title="Verified controls in this build" note="Each claim is checked automatically on every pull request." items={VERIFIED_CONTROLS} />
+        <Group id="verified" tone="verified" title="Verified controls in this build" note="Each claim is checked automatically on every pull request, against a local build." items={VERIFIED_CONTROLS} />
         <Group id="demonstrated" tone="demonstrated" title="Demonstrated behaviour" note="Shown working in the demonstration. These are not security controls." items={DEMONSTRATED_BEHAVIOUR} />
         <Group id="required" tone="required" title="Required for a production pilot" note="None of these is in place. They are prerequisites before live guest or staff data." items={PILOT_SECURITY_REQUIREMENTS} />
       </div>
+      <p className="sd-scope" data-testid="security-scope"><strong>Local build, not the deployed site.</strong> {VERIFICATION_SCOPE}</p>
       <p className="sd-certification" data-testid="security-certification">{CERTIFICATION_STATEMENT}</p>
       <a href="/partner-room/pilot-model#pilot-scope" className="sd-next" onClick={event => { event.preventDefault(); navigateTo("/partner-room/pilot-model#pilot-scope"); }}>
         Add integration and security prerequisites to a pilot scope →

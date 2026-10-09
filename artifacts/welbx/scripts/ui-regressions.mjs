@@ -874,7 +874,7 @@ for (const viewport of [{ width: 390, height: 844 }, { width: 820, height: 1180 
 for (const viewport of [{ width: 390, height: 844 }, { width: 820, height: 1180 }, { width: 1440, height: 900 }]) {
   await check(`Phase 4 journey: portfolio, security and pilot scope at ${viewport.width}px`, viewport, async page => {
     const requests = [];
-    page.on("request", request => requests.push({ method: request.method(), url: request.url() }));
+    page.on("request", request => requests.push({ method: request.method(), url: request.url(), body: request.postData() }));
     const inView = selector => page.waitForFunction(sel => {
       const r = document.querySelector(sel)?.getBoundingClientRect();
       return !!r && r.top >= -5 && r.top < innerHeight / 2;
@@ -924,6 +924,9 @@ for (const viewport of [{ width: 390, height: 844 }, { width: 820, height: 1180 
     assert(!/Evidence:/.test(await page.getByTestId("security-demonstrated").innerText()), "demonstrated behaviour presented as verified");
     assert(/makes no certification claim/.test(await page.getByTestId("security-certification").innerText()), "certification statement missing");
     assert(/not authentication or access control/.test(await page.getByTestId("security-demonstrated").innerText()), "access code presented as a control");
+    assert(/deployed Replit site has not been checked/.test(await page.getByTestId("security-scope").innerText()), "local-build findings not separated from the deployed site");
+    assert(/ordinary request metadata/.test(await page.getByTestId("security-verified").innerText()), "font request metadata not explained");
+    assert(!/No data leaves the browser/i.test(await page.locator("#security-data").innerText()), "unscoped data claim still shown");
     await noHorizontalScroll(page, viewport.width);
     await page.getByRole("link", { name: /Add integration and security prerequisites to a pilot scope/ }).click();
     await page.waitForURL(url => url.pathname === "/partner-room/pilot-model");
@@ -964,7 +967,7 @@ for (const viewport of [{ width: 390, height: 844 }, { width: 820, height: 1180 
 
     // Nothing left the browser: only GETs, to the app itself or Google Fonts.
     const origin = new URL(page.url()).host;
-    const unexpected = requests.filter(r => r.method !== "GET" || !(new URL(r.url).host === origin || /^fonts\.(googleapis|gstatic)\.com$/.test(new URL(r.url).host) || r.url.startsWith("blob:") || r.url.startsWith("data:")));
+    const unexpected = requests.filter(r => r.method !== "GET" || r.body || !(new URL(r.url).host === origin || /^fonts\.(googleapis|gstatic)\.com$/.test(new URL(r.url).host) || r.url.startsWith("blob:") || r.url.startsWith("data:")));
     assert(unexpected.length === 0, `unexpected requests: ${unexpected.slice(0, 3).map(r => `${r.method} ${r.url}`).join(", ")}`);
   });
 }

@@ -17,9 +17,9 @@ export interface SecurityItem {
 
 export const VERIFIED_CONTROLS: SecurityItem[] = [
   {
-    title: "No data leaves the browser",
-    detail: "The demonstration has no backend. Its source makes no network calls that could send data, and communications are only ever drafts. The one third party the page contacts is Google Fonts, to load its typefaces; no demonstration data goes with those requests.",
-    evidence: "Unit test: the app's source contains no fetch, XMLHttpRequest, WebSocket, EventSource or sendBeacon calls. Browser check: across the full Partner Room journey every request is a GET, and every one is to the app itself or to Google Fonts.",
+    title: "Scenario and pilot-scope content stays in the browser during the tested journey",
+    detail: "The demonstration has no backend. In the tested journey, scenario runs, their evidence and the pilot scope are held in this browser and are not sent anywhere, and drafted communications are never delivered. The page does request its typefaces from Google Fonts. Like any web request, those carry ordinary request metadata (such as the device's IP address, the browser's user agent and, depending on browser settings, the page address as referrer), but none of the scenario or scope content.",
+    evidence: "Browser check on a local build in Chromium: across the full Partner Room journey every request is a GET to the app itself or to Google Fonts, and none carries a request body. Supporting evidence: a scan of the app's own source finds no fetch, XMLHttpRequest, WebSocket, EventSource or sendBeacon calls. The scan does not cover third-party libraries or the hosting platform, so it supports the claim rather than proving it.",
   },
   {
     title: "Configuration and runs stay on this device",
@@ -60,6 +60,10 @@ export const PILOT_SECURITY_REQUIREMENTS: SecurityItem[] = [
   { title: "Integration credentials", detail: "Least-privilege, read-first access to the PMS and other systems, approved by each vendor and held in a secrets manager." },
   { title: "Independent testing and response", detail: "A penetration test before live data, an incident response plan with named contacts, backups and regular access reviews." },
 ];
+
+/** Where these findings come from, and what has not been checked. */
+export const VERIFICATION_SCOPE =
+  "These findings come from automated checks on a local build. The deployed Replit site has not been checked from this environment, so its hosting may add requests of its own (for example platform scripts or analytics). Third parties on the deployed site, including whether Google Fonts is the only one, must be verified there before any of these claims are repeated about it.";
 
 export const CERTIFICATION_STATEMENT =
   "This demonstration makes no certification claim (for example ISO 27001 or SOC 2), and none is evidenced here. Any certification the partner requires is a pilot prerequisite to agree.";

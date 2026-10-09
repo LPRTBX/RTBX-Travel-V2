@@ -5,7 +5,7 @@ import {
   PORTFOLIO_ACTORS, PORTFOLIO_EXCEPTIONS, PORTFOLIO_PROPERTIES, decideException, newExceptionRecord, pendingApprovers,
 } from "@/lib/portfolioCoordination";
 import {
-  CERTIFICATION_STATEMENT, DEMONSTRATED_BEHAVIOUR, PILOT_SECURITY_REQUIREMENTS, VERIFIED_CONTROLS,
+  CERTIFICATION_STATEMENT, DEMONSTRATED_BEHAVIOUR, PILOT_SECURITY_REQUIREMENTS, VERIFICATION_SCOPE, VERIFIED_CONTROLS,
 } from "@/data/securityPosture";
 import {
   ENQUIRY_ADDRESS, MAILTO_BODY_LIMIT, defaultPilotScope, integrationPrerequisites, pilotCommercialAssumptions,
@@ -72,7 +72,20 @@ describe("Security and data claims", () => {
     expect(claims).not.toMatch(/\b(certified|compliant|ISO ?27001|SOC ?2|GDPR[- ]compliant|PCI)\b/i);
   });
 
-  it("keeps the 'no data leaves the browser' claim true: the app's source makes no network calls", () => {
+  it("scopes the data claim to the tested journey and names what the evidence does not cover", () => {
+    const all = [...VERIFIED_CONTROLS, ...DEMONSTRATED_BEHAVIOUR, ...PILOT_SECURITY_REQUIREMENTS].map(i => `${i.title} ${i.detail} ${i.evidence ?? ""}`).join(" ");
+    expect(all).not.toMatch(/no data leaves|only third party/i);
+    const content = VERIFIED_CONTROLS[0];
+    expect(content.title).toMatch(/Scenario and pilot-scope content stays in the browser during the tested journey/);
+    expect(content.detail).toMatch(/ordinary request metadata/);
+    expect(content.evidence).toMatch(/local build/);
+    expect(content.evidence).toMatch(/Supporting evidence: a scan of the app's own source/);
+    expect(content.evidence).toMatch(/does not cover third-party libraries or the hosting platform/);
+    expect(VERIFICATION_SCOPE).toMatch(/deployed Replit site has not been checked/);
+    expect(VERIFICATION_SCOPE).toMatch(/including whether Google Fonts is the only one/);
+  });
+
+  it("supporting evidence: the app's own source makes no network calls", () => {
     const sources = (dir: string): string[] => readdirSync(dir).flatMap(name => {
       const full = join(dir, name);
       if (statSync(full).isDirectory()) return name === "__tests__" ? [] : sources(full);

@@ -15,3 +15,4 @@
 .sd-certification { margin: 14px 0 16px; padding: 12px 14px; font-size: 13.5px; line-height: 1.6; color: rgba(255, 255, 255, 0.85); border-left: 3px solid #f97316; background: rgba(249, 115, 22, 0.06); max-width: 900px; }
 .sd-next { display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px; font-size: 14px; font-weight: 800; color: #102d39; background: #a8dedb; text-decoration: none; }
 .sd-next:focus-visible { outline: 3px solid #ed9b66; outline-offset: 3px; }
+.sd-scope { margin: 14px 0 0; padding: 12px 14px; font-size: 13.5px; line-height: 1.6; color: rgba(255, 255, 255, 0.85); border-left: 3px solid #a8dedb; background: rgba(168, 222, 219, 0.06); max-width: 900px; }
