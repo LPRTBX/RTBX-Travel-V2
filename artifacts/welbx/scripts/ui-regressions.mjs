@@ -725,6 +725,111 @@ await check("Evidence navigation shows the records a run generated at 1440px", {
   assert(await page.locator("#static-examples").evaluate(el => /Static illustrative examples/.test(el.innerText)), "static examples lost their label");
 });
 
+// Generated evidence is a session record: it survives Partner Room navigation and never outlives its configuration.
+const PRIMARY = ["Working Proof", "Evidence", "Calculator", "Stage 3", "Pilot", "Next Step"];
+async function goVia(page, label, width) {
+  const desktop = width >= 1024;
+  if (!desktop) await page.getByRole("button", { name: "Open navigation menu" }).click();
+  const scope = desktop ? page.getByRole("navigation", { name: "Partner Room navigation" }) : page.locator("#mobile-nav-panel");
+  if (PRIMARY.includes(label)) return scope.getByRole("link", { name: label, exact: true }).first().click();
+  await scope.getByRole("button", { name: /Reference Material/ }).click();
+  await (desktop ? page.getByRole("menuitem", { name: label, exact: true }) : scope.getByRole("link", { name: label, exact: true })).click();
+}
+async function runRoomScenario(page) {
+  const panel = page.locator("#runtime-execution");
+  await panel.getByRole("button", { name: "Start Local Simulation →" }).first().click();
+  for (const name of ["Receive Signal", "Validate Signal & Context", "Route for Approval", "Approve as Duty Manager", "Resolve Scenario"]) {
+    await page.getByRole("button", { name, exact: true }).click();
+  }
+  const boxes = page.getByRole("checkbox", { name: /\(required\)$/ });
+  for (let i = 0; i < await boxes.count(); i += 1) await boxes.nth(i).check();
+  await page.getByRole("button", { name: "Close Scenario", exact: true }).click();
+}
+async function evidenceSnapshot(page) {
+  const section = page.locator("#generated-evidence");
+  await section.waitFor();
+  const rows = section.locator("tbody tr");
+  const count = await rows.count();
+  if (!count) return { count, row: "", items: "", heading: await section.locator("h3").innerText() };
+  const details = rows.first().locator("details");
+  if (!(await details.getAttribute("open") !== null)) await details.locator("summary").click();
+  return { count, row: await rows.first().innerText(), items: await details.locator("ul").innerText(), heading: await section.locator("h3").innerText() };
+}
+const waitForEvidenceInView = page => page.waitForFunction(() => {
+  const r = document.querySelector("#generated-evidence")?.getBoundingClientRect();
+  return !!r && r.top >= 0 && r.top < innerHeight / 2;
+}, null, { timeout: 5000 });
+
+for (const viewport of [{ width: 390, height: 844 }, { width: 820, height: 1180 }, { width: 1440, height: 900 }]) {
+  await check(`Generated evidence survives Partner Room navigation at ${viewport.width}px`, viewport, async page => {
+    await activateDeployment(page);
+    await open(page, "/partner-room/operations");
+    await runRoomScenario(page);
+    const before = await evidenceSnapshot(page);
+    assert(before.count === 1 && /Closed/.test(before.row) && /Approved by Duty Manager \(simulated\)/.test(before.row), `run not recorded: ${before.row}`);
+    assert(/Room readiness confirmation · synthetic/.test(before.items), "recorded evidence missing");
+
+    // Leave through the menu (Simulation Lab, Calculator, another page), then come back through Evidence.
+    await goVia(page, "Simulation Lab", viewport.width);
+    await page.waitForURL(url => url.search === "?view=simulation");
+    await goVia(page, "Calculator", viewport.width);
+    await page.waitForURL(url => url.pathname === "/partner-room/proof-calculator");
+    await goVia(page, "Pilot", viewport.width);
+    await page.waitForURL(url => url.pathname === "/partner-room/pilot-model");
+    await goVia(page, "Evidence", viewport.width);
+    await page.waitForURL(url => url.pathname === "/partner-room/operations" && url.hash === "#generated-evidence");
+    await waitForEvidenceInView(page);
+    const after = await evidenceSnapshot(page);
+    assert(after.row === before.row, `run changed after navigation:\n${before.row}\n→ ${after.row}`);
+    assert(after.items === before.items, "recorded evidence changed after navigation");
+    assert(after.heading === before.heading, "record attributed to a different configuration");
+    assert(await page.locator("#runtime-execution").getByText("Synthetic run · Closed").count() >= 1, "the closed run was not restored in its trace");
+    assert(/Refreshing or closing the page ends the session/.test(await page.getByTestId("session-notice").innerText({ timeout: 2000 })), "refresh notice missing");
+    await noHorizontalScroll(page, viewport.width);
+
+    // Refreshing ends the demonstration session.
+    await page.reload({ waitUntil: "networkidle" });
+    assert((await evidenceSnapshot(page)).count === 0, "records survived a refresh");
+  });
+
+  await check(`Reconfiguring or resetting never carries records over at ${viewport.width}px`, viewport, async page => {
+    await activateDeployment(page);
+    await open(page, "/partner-room/operations");
+    await runRoomScenario(page);
+    assert((await evidenceSnapshot(page)).count === 1, "no record to carry over");
+
+    // A changed configuration starts with no records and a fresh trace.
+    await goVia(page, "Build & Configure", viewport.width);
+    await page.locator("#deploy-name").fill("Bayside Resort — Pilot");
+    await page.getByRole("button", { name: /Activate/ }).first().click();
+    await page.getByRole("button", { name: /Activate Travel Environment/ }).click();
+    await page.waitForFunction(() => localStorage.getItem("rtbx_travel_deployment_v1")?.includes("Bayside Resort"));
+    await goVia(page, "Evidence", viewport.width);
+    await waitForEvidenceInView(page);
+    const changed = await evidenceSnapshot(page);
+    assert(changed.count === 0 && changed.heading.includes("Bayside Resort — Pilot"), `old record shown for the new configuration: ${changed.heading} / ${changed.row}`);
+    assert(/No runs yet/.test(await page.locator("#generated-evidence").innerText()), "no empty state for the new configuration");
+    assert(await page.locator("#runtime-execution").getByText(/Synthetic run ·/).count() === 0, "an old run was restored into the new configuration's trace");
+
+    // Run under the new configuration, then reset: nothing survives, and re-activating starts clean.
+    await runRoomScenario(page);
+    assert((await evidenceSnapshot(page)).count === 1, "new configuration's run not recorded");
+    await goVia(page, "Build & Configure", viewport.width);
+    await page.getByRole("button", { name: "Reset", exact: true }).click();
+    await page.getByRole("button", { name: "Reset to defaults" }).click();
+    await goVia(page, "Evidence", viewport.width);
+    await waitForEvidenceInView(page);
+    assert((await page.locator("#generated-evidence").innerText()).includes("No evidence has been generated."), "records shown after reset");
+    // Re-activate without reloading, so only the session rules (not a fresh page) can clear the records.
+    await goVia(page, "Build & Configure", viewport.width);
+    await page.getByRole("button", { name: /Activate/ }).first().click();
+    await page.getByRole("button", { name: /Activate Travel Environment/ }).click();
+    await goVia(page, "Evidence", viewport.width);
+    await waitForEvidenceInView(page);
+    assert((await evidenceSnapshot(page)).count === 0, "records from before the reset reappeared after re-activation");
+  });
+}
+
 await browser.close();
 server?.kill();
 

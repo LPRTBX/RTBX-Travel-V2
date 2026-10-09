@@ -74,3 +74,15 @@ describe("Phase 3 navigation", () => {
     expect(operations).toContain("No runs yet, so no evidence has been generated.");
   });
 });
+
+describe("Generated evidence session", () => {
+  it("gives every activation its own key, so records never pass between configurations", async () => {
+    const { configurationKey } = await import("@/context/RunSessionContext");
+    const base = { id: "dep-harbour-hotel-melbourne", updatedAt: "2026-10-09T08:00:00.000Z" } as Parameters<typeof configurationKey>[0];
+    expect(configurationKey(null)).toBeNull();
+    const first = configurationKey({ ...base!, activatedAt: "2026-10-09T08:00:00.000Z" });
+    const again = configurationKey({ ...base!, activatedAt: "2026-10-09T08:05:00.000Z" });
+    expect(first).not.toBe(again);
+    expect(configurationKey({ ...base!, id: "dep-other", activatedAt: "2026-10-09T08:00:00.000Z" })).not.toBe(first);
+  });
+});
