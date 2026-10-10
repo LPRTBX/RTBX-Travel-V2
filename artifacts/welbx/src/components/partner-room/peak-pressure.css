@@ -63,6 +63,11 @@ tr[data-status="conflicting"] td, tr[data-status="conflicting"] th { background:
 .pk-capacity { margin: 0 0 12px; padding: 12px 14px; font-size: 13.5px; line-height: 1.55; color: #fde68a; border: 1px solid rgba(251, 191, 36, 0.45); background: rgba(251, 191, 36, 0.06); }
 .pk-capacity p { margin: 0 0 8px; }
 .pk-capacity-closed { color: #d1fae5; border-color: rgba(16, 185, 129, 0.45); background: rgba(16, 185, 129, 0.06); }
+.pk-cover-steps { list-style: none; margin: 0 0 8px; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 6px; }
+.pk-cover-steps li { padding: 8px 10px; font-size: 13px; line-height: 1.45; color: rgba(255, 255, 255, 0.8); border: 1px solid rgba(255, 255, 255, 0.18); border-left-width: 3px; }
+.pk-cover-steps li[data-done="true"] { border-left-color: #10b981; }
+.pk-cover-steps li[data-done="false"] { border-left-color: rgba(255, 255, 255, 0.35); }
+.pk-cover-steps span { display: block; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #fff; }
 .pk-link { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; color: #fbbf24; }
 
 .pk-actions { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 8px; }

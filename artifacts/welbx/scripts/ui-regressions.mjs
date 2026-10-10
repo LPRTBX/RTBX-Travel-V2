@@ -1056,7 +1056,7 @@ for (const viewport of [{ width: 390, height: 844 }, { width: 820, height: 1180 
     assert(await peak.locator('[data-action="escalate"]').count() === 1, "no escalation action");
     await recordAll();
     assert(await peak.locator('[data-action="breaks"]').getAttribute("data-state") === "waiting", "break cover executed without enough people");
-    assert(/Cover gap closed by portfolio support/.test(await peak.locator('[data-action="breaks"]').innerText()), "break cover does not show its dependency");
+    assert(/Cover in place: the lent team member.s arrival recorded/.test(await peak.locator('[data-action="breaks"]').innerText()), "break cover does not show its dependency");
     assert(/Portfolio decision on cross-property cover/.test(await aggregate.innerText()), "portfolio decision not outstanding");
     await peak.getByRole("link", { name: /Go to the portfolio decision/ }).click();
     const portfolio = page.locator("#portfolio-coordination");
@@ -1070,10 +1070,23 @@ for (const viewport of [{ width: 390, height: 844 }, { width: 820, height: 1180 
       await portfolio.getByRole("button", { name: "Approve as selected role" }).click();
     }
     assert(/All required approvals are recorded/.test(await page.getByTestId("portfolio-message").innerText()), "cover not approved by both roles");
-    assert(/Gap closed/.test(await page.getByTestId("peak-capacity").innerText()), "approved cover did not close the gap");
+    assert(/authorised, not carried out/.test(await page.getByTestId("portfolio-message").innerText()), "portfolio approval presented as execution");
+    // Approvals authorise the loan; they do not put cover in place.
+    const breaksState = () => peak.locator('[data-action="breaks"]').getAttribute("data-state");
+    const capacityText = () => page.getByTestId("peak-capacity").innerText();
+    const recordAction = id => peak.locator(`[data-action="${id}"]`).getByRole("button", { name: /^Record as / }).click();
+    assert(/Gap: 1 person, still open/.test(await capacityText()), "approvals alone closed the cover gap");
+    assert(await breaksState() === "waiting", "approvals alone unlocked break cover");
+    assert(/Cross-property cover authorised but not yet in place/.test(await aggregate.innerText()), "portfolio does not show cover pending");
+    assert(/Move the reservations agent to the front desk/.test(await peak.locator('[data-action="redistribute"]').innerText()), "redistribution plan does not match the local staff");
+    await recordAction("release");
+    assert(/still open/.test(await capacityText()) && await breaksState() === "waiting", "release alone unlocked break cover");
+    await recordAction("arrival");
+    assert(/Gap closed: the lent team member's arrival is recorded/.test(await capacityText()), "recorded arrival did not close the gap");
+    assert(await breaksState() === "ready", "recorded cover did not unlock break cover");
     await approveDraft();
     await recordAll();
-    assert(/6 of 6 actions recorded/.test(await page.getByTestId("peak-follow-through").innerText()), "follow-through incomplete");
+    assert(/8 of 8 actions recorded/.test(await page.getByTestId("peak-follow-through").innerText()), "follow-through incomplete");
     assert(/Not measured yet/.test(await stage("outcome")), "outcome reported before measurement");
     await peak.getByRole("button", { name: "Record follow-up measurements (synthetic)" }).click();
     assert(/The case can close/.test(await page.getByTestId("peak-closure").innerText()), "complete outcome cannot close");

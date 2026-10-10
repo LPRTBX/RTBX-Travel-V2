@@ -92,16 +92,44 @@ describe("Authority, deferral and the intervention plan", () => {
     expect(actionState(state, planFor(state).find(a => a.id === "breaks")!)).toBe("ready");
   });
 
-  it("challenge 2: not enough people adds an escalation and blocks break cover until the portfolio approves support", () => {
-    let state = approved("capacity");
-    expect(capacity(state).gap).toBe(1);
-    expect(planFor(state).map(a => a.id)).toContain("escalate");
-    state = completeAction(state, "redistribute", "fo-supervisor", "13:40");
-    expect(() => completeAction(state, "breaks", "fo-supervisor", "14:00")).toThrow(/Cover gap closed by portfolio support/);
+  it("challenge 2: the redistribution plan matches the local staff actually available", () => {
+    const short = approved("capacity");
+    expect(capacity(short)).toMatchObject({ needed: 2, available: 1, gap: 1 });
+    const redistribute = planFor(short).find(a => a.id === "redistribute")!;
+    expect(redistribute.title).toMatch(/Move the reservations agent to the front desk/);
+    expect(redistribute.title).not.toMatch(/concierge to the front desk/);
+    expect(redistribute.evidence).toMatch(/1 person moved/);
+    expect(planFor(approved()).find(a => a.id === "redistribute")!.evidence).toMatch(/2 people moved/);
+    expect(planFor(short).map(a => a.id)).toEqual(expect.arrayContaining(["escalate", "release", "arrival"]));
+  });
+
+  it("challenge 2: both portfolio approvals authorise the loan but do not unlock break cover", () => {
+    let state = completeAction(approved("capacity"), "redistribute", "fo-supervisor", "13:40");
+    state = completeAction(state, "escalate", "duty-manager", "13:50");
     expect(portfolioSummary(state).outstanding).toContain("Portfolio decision on cross-property cover");
+    expect(() => completeAction(state, "release", "coastal-gm", "13:55")).toThrow(/Portfolio authorisation/);
+
     state = approvePortfolioSupport(state);
-    expect(capacity(state).gap).toBe(0);
-    expect(completeAction(state, "breaks", "fo-supervisor", "14:00").done.breaks).toBe("14:00");
+    expect(capacity(state)).toMatchObject({ authorised: true, lentInPlace: 0, gap: 1 });
+    expect(actionState(state, planFor(state).find(a => a.id === "breaks")!)).toBe("waiting");
+    expect(() => completeAction(state, "breaks", "fo-supervisor", "14:00")).toThrow(/Cover in place: the lent team member's arrival recorded/);
+    expect(portfolioSummary(state).outstanding).toContain("Cross-property cover authorised but not yet in place");
+
+    // Release alone is not cover either; only the recorded arrival closes the gap.
+    expect(() => completeAction(state, "release", "regional-ops", "13:55")).toThrow(/Only the General Manager · Coastal Resort/);
+    expect(() => completeAction(state, "arrival", "fo-supervisor", "14:05")).toThrow(/Release recorded at Coastal Resort/);
+    state = completeAction(state, "release", "coastal-gm", "13:55");
+    expect(capacity(state).gap).toBe(1);
+    expect(() => completeAction(state, "breaks", "fo-supervisor", "14:00")).toThrow(/arrival recorded/);
+  });
+
+  it("challenge 2: recorded cover closes the gap and unlocks break cover", () => {
+    let state = approvePortfolioSupport(completeAction(approved("capacity"), "redistribute", "fo-supervisor", "13:40"));
+    state = completeAction(state, "release", "coastal-gm", "13:55");
+    state = completeAction(state, "arrival", "fo-supervisor", "14:05");
+    expect(capacity(state)).toMatchObject({ lentInPlace: 1, gap: 0 });
+    expect(portfolioSummary(state).outstanding).not.toContain("Cross-property cover authorised but not yet in place");
+    expect(completeAction(state, "breaks", "fo-supervisor", "14:10").done.breaks).toBe("14:10");
   });
 });
 

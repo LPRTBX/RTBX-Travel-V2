@@ -71,7 +71,7 @@ export function PortfolioCoordination({ peak }: { peak?: PeakPortfolioLink }) {
       setMessage({ tone: "done", text: action === "return"
         ? `Returned by ${actorLabel(actorId)}. Nothing proceeds; the properties keep their cases.`
         : next.status === "approved"
-          ? `Approved by ${actorLabel(actorId)}. All required approvals are recorded (simulated); nothing was sent.`
+          ? `Approved by ${actorLabel(actorId)}. All required approvals are recorded (simulated); nothing was sent.${exception.afterApproval ? ` ${exception.afterApproval}` : ""}`
           : `Approval recorded for ${actorLabel(actorId)}. Still needed: ${pendingApprovers(exception, next).map(actorLabel).join(", ")}.` });
     } catch (error) {
       setMessage({ tone: "refused", text: error instanceof Error ? error.message : String(error) });

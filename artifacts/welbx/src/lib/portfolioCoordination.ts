@@ -57,6 +57,8 @@ export interface PortfolioException {
   evidenceRequired: string[];
   /** Welfare: the local role who keeps the case. */
   localDeciderId?: string;
+  /** What approval does and does not do, shown once every approval is recorded. */
+  afterApproval?: string;
 }
 
 export const PORTFOLIO_ACTORS: PortfolioActor[] = [
@@ -145,9 +147,10 @@ export const CROSS_PROPERTY_COVER_EXCEPTION: PortfolioException = {
   propertyIds: ["harbour", "coastal"],
   rule: "Moving staff between properties exceeds either property's own authority.",
   requiredApproverIds: ["regional-ops", "gm-coastal"],
-  proposedResponse: "Coastal Resort lends one trained front-office team member from 14:00 to 16:00 to close Harbour Hotel's break-cover gap.",
+  proposedResponse: "Authorise Coastal Resort to lend one trained front-office team member from 14:00 to 16:00. Harbour Hotel's break-cover gap stays open until the release and arrival are recorded.",
   staysLocal: "Harbour Hotel's Duty Manager keeps the intervention. Coastal Resort's General Manager decides whether it can spare someone. No individual is named in the portfolio view.",
-  evidenceRequired: ["Portfolio approval", "Coastal Resort's confirmation that its own cover is safe", "Hours lent recorded at both properties"],
+  afterApproval: "The loan is authorised, not carried out. Harbour Hotel's cover gap stays open until Coastal Resort records the release and Harbour Hotel records the arrival.",
+  evidenceRequired: ["Both approvals, which authorise the loan but do not put cover in place", "Release recorded at Coastal Resort, with confirmation that its own cover stays safe", "Arrival recorded at Harbour Hotel before the cover gap is treated as closed"],
 };
 
 export const MIN_RETURN_REASON = 10;

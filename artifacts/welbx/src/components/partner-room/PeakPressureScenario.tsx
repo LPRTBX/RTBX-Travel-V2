@@ -1,7 +1,7 @@
 import { useId, useState, type Dispatch, type SetStateAction } from "react";
 import {
   ACTORS, CHALLENGES, DEPENDENCY_LABELS, KIND_LABELS, LEARNING_ROLE, MIN_REASON, MONITOR_INTERVALS, REVIEW_ROLE,
-  actionState, approveDraft, assessPattern, buildSignals, capacity, completeAction, decideLearning, decideReview,
+  actionState, approveDraft, pendingDependencies, assessPattern, buildSignals, capacity, completeAction, decideLearning, decideReview,
   followThrough, outcome, planFor, receiveInformation, recordMeasures, recordMissingEvidence, reviewAgain,
   type ActorId, type ChallengeId, type PeakState, type ReviewDecision,
 } from "@/lib/peakPressure";
@@ -210,13 +210,18 @@ export function PeakPressureScenario({ state, setState, onRestart }: {
 
         {state.challenge === "capacity" && (
           <div className={`pk-capacity${cover.gap ? "" : " pk-capacity-closed"}`} data-testid="peak-capacity">
-            <p><strong>Preparation capacity:</strong> break cover needs {cover.needed} people; {cover.available} can be released at Harbour Hotel. {cover.gap
-              ? `Gap: ${cover.gap} person. Only a portfolio decision can close it: the Regional Operations Manager and Coastal Resort's General Manager must both approve.`
-              : "Gap closed by the approved portfolio support (simulated)."}</p>
-            {cover.gap > 0 && status === "approved" && !("escalate" in state.done) && (
+            <p><strong>Preparation capacity:</strong> break cover needs {cover.needed} people; with the concierge unavailable, {cover.available} can be released at Harbour Hotel. {cover.gap
+              ? `Gap: ${cover.gap} person, still open.`
+              : "Gap closed: the lent team member's arrival is recorded (simulated)."}</p>
+            <ol className="pk-cover-steps" aria-label="Cross-property cover: authorisation is not execution" data-testid="peak-cover-steps">
+              <li data-done={cover.authorised}><span>Authorised</span>{cover.authorised ? "Both portfolio approvals recorded. This allows the loan; it does not put anyone on the desk." : "Needs the Regional Operations Manager and Coastal Resort's General Manager."}</li>
+              <li data-done={"release" in state.done}><span>Released</span>{"release" in state.done ? `Recorded at Coastal Resort, ${state.done.release} (simulated).` : "Not yet recorded by Coastal Resort."}</li>
+              <li data-done={"arrival" in state.done}><span>In place</span>{"arrival" in state.done ? `Arrival recorded at Harbour Hotel, ${state.done.arrival} (simulated).` : "Arrival not yet recorded. Break cover stays blocked."}</li>
+            </ol>
+            {!cover.authorised && status === "approved" && !("escalate" in state.done) && (
               <p>Record the escalation below to raise the portfolio decision.</p>
             )}
-            {cover.gap > 0 && "escalate" in state.done && (
+            {!cover.authorised && "escalate" in state.done && (
               <a href="#portfolio-coordination" className="pk-link" onClick={event => { event.preventDefault(); navigateTo("/partner-room/product-proof/stage-3-operating-layer#portfolio-coordination"); }}>
                 Go to the portfolio decision on cross-property cover ↓
               </a>
@@ -227,7 +232,7 @@ export function PeakPressureScenario({ state, setState, onRestart }: {
         <ul className="pk-actions" aria-label="Intervention plan">
           {plan.map(action => {
             const current = actionState(state, action);
-            const waitingFor = action.dependsOn.filter(d => d === "approval" ? status !== "approved" : d === "draft" ? !state.draftApproved : d === "capacity" ? cover.gap > 0 : !(d in state.done));
+            const waitingFor = pendingDependencies(state, action);
             return (
               <li key={action.id} className={`pk-action pk-action-${current}`} data-action={action.id} data-state={current}>
                 <div className="pk-action-head">
@@ -259,7 +264,7 @@ export function PeakPressureScenario({ state, setState, onRestart }: {
                 {current === "waiting" && waitingFor.length > 0 && <p className="pk-waiting">Waiting for: {waitingFor.map(d => DEPENDENCY_LABELS[d] ?? d).join(", ")}</p>}
                 {current === "ready" && (
                   <button type="button" className="pk-record" onClick={() => attempt(s => completeAction(s, action.id, action.owner, action.deadline), `Recorded by ${ACTORS[action.owner]} (simulated): ${action.evidence.toLowerCase()}.`)}>
-                    Record as {ACTORS[action.owner].split(" · ")[0]}
+                    Record as {ACTORS[action.owner]}
                   </button>
                 )}
               </li>

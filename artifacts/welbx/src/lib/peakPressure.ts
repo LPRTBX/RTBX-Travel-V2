@@ -97,6 +97,7 @@ export const ACTORS = {
   "housekeeping-lead": "Housekeeping Lead · Harbour Hotel",
   "people-lead": "People & Culture Lead (restricted)",
   "regional-ops": "Regional Operations Manager (portfolio)",
+  "coastal-gm": "General Manager · Coastal Resort",
 } as const;
 export type ActorId = keyof typeof ACTORS;
 
@@ -139,7 +140,10 @@ export interface PeakState {
   review: { status: ReviewStatus; by?: ActorId; reason?: string; reviewInMinutes?: number; requested?: string; history: string[] };
   /** The guest-message draft needs the Duty Manager's approval before its action can finish. It is never sent. */
   draftApproved: boolean;
-  /** Set when the portfolio approves cross-property support (capacity challenge). */
+  /**
+   * Set when both portfolio approvals authorise the cross-property loan (capacity challenge).
+   * Authorisation alone does not close the cover gap: the release and arrival must be recorded.
+   */
   portfolioSupportApproved: boolean;
   done: Record<string, string>;
   measures: MeasureResult[] | null;
@@ -154,25 +158,38 @@ export function initialPeakState(challenge: ChallengeId): PeakState {
   };
 }
 
-/** People available to redistribute to the front desk and break cover, and how many the plan needs. */
+/**
+ * People who can cover the front desk and breaks, and how many the plan needs. In the capacity
+ * challenge the concierge is unavailable, so only the reservations agent can be released locally.
+ * The gap closes only when the lent team member's arrival is recorded, never on approval alone.
+ */
 export function capacity(state: PeakState) {
   const needed = 2;
   const available = state.challenge === "capacity" ? 1 : 2;
-  const gap = Math.max(0, needed - available - (state.portfolioSupportApproved ? 1 : 0));
-  return { needed, available, gap };
+  const lentInPlace = "arrival" in state.done ? 1 : 0;
+  const gap = Math.max(0, needed - available - lentInPlace);
+  return { needed, available, lentInPlace, authorised: state.portfolioSupportApproved, gap };
 }
 
 export function planFor(state: PeakState): ActionItem[] {
   const short = state.challenge === "capacity";
   const plan: ActionItem[] = [
-    { id: "redistribute", title: "Move a reservations agent and the concierge to the front desk for the peak", owner: "fo-supervisor", deadline: "13:45", dependsOn: ["approval"], evidence: "Roster change recorded" },
-    { id: "breaks", title: "Stagger breaks so everyone on shift has one by 15:00, covered by the redistributed staff", owner: "fo-supervisor", deadline: "15:00", dependsOn: ["redistribute", ...(short ? ["capacity"] : [])], evidence: "Count of team members with a recorded break (team total only)" },
+    short
+      ? { id: "redistribute", title: "Move the reservations agent to the front desk for the peak (the concierge is unavailable today)", owner: "fo-supervisor", deadline: "13:45", dependsOn: ["approval"], evidence: "Roster change recorded: 1 person moved" }
+      : { id: "redistribute", title: "Move a reservations agent and the concierge to the front desk for the peak", owner: "fo-supervisor", deadline: "13:45", dependsOn: ["approval"], evidence: "Roster change recorded: 2 people moved" },
+    { id: "breaks", title: short
+      ? "Stagger breaks so everyone on shift has one by 15:00, covered by the reservations agent and the team member lent by Coastal Resort"
+      : "Stagger breaks so everyone on shift has one by 15:00, covered by the redistributed staff", owner: "fo-supervisor", deadline: "15:00", dependsOn: ["redistribute", ...(short ? ["capacity"] : [])], evidence: "Count of team members with a recorded break (team total only)" },
     { id: "expectations", title: "Prepare a message for arriving guests about waits and early bag drop", owner: "guest-services", deadline: "14:00", dependsOn: ["approval", "draft"], evidence: "Draft approved by the Duty Manager and held; it is not sent from the demonstration" },
     { id: "housekeeping", title: "Re-prioritise the task queue for rooms needed by today's arrivals", owner: "housekeeping-lead", deadline: "14:30", dependsOn: ["approval"], evidence: "Queue order snapshot" },
     { id: "support", title: "Make the confidential support contact available to the whole team", owner: "people-lead", deadline: "14:00", dependsOn: ["approval"], evidence: "Offer shared with the team; who uses it is never recorded here" },
   ];
   if (short) {
-    plan.push({ id: "escalate", title: "Escalate the cover gap to the General Manager and request portfolio support", owner: "duty-manager", deadline: "13:50", dependsOn: ["approval"], evidence: "Escalation and portfolio request recorded", conditional: "Needed because break cover is one person short" });
+    plan.push(
+      { id: "escalate", title: "Escalate the cover gap to the General Manager and request portfolio support", owner: "duty-manager", deadline: "13:50", dependsOn: ["approval"], evidence: "Escalation and portfolio request recorded", conditional: "Needed because break cover is one person short" },
+      { id: "release", title: "Release one trained front-office team member to Harbour Hotel for 14:00–16:00", owner: "coastal-gm", deadline: "13:55", dependsOn: ["portfolio"], evidence: "Release time recorded at Coastal Resort, with confirmation that its own cover stays safe", conditional: "Only after both portfolio approvals" },
+      { id: "arrival", title: "Confirm the lent team member has arrived and been briefed at the front desk", owner: "fo-supervisor", deadline: "14:10", dependsOn: ["release"], evidence: "Arrival time recorded at Harbour Hotel; the gap closes only now", conditional: "Cover is in place only once arrival is recorded" },
+    );
   }
   return plan;
 }
@@ -181,6 +198,7 @@ function dependencyMet(state: PeakState, dependency: string) {
   if (dependency === "approval") return state.review.status === "approved";
   if (dependency === "draft") return state.draftApproved;
   if (dependency === "capacity") return capacity(state).gap === 0;
+  if (dependency === "portfolio") return state.portfolioSupportApproved;
   return dependency in state.done;
 }
 
@@ -189,10 +207,17 @@ export function actionState(state: PeakState, action: ActionItem): ActionState {
   return action.dependsOn.every(d => dependencyMet(state, d)) ? "ready" : "waiting";
 }
 
+/** Dependencies of an action that are not yet met. */
+export function pendingDependencies(state: PeakState, action: ActionItem): string[] {
+  return action.dependsOn.filter(d => !dependencyMet(state, d));
+}
+
 export const DEPENDENCY_LABELS: Record<string, string> = {
   approval: "Duty Manager approval",
   draft: "Duty Manager approval of the draft",
-  capacity: "Cover gap closed by portfolio support",
+  capacity: "Cover in place: the lent team member's arrival recorded",
+  portfolio: "Portfolio authorisation (Regional Operations Manager and Coastal Resort's General Manager)",
+  release: "Release recorded at Coastal Resort",
   redistribute: "Staff moved to the front desk",
 };
 
@@ -267,7 +292,7 @@ export function completeAction(state: PeakState, actionId: string, actor: ActorI
   assertRole(actor, action.owner, `record “${action.title}”`);
   const current = actionState(state, action);
   if (current === "done") throw new Error("Already recorded.");
-  if (current === "waiting") throw new Error(`Waiting for: ${action.dependsOn.filter(d => !dependencyMet(state, d)).map(d => DEPENDENCY_LABELS[d] ?? d).join(", ")}.`);
+  if (current === "waiting") throw new Error(`Waiting for: ${pendingDependencies(state, action).map(d => DEPENDENCY_LABELS[d] ?? d).join(", ")}.`);
   return { ...state, done: { ...state.done, [actionId]: at } };
 }
 
@@ -332,6 +357,7 @@ export function portfolioSummary(state: PeakState) {
   if (s === "awaiting-information") outstanding.push("Information requested by the Duty Manager");
   if (s === "approved" && !state.draftApproved) outstanding.push("Duty Manager approval of the guest message draft");
   if (s === "approved" && state.challenge === "capacity" && !state.portfolioSupportApproved) outstanding.push("Portfolio decision on cross-property cover");
+  if (state.portfolioSupportApproved && !("arrival" in state.done)) outstanding.push("Cross-property cover authorised but not yet in place");
   if (state.learning?.status === "proposed") outstanding.push("General Manager decision on the learning proposal");
   return {
     exposure: "1 property under peak pressure · 46 arrivals vs 28 typical · 2 uncovered front-office shifts",

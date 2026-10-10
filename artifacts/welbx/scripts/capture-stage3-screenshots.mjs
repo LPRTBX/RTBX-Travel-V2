@@ -65,6 +65,9 @@ for (const [w, h] of sizes) {
   const portfolio = p.locator("#portfolio-coordination");
   for (const a of ["regional-ops", "gm-coastal"]) { await p.locator("#pc-actor").selectOption(a); await portfolio.getByRole("button", { name: "Approve as selected role" }).click(); }
   await shot("11-portfolio-cover-approved", p.getByTestId("portfolio-response"));
+  await shot("11a-cover-authorised-not-in-place", p.getByTestId("peak-capacity"));
+  for (const id of ["release", "arrival"]) await peak.locator(`[data-action="${id}"]`).getByRole("button", { name: /^Record as / }).click();
+  await shot("11b-cover-in-place-gap-closed", p.getByTestId("peak-capacity"));
   await peak.getByRole("button", { name: "Approve draft as Duty Manager" }).click();
   await recordAll();
   await peak.getByRole("button", { name: "Record follow-up measurements (synthetic)" }).click();
