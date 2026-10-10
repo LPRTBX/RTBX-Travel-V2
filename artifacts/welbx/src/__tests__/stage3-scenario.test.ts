@@ -1,10 +1,11 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
 const source = (path: string) => readFileSync(join(process.cwd(), path), "utf8");
 const preview = source("src/pages/partner-room/PartnerStage3Preview.tsx");
-const scenario = source("src/pages/partner-room/Stage3ScenarioExperience.tsx");
+const experience = source("src/pages/partner-room/Stage3PeakExperience.tsx");
+const scenario = source("src/components/partner-room/PeakPressureScenario.tsx");
 const app = source("src/App.tsx");
 
 describe("Stage 3 scenario boundaries", () => {
@@ -17,19 +18,26 @@ describe("Stage 3 scenario boundaries", () => {
     expect(preview).toContain("Experience Stage 3 · Planned simulation");
   });
 
-  it("labels Enterprise as proposed and prevents decision-free progression", () => {
-    expect(scenario).toContain("Proposed concept · not approved roadmap");
-    expect(scenario).toContain('disabled={step === 3 && decision === null}');
-    expect(scenario).toContain("setDecision(null)");
-    expect(scenario).toContain("No real personal information is stored or shared.");
+  it("replaces the old walkthrough with one connected peak-pressure and portfolio experience", () => {
+    expect(existsSync(join(process.cwd(), "src/pages/partner-room/Stage3ScenarioExperience.tsx"))).toBe(false);
+    expect(preview).toContain("<Stage3PeakExperience />");
+    expect(preview).not.toContain("<PortfolioCoordination");
+    expect(experience).toContain("<PeakPressureScenario");
+    expect(experience).toContain("<PortfolioCoordination peak={");
+    expect(experience).toContain("...portfolioSummary(state)");
   });
 
-  it("keeps both decision outcomes and evidence explicitly simulated", () => {
-    expect(scenario).toContain('decision === "A"');
-    expect(scenario).toContain("Multi-property coordination is a planned Stage 3 capability");
-    expect(scenario).toContain("no revenue or value measured");
-    expect(scenario).toContain("No PMS or task records changed");
-    expect(scenario).toContain("Completed in simulation");
-    expect(scenario).toContain("Unresolved responsibilities");
+  it("separates approval, execution and verified outcome, and keeps everything synthetic and unsent", () => {
+    for (const heading of ["Approval ·", "Execution ·", "Verified outcome ·", "Learning for the next peak period"]) expect(scenario).toContain(heading);
+    expect(scenario).toContain("Approval allows these actions; it does not complete them.");
+    expect(scenario).toContain("A result that was not measured stays unconfirmed.");
+    expect(scenario).toContain("<strong>Synthetic data.</strong>");
+    expect(scenario).toContain("held, not sent");
+    expect(scenario).toContain("This is not a diagnosis and it is not about any individual.");
+    expect(scenario).toContain("support details stay with the People &amp; Culture Lead");
+  });
+
+  it("never labels or diagnoses a person in the visible copy", () => {
+    expect(scenario).not.toMatch(/\b(burn(ed|t)?[- ]?out|stress(ed)?|anxious|depress|exhaust|fatigu|diagnosed|at[- ]risk (employee|staff))\b/i);
   });
 });

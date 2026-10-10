@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   CAPABILITY_LABELS, MIN_RETURN_REASON, PORTFOLIO_ACTORS, PORTFOLIO_EXCEPTIONS, PORTFOLIO_PROPERTIES,
   actorLabel, decideException, newExceptionRecord, pendingApprovers,
-  type CapabilityStatus, type ExceptionRecord,
+  type CapabilityStatus, type ExceptionRecord, type PortfolioException,
 } from "@/lib/portfolioCoordination";
 import { usePartnerRoomNavigate } from "@/components/PartnerRoomLayout";
 import "./portfolio-coordination.css";
@@ -28,8 +28,21 @@ const CAPABILITIES: Array<{ status: CapabilityStatus; items: string[] }> = [
 
 const KIND_LABELS = { pattern: "Repeated pattern", authority: "Beyond local authority", welfare: "Restricted · stays local" } as const;
 
-export function PortfolioCoordination() {
+/** What the Stage 3 peak-pressure scenario shares with the portfolio: aggregates and decisions only. */
+export interface PeakPortfolioLink {
+  exposure: string;
+  response: string;
+  outstanding: string[];
+  /** Present while the scenario needs cross-property cover. */
+  extraException?: PortfolioException;
+  /** Changes each time the scenario restarts, so a decision from an earlier run never carries over. */
+  runKey?: string;
+  onExceptionApproved?: (exceptionId: string) => void;
+}
+
+export function PortfolioCoordination({ peak }: { peak?: PeakPortfolioLink }) {
   const navigateTo = usePartnerRoomNavigate();
+  const exceptions = peak?.extraException ? [peak.extraException, ...PORTFOLIO_EXCEPTIONS] : PORTFOLIO_EXCEPTIONS;
   const [selectedId, setSelectedId] = useState(PORTFOLIO_EXCEPTIONS[0].id);
   const [actorId, setActorId] = useState("regional-ops");
   const [reason, setReason] = useState("");
@@ -37,19 +50,28 @@ export function PortfolioCoordination() {
   const [records, setRecords] = useState<Record<string, ExceptionRecord>>(
     () => Object.fromEntries(PORTFOLIO_EXCEPTIONS.map(ex => [ex.id, newExceptionRecord(ex.id)])),
   );
-  const exception = PORTFOLIO_EXCEPTIONS.find(ex => ex.id === selectedId)!;
-  const record = records[selectedId];
+  const extraId = peak?.extraException?.id;
+  const recordKey = (id: string) => id === extraId ? `${id}@${peak?.runKey ?? ""}` : id;
+  const recordFor = (id: string) => records[recordKey(id)] ?? newExceptionRecord(id);
+  const exception = exceptions.find(ex => ex.id === selectedId) ?? exceptions[0];
+  const record = recordFor(exception.id);
   const pending = pendingApprovers(exception, record);
+
+  // A newly raised scenario exception is selected so the decision is in front of the reader.
+  useEffect(() => {
+    if (extraId) { setSelectedId(extraId); setMessage(null); setReason(""); }
+  }, [extraId, peak?.runKey]);
 
   const act = (action: "approve" | "return") => {
     try {
       const next = decideException(exception, record, actorId, action, reason);
-      setRecords(prev => ({ ...prev, [selectedId]: next }));
+      setRecords(prev => ({ ...prev, [recordKey(exception.id)]: next }));
+      if (next.status === "approved") peak?.onExceptionApproved?.(exception.id);
       setReason("");
       setMessage({ tone: "done", text: action === "return"
         ? `Returned by ${actorLabel(actorId)}. Nothing proceeds; the properties keep their cases.`
         : next.status === "approved"
-          ? `Approved by ${actorLabel(actorId)}. All required approvals are recorded (simulated); nothing was sent.`
+          ? `Approved by ${actorLabel(actorId)}. All required approvals are recorded (simulated); nothing was sent.${exception.afterApproval ? ` ${exception.afterApproval}` : ""}`
           : `Approval recorded for ${actorLabel(actorId)}. Still needed: ${pendingApprovers(exception, next).map(actorLabel).join(", ")}.` });
     } catch (error) {
       setMessage({ tone: "refused", text: error instanceof Error ? error.message : String(error) });
@@ -69,6 +91,18 @@ export function PortfolioCoordination() {
         <strong>Synthetic data.</strong> Every property, person, case and count below is fictional. No system is connected and nothing is sent.
       </p>
 
+      {peak && (
+        <div className="pc-aggregate" data-testid="portfolio-aggregate" aria-label="Portfolio view of the peak-pressure case">
+          <h3>Peak pressure across the portfolio · aggregate only</h3>
+          <dl>
+            <div><dt>Operational exposure</dt><dd>{peak.exposure}</dd></div>
+            <div><dt>Response status</dt><dd>{peak.response}</dd></div>
+            <div><dt>Outstanding decisions</dt><dd>{peak.outstanding.length ? <ul>{peak.outstanding.map(item => <li key={item}>{item}</li>)}</ul> : "None"}</dd></div>
+          </dl>
+          <p>The portfolio sees counts and decisions only. No team member is named, and personal support details never leave the restricted role.</p>
+        </div>
+      )}
+
       <ul className="pc-properties" aria-label="Properties in the portfolio">
         {PORTFOLIO_PROPERTIES.map(property => {
           const involved = exception.propertyIds.includes(property.id);
@@ -78,6 +112,9 @@ export function PortfolioCoordination() {
               <p className="pc-meta">{property.type} · {property.size}</p>
               <p className="pc-authority"><span>Decides locally:</span> {property.localAuthority}</p>
               <ul className="pc-cases">
+                {peak && property.id === "harbour" && (
+                  <li><strong>Peak-period team pressure</strong><span>{actorLabel("dm-harbour")} · {peak.response}</span></li>
+                )}
                 {property.cases.map(item => (
                   <li key={item.title}><strong>{item.title}</strong><span>{actorLabel(item.ownerId)} · {item.state}</span></li>
                 ))}
@@ -92,12 +129,12 @@ export function PortfolioCoordination() {
         <div className="pc-exceptions">
           <h3>Portfolio exceptions</h3>
           <ul aria-label="Portfolio exceptions">
-            {PORTFOLIO_EXCEPTIONS.map(item => (
+            {exceptions.map(item => (
               <li key={item.id}>
-                <button type="button" aria-pressed={item.id === selectedId} onClick={() => select(item.id)} className="pc-exception">
+                <button type="button" aria-pressed={item.id === exception.id} onClick={() => select(item.id)} className="pc-exception">
                   <span className={`pc-kind pc-kind-${item.kind}`}>{KIND_LABELS[item.kind]}</span>
                   <span className="pc-exception-title">{item.title}</span>
-                  <span className="pc-exception-status">{statusText(records[item.id], item.kind)}</span>
+                  <span className="pc-exception-status">{statusText(recordFor(item.id), item.kind)}</span>
                 </button>
               </li>
             ))}

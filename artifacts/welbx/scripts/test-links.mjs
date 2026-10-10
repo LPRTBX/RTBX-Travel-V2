@@ -84,6 +84,7 @@ const APPROVED_HASHES = new Set([
   "who-we-serve",
   // Phase 4: Stage 3 portfolio, Integration Brief security, pilot scope, Calculator value section
   "portfolio-coordination",
+  "peak-pressure",
   "security-data",
   "pilot-scope",
   "value-title",
