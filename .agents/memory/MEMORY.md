@@ -6,6 +6,8 @@
 - [Sprint 3 data model decisions](sprint3-data-model.md) — legacy scenario fields preserved; canonical S3 fields added alongside; travelPlaybooks.ts and travelRoles.ts are new; playbooks.ts untouched
 - [Sprint 5 data model decisions](sprint5-data-model.md) — 4 new data files, CommercialStatus/IntegrationMaturity type guards, marketplace always expansion-only, connector-ready excluded by type
 - [Responsive table containment](responsive-table-containment.md) — wide tables need inline-size containment on local scrollers or min-content sizing can still widen mobile pages
+- [Browser QA runtime](browser-qa-runtime.md) — use Replit's supplied Chromium on Nix; a successful upstream browser download does not guarantee it can launch.
+- [GitHub Git transport](github-git-transport.md) — authenticated CLI API access can coexist with failing origin push credentials; verify remote preservation before switching.
 - [Proof-claim audits](proof-claim-audits.md) — audit every active partner-reachable route and rendered data source; primary-page disclaimers alone do not resolve contradictory claims.
 - [Scenario ownership boundaries](scenario-ownership-boundaries.md) — Library explores, Build & Configure validates/activates, and only the Execution Centre runs scenarios.
 - [Authorised decision gate](authorised-decision-gate.md) — approval role, disagreement, escalation acknowledgement and per-scenario requirements are enforced in the engine; use the decision functions.

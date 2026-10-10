@@ -36,7 +36,9 @@ if (!base) {
   await waitForServer(base);
 }
 
-const browser = await chromium.launch();
+// CI uses Playwright's installed browser; Nix/Replit can select the preinstalled
+// compatible Chromium without changing app dependencies or system configuration.
+const browser = await chromium.launch({ executablePath: process.env.PLAYWRIGHT_EXECUTABLE_PATH || undefined });
 const results = [];
 
 // UI_WIDTH=390|820|1440 reruns every check that is not already tied to a width at that width.
@@ -1124,6 +1126,91 @@ for (const viewport of [{ width: 390, height: 844 }, { width: 820, height: 1180 
     const origin = new URL(page.url()).host;
     const unexpected = requests.filter(r => r.method !== "GET" || r.body || !(new URL(r.url).host === origin || /^fonts\.(googleapis|gstatic)\.com$/.test(new URL(r.url).host) || r.url.startsWith("blob:") || r.url.startsWith("data:")));
     assert(unexpected.length === 0, `unexpected requests: ${unexpected.slice(0, 3).map(r => `${r.method} ${r.url}`).join(", ")}`);
+  });
+}
+
+// The retained guest-disruption scenario is independent of the reviewed staffing
+// case. UI_WIDTH repeats these acceptance paths at each CI/requested viewport.
+for (const choice of ["network", "local"]) {
+  await check(`Stage 3 retained Portfolio disruption ${choice}, gates and reset isolation`, { width: 1440, height: 900 }, async (page, errors) => {
+    await open(page, "/partner-room/product-proof/stage-3-operating-layer");
+    const peak = page.locator("#peak-pressure");
+    const pd = page.locator("#portfolio-disruption");
+    const switchPeak = () => page.getByTestId("scenario-peak-pressure").click();
+    const switchPortfolio = () => page.getByTestId("scenario-portfolio-disruption").click();
+    assert(await page.getByTestId("scenario-peak-pressure").getAttribute("aria-pressed") === "true", "peak pressure is not the default");
+    await peak.getByTestId("peak-approval").getByLabel("Act as").selectOption("duty-manager");
+    await peak.getByRole("button", { name: "Approve the intervention" }).click();
+    await switchPortfolio();
+    assert(/24 bookings \/ 48 guests/.test(await pd.innerText()), "guest-disruption scope missing");
+    await page.getByTestId("pd-next").click();
+    assert(await page.getByTestId("pd-next").isDisabled(), "choose gate bypassed");
+    await page.getByTestId(`pd-choice-${choice}`).focus();
+    await page.keyboard.press("Enter");
+    assert(await page.getByTestId(`pd-choice-${choice}`).getAttribute("aria-pressed") === "true", "keyboard choice did not select");
+    assert(await page.getByTestId(`pd-choice-${choice}`).evaluate(el => el === document.activeElement), "choice render lost keyboard focus");
+    assert((await pd.innerText()).includes(choice === "network" ? "A$950" : "A$360"), "initial cost missing");
+    await page.getByTestId("pd-next").click();
+    await page.getByTestId("pd-confirm-harbour").check();
+    await switchPeak();
+    assert(/Approved/.test(await peak.locator('[data-stage="approval"]').innerText()), "portfolio switch reset peak approval");
+    await switchPortfolio();
+    assert(await page.getByTestId("pd-confirm-harbour").isChecked(), "switch reset portfolio confirmation");
+    await page.getByTestId("pd-reset").click();
+    await switchPeak();
+    assert(/Approved/.test(await peak.locator('[data-stage="approval"]').innerText()), "portfolio reset reset peak approval");
+    await switchPortfolio();
+    await page.getByTestId("pd-next").click();
+    await page.getByTestId(`pd-choice-${choice}`).click();
+    await page.getByTestId("pd-next").click();
+    const owners = choice === "network" ? ["harbour", "city", "park", "transport", "guests"] : ["harbour", "housekeeping", "guests"];
+    for (const id of owners.filter(id => id !== "guests")) {
+      assert(await page.getByTestId("pd-next").isDisabled(), "missing initial owner failed to hold");
+      await page.getByTestId(`pd-confirm-${id}`).check();
+    }
+    assert(await page.getByTestId("pd-next").isDisabled(), "missing guest agreement failed to hold");
+    await page.getByTestId("pd-confirm-guests").focus();
+    await page.keyboard.press("Space");
+    await page.getByTestId("pd-next").click();
+    assert(/withdraws 4 rooms/.test(await pd.innerText()) && /audit only/.test(await pd.innerText()), "capacity revision/audit missing");
+    assert(await page.getByTestId("pd-next").isDisabled(), "old approvals carried into revision");
+    await page.getByTestId(`pd-replan-${choice}`).click();
+    await page.getByTestId("pd-reconfirm-harbour").check();
+    await page.getByTestId(`pd-replan-${choice === "network" ? "local" : "network"}`).click();
+    await page.getByTestId(`pd-replan-${choice}`).click();
+    assert(!(await page.getByTestId("pd-reconfirm-harbour").isChecked()), "replan did not withdraw approval");
+    for (const id of owners) {
+      assert(await page.getByTestId("pd-next").isDisabled(), "missing renewed confirmation failed to hold");
+      await page.getByTestId(`pd-reconfirm-${id}`).check();
+    }
+    await page.getByTestId("pd-next").click();
+    const receipts = await pd.innerText();
+    assert(choice === "network" ? /10 checked in after 45 min; 20 guests transported/.test(receipts) && /13 checked in after 90 min/.test(receipts) : /23 checked in after 90 min/.test(receipts), "wrong branch receipts");
+    assert(/OPEN: Alex/.test(receipts) && /Unreviewed/.test(receipts), "missing unresolved/unreviewed receipt");
+    await switchPeak();
+    await peak.getByRole("group", { name: "Choose a path through the scenario" }).getByRole("button", { name: /Standard run/ }).click();
+    await switchPortfolio();
+    assert(/Synthetic receipts for the revised plan/.test(await pd.innerText()), "peak reset reset portfolio");
+    assert(await page.getByTestId("pd-next").isDisabled(), "unreviewed receipts accepted");
+    await page.getByTestId("pd-receipt-review").check();
+    assert(await page.getByTestId("pd-next").isDisabled(), "missing follow-up owner accepted");
+    await page.getByTestId("pd-followup").check();
+    await page.getByTestId("pd-next").click();
+    const result = await pd.innerText();
+    assert(/23 of 24/.test(result) && /46 confirmed guests/.test(result), "unconfirmed outcome counted as success");
+    assert(result.includes(choice === "network" ? "3240 vs 4140, 900 fewer" : "4140 vs 4140, 0 fewer"), "wrong paired waiting result");
+    assert(/no cash ROI/.test(result) && /OPEN: one booking remains with Alex/.test(result), "ROI or unresolved boundary missing");
+    assert(/Trial approval pending/.test(result), "trial automatically approved");
+    await page.getByTestId("pd-trial-group").check();
+    assert(/Limited next-disruption trial authorised/.test(await pd.innerText()), "limited learning decision not reflected");
+    await page.getByRole("button", { name: "Explore today · Working Proof", exact: true }).click();
+    const today = page.getByRole("region", { name: "Explore today" });
+    assert(await today.locator('a[href="/partner-room/guest-demo"]').count() === 1, "guest link changed");
+    assert(await today.getByRole("link", { name: "Open the current Working Proof →", exact: true }).count() === 1, "working proof link changed");
+    await page.getByRole("button", { name: "Experience Stage 3 · Planned simulation", exact: true }).click();
+    assert(/23 of 24/.test(await pd.innerText()), "today toggle lost outcome continuity");
+    await noHorizontalScroll(page, forcedWidth || 1440);
+    assert(errors.length === 0, `browser errors: ${errors.join("; ")}`);
   });
 }
 

@@ -79,7 +79,7 @@ export default function PartnerStage3Preview() {
             JALDO Stage 3 · Connected scenario
           </h1>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.45)", lineHeight: 1.8, maxWidth: 720, marginBottom: 24 }}>
-            Compare today’s working demonstration with the planned Stage 3 simulation: a peak-period team-pressure case at one property, decided by its accountable manager and coordinated across a synthetic portfolio.
+            Compare today’s working demonstration with two fictional Travel scenarios: peak-period team pressure and a Portfolio disruption. Safety intervention starts earlier; Stage 3 extends coordination and reviewed learning across properties.
           </p>
 
           {/* Disclaimer */}
@@ -92,7 +92,7 @@ export default function PartnerStage3Preview() {
             marginBottom: 12,
           }}>
             <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.4)", lineHeight: 1.7, margin: 0 }}>
-              Stage 3 is planned. All people, properties, signals, decisions, assignments, notifications, outcomes and metrics here are simulated. No live integration, message, task, partner request, room allocation or private-support action occurs. Enterprise is a proposed concept, not approved roadmap scope.
+              Stage 3 is planned. All people, properties, signals, decisions, assignments, notifications, outcomes and metrics here are simulated. No live integration, message, task, partner request, room allocation or private-support action occurs.
             </p>
           </div>
 
@@ -117,7 +117,7 @@ export default function PartnerStage3Preview() {
           </button>
         </div>
 
-        {view === "today" ? (
+        {view === "today" && (
           <section aria-label="Explore today" style={{ border: "1px solid rgba(201,168,76,0.3)", padding: 24, marginBottom: 48, background: "rgba(201,168,76,0.04)" }}>
             <h2 style={{ fontSize: 22, color: "#fff", margin: "0 0 12px" }}>Explore today · unchanged Working Proof</h2>
             <p style={{ color: "rgba(255,255,255,0.72)", lineHeight: 1.7, maxWidth: 760 }}>The existing JALDO Travel demonstration remains available at its original routes. It uses synthetic inputs and local interface state only; no external actions are dispatched.</p>
@@ -126,7 +126,8 @@ export default function PartnerStage3Preview() {
               <Link href={WORKING_PROOF_PATH} style={{ color: "#c9a84c", padding: "12px 16px", border: "1px solid rgba(201,168,76,0.5)" }}>Open the current Working Proof →</Link>
             </div>
           </section>
-        ) : (
+        )}
+        <div hidden={view !== "stage3"}>
           <>
             <Stage3PeakExperience />
             <details style={{ marginTop: 48 }}>
@@ -355,7 +356,7 @@ export default function PartnerStage3Preview() {
 
             </details>
           </>
-        )}
+        </div>
       </div>
     </PartnerRoomLayout>
   );

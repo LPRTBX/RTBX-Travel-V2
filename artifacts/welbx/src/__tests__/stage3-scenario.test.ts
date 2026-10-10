@@ -40,4 +40,20 @@ describe("Stage 3 scenario boundaries", () => {
   it("never labels or diagnoses a person in the visible copy", () => {
     expect(scenario).not.toMatch(/\b(burn(ed|t)?[- ]?out|stress(ed)?|anxious|depress|exhaust|fatigu|diagnosed|at[- ]risk (employee|staff))\b/i);
   });
+
+  it("keeps the retained guest-disruption scenario separate and mounted without resurrecting the old shell", () => {
+    const portfolio = source("src/components/partner-room/PortfolioDisruptionScenario.tsx");
+    expect(experience).toContain('useState<"peak" | "portfolio">("peak")');
+    expect(experience).toContain('data-testid="scenario-portfolio-disruption"');
+    expect(experience).toContain('hidden={scenario !== "peak"}');
+    expect(experience).toContain('hidden={scenario !== "portfolio"}');
+    expect(experience).toContain("<PortfolioDisruptionScenario />");
+    expect(portfolio).toContain("useReducer(portfolioReducer, undefined, initialPortfolio)");
+    expect(portfolio).not.toContain("setState");
+    expect(portfolio).not.toMatch(/fetch\(|localStorage|sessionStorage/);
+    expect(existsSync(join(process.cwd(), "src/pages/partner-room/stage3-scenario.css"))).toBe(false);
+    expect(preview).toContain('hidden={view !== "stage3"}');
+    expect(portfolio).toContain("OPEN: one booking remains with Alex");
+    expect(portfolio).toContain("no cash ROI is claimed");
+  });
 });
