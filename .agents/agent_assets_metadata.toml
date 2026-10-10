@@ -1,0 +1,30 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "JqKwpAitvVgpnyI4YOnOS"
+uri = "file://generated-artifacts/reconciliation/stage3-combined-preview.jpg"
+type = "image"
+title = "Combined Stage 3 preview — Peak pressure"
+description = "Running preview showing both scenario choices. Not the published build."
+logical_id = "a90776c9-5dfb-4812-9657-2cf0a0b315e8"
+content_hash = "sha256:709b53d2facc4c544040501eb1bba4d9b130770315625ab0bd463d2fef2f0676"
+size = 146594
+mtime_ms = 1791596124267
+storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:557c817c-5b57-4f89-853f-727501b877fb/a90776c9-5dfb-4812-9657-2cf0a0b315e8/2ca6e4b2-1e83-45a1-bc7b-5aff90dcf629"
+storage_version_token = "1791596959169217"
+content_type = "image/jpeg"
+
+[[outputs]]
+id = "sSrUO2KE88TQHovv459mo"
+uri = "file://generated-artifacts/reconciliation/portfolio-disruption-1440.jpg"
+type = "image"
+title = "Combined Stage 3 preview — Portfolio disruption"
+description = "Separately selectable fictional Portfolio scenario. Both views also captured at 390 and 820px; images excluded from Git and publishing."
+logical_id = "39a4e77f-6c1d-4fef-8d3d-7ad25891b7d8"
+content_hash = "sha256:3cd8dd519066417ebd23f400e07e95463a57140d4530e4e36b7b7986f918d8be"
+size = 158667
+mtime_ms = 1791596403871
+storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:557c817c-5b57-4f89-853f-727501b877fb/39a4e77f-6c1d-4fef-8d3d-7ad25891b7d8/105305fb-2783-47e7-8fa4-c95ae2c3d277"
+storage_version_token = "1791596959990786"
+content_type = "image/jpeg"

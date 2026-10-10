@@ -50,3 +50,4 @@ Thumbs.db
 
 # Local simulation output
 simulation-results/
+/generated-artifacts/
