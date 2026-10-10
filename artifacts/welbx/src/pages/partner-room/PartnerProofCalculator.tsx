@@ -3,6 +3,8 @@ import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 import { calculateTravelValue, getValueTierIssues, DEFAULT_VALUE_ASSUMPTIONS, type TravelValueAssumptions, type MomentKind, type ValueTier } from "@/lib/travelValueModel";
 import { INTERACTION_BASIS_LABELS } from "@/lib/travelGuestJourney";
 import { NumberField } from "@/components/NumberField";
+import { usePilotScope } from "@/context/PilotScopeContext";
+import { usePartnerRoomNavigate } from "@/components/PartnerRoomLayout";
 import "./proof-calculator.css";
 
 const number = (n: number) => Math.round(n).toLocaleString();
@@ -29,6 +31,8 @@ export default function PartnerProofCalculator() {
   // financial estimate is paused; figures that do not use the tiers still update.
   const tierIssues = getValueTierIssues(a);
   const estimatePaused = tierIssues.length > 0;
+  const { value: scopeValue, setValue: setScopeValue } = usePilotScope();
+  const navigateTo = usePartnerRoomNavigate();
   const result = calculateTravelValue(estimatePaused
     ? { ...a, moments: a.moments.map(m => tierIssues.some(issue => issue.kind === m.kind) ? { ...m, value: { low: 0, base: 0, high: 0 } } : m) }
     : a);
@@ -162,6 +166,18 @@ export default function PartnerProofCalculator() {
       {!estimatePaused && costNote}
       <p>Exclude labour costs already included in prevention/recovery value tiers. The overlap allowance is a planning adjustment, not proof of deduplication. This is not an accounting profit forecast: attribution, avoided costs, actual cash savings and complete programme costs still need pilot evidence. Welfare, safety and guest satisfaction remain separate outcomes.</p>
     </section>
-    <section className="travel-value-section travel-value-close"><h2>Turn assumptions into a named pilot.</h2><p>Baseline moment volumes and outcomes, record who authorised each response, compare the result with existing practice, and review unique-event evidence. Use those findings to replace the assumptions and configure the next cycle.</p></section>
+    <section className="travel-value-section travel-value-close"><h2>Turn assumptions into a named pilot.</h2><p>Baseline moment volumes and outcomes, record who authorised each response, compare the result with existing practice, and review unique-event evidence. Use those findings to replace the assumptions and configure the next cycle.</p>
+      <div className="travel-value-scope" data-testid="calculator-to-scope">
+        {estimatePaused
+          ? <p role="note">Fix the value ranges above before using these assumptions in a pilot scope.</p>
+          : <>
+              <button type="button" onClick={() => {
+                setScopeValue({ sites: a.sites, roomsPerSite: a.roomsPerSite, lowMonthly: result.bottomLine.low, baseMonthly: result.bottomLine.base, highMonthly: result.bottomLine.high, costIncluded });
+                navigateTo("/partner-room/pilot-model#pilot-scope");
+              }}>Use in pilot scope →</button>
+              <p>Carries the sites, rooms and net monthly impact hypothesis (low / base / high) into the pilot scope for this session. They stay modelled assumptions, not a forecast.{scopeValue ? " A previous set of assumptions is already in the scope and will be replaced." : ""}</p>
+            </>}
+      </div>
+    </section>
   </main></PartnerRoomLayout>;
 }

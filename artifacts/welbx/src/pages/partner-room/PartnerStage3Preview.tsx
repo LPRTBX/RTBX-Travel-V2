@@ -3,6 +3,7 @@ import { Link } from "wouter";
 import { WORKING_PROOF_PATH } from "@/lib/proofLanguage";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 import Stage3ScenarioExperience from "./Stage3ScenarioExperience";
+import { PortfolioCoordination } from "@/components/partner-room/PortfolioCoordination";
 
 
 const SITES = [
@@ -129,6 +130,7 @@ export default function PartnerStage3Preview() {
         ) : (
           <>
             <Stage3ScenarioExperience />
+            <PortfolioCoordination />
             <details style={{ marginTop: 48 }}>
               <summary style={{ cursor: "pointer", color: "#c9a84c", fontSize: 14, fontWeight: 700, padding: "16px 0" }}>Explore the documented Travel roadmap reference · illustrative only</summary>
               <p style={{ color: "rgba(255,255,255,0.65)", lineHeight: 1.7 }}>This reference is a simulated future-state model, not current delivery. Marketplace and loyalty concepts are expansion-only. Enterprise workplace risk and private support are proposed concepts, not approved Travel roadmap capabilities.</p>

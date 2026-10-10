@@ -7,6 +7,7 @@ import { PartnerContentProvider } from "@/context/PartnerContentContext";
 import { PartnerAccessGate } from "@/components/PartnerAccessGate";
 import { DeploymentProvider } from "@/context/DeploymentContext";
 import { RunSessionProvider } from "@/context/RunSessionContext";
+import { PilotScopeProvider } from "@/context/PilotScopeContext";
 
 // ── Public routes ─────────────────────────────────────────────────────────────
 import Landing from "@/pages/Landing";
@@ -184,6 +185,7 @@ function App() {
       <TooltipProvider>
         <DeploymentProvider>
           <RunSessionProvider>
+          <PilotScopeProvider>
           <PartnerContentProvider>
             <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
               <div className="rtbx-readable-content">
@@ -194,6 +196,7 @@ function App() {
             </WouterRouter>
             <Toaster />
           </PartnerContentProvider>
+          </PilotScopeProvider>
           </RunSessionProvider>
         </DeploymentProvider>
       </TooltipProvider>
