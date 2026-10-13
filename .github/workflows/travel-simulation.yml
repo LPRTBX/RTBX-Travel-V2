@@ -86,6 +86,12 @@ jobs:
           if [ -f artifacts/welbx/simulation-results/hotel-learning-challenges-summary.md ]; then
             cat artifacts/welbx/simulation-results/hotel-learning-challenges-summary.md >> "$GITHUB_STEP_SUMMARY"
           fi
+          if [ -f artifacts/welbx/simulation-results/travel-pressure-summary.md ]; then
+            cat artifacts/welbx/simulation-results/travel-pressure-summary.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+          if [ -f artifacts/welbx/simulation-results/travel-pressure-learning-report.md ]; then
+            cat artifacts/welbx/simulation-results/travel-pressure-learning-report.md >> "$GITHUB_STEP_SUMMARY"
+          fi
       - name: Retain evidence, including failed runs
         if: always()
         uses: actions/upload-artifact@v4
