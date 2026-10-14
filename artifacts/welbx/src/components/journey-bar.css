@@ -8,6 +8,11 @@
 .journey-progress-dots li.done { background: rgba(168, 222, 219, 0.5); }
 .journey-progress-dots li.current { background: #a8dedb; }
 .journey-progress-next { margin-left: auto; color: #fff; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; display: inline-flex; align-items: center; min-height: 32px; }
+.journey-step-picker { width: 100%; }
+.journey-step-picker summary { cursor: pointer; color: #a8dedb; padding: 8px 0; font-weight: 700; }
+.journey-step-picker ol { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 8px; list-style: none; margin: 4px 0 12px; padding: 0; }
+.journey-step-picker a { display: block; padding: 12px; color: #fff; line-height: 1.5; border: 1px solid rgba(168, 222, 219, .25); overflow-wrap: anywhere; }
+.journey-step-picker summary:focus-visible { outline: 3px solid #ed9b66; outline-offset: 3px; }
 .journey-next { border-top: 1px solid rgba(168, 222, 219, 0.2); margin-top: 24px; }
 .journey-next-inner { max-width: 1280px; margin: 0 auto; padding: 24px 20px 32px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 10px; }
 .journey-next-link { display: flex; flex-direction: column; gap: 4px; padding: 16px 18px; min-height: 44px; border: 1px solid rgba(255, 255, 255, 0.14); color: #fff; font-size: 16px; font-weight: 800; text-decoration: none; }

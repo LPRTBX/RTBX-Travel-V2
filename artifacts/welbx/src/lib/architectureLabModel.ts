@@ -96,11 +96,12 @@ export function buildArchitectureNodes(id: ArchitectureScenarioId, hotelCase: Ho
     {
       id: "moment", stage: "Understand", label: "Moment classification",
       text: scenario.momentClassification,
-      details: [scenario.trigger.description, scenario.trigger.threshold || "", scenario.context.riskOrOpportunity, scenario.context.confidence || ""].filter(Boolean),
+      details: [scenario.trigger.description, scenario.trigger.threshold || "", scenario.context.riskOrOpportunity,
+        `Rules-based classification, not live AI inference. Illustrative confidence: ${scenario.context.confidence?.match(/\d+%/)?.[0] ?? "not assessed"}. This is a fictional fixture, not a measured probability.`].filter(Boolean),
     },
     {
       id: "governance", stage: "Decide", label: "Governance mapper",
-      text: "Policy → rule → permission → authority.",
+      text: "Check the rules and who may decide.",
       details: [
         ...scenario.governanceConfig.sources.map(x => `Source · ${x}`),
         ...scenario.governanceConfig.rules.map(x => `Rule · ${x}`),
@@ -118,7 +119,9 @@ export function buildArchitectureNodes(id: ArchitectureScenarioId, hotelCase: Ho
     },
     {
       id: "authority", stage: "Act", label: "Human authority",
-      text: `${roleLabel(execution.accountableRoleId)} remains accountable.`,
+      text: execution.approvalRequired
+        ? `${roleLabel(execution.approvalRoleId)} approval required; ${roleLabel(execution.accountableRoleId)} owns the response.`
+        : `${roleLabel(execution.accountableRoleId)} decides within delegated authority.`,
       details: [`Accountable · ${roleLabel(execution.accountableRoleId)}`, `Supporting · ${scenario.rolesConfig.supportingRoleIds.map(roleLabel).join(", ")}`, `Authority · ${execution.approvalRequired ? `${roleLabel(execution.approvalRoleId)} approval ${hotelCase.approved ? "given (scripted test actor)" : "pending"}` : `${roleLabel(execution.accountableRoleId)} decides within delegated authority`}`, "AI / rules may propose; they do not authorise a real response."],
     },
     {
