@@ -23,10 +23,13 @@
 
 ## Production release condition
 
-Production currently has `TRAVEL_PARTNER_ACCESS_PAUSED=true`. Keep this production-only
-setting until the publishing configuration is verified; preview access is unchanged.
-Publishing with this setting keeps the public overview/sample available but denies
-partner entry, private pages, bundles and downloads, including existing sessions.
+The owner confirmed **maximum machines = 1** in Publishing. Production is now
+configured with `TRAVEL_PARTNER_ACCESS_PAUSED=false`; existing credentials are retained.
+This machine limit is owner-confirmed, not independently exposed by deployment metadata.
+If the limit becomes unverified or multiple machines are enabled, set the production-only
+pause to `true` until shared access-state storage is implemented. Publishing with the
+pause enabled keeps the public overview/sample available but denies partner entry,
+private pages, bundles and downloads, including existing sessions.
 Updating production environment settings does not change the already-running published
 build until it is republished.
 
