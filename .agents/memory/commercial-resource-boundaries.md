@@ -14,3 +14,9 @@ Verify cookie attributes in the actual managed preview and separately after any 
 **Why:** The managed HTTPS preview browser received the Partner Room entry and session cookies with `SameSite=None`, although the server specified `Strict`. `Secure` and `HttpOnly` remained present, and actual entry/logout checks passed.
 
 **How to apply:** Retain the stricter server setting and independent CSRF checks. Report the observed preview difference without assuming published cookies behave identically. Never print cookie values or access codes while inspecting attributes.
+
+Secret-form confirmation is not proof that an existing secret was replaced with the user's intended value. A successful test using the saved secret verifies that saved value only.
+
+**Why:** The user reported that the value in Secrets differed from their intended code even after secure-form confirmations and successful configured-secret entry tests.
+
+**How to apply:** Explicitly request replacement rather than confirmation when a mismatch is reported. Do not claim the saved secret matches a code from chat or reproduce either value. Keep preview partner access paused during the secure update, then test the saved value and distinguish preview from publication.
