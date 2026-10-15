@@ -98,6 +98,10 @@ export function createTravelServer({ access = createAccess({ getPaused: () => pr
           url.searchParams.get("reason") === "expired" ? "Your partner session has ended. Enter your access code again." : "");
       }
       if (path === "/healthz") return send(200, '{"ok":true}', "application/json");
+      // Legacy JALDO Main links used the Partner Room home as the public entry.
+      // Anonymous arrivals see the public overview, never the protected SPA.
+      // Invited deep links still show the code gate; approved sessions keep home.
+      if (!session && (path === "/partner-room" || path === "/partner-room/")) return redirect("/");
       // Closed-by-default boundary BEFORE any static lookup or SPA fallback.
       // This includes old bookmarks, aliases, JS/CSS chunks, documents, downloads,
       // source-map guesses, Vite source paths and all unclassified asset names.

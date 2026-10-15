@@ -30,6 +30,15 @@
 images/favicon are public. The old `opengraph.jpg` Partner Room screenshot is
 protected, not a public marketing image. No public page imports the partner application.
 
+**Legacy public arrival:** JALDO Main still links to the old `/partner-room`
+home on the deployment alias. Anonymous requests to that exact home (with or
+without a trailing slash) redirect to `/`, the public overview; they receive
+no Partner Room content. Approved sessions keep the Partner Room home. Update
+JALDO Main separately to link directly to `https://travel.wearejaldo.com/`
+and use `/public-demo` for a public sample link, removing its obsolete
+"Requires Partner Room access code" label for the public overview/sample.
+This exception does not apply to invited deep pages or downloads.
+
 **Protected:** every other address before any filesystem lookup or SPA fallback.
 This includes all registered `/partner-room/*` pages/resources, the original
 `/story`, `/story/operator`, `/story/guest`, all `/travel-*` aliases, the eight

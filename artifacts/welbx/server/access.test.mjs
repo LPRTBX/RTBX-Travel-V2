@@ -101,16 +101,23 @@ test("HTTP boundary: public demo, all old routes, assets/downloads, wrong code, 
     const routes = [...app.matchAll(/(?:path:\s*|path=)["']([^"']+)["']/g)].map(match => match[1].replace(":scenarioId", "sample")).filter(path => path !== "/");
     for (const path of new Set([...routes, "/partner-room/resources/travel-business-plan", "/opengraph.jpg", "/assets/partner.js", "/brief.pdf", "/index.html", "/src/main.tsx", "/@fs/etc/passwd", "/unknown-old-bookmark"])) {
       const result = await get(path);
-      assert.equal(result.status, 401, path);
+      assert.equal(result.status, path === "/partner-room" ? 303 : 401, path);
+      if (path === "/partner-room") assert.equal(result.headers.get("location"), "/");
       assert.ok(!(await result.text()).includes("TEST PROTECTED"), path);
       assert.match(result.headers.get("cache-control"), /no-store/);
     }
+    const legacyHome = await get("/partner-room/");
+    assert.equal(legacyHome.status, 303);
+    assert.equal(legacyHome.headers.get("location"), "/");
     const entry = async value => {
       const screen = await get("/partner-access?returnTo=/partner-room/architecture-lab");
       const text = await screen.text();
       const csrf = text.match(/name="csrf" value="([^"]+)"/)[1];
       return get("/partner-auth", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded", Cookie: `${CSRF_COOKIE}=${csrf}` }, body: new URLSearchParams({ csrf, code: value, returnTo: "/partner-room/architecture-lab" }) });
     };
+    const empty = await entry("");
+    assert.equal(empty.status, 401);
+    assert.match(await empty.text(), /Incorrect access code/);
     const bad = await entry(fixture());
     assert.equal(bad.status, 401);
     assert.match(await bad.text(), /Incorrect access code/);
@@ -130,7 +137,7 @@ test("HTTP boundary: public demo, all old routes, assets/downloads, wrong code, 
     assert.equal((await get("/assets/partner.js", { headers: { Cookie: sessionCookie } })).status, 401);
     assert.equal((await get("/partner-auth", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded", "sec-fetch-site": "cross-site" }, body: "" })).status, 403);
     assert.equal((await get("/request-partner-access")).headers.get("location"), "/#contact");
-    for (let i = 0; i < 3; i++) assert.equal((await entry(fixture())).status, 401);
+    for (let i = 0; i < 2; i++) assert.equal((await entry(fixture())).status, 401);
     const limited = await entry(fixture());
     assert.equal(limited.status, 429);
     assert.equal(limited.headers.get("retry-after"), "900");
@@ -145,7 +152,7 @@ test("unconfigured server never sends partner HTML or assets", async () => {
   const base = `http://127.0.0.1:${server.address().port}`;
   try {
     assert.equal((await fetch(base + "/")).status, 200);
-    const result = await fetch(base + "/partner-room");
+    const result = await fetch(base + "/partner-room/architecture-lab");
     assert.equal(result.status, 503);
     const body = await result.text();
     assert.match(body, /awaiting secure setup/);

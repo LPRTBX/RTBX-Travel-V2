@@ -26,6 +26,13 @@ try {
     assert(await page.locator("h1").isVisible(), "public introduction missing");
     assert(!requests.some(path => path.startsWith("/assets/") || path.startsWith("/src/")), "public page loaded partner code");
     assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `public overflow at ${width}`);
+    // JALDO Main currently links to this legacy home instead of the public root.
+    await page.goto(base + "/partner-room", { waitUntil: "networkidle" });
+    assert(new URL(page.url()).pathname === "/", "legacy public arrival did not reach the overview");
+    assert(await page.locator("h1").isVisible(), "legacy arrival lost the public overview");
+    assert(await page.locator('a[href="https://wearejaldo.com"]').count() > 0, "return to JALDO Main missing");
+    await page.locator('a[href="/partner-access"]').first().click();
+    assert(await page.getByRole("heading", { name: "Partner Room access" }).isVisible(), "public Partner Room link bypassed or missed gate");
     await page.goto(base + "/public-demo", { waitUntil: "networkidle" });
     await page.getByRole("button", { name: "Acknowledge the delay" }).click();
     await page.getByRole("button", { name: "Offer luggage storage" }).click();
@@ -33,6 +40,13 @@ try {
     assert(/Bags delivered/.test(await page.locator("#panel").innerText()), "sample choice did not affect result");
     await page.getByRole("button", { name: "Start again" }).click();
     assert(/Acknowledge the delay/.test(await page.locator("#panel").innerText()), "sample reset failed");
+    await page.getByRole("button", { name: "Acknowledge the delay" }).click();
+    await page.getByRole("button", { name: "Offer a wait-time update" }).click();
+    await page.getByRole("button", { name: "Go back", exact: true }).click();
+    await page.getByRole("button", { name: "Offer a wait-time update" }).click();
+    await page.getByRole("button", { name: "Approve (sample)", exact: true }).click();
+    assert(/keys are waiting/.test(await page.locator("#panel").innerText()), "wait-time choice or review back failed");
+    await page.getByRole("button", { name: "Start again" }).click();
     assert((await page.request.get(base + bundle)).status() === 401, "anonymous partner bundle allowed");
     assert((await page.request.get(base + "/partner-room/brief.pdf")).status() === 401, "anonymous document allowed");
     await page.goto(base + "/partner-room/architecture-lab", { waitUntil: "networkidle" });
