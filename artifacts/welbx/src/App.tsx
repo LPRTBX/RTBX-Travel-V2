@@ -167,9 +167,7 @@ function Router() {
         {PARTNER_ROUTES.map(({ path, component: Component }) => (
           <Route key={path} path={path}>
             {() => (
-              <PartnerAccessGate>
                 <Component />
-              </PartnerAccessGate>
             )}
           </Route>
         ))}
@@ -190,7 +188,7 @@ function App() {
             <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
               <div className="rtbx-readable-content">
                 <div className="min-h-[100dvh] bg-background">
-                  <Router />
+                  <PartnerAccessGate><Router /></PartnerAccessGate>
                 </div>
               </div>
             </WouterRouter>

@@ -49,8 +49,17 @@ jobs:
       - name: Run tests
         run: pnpm --filter @workspace/rtbx-travel run test
 
+      - name: Test server access boundary
+        run: pnpm --filter @workspace/rtbx-travel run test:server-access
+
+      - name: Production build
+        run: pnpm --filter @workspace/rtbx-travel run build
+
       - name: Install Playwright Chromium
         run: pnpm --filter @workspace/rtbx-travel exec playwright install --with-deps chromium
+
+      - name: Test public and partner browser boundary
+        run: pnpm --filter @workspace/rtbx-travel run test:partner-browser
 
       - name: UI regressions
         run: pnpm --filter @workspace/rtbx-travel run test:ui
@@ -77,5 +86,3 @@ jobs:
       - name: Check assets
         run: pnpm --filter @workspace/rtbx-travel run check:assets
 
-      - name: Production build
-        run: pnpm --filter @workspace/rtbx-travel run build

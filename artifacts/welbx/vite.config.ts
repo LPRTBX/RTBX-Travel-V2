@@ -10,6 +10,8 @@ const basePath = process.env.BASE_PATH ?? "/";
 
 export default defineConfig({
   base: basePath,
+  // No VITE_* secret can accidentally enter the partner or public browser build.
+  envPrefix: "JALDO_PUBLIC_",
   plugins: [
     react(),
     tailwindcss(),

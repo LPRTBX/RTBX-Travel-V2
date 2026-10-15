@@ -11,4 +11,4 @@
 - [Proof-claim audits](proof-claim-audits.md) — audit every active partner-reachable route and rendered data source; primary-page disclaimers alone do not resolve contradictory claims.
 - [Scenario ownership boundaries](scenario-ownership-boundaries.md) — Library explores, Build & Configure validates/activates, and only the Execution Centre runs scenarios.
 - [Authorised decision gate](authorised-decision-gate.md) — approval role, disagreement, escalation acknowledgement and per-scenario requirements are enforced in the engine; use the decision functions.
-- [Commercial resource boundaries](commercial-resource-boundaries.md) — client-side gates are not confidentiality; restricted material must be absent from routes, imports, and bundles.
+- [Commercial resource boundaries](commercial-resource-boundaries.md) — public sample is separate; partner pages/assets/downloads require server entry, never static or unguarded Vite serving.

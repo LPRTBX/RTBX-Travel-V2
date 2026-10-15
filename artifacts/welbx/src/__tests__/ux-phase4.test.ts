@@ -85,7 +85,7 @@ describe("Security and data claims", () => {
     expect(VERIFICATION_SCOPE).toMatch(/including whether Google Fonts is the only one/);
   });
 
-  it("supporting evidence: the app's own source makes no network calls", () => {
+  it("supporting evidence: network calls are confined to session verification", () => {
     const sources = (dir: string): string[] => readdirSync(dir).flatMap(name => {
       const full = join(dir, name);
       if (statSync(full).isDirectory()) return name === "__tests__" ? [] : sources(full);
@@ -93,7 +93,10 @@ describe("Security and data claims", () => {
     });
     const calls = /\bfetch\s*\(|new\s+XMLHttpRequest\b|new\s+WebSocket\b|new\s+EventSource\b|\.sendBeacon\s*\(/;
     const offenders = sources(join(process.cwd(), "src")).filter(file => calls.test(readFileSync(file, "utf8")));
-    expect(offenders).toEqual([]);
+    expect(offenders.every(file => file.endsWith("/components/PartnerAccessGate.tsx"))).toBe(true);
+    const sessionUi = readFileSync(join(process.cwd(), "src/components/PartnerAccessGate.tsx"), "utf8");
+    expect(sessionUi.match(/fetch\s*\(/g)).toHaveLength(1);
+    expect(sessionUi).toContain('fetch("/partner-session"');
   });
 });
 

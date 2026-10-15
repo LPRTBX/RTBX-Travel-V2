@@ -11,20 +11,24 @@ version = "1.0.0"
 
 [[services]]
 name = "web"
-paths = [ "/" ]
+paths = ["/"]
 localPort = 23549
 
 [services.development]
 run = "pnpm --filter @workspace/rtbx-travel run dev"
 
 [services.production]
-build = [ "pnpm", "--filter", "@workspace/rtbx-travel", "run", "build" ]
-publicDir = "artifacts/welbx/dist/public"
-serve = "static"
+build = ["pnpm", "--filter", "@workspace/rtbx-travel", "run", "build"]
 
-[[services.production.rewrites]]
-from = "/*"
-to = "/index.html"
+[services.production.run]
+args = ["node", "artifacts/welbx/server/start.mjs"]
+
+[services.production.run.env]
+PORT = "23549"
+NODE_ENV = "production"
+
+[services.production.health.startup]
+path = "/healthz"
 
 [services.env]
 PORT = "23549"

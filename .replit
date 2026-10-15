@@ -27,3 +27,8 @@ timeoutMs = 20000
 
 [nix]
 channel = "stable-25_05"
+
+[userenv]
+
+[userenv.development]
+TRAVEL_PARTNER_ACCESS_PAUSED = "true"

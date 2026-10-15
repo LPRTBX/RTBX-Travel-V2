@@ -4,9 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite --config vite.config.ts --host 0.0.0.0",
+    "dev": "pnpm run build && node server/start.mjs",
     "build": "node scripts/check-access-boundaries.mjs && vite build --config vite.config.ts && node scripts/check-bundle-boundaries.mjs",
-    "serve": "vite preview --config vite.config.ts --host 0.0.0.0",
+    "serve": "node server/start.mjs",
+    "test:server-access": "node --test server/access.test.mjs",
+    "test:partner-browser": "node scripts/test-partner-browser.mjs",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
     "test:routes": "node scripts/test-routes.mjs",

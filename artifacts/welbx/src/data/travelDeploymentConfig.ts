@@ -5,7 +5,7 @@
  * All data is local synthetic demonstration data — not a production customer
  * environment and not connected to any live system.
  *
- * Sprint 4. Persisted via DeploymentContext → localStorage.
+ * Sprint 4. Held in DeploymentContext page memory; never browser-persisted.
  */
 
 // ── Status & Maturity types ────────────────────────────────────────────────────

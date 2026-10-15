@@ -22,7 +22,8 @@ const files = walk(dist);
 const searchableFiles = files.filter(path => /\.(?:js|css|html|json|txt|map)$/i.test(path));
 const bundleText = searchableFiles.map(path => readFileSync(path, "utf8")).join("\n");
 const fileNames = files.join("\n");
-// Public marketing imagery only; keep every other unclassified asset blocked.
+// Approved build inputs. The server separately classifies retrieval;
+// opengraph.jpg is an old Partner Room screenshot and is protected.
 const approvedNonTextAssets = new Set(["favicon.svg", "opengraph.jpg",
   "brand/jaldo-logo-white.webp",
   "images/travel/arrival-hero.webp",
