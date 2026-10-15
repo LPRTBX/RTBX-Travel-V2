@@ -21,6 +21,29 @@
   configuration starts the access-checking Node server and has no static
   public-directory handler.
 
+## Production release condition
+
+Production currently has `TRAVEL_PARTNER_ACCESS_PAUSED=true`. Keep this production-only
+setting until the publishing configuration is verified; preview access is unchanged.
+Publishing with this setting keeps the public overview/sample available but denies
+partner entry, private pages, bundles and downloads, including existing sessions.
+Updating production environment settings does not change the already-running published
+build until it is republished.
+
+The available deployment metadata identifies Autoscale but does not expose or
+allow changing its maximum machine count. In **Publishing → Adjust settings →
+Machine configuration**, the owner must set and verify **maximum machines = 1**
+before setting the production pause to `false` and republishing with partner access.
+Do not interpret one running preview process as proof of production configuration.
+If multiple machines are needed, implement shared sessions, one-use entry challenges,
+revocation and atomic guessing limits before lifting the pause; a shared cookie
+signing secret alone is not sufficient.
+
+Manage invitations through **Tools → Secrets → TRAVEL_PARTNER_ACCESS_CODE**;
+production-specific overrides are under **Publishing → Adjust settings →
+Production app secrets**. Retain the working value unless deliberately rotating it.
+Never copy it into source, browser storage, public pages or diagnostic output.
+
 ## Complete entry-point classification
 
 **Public:** `/` (concise introduction / benefits / contact), `/public-demo`

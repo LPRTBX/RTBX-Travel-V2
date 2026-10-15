@@ -32,3 +32,6 @@ channel = "stable-25_05"
 
 [userenv.development]
 TRAVEL_PARTNER_ACCESS_PAUSED = "false"
+
+[userenv.production]
+TRAVEL_PARTNER_ACCESS_PAUSED = "true"
