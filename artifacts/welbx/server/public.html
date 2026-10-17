@@ -53,6 +53,37 @@ nav .partner{border-bottom:1px solid #f8f6f170}
 .note{font-size:12.5px;color:#d3e0e3;margin:18px 0 0;max-width:520px}
 section{scroll-margin-top:12px}
 .band{padding-block:88px}
+/* coordinated response */
+.cr{background:var(--paper);border-bottom:1px solid var(--line)}
+.cr-head{display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:end}
+.q{margin:0;font-size:clamp(20px,2.2vw,26px);font-weight:600;letter-spacing:-.02em;line-height:1.35;color:var(--navy);border-left:3px solid var(--orange);padding-left:18px}
+.q span{display:block}
+.flow{list-style:none;padding:0;margin:40px 0 0;display:grid;grid-template-columns:1fr 1.5fr 1fr;gap:0;border:1px solid var(--line)}
+.flow>li{padding:26px 24px;position:relative}
+.flow>li+li{border-left:1px solid var(--line)}
+.flow .st{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--teal)}
+.flow>li:nth-child(1){background:#fbeee4}.flow>li:nth-child(1) .st{color:#8a4518}
+.flow>li:nth-child(3){background:#e3f2f1}
+.flow h3{margin:6px 0 12px}
+.flow ul{margin:0;padding:0;list-style:none}
+.flow ul li{font-size:14px;color:var(--muted);padding:7px 0;border-top:1px solid var(--line)}
+.flow ul li b{color:var(--navy)}
+.roles{display:grid;grid-template-columns:1fr;gap:0}
+.priv-note{margin-top:14px;padding:12px 14px;background:var(--navy);color:#e3ecec;font-size:13.5px}
+.priv-note b{color:var(--mist)}
+.ben{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:28px;border-top:1px solid var(--line)}
+.ben div{padding:18px 18px 0 0}
+.ben b{display:block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal)}
+.ben p{font-size:14px;margin:6px 0 0}
+.cr details{margin-top:24px;border-top:1px solid var(--line);padding-top:6px}
+.cr summary{cursor:pointer;font-weight:600;min-height:44px;display:flex;align-items:center;font-size:15px}
+.cr details p,.cr details li{font-size:14.5px;color:var(--muted)}
+.proof{list-style:none;padding:0;margin:8px 0 0;display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.proof a{display:block;min-height:44px;padding:14px 16px;background:var(--navy);color:#f8f6f1;text-decoration:none;font-size:14px;font-weight:600;border-left:3px solid var(--orange)}
+.proof a span{display:block;font-weight:400;font-size:12.5px;color:#cfdde0}
+.proof a:hover{background:var(--teal)}
+@media(max-width:900px){.cr-head,.flow,.proof{grid-template-columns:1fr}.flow>li+li{border-left:0;border-top:1px solid var(--line)}.ben{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.ben{grid-template-columns:1fr}}
 /* who / problem */
 .split{display:grid;grid-template-columns:1fr 1.1fr;gap:72px;align-items:start}
 .who{list-style:none;padding:0;margin:28px 0 0;display:flex;flex-wrap:wrap;gap:8px}
@@ -182,12 +213,66 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
       <span class="tag">Public overview</span>
       <p class="eyebrow">JALDO Travel / Hospitality coordination</p>
       <h1 id="h1">Exceptional stays.<br><span>Intelligently<br>coordinated.</span></h1>
-      <p class="intro">Connect guest needs, team decisions and follow-through. Give the people behind every stay a clearer next step.</p>
+      <p class="intro">When several things go wrong at once, give every team a clear priority—and the GM a clear view of what needs a decision.</p>
       <div class="actions">
-        <a class="btn btn-light" href="#loop">See how it works <span class="arr" aria-hidden="true">&rarr;</span></a>
+        <a class="btn btn-light" href="#coordinated-response">See the coordinated response <span class="arr" aria-hidden="true">&rarr;</span></a>
         <a class="btn btn-ghost" href="/public-demo">Try the fictional sample <span class="arr" aria-hidden="true">&rarr;</span></a>
       </div>
       <p class="note">Today this is synthetic working proof and a proposed pilot, not a live deployment. Commercial and deeper materials sit in the Partner Room, by invitation.</p>
+    </div>
+  </section>
+
+  <section id="coordinated-response" class="cr band" aria-labelledby="cr-h">
+    <div class="wrap">
+      <div class="cr-head">
+        <div>
+          <p class="eyebrow">The coordinated response</p>
+          <h2 id="cr-h">Friday, 4pm.<br>Everything at once.</h2>
+          <p class="lede">60 guests arrive early. 20 rooms are not ready. Two lifts are unavailable. Housekeeping is stretched, and a team member is asking for support.</p>
+          <span class="label">Illustrative composite. Not an executable scenario, live integration or customer result.</span>
+        </div>
+        <p class="q"><span>Who owns it?</span><span>What is still open?</span><span>What shows it is resolved?</span></p>
+      </div>
+      <ol class="flow" aria-label="From situation to checked recovery">
+        <li><span class="st">1 &middot; Situation</span><h3>Pressure arrives together</h3>
+          <ul><li>Arrivals ahead of rooms</li><li>Lifts out, access affected</li><li>Capacity thin, one person needs help</li></ul></li>
+        <li><span class="st">2 &middot; Accountable roles</span><h3>Each team holds one clear priority</h3>
+          <ul class="roles">
+            <li><b>Front Office</b> &middot; guest updates</li>
+            <li><b>Housekeeping</b> &middot; room readiness and capacity</li>
+            <li><b>Maintenance</b> &middot; lift faults and work status</li>
+            <li><b>GM</b> &middot; unresolved priorities and exception authority</li>
+            <li><b>Group Operations</b> &middot; support, only with availability and authority</li>
+          </ul>
+          <p class="priv-note"><b>Restricted, private support.</b> The team member's request is handled separately by an authorised person. No private staff details appear in broad role views.</p></li>
+        <li><span class="st">3 &middot; Checked recovery</span><h3>Recovery is confirmed, not assumed</h3>
+          <ul><li>Rooms released when inspected</li><li>Lift faults closed only after repair and safety checks</li><li>Anything unconfirmed stays visibly open</li></ul></li>
+      </ol>
+      <div class="ben" aria-label="Who benefits">
+        <div><b>Teams</b><p>Know their next action.</p></div>
+        <div><b>GM</b><p>Sees ownership, what is overdue and what needs a decision.</p></div>
+        <div><b>Owner</b><p>Sees a controlled recovery, with evidence.</p></div>
+        <div><b>Group</b><p>Sees where support is genuinely needed.</p></div>
+      </div>
+      <p class="fict">Intended outcomes must be checked by people. Nothing is resolved automatically.</p>
+      <details>
+        <summary>What is proven, planned and still to be validated</summary>
+        <ul>
+          <li><b>Working synthetic proof:</b> the single-property coordination loop on fictional data.</li>
+          <li><b>Planned Stage 3:</b> cross-property coordination. Safety intervention starts earlier; Stage 3 extends coordination and reviewed learning.</li>
+          <li><b>Still required:</b> live validation in a bounded pilot. No live PMS connections today.</li>
+        </ul>
+        <p>Hotels lead. The same pattern could later suit resorts, holiday parks, venues, destinations and corporate travel. Repeatable deployment means reusing validated mappings, playbooks and configuration only after systems access, integration testing and site readiness, not an instant setup.</p>
+      </details>
+      <details>
+        <summary>See existing proof in the Partner Room (access code required)</summary>
+        <ul class="proof">
+          <li><a href="/partner-access?returnTo=%2Fpartner-room%2Farchitecture-lab">Architecture Lab<span>How the layers fit together</span></a></li>
+          <li><a href="/partner-access?returnTo=%2Fpartner-room%2Fproduct-proof%2Fstage-3-operating-layer%3Fscenario%3Dpeak">Stage 3: peak pressure<span>Planned simulation</span></a></li>
+          <li><a href="/partner-access?returnTo=%2Fpartner-room%2Fproduct-proof%2Fstage-3-operating-layer%3Fscenario%3Dportfolio">Stage 3: portfolio disruption<span>Planned simulation</span></a></li>
+        </ul>
+        <p>Existing playbooks, communications and operations views are shown there as gated, synthetic proof only.</p>
+      </details>
     </div>
   </section>
 

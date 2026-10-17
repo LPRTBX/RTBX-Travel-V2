@@ -15,6 +15,9 @@ const browser = await chromium.launch({ executablePath: process.env.PLAYWRIGHT_E
 try {
   const html = await readFile(new URL("../dist/public/index.html", import.meta.url), "utf8");
   const bundle = html.match(/src="([^"]+\.js)"/)[1];
+  const journeySource = await readFile(new URL("../src/data/partnerJourney.ts", import.meta.url), "utf8");
+  const guidedPaths = [...journeySource.split("export const GUIDED_ROUTE")[1].split("];")[0].matchAll(/path: "([^"]+)"/g)].map(match => match[1]);
+  assert(guidedPaths.length === 8, "eight-step journey changed unexpectedly");
   for (const width of [390, 820, 1440]) {
     const context = await browser.newContext({ viewport: { width, height: 950 } });
     const page = await context.newPage();
@@ -26,6 +29,28 @@ try {
     assert(await page.locator("h1").isVisible(), "public introduction missing");
     assert(!requests.some(path => path.startsWith("/assets/") || path.startsWith("/src/")), "public page loaded partner code");
     assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `public overflow at ${width}`);
+    assert(await page.locator(".intro").innerText() === "When several things go wrong at once, give every team a clear priority—and the GM a clear view of what needs a decision.", "approved supporting promise changed");
+    const responseLink = page.getByRole("link", { name: "See the coordinated response" });
+    await responseLink.focus();
+    await page.keyboard.press("Enter");
+    assert(new URL(page.url()).hash === "#coordinated-response", "primary CTA did not reach public explanation");
+    const story = page.locator("#coordinated-response");
+    assert(await story.isVisible(), "public pressure explanation missing");
+    assert(/illustrative composite/i.test(await story.innerText()), "composite boundary missing");
+    assert(await story.locator(".roles li").count() === 5, "accountable roles missing");
+    const disclosures = story.locator("details");
+    for (const detail of await disclosures.all()) {
+      await detail.locator("summary").focus();
+      await page.keyboard.press("Enter");
+      assert(await detail.getAttribute("open") !== null, "public details not keyboard accessible");
+    }
+    for (const link of await story.locator('a[href^="/partner-access?"]').all()) {
+      const target = new URL(await link.getAttribute("href"), base);
+      assert((await page.request.get(base + target.searchParams.get("returnTo"))).status() === 401, "public proof link target bypassed access gate");
+    }
+    for (const href of await page.locator('a[href^="#"]').evaluateAll(links => links.map(link => link.getAttribute("href")))) {
+      assert(await page.locator(href).count() === 1, `public anchor missing: ${href}`);
+    }
     // JALDO Main currently links to this legacy home instead of the public root.
     await page.goto(base + "/partner-room", { waitUntil: "networkidle" });
     assert(new URL(page.url()).pathname === "/", "legacy public arrival did not reach the overview");
@@ -63,6 +88,16 @@ try {
     assert(await page.getByRole("button", { name: "Leave Partner Room" }).count() === 1, "logout duplicated or missing");
     assert((await page.request.get(base + bundle)).status() === 200, "approved bundle blocked");
     assert(await page.evaluate(() => localStorage.length === 0 && sessionStorage.length === 0), "partner credential/content persisted in storage");
+    await page.goto(base + "/partner-room", { waitUntil: "networkidle" });
+    assert(await page.getByRole("heading", { name: "Pressure → accountable action → checked recovery" }).isVisible(), "public-to-partner narrative continuity missing");
+    assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `partner entry overflow at ${width}`);
+    if (width === 820) {
+      for (const path of guidedPaths) {
+        await page.goto(base + path, { waitUntil: "networkidle" });
+        await page.getByTestId("journey-progress").waitFor();
+        assert(await page.getByRole("button", { name: "Leave Partner Room" }).count() === 1, `journey destination failed: ${path}`);
+      }
+    }
     await page.goto(base + "/partner-room/product-proof/stage-3-operating-layer?scenario=portfolio", { waitUntil: "networkidle" });
     await page.locator("#portfolio-disruption").waitFor();
     assert(await page.locator("#portfolio-disruption").isVisible(), "portfolio path lost");

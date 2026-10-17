@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "wouter";
+import { PressureProofEntry } from "@/components/partner-room/PressureProofEntry";
 import { PartnerRoomLayout, schedulePartnerRoomHashScroll } from "@/components/PartnerRoomLayout";
 import { GuidedRoute, OperatingLoop, WhoWeServe } from "@/components/partner-room/StartJourney";
 import { usePartnerContent } from "@/context/PartnerContentContext";
@@ -243,6 +244,8 @@ export default function PartnerRoomLanding() {
         <p style={{ fontSize: 13, color: "rgba(255,255,255,0.28)", lineHeight: 1.6, maxWidth: 560, marginBottom: 28, letterSpacing: "0.01em" }}>
           JALDO Travel is powered by JALDO Core — the same signal-to-action infrastructure across every travel and hospitality environment.
         </p>
+
+        <PressureProofEntry />
 
         {/* Operating platform statement */}
         <div style={{ padding: "16px 20px", background: "rgba(168,222,219,0.06)", border: "1px solid rgba(168,222,219,0.22)", borderLeft: "3px solid #a8dedb", maxWidth: 700, marginBottom: 24 }}>
