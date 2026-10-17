@@ -39,6 +39,13 @@ export default function PartnerValidation() {
 
         <Link href="/partner-room/operations?view=simulation" style={{ display: "block", padding: "24px", marginBottom: 24, border: "1px solid #81bcb8", background: "#20474e", borderRadius: 8, color: "#d2eee9" }}><strong style={{ fontSize: 20 }}>Simulation Lab →</strong><p style={{ fontSize: 13, marginTop: 8 }}>Choose a scenario, adjust signal volume and inspect decisions, escalations and evidence in the Execution Centre.</p></Link>
 
+        <section id="evidence-status" aria-labelledby="evidence-status-heading" style={{ padding: 24, marginBottom: 24, border: "1px solid #617f88", borderRadius: 8, background: "#12323e", color: "#d4e1e5", scrollMarginTop: 100 }}>
+          <h2 id="evidence-status-heading" style={{ fontSize: 24, color: "#fff", marginTop: 0 }}>Evidence and pilot validation</h2>
+          <p style={{ lineHeight: 1.7 }}>Current working proof uses fictional hotel scenarios and synthetic evidence. It demonstrates workflow behaviour, not a customer deployment, verified operational outcomes or production readiness. Modelled costs and waiting-time comparisons are not verified cash ROI.</p>
+          <p style={{ lineHeight: 1.7 }}>A bounded pilot needs an agreed property and scope, systems permission, integration testing, site readiness and measures agreed with the operator. Validate live delivery and outcomes before relying on them.</p>
+          <p style={{ lineHeight: 1.7 }}>Missing receipts or measurements remain unconfirmed. People retain agreed and delegated authority; exceptions require the configured approval. Learning proposals require review, and testing a proposal does not deploy it.</p>
+        </section>
+
         {/* Working Proof */}
         <div style={{ marginBottom: 24 }}>
           <Link href="/partner-room/guest-demo">

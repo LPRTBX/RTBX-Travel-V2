@@ -149,17 +149,8 @@ section{scroll-margin-top:12px}
 .msg small{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
 .choices{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
 .disclaimer{font-size:12.5px;margin-top:24px;color:var(--muted)}
-/* honesty */
-.honest-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:40px;border:1px solid var(--line)}
-.col{padding:28px 26px}
-.col+.col{border-left:1px solid var(--line)}
-.col .st{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
-.col.today{background:#e3f2f1}.col.today .st{color:var(--teal)}
-.col.next .st{color:#8a4518}
-.col.not{background:#f2f1ea}.col.not .st{color:var(--muted)}
-.col ul{margin:14px 0 0;padding-left:18px;font-size:14.5px;color:var(--muted)}
-.col li{margin:8px 0}
-.rules{display:grid;grid-template-columns:1fr 1fr;gap:20px 48px;margin-top:44px}
+/* response principles */
+.rules{display:grid;grid-template-columns:1fr 1fr;gap:20px 48px;margin:0 0 40px}
 .rules div{border-top:1px solid var(--line);padding-top:18px}
 .rules p{font-size:14.5px;margin:8px 0 0}
 /* private / contact */
@@ -201,7 +192,7 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
     <a href="#loop">How it works</a>
     <a href="#examples">Examples</a>
     <a href="/public-demo">Sample demo</a>
-    <a href="#status">What is proven</a>
+    <a href="#principles">Built for control</a>
     <a href="#contact">Contact</a>
     <a class="partner" href="/partner-access">Partner Room (access code required)</a>
   </nav>
@@ -377,11 +368,18 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
 
   <section id="sample-demo" class="demo" aria-labelledby="demo-h">
     <div class="wrap">
+      <div id="principles" class="rules" role="group" aria-label="Built for control">
+        <div><h3>Your people retain authority</h3><p>Named owners act within agreed authority, with approval for exceptions where required.</p></div>
+        <div><h3>Capacity is checked before commitments</h3><p>Staff, rooms and support availability shape the response.</p></div>
+        <div><h3>Completion needs evidence</h3><p>Missing receipts or measurements stay unconfirmed.</p></div>
+        <div><h3>Improvements are reviewed before use</h3><p>Review a proposed change before testing it; a replay does not deploy it.</p></div>
+      </div>
       <div class="demo-head">
         <div><p class="eyebrow">Sample demo</p><h2 id="demo-h">The room is not ready yet.</h2></div>
         <span class="label">Fictional sample only</span>
       </div>
-      <p>A short, made-up story. Choose what happens. Nothing is sent, booked or recorded.</p>
+      <p>Illustrative demonstration using fictional hotel scenarios. Live integrations and operational outcomes are validated through an agreed pilot.</p>
+      <p>Choose what happens. Nothing is sent, booked or recorded. <a href="/partner-access?returnTo=%2Fpartner-room%2Fvalidation%23evidence-status">Evidence and pilot validation (Partner Room — access code required)</a></p>
       <div class="stage">
         <ol class="steps" id="steps" aria-label="Sample demo progress">
           <li><span class="dot">1</span>Acknowledge</li>
@@ -397,22 +395,6 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
           <p class="disclaimer">Sample guest "Alex" and "Harbour Lane Hotel" are invented. No real guest, property, booking or action is involved.</p>
         </div>
       </div>
-    </div>
-  </section>
-
-  <section id="status" class="band wrap" aria-labelledby="status-h">
-    <p class="eyebrow">What is proven, and what is not</p>
-    <h2 id="status-h">Honest about where this stands.</h2>
-    <div class="honest-grid">
-      <div class="col today"><span class="st">Today</span><h3>Synthetic working proof</h3><ul><li>The coordination loop working on fictional, synthetic hotel scenarios.</li><li>This public overview and sample.</li></ul></div>
-      <div class="col next"><span class="st">Proposed</span><h3>A bounded pilot</h3><ul><li>One property or a small group, agreed scope and duration.</li><li>Integrations only with permission, validated before use.</li><li>Measures agreed upfront with your team.</li></ul></div>
-      <div class="col not"><span class="st">Not claimed</span><h3>No delivery proof yet</h3><ul><li>No customer deployment.</li><li>No verified operational outcomes.</li><li>No cash ROI proof.</li></ul></div>
-    </div>
-    <div class="rules">
-      <div><h3>People keep judgement</h3><p>Every guest-facing or operational action is decided by a named team member.</p></div>
-      <div><h3>Approval is not capacity</h3><p>A human approval alone cannot guarantee staff, rooms or delivery. The loop surfaces that, it does not hide it.</p></div>
-      <div><h3>Unconfirmed stays unconfirmed</h3><p>If receipt or measurement is missing, it is shown as unconfirmed, not assumed done.</p></div>
-      <div><h3>Learning is reviewed</h3><p>Suggested improvements are reviewed by people and never deployed automatically.</p></div>
     </div>
   </section>
 

@@ -27,6 +27,12 @@ try {
     page.on("request", req => requests.push(new URL(req.url()).pathname));
     await page.goto(base, { waitUntil: "networkidle" });
     assert(await page.locator("h1").isVisible(), "public introduction missing");
+    assert(await page.locator(".honest-grid, #status").count() === 0, "removed public proof-status block returned");
+    assert((await page.locator("#sample-demo").innerText()).includes("Illustrative demonstration using fictional hotel scenarios. Live integrations and operational outcomes are validated through an agreed pilot."), "concise demonstration note missing");
+    for (const title of ["Your people retain authority", "Capacity is checked before commitments", "Completion needs evidence", "Improvements are reviewed before use"]) {
+      assert(await page.getByRole("heading", { name: title, exact: true }).count() === 1, `response principle missing: ${title}`);
+    }
+    assert((await page.request.get(base + "/partner-room/validation")).status() === 401, "validation details exposed anonymously");
     assert(!requests.some(path => path.startsWith("/assets/") || path.startsWith("/src/")), "public page loaded partner code");
     assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `public overflow at ${width}`);
     assert(await page.locator(".intro").innerText() === "When several things go wrong at once, give every team a clear priority—and the GM a clear view of what needs a decision.", "approved supporting promise changed");
@@ -92,6 +98,8 @@ try {
     assert(await page.getByRole("heading", { name: "Pressure → accountable action → checked recovery" }).isVisible(), "public-to-partner narrative continuity missing");
     assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `partner entry overflow at ${width}`);
     if (width === 820) {
+      await page.goto(base + "/partner-room/validation#evidence-status", { waitUntil: "networkidle" });
+      assert(await page.getByRole("heading", { name: "Evidence and pilot validation", exact: true }).isVisible(), "gated evidence status missing");
       for (const path of guidedPaths) {
         await page.goto(base + path, { waitUntil: "networkidle" });
         await page.getByTestId("journey-progress").waitFor();
