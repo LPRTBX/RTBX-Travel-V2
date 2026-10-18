@@ -39,6 +39,7 @@ try {
     const responseLink = page.getByRole("link", { name: "See the coordinated response" });
     await responseLink.focus();
     await page.keyboard.press("Enter");
+    await page.waitForURL(url => url.hash === "#coordinated-response");
     assert(new URL(page.url()).hash === "#coordinated-response", "primary CTA did not reach public explanation");
     const story = page.locator("#coordinated-response");
     assert(await story.isVisible(), "public pressure explanation missing");
@@ -57,6 +58,51 @@ try {
     for (const href of await page.locator('a[href^="#"]').evaluateAll(links => links.map(link => link.getAttribute("href")))) {
       assert(await page.locator(href).count() === 1, `public anchor missing: ${href}`);
     }
+    await page.locator('nav a[href="#ai-in-the-work"]').focus();
+    await page.keyboard.press("Enter");
+    await page.waitForURL(url => url.hash === "#ai-in-the-work");
+    assert(new URL(page.url()).hash === "#ai-in-the-work", "AI explanation not discoverable by keyboard");
+    const aiStory = page.locator("#ai-in-the-work");
+    assert(/no connected model/i.test(await aiStory.innerText()), "scripted AI boundary missing");
+    assert(await page.locator("#aiw-steps li").count() === 8, "AI explanation progression incomplete");
+    assert(await page.locator("#aiw-prev").isDisabled(), "AI story started in wrong state");
+    const firstReception = await page.locator("#aiw-roleline").innerText();
+    for (const role of ["housekeeping", "manager", "reception"]) {
+      await page.locator(`#aiw-role-${role}`).focus();
+      await page.keyboard.press("Space");
+      assert(await page.locator(`#aiw-role-${role}`).getAttribute("aria-pressed") === "true", "role control not keyboard selectable");
+      assert((await page.locator("#aiw-roleline").innerText()).toLowerCase().includes(`${role} view`), "role explanation did not change");
+      if (role !== "reception") assert(await page.locator("#aiw-roleline").innerText() !== firstReception, "role view only changed styling");
+    }
+    for (let step = 1; step < 7; step++) {
+      await page.locator("#aiw-next").focus();
+      await page.keyboard.press("Enter");
+      assert(await page.locator("#aiw-steps li[aria-current=step]").count() === 1, "AI story active step missing");
+    }
+    assert(/1 of 2 rooms released/.test(await page.locator("#aiw-state").innerText()), "missing evidence falsely confirmed work");
+    assert(/Supervisor owns/.test(await page.locator("#aiw-body").innerText()), "open inspection lost named ownership");
+    for (const role of ["housekeeping", "manager", "reception"]) {
+      await page.locator(`#aiw-role-${role}`).click();
+      assert((await page.locator("#aiw-roleline").innerText()).toLowerCase().includes(`${role} view`), "evidence view lost role emphasis");
+    }
+    await page.locator("#aiw-next").click();
+    assert(/Open: review held/.test(await page.locator("#aiw-state").innerText()), "missing evidence unlocked reviewed outcome");
+    await page.locator("#aiw-evidence-supplied").focus();
+    await page.keyboard.press("Enter");
+    assert(/awaits authorised review/.test(await page.locator("#aiw-state").innerText()), "supplied evidence auto-approved learning");
+    await page.locator("#aiw-prev").click();
+    assert(/Confirmed: 2 of 2/.test(await page.locator("#aiw-state").innerText()), "supplied receipt not reflected");
+    assert(/Floater unavailable/.test(await page.locator("#aiw-body").innerText()), "approval implied support arrival");
+    for (const link of await aiStory.locator('a[href^="/partner-access?"]').all()) {
+      const url = new URL(await link.getAttribute("href"), base);
+      assert((await page.request.get(base + url.searchParams.get("returnTo"))).status() === 401, "AI proof link exposed partner material");
+    }
+    assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `AI story overflow at ${width}`);
+    await page.locator("#aiw-reset").click();
+    assert(await page.locator("#aiw-title").innerText() === "Synthetic inputs", "AI story reset failed");
+    assert(await page.locator("#aiw-role-reception").getAttribute("aria-pressed") === "true", "reset retained role");
+    assert(await page.locator("#aiw-evidence-missing").getAttribute("aria-pressed") === "true", "reset retained receipt");
+    assert(await page.locator("#p-title").innerText() === "A guest arrives early", "AI story changed existing sample state");
     // JALDO Main currently links to this legacy home instead of the public root.
     await page.goto(base + "/partner-room", { waitUntil: "networkidle" });
     assert(new URL(page.url()).pathname === "/", "legacy public arrival did not reach the overview");

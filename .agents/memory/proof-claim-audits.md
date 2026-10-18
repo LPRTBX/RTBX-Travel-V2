@@ -14,3 +14,9 @@ The public hotel-pressure story is an explanatory composite, not a new executabl
 **Why:** The owner requested a clear first-minute operational story grounded in existing working proof, while explicitly rejecting claims that the combined example runs today or that every integration/deployment is instant.
 
 **How to apply:** Link the explanation to the existing room-delay, peak-pressure and portfolio proof; preserve their independent gates and unresolved evidence. Never turn public explanatory role emphasis into access control or expose private support details in broad role views.
+
+Travel's AI presentation must follow Main's connected-work explanation without importing Main/Core's implementation claims. Proposed AI interpretation and options, deterministic rules, human/delegated authority, coordinated execution and reviewed learning are distinct contributions.
+
+**Why:** The owner requested clearer communication of AI's place in Travel, explicitly as presentation and synthetic demonstration only—not live AI integration or an engine change.
+
+**How to apply:** Ground explanations in hotel signals, guest needs and capacity; identify sources and uncertainty. Never describe scripted output as model inference, turn a role view into permission, or imply AI approves, creates capacity, closes missing evidence or deploys improvements.

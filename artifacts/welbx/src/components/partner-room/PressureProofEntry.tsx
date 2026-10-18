@@ -30,6 +30,23 @@ export function PressureProofEntry() {
         Use the existing proof below to inspect individual decisions, owners and evidence.
       </p>
       <p style={{ color: "#a8dedb", fontWeight: 700 }}>Who owns it? What is still open? What shows it is resolved?</p>
+      <details style={{ color: "#d4e1e5", lineHeight: 1.7, marginBottom: 20 }}>
+        <summary style={{ cursor: "pointer", color: "#a8dedb", fontWeight: 700 }}>Where AI contributes—and where its authority stops</summary>
+        <p>
+          In the <a href="/#ai-in-the-work" style={{ color: "#a8dedb", textDecoration: "underline" }}>public room-readiness story</a>,
+          scripted interpretations show how AI could combine room status, guest requests and staffing capacity to explain impacts and prepare options for Reception, Housekeeping and the Manager.
+          Only necessary operational context is shown; private staff support details are excluded.
+        </p>
+        <p>
+          AI does not approve exceptions, invent available capacity, allocate authority or declare a guest need resolved.
+          Configured rules determine the available pathway; named people act within delegated authority or obtain the required approval.
+          JALDO coordinates tasks and records evidence. Missing delivery or measurement stays open; improvements need authorised review.
+        </p>
+        <p>
+          No model is connected in this demonstration. The Architecture Lab below uses deterministic, rules-based classification and synthetic execution.
+          The public story explains a proposed AI contribution; it does not add AI to the engine or change its controls.
+        </p>
+      </details>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 230px), 1fr))", gap: 16 }}>
         {proofPaths.map(item => (
           <article key={item.href} style={{ padding: 18, background: "#0a2531", borderRadius: 6 }}>

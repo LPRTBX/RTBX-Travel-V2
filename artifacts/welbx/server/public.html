@@ -177,6 +177,38 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
 @media(max-width:1000px){.loop ol{grid-template-columns:repeat(3,1fr);row-gap:28px}}
 @media(max-width:900px){.wrap{width:calc(100% - 56px)}header{padding:18px 28px}.split,.coord-grid,.priv-grid,.contact-grid{grid-template-columns:1fr;gap:36px}.ex-grid{grid-template-columns:1fr}.ex.wide{grid-row:auto}.honest-grid{grid-template-columns:1fr}.col+.col{border-left:0;border-top:1px solid var(--line)}.stage{grid-template-columns:1fr}.steps{border-right:0;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:4px 18px}}
 @media(max-width:600px){.wrap{width:calc(100% - 40px)}header{padding:16px 20px}nav{width:100%;gap:2px 16px;font-size:12.5px}.brand img{width:108px}.hero .wrap{padding-block:60px 52px}.hero::after{background:linear-gradient(90deg,rgba(6,26,37,.94),rgba(6,26,37,.75))}.hero p.intro,.lede{font-size:16px}.band,.demo,.contact{padding-block:56px}.loop ol{grid-template-columns:1fr 1fr}.gaps li{grid-template-columns:1fr;gap:4px}.things{grid-template-columns:1fr}.rules{grid-template-columns:1fr}.ex{padding:24px 20px}.ex dl{grid-template-columns:1fr}.ex dd{border-top:0;padding-top:0}.panel{padding:24px 20px}.steps{padding:16px 20px}.steps li{padding:4px 0;font-size:13px}.btn{width:100%;justify-content:space-between}}
+/* AI in the work */
+.aiw{background:var(--ivory);border-bottom:1px solid var(--line)}
+.aiw-head{display:grid;grid-template-columns:1.4fr 1fr;gap:40px;align-items:end}
+.aiw-bar{display:flex;flex-wrap:wrap;gap:14px 36px;margin-top:34px}
+.aiw-group{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.aiw-gl{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-right:6px;width:100%}
+.aiw-chip{min-height:44px;padding:8px 16px;font:600 14px/1 inherit;font-family:inherit;background:var(--paper);color:var(--navy);border:1px solid var(--line);cursor:pointer}
+.aiw-chip[aria-pressed="true"]{background:var(--navy);color:#f8f6f1;border-color:var(--navy);box-shadow:inset 0 -3px 0 var(--orange)}
+.aiw-chip:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+.aiw-stage{margin-top:18px;display:grid;grid-template-columns:230px 1fr;background:var(--paper);border:1px solid var(--line)}
+.aiw-steps{list-style:none;margin:0;padding:20px 22px;background:#f2f1ea;border-right:1px solid var(--line);counter-reset:a}
+.aiw-steps li{font-size:13.5px;color:var(--muted);padding:6px 0 6px 30px;position:relative}
+.aiw-steps li::before{counter-increment:a;content:counter(a);position:absolute;left:0;top:6px;width:20px;height:20px;border-radius:50%;border:1px solid var(--line);font-size:10.5px;display:grid;place-items:center;background:var(--ivory)}
+.aiw-steps li.done::before{background:var(--mist);border-color:var(--teal)}
+.aiw-steps li[aria-current="step"]{color:var(--navy);font-weight:600}
+.aiw-steps li[aria-current="step"]::before{background:var(--navy);color:#f8f6f1;border-color:var(--navy)}
+.aiw-panel{padding:28px 34px;min-width:0}
+.aiw-who{margin:0 0 6px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#8a4518}
+.aiw-panel h3{font-size:22px}
+.aiw-role{border-left:3px solid var(--teal);background:#e3f2f1;padding:12px 16px;font-size:14.5px;color:var(--navy)}
+.aiw-role small{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.aiw-state{margin:14px 0 0;padding:10px 14px;font-size:14px;font-weight:600;background:#e3f2f1;color:var(--navy)}
+.aiw-state.open{background:#fbeee4;color:#7a3c13;border-left:3px solid var(--orange)}
+.aiw-ctl{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.aiw-ctl .btn{min-height:44px;padding:10px 18px}
+.aiw-ctl .btn:disabled{opacity:.45;cursor:not-allowed}
+.aiw-split{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:22px;border-top:1px solid var(--line)}
+.aiw-split div{padding:16px 20px 0 0}
+.aiw-split b{display:block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal)}
+.aiw-split p{font-size:14px;margin:6px 0 0}
+@media(max-width:900px){.aiw-head,.aiw-stage,.aiw-split{grid-template-columns:1fr}.aiw-steps{border-right:0;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:0 18px}}
+@media(max-width:600px){.aiw-panel{padding:22px 20px}.aiw-ctl .btn{width:auto;flex:1 1 auto;justify-content:center}}
 </style>
 </head>
 <body>
@@ -190,6 +222,7 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
   <nav aria-label="Main navigation">
     <a href="#benefits">The problem</a>
     <a href="#loop">How it works</a>
+    <a href="#ai-in-the-work">Where AI fits</a>
     <a href="#examples">Examples</a>
     <a href="/public-demo">Sample demo</a>
     <a href="#principles">Built for control</a>
@@ -264,6 +297,53 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
         </ul>
         <p>Existing playbooks, communications and operations views are shown there as gated, synthetic proof only.</p>
       </details>
+    </div>
+  </section>
+
+  <section id="ai-in-the-work" class="aiw band" aria-labelledby="aiw-h">
+    <div class="wrap">
+      <div class="aiw-head">
+        <div>
+          <p class="eyebrow">Where AI fits in the work</p>
+          <h2 id="aiw-h">AI interprets. Rules set limits.<br>People decide. Workflow follows through.</h2>
+          <p class="lede">One room-readiness moment within that wider pressure: late rooms, guests with needs, and housekeeping short by two. Step through it from the desk you work at.</p>
+        </div>
+        <span class="label" id="aiw-label">Fictional composite. Scripted synthetic interpretation, no connected model. Not an executable engine.</span>
+      </div>
+      <div class="aiw-bar">
+        <div class="aiw-group" role="group" aria-label="View as">
+          <span class="aiw-gl">View as · explanation, not access permissions</span>
+          <button type="button" class="aiw-chip" id="aiw-role-reception" data-role="reception" aria-pressed="true">Reception</button>
+          <button type="button" class="aiw-chip" id="aiw-role-housekeeping" data-role="housekeeping" aria-pressed="false">Housekeeping</button>
+          <button type="button" class="aiw-chip" id="aiw-role-manager" data-role="manager" aria-pressed="false">Manager</button>
+        </div>
+        <div class="aiw-group" role="group" aria-label="Inspection evidence">
+          <span class="aiw-gl">Room 412 inspection receipt</span>
+          <button type="button" class="aiw-chip" id="aiw-evidence-missing" data-ev="missing" aria-pressed="true">Missing</button>
+          <button type="button" class="aiw-chip" id="aiw-evidence-supplied" data-ev="supplied" aria-pressed="false">Supplied</button>
+        </div>
+      </div>
+      <div class="aiw-stage">
+        <ol class="aiw-steps" id="aiw-steps" aria-label="Progression"></ol>
+        <div class="aiw-panel">
+          <p class="aiw-who" id="aiw-who"></p>
+          <h3 id="aiw-title"></h3>
+          <p id="aiw-body"></p>
+          <div class="aiw-role" id="aiw-roleline"></div>
+          <p class="aiw-state" id="aiw-state" role="status" aria-live="polite"></p>
+          <div class="aiw-ctl">
+            <button type="button" class="btn btn-ghost" id="aiw-prev">Previous step</button>
+            <button type="button" class="btn btn-dark" id="aiw-next">Next step <span class="arr" aria-hidden="true">&rarr;</span></button>
+            <button type="button" class="btn btn-ghost" id="aiw-reset">Reset</button>
+          </div>
+        </div>
+      </div>
+      <div class="aiw-split" aria-label="Who contributes what">
+        <div><b>AI contribution</b><p>Proposes an interpretation and options, naming its sources and uncertainty. It cannot decide, approve, diagnose people or close work.</p></div>
+        <div><b>Deterministic rules</b><p>Configured limits on capacity, responsibility and approval thresholds. Same inputs, same boundary.</p></div>
+        <div><b>Human or delegated authority</b><p>A named, authorised person decides where rules require it. Nothing is approved automatically.</p></div>
+      </div>
+      <p class="fict">Presentation only. Room numbers, guests and shifts are invented; no private staff details are shown. <a href="/partner-access?returnTo=%2Fpartner-room%2Farchitecture-lab" id="aiw-link-architecture">Architecture Lab</a> and <a href="/partner-access?returnTo=%2Fpartner-room%2Fproduct-proof%2Fstage-3-operating-layer%3Fscenario%3Dpeak" id="aiw-link-proof">next synthetic proof</a> (Partner Room, access code required).</p>
     </div>
   </section>
 
@@ -478,6 +558,62 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
   if(location.pathname.replace(/\/+$/,"")==="/public-demo"||location.hash==="#sample-demo"){
     window.addEventListener("load",function(){$("sample-demo").scrollIntoView({behavior:"instant",block:"start"});});
   }
+})();
+</script>
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id)};
+  var role="reception",ev="missing",i=0;
+  var N=["Synthetic inputs","Proposed interpretation","Prepared options","Rules and boundary","Authorised decision","Coordinated tasks","Receipts and outcomes","Reviewed improvement"];
+  var W=["Inputs","AI proposes","AI prepares","Rules","People decide","Workflow","Evidence","People review"];
+  var B=[
+   "Synthetic booking list: 14 arrivals before 3pm, two with noted needs (step-free access, infant cot). Room-status feed: 9 rooms dirty, 3 awaiting inspection. Shift roster: 4 attendants on, 2 short.",
+   "Proposed reading: about 6 early arrivals will wait over 45 minutes. Sources named: booking list, room status at 13:05, roster. Uncertainty: two arrival times are estimates and one room status is 40 minutes old. This is a proposal, not a fact.",
+   "Prepared options: A) prioritise rooms 408 and 412 for the recorded guest needs, delaying other rooms; B) clean in floor order to reduce travel between rooms, but those guests may wait longer; C) request a floater, adding capacity only if Group Operations confirms availability and the Manager approves. None is selected.",
+   "Configured rules, not AI: capacity cap of 4 attendants means at most 3 rooms inside 40 minutes. Accessibility needs rank first. Requesting off-site support needs Manager approval. Option C crosses that boundary.",
+   "The Duty Manager chooses Option A now and approves Option C. Reception may act on A within delegated authority; C would stay pending without the Manager. The AI did not choose.",
+   "Synthetic tasks: Housekeeping cleans 412 then 408 by 13:40; Supervisor inspects by 13:45; Reception gives a progress update by 13:30. Group Operations must confirm floater availability by 13:20; approval alone does not mean support has arrived.",
+   "",
+   ""
+  ];
+  var R={
+   reception:["Reception sees which arriving guests are affected and what was promised, not staffing detail.","For Reception: 2 guests have needs that a late room affects; estimates are flagged as uncertain before anything is said to them.","For Reception: Option A prioritises the two guests; draft wording distinguishes an estimate from a confirmed release time and is not sent.","For Reception: you may offer luggage hold and seating within your authority. Room changes or gestures above limit go to the Manager.","For Reception: you act on Option A now. You do not approve the floater.","Your task: give a progress update by 13:30; do not promise room release before inspection.","",""],
+   housekeeping:["Housekeeping sees room status and the attendant count, never individual circumstances.","For Housekeeping: the 40-minute-old status on 412 is flagged; confirm it before the plan relies on it.","For Housekeeping: Option A changes your cleaning order; Option B keeps floor efficiency.","For Housekeeping: the capacity cap is applied as configured. Approving a promise does not create attendants.","For Housekeeping: you receive the decided order; you do not need to negotiate it at the desk.","Your tasks: clean 412, then 408; Supervisor inspects and records the receipt.","",""],
+   manager:["Manager sees the whole picture: pressure, capacity gap and what will need a decision.","For the Manager: the proposal and its uncertainty are visible together, with sources, so you can challenge it.","For the Manager: all three options and their trade-offs, including the cost of requesting support.","For the Manager: Option C needs your approval. The rule defines where authority sits; it does not decide for you.","For the Manager: you approve C and confirm A. Your name and time are recorded on the decision.","Your view: four owned tasks, their due times and which are overdue.","",""]
+  };
+  var steps=$("aiw-steps");
+  N.forEach(function(n){var li=document.createElement("li");li.textContent=n;steps.appendChild(li)});
+  function render(){
+    var body=B[i],rl=R[role][i],st="",open=false;
+    if(i===6){
+      if(ev==="missing"){body="Synthetic receipts: Group Operations confirms the floater is unavailable; no support arrival is claimed and the two-room plan uses existing capacity. Room 408 is cleaned and inspected; receipt recorded. Room 412 inspection receipt is missing, so 412 is not released. Supervisor owns the open inspection; Duty Manager reviews it at 13:50.";open=true;st="Open: 412 awaiting inspection receipt. 1 of 2 rooms released. Work stays visible.";}
+      else{body="Synthetic receipts: both inspections recorded by the Supervisor at 13:45. Reception confirms both guest updates at 13:47; 408 and 412 are released. Floater unavailable, so no extra capacity or arrival is claimed. This confirms only the two-room response, not recovery of the whole hotel.";st="Confirmed: 2 of 2 rooms released with receipts.";}
+      rl={reception:"For Reception: "+(ev==="missing"?"do not tell the 412 guest the room is ready.":"tell both guests; keys at the desk."),housekeeping:"For Housekeeping: "+(ev==="missing"?"412 inspection still owed; it remains on your list.":"both inspections recorded; list cleared."),manager:"For the Manager: "+(ev==="missing"?"one overdue item, 412, with owner and age.":"recovery confirmed with evidence.")}[role];
+    } else if(i===7){
+      if(ev==="missing"){body="Review cannot start yet: the episode has unresolved work. A proposed improvement is held until 412 is confirmed.";open=true;st="Open: review held until evidence is supplied.";}
+      else{body="Scripted proposed AI contribution: flag a possible arrival/roster mismatch for review—not a recurring pattern proven by one episode. The Manager can review earlier capacity checks with the Housekeeping Supervisor and seek authorised approval for a limited test. Nothing changes or deploys automatically.";st="Review ready: improvement awaits authorised review.";}
+      rl={reception:"For Reception: you may add what guests said; you do not approve changes.",housekeeping:"For Housekeeping: the Supervisor can comment on the roster pattern.",manager:"For the Manager: you decide whether to test the proposed adjustment."}[role];
+    } else {st="Step "+(i+1)+" of 8: "+N[i]+". "+(i<6?"No work closed yet.":"");open=i>=5;}
+    $("aiw-who").textContent=W[i];
+    $("aiw-title").textContent=N[i];
+    $("aiw-body").textContent=body;
+    $("aiw-roleline").innerHTML="";
+    var sm=document.createElement("small");sm.textContent=role.charAt(0).toUpperCase()+role.slice(1)+" view";
+    $("aiw-roleline").appendChild(sm);$("aiw-roleline").appendChild(document.createTextNode(rl));
+    $("aiw-state").textContent=st;
+    $("aiw-state").className="aiw-state"+(open?" open":"");
+    for(var n=0;n<steps.children.length;n++){var li=steps.children[n];li.classList.toggle("done",n<i);if(n===i)li.setAttribute("aria-current","step");else li.removeAttribute("aria-current");}
+    $("aiw-prev").disabled=i===0;$("aiw-next").disabled=i===7;
+  }
+  [].forEach.call(document.querySelectorAll(".aiw-chip"),function(b){b.addEventListener("click",function(){
+    var k=b.dataset.role?"role":"ev";
+    [].forEach.call(b.parentNode.querySelectorAll(".aiw-chip"),function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});
+    if(k==="role")role=b.dataset.role;else ev=b.dataset.ev;render();});});
+  $("aiw-prev").addEventListener("click",function(){if(i>0){i--;render()}});
+  $("aiw-next").addEventListener("click",function(){if(i<7){i++;render()}});
+  $("aiw-reset").addEventListener("click",function(){i=0;role="reception";ev="missing";
+    [].forEach.call(document.querySelectorAll(".aiw-chip"),function(x){x.setAttribute("aria-pressed",(x.id==="aiw-role-reception"||x.id==="aiw-evidence-missing")?"true":"false")});render();$("aiw-next").focus();});
+  render();
 })();
 </script>
 </body>

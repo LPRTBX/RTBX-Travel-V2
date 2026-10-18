@@ -134,6 +134,10 @@ export default function PartnerArchitectureLab() {
           <p style={{ ...muted, maxWidth: 960, lineHeight: 1.65, fontSize: 15 }}>The eight-step journey above visits the wider Partner Room. Inside this Lab, five architecture phases contain eleven inspectable layers. These are different views—not eight steps inside the Lab.</p>
           <details style={{ ...muted, lineHeight: 1.65, fontSize: 14 }}><summary>How the operating layer fits together</summary><p>JALDO coordinates existing hotel systems, people, rules and communications around a moment. Select a layer below to inspect its role. The same scenario and evidence engine powers the Working Proof.</p></details>
           <div style={{ marginTop: 18, fontSize: 13, color: "#a8dedb" }}>Fictional Working Proof · rules-based classification · illustrative confidence, not live AI inference · simulated human authority · no real messages or hotel-system writes</div>
+          <details style={{ ...muted, marginTop: 16, lineHeight: 1.65, fontSize: 14 }}>
+            <summary>AI interpretation is not the decision engine</summary>
+            <p>The <a href="/#ai-in-the-work" style={{ color: "#a8dedb", textDecoration: "underline" }}>public hotel story</a> shows a scripted example of how AI could summarise room readiness, guest needs and staffing pressure, with sources and uncertainty, and prepare options. No AI model runs here. This Lab classifies signals using configured rules; the accountable role retains authority, required approval precedes dispatch, and receipts and measurements determine what can be confirmed. Reviewed changes are tested separately, not automatically deployed.</p>
+          </details>
         </div>
       </section>
 
