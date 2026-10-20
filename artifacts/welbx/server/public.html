@@ -209,6 +209,49 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
 .aiw-split p{font-size:14px;margin:6px 0 0}
 @media(max-width:900px){.aiw-head,.aiw-stage,.aiw-split{grid-template-columns:1fr}.aiw-steps{border-right:0;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:0 18px}}
 @media(max-width:600px){.aiw-panel{padding:22px 20px}.aiw-ctl .btn{width:auto;flex:1 1 auto;justify-content:center}}
+/* interactive demo */
+.dm-notice{display:block;width:fit-content;margin:18px 0 0;font-size:12px}
+.dm{margin-top:26px;background:var(--paper);border:1px solid var(--line)}
+.dm-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px 28px;padding:18px 22px;border-bottom:1px solid var(--line);background:#f2f1ea}
+.dm-prog{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;font-size:13px;font-weight:600}
+.dm-prog progress{width:160px;height:10px;accent-color:var(--teal)}
+.btn.dm-sm{min-height:44px;padding:10px 16px}
+.dm .aiw-state{margin:0;border-bottom:1px solid var(--line)}
+.dm-grid{display:grid;grid-template-columns:230px 1fr}
+.dm-miles{list-style:none;margin:0;padding:18px 20px;border-right:1px solid var(--line);background:#f7f5ee}
+.dm-miles li{font-size:13px;color:var(--muted);padding:5px 0 5px 26px;position:relative}
+.dm-miles li::before{content:"";position:absolute;left:0;top:9px;width:14px;height:14px;border-radius:50%;border:1px solid var(--line);background:var(--ivory)}
+.dm-miles li.done{color:var(--navy)}
+.dm-miles li.done::before{background:var(--mist);border-color:var(--teal)}
+.dm-miles li.open::before{background:#fbeee4;border-color:var(--orange)}
+.dm-main{padding:24px 28px;min-width:0;display:grid;gap:22px}
+.dm-blk{border-top:1px solid var(--line);padding-top:14px}
+.dm-blk:first-child{border-top:0;padding-top:0}
+.dm-blk h3{font-size:17px;margin-bottom:8px}
+.dm-k{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal)}
+.dm-list{list-style:none;margin:6px 0 0;padding:0}
+.dm-list li{font-size:14px;color:var(--muted);padding:7px 0;border-top:1px solid var(--line)}
+.dm-list li b{color:var(--navy)}
+.dm-ai{border-left:3px solid var(--teal);background:#e3f2f1;padding:12px 16px;font-size:14px;color:var(--navy)}
+.dm-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.dm-cols div{font-size:13.5px;color:var(--muted)}
+.dm-cols b{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal)}
+.dm-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.dm-row .btn{min-height:44px;padding:10px 16px}
+.dm .btn:disabled{opacity:.45;cursor:not-allowed}
+.dm-row .btn[aria-pressed="true"]{background:var(--navy);color:#f8f6f1;box-shadow:inset 0 -3px 0 var(--orange)}
+.dm-chk{display:flex;gap:10px;align-items:flex-start;font-size:14px;padding:8px 0;border-top:1px solid var(--line);cursor:pointer}
+.dm-chk input{width:20px;height:20px;margin-top:2px;accent-color:var(--teal);flex-shrink:0}
+.dm-chk input:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+.dm-pill{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;margin-left:6px;background:#e3f2f1;color:var(--navy)}
+.dm-pill.o{background:#fbeee4;color:#7a3c13}
+.dm-note{font-size:13px;color:var(--muted);margin:8px 0 0}
+#principles .rules{margin-top:32px}
+#demo-checks{border-left:0;border-right:0;border-bottom:0;margin:0;padding-inline:0}
+.dm-alert{border-left:3px solid var(--orange);background:#fff3e9;padding:12px 16px;font-size:14px;color:var(--navy)}
+@media(max-width:900px){.dm-grid,.dm-cols{grid-template-columns:1fr}.dm-miles{border-right:0;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:0 16px}}
+@media(max-width:600px){.dm-main{padding:20px 18px}.dm-top{padding:16px 18px}.dm-row .btn{width:auto;flex:1 1 auto;justify-content:center}}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 </style>
 </head>
 <body>
@@ -224,8 +267,8 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
     <a href="#loop">How it works</a>
     <a href="#ai-in-the-work">Where AI fits</a>
     <a href="#examples">Examples</a>
-    <a href="/public-demo">Sample demo</a>
-    <a href="#principles">Built for control</a>
+    <a href="/public-demo#sample-demo">Sample demo</a>
+    <a href="#principles">You stay in control</a>
     <a href="#contact">Contact</a>
     <a class="partner" href="/partner-access">Partner Room (access code required)</a>
   </nav>
@@ -448,33 +491,45 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
 
   <section id="sample-demo" class="demo" aria-labelledby="demo-h">
     <div class="wrap">
-      <div id="principles" class="rules" role="group" aria-label="Built for control">
+      <div class="demo-head">
+        <div><p class="eyebrow">Sample demo &middot; about two minutes</p><h2 id="demo-h">One delayed room. A connected hotel. One coordinated response.</h2></div>
+      </div>
+      <p class="label dm-notice" id="demo-notice">Interactive fictional demonstration — no live actions</p>
+      <p class="lede">Harbour Lane Hotel (invented), 2:40pm. Choose a response, run the checks, act as the Duty Manager where authority is needed, and see what stays open. Everything happens in this page only.</p>
+      <div class="dm" id="demo-app">
+        <div class="dm-top">
+          <div class="aiw-group" role="group" aria-label="View as">
+            <span class="aiw-gl">View as &middot; explains each role's work, not access permissions</span>
+            <button type="button" class="aiw-chip" id="demo-role-reception" data-r="reception" aria-pressed="true">Reception</button>
+            <button type="button" class="aiw-chip" id="demo-role-housekeeping" data-r="housekeeping" aria-pressed="false">Housekeeping</button>
+            <button type="button" class="aiw-chip" id="demo-role-maintenance" data-r="maintenance" aria-pressed="false">Maintenance</button>
+            <button type="button" class="aiw-chip" id="demo-role-guest" data-r="guest" aria-pressed="false">Guest services</button>
+            <button type="button" class="aiw-chip" id="demo-role-manager" data-r="manager" aria-pressed="false">Duty Manager</button>
+          </div>
+          <div class="dm-prog">
+            <label for="demo-progress">Progress <span id="demo-progress-text">0 of 11</span></label>
+            <progress id="demo-progress" max="11" value="0">0 of 11</progress>
+            <button type="button" class="btn btn-ghost dm-sm" id="demo-restart">Restart demo</button>
+          </div>
+        </div>
+        <p class="aiw-state" id="demo-status" role="status" aria-live="polite" tabindex="-1"></p>
+        <div class="dm-grid">
+          <ol class="dm-miles" id="demo-milestones" aria-label="Demo milestones"></ol>
+          <div class="dm-main" id="demo-main"></div>
+        </div>
+      </div>
+      <p class="fict">Guests, rooms, staff names and times are invented; no private details are shown. This shows intended design on synthetic data, not measured results or a live integration. <a id="demo-link-validation" href="/partner-access?returnTo=%2Fpartner-room%2Fvalidation%23evidence-status">Evidence and pilot validation (Partner Room — access code required)</a></p>
+    </div>
+  </section>
+
+  <section id="principles" class="band wrap" aria-labelledby="principles-h">
+    <p class="eyebrow">You stay in control</p>
+    <h2 id="principles-h">JALDO coordinates the work. Your people retain authority.</h2>
+    <div class="rules">
         <div><h3>Your people retain authority</h3><p>Named owners act within agreed authority, with approval for exceptions where required.</p></div>
         <div><h3>Capacity is checked before commitments</h3><p>Staff, rooms and support availability shape the response.</p></div>
         <div><h3>Completion needs evidence</h3><p>Missing receipts or measurements stay unconfirmed.</p></div>
         <div><h3>Improvements are reviewed before use</h3><p>Review a proposed change before testing it; a replay does not deploy it.</p></div>
-      </div>
-      <div class="demo-head">
-        <div><p class="eyebrow">Sample demo</p><h2 id="demo-h">The room is not ready yet.</h2></div>
-        <span class="label">Fictional sample only</span>
-      </div>
-      <p>Illustrative demonstration using fictional hotel scenarios. Live integrations and operational outcomes are validated through an agreed pilot.</p>
-      <p>Choose what happens. Nothing is sent, booked or recorded. <a href="/partner-access?returnTo=%2Fpartner-room%2Fvalidation%23evidence-status">Evidence and pilot validation (Partner Room — access code required)</a></p>
-      <div class="stage">
-        <ol class="steps" id="steps" aria-label="Sample demo progress">
-          <li><span class="dot">1</span>Acknowledge</li>
-          <li><span class="dot">2</span>Choose an option</li>
-          <li><span class="dot">3</span>Human review</li>
-          <li><span class="dot">4</span>Follow-up</li>
-        </ol>
-        <div class="panel" id="panel" tabindex="-1" aria-live="polite">
-          <h3 id="p-title"></h3>
-          <p id="p-body"></p>
-          <div class="msg" id="p-msg"><small id="p-msg-label"></small><span id="p-msg-text"></span></div>
-          <div class="choices" id="p-choices"></div>
-          <p class="disclaimer">Sample guest "Alex" and "Harbour Lane Hotel" are invented. No real guest, property, booking or action is involved.</p>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -519,45 +574,139 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
 
 <script>
 (function(){
-  var S=[
-    {t:"A guest arrives early",b:"Alex arrives at 1:10 pm. Check-in is 3:00 pm and the room is still being prepared. First, acknowledge it.",l:"Suggested message (draft)",m:"Hi Alex, welcome. Your room needs a little more time. We will look after you until it is ready.",c:[["Acknowledge the delay",1]]},
-    {t:"What would help Alex most?",b:"Offer one simple option. The team picks one.",l:"Guest said",m:"I would love to drop my bags and walk around.",c:[["Offer a wait-time update",2,"wait"],["Offer luggage storage",2,"bags"]]},
-    {t:"A person reviews it",b:"",l:"Draft for review",m:"",c:[["Approve (sample)",3],["Go back",1]]},
-    {t:"Follow-up, as promised",b:"",l:"Sample follow-up",m:"",c:[["Start again",0]]}
-  ];
-  var choice="wait";
-  var D={wait:{r:"Front desk lead checks the draft before anything is said.",m:"Your room should be ready in about 40 minutes. We will message you the moment it is.",f:"Room ready. Alex is told, keys are waiting at the desk, and the promise is marked complete."},
-         bags:{r:"Front desk lead checks the draft before anything is said.",m:"We can hold your bags at the desk and bring them to your room once it is ready.",f:"Bags delivered to the room. Alex is told the room is ready, and the promise is marked complete."}};
   var $=function(id){return document.getElementById(id)};
-  var steps=$("steps").children;
-  function render(i,focus){
-    var s=S[i],body=s.b,msg=s.m;
-    if(i===2){body=D[choice].r;msg=D[choice].m}
-    if(i===3){body="Nothing was sent. In a real setting, the team would close the loop like this:";msg=D[choice].f}
-    $("p-title").textContent=s.t;
-    $("p-body").textContent=body;
-    $("p-msg-label").textContent=s.l;
-    $("p-msg-text").textContent=msg;
-    var box=$("p-choices");
-    while(box.firstChild)box.removeChild(box.firstChild);
-    s.c.forEach(function(c,k){
-      var b=document.createElement("button");
-      b.type="button";
-      b.className="btn "+(k===0?"btn-dark":"btn-ghost");
-      b.textContent=c[0];
-      b.addEventListener("click",function(){if(c[2])choice=c[2];render(c[1],true)});
-      box.appendChild(b);
-    });
-    for(var n=0;n<steps.length;n++){
-      steps[n].classList.toggle("done",n<i);
-      if(n===i)steps[n].setAttribute("aria-current","step");else steps[n].removeAttribute("aria-current");
+  var ROLES={reception:"Reception",housekeeping:"Housekeeping",maintenance:"Maintenance",guest:"Guest services",manager:"Duty Manager"};
+  var P={
+   room:[{name:"Room change to 218",text:"Move the Rowan family to room 218 (same room type, floor 2) and offer a move back to 304 tomorrow once repaired.",
+     checks:[["r218","Room 218 cleaned and inspected (housekeeping board)"],["cot","Cot and pram space available for 218 (guest services store)"],["m304est","Technician estimate: 304 repaired by tomorrow (estimate, not clearance)"]],
+     ev:[["ins218","Room 218 inspection receipt (Housekeeping supervisor)"],["cotplaced","Cot placed in 218 (attendant receipt)"]],
+     exc:"Room move with a promised next-day move back is outside desk authority.",
+     tasks:{reception:"Offer the move to 218 and the next-day return; record the family's answer.",housekeeping:"Inspect 218 and record the receipt; place cot.",guest:"Bring cot; porter moves luggage and pram to 218."}},
+    {name:"Revised: stay in 218 for both nights",text:"Keep the family in 218 for the whole stay. Withdraw the move back to 304; no new date is promised.",
+     checks:[["r218n2","Room 218 free for both nights (synthetic availability)"],["cot2","Cot stays allocated to 218 for both nights"],["rate","Rate rule: same room type, no charge change"]],
+     ev:[["assign218","Two-night assignment confirmation for 218 (synthetic)"],["moved","Family settled in 218 (porter receipt)"]],
+     exc:"Changing a commitment already made to the guest needs renewed exception approval.",
+     tasks:{reception:"Tell the family the move back is withdrawn; record whether they accept staying in 218.",housekeeping:"Keep 218 on the stay-over list for both nights.",guest:"Confirm cot stays; porter receipt when settled."}}],
+   wait:[{name:"Supported wait for 304",text:"Quiet corner in the Garden Lounge with refreshments; porter holds luggage and pram until 304 is repaired, cleared and inspected (estimate 3:45pm).",
+     checks:[["lounge","Garden Lounge quiet corner free until 4:15pm"],["porter","Porter available for luggage and pram"],["m304est","Technician estimate: 304 repaired by 3:45pm (estimate, not clearance)"]],
+     ev:[["loungeset","Quiet corner set (guest services receipt)"],["luggage","Luggage and pram tag receipt (porter)"]],
+     exc:"Complimentary refreshments beyond the desk allowance need an exception.",
+     tasks:{reception:"Offer the supported wait with an honest estimate; record the family's answer.",housekeeping:"Hold a clean-and-inspect slot for 304 after clearance.",guest:"Set the quiet corner; porter tags luggage and pram."}},
+    {name:"Revised: extended wait for room 221",text:"304 is no longer the plan. Extended quiet-corner wait and early family dinner seating while room 221 (same type) is cleaned and inspected, estimate 4:40pm.",
+     checks:[["r221","Room 221 clean-and-inspect slot by 4:40pm (housekeeping board)"],["lounge2","Quiet corner extended until 5:00pm"],["dinner","Family dinner seating available at 5:00pm"]],
+     ev:[["ins221","Room 221 inspection receipt (Housekeeping supervisor)"],["seating","Dinner seating confirmation (restaurant host)"]],
+     exc:"Extended complimentary wait and a room reassignment need renewed exception approval.",
+     tasks:{reception:"Explain the 304 delay and the 221 plan; record whether the family accept.",housekeeping:"Clean and inspect 221 by 4:40pm; record receipt.",guest:"Extend the quiet corner; book dinner seating; keep luggage tagged."}}]
+  };
+  var ACK=[["reception","Reception"],["housekeeping","Housekeeping"],["maintenance","Maintenance"],["guest","Guest services"]];
+  var MILES=["Signals and interpretation reviewed","Response chosen","Availability checked","Exception approved (Duty Manager)","Response dispatched","Acknowledgements received","Evidence recorded","Family acceptance recorded","Repair delay: revised response chosen and checked","Revised response re-approved and dispatched","Revised response checked and agreed"];
+  var s;
+  function V(){return {plan:null,checks:{},decision:null,dispatched:false,acks:{},ev:{},accepted:false}}
+  function reset(){s={role:"reception",read:false,ver:0,v:[V()],delay:false,hist:[]}}
+  reset();
+  function cur(){return s.v[s.ver]}
+  function def(v,i){return v.plan?P[v.plan][i]:null}
+  function allIn(list,obj){return list.length>0&&list.every(function(c){return obj[c[0]]})}
+  function checked(v,i){var d=def(v,i);return d&&allIn(d.checks,v.checks)}
+  function acked(v){return ACK.every(function(a){return v.acks[a[0]]})}
+  function evd(v,i){var d=def(v,i);return d&&allIn(d.ev,v.ev)}
+  function done(v,i){return v.dispatched&&acked(v)&&evd(v,i)&&v.accepted}
+  function log(t){s.hist.push({ver:s.ver,t:t,tag:""})}
+  function miles(){var a=s.v[0],b=s.v[1];return [s.read,!!a.plan||s.delay,checked(a,0)||s.delay,a.decision==="approved",a.dispatched,acked(a),evd(a,0),a.accepted,!!(b&&checked(b,1)),!!(b&&b.dispatched),!!(b&&done(b,1))]}
+  function btn(id,label,on,cls,extra){return '<button type="button" class="btn '+(cls||"btn-ghost")+'" id="'+id+'"'+(on?"":" disabled")+(extra||"")+'>'+label+'</button>'}
+  function status(){
+    var v=cur(),d=def(v,s.ver);
+    if(!s.read)return ["Open: read the sourced signals and the proposed interpretation.",true];
+    if(!v.plan)return [s.delay?"Open: the repair delay invalidated the earlier commitment and its approval. Choose a revised response.":(v.decision==="declined"?"Open: plan declined. Choose a revised response.":"Open: choose a response."),true];
+    if(v.decision==="held")return ["Open: Duty Manager placed the exception on hold. Nothing is dispatched.",true];
+    if(!checked(v,s.ver))return ["Open: availability checks outstanding for "+d.name+".",true];
+    if(v.decision!=="approved")return ["Open: awaiting Duty Manager exception approval."+(s.role!=="manager"?" Switch to the Duty Manager view to decide.":""),true];
+    if(!v.dispatched)return ["Approved, not yet dispatched. Approval alone sends nothing.",true];
+    if(s.ver===0&&!s.delay&&done(v,0))return ["Agreed and checked for now. Room 304 stays held. Advance the clock to see the repair update.",true];
+    if(!acked(v))return ["Dispatched. Open: acknowledgements missing.",true];
+    if(!evd(v,s.ver))return ["Open: evidence receipts missing, so results stay unconfirmed.",true];
+    if(!v.accepted)return ["Open: family acceptance not recorded. No agreed plan yet.",true];
+    if(s.ver===0)return ["Agreed and checked for now. Room 304 stays held. Advance the clock to see the repair update.",true];
+    return ["Family plan agreed and checked. Room 304 remains held pending clearance; WO-1182 stays open with its owner.",false];
+  }
+  function render(){
+    var focusId=document.activeElement&&document.activeElement.id;
+    var v=cur(),i=s.ver,d=def(v,i),mgr=s.role==="manager",h=[];
+    // signals + interpretation
+    h.push('<details class="dm-blk" id="demo-signals"'+(s.read?'':' open')+'><summary class="dm-k">2:40pm &middot; sourced fictional signals and interpretation</summary><ul class="dm-list">'+
+      '<li><b>Arrivals list (synthetic PMS extract):</b> 23 arrivals due before 4pm; 9 already in the lobby.</li>'+
+      '<li><b>Housekeeping board, updated 2:31pm:</b> 11 rooms not ready; 5 attendants on shift against 7 planned.</li>'+
+      '<li><b>Work order WO-1182, 2:12pm:</b> bathroom leak in room 304. Technician estimate 3:45pm. Room blocked.</li>'+
+      '<li><b>Guest services note, 2:35pm:</b> the Rowan family (two adults, two young children) booked 304, waiting since 2:20pm, asked for a quiet place and help with luggage and a pram.</li></ul>'+
+      '<p class="dm-ai" id="demo-interpretation"><b>Scripted simulated AI interpretation (no connected model):</b> the reservation, WO-1182 and the guest note point to the same room, so 304 is unlikely to be ready at 3pm. Uncertainty: the repair time is an estimate, the housekeeping board is 9 minutes old, and the family\'s room preferences are unknown. Possible responses: a room change or a supported wait. It cannot decide, approve or release rooms.</p>'+
+      '<div class="dm-cols"><div><b>AI (scripted)</b>Links sources, states uncertainty, drafts options.</div><div><b>Deterministic rules</b>A room is assignable only when inspected. A room with an open fault is never released without safety clearance. Exceptions need Duty Manager approval.</div><div><b>Human authority</b>The Duty Manager approves, holds or declines exceptions. The family decides whether to accept.</div></div>'+
+      '<div class="dm-row">'+btn("demo-interpret-ack",s.read?"Signals reviewed":"Mark signals and interpretation reviewed",!s.read,"btn-dark")+'</div></details>');
+    if(s.delay)h.push('<p class="dm-alert" id="demo-delay-notice"><b>3:25pm, WO-1182 update:</b> replacement part delayed; 304 will not be repaired before tomorrow afternoon and still needs safety clearance after repair. The earlier commitment that depended on 304 is withdrawn and its approval is no longer valid.</p>');
+    // choose
+    var canChoose=s.read&&!(v.decision==="approved"||v.decision==="held");
+    h.push('<div class="dm-blk" id="demo-choose"><span class="dm-k">'+(i?"Revised response (version 2)":"Response (version 1)")+'</span><h3>Choose a response for the Rowan family</h3><div class="dm-row" role="group" aria-label="Response options">'+
+      btn("demo-plan-room",P.room[i].name,canChoose,"",' aria-pressed="'+(v.plan==="room")+'"')+btn("demo-plan-wait",P.wait[i].name,canChoose,"",' aria-pressed="'+(v.plan==="wait")+'"')+'</div>'+
+      (d?'<p class="dm-note" id="demo-plan-text">'+d.text+'</p>':'')+'</div>');
+    if(d){
+      var lock=v.decision==="approved"||v.decision==="held";
+      h.push('<fieldset class="dm-blk" id="demo-checks"><legend class="dm-k">Availability checks for this plan</legend>'+
+        d.checks.map(function(c){return '<label class="dm-chk"><input type="checkbox" id="demo-check-'+c[0]+'" data-c="'+c[0]+'"'+(v.checks[c[0]]?" checked":"")+(lock?" disabled":"")+'> <span>Checked: '+c[1]+'</span></label>'}).join("")+'</fieldset>');
+      var ok=checked(v,i);
+      h.push('<div class="dm-blk" id="demo-approval"><span class="dm-k">Exception approval &middot; Duty Manager only</span><p class="dm-note">'+d.exc+' Decision: <b id="demo-decision">'+({approved:"approved",held:"on hold",declined:"declined"}[v.decision]||"pending")+'</b>.'+(mgr?"":" Approval controls work only in the Duty Manager view; changing view grants nothing on its own.")+'</p><div class="dm-row">'+
+        btn("demo-approve","Approve exception",mgr&&ok&&!v.decision,"btn-dark")+btn("demo-hold","Hold",mgr&&!v.decision)+btn("demo-decline","Decline",mgr&&(!v.decision||v.decision==="held"))+btn("demo-resume","Resume review",mgr&&v.decision==="held")+'</div></div>');
+      h.push('<div class="dm-blk" id="demo-dispatch-blk"><span class="dm-k">Dispatch, acknowledgements and evidence</span><div class="dm-row">'+btn("demo-dispatch",v.dispatched?"Dispatched to teams":"Dispatch owned tasks",v.decision==="approved"&&!v.dispatched,"btn-dark")+'</div>'+
+        '<p class="dm-note">Synthetic acknowledgements (a team has accepted its task):</p><div class="dm-row">'+ACK.map(function(a){return btn("demo-ack-"+a[0],(v.acks[a[0]]?"Acknowledged: ":"Record acknowledgement: ")+a[1],v.dispatched&&!v.acks[a[0]])}).join("")+'</div>'+
+        '<p class="dm-note">Synthetic evidence (the work is shown to be done):</p><div class="dm-row">'+d.ev.map(function(e){return btn("demo-evidence-"+e[0],(v.ev[e[0]]?"Recorded: ":"Record: ")+e[1],v.dispatched&&!v.ev[e[0]])}).join("")+'</div>'+
+        '<p class="dm-note">Family decision, recorded by Reception:</p><div class="dm-row">'+btn("demo-accept",v.accepted?"Family acceptance recorded":"Record family acceptance",v.dispatched&&!v.accepted)+'</div></div>');
     }
-    if(focus)$("panel").focus({preventScroll:true});
+    if(!s.delay)h.push('<div class="dm-blk"><span class="dm-k">Later in the afternoon</span><div class="dm-row">'+btn("demo-delay","Advance to 3:25pm: maintenance update",s.v[0].dispatched)+'</div><p class="dm-note">Available once the first response is dispatched.</p></div>');
+    // role view
+    var rt="";
+    if(s.role==="maintenance")rt="WO-1182, room 304: owner M. Okafor (Maintenance lead). Room held, not released. Next follow-up: "+(s.delay?"tomorrow 1pm part arrival, then clearance":"3:45pm technician check")+"; safety clearance required after repair.";
+    else if(s.role==="manager")rt="Decision queue: "+(d?(d.name+" — "+(v.decision||"pending")):"no response chosen yet")+". Open items: "+(MILES.length-miles().filter(Boolean).length)+". WO-1182 stays open.";
+    else rt=d?d.tasks[s.role]:"No task yet: waiting for a response to be chosen.";
+    var ownAck=s.role==="manager"?"":(" Acknowledgement: "+(v.dispatched?(v.acks[s.role]?"recorded":"missing"):"not dispatched")+".");
+    h.unshift('<div class="dm-blk aiw-role" id="demo-role-view"><small>'+ROLES[s.role]+' view &middot; explanation, not access control</small>'+rt+ownAck+'</div>');
+    // 304 + history + outcome
+    h.push('<div class="dm-blk" id="demo-room304"><span class="dm-k">Room 304</span><p class="dm-note"><b>Held &middot; not released.</b> Blocked by WO-1182 pending repair and safety clearance. Owner: M. Okafor, Maintenance. Follow-up: '+(s.delay?"tomorrow 1pm part arrival, then clearance":"3:45pm technician check")+'. <span class="dm-pill o">Open</span></p></div>');
+    h.push('<div class="dm-blk"><span class="dm-k">Review history</span><ol class="dm-list" id="demo-history">'+(s.hist.length?s.hist.map(function(e,k){return '<li id="demo-history-'+k+'"><b>V'+(e.ver+1)+':</b> '+e.t+(e.tag?' <span class="dm-pill o">'+e.tag+'</span>':'')+'</li>'}).join(""):'<li>No decisions yet.</li>')+'</ol></div>');
+    var b=s.v[1],fin=b&&done(b,1);
+    h.push('<div class="dm-blk" id="demo-outcome"><span class="dm-k">Outcome so far</span><ul class="dm-list">'+
+      '<li><b>Family plan:</b> '+(done(v,i)?"agreed and checked: "+d.name+".":(cur().accepted?"accepted, but checks still open.":"not agreed yet."))+'</li>'+
+      '<li><b>Room 304:</b> held pending clearance. WO-1182 open, owner named.</li>'+
+      '<li><b>Other arrivals:</b> outside this demonstration; not claimed as resolved.</li>'+
+      (fin?'<li id="demo-improvement"><b>Proposed improvement:</b> check open work orders against arrivals earlier in the day. Awaiting authorised review; not deployed.</li>':'')+'</ul></div>');
+    $("demo-main").innerHTML=h.join("");
+    var m=miles(),n=m.filter(Boolean).length;
+    $("demo-milestones").innerHTML=MILES.map(function(t,k){return '<li class="'+(m[k]?"done":"open")+'">'+t+'<span class="sr-only"> — '+(m[k]?"done":"open")+'</span></li>'}).join("");
+    $("demo-progress").value=n;$("demo-progress").textContent=n+" of 11";$("demo-progress-text").textContent=n+" of 11";
+    var st=status();$("demo-status").textContent=st[0];$("demo-status").className="aiw-state"+(st[1]?" open":"");
+    var a=$("demo-app");a.dataset.version=String(i+1);a.dataset.plan=v.plan||"";a.dataset.decision=v.decision||"pending";a.dataset.dispatched=String(v.dispatched);a.dataset.agreed=String(!!done(v,i));a.dataset.role=s.role;
+    [].forEach.call(document.querySelectorAll("#demo-app .aiw-chip"),function(x){x.setAttribute("aria-pressed",String(x.dataset.r===s.role))});
+    if(focusId&&$(focusId)&&document.activeElement===document.body){var f=$(focusId);if(f.disabled){f=$("demo-status")}if(f&&!f.disabled)f.focus({preventScroll:true})}
   }
-  render(0,false);
-  if(location.pathname.replace(/\/+$/,"")==="/public-demo"||location.hash==="#sample-demo"){
-    window.addEventListener("load",function(){$("sample-demo").scrollIntoView({behavior:"instant",block:"start"});});
-  }
+  $("demo-app").addEventListener("change",function(e){var c=e.target.dataset&&e.target.dataset.c;if(!c)return;cur().checks[c]=e.target.checked;render()});
+  $("demo-app").addEventListener("click",function(e){
+    var t=e.target.closest("button");if(!t||t.disabled)return;var id=t.id,v=cur(),d=def(v,s.ver);
+    if(t.dataset.r){s.role=t.dataset.r;render();return}
+    if(id==="demo-restart"){reset();render();$("demo-restart").focus();return}
+    if(id==="demo-interpret-ack")s.read=true;
+    else if(id==="demo-plan-room"||id==="demo-plan-wait"){var p=id.slice(10);if(v.plan!==p){v.plan=p;v.checks={};if(v.decision==="declined")v.decision=null}}
+    else if(s.role==="manager"&&id==="demo-approve"){v.decision="approved";log("Duty Manager approved exception for "+d.name+".")}
+    else if(s.role==="manager"&&id==="demo-hold"){v.decision="held";log("Duty Manager put "+d.name+" on hold.")}
+    else if(s.role==="manager"&&id==="demo-resume"){v.decision=null;log("Duty Manager resumed review of "+d.name+".")}
+    else if(s.role==="manager"&&id==="demo-decline"){log("Duty Manager declined "+d.name+".");v.decision="declined";v.plan=null;v.checks={}}
+    else if(id==="demo-dispatch"){v.dispatched=true;log("Dispatched owned tasks for "+d.name+" (separate from approval).")}
+    else if(id.indexOf("demo-ack-")===0)v.acks[id.slice(9)]=true;
+    else if(id.indexOf("demo-evidence-")===0)v.ev[id.slice(14)]=true;
+    else if(id==="demo-accept"){v.accepted=true;log("Reception recorded the family's acceptance of "+d.name+".")}
+    else if(id==="demo-delay"){s.delay=true;s.hist.forEach(function(e){if(e.ver===0&&/approved/.test(e.t))e.tag="Invalidated by 3:25pm repair delay"});s.ver=1;var nv=V();nv.plan=s.v[0].plan;s.v.push(nv);s.hist.push({ver:1,t:"Repair delay invalidated version 1 commitment and approval. Revised response required.",tag:""})}
+    else return;
+    render();
+  });
+  render();
+  // /public-demo without a fragment lands at the demo; any explicit fragment is left to the browser.
+  if(location.pathname.replace(/\/+$/,"")==="/public-demo"&&!location.hash){$("sample-demo").scrollIntoView({behavior:"instant",block:"start"})}
 })();
 </script>
 <script>
@@ -605,14 +754,14 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
     for(var n=0;n<steps.children.length;n++){var li=steps.children[n];li.classList.toggle("done",n<i);if(n===i)li.setAttribute("aria-current","step");else li.removeAttribute("aria-current");}
     $("aiw-prev").disabled=i===0;$("aiw-next").disabled=i===7;
   }
-  [].forEach.call(document.querySelectorAll(".aiw-chip"),function(b){b.addEventListener("click",function(){
+  [].forEach.call(document.querySelectorAll("#ai-in-the-work .aiw-chip"),function(b){b.addEventListener("click",function(){
     var k=b.dataset.role?"role":"ev";
     [].forEach.call(b.parentNode.querySelectorAll(".aiw-chip"),function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});
     if(k==="role")role=b.dataset.role;else ev=b.dataset.ev;render();});});
   $("aiw-prev").addEventListener("click",function(){if(i>0){i--;render()}});
   $("aiw-next").addEventListener("click",function(){if(i<7){i++;render()}});
   $("aiw-reset").addEventListener("click",function(){i=0;role="reception";ev="missing";
-    [].forEach.call(document.querySelectorAll(".aiw-chip"),function(x){x.setAttribute("aria-pressed",(x.id==="aiw-role-reception"||x.id==="aiw-evidence-missing")?"true":"false")});render();$("aiw-next").focus();});
+    [].forEach.call(document.querySelectorAll("#ai-in-the-work .aiw-chip"),function(x){x.setAttribute("aria-pressed",(x.id==="aiw-role-reception"||x.id==="aiw-evidence-missing")?"true":"false")});render();$("aiw-next").focus();});
   render();
 })();
 </script>

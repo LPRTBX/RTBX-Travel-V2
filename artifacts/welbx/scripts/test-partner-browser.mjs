@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import { chromium } from "playwright";
 import { createTravelServer } from "../server/app.mjs";
 import { createAccess, SESSION_MS } from "../server/access.mjs";
+import { checkPublicDemo } from "./public-demo-browser.mjs";
 
 const assert = (condition, message) => { if (!condition) throw new Error(message); };
 const code = randomBytes(32).toString("hex"); // isolated, never displayed or configured
@@ -19,16 +20,19 @@ try {
   const guidedPaths = [...journeySource.split("export const GUIDED_ROUTE")[1].split("];")[0].matchAll(/path: "([^"]+)"/g)].map(match => match[1]);
   assert(guidedPaths.length === 8, "eight-step journey changed unexpectedly");
   for (const width of [390, 820, 1440]) {
-    const context = await browser.newContext({ viewport: { width, height: 950 } });
+    const context = await browser.newContext({ viewport: { width, height: 950 }, reducedMotion: "reduce" });
     const page = await context.newPage();
     const errors = [];
     page.on("pageerror", e => errors.push(e.message));
+    page.on("console", message => {
+      if (/violates.*Content Security Policy/i.test(message.text())) errors.push(message.text());
+    });
     const requests = [];
     page.on("request", req => requests.push(new URL(req.url()).pathname));
     await page.goto(base, { waitUntil: "networkidle" });
     assert(await page.locator("h1").isVisible(), "public introduction missing");
     assert(await page.locator(".honest-grid, #status").count() === 0, "removed public proof-status block returned");
-    assert((await page.locator("#sample-demo").innerText()).includes("Illustrative demonstration using fictional hotel scenarios. Live integrations and operational outcomes are validated through an agreed pilot."), "concise demonstration note missing");
+    assert(await page.locator("#demo-notice").textContent() === "Interactive fictional demonstration — no live actions", "concise demonstration note missing");
     for (const title of ["Your people retain authority", "Capacity is checked before commitments", "Completion needs evidence", "Improvements are reviewed before use"]) {
       assert(await page.getByRole("heading", { name: title, exact: true }).count() === 1, `response principle missing: ${title}`);
     }
@@ -102,7 +106,8 @@ try {
     assert(await page.locator("#aiw-title").innerText() === "Synthetic inputs", "AI story reset failed");
     assert(await page.locator("#aiw-role-reception").getAttribute("aria-pressed") === "true", "reset retained role");
     assert(await page.locator("#aiw-evidence-missing").getAttribute("aria-pressed") === "true", "reset retained receipt");
-    assert(await page.locator("#p-title").innerText() === "A guest arrives early", "AI story changed existing sample state");
+    assert(await page.locator("#demo-app").getAttribute("data-plan") === "", "AI story changed public demo state");
+    await checkPublicDemo(page, base, width);
     // JALDO Main currently links to this legacy home instead of the public root.
     await page.goto(base + "/partner-room", { waitUntil: "networkidle" });
     assert(new URL(page.url()).pathname === "/", "legacy public arrival did not reach the overview");
@@ -110,20 +115,6 @@ try {
     assert(await page.locator('a[href="https://wearejaldo.com"]').count() > 0, "return to JALDO Main missing");
     await page.locator('a[href="/partner-access"]').first().click();
     assert(await page.getByRole("heading", { name: "Partner Room access" }).isVisible(), "public Partner Room link bypassed or missed gate");
-    await page.goto(base + "/public-demo", { waitUntil: "networkidle" });
-    await page.getByRole("button", { name: "Acknowledge the delay" }).click();
-    await page.getByRole("button", { name: "Offer luggage storage" }).click();
-    await page.getByRole("button", { name: "Approve (sample)", exact: true }).click();
-    assert(/Bags delivered/.test(await page.locator("#panel").innerText()), "sample choice did not affect result");
-    await page.getByRole("button", { name: "Start again" }).click();
-    assert(/Acknowledge the delay/.test(await page.locator("#panel").innerText()), "sample reset failed");
-    await page.getByRole("button", { name: "Acknowledge the delay" }).click();
-    await page.getByRole("button", { name: "Offer a wait-time update" }).click();
-    await page.getByRole("button", { name: "Go back", exact: true }).click();
-    await page.getByRole("button", { name: "Offer a wait-time update" }).click();
-    await page.getByRole("button", { name: "Approve (sample)", exact: true }).click();
-    assert(/keys are waiting/.test(await page.locator("#panel").innerText()), "wait-time choice or review back failed");
-    await page.getByRole("button", { name: "Start again" }).click();
     assert((await page.request.get(base + bundle)).status() === 401, "anonymous partner bundle allowed");
     assert((await page.request.get(base + "/partner-room/brief.pdf")).status() === 401, "anonymous document allowed");
     await page.goto(base + "/partner-room/architecture-lab", { waitUntil: "networkidle" });
