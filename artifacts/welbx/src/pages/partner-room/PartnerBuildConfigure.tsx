@@ -3,7 +3,7 @@
  *
  * Replaces the static Sprint 3 card list with a fully interactive
  * configuration workflow. All state is held in a single `draft` object
- * and persisted to DeploymentContext → localStorage on activation.
+ * and held in DeploymentContext page memory on activation.
  *
  * SYNTHETIC DEMONSTRATION DATA ONLY.
  * Not a production customer environment.
@@ -1036,7 +1036,7 @@ function ActivationSuccess({ deployment }: { deployment: TravelDeploymentConfig 
           {activeScens.length} scenario{activeScens.length !== 1 ? "s" : ""} active · Status: active-simulation
         </p>
         <div style={{ padding: "14px 18px", background: "rgba(168,222,219,0.04)", border: "1px solid rgba(168,222,219,0.2)", marginBottom: 32, fontSize: 11, color: "rgba(255,255,255,0.45)", lineHeight: 1.65 }}>
-          Deployment configuration saved locally (synthetic demonstration data). This is not a production customer environment.
+          Synthetic configuration is held only in this page's memory. Use the links below to continue; refreshing or leaving the room clears it. This is not a production customer environment.
         </div>
         <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
           <Link href="/partner-room/operations">

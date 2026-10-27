@@ -9,15 +9,18 @@
  *        set UI_WIDTH to rerun the checks that are not tied to a width at another width)
  */
 
-import { spawn } from "node:child_process";
+import { randomBytes } from "node:crypto";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
+import { createTravelServer } from "../server/app.mjs";
+import { createAccess, SESSION_COOKIE } from "../server/access.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const port = Number(process.env.UI_PORT ?? 5187);
 let base = process.env.UI_BASE_URL;
 let server;
+let testAccess;
 
 async function waitForServer(url, timeoutMs = 60_000) {
   const start = Date.now();
@@ -30,9 +33,12 @@ async function waitForServer(url, timeoutMs = 60_000) {
 
 if (!base) {
   base = `http://localhost:${port}`;
-  server = spawn("pnpm", ["exec", "vite", "--config", "vite.config.ts", "--port", String(port), "--strictPort"], {
-    cwd: root, stdio: "ignore", env: { ...process.env, PORT: String(port), VITE_PARTNER_ROOM_CODE: "" },
-  });
+  // Isolated fixture, not a bypass on the preview. No Vite server or secret
+  // override is used. The ephemeral test credential is never printed.
+  const code = randomBytes(32).toString("hex");
+  testAccess = { access: createAccess({ getCode: () => code }), code };
+  server = createTravelServer({ access: testAccess.access });
+  await new Promise(resolve => server.listen(port, "127.0.0.1", resolve));
   await waitForServer(base);
 }
 
@@ -45,11 +51,15 @@ const results = [];
 const forcedWidth = Number(process.env.UI_WIDTH) || 0;
 
 async function check(name, viewport, fn) {
+  if (process.env.UI_CHECK_FILTER && !new RegExp(process.env.UI_CHECK_FILTER).test(name)) return;
   if (forcedWidth && !/\d+px$/.test(name)) {
     viewport = { width: forcedWidth, height: forcedWidth <= 390 ? 844 : forcedWidth <= 820 ? 1180 : 900 };
     name = `${name} (at ${forcedWidth}px)`;
   }
   const context = await browser.newContext({ viewport });
+  if (testAccess) {
+    await context.addCookies([{ name: SESSION_COOKIE, value: testAccess.access.enter(testAccess.code), url: base.replace("http:", "https:") + "/", secure: true, httpOnly: true, sameSite: "Strict" }]);
+  }
   const page = await context.newPage();
   const errors = [];
   page.on("pageerror", error => errors.push(error.message));
@@ -68,7 +78,16 @@ function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
-const open = (page, path) => page.goto(`${base}${path}`, { waitUntil: "networkidle" });
+const open = async (page, path) => {
+  // Configuration is intentionally page-memory-only. Exercise the actual
+  // activation forward link, not a full reload that must clear private state.
+  if (path === "/partner-room/operations" && await page.getByText("Deployment activated", { exact: true }).count()) {
+    await page.getByRole("link", { name: "Open Execution Centre →", exact: true }).click();
+    await page.waitForURL(`${base}${path}`);
+    return;
+  }
+  return page.goto(`${base}${path}`, { waitUntil: "networkidle" });
+};
 
 // #1 Architecture Lab: the map and Inspector stack below 900px and sit side by side on desktop.
 for (const viewport of [{ width: 390, height: 844 }, { width: 820, height: 1180 }, { width: 1440, height: 900 }]) {
@@ -480,7 +499,8 @@ async function activateDeployment(page, edit) {
   if (edit) await edit(page);
   await page.getByRole("button", { name: /Activate/ }).first().click();
   await page.getByRole("button", { name: /Activate Travel Environment/ }).click();
-  await page.waitForFunction(() => localStorage.getItem("rtbx_travel_deployment_v1")?.includes("active-simulation"));
+  await page.getByText("Deployment activated", { exact: true }).waitFor();
+  assert(await page.evaluate(() => localStorage.getItem("rtbx_travel_deployment_v1") === null), "configuration persisted in browser storage");
 }
 const noHorizontalScroll = async (page, width) => {
   const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth);
@@ -803,7 +823,8 @@ for (const viewport of [{ width: 390, height: 844 }, { width: 820, height: 1180 
     await page.locator("#deploy-name").fill("Bayside Resort — Pilot");
     await page.getByRole("button", { name: /Activate/ }).first().click();
     await page.getByRole("button", { name: /Activate Travel Environment/ }).click();
-    await page.waitForFunction(() => localStorage.getItem("rtbx_travel_deployment_v1")?.includes("Bayside Resort"));
+    await page.getByText("Deployment activated", { exact: true }).waitFor();
+    assert(await page.locator("h1").innerText() === "Bayside Resort — Pilot", "changed configuration was not activated");
     await goVia(page, "Evidence", viewport.width);
     await waitForEvidenceInView(page);
     const changed = await evidenceSnapshot(page);
@@ -923,7 +944,8 @@ for (const viewport of [{ width: 390, height: 844 }, { width: 820, height: 1180 
     assert((await page.getByTestId("security-verified").locator("li").allInnerTexts()).every(text => /Evidence:/.test(text)), "a verified control has no evidence");
     assert(!/Evidence:/.test(await page.getByTestId("security-demonstrated").innerText()), "demonstrated behaviour presented as verified");
     assert(/makes no certification claim/.test(await page.getByTestId("security-certification").innerText()), "certification statement missing");
-    assert(/not authentication or access control/.test(await page.getByTestId("security-demonstrated").innerText()), "access code presented as a control");
+    assert(/server-verified access/.test(await page.getByTestId("security-verified").innerText()), "server access boundary not described");
+    assert(/shared code is not named-user identity/.test(await page.getByTestId("security-verified").innerText()), "shared-code boundary overclaims user identity");
     assert(/deployed Replit site has not been checked/.test(await page.getByTestId("security-scope").innerText()), "local-build findings not separated from the deployed site");
     assert(/ordinary request metadata/.test(await page.getByTestId("security-verified").innerText()), "font request metadata not explained");
     assert(!/No data leaves the browser/i.test(await page.locator("#security-data").innerText()), "unscoped data claim still shown");
@@ -1215,7 +1237,7 @@ for (const choice of ["network", "local"]) {
 }
 
 await browser.close();
-server?.kill();
+if (server) await new Promise(resolve => server.close(resolve));
 
 for (const result of results) console.log(`${result.ok ? "PASS" : "FAIL"}  ${result.name}${result.ok ? "" : `\n      ${result.detail}`}`);
 const failed = results.filter(result => !result.ok).length;

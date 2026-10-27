@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSearch } from "wouter";
 import { CROSS_PROPERTY_COVER_EXCEPTION } from "@/lib/portfolioCoordination";
 import { approvePortfolioSupport, initialPeakState, portfolioSummary, type ChallengeId } from "@/lib/peakPressure";
 import { PeakPressureScenario } from "@/components/partner-room/PeakPressureScenario";
@@ -10,9 +11,11 @@ import { PortfolioDisruptionScenario } from "@/components/partner-room/Portfolio
  * Both stay mounted; the inactive one is hidden so its state persists.
  */
 export default function Stage3PeakExperience() {
+  const search = useSearch();
   const [state, setState] = useState(() => initialPeakState("standard"));
   const [run, setRun] = useState(0);
-  const [scenario, setScenario] = useState<"peak" | "portfolio">("peak");
+  const [scenario, setScenario] = useState<"peak" | "portfolio">(() =>
+    new URLSearchParams(search).get("scenario") === "portfolio" ? "portfolio" : "peak");
   const restart = (challenge: ChallengeId) => { setState(initialPeakState(challenge)); setRun(n => n + 1); };
   // The portfolio exception is raised only once the Duty Manager has recorded the escalation.
   const needsCover = state.challenge === "capacity" && state.review.status === "approved" && "escalate" in state.done;

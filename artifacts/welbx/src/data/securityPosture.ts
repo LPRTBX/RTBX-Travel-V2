@@ -18,18 +18,18 @@ export interface SecurityItem {
 export const VERIFIED_CONTROLS: SecurityItem[] = [
   {
     title: "Scenario and pilot-scope content stays in the browser during the tested journey",
-    detail: "The demonstration has no backend. In the tested journey, scenario runs, their evidence and the pilot scope are held in this browser and are not sent anywhere, and drafted communications are never delivered. The page does request its typefaces from Google Fonts. Like any web request, those carry ordinary request metadata (such as the device's IP address, the browser's user agent and, depending on browser settings, the page address as referrer), but none of the scenario or scope content.",
-    evidence: "Browser check on a local build in Chromium: across the full Partner Room journey every request is a GET to the app itself or to Google Fonts, and none carries a request body. Supporting evidence: a scan of the app's own source finds no fetch, XMLHttpRequest, WebSocket, EventSource or sendBeacon calls. The scan does not cover third-party libraries or the hosting platform, so it supports the claim rather than proving it.",
+    detail: "The server checks partner entry and session expiry. Scenario runs, their evidence, configuration and pilot scope remain in this page's memory; drafted communications are never delivered. Partner pages request typefaces from Google Fonts. These requests carry ordinary request metadata, but not scenario or scope content. Public pages use system fonts.",
+    evidence: "Tests on a local build cover server entry and session checks separately from synthetic workflows. Supporting evidence: a scan of the app's own source allows fetch only for the partner session endpoint; scenario content is not sent by those calls. This does not cover third-party libraries or the hosting platform.",
   },
   {
     title: "Configuration and runs stay on this device",
-    detail: "An activated configuration is kept in this browser's local storage and is rejected on load unless it is marked synthetic. Runs and their evidence are held in memory and end when the page is refreshed.",
+    detail: "Configuration, runs, evidence and pilot scope are held in page memory, not persistent browser storage. They end on refresh or leaving the room. Previously persisted synthetic configuration is removed, not restored.",
     evidence: "Unit and browser checks for the session store: records clear on refresh, reset and re-activation.",
   },
   {
-    title: "Restricted material is kept out of the published build",
-    detail: "Only approved routes are reachable, and restricted modules and content cannot enter the production bundle.",
-    evidence: "CI on every pull request: check-access-boundaries and check-bundle-boundaries fail the build if either is breached.",
+    title: "Partner pages and assets require server-verified access",
+    detail: "The public introduction and sample demo do not load the partner application. All other pages, scripts and downloads are denied without a valid server session. Entry fails closed when the secret is missing. A shared code is not named-user identity or authorization for live data.",
+    evidence: "Server boundary tests cover anonymous direct routes and assets, wrong codes, session expiry, revocation and logout. Build checks retain the exclusion of unapproved commercial modules. These checks do not assert that the published site has been updated.",
   },
 ];
 
@@ -45,10 +45,6 @@ export const DEMONSTRATED_BEHAVIOUR: SecurityItem[] = [
   {
     title: "Restricted welfare handling",
     detail: "Welfare cases are decided only by a person, with human-authored drafts. Portfolio views see only that a restricted case is open.",
-  },
-  {
-    title: "Partner Room access code",
-    detail: "A preview code keeps casual visitors out. It is checked in the browser and shipped with the page, so it is not authentication or access control.",
   },
 ];
 

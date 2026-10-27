@@ -21,6 +21,14 @@ const STAGE_NODE_MAP: Record<string, string> = {
   Learn: "evidence",
 };
 
+const PHASE_GUIDES: Record<string, string> = {
+  Connect: "Receive the signal",
+  Understand: "Recognise the moment",
+  Decide: "Check rules and authority",
+  Act: "Coordinate the response",
+  Learn: "Check evidence and improve",
+};
+
 export default function PartnerArchitectureLab() {
   const [selected, setSelected] = useState<ArchitectureScenarioId>("repeat-guest-room-not-ready");
   const [hotelCase, setHotelCase] = useState<HotelCase>(() => makeCase("repeat-guest-room-not-ready"));
@@ -103,8 +111,10 @@ export default function PartnerArchitectureLab() {
   };
   const nextLabel = architectureNextLabel(hotelCase);
   // The engine records approval and moves the case on at dispatch; say so rather than show a stale gate.
-  const statusText = execution.state === "approval-required" && hotelCase.approved
-    ? `Approved by ${roleLabel(execution.approvalRoleId)} · ready to dispatch`
+  const statusText = hotelCase.approved && ["approval-required", "decision-required"].includes(execution.state)
+    ? execution.approvalRequired
+      ? `Approved by ${roleLabel(execution.approvalRoleId)} · ready to dispatch`
+      : `Delegated decision by ${roleLabel(execution.accountableRoleId)} · ready to dispatch`
     : stateLabel(execution.state);
   const followUpLocked = execution.state !== "in-action" || !!hotelCase.observation;
   const followUpHint = hotelCase.observation
@@ -119,11 +129,15 @@ export default function PartnerArchitectureLab() {
       <section style={{ padding: "56px clamp(20px,5vw,72px) 42px", background: "linear-gradient(135deg,#081719,#10282b)", borderBottom: "1px solid rgba(168,222,219,.14)" }}>
         <div style={{ maxWidth: 1380, margin: "0 auto" }}>
           <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: ".16em", textTransform: "uppercase", color: "#f59e0b", marginBottom: 12 }}>Partner Room · Working Proof · Architecture Lab</div>
-          <h1 style={{ fontSize: "clamp(34px,5vw,60px)", lineHeight: 1.03, letterSpacing: "-.045em", margin: "0 0 16px", maxWidth: 980 }}>Watch one hotel signal move through the operating architecture.</h1>
-          <p style={{ fontSize: "clamp(17px,2vw,21px)", color: "rgba(255,255,255,.86)", lineHeight: 1.55, maxWidth: 1080, margin: "0 0 10px", fontWeight: 700 }}><span style={{ color: "#a8dedb" }}>JALDO Travel is the operating layer that coordinates the hotel around the moment</span> — connecting guests, staff, systems, dashboards, buildings, partners, policies and communications so the right decision reaches the right person at the right time.</p>
-          <p style={{ ...muted, maxWidth: 960, lineHeight: 1.65, fontSize: 14, margin: "0 0 12px" }}>The systems already exist. The people already exist. The dashboards and partners already exist. JALDO coordinates them into one governed decision-and-action flow.</p>
-          <p style={{ ...muted, maxWidth: 900, lineHeight: 1.7, fontSize: 15 }}>This Working Proof traces that model across connection, signal, classification, governance, decision, playbook, human authority, communications, evidence, outcome and learning using the canonical Travel scenario, playbook and runtime model.</p>
-          <div style={{ marginTop: 18, fontSize: 12, color: "#a8dedb" }}>Working Proof · synthetic inputs · rules-based logic · named human approval · no live hotel-system write</div>
+          <h1 style={{ fontSize: "clamp(34px,5vw,60px)", lineHeight: 1.03, letterSpacing: "-.045em", margin: "0 0 16px", maxWidth: 980 }}>One hotel moment. An accountable response. A reviewed next cycle.</h1>
+          <p style={{ fontSize: "clamp(17px,2vw,21px)", color: "rgba(255,255,255,.86)", lineHeight: 1.55, maxWidth: 960, margin: "0 0 10px" }}>A guest arrives before their room is ready. Follow the signal, the human decision and the evidence. If the response misses its target, review a change and test the same signal again.</p>
+          <p style={{ ...muted, maxWidth: 960, lineHeight: 1.65, fontSize: 15 }}>The eight-step journey above visits the wider Partner Room. Inside this Lab, five architecture phases contain eleven inspectable layers. These are different views—not eight steps inside the Lab.</p>
+          <details style={{ ...muted, lineHeight: 1.65, fontSize: 14 }}><summary>How the operating layer fits together</summary><p>JALDO coordinates existing hotel systems, people, rules and communications around a moment. Select a layer below to inspect its role. The same scenario and evidence engine powers the Working Proof.</p></details>
+          <div style={{ marginTop: 18, fontSize: 13, color: "#a8dedb" }}>Fictional Working Proof · rules-based classification · illustrative confidence, not live AI inference · simulated human authority · no real messages or hotel-system writes</div>
+          <details style={{ ...muted, marginTop: 16, lineHeight: 1.65, fontSize: 14 }}>
+            <summary>AI interpretation is not the decision engine</summary>
+            <p>The <a href="/#ai-in-the-work" style={{ color: "#a8dedb", textDecoration: "underline" }}>public hotel story</a> shows a scripted example of how AI could summarise room readiness, guest needs and staffing pressure, with sources and uncertainty, and prepare options. No AI model runs here. This Lab classifies signals using configured rules; the accountable role retains authority, required approval precedes dispatch, and receipts and measurements determine what can be confirmed. Reviewed changes are tested separately, not automatically deployed.</p>
+          </details>
         </div>
       </section>
 
@@ -149,7 +163,8 @@ export default function PartnerArchitectureLab() {
               <p id="follow-up-condition-hint" style={{ ...muted, flexBasis: "100%", margin: 0, fontSize: 12, textAlign: "right" }}>{followUpHint}</p>
             </div>
           </div>
-          <div className="travel-architecture-stages" style={{ display: "grid", gridTemplateColumns: "repeat(5,minmax(0,1fr))", gap: 4, marginTop: 22 }}>
+          <p style={{ ...muted, fontSize: 14, margin: "22px 0 8px" }}><strong style={{ color: "#a8dedb" }}>Five architecture phases</strong> · select a phase to inspect its layers; use the orange button to advance the story.</p>
+          <div className="travel-architecture-stages" style={{ display: "grid", gridTemplateColumns: "repeat(5,minmax(0,1fr))", gap: 4, marginTop: 8 }}>
             {TRACE_STEPS.map((step,i) => <button
               key={step.id}
               onClick={() => focusArchitectureStage(step.label)}
@@ -165,6 +180,7 @@ export default function PartnerArchitectureLab() {
             >
               <div style={{ fontSize: 10, ...muted }}>0{i+1}</div>
               <div style={{ fontSize: 13, fontWeight: 900, color: focusStage === step.label ? "#f59e0b" : i <= activeStep ? "#a8dedb" : "rgba(255,255,255,.45)" }}>{step.label}</div>
+              <small style={{ display: "block", marginTop: 5, color: "rgba(255,255,255,.7)", lineHeight: 1.4 }}>{PHASE_GUIDES[step.label]}</small>
             </button>)}
           </div>
         </section>
@@ -214,7 +230,7 @@ export default function PartnerArchitectureLab() {
         {hotelCase.observation && <section className="travel-loop-review" style={{ ...box, marginTop: 26, padding: 24, borderTop: "2px solid #a8dedb" }} aria-label="Review and replay learning">
           <div style={{ color: "#a8dedb", fontSize: 12, fontWeight: 800 }}>LEARN → HUMAN REVIEW → REPLAY → VERIFY AGAIN</div>
           <h2 style={{ fontSize: 26, margin: "10px 0" }}>Did the response work—and what changes next?</h2>
-          <p style={{ color: "rgba(255,255,255,.75)", lineHeight: 1.7 }}>{lateEvidence ? "Outcome after late evidence" : "Recorded outcome"}: <strong>{OUTCOME_LABELS[hotelCase.outcome]}</strong> · Case: <strong>{stateLabel(execution.state)}</strong>. {hotelCase.reasons.length ? `Why: ${describeFollowUpReasons(hotelCase.reasons)}.` : "Synthetic receipt recorded and the issue restored within the 20-minute target. Nothing was sent."}</p>
+          <p style={{ color: "rgba(255,255,255,.75)", lineHeight: 1.7 }}>{lateEvidence ? "Outcome after late evidence" : "Recorded outcome"}: <strong>{OUTCOME_LABELS[hotelCase.outcome]}</strong> · Case: <strong>{execution.state === "closed" ? "Closed" : `Open · ${stateLabel(execution.state)}`}</strong>. {hotelCase.reasons.length ? `Why: ${describeFollowUpReasons(hotelCase.reasons)}.` : "Synthetic receipt recorded and the issue restored within the 20-minute target. Nothing was sent."}</p>
           {lateEvidence && <p style={{ ...muted, lineHeight: 1.7 }}>The earlier follow-up (pending evidence) stays on record. The late measurement was added alongside it, not in place of it.</p>}
           <p style={{ ...muted, lineHeight: 1.7 }}>This fixture tests restoration with a receipt within 20 minutes. It does not measure each scenario’s guest, safety or commercial outcomes. A closed case can still miss its target; a pending case stays open.</p>
           {proposal ? <>
@@ -235,7 +251,7 @@ export default function PartnerArchitectureLab() {
             {reviewError && <p role="alert">{reviewError}</p>}
             {replay && <div role="status" style={{ marginTop: 20, padding: 18, border: "1px solid #a8dedb", lineHeight: 1.8 }}>
               <strong>Recorded: {OUTCOME_LABELS[hotelCase.outcome].toLowerCase()} → replay: {OUTCOME_LABELS[replay.outcome].toLowerCase()}</strong>
-              <p style={{ margin: "8px 0" }}>Response time: {hotelCase.observation.elapsedMinutes} → {replay.observation?.elapsedMinutes} minutes. Replay case: {stateLabel(replay.execution.state)}. {replay.reasons.length ? `Why: ${describeFollowUpReasons(replay.reasons)}.` : "Target met in the replay."}</p>
+              <p style={{ margin: "8px 0" }}>Response time: {hotelCase.observation.elapsedMinutes} → {replay.observation?.elapsedMinutes} minutes. Replay case: {replay.execution.state === "closed" ? "Closed" : `Open · ${stateLabel(replay.execution.state)}`}. {replay.reasons.length ? `Why: ${describeFollowUpReasons(replay.reasons)}.` : "Target met in the replay."}</p>
               <p style={{ margin: 0 }}>The replay is a new execution of the same signal; the recorded outcome above is unchanged. {replay.outcome === "met" ? "Candidate passed this fixture; broader validation is still required." : "Approval did not guarantee improvement. Keep the unresolved work and reassess capacity."} No change is promoted to a saved deployment.</p>
             </div>}
           </> : hotelCase.outcome === "pending" ? <>
@@ -253,9 +269,11 @@ export default function PartnerArchitectureLab() {
         </section>}
 
         <section style={{ ...box, marginTop: 26, padding: 24, borderTop: "2px solid #f59e0b" }}>
-          <h3 style={{ margin: "0 0 8px" }}>One moment is the entry point. The whole operation is the opportunity.</h3>
-          <p style={{ ...muted, lineHeight: 1.65, margin: "0 0 16px", maxWidth: 900 }}>Inspect the impact across every canonical scenario, then move into configuration, integrations and modelled value. The Architecture Lab does not convert illustrative outcomes into measured ROI.</p>
+          <h3 style={{ margin: "0 0 8px" }}>Next story: pressure on the team, then a disruption across hotels.</h3>
+          <p style={{ ...muted, lineHeight: 1.65, margin: "0 0 16px", maxWidth: 900 }}>Stage 3 extends coordination and reviewed learning across properties. Explore peak-pressure wellbeing support or portfolio disruption. Both are fictional planned simulations, not live execution. Approval is not delivery; evidence must confirm the response. No illustrative outcome becomes real ROI.</p>
           <div className="travel-architecture-actions">
+            <Link className="travel-architecture-action" href="/partner-room/product-proof/stage-3-operating-layer?scenario=peak">Peak-pressure wellbeing story →</Link>
+            <Link className="travel-architecture-action" href="/partner-room/product-proof/stage-3-operating-layer?scenario=portfolio">Portfolio disruption story →</Link>
             <Link className="travel-architecture-action" href="/partner-room/build-configure">Build & Configure →</Link>
             <Link className="travel-architecture-action" href="/partner-room/integration-brief">Integration →</Link>
             <Link className="travel-architecture-action" href="/partner-room/operating-evolution">Watch the operation evolve →</Link>

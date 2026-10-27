@@ -30,6 +30,19 @@ if (!basePath) {
 export default defineConfig({
   base: basePath,
   plugins: [
+    {
+      name: "private-workspace-canvas",
+      configureServer(server) {
+        // The canvas is not a public Travel entry point. Disable its HTTP
+        // surface so Vite source serving cannot bypass the partner boundary.
+        server.middlewares.use((_req, res) => {
+          res.statusCode = 403;
+          res.setHeader("Cache-Control", "no-store");
+          res.setHeader("Content-Type", "text/plain");
+          res.end("Canvas preview is disabled while the Travel partner boundary is enabled.");
+        });
+      },
+    },
     mockupPreviewPlugin(),
     react(),
     tailwindcss(),

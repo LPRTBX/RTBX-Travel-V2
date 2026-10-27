@@ -2,8 +2,8 @@
 name: GitHub Git transport
 description: CLI API authentication and the origin's Git credentials may disagree.
 ---
-Verify a preservation branch on GitHub before switching the checkout. A working GitHub CLI API session does not prove the configured origin's Git push credentials work.
+Use normally configured GitHub access only. A working GitHub CLI API session does not prove the configured origin's Git push credentials work. Do not extract tokens, inspect credential files or use credential-bearing URLs.
 
-**Why:** The original Git transport rejected its credential even though the authenticated GitHub CLI could inspect the repository. A clean GitHub HTTPS endpoint with the CLI credential helper successfully backed up the local history without modifying existing credentials or remote configuration.
+**Why:** API access and origin Git transport have behaved differently in this environment. After the HTTPS origin failed, the owner explicitly authorised the already authenticated GitHub CLI's standard credential helper with a clean HTTPS repository URL, provided the account and repository permissions were verified first.
 
-**How to apply:** If API access works but pushing fails, use the authenticated CLI helper with a clean repository URL for that operation. Never print embedded credentials, force shared main, or proceed past the backup step until the remote ref matches the intended local commit.
+**How to apply:** Verify GitHub CLI's account is the intended repository owner and has push permission. The authorised operation-only helper is `git -c credential.helper= -c 'credential.helper=!gh auth git-credential'` against `https://github.com/LPRTBX/RTBX-Travel-V2.git`; it does not modify global credentials. Verify the exact remote SHA after preservation. If this supported access fails, stop and report the precise authentication action required. Never force shared main, discard history or claim backup status proves merge/deployment parity.

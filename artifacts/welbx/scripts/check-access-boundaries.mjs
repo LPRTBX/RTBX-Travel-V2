@@ -159,8 +159,10 @@ if (manifestStart < 0 || manifestEnd < 0) {
 }
 
 if (!gate.includes("Controlled Partner Preview")) failures.push("Access gate is missing controlled-preview wording");
-if (!gate.includes("not a production security boundary")) failures.push("Access gate does not disclose its advisory boundary");
-if (gate.includes("Private Partner Room")) failures.push("Access gate still makes a private-room claim");
+if (!gate.includes("/partner-session")) failures.push("Partner session UI is not connected to server verification");
+if (/VITE_PARTNER_ROOM_CODE|REQUIRED_CODE|partner_room_access/.test(gate)) failures.push("Browser-only access-code handling must not return");
+const server = readFileSync(join(root, "server", "app.mjs"), "utf8");
+if (!server.includes("!PUBLIC_FILES.has(path) && !session")) failures.push("Closed-by-default server boundary is missing");
 
 function walkFiles(dir) {
   if (!existsSync(dir)) return [];
@@ -170,7 +172,8 @@ function walkFiles(dir) {
   });
 }
 
-// Public marketing imagery only; no documents or partner data.
+// Approved build inputs, NOT an anonymous serving allowlist. The legacy
+// opengraph Partner Room screenshot requires auth in server/app.mjs.
 const approvedPublicFiles = new Set(["favicon.svg", "opengraph.jpg",
   "brand/jaldo-logo-white.webp",
   "images/travel/arrival-hero.webp",

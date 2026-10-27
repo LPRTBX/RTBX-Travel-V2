@@ -40,6 +40,14 @@ export function JourneyProgress() {
           {GUIDED_ROUTE.map((item, i) => <li key={item.id} className={i < index ? "done" : i === index ? "current" : ""} />)}
         </ol>
         {next && <Link href={next.path} className="journey-progress-next">Next: {next.title} →</Link>}
+        <details className="journey-step-picker">
+          <summary>Explore all eight journey steps</summary>
+          <ol>
+            {GUIDED_ROUTE.map((item, i) => <li key={item.id}>
+              <Link href={item.path}><span>{i + 1}.</span> {item.title}</Link>
+            </li>)}
+          </ol>
+        </details>
       </div>
     </nav>
   );

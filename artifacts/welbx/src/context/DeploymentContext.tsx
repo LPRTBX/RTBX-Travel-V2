@@ -1,7 +1,7 @@
 /**
  * DeploymentContext — shared deployment state for JALDO Travel Sprint 4.
  *
- * Persists the active deployment configuration to localStorage.
+ * Keeps the active deployment configuration in authenticated-page memory only.
  * All data is local synthetic demonstration data — not a production
  * customer environment or a live integration.
  *
@@ -22,24 +22,12 @@ const DEMO_LABEL  = "local synthetic demonstration data";
 
 function loadFromStorage(): TravelDeploymentConfig | null {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) {
-      const parsed = JSON.parse(raw) as TravelDeploymentConfig;
-      // Safety check: must be synthetic
-      if (parsed && parsed.synthetic === true) return parsed;
-    }
+    // Remove earlier browser-persisted configuration; never restore it.
+    localStorage.removeItem(STORAGE_KEY);
   } catch {
     // ignore parse errors
   }
   return null;
-}
-
-function saveToStorage(config: TravelDeploymentConfig): void {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
-  } catch {
-    // ignore write errors
-  }
 }
 
 function clearStorage(): void {
@@ -68,7 +56,7 @@ export interface DeploymentContextType {
 
   /**
    * Activate a deployment configuration. Sets deploymentStatus to
-   * "active-simulation", assigns a deployment ID, and persists to localStorage.
+   * "active-simulation" and assigns a deployment ID. Ends on refresh or logout.
    * Label: local synthetic demonstration data.
    */
   activateDeployment: (config: TravelDeploymentConfig) => void;
@@ -109,7 +97,6 @@ export function DeploymentProvider({ children }: { children: ReactNode }) {
         updatedAt: new Date().toISOString(),
         synthetic: true as const,
       };
-      saveToStorage(updated);
       return updated;
     });
   }, []);
@@ -131,7 +118,6 @@ export function DeploymentProvider({ children }: { children: ReactNode }) {
       synthetic: true,
     };
     setActiveDeployment(activated);
-    saveToStorage(activated);
   }, []);
 
   const resetDeployment = useCallback(() => {

@@ -1,0 +1,769 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<title>JALDO Travel | Hospitality coordination, accountably followed through</title>
+<meta name="description" content="JALDO Travel is a proposed hospitality coordination layer for hotel and resort teams: signals, context, human decisions, coordinated action, evidence and reviewed learning. Public overview with a fictional sample.">
+<style>
+:root{--navy:#102d39;--deep:#0a2230;--teal:#226f74;--mist:#a8dedb;--orange:#ee8c50;--ivory:#f8f6f1;--sand:#ecefe9;--muted:#4c5f66;--line:#81959766;--paper:#fffaf3}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--ivory);color:var(--navy);font-family:"Avenir Next","Segoe UI",system-ui,-apple-system,sans-serif;line-height:1.6;overflow-wrap:break-word}
+a{color:inherit}
+a:focus-visible,button:focus-visible,.panel:focus-visible,summary:focus-visible{outline:3px solid var(--orange);outline-offset:4px}
+.wrap{width:min(1180px,calc(100% - 96px));margin-inline:auto}
+h1,h2,h3{margin:0;font-weight:600;letter-spacing:-.035em;line-height:1.1}
+h1{font-size:clamp(40px,5.6vw,80px)}
+h2{font-size:clamp(30px,3.6vw,48px)}
+h3{font-size:19px;letter-spacing:-.02em}
+p{margin:16px 0;color:var(--muted);font-size:16px}
+.lede{font-size:18px;max-width:640px}
+.eyebrow{display:flex;align-items:center;gap:14px;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;margin:0 0 22px;color:inherit}
+.eyebrow::before{content:"";width:26px;height:2px;background:var(--orange)}
+.skip{position:absolute;left:10px;top:8px;transform:translateY(-220%);background:var(--ivory);color:var(--navy);padding:14px;z-index:10}
+.skip:focus{transform:none}
+.topbar{background:var(--deep);color:#d3e0e3;font-size:12.5px}
+.topbar .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-block:8px}
+.topbar a{min-height:32px;display:inline-flex;align-items:center;text-underline-offset:4px}
+header{background:var(--navy);color:#f8f6f1;display:flex;justify-content:space-between;align-items:center;gap:24px;padding:20px 48px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:18px;text-decoration:none}
+.brand img{width:126px;height:auto;display:block}
+.brand span.sub{font-size:12px;letter-spacing:.23em;text-transform:uppercase;border-left:1px solid #f8f6f155;padding-left:18px}
+nav{display:flex;gap:24px;flex-wrap:wrap;font-size:13px}
+nav a{min-height:44px;display:inline-flex;align-items:center;text-decoration:none}
+nav a:hover{text-decoration:underline;text-underline-offset:6px}
+nav .partner{border-bottom:1px solid #f8f6f170}
+.hero{position:relative;isolation:isolate;background:var(--navy);color:#f8f6f1}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:65% center;z-index:-2}
+.hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(6,26,37,.94),rgba(6,26,37,.8) 42%,rgba(6,26,37,.25) 80%)}
+.hero .wrap{padding-block:96px 84px}
+.hero h1 span{color:var(--mist)}
+.hero p.intro{color:#e3ecec;font-size:18px;max-width:540px;margin:26px 0 32px}
+.tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:6px 10px;border:1px solid #a8dedb88;color:var(--mist);margin-bottom:22px}
+.actions{display:flex;gap:14px 24px;flex-wrap:wrap;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:18px;min-height:52px;padding:15px 22px;font-size:14px;font-weight:600;text-decoration:none;border:1px solid transparent;cursor:pointer;font-family:inherit;transition:background .2s,color .2s}
+.btn .arr{color:var(--orange)}
+.btn-light{background:var(--ivory);color:var(--navy)}
+.btn-dark{background:var(--navy);color:#f8f6f1}
+.btn-ghost{background:transparent;color:inherit;border-color:currentColor}
+.btn:hover{background:var(--teal);color:#f8f6f1}
+.note{font-size:12.5px;color:#d3e0e3;margin:18px 0 0;max-width:520px}
+section{scroll-margin-top:12px}
+.band{padding-block:88px}
+/* coordinated response */
+.cr{background:var(--paper);border-bottom:1px solid var(--line)}
+.cr-head{display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:end}
+.q{margin:0;font-size:clamp(20px,2.2vw,26px);font-weight:600;letter-spacing:-.02em;line-height:1.35;color:var(--navy);border-left:3px solid var(--orange);padding-left:18px}
+.q span{display:block}
+.flow{list-style:none;padding:0;margin:40px 0 0;display:grid;grid-template-columns:1fr 1.5fr 1fr;gap:0;border:1px solid var(--line)}
+.flow>li{padding:26px 24px;position:relative}
+.flow>li+li{border-left:1px solid var(--line)}
+.flow .st{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--teal)}
+.flow>li:nth-child(1){background:#fbeee4}.flow>li:nth-child(1) .st{color:#8a4518}
+.flow>li:nth-child(3){background:#e3f2f1}
+.flow h3{margin:6px 0 12px}
+.flow ul{margin:0;padding:0;list-style:none}
+.flow ul li{font-size:14px;color:var(--muted);padding:7px 0;border-top:1px solid var(--line)}
+.flow ul li b{color:var(--navy)}
+.roles{display:grid;grid-template-columns:1fr;gap:0}
+.priv-note{margin-top:14px;padding:12px 14px;background:var(--navy);color:#e3ecec;font-size:13.5px}
+.priv-note b{color:var(--mist)}
+.ben{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:28px;border-top:1px solid var(--line)}
+.ben div{padding:18px 18px 0 0}
+.ben b{display:block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal)}
+.ben p{font-size:14px;margin:6px 0 0}
+.cr details{margin-top:24px;border-top:1px solid var(--line);padding-top:6px}
+.cr summary{cursor:pointer;font-weight:600;min-height:44px;display:flex;align-items:center;font-size:15px}
+.cr details p,.cr details li{font-size:14.5px;color:var(--muted)}
+.proof{list-style:none;padding:0;margin:8px 0 0;display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.proof a{display:block;min-height:44px;padding:14px 16px;background:var(--navy);color:#f8f6f1;text-decoration:none;font-size:14px;font-weight:600;border-left:3px solid var(--orange)}
+.proof a span{display:block;font-weight:400;font-size:12.5px;color:#cfdde0}
+.proof a:hover{background:var(--teal)}
+@media(max-width:900px){.cr-head,.flow,.proof{grid-template-columns:1fr}.flow>li+li{border-left:0;border-top:1px solid var(--line)}.ben{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.ben{grid-template-columns:1fr}}
+/* who / problem */
+.split{display:grid;grid-template-columns:1fr 1.1fr;gap:72px;align-items:start}
+.who{list-style:none;padding:0;margin:28px 0 0;display:flex;flex-wrap:wrap;gap:8px}
+.who li{font-size:13px;font-weight:600;padding:8px 12px;background:#e3f2f1;color:var(--navy);border:1px solid #226f7433}
+.gaps{list-style:none;padding:0;margin:0;border-top:1px solid var(--line)}
+.gaps li{display:grid;grid-template-columns:150px 1fr;gap:20px;padding:20px 0;border-bottom:1px solid var(--line)}
+.gaps strong{font-size:14px;color:var(--teal)}
+.gaps span{font-size:15px;color:var(--muted)}
+/* coordinated */
+.coord{background:var(--navy);color:#f8f6f1}
+.coord p{color:#cfdde0}
+.coord-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:64px;align-items:center;margin-top:8px}
+.coord figure{margin:0}
+.coord figure img{width:100%;height:auto;display:block;border:1px solid #a8dedb44}
+.coord figcaption{font-size:12px;color:#a9bfc3;margin-top:10px}
+.things{list-style:none;padding:0;margin:30px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:0 28px}
+.things li{padding:14px 0;border-top:1px solid #a8dedb33;font-size:15px}
+.things b{display:block;color:var(--mist);font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:2px}
+.sor{margin-top:34px;padding:20px 22px;border-left:3px solid var(--orange);background:#0a2230}
+.sor p{margin:6px 0 0;font-size:14.5px}
+.sor strong{color:#f8f6f1}
+/* loop */
+.loop ol{list-style:none;padding:0;margin:44px 0 0;display:grid;grid-template-columns:repeat(6,1fr);counter-reset:s}
+.loop li{position:relative;padding:22px 18px 4px 0;border-top:3px solid var(--mist)}
+.loop li:nth-child(3){border-top-color:var(--orange)}
+.loop li:nth-child(6){border-top-color:var(--teal)}
+.loop li::before{counter-increment:s;content:"0" counter(s);display:block;font-size:12px;letter-spacing:.14em;color:var(--teal);margin-bottom:10px}
+.loop li h3{font-size:18px}
+.loop li p{font-size:14px;margin:8px 0 0}
+.loop .hint{margin-top:34px;font-size:14px;max-width:760px}
+/* examples */
+.examples{background:var(--sand)}
+.ex-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:20px;margin-top:40px}
+.ex{background:var(--ivory);border:1px solid var(--line);padding:30px 30px 26px}
+.ex.wide{grid-row:span 2}
+.ex .kind{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#8a4518}
+.ex h3{font-size:22px;margin:10px 0 4px}
+.ex dl{margin:18px 0 0;display:grid;grid-template-columns:120px 1fr;gap:0}
+.ex dt,.ex dd{padding:10px 0;border-top:1px solid var(--line);font-size:14px;margin:0}
+.ex dt{font-weight:700;color:var(--teal);font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding-top:12px}
+.ex dd{color:var(--muted)}
+.ex.dark{background:var(--navy);color:#f8f6f1;border-color:var(--navy)}
+.ex.dark dd,.ex.dark p{color:#cfdde0}
+.ex.dark dt{color:var(--mist)}
+.ex.dark dt,.ex.dark dd{border-top-color:#a8dedb33}
+.ex.dark .kind{color:var(--orange)}
+.ex.mist{background:#e3f2f1}
+.fict{font-size:12.5px;margin-top:22px}
+/* demo */
+.demo{background:var(--ivory);padding-block:84px}
+.demo-head{display:flex;justify-content:space-between;align-items:end;gap:28px;flex-wrap:wrap}
+.label{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:8px 12px;border:1px dashed var(--orange);color:#8a4518;background:#fbeee4}
+.stage{margin-top:38px;display:grid;grid-template-columns:260px 1fr;gap:0;background:var(--paper);border:1px solid var(--line)}
+.steps{list-style:none;margin:0;padding:26px;border-right:1px solid var(--line);background:#f2f1ea}
+.steps li{display:flex;gap:12px;align-items:center;padding:11px 0;font-size:14px;color:var(--muted)}
+.steps li .dot{width:26px;height:26px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:11px;flex-shrink:0;background:var(--ivory)}
+.steps li[aria-current="step"]{color:var(--navy);font-weight:600}
+.steps li[aria-current="step"] .dot{background:var(--navy);color:#f8f6f1;border-color:var(--navy)}
+.steps li.done .dot{background:var(--mist);border-color:var(--teal);color:var(--navy)}
+.panel{padding:34px 38px;min-height:360px}
+.panel h3{font-size:24px;margin-bottom:6px}
+.msg{border-left:3px solid var(--orange);background:#fff3e9;padding:14px 18px;margin:20px 0;font-size:15px;color:var(--navy)}
+.msg small{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.choices{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+.disclaimer{font-size:12.5px;margin-top:24px;color:var(--muted)}
+/* response principles */
+.rules{display:grid;grid-template-columns:1fr 1fr;gap:20px 48px;margin:0 0 40px}
+.rules div{border-top:1px solid var(--line);padding-top:18px}
+.rules p{font-size:14.5px;margin:8px 0 0}
+/* private / contact */
+.priv{background:var(--sand)}
+.priv-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+.priv ul{margin:18px 0 0;padding:0;list-style:none}
+.priv li{padding:12px 0;border-top:1px solid var(--line);font-size:15px;color:var(--muted)}
+.contact{padding-block:88px}
+.contact-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:64px;align-items:start}
+.cards{display:grid;gap:4px}
+.card{display:block;text-decoration:none;padding:22px 24px;background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--teal);transition:background .2s}
+.card:hover{background:#eef6f5}
+.card strong{display:block;font-size:16px}
+.card span{font-size:13.5px;color:var(--muted)}
+.card.partner{border-left-color:var(--orange);background:var(--navy);color:#f8f6f1}
+.card.partner span{color:#cfdde0}
+.card.partner:hover{background:var(--deep)}
+.steps-next{margin:22px 0 0;padding-left:20px;color:var(--muted);font-size:15px}
+.steps-next li{margin:8px 0}
+footer{border-top:1px solid var(--line);padding-block:30px}
+footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
+footer strong{color:var(--navy);display:block;font-size:14px}
+footer p{font-size:12.5px;max-width:560px;margin:0}
+@media(max-width:1000px){.loop ol{grid-template-columns:repeat(3,1fr);row-gap:28px}}
+@media(max-width:900px){.wrap{width:calc(100% - 56px)}header{padding:18px 28px}.split,.coord-grid,.priv-grid,.contact-grid{grid-template-columns:1fr;gap:36px}.ex-grid{grid-template-columns:1fr}.ex.wide{grid-row:auto}.honest-grid{grid-template-columns:1fr}.col+.col{border-left:0;border-top:1px solid var(--line)}.stage{grid-template-columns:1fr}.steps{border-right:0;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:4px 18px}}
+@media(max-width:600px){.wrap{width:calc(100% - 40px)}header{padding:16px 20px}nav{width:100%;gap:2px 16px;font-size:12.5px}.brand img{width:108px}.hero .wrap{padding-block:60px 52px}.hero::after{background:linear-gradient(90deg,rgba(6,26,37,.94),rgba(6,26,37,.75))}.hero p.intro,.lede{font-size:16px}.band,.demo,.contact{padding-block:56px}.loop ol{grid-template-columns:1fr 1fr}.gaps li{grid-template-columns:1fr;gap:4px}.things{grid-template-columns:1fr}.rules{grid-template-columns:1fr}.ex{padding:24px 20px}.ex dl{grid-template-columns:1fr}.ex dd{border-top:0;padding-top:0}.panel{padding:24px 20px}.steps{padding:16px 20px}.steps li{padding:4px 0;font-size:13px}.btn{width:100%;justify-content:space-between}}
+/* AI in the work */
+.aiw{background:var(--ivory);border-bottom:1px solid var(--line)}
+.aiw-head{display:grid;grid-template-columns:1.4fr 1fr;gap:40px;align-items:end}
+.aiw-bar{display:flex;flex-wrap:wrap;gap:14px 36px;margin-top:34px}
+.aiw-group{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.aiw-gl{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-right:6px;width:100%}
+.aiw-chip{min-height:44px;padding:8px 16px;font:600 14px/1 inherit;font-family:inherit;background:var(--paper);color:var(--navy);border:1px solid var(--line);cursor:pointer}
+.aiw-chip[aria-pressed="true"]{background:var(--navy);color:#f8f6f1;border-color:var(--navy);box-shadow:inset 0 -3px 0 var(--orange)}
+.aiw-chip:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+.aiw-stage{margin-top:18px;display:grid;grid-template-columns:230px 1fr;background:var(--paper);border:1px solid var(--line)}
+.aiw-steps{list-style:none;margin:0;padding:20px 22px;background:#f2f1ea;border-right:1px solid var(--line);counter-reset:a}
+.aiw-steps li{font-size:13.5px;color:var(--muted);padding:6px 0 6px 30px;position:relative}
+.aiw-steps li::before{counter-increment:a;content:counter(a);position:absolute;left:0;top:6px;width:20px;height:20px;border-radius:50%;border:1px solid var(--line);font-size:10.5px;display:grid;place-items:center;background:var(--ivory)}
+.aiw-steps li.done::before{background:var(--mist);border-color:var(--teal)}
+.aiw-steps li[aria-current="step"]{color:var(--navy);font-weight:600}
+.aiw-steps li[aria-current="step"]::before{background:var(--navy);color:#f8f6f1;border-color:var(--navy)}
+.aiw-panel{padding:28px 34px;min-width:0}
+.aiw-who{margin:0 0 6px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#8a4518}
+.aiw-panel h3{font-size:22px}
+.aiw-role{border-left:3px solid var(--teal);background:#e3f2f1;padding:12px 16px;font-size:14.5px;color:var(--navy)}
+.aiw-role small{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.aiw-state{margin:14px 0 0;padding:10px 14px;font-size:14px;font-weight:600;background:#e3f2f1;color:var(--navy)}
+.aiw-state.open{background:#fbeee4;color:#7a3c13;border-left:3px solid var(--orange)}
+.aiw-ctl{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.aiw-ctl .btn{min-height:44px;padding:10px 18px}
+.aiw-ctl .btn:disabled{opacity:.45;cursor:not-allowed}
+.aiw-split{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:22px;border-top:1px solid var(--line)}
+.aiw-split div{padding:16px 20px 0 0}
+.aiw-split b{display:block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal)}
+.aiw-split p{font-size:14px;margin:6px 0 0}
+@media(max-width:900px){.aiw-head,.aiw-stage,.aiw-split{grid-template-columns:1fr}.aiw-steps{border-right:0;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:0 18px}}
+@media(max-width:600px){.aiw-panel{padding:22px 20px}.aiw-ctl .btn{width:auto;flex:1 1 auto;justify-content:center}}
+/* interactive demo */
+.dm-notice{display:block;width:fit-content;margin:18px 0 0;font-size:12px}
+.dm{margin-top:26px;background:var(--paper);border:1px solid var(--line)}
+.dm-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px 28px;padding:18px 22px;border-bottom:1px solid var(--line);background:#f2f1ea}
+.dm-prog{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;font-size:13px;font-weight:600}
+.dm-prog progress{width:160px;height:10px;accent-color:var(--teal)}
+.btn.dm-sm{min-height:44px;padding:10px 16px}
+.dm .aiw-state{margin:0;border-bottom:1px solid var(--line)}
+.dm-grid{display:grid;grid-template-columns:230px 1fr}
+.dm-miles{list-style:none;margin:0;padding:18px 20px;border-right:1px solid var(--line);background:#f7f5ee}
+.dm-miles li{font-size:13px;color:var(--muted);padding:5px 0 5px 26px;position:relative}
+.dm-miles li::before{content:"";position:absolute;left:0;top:9px;width:14px;height:14px;border-radius:50%;border:1px solid var(--line);background:var(--ivory)}
+.dm-miles li.done{color:var(--navy)}
+.dm-miles li.done::before{background:var(--mist);border-color:var(--teal)}
+.dm-miles li.open::before{background:#fbeee4;border-color:var(--orange)}
+.dm-main{padding:24px 28px;min-width:0;display:grid;gap:22px}
+.dm-blk{border-top:1px solid var(--line);padding-top:14px}
+.dm-blk:first-child{border-top:0;padding-top:0}
+.dm-blk h3{font-size:17px;margin-bottom:8px}
+.dm-k{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal)}
+.dm-list{list-style:none;margin:6px 0 0;padding:0}
+.dm-list li{font-size:14px;color:var(--muted);padding:7px 0;border-top:1px solid var(--line)}
+.dm-list li b{color:var(--navy)}
+.dm-ai{border-left:3px solid var(--teal);background:#e3f2f1;padding:12px 16px;font-size:14px;color:var(--navy)}
+.dm-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.dm-cols div{font-size:13.5px;color:var(--muted)}
+.dm-cols b{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal)}
+.dm-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.dm-row .btn{min-height:44px;padding:10px 16px}
+.dm .btn:disabled{opacity:.45;cursor:not-allowed}
+.dm-row .btn[aria-pressed="true"]{background:var(--navy);color:#f8f6f1;box-shadow:inset 0 -3px 0 var(--orange)}
+.dm-chk{display:flex;gap:10px;align-items:flex-start;font-size:14px;padding:8px 0;border-top:1px solid var(--line);cursor:pointer}
+.dm-chk input{width:20px;height:20px;margin-top:2px;accent-color:var(--teal);flex-shrink:0}
+.dm-chk input:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+.dm-pill{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;margin-left:6px;background:#e3f2f1;color:var(--navy)}
+.dm-pill.o{background:#fbeee4;color:#7a3c13}
+.dm-note{font-size:13px;color:var(--muted);margin:8px 0 0}
+#principles .rules{margin-top:32px}
+#demo-checks{border-left:0;border-right:0;border-bottom:0;margin:0;padding-inline:0}
+.dm-alert{border-left:3px solid var(--orange);background:#fff3e9;padding:12px 16px;font-size:14px;color:var(--navy)}
+@media(max-width:900px){.dm-grid,.dm-cols{grid-template-columns:1fr}.dm-miles{border-right:0;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:0 16px}}
+@media(max-width:600px){.dm-main{padding:20px 18px}.dm-top{padding:16px 18px}.dm-row .btn{width:auto;flex:1 1 auto;justify-content:center}}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="topbar"><div class="wrap"><a href="https://wearejaldo.com">&larr; Back to JALDO (wearejaldo.com)</a><span>Public overview. Includes one fictional sample.</span></div></div>
+<header>
+  <a class="brand" href="/" aria-label="JALDO Travel public overview">
+    <img src="/brand/jaldo-logo-white.webp" alt="JALDO" width="160" height="42">
+    <span class="sub">Travel</span>
+  </a>
+  <nav aria-label="Main navigation">
+    <a href="#benefits">The problem</a>
+    <a href="#loop">How it works</a>
+    <a href="#ai-in-the-work">Where AI fits</a>
+    <a href="#examples">Examples</a>
+    <a href="/public-demo#sample-demo">Sample demo</a>
+    <a href="#principles">You stay in control</a>
+    <a href="#contact">Contact</a>
+    <a class="partner" href="/partner-access">Partner Room (access code required)</a>
+  </nav>
+</header>
+<main id="main">
+  <section class="hero" aria-labelledby="h1">
+    <img src="/images/travel/arrival-hero.webp" alt="Illustrative hotel arrival: a concierge welcomes a guest at a warmly lit entrance." width="1672" height="941" fetchpriority="high">
+    <div class="wrap">
+      <span class="tag">Public overview</span>
+      <p class="eyebrow">JALDO Travel / Hospitality coordination</p>
+      <h1 id="h1">Exceptional stays.<br><span>Intelligently<br>coordinated.</span></h1>
+      <p class="intro">When several things go wrong at once, give every team a clear priority—and the GM a clear view of what needs a decision.</p>
+      <div class="actions">
+        <a class="btn btn-light" href="#coordinated-response">See the coordinated response <span class="arr" aria-hidden="true">&rarr;</span></a>
+        <a class="btn btn-ghost" href="/public-demo">Try the fictional sample <span class="arr" aria-hidden="true">&rarr;</span></a>
+      </div>
+      <p class="note">Today this is synthetic working proof and a proposed pilot, not a live deployment. Commercial and deeper materials sit in the Partner Room, by invitation.</p>
+    </div>
+  </section>
+
+  <section id="coordinated-response" class="cr band" aria-labelledby="cr-h">
+    <div class="wrap">
+      <div class="cr-head">
+        <div>
+          <p class="eyebrow">The coordinated response</p>
+          <h2 id="cr-h">Friday, 4pm.<br>Everything at once.</h2>
+          <p class="lede">60 guests arrive early. 20 rooms are not ready. Two lifts are unavailable. Housekeeping is stretched, and a team member is asking for support.</p>
+          <span class="label">Illustrative composite. Not an executable scenario, live integration or customer result.</span>
+        </div>
+        <p class="q"><span>Who owns it?</span><span>What is still open?</span><span>What shows it is resolved?</span></p>
+      </div>
+      <ol class="flow" aria-label="From situation to checked recovery">
+        <li><span class="st">1 &middot; Situation</span><h3>Pressure arrives together</h3>
+          <ul><li>Arrivals ahead of rooms</li><li>Lifts out, access affected</li><li>Capacity thin, one person needs help</li></ul></li>
+        <li><span class="st">2 &middot; Accountable roles</span><h3>Each team holds one clear priority</h3>
+          <ul class="roles">
+            <li><b>Front Office</b> &middot; guest updates</li>
+            <li><b>Housekeeping</b> &middot; room readiness and capacity</li>
+            <li><b>Maintenance</b> &middot; lift faults and work status</li>
+            <li><b>GM</b> &middot; unresolved priorities and exception authority</li>
+            <li><b>Group Operations</b> &middot; support, only with availability and authority</li>
+          </ul>
+          <p class="priv-note"><b>Restricted, private support.</b> The team member's request is handled separately by an authorised person. No private staff details appear in broad role views.</p></li>
+        <li><span class="st">3 &middot; Checked recovery</span><h3>Recovery is confirmed, not assumed</h3>
+          <ul><li>Rooms released when inspected</li><li>Lift faults closed only after repair and safety checks</li><li>Anything unconfirmed stays visibly open</li></ul></li>
+      </ol>
+      <div class="ben" aria-label="Who benefits">
+        <div><b>Teams</b><p>Know their next action.</p></div>
+        <div><b>GM</b><p>Sees ownership, what is overdue and what needs a decision.</p></div>
+        <div><b>Owner</b><p>Sees a controlled recovery, with evidence.</p></div>
+        <div><b>Group</b><p>Sees where support is genuinely needed.</p></div>
+      </div>
+      <p class="fict">Intended outcomes must be checked by people. Nothing is resolved automatically.</p>
+      <details>
+        <summary>What is proven, planned and still to be validated</summary>
+        <ul>
+          <li><b>Working synthetic proof:</b> the single-property coordination loop on fictional data.</li>
+          <li><b>Planned Stage 3:</b> cross-property coordination. Safety intervention starts earlier; Stage 3 extends coordination and reviewed learning.</li>
+          <li><b>Still required:</b> live validation in a bounded pilot. No live PMS connections today.</li>
+        </ul>
+        <p>Hotels lead. The same pattern could later suit resorts, holiday parks, venues, destinations and corporate travel. Repeatable deployment means reusing validated mappings, playbooks and configuration only after systems access, integration testing and site readiness, not an instant setup.</p>
+      </details>
+      <details>
+        <summary>See existing proof in the Partner Room (access code required)</summary>
+        <ul class="proof">
+          <li><a href="/partner-access?returnTo=%2Fpartner-room%2Farchitecture-lab">Architecture Lab<span>How the layers fit together</span></a></li>
+          <li><a href="/partner-access?returnTo=%2Fpartner-room%2Fproduct-proof%2Fstage-3-operating-layer%3Fscenario%3Dpeak">Stage 3: peak pressure<span>Planned simulation</span></a></li>
+          <li><a href="/partner-access?returnTo=%2Fpartner-room%2Fproduct-proof%2Fstage-3-operating-layer%3Fscenario%3Dportfolio">Stage 3: portfolio disruption<span>Planned simulation</span></a></li>
+        </ul>
+        <p>Existing playbooks, communications and operations views are shown there as gated, synthetic proof only.</p>
+      </details>
+    </div>
+  </section>
+
+  <section id="ai-in-the-work" class="aiw band" aria-labelledby="aiw-h">
+    <div class="wrap">
+      <div class="aiw-head">
+        <div>
+          <p class="eyebrow">Where AI fits in the work</p>
+          <h2 id="aiw-h">AI interprets. Rules set limits.<br>People decide. Workflow follows through.</h2>
+          <p class="lede">One room-readiness moment within that wider pressure: late rooms, guests with needs, and housekeeping short by two. Step through it from the desk you work at.</p>
+        </div>
+        <span class="label" id="aiw-label">Fictional composite. Scripted synthetic interpretation, no connected model. Not an executable engine.</span>
+      </div>
+      <div class="aiw-bar">
+        <div class="aiw-group" role="group" aria-label="View as">
+          <span class="aiw-gl">View as · explanation, not access permissions</span>
+          <button type="button" class="aiw-chip" id="aiw-role-reception" data-role="reception" aria-pressed="true">Reception</button>
+          <button type="button" class="aiw-chip" id="aiw-role-housekeeping" data-role="housekeeping" aria-pressed="false">Housekeeping</button>
+          <button type="button" class="aiw-chip" id="aiw-role-manager" data-role="manager" aria-pressed="false">Manager</button>
+        </div>
+        <div class="aiw-group" role="group" aria-label="Inspection evidence">
+          <span class="aiw-gl">Room 412 inspection receipt</span>
+          <button type="button" class="aiw-chip" id="aiw-evidence-missing" data-ev="missing" aria-pressed="true">Missing</button>
+          <button type="button" class="aiw-chip" id="aiw-evidence-supplied" data-ev="supplied" aria-pressed="false">Supplied</button>
+        </div>
+      </div>
+      <div class="aiw-stage">
+        <ol class="aiw-steps" id="aiw-steps" aria-label="Progression"></ol>
+        <div class="aiw-panel">
+          <p class="aiw-who" id="aiw-who"></p>
+          <h3 id="aiw-title"></h3>
+          <p id="aiw-body"></p>
+          <div class="aiw-role" id="aiw-roleline"></div>
+          <p class="aiw-state" id="aiw-state" role="status" aria-live="polite"></p>
+          <div class="aiw-ctl">
+            <button type="button" class="btn btn-ghost" id="aiw-prev">Previous step</button>
+            <button type="button" class="btn btn-dark" id="aiw-next">Next step <span class="arr" aria-hidden="true">&rarr;</span></button>
+            <button type="button" class="btn btn-ghost" id="aiw-reset">Reset</button>
+          </div>
+        </div>
+      </div>
+      <div class="aiw-split" aria-label="Who contributes what">
+        <div><b>AI contribution</b><p>Proposes an interpretation and options, naming its sources and uncertainty. It cannot decide, approve, diagnose people or close work.</p></div>
+        <div><b>Deterministic rules</b><p>Configured limits on capacity, responsibility and approval thresholds. Same inputs, same boundary.</p></div>
+        <div><b>Human or delegated authority</b><p>A named, authorised person decides where rules require it. Nothing is approved automatically.</p></div>
+      </div>
+      <p class="fict">Presentation only. Room numbers, guests and shifts are invented; no private staff details are shown. <a href="/partner-access?returnTo=%2Fpartner-room%2Farchitecture-lab" id="aiw-link-architecture">Architecture Lab</a> and <a href="/partner-access?returnTo=%2Fpartner-room%2Fproduct-proof%2Fstage-3-operating-layer%3Fscenario%3Dpeak" id="aiw-link-proof">next synthetic proof</a> (Partner Room, access code required).</p>
+    </div>
+  </section>
+
+  <section id="benefits" class="band wrap" aria-labelledby="benefits-h">
+    <div class="split">
+      <div>
+        <p class="eyebrow">Who it is for, and why</p>
+        <h2 id="benefits-h">The judgement is already in your team. The gaps are between them.</h2>
+        <p class="lede">Front office, housekeeping, maintenance, F&amp;B and guest relations each work well in their own system. Things slip in the handover: a note in one tool, a call to another desk, a promise nobody is clearly holding.</p>
+        <ul class="who" aria-label="Intended audience">
+          <li>Hotel and resort operators</li><li>Owners</li><li>General managers</li><li>Multi-property groups</li>
+        </ul>
+      </div>
+      <ul class="gaps" aria-label="Where coordination breaks down">
+        <li><strong>Disconnected systems</strong><span>PMS, housekeeping, work orders and messaging each hold part of the picture. No one view shows what was promised to whom.</span></li>
+        <li><strong>Handovers</strong><span>Shift changes and desk-to-desk calls lose context. The next person starts again, or does not start at all.</span></li>
+        <li><strong>Unclear ownership</strong><span>Everyone saw the issue. Nobody was named. The guest asks twice.</span></li>
+        <li><strong>No closed loop</strong><span>Work is done but not confirmed, or confirmed but not told to the guest. Lessons stay in someone's head.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="coord band" aria-labelledby="coord-h">
+    <div class="wrap coord-grid">
+      <div>
+        <p class="eyebrow">What is coordinated</p>
+        <h2 id="coord-h">Not another system of record. The thread between them.</h2>
+        <ul class="things">
+          <li><b>Guest moments</b>Early arrivals, requests, complaints, recovery gestures.</li>
+          <li><b>Room readiness</b>Clean, inspected, fixed, released, and who confirmed it.</li>
+          <li><b>Service backlog</b>Open requests and work orders that are ageing or blocked.</li>
+          <li><b>Handovers</b>What the next shift must know and own.</li>
+          <li><b>Promises</b>Anything said to a guest, with an owner and a due time.</li>
+          <li><b>Across properties</b>Optional: shared patterns and support between sites.</li>
+        </ul>
+        <div class="sor">
+          <strong>Your existing systems stay the systems of record.</strong>
+          <p>Any integration with a PMS or operations tool is proposed. It would need your permissions, the vendor's terms and validation in a pilot before anything is relied on. There are no live PMS connections today.</p>
+        </div>
+      </div>
+      <figure>
+        <img src="/images/travel/team-coordination.webp" alt="Illustrative hotel team members conferring together over a shared plan." width="1200" height="800" loading="lazy">
+        <figcaption>Illustrative imagery. Not a customer site.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="loop" class="loop band wrap" aria-labelledby="loop-h">
+    <p class="eyebrow">How it works</p>
+    <h2 id="loop-h">Six steps, one accountable loop.</h2>
+    <ol>
+      <li><h3>Signal</h3><p>Something needs attention: a late room, an ageing request, a guest message.</p></li>
+      <li><h3>Context</h3><p>What is known is gathered: the guest, the room, what was promised, who is on shift.</p></li>
+      <li><h3>Human decision</h3><p>A named person chooses what happens. Suggestions are offered, never imposed.</p></li>
+      <li><h3>Coordinated action</h3><p>The right teams get a clear task, an owner and a time.</p></li>
+      <li><h3>Evidence</h3><p>Completion is recorded only when it is confirmed. Missing receipt stays visibly unconfirmed.</p></li>
+      <li><h3>Reviewed learning</h3><p>Patterns are reviewed by people. Nothing is changed or deployed automatically.</p></li>
+    </ol>
+    <p class="hint">Approval is a decision, not a guarantee. If housekeeping has no capacity, approving a promise does not create it. The loop is designed to show that gap early so the team can choose again.</p>
+  </section>
+
+  <section id="examples" class="examples band" aria-labelledby="ex-h">
+    <div class="wrap">
+      <p class="eyebrow">Practical examples</p>
+      <h2 id="ex-h">How coordination could work on a shift.</h2>
+      <div class="ex-grid">
+        <article class="ex wide" aria-labelledby="ex1">
+          <span class="kind">Room readiness &middot; Fictional illustration</span>
+          <h3 id="ex1">Six arrivals, four rooms not released</h3>
+          <p>A coastal resort expects an early group. At 12:40 four of six rooms are still in service.</p>
+          <dl>
+            <dt>Signal</dt><dd>Arrivals due before rooms are inspected.</dd>
+            <dt>Context</dt><dd>Two rooms cleaning, one awaiting a maintenance fix, one ready but uninspected.</dd>
+            <dt>Decision</dt><dd>Front office lead prioritises the inspection and offers the group luggage hold and lunch seating.</dd>
+            <dt>Action</dt><dd>Housekeeping supervisor and maintenance each get one owned task with a time.</dd>
+            <dt>Evidence</dt><dd>Three rooms confirmed released. The fix is not yet confirmed, so it stays open.</dd>
+            <dt>Learning</dt><dd>Review notes a repeating pre-arrival maintenance pattern for the GM to consider.</dd>
+          </dl>
+        </article>
+        <article class="ex dark" aria-labelledby="ex2">
+          <span class="kind">Service recovery &middot; Fictional illustration</span>
+          <h3 id="ex2">A request asked for twice</h3>
+          <p>A guest's extra-pillow and air-con requests have aged three hours across a shift change.</p>
+          <dl>
+            <dt>Decision</dt><dd>Duty manager approves a recovery gesture and a personal call.</dd>
+            <dt>Evidence</dt><dd>Work order closed; guest call logged. The gesture stays unconfirmed until delivery is recorded.</dd>
+          </dl>
+        </article>
+        <article class="ex mist" aria-labelledby="ex3">
+          <span class="kind">Multi-property &middot; Fictional illustration</span>
+          <h3 id="ex3">Two sites, one pattern</h3>
+          <p>A regional group sees late room release at two city hotels on the same weekday.</p>
+          <dl>
+            <dt>Decision</dt><dd>Cluster ops lead asks both GMs to review rostering, without forcing a change.</dd>
+            <dt>Learning</dt><dd>Proposed adjustments are reviewed per property before any is adopted.</dd>
+          </dl>
+        </article>
+      </div>
+      <p class="fict">All examples are fictional and illustrative. They describe the intended design, not measured results.</p>
+    </div>
+  </section>
+
+  <section id="sample-demo" class="demo" aria-labelledby="demo-h">
+    <div class="wrap">
+      <div class="demo-head">
+        <div><p class="eyebrow">Sample demo &middot; about two minutes</p><h2 id="demo-h">One delayed room. A connected hotel. One coordinated response.</h2></div>
+      </div>
+      <p class="label dm-notice" id="demo-notice">Interactive fictional demonstration — no live actions</p>
+      <p class="lede">Harbour Lane Hotel (invented), 2:40pm. Choose a response, run the checks, act as the Duty Manager where authority is needed, and see what stays open. Everything happens in this page only.</p>
+      <div class="dm" id="demo-app">
+        <div class="dm-top">
+          <div class="aiw-group" role="group" aria-label="View as">
+            <span class="aiw-gl">View as &middot; explains each role's work, not access permissions</span>
+            <button type="button" class="aiw-chip" id="demo-role-reception" data-r="reception" aria-pressed="true">Reception</button>
+            <button type="button" class="aiw-chip" id="demo-role-housekeeping" data-r="housekeeping" aria-pressed="false">Housekeeping</button>
+            <button type="button" class="aiw-chip" id="demo-role-maintenance" data-r="maintenance" aria-pressed="false">Maintenance</button>
+            <button type="button" class="aiw-chip" id="demo-role-guest" data-r="guest" aria-pressed="false">Guest services</button>
+            <button type="button" class="aiw-chip" id="demo-role-manager" data-r="manager" aria-pressed="false">Duty Manager</button>
+          </div>
+          <div class="dm-prog">
+            <label for="demo-progress">Progress <span id="demo-progress-text">0 of 11</span></label>
+            <progress id="demo-progress" max="11" value="0">0 of 11</progress>
+            <button type="button" class="btn btn-ghost dm-sm" id="demo-restart">Restart demo</button>
+          </div>
+        </div>
+        <p class="aiw-state" id="demo-status" role="status" aria-live="polite" tabindex="-1"></p>
+        <div class="dm-grid">
+          <ol class="dm-miles" id="demo-milestones" aria-label="Demo milestones"></ol>
+          <div class="dm-main" id="demo-main"></div>
+        </div>
+      </div>
+      <p class="fict">Guests, rooms, staff names and times are invented; no private details are shown. This shows intended design on synthetic data, not measured results or a live integration. <a id="demo-link-validation" href="/partner-access?returnTo=%2Fpartner-room%2Fvalidation%23evidence-status">Evidence and pilot validation (Partner Room — access code required)</a></p>
+    </div>
+  </section>
+
+  <section id="principles" class="band wrap" aria-labelledby="principles-h">
+    <p class="eyebrow">You stay in control</p>
+    <h2 id="principles-h">JALDO coordinates the work. Your people retain authority.</h2>
+    <div class="rules">
+        <div><h3>Your people retain authority</h3><p>Named owners act within agreed authority, with approval for exceptions where required.</p></div>
+        <div><h3>Capacity is checked before commitments</h3><p>Staff, rooms and support availability shape the response.</p></div>
+        <div><h3>Completion needs evidence</h3><p>Missing receipts or measurements stay unconfirmed.</p></div>
+        <div><h3>Improvements are reviewed before use</h3><p>Review a proposed change before testing it; a replay does not deploy it.</p></div>
+    </div>
+  </section>
+
+  <section class="priv band" aria-labelledby="priv-h">
+    <div class="wrap priv-grid">
+      <div>
+        <p class="eyebrow">Public overview vs Partner Room</p>
+        <h2 id="priv-h">This page explains. The Partner Room goes deeper.</h2>
+        <p>Everything on this page is public and the sample is fictional. Detailed materials are shared only with invited partners, using an access code issued manually.</p>
+        <div class="actions"><a class="btn btn-dark" href="/partner-access">Partner Room (access code required) <span class="arr" aria-hidden="true">&rarr;</span></a></div>
+      </div>
+      <ul aria-label="Kept in the Partner Room">
+        <li>Commercial models</li>
+        <li>Invited documents</li>
+        <li>Deeper simulations and calculator</li>
+        <li>Strategy and roadmap</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="contact" class="contact wrap" aria-labelledby="contact-h">
+    <div class="contact-grid">
+      <div>
+        <p class="eyebrow">Next step</p>
+        <h2 id="contact-h">Discuss a bounded pilot.</h2>
+        <p>Send a short note about your property or group. A person reads every request.</p>
+        <ol class="steps-next">
+          <li>We talk through one coordination problem you want to fix.</li>
+          <li>If it fits, we shape a small, bounded pilot together.</li>
+          <li>Partner Room access, if useful, is granted manually. Never automatically.</li>
+        </ol>
+      </div>
+      <div class="cards">
+        <a class="card" href="mailto:lance@rtbx.com.au?subject=Explore%20a%20Design%20Partnership%20%E2%80%94%20JALDO%20Travel"><strong>Discuss a bounded pilot &rarr;</strong><span>For operators ready to shape a first pilot.</span></a>
+        <a class="card" href="mailto:lance@rtbx.com.au?subject=Request%20Partner%20Access%20%E2%80%94%20JALDO%20Travel"><strong>Request partner access &rarr;</strong><span>Email us. Access is reviewed and granted manually.</span></a>
+        <a class="card partner" href="/partner-access"><strong>Partner Room (access code required) &rarr;</strong><span>For invited partners who already hold a code.</span></a>
+      </div>
+    </div>
+  </section>
+</main>
+<footer><div class="wrap"><div><strong>JALDO Travel</strong>Hospitality coordination, accountably followed through.<br><a href="https://wearejaldo.com">wearejaldo.com</a></div><p>Illustrative imagery. Examples and sample demo are fictional. Synthetic working proof only; no customer deployment, verified outcomes or endorsement implied.</p></div></footer>
+
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id)};
+  var ROLES={reception:"Reception",housekeeping:"Housekeeping",maintenance:"Maintenance",guest:"Guest services",manager:"Duty Manager"};
+  var P={
+   room:[{name:"Room change to 218",text:"Move the Rowan family to room 218 (same room type, floor 2) and offer a move back to 304 tomorrow once repaired.",
+     checks:[["r218","Room 218 cleaned and inspected (housekeeping board)"],["cot","Cot and pram space available for 218 (guest services store)"],["m304est","Technician estimate: 304 repaired by tomorrow (estimate, not clearance)"]],
+     ev:[["ins218","Room 218 inspection receipt (Housekeeping supervisor)"],["cotplaced","Cot placed in 218 (attendant receipt)"]],
+     exc:"Room move with a promised next-day move back is outside desk authority.",
+     tasks:{reception:"Offer the move to 218 and the next-day return; record the family's answer.",housekeeping:"Inspect 218 and record the receipt; place cot.",guest:"Bring cot; porter moves luggage and pram to 218."}},
+    {name:"Revised: stay in 218 for both nights",text:"Keep the family in 218 for the whole stay. Withdraw the move back to 304; no new date is promised.",
+     checks:[["r218n2","Room 218 free for both nights (synthetic availability)"],["cot2","Cot stays allocated to 218 for both nights"],["rate","Rate rule: same room type, no charge change"]],
+     ev:[["assign218","Two-night assignment confirmation for 218 (synthetic)"],["moved","Family settled in 218 (porter receipt)"]],
+     exc:"Changing a commitment already made to the guest needs renewed exception approval.",
+     tasks:{reception:"Tell the family the move back is withdrawn; record whether they accept staying in 218.",housekeeping:"Keep 218 on the stay-over list for both nights.",guest:"Confirm cot stays; porter receipt when settled."}}],
+   wait:[{name:"Supported wait for 304",text:"Quiet corner in the Garden Lounge with refreshments; porter holds luggage and pram until 304 is repaired, cleared and inspected (estimate 3:45pm).",
+     checks:[["lounge","Garden Lounge quiet corner free until 4:15pm"],["porter","Porter available for luggage and pram"],["m304est","Technician estimate: 304 repaired by 3:45pm (estimate, not clearance)"]],
+     ev:[["loungeset","Quiet corner set (guest services receipt)"],["luggage","Luggage and pram tag receipt (porter)"]],
+     exc:"Complimentary refreshments beyond the desk allowance need an exception.",
+     tasks:{reception:"Offer the supported wait with an honest estimate; record the family's answer.",housekeeping:"Hold a clean-and-inspect slot for 304 after clearance.",guest:"Set the quiet corner; porter tags luggage and pram."}},
+    {name:"Revised: extended wait for room 221",text:"304 is no longer the plan. Extended quiet-corner wait and early family dinner seating while room 221 (same type) is cleaned and inspected, estimate 4:40pm.",
+     checks:[["r221","Room 221 clean-and-inspect slot by 4:40pm (housekeeping board)"],["lounge2","Quiet corner extended until 5:00pm"],["dinner","Family dinner seating available at 5:00pm"]],
+     ev:[["ins221","Room 221 inspection receipt (Housekeeping supervisor)"],["seating","Dinner seating confirmation (restaurant host)"]],
+     exc:"Extended complimentary wait and a room reassignment need renewed exception approval.",
+     tasks:{reception:"Explain the 304 delay and the 221 plan; record whether the family accept.",housekeeping:"Clean and inspect 221 by 4:40pm; record receipt.",guest:"Extend the quiet corner; book dinner seating; keep luggage tagged."}}]
+  };
+  var ACK=[["reception","Reception"],["housekeeping","Housekeeping"],["maintenance","Maintenance"],["guest","Guest services"]];
+  var MILES=["Signals and interpretation reviewed","Response chosen","Availability checked","Exception approved (Duty Manager)","Response dispatched","Acknowledgements received","Evidence recorded","Family acceptance recorded","Repair delay: revised response chosen and checked","Revised response re-approved and dispatched","Revised response checked and agreed"];
+  var s;
+  function V(){return {plan:null,checks:{},decision:null,dispatched:false,acks:{},ev:{},accepted:false}}
+  function reset(){s={role:"reception",read:false,ver:0,v:[V()],delay:false,hist:[]}}
+  reset();
+  function cur(){return s.v[s.ver]}
+  function def(v,i){return v.plan?P[v.plan][i]:null}
+  function allIn(list,obj){return list.length>0&&list.every(function(c){return obj[c[0]]})}
+  function checked(v,i){var d=def(v,i);return d&&allIn(d.checks,v.checks)}
+  function acked(v){return ACK.every(function(a){return v.acks[a[0]]})}
+  function evd(v,i){var d=def(v,i);return d&&allIn(d.ev,v.ev)}
+  function done(v,i){return v.dispatched&&acked(v)&&evd(v,i)&&v.accepted}
+  function log(t){s.hist.push({ver:s.ver,t:t,tag:""})}
+  function miles(){var a=s.v[0],b=s.v[1];return [s.read,!!a.plan||s.delay,checked(a,0)||s.delay,a.decision==="approved",a.dispatched,acked(a),evd(a,0),a.accepted,!!(b&&checked(b,1)),!!(b&&b.dispatched),!!(b&&done(b,1))]}
+  function btn(id,label,on,cls,extra){return '<button type="button" class="btn '+(cls||"btn-ghost")+'" id="'+id+'"'+(on?"":" disabled")+(extra||"")+'>'+label+'</button>'}
+  function status(){
+    var v=cur(),d=def(v,s.ver);
+    if(!s.read)return ["Open: read the sourced signals and the proposed interpretation.",true];
+    if(!v.plan)return [s.delay?"Open: the repair delay invalidated the earlier commitment and its approval. Choose a revised response.":(v.decision==="declined"?"Open: plan declined. Choose a revised response.":"Open: choose a response."),true];
+    if(v.decision==="held")return ["Open: Duty Manager placed the exception on hold. Nothing is dispatched.",true];
+    if(!checked(v,s.ver))return ["Open: availability checks outstanding for "+d.name+".",true];
+    if(v.decision!=="approved")return ["Open: awaiting Duty Manager exception approval."+(s.role!=="manager"?" Switch to the Duty Manager view to decide.":""),true];
+    if(!v.dispatched)return ["Approved, not yet dispatched. Approval alone sends nothing.",true];
+    if(s.ver===0&&!s.delay&&done(v,0))return ["Agreed and checked for now. Room 304 stays held. Advance the clock to see the repair update.",true];
+    if(!acked(v))return ["Dispatched. Open: acknowledgements missing.",true];
+    if(!evd(v,s.ver))return ["Open: evidence receipts missing, so results stay unconfirmed.",true];
+    if(!v.accepted)return ["Open: family acceptance not recorded. No agreed plan yet.",true];
+    if(s.ver===0)return ["Agreed and checked for now. Room 304 stays held. Advance the clock to see the repair update.",true];
+    return ["Family plan agreed and checked. Room 304 remains held pending clearance; WO-1182 stays open with its owner.",false];
+  }
+  function render(){
+    var focusId=document.activeElement&&document.activeElement.id;
+    var v=cur(),i=s.ver,d=def(v,i),mgr=s.role==="manager",h=[];
+    // signals + interpretation
+    h.push('<details class="dm-blk" id="demo-signals"'+(s.read?'':' open')+'><summary class="dm-k">2:40pm &middot; sourced fictional signals and interpretation</summary><ul class="dm-list">'+
+      '<li><b>Arrivals list (synthetic PMS extract):</b> 23 arrivals due before 4pm; 9 already in the lobby.</li>'+
+      '<li><b>Housekeeping board, updated 2:31pm:</b> 11 rooms not ready; 5 attendants on shift against 7 planned.</li>'+
+      '<li><b>Work order WO-1182, 2:12pm:</b> bathroom leak in room 304. Technician estimate 3:45pm. Room blocked.</li>'+
+      '<li><b>Guest services note, 2:35pm:</b> the Rowan family (two adults, two young children) booked 304, waiting since 2:20pm, asked for a quiet place and help with luggage and a pram.</li></ul>'+
+      '<p class="dm-ai" id="demo-interpretation"><b>Scripted simulated AI interpretation (no connected model):</b> the reservation, WO-1182 and the guest note point to the same room, so 304 is unlikely to be ready at 3pm. Uncertainty: the repair time is an estimate, the housekeeping board is 9 minutes old, and the family\'s room preferences are unknown. Possible responses: a room change or a supported wait. It cannot decide, approve or release rooms.</p>'+
+      '<div class="dm-cols"><div><b>AI (scripted)</b>Links sources, states uncertainty, drafts options.</div><div><b>Deterministic rules</b>A room is assignable only when inspected. A room with an open fault is never released without safety clearance. Exceptions need Duty Manager approval.</div><div><b>Human authority</b>The Duty Manager approves, holds or declines exceptions. The family decides whether to accept.</div></div>'+
+      '<div class="dm-row">'+btn("demo-interpret-ack",s.read?"Signals reviewed":"Mark signals and interpretation reviewed",!s.read,"btn-dark")+'</div></details>');
+    if(s.delay)h.push('<p class="dm-alert" id="demo-delay-notice"><b>3:25pm, WO-1182 update:</b> replacement part delayed; 304 will not be repaired before tomorrow afternoon and still needs safety clearance after repair. The earlier commitment that depended on 304 is withdrawn and its approval is no longer valid.</p>');
+    // choose
+    var canChoose=s.read&&!(v.decision==="approved"||v.decision==="held");
+    h.push('<div class="dm-blk" id="demo-choose"><span class="dm-k">'+(i?"Revised response (version 2)":"Response (version 1)")+'</span><h3>Choose a response for the Rowan family</h3><div class="dm-row" role="group" aria-label="Response options">'+
+      btn("demo-plan-room",P.room[i].name,canChoose,"",' aria-pressed="'+(v.plan==="room")+'"')+btn("demo-plan-wait",P.wait[i].name,canChoose,"",' aria-pressed="'+(v.plan==="wait")+'"')+'</div>'+
+      (d?'<p class="dm-note" id="demo-plan-text">'+d.text+'</p>':'')+'</div>');
+    if(d){
+      var lock=v.decision==="approved"||v.decision==="held";
+      h.push('<fieldset class="dm-blk" id="demo-checks"><legend class="dm-k">Availability checks for this plan</legend>'+
+        d.checks.map(function(c){return '<label class="dm-chk"><input type="checkbox" id="demo-check-'+c[0]+'" data-c="'+c[0]+'"'+(v.checks[c[0]]?" checked":"")+(lock?" disabled":"")+'> <span>Checked: '+c[1]+'</span></label>'}).join("")+'</fieldset>');
+      var ok=checked(v,i);
+      h.push('<div class="dm-blk" id="demo-approval"><span class="dm-k">Exception approval &middot; Duty Manager only</span><p class="dm-note">'+d.exc+' Decision: <b id="demo-decision">'+({approved:"approved",held:"on hold",declined:"declined"}[v.decision]||"pending")+'</b>.'+(mgr?"":" Approval controls work only in the Duty Manager view; changing view grants nothing on its own.")+'</p><div class="dm-row">'+
+        btn("demo-approve","Approve exception",mgr&&ok&&!v.decision,"btn-dark")+btn("demo-hold","Hold",mgr&&!v.decision)+btn("demo-decline","Decline",mgr&&(!v.decision||v.decision==="held"))+btn("demo-resume","Resume review",mgr&&v.decision==="held")+'</div></div>');
+      h.push('<div class="dm-blk" id="demo-dispatch-blk"><span class="dm-k">Dispatch, acknowledgements and evidence</span><div class="dm-row">'+btn("demo-dispatch",v.dispatched?"Dispatched to teams":"Dispatch owned tasks",v.decision==="approved"&&!v.dispatched,"btn-dark")+'</div>'+
+        '<p class="dm-note">Synthetic acknowledgements (a team has accepted its task):</p><div class="dm-row">'+ACK.map(function(a){return btn("demo-ack-"+a[0],(v.acks[a[0]]?"Acknowledged: ":"Record acknowledgement: ")+a[1],v.dispatched&&!v.acks[a[0]])}).join("")+'</div>'+
+        '<p class="dm-note">Synthetic evidence (the work is shown to be done):</p><div class="dm-row">'+d.ev.map(function(e){return btn("demo-evidence-"+e[0],(v.ev[e[0]]?"Recorded: ":"Record: ")+e[1],v.dispatched&&!v.ev[e[0]])}).join("")+'</div>'+
+        '<p class="dm-note">Family decision, recorded by Reception:</p><div class="dm-row">'+btn("demo-accept",v.accepted?"Family acceptance recorded":"Record family acceptance",v.dispatched&&!v.accepted)+'</div></div>');
+    }
+    if(!s.delay)h.push('<div class="dm-blk"><span class="dm-k">Later in the afternoon</span><div class="dm-row">'+btn("demo-delay","Advance to 3:25pm: maintenance update",s.v[0].dispatched)+'</div><p class="dm-note">Available once the first response is dispatched.</p></div>');
+    // role view
+    var rt="";
+    if(s.role==="maintenance")rt="WO-1182, room 304: owner M. Okafor (Maintenance lead). Room held, not released. Next follow-up: "+(s.delay?"tomorrow 1pm part arrival, then clearance":"3:45pm technician check")+"; safety clearance required after repair.";
+    else if(s.role==="manager")rt="Decision queue: "+(d?(d.name+" — "+(v.decision||"pending")):"no response chosen yet")+". Open items: "+(MILES.length-miles().filter(Boolean).length)+". WO-1182 stays open.";
+    else rt=d?d.tasks[s.role]:"No task yet: waiting for a response to be chosen.";
+    var ownAck=s.role==="manager"?"":(" Acknowledgement: "+(v.dispatched?(v.acks[s.role]?"recorded":"missing"):"not dispatched")+".");
+    h.unshift('<div class="dm-blk aiw-role" id="demo-role-view"><small>'+ROLES[s.role]+' view &middot; explanation, not access control</small>'+rt+ownAck+'</div>');
+    // 304 + history + outcome
+    h.push('<div class="dm-blk" id="demo-room304"><span class="dm-k">Room 304</span><p class="dm-note"><b>Held &middot; not released.</b> Blocked by WO-1182 pending repair and safety clearance. Owner: M. Okafor, Maintenance. Follow-up: '+(s.delay?"tomorrow 1pm part arrival, then clearance":"3:45pm technician check")+'. <span class="dm-pill o">Open</span></p></div>');
+    h.push('<div class="dm-blk"><span class="dm-k">Review history</span><ol class="dm-list" id="demo-history">'+(s.hist.length?s.hist.map(function(e,k){return '<li id="demo-history-'+k+'"><b>V'+(e.ver+1)+':</b> '+e.t+(e.tag?' <span class="dm-pill o">'+e.tag+'</span>':'')+'</li>'}).join(""):'<li>No decisions yet.</li>')+'</ol></div>');
+    var b=s.v[1],fin=b&&done(b,1);
+    h.push('<div class="dm-blk" id="demo-outcome"><span class="dm-k">Outcome so far</span><ul class="dm-list">'+
+      '<li><b>Family plan:</b> '+(done(v,i)?"agreed and checked: "+d.name+".":(cur().accepted?"accepted, but checks still open.":"not agreed yet."))+'</li>'+
+      '<li><b>Room 304:</b> held pending clearance. WO-1182 open, owner named.</li>'+
+      '<li><b>Other arrivals:</b> outside this demonstration; not claimed as resolved.</li>'+
+      (fin?'<li id="demo-improvement"><b>Proposed improvement:</b> check open work orders against arrivals earlier in the day. Awaiting authorised review; not deployed.</li>':'')+'</ul></div>');
+    $("demo-main").innerHTML=h.join("");
+    var m=miles(),n=m.filter(Boolean).length;
+    $("demo-milestones").innerHTML=MILES.map(function(t,k){return '<li class="'+(m[k]?"done":"open")+'">'+t+'<span class="sr-only"> — '+(m[k]?"done":"open")+'</span></li>'}).join("");
+    $("demo-progress").value=n;$("demo-progress").textContent=n+" of 11";$("demo-progress-text").textContent=n+" of 11";
+    var st=status();$("demo-status").textContent=st[0];$("demo-status").className="aiw-state"+(st[1]?" open":"");
+    var a=$("demo-app");a.dataset.version=String(i+1);a.dataset.plan=v.plan||"";a.dataset.decision=v.decision||"pending";a.dataset.dispatched=String(v.dispatched);a.dataset.agreed=String(!!done(v,i));a.dataset.role=s.role;
+    [].forEach.call(document.querySelectorAll("#demo-app .aiw-chip"),function(x){x.setAttribute("aria-pressed",String(x.dataset.r===s.role))});
+    if(focusId&&$(focusId)&&document.activeElement===document.body){var f=$(focusId);if(f.disabled){f=$("demo-status")}if(f&&!f.disabled)f.focus({preventScroll:true})}
+  }
+  $("demo-app").addEventListener("change",function(e){var c=e.target.dataset&&e.target.dataset.c;if(!c)return;cur().checks[c]=e.target.checked;render()});
+  $("demo-app").addEventListener("click",function(e){
+    var t=e.target.closest("button");if(!t||t.disabled)return;var id=t.id,v=cur(),d=def(v,s.ver);
+    if(t.dataset.r){s.role=t.dataset.r;render();return}
+    if(id==="demo-restart"){reset();render();$("demo-restart").focus();return}
+    if(id==="demo-interpret-ack")s.read=true;
+    else if(id==="demo-plan-room"||id==="demo-plan-wait"){var p=id.slice(10);if(v.plan!==p){v.plan=p;v.checks={};if(v.decision==="declined")v.decision=null}}
+    else if(s.role==="manager"&&id==="demo-approve"){v.decision="approved";log("Duty Manager approved exception for "+d.name+".")}
+    else if(s.role==="manager"&&id==="demo-hold"){v.decision="held";log("Duty Manager put "+d.name+" on hold.")}
+    else if(s.role==="manager"&&id==="demo-resume"){v.decision=null;log("Duty Manager resumed review of "+d.name+".")}
+    else if(s.role==="manager"&&id==="demo-decline"){log("Duty Manager declined "+d.name+".");v.decision="declined";v.plan=null;v.checks={}}
+    else if(id==="demo-dispatch"){v.dispatched=true;log("Dispatched owned tasks for "+d.name+" (separate from approval).")}
+    else if(id.indexOf("demo-ack-")===0)v.acks[id.slice(9)]=true;
+    else if(id.indexOf("demo-evidence-")===0)v.ev[id.slice(14)]=true;
+    else if(id==="demo-accept"){v.accepted=true;log("Reception recorded the family's acceptance of "+d.name+".")}
+    else if(id==="demo-delay"){s.delay=true;s.hist.forEach(function(e){if(e.ver===0&&/approved/.test(e.t))e.tag="Invalidated by 3:25pm repair delay"});s.ver=1;var nv=V();nv.plan=s.v[0].plan;s.v.push(nv);s.hist.push({ver:1,t:"Repair delay invalidated version 1 commitment and approval. Revised response required.",tag:""})}
+    else return;
+    render();
+  });
+  render();
+  // /public-demo without a fragment lands at the demo; any explicit fragment is left to the browser.
+  if(location.pathname.replace(/\/+$/,"")==="/public-demo"&&!location.hash){$("sample-demo").scrollIntoView({behavior:"instant",block:"start"})}
+})();
+</script>
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id)};
+  var role="reception",ev="missing",i=0;
+  var N=["Synthetic inputs","Proposed interpretation","Prepared options","Rules and boundary","Authorised decision","Coordinated tasks","Receipts and outcomes","Reviewed improvement"];
+  var W=["Inputs","AI proposes","AI prepares","Rules","People decide","Workflow","Evidence","People review"];
+  var B=[
+   "Synthetic booking list: 14 arrivals before 3pm, two with noted needs (step-free access, infant cot). Room-status feed: 9 rooms dirty, 3 awaiting inspection. Shift roster: 4 attendants on, 2 short.",
+   "Proposed reading: about 6 early arrivals will wait over 45 minutes. Sources named: booking list, room status at 13:05, roster. Uncertainty: two arrival times are estimates and one room status is 40 minutes old. This is a proposal, not a fact.",
+   "Prepared options: A) prioritise rooms 408 and 412 for the recorded guest needs, delaying other rooms; B) clean in floor order to reduce travel between rooms, but those guests may wait longer; C) request a floater, adding capacity only if Group Operations confirms availability and the Manager approves. None is selected.",
+   "Configured rules, not AI: capacity cap of 4 attendants means at most 3 rooms inside 40 minutes. Accessibility needs rank first. Requesting off-site support needs Manager approval. Option C crosses that boundary.",
+   "The Duty Manager chooses Option A now and approves Option C. Reception may act on A within delegated authority; C would stay pending without the Manager. The AI did not choose.",
+   "Synthetic tasks: Housekeeping cleans 412 then 408 by 13:40; Supervisor inspects by 13:45; Reception gives a progress update by 13:30. Group Operations must confirm floater availability by 13:20; approval alone does not mean support has arrived.",
+   "",
+   ""
+  ];
+  var R={
+   reception:["Reception sees which arriving guests are affected and what was promised, not staffing detail.","For Reception: 2 guests have needs that a late room affects; estimates are flagged as uncertain before anything is said to them.","For Reception: Option A prioritises the two guests; draft wording distinguishes an estimate from a confirmed release time and is not sent.","For Reception: you may offer luggage hold and seating within your authority. Room changes or gestures above limit go to the Manager.","For Reception: you act on Option A now. You do not approve the floater.","Your task: give a progress update by 13:30; do not promise room release before inspection.","",""],
+   housekeeping:["Housekeeping sees room status and the attendant count, never individual circumstances.","For Housekeeping: the 40-minute-old status on 412 is flagged; confirm it before the plan relies on it.","For Housekeeping: Option A changes your cleaning order; Option B keeps floor efficiency.","For Housekeeping: the capacity cap is applied as configured. Approving a promise does not create attendants.","For Housekeeping: you receive the decided order; you do not need to negotiate it at the desk.","Your tasks: clean 412, then 408; Supervisor inspects and records the receipt.","",""],
+   manager:["Manager sees the whole picture: pressure, capacity gap and what will need a decision.","For the Manager: the proposal and its uncertainty are visible together, with sources, so you can challenge it.","For the Manager: all three options and their trade-offs, including the cost of requesting support.","For the Manager: Option C needs your approval. The rule defines where authority sits; it does not decide for you.","For the Manager: you approve C and confirm A. Your name and time are recorded on the decision.","Your view: four owned tasks, their due times and which are overdue.","",""]
+  };
+  var steps=$("aiw-steps");
+  N.forEach(function(n){var li=document.createElement("li");li.textContent=n;steps.appendChild(li)});
+  function render(){
+    var body=B[i],rl=R[role][i],st="",open=false;
+    if(i===6){
+      if(ev==="missing"){body="Synthetic receipts: Group Operations confirms the floater is unavailable; no support arrival is claimed and the two-room plan uses existing capacity. Room 408 is cleaned and inspected; receipt recorded. Room 412 inspection receipt is missing, so 412 is not released. Supervisor owns the open inspection; Duty Manager reviews it at 13:50.";open=true;st="Open: 412 awaiting inspection receipt. 1 of 2 rooms released. Work stays visible.";}
+      else{body="Synthetic receipts: both inspections recorded by the Supervisor at 13:45. Reception confirms both guest updates at 13:47; 408 and 412 are released. Floater unavailable, so no extra capacity or arrival is claimed. This confirms only the two-room response, not recovery of the whole hotel.";st="Confirmed: 2 of 2 rooms released with receipts.";}
+      rl={reception:"For Reception: "+(ev==="missing"?"do not tell the 412 guest the room is ready.":"tell both guests; keys at the desk."),housekeeping:"For Housekeeping: "+(ev==="missing"?"412 inspection still owed; it remains on your list.":"both inspections recorded; list cleared."),manager:"For the Manager: "+(ev==="missing"?"one overdue item, 412, with owner and age.":"recovery confirmed with evidence.")}[role];
+    } else if(i===7){
+      if(ev==="missing"){body="Review cannot start yet: the episode has unresolved work. A proposed improvement is held until 412 is confirmed.";open=true;st="Open: review held until evidence is supplied.";}
+      else{body="Scripted proposed AI contribution: flag a possible arrival/roster mismatch for review—not a recurring pattern proven by one episode. The Manager can review earlier capacity checks with the Housekeeping Supervisor and seek authorised approval for a limited test. Nothing changes or deploys automatically.";st="Review ready: improvement awaits authorised review.";}
+      rl={reception:"For Reception: you may add what guests said; you do not approve changes.",housekeeping:"For Housekeeping: the Supervisor can comment on the roster pattern.",manager:"For the Manager: you decide whether to test the proposed adjustment."}[role];
+    } else {st="Step "+(i+1)+" of 8: "+N[i]+". "+(i<6?"No work closed yet.":"");open=i>=5;}
+    $("aiw-who").textContent=W[i];
+    $("aiw-title").textContent=N[i];
+    $("aiw-body").textContent=body;
+    $("aiw-roleline").innerHTML="";
+    var sm=document.createElement("small");sm.textContent=role.charAt(0).toUpperCase()+role.slice(1)+" view";
+    $("aiw-roleline").appendChild(sm);$("aiw-roleline").appendChild(document.createTextNode(rl));
+    $("aiw-state").textContent=st;
+    $("aiw-state").className="aiw-state"+(open?" open":"");
+    for(var n=0;n<steps.children.length;n++){var li=steps.children[n];li.classList.toggle("done",n<i);if(n===i)li.setAttribute("aria-current","step");else li.removeAttribute("aria-current");}
+    $("aiw-prev").disabled=i===0;$("aiw-next").disabled=i===7;
+  }
+  [].forEach.call(document.querySelectorAll("#ai-in-the-work .aiw-chip"),function(b){b.addEventListener("click",function(){
+    var k=b.dataset.role?"role":"ev";
+    [].forEach.call(b.parentNode.querySelectorAll(".aiw-chip"),function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});
+    if(k==="role")role=b.dataset.role;else ev=b.dataset.ev;render();});});
+  $("aiw-prev").addEventListener("click",function(){if(i>0){i--;render()}});
+  $("aiw-next").addEventListener("click",function(){if(i<7){i++;render()}});
+  $("aiw-reset").addEventListener("click",function(){i=0;role="reception";ev="missing";
+    [].forEach.call(document.querySelectorAll("#ai-in-the-work .aiw-chip"),function(x){x.setAttribute("aria-pressed",(x.id==="aiw-role-reception"||x.id==="aiw-evidence-missing")?"true":"false")});render();$("aiw-next").focus();});
+  render();
+})();
+</script>
+</body>
+</html>
