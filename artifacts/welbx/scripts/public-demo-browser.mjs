@@ -245,7 +245,7 @@ export async function checkPublicDemo(page, base, width) {
     assert(target && target !== "demo-next-go", `next step did not move focus: ${before}`);
     await page.keyboard.press(target.startsWith("demo-check-") ? "Space" : "Enter");
   }
-  assert(actions >= 25 && actions <= 35, `"about 30 short steps" no longer matches the guided path (${actions})`);
+  assert(actions >= 25 && actions <= 35, `guided path length changed unexpectedly (${actions} actions)`);
   assert(await state("superseded") === "0", "fully recorded version 1 shown as superseded");
   await activate("demo-restart");
   assert(await state("version") === "1" && await state("plan") === "" && await state("role") === "reception", "reset retained scenario or role");
