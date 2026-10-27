@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useLocation, useSearch } from "wouter";
 import { usePartnerContent } from "@/context/PartnerContentContext";
 import { TravelWordmark } from "@/components/TravelWordmark";
-import { JourneyNext, JourneyProgress } from "@/components/JourneyBar";
+import { JourneyNext, JourneyProgress, PageOrientation } from "@/components/JourneyBar";
 
 interface NavItem { label: string; path: string; }
 interface NavGroup { label: string; items: NavItem[]; }
@@ -733,6 +733,7 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
       {/* Page content */}
        <main className="rtbx-readable-content" style={{ flex: 1 }}>
         <JourneyProgress />
+        <PageOrientation />
         {children}
         <JourneyNext />
       </main>

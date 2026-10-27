@@ -14,6 +14,14 @@ export interface JourneyStep {
   summary: string;
   /** Which parts of the operating loop this step shows. */
   shows: LoopStageId[];
+  /** Orientation shown at the top of the page: what is on screen, what to do, and what it shows a hotel. */
+  orientation: PageOrientation;
+}
+
+export interface PageOrientation {
+  onScreen: string;
+  doHere: string;
+  forHotel: string;
 }
 
 export type LoopStageId = "signal" | "context" | "decision" | "action" | "evidence" | "learning" | "next-cycle";
@@ -97,6 +105,11 @@ export const GUIDED_ROUTE: JourneyStep[] = [
     path: "/partner-room/architecture-lab",
     summary: "Follow one signal through every layer, from capture to reviewed learning.",
     shows: ["signal", "context", "decision", "action", "evidence", "learning"],
+    orientation: {
+      onScreen: "One synthetic hotel moment traced through five phases and eleven inspectable layers.",
+      doHere: "Use the orange next-step button to advance the trace. Open any layer to inspect it.",
+      forHotel: "How a late room becomes an owned, approved response with evidence, not a note in one system.",
+    },
   },
   {
     id: "build-configure",
@@ -104,6 +117,11 @@ export const GUIDED_ROUTE: JourneyStep[] = [
     path: "/partner-room/build-configure",
     summary: "Set the property, roles, approvals and the evidence each scenario needs, then activate it.",
     shows: ["decision", "evidence"],
+    orientation: {
+      onScreen: "A nine-stage setup of a synthetic deployment: property, systems, roles, approvals, scenarios and evidence.",
+      doHere: "Work through the stages in order, then activate the deployment in Review & Activate.",
+      forHotel: "Your own rules decide who may act, who must approve and what evidence closes a case.",
+    },
   },
   {
     id: "configured-execution",
@@ -111,6 +129,11 @@ export const GUIDED_ROUTE: JourneyStep[] = [
     path: "/partner-room/operations#configured-operation",
     summary: "Run your configured scenarios and see the synthetic evidence they generate.",
     shows: ["decision", "action", "evidence"],
+    orientation: {
+      onScreen: "Runs of the scenarios you activated, using your roles, approvals and evidence rules. Part 2 holds fixed examples.",
+      doHere: "Start a scenario, record the approval, dispatch the work and capture the evidence needed to close it.",
+      forHotel: "Approval, dispatch, acknowledgement and closure stay separate, so nothing is marked done without proof.",
+    },
   },
   {
     id: "simulation-lab",
@@ -118,6 +141,11 @@ export const GUIDED_ROUTE: JourneyStep[] = [
     path: "/partner-room/operations?view=simulation",
     summary: "Run 100 synthetic signals through the same engine and review the learning it proposes.",
     shows: ["evidence", "learning"],
+    orientation: {
+      onScreen: "A synthetic 100-room hotel sending a stream of signals through the same rules engine.",
+      doHere: "Start the simulation, change the conditions and review the patterns it proposes.",
+      forHotel: "How volume and pressure show up as patterns a manager reviews before anything changes.",
+    },
   },
   {
     id: "operating-evolution",
@@ -125,6 +153,11 @@ export const GUIDED_ROUTE: JourneyStep[] = [
     path: "/partner-room/operating-evolution",
     summary: "Compare operating cycles after reviewed changes, with the conditions each cycle ran under.",
     shows: ["learning", "next-cycle"],
+    orientation: {
+      onScreen: "Operating cycles compared after a reviewed change, with the conditions each cycle ran under.",
+      doHere: "Review the proposed change as the Duty Manager, then compare the next cycle.",
+      forHotel: "Learning changes practice only after a named person approves it, and its effect is measured again.",
+    },
   },
   {
     id: "value-calculator",
@@ -132,6 +165,11 @@ export const GUIDED_ROUTE: JourneyStep[] = [
     path: "/partner-room/proof-calculator",
     summary: "Model volumes, attribution and value ranges with your own assumptions.",
     shows: ["next-cycle"],
+    orientation: {
+      onScreen: "A monthly value model built from your property's own assumptions.",
+      doHere: "Enter the essential property figures and your currency. Adjust advanced assumptions only if you need to.",
+      forHotel: "A hypothetical range to test in a pilot, after attribution and overlap. Not measured savings.",
+    },
   },
   {
     id: "stage-3",
@@ -139,6 +177,11 @@ export const GUIDED_ROUTE: JourneyStep[] = [
     path: "/partner-room/product-proof/stage-3-operating-layer",
     summary: "See the planned connected operating layer, simulated end to end.",
     shows: ["signal", "action", "evidence"],
+    orientation: {
+      onScreen: "The planned connected operating layer, simulated for peak pressure and a portfolio disruption.",
+      doHere: "Choose a story and step through it. Note what stays open at each step.",
+      forHotel: "How coordination could extend across teams and properties. Planned and simulated, not live.",
+    },
   },
   {
     id: "pilot",
@@ -146,8 +189,30 @@ export const GUIDED_ROUTE: JourneyStep[] = [
     path: "/partner-room/pilot-model",
     summary: "What a named pilot would measure, who is accountable and what it needs from the partner.",
     shows: ["evidence", "next-cycle"],
+    orientation: {
+      onScreen: "What a named pilot would measure, who is accountable and what it needs from the property.",
+      doHere: "Review the scope and the readiness checklist, then discuss a named pilot.",
+      forHotel: "The steps to test these claims on your own property, with your own people and data.",
+    },
   },
 ];
+
+/** Orientation for the Partner Room start page, which introduces the route rather than being a step on it. */
+export const PARTNER_ROOM_HOME_ORIENTATION: PageOrientation = {
+  onScreen: "The Partner Room start page: what JALDO Travel is, and the eight-step guided route.",
+  doHere: "Start the guided route, or open any section from the menu.",
+  forHotel: "Where to see one hotel moment become an accountable, evidenced response.",
+};
+
+/** What each menu section offers a hotel, for pages outside the guided route. */
+export const SECTION_PURPOSE: Record<string, string> = {
+  "Start": "Context for evaluating JALDO Travel for your hotel.",
+  "Platform": "How JALDO Travel works alongside your existing hotel systems, people and rules.",
+  "Configure and Execute": "How your rules turn a hotel moment into an owned, approved and evidenced response.",
+  "Proof": "Synthetic proof of how responses, evidence and learning could work in a hotel.",
+  "Pilot and Partnership": "What it would take to test this on your own property.",
+  "Reference material": "Supporting material for evaluating JALDO Travel. Synthetic and illustrative.",
+};
 
 const pathOnly = (path: string) => path.split(/[?#]/)[0];
 const queryOf = (path: string) => (path.split("#")[0].split("?")[1] ?? "");

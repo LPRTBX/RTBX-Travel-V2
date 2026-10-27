@@ -1,4 +1,5 @@
 import { useId, useMemo, useState } from "react";
+import { formatMoney, type CurrencyCode } from "@/lib/currency";
 import { usePilotScope } from "@/context/PilotScopeContext";
 import { useDeployment } from "@/context/DeploymentContext";
 import { usePartnerRoomNavigate } from "@/components/PartnerRoomLayout";
@@ -10,7 +11,7 @@ import {
 } from "@/lib/pilotScope";
 import "./pilot-scope.css";
 
-const money = (n: number) => `${n < 0 ? "−" : ""}$${Math.round(Math.abs(n)).toLocaleString()}`;
+const money = (n: number, currency?: CurrencyCode) => formatMoney(n, currency);
 
 function RouteLink({ href, children }: { href: string; children: React.ReactNode }) {
   const navigateTo = usePartnerRoomNavigate();
@@ -142,7 +143,7 @@ export function PilotScopeBuilder() {
         <div className="ps-value" data-testid="scope-value">
           <h4>Value hypothesis</h4>
           {value
-            ? <p>From the <RouteLink href="/partner-room/proof-calculator">Calculator</RouteLink>: {value.sites} site(s) × {value.roomsPerSite} rooms; net monthly impact hypothesis {money(value.lowMonthly)} / {money(value.baseMonthly)} / {money(value.highMonthly)} (low / base / high){value.costIncluded ? "" : ", programme cost not included"}. Modelled, not a forecast.</p>
+            ? <p>From the <RouteLink href="/partner-room/proof-calculator">Calculator</RouteLink>: {value.sites} site(s) × {value.roomsPerSite} rooms; net monthly impact hypothesis {money(value.lowMonthly, value.currency)} / {money(value.baseMonthly, value.currency)} / {money(value.highMonthly, value.currency)} (low / base / high{value.currency ? `, ${value.currency}` : ""}){value.costIncluded ? "" : ", programme cost not included"}. Modelled, not a forecast.</p>
             : <p>Not modelled yet. Use <RouteLink href="/partner-room/proof-calculator#value-title">the Calculator</RouteLink> and choose “Use in pilot scope” to bring its assumptions here.</p>}
         </div>
       </fieldset>

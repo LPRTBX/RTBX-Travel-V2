@@ -11,6 +11,7 @@
 
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "wouter";
+import "./build-configure.css";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 import { useDeployment } from "@/context/DeploymentContext";
 import {
@@ -56,15 +57,15 @@ const C = {
 
 // ── Stage manifest ─────────────────────────────────────────────────────────────
 const STAGES = [
-  { num: 1,  id: "environment",       label: "Environment",          shortLabel: "Env"   },
-  { num: 2,  id: "systems",           label: "Systems",              shortLabel: "Sys"   },
-  { num: 3,  id: "roles",             label: "Roles",                shortLabel: "Roles" },
-  { num: 4,  id: "operating-systems", label: "Operating Systems",    shortLabel: "OS"    },
-  { num: 5,  id: "governance",        label: "Governance",           shortLabel: "Gov"   },
-  { num: 6,  id: "scenarios",         label: "Scenarios & Playbooks",shortLabel: "Scen"  },
-  { num: 7,  id: "communications",    label: "Communications",       shortLabel: "Comms" },
-  { num: 8,  id: "evidence",          label: "Evidence & Outcomes",  shortLabel: "Evid"  },
-  { num: 9,  id: "review",            label: "Review & Activate",    shortLabel: "Activate" },
+  { num: 1,  id: "environment",       label: "Environment" },
+  { num: 2,  id: "systems",           label: "Systems" },
+  { num: 3,  id: "roles",             label: "Roles" },
+  { num: 4,  id: "operating-systems", label: "Operating Systems" },
+  { num: 5,  id: "governance",        label: "Governance" },
+  { num: 6,  id: "scenarios",         label: "Scenarios & Playbooks" },
+  { num: 7,  id: "communications",    label: "Communications" },
+  { num: 8,  id: "evidence",          label: "Evidence & Outcomes" },
+  { num: 9,  id: "review",            label: "Review & Activate" },
 ];
 
 // ── Shared UI primitives ───────────────────────────────────────────────────────
@@ -214,40 +215,23 @@ function StageHeader({ title, description }: { title: string; description: strin
 
 function ProgressBar({ current, onNavigate }: { current: number; onNavigate: (i: number) => void }) {
   return (
-    <nav aria-label="Configuration stages" style={{ marginBottom: 32, overflowX: "auto" }}>
-      <ol style={{ display: "flex", alignItems: "center", gap: 0, minWidth: 600, listStyle: "none", margin: 0, padding: 0 }}>
+    <nav aria-label="Configuration stages" className="bc-stepper">
+      <p className="bc-stepper-now">Stage {current + 1} of {STAGES.length}: <strong>{STAGES[current].label}</strong></p>
+      <ol>
         {STAGES.map((s, i) => {
           const done   = i < current;
           const active = i === current;
           return (
-            <li key={s.id} style={{ display: "flex", alignItems: "center", flex: i < STAGES.length - 1 ? "1 1 0" : "0 0 auto" }}>
+            <li key={s.id} data-state={active ? "current" : done ? "done" : "todo"}>
               <button
                 type="button"
                 onClick={() => onNavigate(i)}
                 aria-label={`Stage ${s.num}: ${s.label}${done ? " (complete)" : active ? " (current)" : ""}`}
                 aria-current={active ? "step" : undefined}
-                style={{
-                  display: "flex", flexDirection: "column", alignItems: "center", gap: 4, cursor: "pointer",
-                  padding: "8px 6px", minWidth: 58, flexShrink: 0,
-                  background: "transparent", border: "none", color: "inherit",
-                }}
               >
-                <div style={{
-                  width: 28, height: 28, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center",
-                  background: active ? C.gold : done ? "rgba(16,185,129,0.15)" : "rgba(255,255,255,0.04)",
-                  border: `2px solid ${active ? C.gold : done ? C.green : "rgba(255,255,255,0.12)"}`,
-                  fontSize: 10, fontWeight: 800, color: active ? "#102d39" : done ? C.green : "rgba(255,255,255,0.3)",
-                  transition: "all 0.15s",
-                }}>
-                  {done ? "✓" : s.num}
-                </div>
-                <div style={{ fontSize: 8.5, fontWeight: active ? 800 : 600, color: active ? C.gold : done ? C.green : "rgba(255,255,255,0.3)", textAlign: "center", whiteSpace: "nowrap", letterSpacing: "0.01em" }}>
-                  {s.shortLabel}
-                </div>
+                <span className="bc-stepper-num" aria-hidden="true">{done ? "✓" : s.num}</span>
+                <span className="bc-stepper-label">{s.label}</span>
               </button>
-              {i < STAGES.length - 1 && (
-                <div aria-hidden="true" style={{ flex: 1, height: 1, background: done ? "rgba(16,185,129,0.3)" : "rgba(255,255,255,0.08)", minWidth: 8 }} />
-              )}
             </li>
           );
         })}
@@ -261,7 +245,7 @@ function ProgressBar({ current, onNavigate }: { current: number; onNavigate: (i:
 function Disclaimer() {
   return (
     <div style={{ padding: "11px 16px", background: "rgba(168,222,219,0.04)", border: "1px solid rgba(168,222,219,0.18)", borderLeft: "3px solid rgba(168,222,219,0.6)", marginBottom: 28, display: "flex", gap: 12, alignItems: "flex-start" }}>
-      <span style={{ fontSize: 9, letterSpacing: "0.1em", color: C.gold, fontWeight: 800, textTransform: "uppercase", whiteSpace: "nowrap", marginTop: 1 }}>Demo</span>
+      <span style={{ fontSize: 12.5, letterSpacing: "0.1em", color: C.gold, fontWeight: 800, textTransform: "uppercase", whiteSpace: "nowrap", marginTop: 3 }}>Demo</span>
       <p style={{ fontSize: 11, color: "rgba(255,255,255,0.5)", lineHeight: 1.65, margin: 0 }}>
         This prototype stores synthetic deployment configuration locally for demonstration purposes. It is not a production customer environment and is not connected to any live system or data.
       </p>
@@ -1193,7 +1177,7 @@ export default function PartnerBuildConfigure() {
       {showResetConfirm && (
         <ResetConfirmDialog onConfirm={handleReset} onCancel={() => setShowResetConfirm(false)} />
       )}
-      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "48px 20px 120px" }}>
+      <div className="pr-readable" style={{ maxWidth: 1100, margin: "0 auto", padding: "48px 20px 120px" }}>
 
         {/* Header */}
         <div style={{ marginBottom: 36 }}>

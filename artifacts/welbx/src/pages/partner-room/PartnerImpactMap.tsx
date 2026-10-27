@@ -63,7 +63,7 @@ export default function PartnerImpactMap() {
   const impact = IMPACT[scenario.id];
   const systems = [scenario.operatingSystemId, ...(scenario.secondaryOperatingSystemIds ?? [])]
     .map(id => TRAVEL_OPERATING_SYSTEMS.find(os => os.id === id)?.name ?? id);
-  return <PartnerRoomLayout><main className="travel-impact">
+  return <PartnerRoomLayout><div className="travel-impact">
     <header className="travel-impact-hero">
       <p className="travel-impact-eyebrow">JALDO TRAVEL · SCENARIO IMPACT MAP</p>
       <h1>One moment. A coordinated operation. A better next response.</h1>
@@ -120,5 +120,5 @@ export default function PartnerImpactMap() {
       <p>Bring one property, three recurring moments and the people accountable for them. Leave the alignment session with a scoped pilot, clear responsibilities and a measurable decision to proceed.</p>
       <div className="travel-impact-actions"><Link href="/partner-room/next-step">Shape a design partnership →</Link><Link href="/partner-room/pilot-model">Inspect the pilot pathway →</Link></div>
     </section>
-  </main></PartnerRoomLayout>;
+  </div></PartnerRoomLayout>;
 }

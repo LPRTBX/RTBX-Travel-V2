@@ -45,10 +45,10 @@
 }
 @media (max-width: 900px) {
   .travel-architecture-split { grid-template-columns: minmax(0,1fr) !important; }
-  /* Stacked: the Inspector stays on screen as a bottom panel while the map scrolls. */
-  .travel-architecture-inspector { position: sticky !important; top: auto !important; bottom: 0; z-index: 2; max-height: 42vh; overflow-y: auto; background: #0b1d1f !important; box-shadow: 0 -12px 24px rgba(0,0,0,.45); }
-  /* Focus and selection scrolling keep each layer (and its focus ring) above the docked panel, whose height is capped at 42vh. */
-  .travel-architecture-node { scroll-margin-top: 24px; scroll-margin-bottom: calc(42vh + 24px); }
+  /* Stacked: the Inspector opens inline under the chosen layer. It is never docked over the page. */
+  .travel-architecture-inspector { margin: 0 0 8px; background: #0b1d1f !important; }
+  /* Clears the sticky Partner Room header (PARTNER_ROOM_SCROLL_CLEARANCE) so the inline Inspector follows in view. */
+  .travel-architecture-node { scroll-margin-top: 104px; scroll-margin-bottom: 24px; }
 }
 @media (max-width: 700px) {
   .travel-architecture-stages { grid-template-columns: repeat(2,minmax(0,1fr)) !important; }
@@ -59,3 +59,25 @@
 .travel-architecture-action:hover { background: #173842; border-color: #a8dedb; }
 .travel-architecture-action:focus-visible { outline: 3px solid #ed9b66; outline-offset: 4px; }
 @media (max-width: 520px) { .travel-architecture-action { width: 100%; } }
+
+/* Guided next action: the one primary control, with the current layer and secondary trace options. */
+.travel-architecture-guide { border: 1px solid rgba(168,222,219,.35); border-top: 3px solid #f59e0b; background: rgba(255,255,255,.03); padding: 22px; margin-bottom: 24px; display: grid; gap: 16px; }
+.travel-architecture-status { margin: 0; font-size: 14px; color: rgba(255,255,255,.78); }
+.travel-architecture-status strong { color: #fff; }
+.travel-architecture-key { display: block; margin-bottom: 6px; color: #a8dedb; font-size: 12.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.travel-architecture-now { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 16px; align-items: center; padding: 12px 14px; background: rgba(168,222,219,.06); font-size: 15px; line-height: 1.5; color: rgba(255,255,255,.86); }
+.travel-architecture-now .travel-architecture-key { grid-column: 1 / -1; margin: 0; }
+.travel-architecture-inspect { min-height: 44px; padding: 8px 14px; background: transparent; color: #a8dedb; border: 1px solid #527179; font-weight: 700; cursor: pointer; }
+.travel-architecture-next { display: grid; gap: 8px; justify-items: start; }
+.travel-architecture-primary { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 12px 22px; background: #f59e0b; color: #111; border: 0; font-size: 17px !important; font-weight: 900; text-decoration: none; cursor: pointer; }
+.travel-architecture-primary:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+.travel-architecture-hint { margin: 0; font-size: 14px !important; color: rgba(255,255,255,.72); }
+.travel-architecture-options summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; color: #a8dedb; font-weight: 700; font-size: 15px; }
+.travel-architecture-options summary:focus-visible { outline: 3px solid #ed9b66; outline-offset: 3px; }
+.travel-architecture-options label { font-size: 15px; color: rgba(255,255,255,.86); }
+@media (max-width: 600px) {
+  .travel-architecture-guide { padding: 16px; }
+  .travel-architecture-now { grid-template-columns: minmax(0, 1fr); }
+  .travel-architecture-inspect, .travel-architecture-primary { width: 100%; }
+  .travel-architecture-next { justify-items: stretch; }
+}

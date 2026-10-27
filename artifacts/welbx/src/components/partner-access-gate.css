@@ -1,0 +1,24 @@
+/* Matches the server-rendered Partner Room access page (server/login.mjs). */
+.partner-gate { min-height: 100dvh; display: grid; place-items: center; padding: 24px; background: #102d39; color: #fff; font-size: 17px; line-height: 1.65; }
+.partner-gate-card { width: min(100%, 520px); }
+.partner-gate-kicker { margin: 28px 0 6px; color: #a8dedb; font-size: 13px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.partner-gate h1 { margin: 0 0 12px; font-size: clamp(28px, 6vw, 40px); line-height: 1.15; }
+.partner-gate h1:focus { outline: none; }
+.partner-gate h1:focus-visible { outline: 3px solid #ee8c50; outline-offset: 6px; }
+.partner-gate p { color: #c6d7db; margin: 0 0 14px; }
+.partner-gate-actions { display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: center; margin-top: 22px; }
+.partner-gate-primary, .partner-gate-secondary { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 12px 20px; border-radius: 5px; font: inherit; font-size: 16px; font-weight: 700; text-decoration: none; cursor: pointer; }
+.partner-gate-primary { background: #a8dedb; color: #102d39; border: 0; }
+.partner-gate-primary:disabled { opacity: .7; cursor: progress; }
+.partner-gate-secondary { border: 2px solid #a8dedb; color: #a8dedb; }
+.partner-gate-link { display: inline-flex; align-items: center; min-height: 44px; color: #a8dedb; }
+.partner-gate :is(a, button):focus-visible { outline: 3px solid #ee8c50; outline-offset: 4px; }
+.partner-gate-status:empty { margin: 0; }
+.partner-gate-note { margin-top: 26px !important; font-size: 15px; color: #b7cdd1 !important; border-top: 1px solid #a8dedb33; padding-top: 14px; }
+@media (max-width: 480px) { .partner-gate-primary, .partner-gate-secondary { width: 100%; } }
+
+.partner-session-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; padding: 8px 20px; background: #173b48; color: #fff; font-size: 14px; }
+.partner-session-bar form { margin: 0; }
+.partner-session-bar button { min-height: 44px; padding: 8px 16px; border: 0; border-radius: 4px; background: #a8dedb; color: #102d39; font-weight: 700; cursor: pointer; white-space: nowrap; }
+.partner-session-bar button:focus-visible { outline: 3px solid #ee8c50; outline-offset: 3px; }
+@media (max-width: 480px) { .partner-session-bar { flex-wrap: nowrap; padding: 6px 12px; font-size: 13px; } .partner-session-bar button { padding: 8px 12px; } }

@@ -308,7 +308,7 @@ export default function PartnerPilotModel() {
           <SectionLabel>08 · Readiness</SectionLabel>
           <H2>Pilot readiness checklist</H2>
           <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.65, maxWidth: 760, marginBottom: 12 }}>
-            Click any item to cycle its readiness state. This is a working interactive assessment tool — no data is saved between sessions.
+            Select any item (click, tap, or Enter/Space) to cycle its readiness state. This is a working interactive assessment tool — no data is saved between sessions.
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 16 }}>
             {(Object.entries(READINESS_STATE_LABELS) as [ReadinessState, string][]).map(([state, label]) => (
@@ -325,16 +325,18 @@ export default function PartnerPilotModel() {
                   {READINESS_CHECKLIST.filter(i => i.category === cat).map(item => {
                     const state = readinessStates[item.id];
                     return (
-                      <div
+                      <button
+                        type="button"
                         key={item.id}
-                        className="rtbx-responsive-card-header"
+                        className="rtbx-responsive-card-header pilot-readiness-item"
+                        aria-label={`${item.label}: ${READINESS_STATE_LABELS[state]}. Select to change.`}
                         onClick={() => setReadinessStates(prev => ({ ...prev, [item.id]: nextState(prev[item.id]) }))}
-                        style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)", borderLeft: `3px solid ${READINESS_COLORS[state]}`, cursor: "pointer" }}
+                        style={{ display: "flex", alignItems: "center", gap: 10, width: "100%", minHeight: 44, padding: "8px 12px", textAlign: "left", font: "inherit", color: "inherit", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)", borderLeft: `3px solid ${READINESS_COLORS[state]}`, cursor: "pointer" }}
                       >
                         <div style={{ width: 10, height: 10, borderRadius: "50%", background: READINESS_COLORS[state], flexShrink: 0 }} />
                         <div style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", flex: 1 }}>{item.label}</div>
                         <div style={{ fontSize: 11, fontWeight: 700, color: READINESS_COLORS[state], flexShrink: 0 }}>{READINESS_STATE_LABELS[state]}</div>
-                      </div>
+                      </button>
                     );
                   })}
                 </div>
