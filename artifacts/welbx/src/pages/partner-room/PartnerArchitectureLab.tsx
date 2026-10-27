@@ -1,5 +1,5 @@
 import "./travel-impact.css";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "wouter";
 import { PartnerRoomLayout } from "@/components/PartnerRoomLayout";
 import { STATE_TO_STEP, TRACE_STEPS } from "@/lib/runtimeEngine";
@@ -28,6 +28,19 @@ const PHASE_GUIDES: Record<string, string> = {
   Act: "Coordinate the response",
   Learn: "Check evidence and improve",
 };
+
+/** True below 900px, where the Inspector opens inline under the chosen layer instead of beside the map. */
+function useCompactLayout() {
+  const query = "(max-width: 900px)";
+  const [compact, setCompact] = useState(() => window.matchMedia(query).matches);
+  useEffect(() => {
+    const list = window.matchMedia(query);
+    const update = () => setCompact(list.matches);
+    list.addEventListener("change", update);
+    return () => list.removeEventListener("change", update);
+  }, []);
+  return compact;
+}
 
 export default function PartnerArchitectureLab() {
   const [selected, setSelected] = useState<ArchitectureScenarioId>("repeat-guest-room-not-ready");
@@ -60,41 +73,23 @@ export default function PartnerArchitectureLab() {
   const activeStep = STATE_TO_STEP[execution.state];
   const selectedNode = nodes.find(n => n.id === inspect) || nodes[1];
 
+  const compact = useCompactLayout();
   const inspectorRef = useRef<HTMLElement | null>(null);
   const [scrollRequest, setScrollRequest] = useState(0);
-
-  // Below 900px the Inspector docks at the bottom of the screen. Browsers treat a control behind it as
-  // already in view, so neither focus nor scrollIntoView moves it; scroll by exactly the covered amount.
-  const keepClearOfInspector = (element: Element | null) => {
-    const inspector = inspectorRef.current;
-    if (!element || !inspector || inspector.contains(element)) return;
-    const panel = inspector.getBoundingClientRect();
-    const docked = getComputedStyle(inspector).position === "sticky" && Math.abs(panel.bottom - window.innerHeight) < 2;
-    if (!docked) return;
-    const rect = element.getBoundingClientRect();
-    const covered = rect.bottom + 12 - panel.top; // 12px keeps the 3px focus ring and its 4px offset visible
-    if (covered > 0) window.scrollBy({ top: covered, behavior: "auto" });
-  };
-
   // A newly selected layer opens at the top of the Inspector, not at the previous layer's scroll position.
   useEffect(() => {
     if (inspectorRef.current) inspectorRef.current.scrollTop = 0;
   }, [inspect]);
-
-  // After a selection renders (the Inspector may change height), bring the selected node into view and clear of the panel.
+  // Bring a layer chosen from the phases or "Inspect this layer" into view. Advancing the trace does not scroll,
+  // so the next-step button stays where the visitor pressed it.
   useEffect(() => {
     if (!scrollRequest) return;
-    const node = document.getElementById(`architecture-node-${inspect}`);
-    if (!node) return;
-    const docked = window.matchMedia("(max-width: 900px)").matches;
-    node.scrollIntoView({ behavior: docked ? "auto" : "smooth", block: "nearest" });
-    if (docked) requestAnimationFrame(() => keepClearOfInspector(node));
+    document.getElementById(`architecture-node-${inspect}`)?.scrollIntoView({ behavior: compact ? "auto" : "smooth", block: compact ? "start" : "nearest" });
   }, [scrollRequest]);
-
-  const focusArchitecture = (nodeId: string, stage?: string) => {
+  const focusArchitecture = (nodeId: string, stage?: string, scroll = true) => {
     setInspect(nodeId);
     if (stage) setFocusStage(stage);
-    setScrollRequest(request => request + 1);
+    if (scroll) setScrollRequest(request => request + 1);
   };
   const focusArchitectureStage = (stage: string) => {
     const nodeId = STAGE_NODE_MAP[stage];
@@ -107,9 +102,18 @@ export default function PartnerArchitectureLab() {
     const next = advanceArchitectureTrace(hotelCase, fault);
     if (!next) return;
     setHotelCase(next.hotelCase);
-    focusArchitecture(next.node, next.stage);
+    focusArchitecture(next.node, next.stage, false);
   };
   const nextLabel = architectureNextLabel(hotelCase);
+  // One Inspector: beside the map on wide screens, inline under the chosen layer below 900px, so it never covers controls.
+  const inspector = <aside ref={inspectorRef} id="architecture-inspector" className="travel-architecture-inspector" role="region" aria-label={`Layer inspector: ${selectedNode.label}`} tabIndex={compact ? undefined : 0} style={{ ...box, borderTop: "2px solid #a8dedb", padding: 22, ...(compact ? {} : { position: "sticky", top: 100 }) }}>
+    <span role="status" className="sr-only">{`Showing ${selectedNode.label} in the inspector`}</span>
+    <div style={{ fontSize: 12.5, color: "#f59e0b", fontWeight: 800, letterSpacing: ".1em", textTransform: "uppercase" }}>{selectedNode.stage} · Inspector</div>
+    <h3 style={{ margin: "7px 0 8px", fontSize: 20 }}>{selectedNode.label}</h3>
+    <p style={{ color: "rgba(255,255,255,.78)", fontSize: 15, lineHeight: 1.6 }}>{selectedNode.text}</p>
+    <div style={{ height: 1, background: "rgba(255,255,255,.08)", margin: "18px 0" }} />
+    <div style={{ display: "grid", gap: 9 }}>{selectedNode.details.map((d,i) => <div key={i} style={{ fontSize: 14, lineHeight: 1.55, color: "rgba(255,255,255,.78)", paddingLeft: 12, borderLeft: "2px solid rgba(168,222,219,.28)" }}>{d}</div>)}</div>
+  </aside>;
   // The engine records approval and moves the case on at dispatch; say so rather than show a stale gate.
   const statusText = hotelCase.approved && ["approval-required", "decision-required"].includes(execution.state)
     ? execution.approvalRequired
@@ -141,28 +145,42 @@ export default function PartnerArchitectureLab() {
         </div>
       </section>
 
-      <main style={{ maxWidth: 1380, margin: "0 auto", padding: "32px clamp(20px,5vw,72px) 80px" }}>
+      <div style={{ maxWidth: 1380, margin: "0 auto", padding: "32px clamp(20px,5vw,72px) 80px" }}>
         <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: ".12em", textTransform: "uppercase", ...muted, marginBottom: 10 }}>Choose trace</div>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 26 }}>
           {ARCHITECTURE_SCENARIOS.map(([id,label]) => <button key={id} onClick={() => choose(id)} aria-pressed={selected === id} style={{ padding: "10px 14px", cursor: "pointer", color: selected === id ? "#071315" : "#fff", background: selected === id ? "#a8dedb" : "rgba(255,255,255,.035)", border: selected === id ? "1px solid #a8dedb" : "1px solid rgba(255,255,255,.1)", fontWeight: 800 }}>{label}</button>)}
         </div>
 
-        <section style={{ ...box, padding: 22, marginBottom: 24 }}>
-          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: 18, alignItems: "center" }}>
-            <div>
-              <div style={{ fontSize: 11, color: "#a8dedb", fontWeight: 800, letterSpacing: ".1em", textTransform: "uppercase" }}>{MOCK_HOTEL.name}</div>
-              <h2 style={{ margin: "6px 0", fontSize: 22 }}>{scenario.title}</h2>
-              <div style={{ ...muted, fontSize: 12 }}>{hotelCase.signal.title} · Status: <strong style={{ color: "#fff" }}>{statusText}</strong></div>
-            </div>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-              <select value={fault} onChange={e => setFault(e.target.value as Fault)} aria-label="Synthetic follow-up condition" aria-describedby="follow-up-condition-hint" disabled={followUpLocked} style={{ padding: "10px 12px", background: "#0b1d1f", color: "#fff", border: "1px solid rgba(255,255,255,.12)" }}>
-                <option value="none">Normal follow-up</option><option value="late-response">Late response</option><option value="ineffective-action">Ineffective action</option><option value="missing-receipt">Missing receipt</option><option value="missing-measurement">Missing measurement</option>
-              </select>
-              {nextLabel && <button onClick={advance} style={{ padding: "11px 16px", background: "#f59e0b", color: "#111", border: 0, fontWeight: 900, cursor: "pointer" }}>{nextLabel} →</button>}
-              <button onClick={() => choose(selected)} style={{ padding: "10px 13px", background: "transparent", color: "#fff", border: "1px solid rgba(255,255,255,.14)", cursor: "pointer" }}>Reset</button>
-              <p id="follow-up-condition-hint" style={{ ...muted, flexBasis: "100%", margin: 0, fontSize: 12, textAlign: "right" }}>{followUpHint}</p>
-            </div>
+        <section className="travel-architecture-guide" aria-labelledby="architecture-scenario-title" data-testid="architecture-next-action">
+          <div className="travel-architecture-guide-head">
+            <div style={{ fontSize: 13, color: "#a8dedb", fontWeight: 800, letterSpacing: ".1em", textTransform: "uppercase" }}>{MOCK_HOTEL.name}</div>
+            <h2 id="architecture-scenario-title" style={{ margin: "6px 0", fontSize: 22 }}>{scenario.title}</h2>
+            <p className="travel-architecture-status">{hotelCase.signal.title} · Status: <strong>{statusText}</strong></p>
           </div>
+          <div className="travel-architecture-now" aria-live="polite">
+            <span className="travel-architecture-key">Now at</span>
+            <span><strong>{selectedNode.stage} · {selectedNode.label}.</strong> {selectedNode.text}</span>
+            <button type="button" className="travel-architecture-inspect" onClick={() => focusArchitecture(selectedNode.id, selectedNode.stage)}>Inspect this layer</button>
+          </div>
+          <div className="travel-architecture-next">
+            <span className="travel-architecture-key">Your next step</span>
+            {nextLabel
+              ? <button type="button" className="travel-architecture-primary" data-testid="architecture-next" onClick={advance}>{nextLabel} →</button>
+              : hotelCase.observation
+                ? <a className="travel-architecture-primary" href="#architecture-review" data-testid="architecture-next">Review the outcome and the proposed change ↓</a>
+                : <p style={{ margin: 0 }}>Trace complete. Reset or choose another trace.</p>}
+            <p id="follow-up-condition-hint" className="travel-architecture-hint">{followUpHint}</p>
+          </div>
+          <details className="travel-architecture-options">
+            <summary>Trace options: follow-up condition and reset</summary>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center", paddingTop: 10 }}>
+              <label htmlFor="follow-up-condition">Synthetic follow-up condition</label>
+                <select id="follow-up-condition" value={fault} onChange={e => setFault(e.target.value as Fault)} aria-describedby="follow-up-condition-hint" disabled={followUpLocked} style={{ padding: "10px 12px", minHeight: 44, background: "#0b1d1f", color: "#fff", border: "1px solid rgba(255,255,255,.3)" }}>
+                  <option value="none">Normal follow-up</option><option value="late-response">Late response</option><option value="ineffective-action">Ineffective action</option><option value="missing-receipt">Missing receipt</option><option value="missing-measurement">Missing measurement</option>
+                </select>
+              <button type="button" onClick={() => choose(selected)} style={{ padding: "10px 16px", minHeight: 44, background: "transparent", color: "#fff", border: "1px solid rgba(255,255,255,.3)", cursor: "pointer" }}>Reset trace</button>
+            </div>
+          </details>
           <p style={{ ...muted, fontSize: 14, margin: "22px 0 8px" }}><strong style={{ color: "#a8dedb" }}>Five architecture phases</strong> · select a phase to inspect its layers; use the orange button to advance the story.</p>
           <div className="travel-architecture-stages" style={{ display: "grid", gridTemplateColumns: "repeat(5,minmax(0,1fr))", gap: 4, marginTop: 8 }}>
             {TRACE_STEPS.map((step,i) => <button
@@ -189,12 +207,13 @@ export default function PartnerArchitectureLab() {
           <section id="architecture-map">
             <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: ".12em", textTransform: "uppercase", ...muted, marginBottom: 10 }}>Architecture · click any layer to inspect</div>
             <div style={{ display: "grid", gap: 5 }}>
-              {nodes.map(node => <button
+              {nodes.map(node => <Fragment key={node.id}><button
                 className="travel-architecture-node"
                 id={`architecture-node-${node.id}`}
-                key={node.id}
+                type="button"
+                aria-expanded={compact ? inspect === node.id : undefined}
+                aria-controls={compact && inspect === node.id ? "architecture-inspector" : undefined}
                 onClick={() => focusArchitecture(node.id, node.stage)}
-                onFocus={event => keepClearOfInspector(event.currentTarget)}
                 style={{
                   ...box,
                   cursor: "pointer",
@@ -213,21 +232,14 @@ export default function PartnerArchitectureLab() {
                 <span style={{ fontSize: 10, color: "#f59e0b", textTransform: "uppercase", letterSpacing: ".08em", fontWeight: 800 }}>{node.stage}</span>
                 <strong style={{ color: "#fff", fontSize: 13 }}>{node.label}</strong>
                 <span style={{ ...muted, fontSize: 12, lineHeight: 1.45 }}>{node.text}</span><span style={{ color: "#a8dedb" }}>→</span>
-              </button>)}
+              </button>{compact && inspect === node.id && inspector}</Fragment>)}
             </div>
           </section>
 
-          <aside ref={inspectorRef} className="travel-architecture-inspector" role="region" aria-label={`Layer inspector: ${selectedNode.label}`} tabIndex={0} style={{ ...box, borderTop: "2px solid #a8dedb", padding: 22, position: "sticky", top: 100 }}>
-            <span role="status" className="sr-only">{`Showing ${selectedNode.label} in the inspector`}</span>
-            <div style={{ fontSize: 10, color: "#f59e0b", fontWeight: 800, letterSpacing: ".1em", textTransform: "uppercase" }}>{selectedNode.stage} · Inspector</div>
-            <h3 style={{ margin: "7px 0 8px", fontSize: 20 }}>{selectedNode.label}</h3>
-            <p style={{ ...muted, fontSize: 13, lineHeight: 1.6 }}>{selectedNode.text}</p>
-            <div style={{ height: 1, background: "rgba(255,255,255,.08)", margin: "18px 0" }} />
-            <div style={{ display: "grid", gap: 9 }}>{selectedNode.details.map((d,i) => <div key={i} style={{ fontSize: 12, lineHeight: 1.55, color: "rgba(255,255,255,.64)", paddingLeft: 12, borderLeft: "2px solid rgba(168,222,219,.28)" }}>{d}</div>)}</div>
-          </aside>
+          {!compact && inspector}
         </div>
 
-        {hotelCase.observation && <section className="travel-loop-review" style={{ ...box, marginTop: 26, padding: 24, borderTop: "2px solid #a8dedb" }} aria-label="Review and replay learning">
+        {hotelCase.observation && <section id="architecture-review" className="travel-loop-review" style={{ ...box, marginTop: 26, padding: 24, borderTop: "2px solid #a8dedb" }} aria-label="Review and replay learning">
           <div style={{ color: "#a8dedb", fontSize: 12, fontWeight: 800 }}>LEARN → HUMAN REVIEW → REPLAY → VERIFY AGAIN</div>
           <h2 style={{ fontSize: 26, margin: "10px 0" }}>Did the response work—and what changes next?</h2>
           <p style={{ color: "rgba(255,255,255,.75)", lineHeight: 1.7 }}>{lateEvidence ? "Outcome after late evidence" : "Recorded outcome"}: <strong>{OUTCOME_LABELS[hotelCase.outcome]}</strong> · Case: <strong>{execution.state === "closed" ? "Closed" : `Open · ${stateLabel(execution.state)}`}</strong>. {hotelCase.reasons.length ? `Why: ${describeFollowUpReasons(hotelCase.reasons)}.` : "Synthetic receipt recorded and the issue restored within the 20-minute target. Nothing was sent."}</p>
@@ -281,7 +293,7 @@ export default function PartnerArchitectureLab() {
             <Link className="travel-architecture-action" href="/partner-room/proof-calculator">Value / ROI →</Link>
           </div>
         </section>
-      </main>
+      </div>
     </div>
   </PartnerRoomLayout>;
 }

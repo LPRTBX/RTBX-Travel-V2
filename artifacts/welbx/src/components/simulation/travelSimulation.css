@@ -37,3 +37,5 @@
 
 .jsim-technical { margin-top: 12px; font-size: 12px; opacity: 0.8; }
 .jsim-technical ol { margin: 8px 0 0; padding-left: 20px; overflow-wrap: anywhere; }
+/* The page title is the shared Operations Centre header; each panel's headline is its first section heading. */
+.jsim h2.jsim-title{font-size:clamp(26px,3vw,40px);line-height:1.12;letter-spacing:-.04em;margin:0 0 14px;font-weight:700}.jsim h2.jsim-title em{font-style:normal;color:var(--sim-orange)}

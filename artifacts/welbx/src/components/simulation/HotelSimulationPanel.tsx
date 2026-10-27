@@ -57,9 +57,9 @@ export function HotelSimulationPanel() {
     const link = document.createElement('a'); link.href = url; link.download = `jaldo-mock-hotel-cycle-${batch.hotel.cycle}.json`; link.click();
     window.setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
-  return <main className="jsim">
+  return <div className="jsim">
     <header className="jsim-header"><div><p className="jsim-eyebrow">JALDO TRAVEL / MOCK HOTEL</p>
-      <h1>A hotel operating <em>in four directions.</em></h1>
+      <h2 className="jsim-title">A hotel operating <em>in four directions.</em></h2>
       <p className="jsim-intro">100 distinct readings. Four input paths. Follow the owner, decision, evidence and outcome of every signal.</p></div>
       <div className="jsim-environment"><ShieldCheck size={18} /><div><strong>Harbour Hotel</strong><span>100 rooms · synthetic hotel</span></div></div>
     </header>
@@ -108,5 +108,5 @@ export function HotelSimulationPanel() {
     </section></div>
     <HotelLearningPanel />
     <div className="jsim-bottom"><Link href="/partner-room/operations">← Return to the Operations Centre</Link></div>
-  </main>;
+  </div>;
 }

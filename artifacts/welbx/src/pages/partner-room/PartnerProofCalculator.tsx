@@ -5,10 +5,10 @@ import { INTERACTION_BASIS_LABELS } from "@/lib/travelGuestJourney";
 import { NumberField } from "@/components/NumberField";
 import { usePilotScope } from "@/context/PilotScopeContext";
 import { usePartnerRoomNavigate } from "@/components/PartnerRoomLayout";
+import { CURRENCIES, DEFAULT_CURRENCY, currencyInfo, formatMoney, type CurrencyCode } from "@/lib/currency";
 import "./proof-calculator.css";
 
 const number = (n: number) => Math.round(n).toLocaleString();
-const money = (n: number) => `${n < 0 ? "−" : ""}$${Math.round(Math.abs(n)).toLocaleString()}`;
 const percent = (n: number) => `${Math.round(n * 100)}%`;
 
 function Assumption({ label, value, min, max, step = 1, onChange, unit = "", hint }: {
@@ -27,6 +27,10 @@ function Assumption({ label, value, min, max, step = 1, onChange, unit = "", hin
 
 export default function PartnerProofCalculator() {
   const [a, setA] = useState<TravelValueAssumptions>(() => structuredClone(DEFAULT_VALUE_ASSUMPTIONS));
+  // Display only: every amount is entered and shown in this currency; nothing is converted.
+  const [currency, setCurrency] = useState<CurrencyCode>(DEFAULT_CURRENCY);
+  const { symbol, name: currencyName } = currencyInfo(currency);
+  const money = (n: number) => formatMoney(n, currency);
   // Entered tiers are kept exactly as typed. While any range is out of order the
   // financial estimate is paused; figures that do not use the tiers still update.
   const tierIssues = getValueTierIssues(a);
@@ -40,7 +44,7 @@ export default function PartnerProofCalculator() {
     <strong>Financial estimate paused.</strong> {tierIssues.map(issue => <span key={issue.kind}> <a href={`#tiers-${issue.kind}`}>{issue.label}</a>: {issue.message}</span>)} Your entered values are kept; the range is not recalculated until they are in order.
   </div>;
   const costIncluded = a.monthlyCost > 0;
-  const costNote = !costIncluded && <p className="travel-value-cost-note" role="note"><strong>Programme costs are not included in this net estimate.</strong> Monthly programme cost is $0; enter it in section 3 to deduct it.</p>;
+  const costNote = !costIncluded && <p className="travel-value-cost-note" role="note"><strong>Programme costs are not included in this net estimate.</strong> Monthly programme cost is {money(0)}; enter it in section 3 to deduct it.</p>;
   const update = (key: Exclude<keyof TravelValueAssumptions, "moments" | "journey">, value: number) => setA(current => ({ ...current, [key]: value }));
   const updateJourney = (id: string, frequency: number) => setA(current => ({ ...current, journey: current.journey.map(j => j.id === id ? { ...j, frequency } : j) }));
   const updateMoment = (kind: MomentKind, key: "momentsPer100Stays" | "actionRate" | "minutesSaved", value: number) =>
@@ -49,7 +53,7 @@ export default function PartnerProofCalculator() {
   const updateTier = (kind: MomentKind, tier: ValueTier, value: number) => setA(current => ({ ...current, moments: current.moments.map(m =>
     m.kind === kind && m.value ? { ...m, value: { ...m.value, [tier]: value } } : m) }));
 
-  return <PartnerRoomLayout><main className="travel-value">
+  return <PartnerRoomLayout><div className="travel-value">
     <header>
       <p className="travel-value-eyebrow">Commercial · Operating model · Proof of value</p>
       <h1>Everyday operations. Opportunities. Prevention. Recovery.</h1>
@@ -57,18 +61,43 @@ export default function PartnerProofCalculator() {
       <p className="travel-value-boundary">Illustrative, synthetic assumptions only. Defaults are editable examples, not industry benchmarks or measured results. Accountable people must validate the model in a named pilot.</p>
       <p><strong>Interactions</strong> are activity. <strong>Operational moments</strong> call for a decision or coordinated action. <strong>Issues</strong> are one type of moment.</p>
     </header>
-    <div className="travel-value-toolbar"><span>Monthly model · $ values use one consistent currency chosen by you</span><button onClick={() => setA(structuredClone(DEFAULT_VALUE_ASSUMPTIONS))}>Reset assumptions</button></div>
+    <div className="travel-value-toolbar">
+      <label className="travel-value-currency">Currency for every amount
+        <select value={currency} onChange={e => setCurrency(e.target.value as CurrencyCode)} aria-describedby="currency-note">
+          {CURRENCIES.map(c => <option key={c.code} value={c.code}>{c.code} · {c.name} ({c.symbol})</option>)}
+        </select>
+      </label>
+      <span id="currency-note" className="travel-value-hint">Monthly model. Amounts are shown in {currency} and never converted; enter every amount in {currency}.</span>
+      <button onClick={() => setA(structuredClone(DEFAULT_VALUE_ASSUMPTIONS))}>Reset assumptions</button>
+    </div>
+
+    <section className="travel-value-summary" aria-labelledby="summary-title" data-testid="assumptions-summary">
+      <h2 id="summary-title">Your assumptions at a glance</h2>
+      <ul>
+        <li><strong>Property:</strong> {number(a.sites)} site{a.sites === 1 ? "" : "s"} × {number(a.roomsPerSite)} rooms at {percent(a.occupancy)} occupancy and a {a.lengthOfStay}-night average stay = {number(result.stays)} room stays a month.</li>
+        <li><strong>Moments:</strong> {number(result.moments)} operational moments a month; {number(result.actions)} assumed to reach their intended outcome.</li>
+        <li><strong>Attribution:</strong> {percent(a.incrementalShare)} credited to JALDO Travel, then {percent(a.overlapAllowance)} removed for overlapping benefits.</li>
+        <li><strong>Programme cost:</strong> {costIncluded ? `${money(a.monthlyCost)} a month, deducted` : "not included (none entered)"}.</li>
+        <li><strong>Net monthly impact hypothesis ({currency}):</strong> {estimatePaused ? "paused until the value ranges below are in order" : <>{money(result.bottomLine.base)} base, range {money(result.bottomLine.low)} to {money(result.bottomLine.high)}</>}.</li>
+      </ul>
+      <p className="travel-value-hint">Hypothetical and modelled from these assumptions. Not a forecast, a quote or measured savings.</p>
+    </section>
 
     <section className="travel-value-section" aria-labelledby="capacity-title">
       <h2 id="capacity-title">1. Property capacity → occupancy → guest stays</h2>
       <div className="travel-value-input-grid">
         <Assumption label="Sites" value={a.sites} min={1} max={500} onChange={v => update("sites", v)} />
         <Assumption label="Rooms per site" value={a.roomsPerSite} min={1} max={1000} onChange={v => update("roomsPerSite", v)} hint="For a mixed portfolio, use average rooms per site." />
-        <Assumption label="Days in month" value={a.days} min={28} max={31} onChange={v => update("days", v)} />
         <Assumption label="Monthly occupancy" value={Math.round(a.occupancy * 100)} min={0} max={100} unit="%" onChange={v => update("occupancy", v / 100)} />
         <Assumption label="Average length of stay" value={a.lengthOfStay} min={0.5} max={30} step={0.5} unit=" nights" onChange={v => update("lengthOfStay", v)} />
-        <Assumption label="Guests per occupied room" value={a.guestsPerRoom} min={1} max={6} step={0.1} onChange={v => update("guestsPerRoom", v)} />
       </div>
+      <details className="travel-value-advanced" data-testid="advanced-capacity">
+        <summary>Advanced: days in month and guests per room <span>({a.days} days · {a.guestsPerRoom} guests per occupied room)</span></summary>
+        <div className="travel-value-input-grid">
+          <Assumption label="Days in month" value={a.days} min={28} max={31} onChange={v => update("days", v)} />
+          <Assumption label="Guests per occupied room" value={a.guestsPerRoom} min={1} max={6} step={0.1} onChange={v => update("guestsPerRoom", v)} />
+        </div>
+      </details>
       <div className="travel-value-stats" aria-live="polite" aria-atomic="true">
         <div><strong>{number(result.rooms)}</strong><span>Total rooms</span></div>
         <div><strong>{number(result.occupiedRoomNights)}</strong><span>Occupied room nights</span></div>
@@ -79,7 +108,9 @@ export default function PartnerProofCalculator() {
         <div><strong>{number(result.interactions)}</strong><span>Estimated guest interactions</span></div>
       </div>
       <details><summary>How occupancy and stays connect</summary><p>Occupied room nights = sites × rooms per site × days × occupancy. Room stays = occupied room nights ÷ average length of stay. Guest arrivals = room stays × guests per occupied room. Guest nights = occupied room nights × guests per occupied room.</p><p>This is a steady-state estimate; it does not track unique people, actual reservations or stays crossing month boundaries.</p></details>
-      <h3 style={{ marginTop: 28 }}>Build the guest interaction plan</h3>
+      <details className="travel-value-advanced" data-testid="advanced-interactions">
+      <summary>Advanced: the guest interaction plan <span>({result.interactionsPerRoomStay.toLocaleString(undefined, { maximumFractionDigits: 1 })} exchanges per room stay)</span></summary>
+      <h3 style={{ marginTop: 18 }}>Build the guest interaction plan</h3>
       <p>This worked example includes pre-arrival, arrival, daily service, departure and follow-up. It is a full-service pattern, not a standard or industry average. Change each frequency to match the property: zero excludes an exchange; 0.5 means it occurs in half of the relevant stays or nights.</p>
       <p>Shared check-ins, meals and room-service exchanges count once per room party. Individual exchanges scale with guest nights only when guests interact independently. Count a complete service episode once, not every message, click or retry. An automated message counts only if it becomes a meaningful exchange.</p>
       <div className="travel-value-table-wrap"><table className="travel-value-journey"><caption>Editable interaction guide · {a.lengthOfStay}-night average stay</caption><thead><tr><th scope="col">Exchange</th><th scope="col">Counting basis</th><th scope="col">Frequency</th><th scope="col">Per room stay</th><th scope="col">Monthly</th></tr></thead><tbody>
@@ -88,6 +119,7 @@ export default function PartnerProofCalculator() {
       </tbody></table></div>
       <p className="travel-value-result">Monthly: {number(result.sharedInteractions)} shared exchanges + {number(result.individualInteractions)} individual exchanges = {number(result.interactions)} guest-facing interactions.</p>
       <p>Stay-level exchanges scale with room stays; daily shared exchanges scale with occupied room nights; individual daily exchanges scale with guest nights. At fixed occupancy, longer stays reduce arrival/departure exchanges but not daily service volume. Before/after-stay exchanges are allocated to the stay for planning, not dated live records. Staff, system and partner exchanges are not included in this guest-facing total.</p>
+      </details>
     </section>
 
     <section className="travel-value-section" aria-labelledby="moments-title">
@@ -95,14 +127,16 @@ export default function PartnerProofCalculator() {
       <p>Enter moments per 100 room stays. A stay can have several moments. Give each moment one primary category; do not count the same event in several categories. “Action rate” means the assumed share reaching the category’s intended outcome, not merely generating a task.</p>
       <div className="travel-value-moments">{result.rows.map(m => <article key={m.kind} className="travel-value-moment">
         <h3>{m.label}</h3><p>{m.example}</p>
+        <p className="travel-value-result">{number(m.moments)} modelled moments → {number(m.actions)} assumed successful actions{m.kind !== "welfare" && ` · ${number(m.staffHours)} hours of potential staff capacity`}</p>
+        <details className="travel-value-advanced" data-testid={`advanced-${m.kind}`}>
+        <summary>Adjust {m.label.toLowerCase()} assumptions <span>({m.momentsPer100Stays} per 100 stays · {percent(m.actionRate)} action rate{m.value ? ` · value ${money(m.value.low)} / ${money(m.value.base)} / ${money(m.value.high)}` : ""})</span></summary>
         <div className="travel-value-input-grid">
           <Assumption label={`${m.label}: moments per 100 room stays`} value={m.momentsPer100Stays} min={0} max={1000} onChange={v => updateMoment(m.kind, "momentsPer100Stays", v)} />
           <Assumption label={`${m.label}: action rate`} value={Math.round(m.actionRate * 100)} min={0} max={100} unit="%" onChange={v => updateMoment(m.kind, "actionRate", v / 100)} />
           {m.kind !== "welfare" && <Assumption label={`${m.label}: minutes saved per successful action`} value={m.minutesSaved} min={0} max={120} onChange={v => updateMoment(m.kind, "minutesSaved", v)} />}
         </div>
-        <p className="travel-value-result">{number(m.moments)} modelled moments → {number(m.actions)} assumed successful actions{m.kind !== "welfare" && ` · ${number(m.staffHours)} hours of potential staff capacity`}</p>
         {m.value ? <>
-          <h4>{m.kind === "opportunity" ? "Net contribution per successful opportunity" : "Avoided cost per successful action"} · $</h4>
+          <h4>{m.kind === "opportunity" ? "Net contribution per successful opportunity" : "Avoided cost per successful action"} · {currency}</h4>
           {(() => {
             const issue = tierIssues.find(item => item.kind === m.kind);
             // Show the values as entered; the calculation may have set aside an out-of-order range.
@@ -110,11 +144,17 @@ export default function PartnerProofCalculator() {
             const errorId = `tiers-${m.kind}-error`;
             return <>
               <div className="travel-value-tiers" id={`tiers-${m.kind}`}>{(["low", "base", "high"] as const).map(tier => <label key={tier}>{tier}<NumberField aria-label={`${m.label}: ${tier} value per successful action`} min={0} max={10000} value={entered![tier]} commitWhileTyping={false} invalid={!!issue?.tiers.includes(tier)} describedBy={errorId} onCommit={v => updateTier(m.kind, tier, v)} /></label>)}</div>
-              {issue && <p id={errorId} className="travel-value-tier-error">{issue.message} The financial estimate is paused until this range is fixed.</p>}
             </>;
           })()}
-          <p className="travel-value-hint">Editable assumptions, not prices or validated savings. Exclude staff labour that is accounted for in the human-resource section below. Keep Low ≤ Base ≤ High; values are not adjusted for you.</p>
-        </> : <p className="travel-value-hint">{m.kind === "welfare" ? "No dollar value or time-saving target is assigned to welfare and safety. Validate response time, human ownership and follow-through separately; action rate alone does not establish safety." : "Potential staff time is shown separately; it is not added to financial value or treated as cash savings."}</p>}
+          <p className="travel-value-hint">Editable assumptions in {currency}, not prices or validated savings. Exclude staff labour that is accounted for in the human-resource section below. Keep Low ≤ Base ≤ High; values are not adjusted for you.</p>
+        </> : null}
+        </details>
+        {(() => {
+          // Shown outside the section so an out-of-order range is visible even while the section is closed.
+          const issue = tierIssues.find(item => item.kind === m.kind);
+          return issue && <p id={`tiers-${m.kind}-error`} className="travel-value-tier-error">{issue.message} The financial estimate is paused until this range is fixed.</p>;
+        })()}
+        {!m.value && <p className="travel-value-hint">{m.kind === "welfare" ? "No money value or time-saving target is assigned to welfare and safety. Validate response time, human ownership and follow-through separately; action rate alone does not establish safety." : "Potential staff time is shown separately; it is not added to financial value or treated as cash savings."}</p>}
       </article>)}</div>
     </section>
 
@@ -123,10 +163,10 @@ export default function PartnerProofCalculator() {
       <div className="travel-value-input-grid">
         <Assumption label="Incremental share attributable to JALDO" value={Math.round(a.incrementalShare * 100)} min={0} max={100} unit="%" onChange={v => update("incrementalShare", v / 100)} hint="Exclude outcomes the existing operation would achieve anyway." />
         <Assumption label="Allowance for overlapping benefits" value={Math.round(a.overlapAllowance * 100)} min={0} max={100} unit="%" onChange={v => update("overlapAllowance", v / 100)} hint="Applied to financial benefit and staff time; verify overlap from unique events during the pilot." />
-        <Assumption label="Monthly programme cost" value={a.monthlyCost} min={0} max={100000} step={100} unit=" $" onChange={v => update("monthlyCost", v)} hint="Enter total recurring cost plus allocated activation cost. Zero means cost is not included." />
+        <Assumption label="Monthly programme cost" value={a.monthlyCost} min={0} max={100000} step={100} unit={` ${symbol}`} onChange={v => update("monthlyCost", v)} hint="Enter total recurring cost plus allocated activation cost. Zero means cost is not included." />
       </div>
       {pausedNotice(true)}
-      {!estimatePaused && <div className="travel-value-table-wrap"><table><caption>Illustrative monthly financial range</caption><thead><tr><th scope="col">Component</th><th scope="col">Low</th><th scope="col">Base</th><th scope="col">High</th></tr></thead><tbody>
+      {!estimatePaused && <div className="travel-value-table-wrap"><table><caption>Illustrative monthly financial range · {currency} ({currencyName})</caption><thead><tr><th scope="col">Component</th><th scope="col">Low</th><th scope="col">Base</th><th scope="col">High</th></tr></thead><tbody>
         {result.rows.filter(m => m.value).map(m => <tr key={m.kind}><th scope="row">{m.label} · before deductions</th>{(["low", "base", "high"] as const).map(t => <td key={t}>{money(m.gross[t])}</td>)}</tr>)}
         <tr><th scope="row">Gross modelled benefit</th>{(["low", "base", "high"] as const).map(t => <td key={t}>{money(result.gross[t])}</td>)}</tr>
         <tr><th scope="row">After attribution and overlap allowance</th>{(["low", "base", "high"] as const).map(t => <td key={t}>{money(result.adjusted[t])}</td>)}</tr>
@@ -144,11 +184,14 @@ export default function PartnerProofCalculator() {
     <section className="travel-value-section travel-value-impact" aria-labelledby="bottom-impact-title">
       <h2 id="bottom-impact-title">4. Human-resource impact and the financial bottom line</h2>
       <p>What could this mean for the team and the operation each month? Use the same {percent(a.incrementalShare)} attribution and {percent(a.overlapAllowance)} overlap allowance to estimate incremental staff capacity.</p>
-      <div className="travel-value-input-grid">
-        <Assumption label="Working hours per full-time equivalent per month" value={a.hoursPerFteMonth} min={1} max={240} onChange={v => update("hoursPerFteMonth", v)} hint="Your working-hours basis; the default is an example, not a staffing standard." />
-        <Assumption label="Loaded staff cost per hour" value={a.hourlyStaffCost} min={0} max={200} unit=" $" onChange={v => update("hourlyStaffCost", v)} hint="Use the full hourly cost in the same currency as the value tiers." />
-        <Assumption label="Released time that actually reduces cash cost" value={Math.round(a.cashRealisationRate * 100)} min={0} max={100} unit="%" onChange={v => update("cashRealisationRate", v / 100)} hint="Default 0%. Increase only for a defensible reduction in paid overtime, agency hours or other actual spend." />
-      </div>
+      <details className="travel-value-advanced" data-testid="advanced-staff">
+        <summary>Advanced: staff-time basis <span>({a.hoursPerFteMonth} hours per FTE · {money(a.hourlyStaffCost)} an hour · {percent(a.cashRealisationRate)} cash realisation)</span></summary>
+        <div className="travel-value-input-grid">
+          <Assumption label="Working hours per full-time equivalent per month" value={a.hoursPerFteMonth} min={1} max={240} onChange={v => update("hoursPerFteMonth", v)} hint="Your working-hours basis; the default is an example, not a staffing standard." />
+          <Assumption label="Loaded staff cost per hour" value={a.hourlyStaffCost} min={0} max={200} unit={` ${symbol}`} onChange={v => update("hourlyStaffCost", v)} hint={`Use the full hourly cost in ${currency}, the same currency as the value tiers.`} />
+          <Assumption label="Released time that actually reduces cash cost" value={Math.round(a.cashRealisationRate * 100)} min={0} max={100} unit="%" onChange={v => update("cashRealisationRate", v / 100)} hint="Default 0%. Increase only for a defensible reduction in paid overtime, agency hours or other actual spend." />
+        </div>
+      </details>
       <div className="travel-value-stats" aria-live="polite" aria-atomic="true">
         <div><strong>{number(result.adjustedStaffHours)} hrs</strong><span>Incremental staff capacity per month</span></div>
         <div><strong>{result.fteEquivalent.toLocaleString(undefined, { maximumFractionDigits: 2 })}</strong><span>FTE-equivalent capacity · not headcount reduction</span></div>
@@ -157,7 +200,7 @@ export default function PartnerProofCalculator() {
       </div>
       <p>{number(result.staffHours)} gross potential hours × {percent(a.incrementalShare)} attribution × {percent(1 - a.overlapAllowance)} after overlap = {number(result.adjustedStaffHours)} incremental hours. Equivalent capacity = hours ÷ {a.hoursPerFteMonth}; cost equivalent = hours × {money(a.hourlyStaffCost)}. Redeployment may improve service and workload without lowering payroll.</p>
       {pausedNotice(false)}
-      {!estimatePaused && <div className="travel-value-table-wrap"><table><caption>Monthly bottom-line hypothesis · after entered costs</caption><thead><tr><th scope="col">Component</th><th scope="col">Low</th><th scope="col">Base</th><th scope="col">High</th></tr></thead><tbody>
+      {!estimatePaused && <div className="travel-value-table-wrap"><table><caption>Monthly bottom-line hypothesis · after entered costs · {currency} ({currencyName})</caption><thead><tr><th scope="col">Component</th><th scope="col">Low</th><th scope="col">Base</th><th scope="col">High</th></tr></thead><tbody>
         <tr><th scope="row">Attributed service contribution / avoided cost</th>{(["low", "base", "high"] as const).map(t => <td key={t}>{money(result.adjusted[t])}</td>)}</tr>
         <tr><th scope="row">Entered staff cash-saving hypothesis</th>{(["low", "base", "high"] as const).map(t => <td key={t}>{money(result.cashStaffSavings)}</td>)}</tr>
         <tr><th scope="row">Entered programme cost</th>{(["low", "base", "high"] as const).map(t => <td key={t}>{costIncluded ? `−${money(a.monthlyCost)}` : "Not entered"}</td>)}</tr>
@@ -172,12 +215,12 @@ export default function PartnerProofCalculator() {
           ? <p role="note">Fix the value ranges above before using these assumptions in a pilot scope.</p>
           : <>
               <button type="button" onClick={() => {
-                setScopeValue({ sites: a.sites, roomsPerSite: a.roomsPerSite, lowMonthly: result.bottomLine.low, baseMonthly: result.bottomLine.base, highMonthly: result.bottomLine.high, costIncluded });
+                setScopeValue({ sites: a.sites, roomsPerSite: a.roomsPerSite, lowMonthly: result.bottomLine.low, baseMonthly: result.bottomLine.base, highMonthly: result.bottomLine.high, costIncluded, currency });
                 navigateTo("/partner-room/pilot-model#pilot-scope");
               }}>Use in pilot scope →</button>
-              <p>Carries the sites, rooms and net monthly impact hypothesis (low / base / high) into the pilot scope for this session. They stay modelled assumptions, not a forecast.{scopeValue ? " A previous set of assumptions is already in the scope and will be replaced." : ""}</p>
+              <p>Carries the sites, rooms, currency ({currency}) and net monthly impact hypothesis (low / base / high) into the pilot scope for this session. They stay modelled assumptions, not a forecast.{scopeValue ? " A previous set of assumptions is already in the scope and will be replaced." : ""}</p>
             </>}
       </div>
     </section>
-  </main></PartnerRoomLayout>;
+  </div></PartnerRoomLayout>;
 }

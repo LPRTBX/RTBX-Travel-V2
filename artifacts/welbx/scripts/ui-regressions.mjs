@@ -10,6 +10,7 @@
  */
 
 import { randomBytes } from "node:crypto";
+import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
@@ -49,6 +50,12 @@ const results = [];
 
 // UI_WIDTH=390|820|1440 reruns every check that is not already tied to a width at that width.
 const forcedWidth = Number(process.env.UI_WIDTH) || 0;
+
+// The Value Calculator keeps advanced assumptions in expandable sections; open the one holding an input first.
+async function openCalculatorSection(page, label) {
+  const section = page.locator("details.travel-value-advanced", { has: page.getByLabel(label, { exact: true }) }).first();
+  if (await section.getAttribute("open") === null) await section.locator(":scope > summary").click();
+}
 
 async function check(name, viewport, fn) {
   if (process.env.UI_CHECK_FILTER && !new RegExp(process.env.UI_CHECK_FILTER).test(name)) return;
@@ -111,87 +118,70 @@ for (const viewport of [{ width: 390, height: 844 }, { width: 820, height: 1180 
   });
 }
 
-// #1 follow-up: the docked Inspector never hides the focused control, and its contents stay reachable by keyboard.
-const inspectorGeometry = page => page.evaluate(() => {
-  const active = document.activeElement;
-  const inspector = document.querySelector(".travel-architecture-inspector");
-  const panel = inspector.getBoundingClientRect();
-  const rect = active.getBoundingClientRect();
-  const style = getComputedStyle(active);
-  const ring = (parseFloat(style.outlineWidth) || 0) + (parseFloat(style.outlineOffset) || 0);
-  const docked = getComputedStyle(inspector).position === "sticky" && Math.abs(panel.bottom - innerHeight) < 2;
-  const inside = inspector.contains(active);
-  const overlap = docked && !inside && active !== document.body
-    ? Math.max(0, Math.min(rect.bottom + ring, panel.bottom) - Math.max(rect.top - ring, panel.top)) : 0;
-  const nav = document.querySelector("[data-partner-room-nav]").getBoundingClientRect();
-  const navOverlap = active.closest(".travel-architecture-split") && !inside ? Math.max(0, Math.min(rect.bottom + ring, nav.bottom) - Math.max(rect.top - ring, nav.top)) : 0;
-  return { label: (active.innerText || active.getAttribute("aria-label") || active.tagName).replace(/\s+/g, " ").slice(0, 40), inside, overlap: Math.round(overlap), navOverlap: Math.round(navOverlap) };
-});
-
+// #1 follow-up: below 900px the Inspector opens inline under the chosen layer. It is never docked over the
+// page, so it cannot hide a control; the guided next step stays where the visitor pressed it.
 for (const viewport of [{ width: 390, height: 844 }, { width: 820, height: 1180 }]) {
-  await check(`Architecture Lab Inspector never hides keyboard focus at ${viewport.width}px`, viewport, async page => {
+  await check(`Architecture Lab Inspector never covers controls at ${viewport.width}px`, viewport, async page => {
     await open(page, "/partner-room/architecture-lab");
     const nodeCount = await page.locator(".travel-architecture-node").count();
-    // Tab through every control on the page; nothing focused may sit behind the docked panel.
+    const docked = () => page.evaluate(() => [...document.querySelectorAll(".travel-architecture-inspector")]
+      .some(panel => ["sticky", "fixed"].includes(getComputedStyle(panel).position)));
+    // Tab through every control: nothing is docked, and nothing focused sits under the navigation.
     const seen = [];
-    for (let step = 0; step < 120; step += 1) {
+    for (let step = 0; step < 140; step += 1) {
       await page.keyboard.press("Tab");
-      const geometry = await inspectorGeometry(page);
+      const geometry = await page.evaluate(() => {
+        const active = document.activeElement;
+        const rect = active.getBoundingClientRect();
+        const nav = document.querySelector("[data-partner-room-nav]").getBoundingClientRect();
+        const ring = 7;
+        const navOverlap = active.closest(".travel-architecture-split") ? Math.max(0, Math.min(rect.bottom + ring, nav.bottom) - Math.max(rect.top - ring, nav.top)) : 0;
+        return { label: (active.innerText || active.getAttribute("aria-label") || active.tagName).replace(/\s+/g, " ").slice(0, 40), navOverlap: Math.round(navOverlap) };
+      });
       if (seen.length && geometry.label === seen[0].label) break;
       seen.push(geometry);
-      assert(geometry.overlap === 0, `Tab focus on "${geometry.label}" is hidden ${geometry.overlap}px behind the Inspector`);
       assert(geometry.navOverlap === 0, `Tab focus on "${geometry.label}" is hidden ${geometry.navOverlap}px under the navigation`);
     }
-    // Activate every node with Enter: the node stays clear of the panel and the panel shows it.
+    assert(!(await docked()), "Inspector is docked over the page");
+    // Activate every node with Enter: its Inspector opens directly beneath it, expanded and announced.
     for (let index = 0; index < nodeCount; index += 1) {
       const node = page.locator(".travel-architecture-node").nth(index);
       await node.focus();
       await page.keyboard.press("Enter");
-      await page.waitForTimeout(450);
-      const geometry = await inspectorGeometry(page);
       const label = (await node.locator("strong").innerText()).trim();
-      assert(geometry.overlap === 0, `after Enter, "${label}" is hidden ${geometry.overlap}px behind the Inspector`);
-      assert((await page.locator(".travel-architecture-inspector h3").innerText()).trim() === label, `Inspector does not show "${label}" after Enter`);
+      assert(await node.getAttribute("aria-expanded") === "true", `"${label}" is not marked expanded`);
+      const below = await node.evaluate(el => el.nextElementSibling?.matches(".travel-architecture-inspector") ? el.nextElementSibling.querySelector("h3").textContent.trim() : null);
+      assert(below === label, `Inspector for "${label}" does not open directly beneath it`);
       assert((await page.getByRole("status").filter({ hasText: "inspector" }).innerText()).includes(label), `selection of "${label}" is not announced`);
+      assert(await page.locator(".travel-architecture-inspector").count() === 1, "more than one Inspector is open");
+      assert(!(await docked()), `Inspector is docked after opening "${label}"`);
     }
-    // Inspector contents: reachable by Tab straight after the last node, and scrollable from the keyboard when they overflow.
-    for (let index = 0; index < nodeCount; index += 1) {
-      const node = page.locator(".travel-architecture-node").nth(index);
-      await node.focus();
+    // Advancing the trace keeps the guided next step on screen instead of scrolling away from it.
+    const next = page.locator('button[data-testid="architecture-next"]');
+    await next.scrollIntoViewIfNeeded();
+    for (let step = 0; step < 3; step += 1) {
+      await next.focus();
       await page.keyboard.press("Enter");
-      await page.waitForTimeout(450); // let the selection render and its deferred scroll adjustment run
-      await page.locator(".travel-architecture-node").last().focus();
-      await page.keyboard.press("Tab");
-      const inspectorFocused = await page.evaluate(() => document.activeElement === document.querySelector(".travel-architecture-inspector"));
-      assert(inspectorFocused, "Tab from the last node skips the Inspector");
-      const before = await page.locator(".travel-architecture-inspector").evaluate(el => ({ overflow: el.scrollHeight - el.clientHeight, top: el.scrollTop }));
-      assert(before.top === 0, `Inspector for node ${index + 1} opens scrolled ${before.top}px down instead of at its top`);
-      if (before.overflow > 0) {
-        await page.keyboard.press("End");
-        // Keyboard scrolling is animated, so wait for it rather than reading scrollTop immediately.
-        const scrolled = await page.waitForFunction(top => document.querySelector(".travel-architecture-inspector").scrollTop > top, before.top, { timeout: 2000 }).then(() => true, () => false);
-        assert(scrolled, `Inspector content for node ${index + 1} overflows ${before.overflow}px but does not scroll from the keyboard`);
-        await page.keyboard.press("Home");
-        await page.waitForFunction(() => document.querySelector(".travel-architecture-inspector").scrollTop === 0, null, { timeout: 2000 });
-      }
+      assert(await next.evaluate(el => { const r = el.getBoundingClientRect(); return r.top >= 0 && r.bottom <= innerHeight; }), `next step left the screen after advance ${step + 1}`);
     }
-    // Scroll the whole map: every node must be fully visible above the panel at some point.
-    const height = await page.evaluate(() => document.documentElement.scrollHeight);
-    const hidden = new Set(Array.from({ length: nodeCount }, (_, index) => index));
-    for (let y = 0; y < height; y += 60) {
-      const visible = await page.evaluate(top => {
-        window.scrollTo(0, top);
-        const panel = document.querySelector(".travel-architecture-inspector").getBoundingClientRect();
-        return [...document.querySelectorAll(".travel-architecture-node")].map(node => {
-          const rect = node.getBoundingClientRect();
-          return rect.top >= 0 && rect.bottom <= Math.min(innerHeight, panel.top);
-        });
-      }, y);
-      visible.forEach((ok, index) => { if (ok) hidden.delete(index); });
-    }
-    assert(hidden.size === 0, `nodes ${[...hidden].map(index => index + 1).join(", ")} are never fully visible while scrolling`);
+    // "Inspect this layer" brings the current layer's Inspector into view.
+    await page.getByRole("button", { name: "Inspect this layer" }).click();
+    await page.waitForFunction(() => { const r = document.querySelector(".travel-architecture-inspector").getBoundingClientRect(); return r.top >= 0 && r.top < innerHeight - 80; }, null, { timeout: 3000 });
   });
 }
+
+// Wide screens keep the side Inspector, reachable by keyboard straight after the map and scrollable when long.
+await check("Architecture Lab side Inspector is keyboard-reachable at 1440px", { width: 1440, height: 900 }, async page => {
+  await open(page, "/partner-room/architecture-lab");
+  const nodeCount = await page.locator(".travel-architecture-node").count();
+  for (let index = 0; index < nodeCount; index += 1) {
+    await page.locator(".travel-architecture-node").nth(index).click();
+    await page.locator(".travel-architecture-node").last().focus();
+    await page.keyboard.press("Tab");
+    assert(await page.evaluate(() => document.activeElement === document.querySelector(".travel-architecture-inspector")), "Tab from the last node skips the Inspector");
+    assert(await page.locator(".travel-architecture-inspector").evaluate(el => el.scrollTop) === 0, `Inspector for node ${index + 1} does not open at its top`);
+  }
+});
 
 // #3 Build & Configure: blank required fields block Next and activation.
 await check("Build & Configure blocks blank required fields", { width: 1440, height: 900 }, async page => {
@@ -209,6 +199,7 @@ await check("Build & Configure blocks blank required fields", { width: 1440, hei
 // #13 Calculator: typed values are kept exactly; tiers do not move while typing.
 await check("Calculator keeps typed numeric values", { width: 1440, height: 900 }, async page => {
   await open(page, "/partner-room/proof-calculator");
+  await openCalculatorSection(page, "Days in month — exact value");
   const days = page.getByLabel("Days in month — exact value", { exact: true });
   await days.click();
   await days.pressSequentially("30");
@@ -216,6 +207,7 @@ await check("Calculator keeps typed numeric values", { width: 1440, height: 900 
   assert(await days.inputValue() === "30", `Days in month became ${await days.inputValue()}`);
   assert(await page.getByRole("slider", { name: "Days in month", exact: true }).inputValue() === "30", "slider did not follow the typed value");
 
+  await openCalculatorSection(page, "Prevention: low value per successful action");
   const low = page.getByLabel("Prevention: low value per successful action");
   const base = page.getByLabel("Prevention: base value per successful action");
   const before = [await low.inputValue(), await base.inputValue()];
@@ -337,6 +329,7 @@ await check("Operating Evolution labels arrival selections", { width: 1440, heig
 // Calculator: frequency inputs usable at 390px; $0 programme cost is called out.
 await check("Calculator frequency inputs are usable at 390px", { width: 390, height: 844 }, async page => {
   await open(page, "/partner-room/proof-calculator");
+  await page.getByTestId("advanced-interactions").locator(":scope > summary").click();
   const inputs = page.getByLabel(/: frequency$/);
   const count = await inputs.count();
   assert(count === 11, `expected 11 frequency inputs, found ${count}`);
@@ -382,13 +375,20 @@ const assertPlain = (text, where) => {
   assert(!match, `${where} shows the engine identifier "${match?.[0]}"`);
 };
 
+// The follow-up condition is a secondary trace option, inside its disclosure.
+async function followUpCondition(page) {
+  const options = page.locator(".travel-architecture-options");
+  if (await options.getAttribute("open") === null) await options.locator("summary").click();
+  return page.getByLabel("Synthetic follow-up condition");
+}
+
 await check("Architecture Lab shows plain-language status, review and replay", { width: 1440, height: 900 }, async page => {
   await open(page, "/partner-room/architecture-lab");
   const main = "main";
-  const advanceButton = () => page.locator("main > section").first().locator("button:has-text(\"→\")");
+  const advanceButton = () => page.locator('button[data-testid="architecture-next"]');
   for (let step = 0; step < 8 && await advanceButton().count(); step += 1) {
     assertPlain(await visibleText(page, main), `Architecture Lab step ${step + 1}`);
-    const select = page.getByLabel("Synthetic follow-up condition");
+    const select = await followUpCondition(page);
     if (!(await select.isDisabled())) await select.selectOption("late-response");
     await advanceButton().click();
   }
@@ -404,9 +404,9 @@ await check("Architecture Lab shows plain-language status, review and replay", {
 
 await check("Architecture Lab keeps late evidence distinct from the recorded follow-up", { width: 1440, height: 900 }, async page => {
   await open(page, "/partner-room/architecture-lab");
-  const advanceButton = () => page.locator("main > section").first().locator("button:has-text(\"→\")");
+  const advanceButton = () => page.locator('button[data-testid="architecture-next"]');
   for (let step = 0; step < 8 && await advanceButton().count(); step += 1) {
-    const select = page.getByLabel("Synthetic follow-up condition");
+    const select = await followUpCondition(page);
     if (!(await select.isDisabled())) await select.selectOption("missing-measurement");
     await advanceButton().click();
   }
@@ -484,7 +484,7 @@ await check("Delivery wording is conditional; recorded receipts are labelled syn
   assert(learning.includes("Synthetic delivery receipt and restoration recorded"), "a met journey does not label its receipt as synthetic");
   assert(!/Delivery confirmed/.test(learning), "Simulation Lab says delivery was confirmed");
   await open(page, "/partner-room/architecture-lab");
-  const advanceButton = () => page.locator("main > section").first().locator("button:has-text(\"→\")");
+  const advanceButton = () => page.locator('button[data-testid="architecture-next"]');
   for (let step = 0; step < 8 && await advanceButton().count(); step += 1) await advanceButton().click();
   await page.locator("summary", { hasText: "Inspect the recorded case history" }).click();
   const lab = await visibleText(page, "main");
@@ -581,6 +581,7 @@ await check("A configuration change reaches execution and closure", { width: 144
 for (const viewport of [{ width: 390, height: 844 }, { width: 1440, height: 900 }]) {
   await check(`Calculator value tiers are validated, not adjusted, at ${viewport.width}px`, viewport, async page => {
     await open(page, "/partner-room/proof-calculator");
+    await openCalculatorSection(page, "Service opportunities: low value per successful action");
     const tier = name => page.getByLabel(`Service opportunities: ${name} value per successful action`);
     const values = async () => [await tier("low").inputValue(), await tier("base").inputValue(), await tier("high").inputValue()];
     // Draft typing: nothing commits or complains until editing ends.
@@ -1235,6 +1236,179 @@ for (const choice of ["network", "local"]) {
     assert(errors.length === 0, `browser errors: ${errors.join("; ")}`);
   });
 }
+
+// ── Phase 2: Partner Room usability ─────────────────────────────────────────
+
+// Every registered Partner Room screen says where the visitor is, what to do and what it shows a hotel.
+{
+  const app = readFileSync(join(root, "src", "App.tsx"), "utf8");
+  const routes = [...app.matchAll(/path: "(\/partner-room[^"]*)"/g)].map(match => match[1]).filter(path => !path.includes(":"));
+  await check("Every Partner Room screen shows orientation at 1440px", { width: 1440, height: 900 }, async page => {
+    assert(routes.length > 40, `only ${routes.length} Partner Room routes found`);
+    for (const path of [...routes, "/partner-room/operations?view=simulation"]) {
+      await open(page, path);
+      const orientation = page.getByTestId("page-orientation");
+      await orientation.waitFor({ timeout: 10_000 }).catch(() => { throw new Error(`no orientation on ${path}`); });
+      // textContent: on narrow screens the guided orientation is collapsed but still present.
+      const hotel = await orientation.getByTestId("orientation-hotel").textContent();
+      assert(hotel.trim().length > 20, `${path}: no hotel purpose`);
+      const guided = await page.getByTestId("journey-progress").count();
+      if (guided || path === "/partner-room") {
+        assert((await orientation.getByTestId("orientation-do").innerText()).trim().length > 20, `${path}: no visible next action`);
+        assert((await orientation.getByTestId("orientation-screen").textContent()).trim().length > 20, `${path}: does not say what is on screen`);
+      } else {
+        assert(/›|Reference material/.test(await orientation.getByTestId("orientation-where").innerText()), `${path}: location not stated`);
+        assert(await orientation.getByTestId("orientation-return").getAttribute("href") === "/partner-room#guided-route", `${path}: no return to the guided route`);
+      }
+    }
+  });
+}
+
+await check("Orientation stays compact and operable on a phone at 390px", { width: 390, height: 844 }, async page => {
+  await open(page, "/partner-room/build-configure");
+  const details = page.getByTestId("page-orientation").locator("details");
+  assert(await details.getAttribute("open") === null, "orientation is expanded by default on a phone");
+  assert(await page.getByTestId("orientation-do").isVisible(), "the next action is hidden on a phone");
+  // Session bar, header, journey bar and collapsed orientation together stay well within the first screen.
+  const titleTop = await page.locator("h1").first().evaluate(el => el.getBoundingClientRect().top);
+  assert(titleTop < 500, `page title starts ${Math.round(titleTop)}px down`);
+  await details.locator("summary").focus();
+  await page.keyboard.press("Enter");
+  assert(await page.getByTestId("orientation-hotel").isVisible(), "orientation does not open from the keyboard");
+  await noHorizontalScroll(page, 390);
+});
+
+// Session recovery: any reply other than a confirmed session shows no partner content and offers the right actions.
+for (const viewport of [{ width: 390, height: 844 }, { width: 1440, height: 900 }]) {
+  await check(`Session recovery screens fail closed at ${viewport.width}px`, viewport, async page => {
+    const cases = [
+      ["stale development server (HTML)", route => route.fulfill({ status: 200, contentType: "text/html", body: "<!doctype html><div id=root></div>" }), /could not be confirmed/, true],
+      ["malformed JSON", route => route.fulfill({ status: 200, contentType: "application/json", body: '{"expiresAt":"soon"}' }), /could not be confirmed/, true],
+      ["server error", route => route.fulfill({ status: 503, contentType: "text/plain", body: "Service unavailable" }), /temporarily unavailable/, true],
+      ["network failure", route => route.abort("internetdisconnected"), /can't reach/, false],
+    ];
+    for (const [name, handler, title, signIn] of cases) {
+      await page.route("**/partner-session", handler);
+      await open(page, "/partner-room/architecture-lab");
+      const gate = page.getByTestId("partner-gate");
+      await gate.getByRole("heading", { level: 1, name: title }).waitFor({ timeout: 10_000 });
+      assert(await page.locator("#architecture-map").count() === 0, `${name}: partner content shown`);
+      assert(await page.evaluate(() => document.activeElement?.tagName === "H1"), `${name}: problem not focused for screen readers`);
+      assert(await gate.getByRole("button", { name: "Try again" }).isVisible(), `${name}: no retry`);
+      assert(await gate.getByRole("link", { name: "Sign in again" }).count() === (signIn ? 1 : 0), `${name}: sign-in action ${signIn ? "missing" : "offered for a network problem"}`);
+      if (signIn) assert(/^\/partner-access\?returnTo=%2Fpartner-room%2Farchitecture-lab/.test(await gate.getByRole("link", { name: "Sign in again" }).getAttribute("href")), `${name}: sign-in does not return to the page`);
+      assert(await gate.getByRole("link", { name: "Return to the public overview" }).getAttribute("href") === "/", `${name}: no public return`);
+      await noHorizontalScroll(page, viewport.width);
+      // Recovery: once the server answers properly, Try again opens the room without a reload.
+      await page.unroute("**/partner-session");
+      await gate.getByRole("button", { name: "Try again" }).click();
+      await page.locator("#architecture-map").waitFor({ timeout: 10_000 });
+    }
+  });
+}
+
+await check("Operations filters are keyboard toggles with a visible selected state at 390px", { width: 390, height: 844 }, async page => {
+  await open(page, "/partner-room/operations#action-centre");
+  const group = page.getByRole("group", { name: "Property" });
+  const option = group.getByRole("button", { name: "Coastal Retreat Resort", exact: true });
+  await option.focus();
+  assert(await option.evaluate(el => getComputedStyle(el).outlineStyle !== "none"), "filter focus is not visible");
+  await page.keyboard.press("Enter");
+  assert(await option.getAttribute("aria-pressed") === "true", "filter did not select from the keyboard");
+  assert(await group.getByRole("button", { name: "All", exact: true }).getAttribute("aria-pressed") === "false", "All stayed selected");
+  assert(/✓/.test(await option.innerText()), "selection is shown by colour alone");
+  assert(/of \d+ illustrative actions shown/.test(await page.getByRole("status").filter({ hasText: "illustrative actions shown" }).innerText()), "result count not announced");
+  for (const el of await page.locator(".ops-filter-option").all()) {
+    const box = await el.boundingBox();
+    assert(box.height >= 44, `filter "${await el.innerText()}" is only ${Math.round(box.height)}px tall`);
+    assert(parseFloat(await el.evaluate(e => getComputedStyle(e).fontSize)) >= 14, "filter text below 14px");
+  }
+  const row = page.locator(".ops-action-toggle").first();
+  await row.focus();
+  await page.keyboard.press("Enter");
+  assert(await row.getAttribute("aria-expanded") === "true", "action row does not expand from the keyboard");
+  await noHorizontalScroll(page, 390);
+});
+
+await check("Configured execution and the Simulation Lab are always distinguished at 820px", { width: 820, height: 1180 }, async page => {
+  for (const [path, view, title, other] of [["/partner-room/operations", "configured", "Configured execution", "Simulation Lab"], ["/partner-room/operations?view=simulation", "simulation", "Simulation Lab", "Configured execution"]]) {
+    await open(page, path);
+    const header = page.getByTestId("ops-mode");
+    assert(await header.getAttribute("data-view") === view, `${path}: wrong view state`);
+    assert(await page.getByRole("heading", { level: 1 }).count() === 1, `${path}: not exactly one page title`);
+    assert((await page.getByRole("heading", { level: 1 }).innerText()).trim() === title, `${path}: title does not name the view`);
+    const nav = header.getByRole("navigation", { name: "Operations Centre views" });
+    assert(await nav.getByRole("link", { name: new RegExp(`^${title}`) }).getAttribute("aria-current") === "page", `${path}: current view not marked`);
+    assert(await nav.getByRole("link", { name: new RegExp(`^${other}`) }).getAttribute("aria-current") === null, `${path}: other view marked current`);
+    assert((await page.getByTestId("ops-mode-description").innerText()).length > 80, `${path}: view not described`);
+  }
+});
+
+await check("Run status explains each state and keeps approval, dispatch and completion distinct at 1440px", { width: 1440, height: 900 }, async page => {
+  await activateDeployment(page);
+  await open(page, "/partner-room/operations");
+  await page.locator("#runtime-execution").getByRole("button", { name: "Start Local Simulation →" }).first().click();
+  const explainer = page.getByTestId("run-status-explainer");
+  const row = label => explainer.locator("li").filter({ has: page.locator("strong", { hasText: new RegExp(`^${label}$`) }) }).getAttribute("data-done");
+  for (const name of ["Receive Signal", "Validate Signal & Context", "Route for Approval"]) await page.getByRole("button", { name, exact: true }).click();
+  assert(/approval gate/.test(await explainer.innerText()), "approval state not explained");
+  assert(await row("Approval") === "false" && await row("Dispatch") === "false" && await row("Completion") === "false", "steps marked done before approval");
+  await page.getByRole("button", { name: "Approve as Duty Manager", exact: true }).click();
+  assert(await row("Approval") === "true", "approval not recorded");
+  assert(await row("Completion") === "false" && await row("Evidence") === "false", "approval implied completion or evidence");
+  await page.getByRole("button", { name: "Resolve Scenario", exact: true }).click();
+  assert(await row("Completion") === "false", "resolution closed the case without evidence");
+  const boxes = page.getByRole("checkbox", { name: /\(required\)$/ });
+  for (let i = 0; i < await boxes.count(); i += 1) await boxes.nth(i).check();
+  await page.getByRole("button", { name: "Close Scenario", exact: true }).click();
+  assert(await row("Evidence") === "true" && await row("Completion") === "true" && await row("Dispatch") === "true", "closed run not reflected");
+  // Drafts are not a closure requirement: a run closed without reviewing them says so rather than claiming nothing is left.
+  assert(await row("Communication drafts") === "false", "unreviewed drafts shown as done");
+  assert(/^1 step still outstanding/.test(await page.getByTestId("run-status-outstanding").innerText()), "closed run misreports what is outstanding");
+});
+
+await check("Calculator shows the selected currency beside every result and carries it to the pilot scope at 390px", { width: 390, height: 844 }, async page => {
+  await open(page, "/partner-room/proof-calculator");
+  const summary = page.getByTestId("assumptions-summary");
+  assert(/A\$/.test(await summary.innerText()) && /\(AUD\)/.test(await summary.innerText()), "summary does not name the default currency");
+  for (const id of ["advanced-capacity", "advanced-interactions", "advanced-staff"]) assert(await page.getByTestId(id).getAttribute("open") === null, `${id} is open by default`);
+  for (const label of ["Sites", "Rooms per site", "Monthly occupancy", "Average length of stay", "Incremental share attributable to JALDO", "Allowance for overlapping benefits", "Monthly programme cost"]) {
+    assert(await page.getByRole("slider", { name: label, exact: true }).isVisible(), `essential input "${label}" is hidden`);
+  }
+  const base = await summary.innerText();
+  await page.getByLabel("Currency for every amount").selectOption("EUR");
+  const euro = await summary.innerText();
+  assert(/€/.test(euro) && !/A\$/.test(euro), "currency change not reflected in the summary");
+  assert(base.replace(/A\$/g, "€").replace(/\(AUD\)/, "(EUR)") === euro, "changing currency changed the numbers");
+  for (const caption of await page.locator(".travel-value caption").allInnerTexts()) if (/financial|bottom-line/.test(caption)) assert(/EUR/.test(caption), `table caption lacks the currency: ${caption}`);
+  assert(/Hypothetical/.test(await summary.innerText()), "summary lost its hypothetical label");
+  await page.getByRole("button", { name: "Use in pilot scope →" }).click();
+  await page.waitForURL(url => url.pathname === "/partner-room/pilot-model");
+  assert(/€[\d,]+ \/ €[\d,]+ \/ €[\d,]+ \(low \/ base \/ high, EUR\)/.test(await page.locator("body").innerText()), "pilot scope lost the currency");
+  await noHorizontalScroll(page, 390);
+});
+
+// Zoom: 200% of a 1440px window is a 720px viewport; 400% of 1280px is 320px (WCAG reflow).
+for (const width of [320, 720]) {
+  await check(`Changed Partner Room screens reflow without sideways scrolling at ${width}px (zoom)`, { width, height: 800 }, async page => {
+    for (const path of ["/partner-room", "/partner-room/architecture-lab", "/partner-room/build-configure", "/partner-room/operations", "/partner-room/operations?view=simulation", "/partner-room/proof-calculator", "/partner-room/pilot-model", "/partner-room/validation"]) {
+      await open(page, path);
+      await page.getByTestId("page-orientation").waitFor();
+      const overflow = await page.evaluate(() => document.documentElement.scrollWidth - innerWidth);
+      assert(overflow <= 0, `${path} scrolls sideways by ${overflow}px at ${width}px`);
+    }
+  });
+}
+
+await check("Pilot readiness checklist works from the keyboard at 390px", { width: 390, height: 844 }, async page => {
+  await open(page, "/partner-room/pilot-model");
+  const item = page.locator(".pilot-readiness-item").first();
+  const before = await item.getAttribute("aria-label");
+  await item.focus();
+  await page.keyboard.press("Enter");
+  assert(await item.getAttribute("aria-label") !== before, "readiness state did not change from the keyboard");
+  assert((await item.boundingBox()).height >= 44, "readiness item is below the touch-target size");
+});
 
 await browser.close();
 if (server) await new Promise(resolve => server.close(resolve));

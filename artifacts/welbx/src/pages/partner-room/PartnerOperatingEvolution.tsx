@@ -19,7 +19,7 @@ export default function PartnerOperatingEvolution() {
   const reasonReady = isMeaningfulReason(reason);
   const submitReview = (approve: boolean) => { setState(s => reviewEvolution(s, EVOLUTION_REVIEWER, approve, reason)); setReason(''); };
   const resetWalkthrough = () => { setState(initialEvolution()); setConditions({ ...DEFAULT_CYCLE_CONDITIONS }); setReason(''); setSelection(0); };
-  return <PartnerRoomLayout><main className="evolution">
+  return <PartnerRoomLayout><div className="evolution">
     <header><p className="evolution-eyebrow">Working Proof · Simulation · Operating Evolution</p>
       <h1>Every cycle should make the next one better.</h1>
       <p className="evolution-intro">Follow room readiness from a guest waiting at reception to a team preparing before arrival. See what the operation learns, who approves the change, and whether it helps the next shift.</p>
@@ -63,5 +63,5 @@ export default function PartnerOperatingEvolution() {
     </section>}
     <section><h2>Review and version history</h2>{state.reviews.length ? <ol>{state.reviews.map(r => <li key={r.id}><strong>{r.id.replace('review-', 'Review ')} · {REVIEW_DECISION_LABELS[r.decision]} · policy v{r.policy}</strong> · {roleLabel(r.role)}<p>{r.reason} Evidence: {r.sourceCycles.join(', ')}.</p></li>)}</ol> : <p>No reviewed changes yet. Policy v1 is the starting reference.</p>}<p>Learning means retaining measured outcomes, reviewing a proposed operating change, and testing the next cycle. A pilot must validate signal quality, approvals, workloads and outcomes before a property adopts the change.</p></section>
     <footer className="evolution-actions"><Link href="/partner-room/architecture-lab">Inspect the architecture →</Link><Link href="/partner-room/operations">Execute a canonical scenario →</Link><Link href="/partner-room/impact-map">Explore the wider operation →</Link><Link href="/partner-room/pilot-model">Turn the loop into a pilot →</Link></footer>
-  </main></PartnerRoomLayout>;
+  </div></PartnerRoomLayout>;
 }

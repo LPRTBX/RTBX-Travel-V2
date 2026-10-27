@@ -9,7 +9,8 @@ on:
       - 'package.json'
       - 'pnpm-workspace.yaml'
   pull_request:
-    branches: [main]
+    # Stacked review PRs (based on a review/* or claude/* branch) get the same QA as PRs into main.
+    branches: [main, 'review/**', 'claude/**']
     paths:
       - 'artifacts/welbx/**'
       - 'lib/**'
