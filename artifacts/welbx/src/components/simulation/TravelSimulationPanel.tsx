@@ -117,10 +117,10 @@ function ScenarioSimulationPanel({ activeDeployment }: { activeDeployment: Trave
   const stages = TRACE_STEPS.map((stage, index) => ({ ...stage,
     count: runs.filter(r => STATE_TO_STEP[r.execution.state] === index).length }));
 
-  return <main className="jsim">
+  return <div className="jsim">
     <header className="jsim-header">
       <div><p className="jsim-eyebrow">JALDO TRAVEL <span>/</span> EXECUTION CENTRE</p>
-        <h1>See the system <em>in motion.</em></h1>
+        <h2 className="jsim-title">See the system <em>in motion.</em></h2>
         <p className="jsim-intro">Create a flow of signals. Change the conditions. Follow every decision through to evidence.</p>
       </div>
       <div className="jsim-environment"><ShieldCheck size={18} /><div><strong>Simulation Lab</strong><span>Synthetic data · local to this browser</span></div></div>
@@ -192,5 +192,5 @@ function ScenarioSimulationPanel({ activeDeployment }: { activeDeployment: Trave
       </section>
     </div>
     <div className="jsim-bottom"><Link href="/partner-room/operations">← Return to the Operations Centre</Link><span>Scheduled test reports are available separately in GitHub.</span></div>
-  </main>;
+  </div>;
 }

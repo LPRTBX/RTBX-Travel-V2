@@ -8,6 +8,7 @@
  * Nothing is sent: the scope is summarised for the visitor to copy, download or
  * email themselves.
  */
+import { formatMoney, type CurrencyCode } from "@/lib/currency";
 import { PILOT_PROPOSITION, PILOT_SCENARIOS, PILOT_SUCCESS_MEASURES } from "@/data/travelPilotModel";
 import { TRAVEL_SCENARIOS } from "@/data/travelScenarios";
 import { INTEGRATION_CATEGORIES, type IntegrationStatus } from "@/data/travelIntegrations";
@@ -57,6 +58,8 @@ export interface ValueSnapshot {
   lowMonthly: number;
   highMonthly: number;
   costIncluded: boolean;
+  /** The Calculator's display currency. Amounts are never converted. */
+  currency?: CurrencyCode;
 }
 
 export const DEFAULT_MEASURE_IDS = ["sm-time-to-ack", "sm-time-to-resolve", "sm-evidence-completion", "sm-approval-completed"];
@@ -122,7 +125,7 @@ export function scopeGaps(scope: PilotScope): string[] {
   return gaps;
 }
 
-const money = (n: number) => `${n < 0 ? "-" : ""}$${Math.round(Math.abs(n)).toLocaleString("en-AU")}`;
+const money = (n: number, currency?: CurrencyCode) => formatMoney(n, currency, "-");
 
 export function scopeSummary(scope: PilotScope, value: ValueSnapshot | null): string {
   const properties = namedProperties(scope);
@@ -154,7 +157,7 @@ export function scopeSummary(scope: PilotScope, value: ValueSnapshot | null): st
     "",
     "VALUE HYPOTHESIS (MODELLED, NOT A FORECAST)",
     value
-      ? `- From the Calculator: ${value.sites} site(s) × ${value.roomsPerSite} rooms; net monthly impact hypothesis ${money(value.lowMonthly)} / ${money(value.baseMonthly)} / ${money(value.highMonthly)} (low / base / high)${value.costIncluded ? "" : "; programme cost not included"}`
+      ? `- From the Calculator: ${value.sites} site(s) × ${value.roomsPerSite} rooms; net monthly impact hypothesis ${money(value.lowMonthly, value.currency)} / ${money(value.baseMonthly, value.currency)} / ${money(value.highMonthly, value.currency)} (low / base / high)${value.currency ? ` in ${value.currency}` : ""}${value.costIncluded ? "" : "; programme cost not included"}`
       : "- Not yet modelled in the Calculator",
     "",
     "COMMERCIAL ASSUMPTIONS (FROM THE EXISTING MODEL; SUBJECT TO PROPOSAL, NOT A QUOTE)",

@@ -2,8 +2,8 @@
 .ops-part { margin: 0 0 56px; scroll-margin-top: 90px; }
 .ops-part-head { padding: 18px 22px; margin-bottom: 24px; border: 1px solid rgba(168, 222, 219, 0.35); border-left: 4px solid #a8dedb; background: rgba(168, 222, 219, 0.04); }
 .ops-part-examples > .ops-part-head { border-color: rgba(255, 255, 255, 0.16); border-left-color: rgba(255, 255, 255, 0.45); background: rgba(255, 255, 255, 0.025); }
-.ops-part-kicker { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #a8dedb; margin-bottom: 4px; }
-.ops-part-examples .ops-part-kicker { color: rgba(255, 255, 255, 0.6); }
+.ops-part-kicker { font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #a8dedb; margin-bottom: 4px; }
+.ops-part-examples .ops-part-kicker { color: rgba(255, 255, 255, 0.78); }
 .ops-part-head h2 { font-size: 26px; font-weight: 800; color: #fff; margin: 0 0 8px; letter-spacing: -0.01em; }
 .ops-part-head p { font-size: 13px; line-height: 1.65; color: rgba(255, 255, 255, 0.7); margin: 0; max-width: 780px; }
 
@@ -63,3 +63,39 @@
 .ops-records-evidence summary { cursor: pointer; font-size: 12px; color: #a8dedb; min-height: 28px; }
 .ops-records-evidence ul { margin: 4px 0 0; padding-left: 18px; font-size: 12px; color: rgba(255, 255, 255, 0.72); }
 .ops-records .ops-records-session { font-size: 12.5px; color: rgba(255, 255, 255, 0.75); padding: 8px 12px; border-left: 2px solid rgba(168, 222, 219, 0.5); background: rgba(168, 222, 219, 0.05); }
+
+/* Illustrative-action filters: native toggle buttons, readable at 14px, with visible focus and selection. */
+.ops-filters { display: flex; flex-wrap: wrap; gap: 18px 28px; margin-bottom: 18px; }
+.ops-filter-label { margin-bottom: 8px; color: rgba(255,255,255,.82); font-size: 12.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.ops-filter-options { display: flex; flex-wrap: wrap; gap: 6px; }
+.ops-filter-option { min-height: 44px; padding: 8px 14px; font-size: 14px !important; font-weight: 700; color: #eef4f5; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.32); cursor: pointer; }
+.ops-filter-option:hover { border-color: #a8dedb; }
+.ops-filter-option[aria-pressed="true"] { color: #102d39; background: #a8dedb; border-color: #a8dedb; }
+.ops-filter-option:focus-visible, .ops-action-toggle:focus-visible { outline: 3px solid #ee8c50; outline-offset: 3px; }
+.ops-filter-count { margin: 0 0 10px; font-size: 14px !important; color: rgba(255,255,255,.78); }
+.ops-action-toggle { width: 100%; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; text-align: left; color: inherit; background: transparent; border: 0; cursor: pointer; font: inherit; }
+
+/* Operations Centre header shared by configured execution and the Simulation Lab. */
+.ops-mode { border-bottom: 1px solid rgba(168,222,219,.2); background: #0f2a33; }
+.ops-mode-inner { max-width: 1160px; margin: 0 auto; padding: 36px 32px 22px; }
+.ops-mode-kicker { margin: 0 0 8px; color: #a8dedb; font-size: 12.5px !important; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+.ops-mode h1 { margin: 0 0 18px; color: #fff; }
+.ops-mode-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; max-width: 760px; }
+.ops-mode-tabs a { display: flex; flex-direction: column; gap: 2px; min-height: 44px; padding: 12px 16px; border: 1px solid rgba(168,222,219,.35); color: #eef4f5; font-size: 16px; font-weight: 800; text-decoration: none; }
+.ops-mode-tabs a small { font-size: 13.5px; font-weight: 500; color: rgba(255,255,255,.78); }
+.ops-mode-tabs a[aria-current="page"] { background: #a8dedb; color: #102d39; border-color: #a8dedb; }
+.ops-mode-tabs a[aria-current="page"] small { color: #173b48; }
+.ops-mode-tabs a:focus-visible { outline: 3px solid #ee8c50; outline-offset: 3px; }
+.ops-mode-desc { margin: 14px 0 0; max-width: 760px; color: rgba(255,255,255,.82); }
+@media (max-width: 600px) { .ops-mode-inner { padding: 24px 20px 18px; } .ops-mode-tabs { grid-template-columns: minmax(0, 1fr); } }
+
+/* What a run's status means, with each accountable step recorded or outstanding. */
+.ops-status { padding: 14px 20px; background: #12303a; border: 1px solid rgba(255,255,255,.08); border-bottom: none; font-size: 15px; line-height: 1.55; color: rgba(255,255,255,.86); }
+.ops-status p { margin: 0 0 6px; font-size: 15px !important; }
+.ops-status-meaning strong { color: #fff; }
+.ops-status-summary { color: #fdba74; font-weight: 700; }
+.ops-status ul { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 4px; }
+.ops-status li { display: grid; grid-template-columns: 112px 190px minmax(0, 1fr); gap: 4px 12px; align-items: baseline; padding: 6px 0; border-top: 1px solid rgba(255,255,255,.08); }
+.ops-status-mark { font-size: 12.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #6ee7b7; }
+.ops-status li[data-done="false"] .ops-status-mark { color: #fdba74; }
+@media (max-width: 760px) { .ops-status li { grid-template-columns: minmax(0, 1fr); gap: 0; } }

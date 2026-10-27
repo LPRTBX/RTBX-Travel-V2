@@ -2,7 +2,7 @@ import { useSearch } from "wouter";
 import { TravelSimulationPanel } from "@/components/simulation/TravelSimulationPanel";
 import { useEffect, useMemo, useState } from "react";
 import { summariseDeployment, summariseScenarioExecution, type ScenarioConfigurationSummary } from "@/lib/deploymentOperation";
-import { stateLabel as plainStateLabel } from "@/lib/plainLanguage";
+import { formatRecordedTime, stateLabel as plainStateLabel } from "@/lib/plainLanguage";
 import "./operations-centre.css";
 import { Link, useLocation } from "wouter";
 import { PartnerRoomLayout, schedulePartnerRoomHashScroll } from "@/components/PartnerRoomLayout";
@@ -65,32 +65,62 @@ const OPERATING_SYSTEMS: TravelOperatingSystemName[] = [
 ];
 const ROLES: TravelRole[] = ["Guest", "Frontline", "Manager", "Operator", "Partner", "Executive"];
 
+// Light tints so status and priority text stays readable (at least 4.5:1) on the dark background.
 const STATUS_COLORS: Record<ActionStatus, string> = {
-  "New": "#3b82f6", "Acknowledged": "#a78bfa", "In progress": "#a8dedb",
-  "Approval Required": "#f97316", "Escalated": "#ef4444", "Completed": "#10b981",
-  "Follow-up required": "#f97316", "Closed": "rgba(255,255,255,0.35)",
+  "New": "#93c5fd", "Acknowledged": "#c4b5fd", "In progress": "#a8dedb",
+  "Approval Required": "#fdba74", "Escalated": "#fca5a5", "Completed": "#6ee7b7",
+  "Follow-up required": "#fdba74", "Closed": "#c9d5d8",
 };
-const PRIORITY_COLORS: Record<string, string> = { Low: "rgba(255,255,255,0.35)", Medium: "#3b82f6", High: "#f97316", Critical: "#ef4444" };
+const PRIORITY_COLORS: Record<string, string> = { Low: "#c9d5d8", Medium: "#93c5fd", High: "#fdba74", Critical: "#fca5a5" };
 
 // ── Shared small components ───────────────────────────────────────────────────
 
 const SectionLabel = ({ children }: { children: string }) => (
-  <div style={{ fontSize: 8.5, letterSpacing: "0.2em", color: C.dim, textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>{children}</div>
+  <div style={{ fontSize: 12.5, letterSpacing: "0.14em", color: "rgba(255,255,255,0.78)", textTransform: "uppercase", fontWeight: 700, marginBottom: 12 }}>{children}</div>
 );
 const H2 = ({ children }: { children: string }) => (
   <h2 style={{ fontSize: 24, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", marginBottom: 10 }}>{children}</h2>
 );
 
-function FilterPill({ label, active, color, onClick }: { label: string; active: boolean; color: string; onClick: () => void }) {
+/** One filter: native toggle buttons in a labelled group. The selected option is marked by text (✓) as well as colour. */
+function FilterGroup<T extends string>({ label, options, value, onChange }: { label: string; options: readonly T[]; value: T | null; onChange: (value: T | null) => void }) {
+  const id = `ops-filter-${label.toLowerCase().replace(/[^a-z]+/g, "-")}`;
+  const choices: Array<[T | null, string]> = [[null, "All"], ...options.map(option => [option, option] as [T, string])];
   return (
-    <div onClick={onClick} style={{
-      padding: "6px 13px", fontSize: 10, fontWeight: 700, cursor: "pointer",
-      color: active ? "#102d39" : "rgba(255,255,255,0.5)",
-      background: active ? color : "rgba(255,255,255,0.03)",
-      border: `1px solid ${active ? color : "rgba(255,255,255,0.12)"}`,
-    }}>
-      {label}
+    <div className="ops-filter" role="group" aria-labelledby={id}>
+      <div id={id} className="ops-filter-label">{label}</div>
+      <div className="ops-filter-options">
+        {choices.map(([option, text]) => {
+          const selected = value === option;
+          return <button key={text} type="button" className="ops-filter-option" aria-pressed={selected} onClick={() => onChange(option)}>
+            {selected && <span aria-hidden="true">✓ </span>}{text}
+          </button>;
+        })}
+      </div>
     </div>
+  );
+}
+
+/**
+ * Shared by both Operations Centre views so the visitor always knows which one they are in:
+ * configured execution runs their activated deployment; the Simulation Lab streams synthetic signals.
+ */
+function OperationsModeHeader({ view }: { view: "configured" | "simulation" }) {
+  const configured = view === "configured";
+  return (
+    <header className="ops-mode" data-testid="ops-mode" data-view={view}>
+      <div className="ops-mode-inner">
+        <p className="ops-mode-kicker">Operations Centre · Working Proof</p>
+        <h1>{configured ? "Configured execution" : "Simulation Lab"}</h1>
+        <nav className="ops-mode-tabs" aria-label="Operations Centre views">
+          <Link href="/partner-room/operations" aria-current={configured ? "page" : undefined}>Configured execution<small>Your activated deployment, run by run</small></Link>
+          <Link href="/partner-room/operations?view=simulation" aria-current={configured ? undefined : "page"}>Simulation Lab<small>Synthetic signals at volume</small></Link>
+        </nav>
+        <p className="ops-mode-desc" data-testid="ops-mode-description">{configured
+          ? "Runs the deployment you activated in Build & Configure, one scenario at a time, using its roles, approvals and evidence rules. Every record is synthetic and stays in this browser."
+          : "Streams synthetic signals from a mock 100-room hotel, or a single scenario, through the same rules engine to show patterns at volume. Nothing here changes your configured runs or their evidence."}</p>
+      </div>
+    </header>
   );
 }
 
@@ -200,6 +230,63 @@ function DeploymentBanner({ deployment }: { deployment: TravelDeploymentConfig |
 }
 
 const roleName = (id: string) => TRAVEL_ROLES.find(r => r.id === id)?.name ?? id;
+
+const STATE_MEANING: Record<ScenarioExecution["state"], string> = {
+  "signal-received": "A signal has been captured. Nobody has acted on it yet.",
+  "understanding": "The signal is being checked against what is known about the guest, the stay and the property.",
+  "decision-required": "The accountable role must decide how to respond.",
+  "approval-required": "The response is waiting at the approval gate. Nothing moves until the named approver records a decision.",
+  "in-action": "The response has been dispatched to its owners. Work is under way; it is not complete.",
+  "escalated": "A deadline or threshold was missed, so the case has gone to a higher role, who must acknowledge it.",
+  "resolved": "The owners report the issue is resolved. The case cannot close until the required evidence is recorded.",
+  "closed": "Closed. The required evidence was recorded and the case is complete.",
+};
+
+/** What the current status means, and each accountable step as recorded or outstanding. Read only from the run. */
+function RunStatusExplainer({ exec }: { exec: ScenarioExecution }) {
+  const latest = exec.decisions[exec.decisions.length - 1];
+  const dispatched = exec.stateHistory.find(entry => entry.state === "in-action");
+  const evidenceGaps = getMandatoryEvidenceGaps(exec);
+  const requiredEvidence = exec.evidence.filter(ev => ev.required).length;
+  const openEscalations = exec.escalations.filter(item => !item.acknowledged);
+  const reviewable = exec.communications.filter(c => c.approvalRequired);
+  const reviewed = reviewable.filter(c => c.sent);
+  const at = (iso?: string) => iso ? ` at ${formatRecordedTime(iso)}` : "";
+  const rows: Array<{ label: string; done: boolean; text: string }> = [
+    exec.approvalRequired
+      ? latest?.decision === "approved"
+        ? { label: "Approval", done: true, text: `Recorded by ${roleName(latest.roleId)}${at(latest.at)}.` }
+        : { label: "Approval", done: false, text: latest?.decision === "returned" ? `Returned by ${roleName(latest.roleId)}${latest.reason ? `: ${latest.reason}` : ""}. Waiting for a new decision.` : `Waiting for ${roleName(exec.approvalRoleId)}.` }
+      : { label: "Approval", done: true, text: `Not required by this scenario's rules; ${roleName(exec.accountableRoleId)} decides.` },
+    dispatched
+      ? { label: "Dispatch", done: true, text: `Sent to its owners${at(dispatched.timestamp)}. Dispatch is not completion.` }
+      : { label: "Dispatch", done: false, text: exec.approvalRequired ? "Not dispatched. Dispatch follows approval." : "Not dispatched yet." },
+    exec.escalations.length
+      ? { label: "Escalation acknowledgement", done: openEscalations.length === 0, text: openEscalations.length ? `${openEscalations.length} of ${exec.escalations.length} escalation${exec.escalations.length === 1 ? "" : "s"} waiting for ${roleName(openEscalations[0].escalateToRoleId)} to acknowledge.` : "Every escalation has been acknowledged." }
+      : { label: "Escalation acknowledgement", done: true, text: "No escalation raised." },
+    reviewable.length
+      ? { label: "Communication drafts", done: reviewed.length === reviewable.length, text: `${reviewed.length} of ${reviewable.length} approved draft${reviewable.length === 1 ? "" : "s"} marked reviewed. Not required for closure; nothing is sent from this demonstration.` }
+      : { label: "Communication drafts", done: true, text: "No draft needs approval." },
+    { label: "Evidence", done: evidenceGaps.length === 0, text: evidenceGaps.length ? `${requiredEvidence - evidenceGaps.length} of ${requiredEvidence} required items recorded. Missing: ${evidenceGaps.join(", ")}.` : `All ${requiredEvidence} required items recorded.` },
+    exec.state === "closed"
+      ? { label: "Completion", done: true, text: `Closed${at(exec.closedAt)}.` }
+      : { label: "Completion", done: false, text: "Open. The case closes only when the owners resolve it and the required evidence is recorded." },
+  ];
+  const outstanding = rows.filter(row => !row.done).length;
+  return (
+    <section className="ops-status" data-testid="run-status-explainer" aria-label="What this status means">
+      <p className="ops-status-meaning"><strong>{plainStateLabel(exec.state)}:</strong> {STATE_MEANING[exec.state]}</p>
+      <p className="ops-status-summary" data-testid="run-status-outstanding">{outstanding ? `${outstanding} step${outstanding === 1 ? "" : "s"} still outstanding.` : "Nothing outstanding for this run."}</p>
+      <ul>
+        {rows.map(row => <li key={row.label} data-done={row.done}>
+          <span className="ops-status-mark">{row.done ? "Recorded" : "Outstanding"}</span>
+          <strong>{row.label}</strong>
+          <span>{row.text}</span>
+        </li>)}
+      </ul>
+    </section>
+  );
+}
 
 // ── Records generated by the configured operation ─────────────────────────────
 
@@ -813,9 +900,9 @@ function ExecTracePanel({
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
           <div>
             <div style={{ fontSize: 13, fontWeight: 800, color: "#fff" }}>{scenario.title}</div>
-            <div style={{ fontSize: 9.5, color: "rgba(255,255,255,0.4)" }}>{exec.playbookName} · Accountable: {roleName(exec.accountableRoleId)}</div>
+            <div style={{ fontSize: 14, color: "rgba(255,255,255,0.78)" }}>{exec.playbookName} · Accountable: {roleName(exec.accountableRoleId)}</div>
           </div>
-          <div style={{ padding: "4px 10px", fontSize: 9, fontWeight: 700, color: stateColor, border: `1px solid ${stateColor}40`, background: `${stateColor}0a` }}>
+          <div style={{ padding: "4px 10px", fontSize: 13, fontWeight: 700, color: "#fff", border: `1px solid ${stateColor}`, background: `${stateColor}22` }}>
             Synthetic run · {stateLabel}
           </div>
           {exec.isWelfareScenario && (
@@ -832,8 +919,8 @@ function ExecTracePanel({
               onClick={() => setView(v)}
               aria-pressed={view === v}
               style={{
-                padding: "5px 12px", fontSize: 9, fontWeight: 700, cursor: "pointer", textTransform: "uppercase",
-                color: view === v ? "#102d39" : "rgba(255,255,255,0.4)",
+                padding: "5px 12px", minHeight: 44, fontSize: 13, fontWeight: 700, cursor: "pointer", textTransform: "uppercase",
+                color: view === v ? "#102d39" : "rgba(255,255,255,0.82)",
                 background: view === v ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.03)",
                 border: `1px solid ${view === v ? "rgba(255,255,255,0.6)" : "rgba(255,255,255,0.1)"}`,
               }}
@@ -842,7 +929,7 @@ function ExecTracePanel({
           <button
             type="button"
             onClick={reset}
-            style={{ padding: "5px 12px", fontSize: 9, fontWeight: 700, cursor: "pointer", color: "rgba(255,255,255,0.35)", border: "1px solid rgba(255,255,255,0.1)", background: "transparent" }}
+            style={{ padding: "5px 12px", minHeight: 44, fontSize: 13, fontWeight: 700, cursor: "pointer", color: "rgba(255,255,255,0.82)", border: "1px solid rgba(255,255,255,0.3)", background: "transparent" }}
           >
             Reset
           </button>
@@ -866,7 +953,7 @@ function ExecTracePanel({
                 }}>
                   {i + 1}
                 </div>
-                <div style={{ fontSize: 9, fontWeight: 700, color: isCurrent ? "#fff" : isDone ? "rgba(255,255,255,0.5)" : "rgba(255,255,255,0.25)", letterSpacing: "0.04em" }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: isCurrent ? "#fff" : "rgba(255,255,255,0.78)", letterSpacing: "0.02em" }}>
                   {step.label}
                 </div>
               </div>
@@ -877,6 +964,8 @@ function ExecTracePanel({
           );
         })}
       </div>
+
+      <RunStatusExplainer exec={exec} />
 
       {/* Main panel */}
       <div style={{ padding: "16px 20px", background: "rgba(255,255,255,0.015)", border: "1px solid rgba(255,255,255,0.06)" }}>
@@ -991,21 +1080,16 @@ export default function PartnerOperationsCentre() {
     setLaunchedScenarioId(requestedReadiness?.ready ? requestedScenarioId : null);
   }, [requestedScenarioId, requestedReadiness?.ready]);
 
-  if (simulationView) return <PartnerRoomLayout><TravelSimulationPanel activeDeployment={activeDeployment} /></PartnerRoomLayout>;
+  if (simulationView) return <PartnerRoomLayout><OperationsModeHeader view="simulation" /><TravelSimulationPanel activeDeployment={activeDeployment} /></PartnerRoomLayout>;
 
   return (
     <PartnerRoomLayout>
-      <div className="rtbx-responsive-page rtbx-page-pad" style={{ maxWidth: 1160, margin: "0 auto", padding: "72px 32px 140px" }}>
+      <OperationsModeHeader view="configured" />
+      <div className="pr-readable">
+      <div className="rtbx-responsive-page rtbx-page-pad" style={{ maxWidth: 1160, margin: "0 auto", padding: "40px 32px 140px" }}>
 
         {/* ── HEADER ── */}
         <div style={{ marginBottom: 40 }}>
-          <SectionLabel>JALDO Travel · Operations</SectionLabel>
-          <h1 style={{ fontSize: 38, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff", lineHeight: 1.1, marginBottom: 12, maxWidth: 760 }}>
-            JALDO Operations Centre — Working Proof
-          </h1>
-          <div style={{ fontSize: 14, color: "rgba(255,255,255,0.45)", marginBottom: 16, letterSpacing: "-0.01em" }}>
-            Travel Operations Centre — Operator Interface
-          </div>
           <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.8, maxWidth: 700 }}>
             This page has two parts. <a href="#configured-operation" style={{ color: C.gold }}>Part 1</a> runs the deployment you activated in Build &amp; Configure, using its roles, approvals and evidence rules, and lists the synthetic records it generates. <a href="#static-examples" style={{ color: C.gold }}>Part 2</a> holds fixed examples that do not change with your configuration.
           </p>
@@ -1021,7 +1105,7 @@ export default function PartnerOperationsCentre() {
 
         <ProofSummary />
 
-        <Link href="/partner-room/operations?view=simulation" style={{ display: "block", padding: "18px 22px", marginBottom: 30, background: "#20474e", border: "1px solid #81bcb8", borderRadius: 8, color: "#c5ece7", fontSize: 14, fontWeight: 700 }}>Open Simulation Lab — watch signals move through the engine →</Link>
+        <Link href="/partner-room/operations?view=simulation" style={{ display: "block", padding: "18px 22px", marginBottom: 30, background: "#20474e", border: "1px solid #81bcb8", borderRadius: 8, color: "#c5ece7", fontSize: 14, fontWeight: 700 }}>Switch to the Simulation Lab — watch synthetic signals move through the same engine →</Link>
 
         <section id="configured-operation" className="ops-part" aria-labelledby="configured-operation-title">
           <div className="ops-part-head">
@@ -1186,38 +1270,14 @@ export default function PartnerOperationsCentre() {
             </div>
           </div>
 
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 20, marginBottom: 22 }}>
-            <div>
-              <div style={{ fontSize: 8.5, color: C.dim, textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700, marginBottom: 6 }}>Property</div>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
-                <FilterPill label="All" active={!propertyFilter} color={C.gold} onClick={() => setPropertyFilter(null)} />
-                {TRAVEL_PROPERTIES.map(p => <FilterPill key={p} label={p} active={propertyFilter === p} color={C.gold} onClick={() => setPropertyFilter(p)} />)}
-              </div>
-            </div>
-            <div>
-              <div style={{ fontSize: 8.5, color: C.dim, textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700, marginBottom: 6 }}>Operating System</div>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
-                <FilterPill label="All" active={!osFilter} color="#3b82f6" onClick={() => setOsFilter(null)} />
-                {OPERATING_SYSTEMS.map(os => <FilterPill key={os} label={os} active={osFilter === os} color="#3b82f6" onClick={() => setOsFilter(os)} />)}
-              </div>
-            </div>
-            <div>
-              <div style={{ fontSize: 8.5, color: C.dim, textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700, marginBottom: 6 }}>Role</div>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
-                <FilterPill label="All" active={!roleFilter} color={C.green} onClick={() => setRoleFilter(null)} />
-                {ROLES.map(r => <FilterPill key={r} label={r} active={roleFilter === r} color={C.green} onClick={() => setRoleFilter(r)} />)}
-              </div>
-            </div>
-            <div>
-              <div style={{ fontSize: 8.5, color: C.dim, textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700, marginBottom: 6 }}>Priority</div>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
-                <FilterPill label="All" active={!priorityFilter} color={C.red} onClick={() => setPriorityFilter(null)} />
-                {TRAVEL_PRIORITIES.map(p => <FilterPill key={p} label={p} active={priorityFilter === p} color={PRIORITY_COLORS[p]} onClick={() => setPriorityFilter(p)} />)}
-              </div>
-            </div>
+          <div className="ops-filters" role="group" aria-label="Filter illustrative actions">
+            <FilterGroup label="Property" options={TRAVEL_PROPERTIES} value={propertyFilter} onChange={setPropertyFilter} />
+            <FilterGroup label="Operating system" options={OPERATING_SYSTEMS} value={osFilter} onChange={setOsFilter} />
+            <FilterGroup<TravelRole> label="Role" options={ROLES} value={roleFilter} onChange={setRoleFilter} />
+            <FilterGroup label="Priority" options={TRAVEL_PRIORITIES} value={priorityFilter} onChange={setPriorityFilter} />
           </div>
 
-          <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.3)", marginBottom: 10 }}>{filteredActions.length} of {TRAVEL_ACTION_CARDS.length} illustrative actions shown</div>
+          <p className="ops-filter-count" role="status">{filteredActions.length} of {TRAVEL_ACTION_CARDS.length} illustrative actions shown</p>
 
           <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
             {filteredActions.map(a => {
@@ -1228,19 +1288,19 @@ export default function PartnerOperationsCentre() {
               const canAdvance = ACTION_STATUS_SEQUENCE.indexOf(status) < ACTION_STATUS_SEQUENCE.length - 1;
               return (
                 <div key={a.id} style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderLeft: `3px solid ${STATUS_COLORS[status]}` }}>
-                  <div onClick={() => setExpandedId(isOpen ? null : a.id)} style={{ padding: "16px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, cursor: "pointer", flexWrap: "wrap" }}>
+                  <button type="button" className="ops-action-toggle" aria-expanded={isOpen} aria-controls={`ops-action-${a.id}`} onClick={() => setExpandedId(isOpen ? null : a.id)}>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4, flexWrap: "wrap" }}>
                         <div style={{ fontSize: 13.5, fontWeight: 800, color: "#fff" }}>{a.moment}</div>
-                        <div style={{ fontSize: 8.5, fontWeight: 700, color: PRIORITY_COLORS[a.priority], border: `1px solid ${PRIORITY_COLORS[a.priority]}50`, padding: "2px 7px", letterSpacing: "0.05em", textTransform: "uppercase" }}>{a.priority}</div>
+                        <div style={{ fontSize: 12.5, fontWeight: 700, color: PRIORITY_COLORS[a.priority], border: `1px solid ${PRIORITY_COLORS[a.priority]}80`, padding: "2px 7px", letterSpacing: "0.05em", textTransform: "uppercase" }}>{a.priority}</div>
                       </div>
-                      <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.4)" }}>{a.property} · {a.owner} · Due {a.dueTime}</div>
+                      <div style={{ fontSize: 14, color: "rgba(255,255,255,0.78)" }}>{a.property} · {a.owner} · Due {a.dueTime}</div>
                     </div>
-                    <div style={{ fontSize: 9.5, fontWeight: 700, color: STATUS_COLORS[status], border: `1px solid ${STATUS_COLORS[status]}50`, padding: "5px 11px", letterSpacing: "0.04em", textTransform: "uppercase", whiteSpace: "nowrap" }}>Illustrative · {status}</div>
-                  </div>
+                    <div style={{ fontSize: 12.5, fontWeight: 700, color: STATUS_COLORS[status], border: `1px solid ${STATUS_COLORS[status]}80`, padding: "5px 11px", letterSpacing: "0.04em", textTransform: "uppercase", maxWidth: "100%" }}>Illustrative · {status}</div>
+                  </button>
 
                   {isOpen && (
-                    <div style={{ padding: "0 20px 22px" }}>
+                    <div id={`ops-action-${a.id}`} style={{ padding: "0 20px 22px" }}>
                       <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px 24px", marginBottom: 16 }}>
                         {[
                           ["Action ID", a.id], ["Linked signal", a.linkedSignal], ["Linked playbook", a.linkedPlaybook],
@@ -1400,7 +1460,7 @@ export default function PartnerOperationsCentre() {
           <div className="rtbx-grid-2" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 2, marginBottom: 32 }}>
             {TRAVEL_VALUE_CATEGORIES.map(cat => (
               <div key={cat.id} style={{ padding: "20px 22px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderTop: `2px solid ${cat.color}` }}>
-                <div style={{ fontSize: 12, fontWeight: 800, color: cat.color, marginBottom: 14, letterSpacing: "0.02em" }}>{cat.label}</div>
+                <div style={{ fontSize: 12, fontWeight: 800, color: "#fff", marginBottom: 14, letterSpacing: "0.02em" }}>{cat.label}</div>
                 {cat.measures.map(m => (
                   <div key={m.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", padding: "7px 0", borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
                     <div>
@@ -1450,6 +1510,7 @@ export default function PartnerOperationsCentre() {
             <Link key={b.href} href={b.href}><div style={{ padding: "9px 18px", border: "1px solid rgba(255,255,255,0.12)", fontSize: 9.5, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", cursor: "pointer" }}>{b.label} →</div></Link>
           ))}
         </div>
+      </div>
       </div>
     </PartnerRoomLayout>
   );

@@ -112,3 +112,16 @@
 .travel-value-scope button { min-height: 48px; padding: 0 22px; font-size: 14px; font-weight: 800; color: #102d39; background: #a8dedb; border: 1px solid #a8dedb; cursor: pointer; }
 .travel-value-scope button:focus-visible { outline: 3px solid #ed9b66; outline-offset: 3px; }
 .travel-value-scope p { flex: 1 1 280px; margin: 0; font-size: 13px; color: rgba(255, 255, 255, 0.7); }
+
+/* Currency, assumptions summary and expandable advanced assumptions. */
+.travel-value-currency { display: flex; flex-direction: column; gap: 6px; font-weight: 700; color: #fff; }
+.travel-value-currency select { min-height: 44px; padding: 8px 12px; background: #0b1d24; color: #fff; border: 1px solid #a8dedb; font: inherit; font-weight: 600; }
+.travel-value-currency select:focus-visible { outline: 3px solid #ed9b66; outline-offset: 4px; }
+.travel-value-toolbar #currency-note { flex: 1 1 260px; margin-top: 0; }
+.travel-value-summary { margin: 0 0 32px; padding: clamp(18px,3vw,26px); border: 1px solid #a8dedb; border-left: 4px solid #a8dedb; background: #163944; }
+.travel-value-summary h2 { margin-top: 0; }
+.travel-value-summary ul { margin: 12px 0 0; padding-left: 20px; display: grid; gap: 8px; color: #e3ecee; line-height: 1.6; }
+.travel-value-summary strong { color: #fff; }
+.travel-value-advanced { margin: 18px 0 4px; border-top: 1px solid #3c5d66; padding-top: 6px; }
+.travel-value-advanced > summary { min-height: 44px; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; font-weight: 700; }
+.travel-value-advanced > summary span { color: #c9d7db; font-weight: 500; }
