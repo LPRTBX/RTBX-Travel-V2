@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { chromium } from "playwright";
 import { createTravelServer } from "../server/app.mjs";
 import { createAccess, SESSION_MS } from "../server/access.mjs";
-import { checkPublicDemo } from "./public-demo-browser.mjs";
+import { checkPublicDemo, checkPublicNavigation } from "./public-demo-browser.mjs";
 
 const assert = (condition, message) => { if (!condition) throw new Error(message); };
 const code = randomBytes(32).toString("hex"); // isolated, never displayed or configured
@@ -62,6 +62,11 @@ try {
     for (const href of await page.locator('a[href^="#"]').evaluateAll(links => links.map(link => link.getAttribute("href")))) {
       assert(await page.locator(href).count() === 1, `public anchor missing: ${href}`);
     }
+    await checkPublicNavigation(page, width);
+    if (await page.locator("#nav-toggle").isVisible()) {
+      await page.locator("#nav-toggle").focus();
+      await page.keyboard.press("Enter");
+    }
     await page.locator('nav a[href="#ai-in-the-work"]').focus();
     await page.keyboard.press("Enter");
     await page.waitForURL(url => url.hash === "#ai-in-the-work");
@@ -113,7 +118,7 @@ try {
     assert(new URL(page.url()).pathname === "/", "legacy public arrival did not reach the overview");
     assert(await page.locator("h1").isVisible(), "legacy arrival lost the public overview");
     assert(await page.locator('a[href="https://wearejaldo.com"]').count() > 0, "return to JALDO Main missing");
-    await page.locator('a[href="/partner-access"]').first().click();
+    await page.locator('a[href="/partner-access"]:visible').first().click();
     assert(await page.getByRole("heading", { name: "Partner Room access" }).isVisible(), "public Partner Room link bypassed or missed gate");
     assert((await page.request.get(base + bundle)).status() === 401, "anonymous partner bundle allowed");
     assert((await page.request.get(base + "/partner-room/brief.pdf")).status() === 401, "anonymous document allowed");

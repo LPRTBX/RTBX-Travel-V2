@@ -36,6 +36,38 @@ nav{display:flex;gap:24px;flex-wrap:wrap;font-size:13px}
 nav a{min-height:44px;display:inline-flex;align-items:center;text-decoration:none}
 nav a:hover{text-decoration:underline;text-underline-offset:6px}
 nav .partner{border-bottom:1px solid #f8f6f170}
+.topbar .tb-partner,.hdr-demo,.menu-btn{display:none}
+.menu-btn{align-items:center;gap:10px;min-height:44px;padding:8px 14px;background:transparent;color:#f8f6f1;border:1px solid #f8f6f188;font:600 14px/1 inherit;font-family:inherit;cursor:pointer}
+.menu-btn .bars{width:16px;height:2px;background:currentColor;position:relative}
+.menu-btn .bars::before,.menu-btn .bars::after{content:"";position:absolute;left:0;width:16px;height:2px;background:currentColor}
+.menu-btn .bars::before{top:-5px}.menu-btn .bars::after{top:5px}
+.menu-btn[aria-expanded="true"] .bars{background:transparent}
+.menu-btn[aria-expanded="true"] .bars::before{top:0;transform:rotate(45deg)}
+.menu-btn[aria-expanded="true"] .bars::after{top:0;transform:rotate(-45deg)}
+.menu-btn:focus-visible,.hdr-demo:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+@media(max-width:960px){
+  .topbar .tb-note{display:none}
+  .topbar .tb-partner{display:inline-flex;font-weight:600}
+  header.js-menu{padding:12px 20px;gap:10px 12px;flex-wrap:wrap}
+  /* One row at any width: the brand takes what is left; the controls never wrap. */
+  header.js-menu .brand{gap:12px;flex:1 1 0;min-width:0;container-type:inline-size}
+  header.js-menu .brand img{flex-shrink:0}
+  header.js-menu .brand span.sub{white-space:nowrap}
+  header.js-menu .hdr-demo,header.js-menu .menu-btn{flex:none;white-space:nowrap}
+  header.js-menu nav{flex-basis:100%}
+  header.js-menu .brand img{width:96px}
+  header.js-menu .brand span.sub{padding-left:12px;letter-spacing:.18em;font-size:11px}
+  header.js-menu .hdr-demo{display:inline-flex;align-items:center;min-height:44px;padding:8px 14px;background:var(--orange);color:var(--deep);font-weight:700;font-size:14px;text-decoration:none}
+  header.js-menu .menu-btn{display:inline-flex}
+  header.js-menu nav{display:none;width:100%;flex-direction:column;gap:0;font-size:15px;padding:6px 0 4px;border-top:1px solid #f8f6f133}
+  header.js-menu.open nav{display:flex}
+  header.js-menu nav a{min-height:48px;border-bottom:1px solid #f8f6f122}
+  header.js-menu nav .partner{margin-top:10px;justify-content:center;border:1px solid var(--mist);color:var(--mist);font-weight:600}
+}
+.hd-s{display:none}
+@media(max-width:440px){.hd-l{display:none}.hd-s{display:inline}header.js-menu .brand{gap:10px}header.js-menu .brand span.sub{padding-left:10px;letter-spacing:.14em}header.js-menu .menu-btn{padding:8px 12px}}
+@media(max-width:400px){.topbar .tb-back{display:none}.topbar .wrap{flex-wrap:nowrap}.topbar a{white-space:nowrap}}
+@container (max-width:169px){.brand span.sub{display:none}}
 .hero{position:relative;isolation:isolate;background:var(--navy);color:#f8f6f1}
 .hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:65% center;z-index:-2}
 .hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(6,26,37,.94),rgba(6,26,37,.8) 42%,rgba(6,26,37,.25) 80%)}
@@ -249,27 +281,68 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
 #principles .rules{margin-top:32px}
 #demo-checks{border-left:0;border-right:0;border-bottom:0;margin:0;padding-inline:0}
 .dm-alert{border-left:3px solid var(--orange);background:#fff3e9;padding:12px 16px;font-size:14px;color:var(--navy)}
-@media(max-width:900px){.dm-grid,.dm-cols{grid-template-columns:1fr}.dm-miles{border-right:0;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:0 16px}}
+@media(max-width:900px){.dm-grid,.dm-cols{grid-template-columns:1fr}.dm-miles{border-right:0;border-bottom:1px solid var(--line)}.dm-miles ol{columns:2 220px;column-gap:20px}.dm-miles li{break-inside:avoid}}
 @media(max-width:600px){.dm-main{padding:20px 18px}.dm-top{padding:16px 18px}.dm-row .btn{width:auto;flex:1 1 auto;justify-content:center}}
+/* promise, outcomes, supporting detail */
+.promise{list-style:none;margin:0 0 30px;padding:0;display:grid;gap:8px;max-width:560px}
+.promise li{padding-left:22px;position:relative;color:#f8f6f1;font-size:15.5px}
+.promise li::before{content:"";position:absolute;left:0;top:.7em;width:10px;height:2px;background:var(--orange)}
+.outcomes{background:var(--sand)}
+.out-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:36px}
+.out-grid article{background:var(--paper);border:1px solid var(--line);border-top:3px solid var(--teal);padding:24px 24px 18px}
+.out-grid article:nth-child(1){border-top-color:var(--orange)}
+.out-grid h3{font-size:21px}
+.out-grid ul{margin:12px 0 0;padding:0;list-style:none}
+.out-grid li{font-size:14.5px;color:var(--muted);padding:8px 0;border-top:1px solid var(--line)}
+.out-also{margin-top:22px;font-size:14.5px}
+.ai-line{margin-top:28px;padding:18px 20px;border:1px solid #a8dedb44;font-size:15px;color:#e3ecec}
+.ai-line strong{color:var(--mist)}
+.ai-line a{color:var(--mist)}
+.support{background:var(--deep);color:#f8f6f1;padding-block:56px 48px}
+.support p{color:#cfdde0}
+.support ul{list-style:none;margin:22px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.support ul a{display:inline-flex;align-items:center;min-height:44px;padding:8px 14px;border:1px solid #a8dedb55;text-decoration:none;font-size:14px}
+.support ul a:hover{background:var(--teal)}
+@media(max-width:900px){.out-grid{grid-template-columns:1fr}}
+/* demo guidance */
+.dm-next{border:2px solid var(--navy);background:#fff;padding:16px 18px}
+.dm-next dl{margin:0;display:grid;grid-template-columns:150px 1fr;gap:0}
+.dm-next dt,.dm-next dd{margin:0;padding:7px 0;border-top:1px solid var(--line);font-size:14px}
+.dm-next dt:first-of-type,.dm-next dd:first-of-type{border-top:0}
+.dm-next dt{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);padding-top:9px}
+.dm-next dd{color:var(--navy)}
+.dm-next dd.do{font-weight:600;font-size:15px}
+.dm-next .dm-row{margin-top:10px}
+.dm-miles ol{list-style:none;margin:0;padding:0}
+.dm-miles-h{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin:0 0 6px;width:100%}
+.dm-miles li.superseded{color:var(--muted);text-decoration:line-through;text-decoration-color:#7a3c1388}
+.dm-miles li.superseded::before{background:repeating-linear-gradient(45deg,#fbeee4 0 3px,#ee8c50 3px 4px);border-color:var(--orange)}
+.dm-miles li.next{color:var(--navy);font-weight:700}
+.dm-miles li.next::before{background:var(--ivory);border:3px solid var(--navy)}
+.dm-v1 li .dm-pill{margin-left:0;margin-right:6px}
+.dm-pill.s{background:#efe7f5;color:#4b2a63}
+@media(max-width:600px){.dm-next dl{grid-template-columns:1fr}.dm-next dd{border-top:0;padding-top:0}}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 </style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-<div class="topbar"><div class="wrap"><a href="https://wearejaldo.com">&larr; Back to JALDO (wearejaldo.com)</a><span>Public overview. Includes one fictional sample.</span></div></div>
-<header>
+<div class="topbar"><div class="wrap"><a href="https://wearejaldo.com">&larr; <span class="tb-back">Back to </span>JALDO<span class="tb-note">&nbsp;(wearejaldo.com)</span></a><span class="tb-note">Public overview. Includes one fictional sample.</span><a class="tb-partner" href="/partner-access">Partner Room &middot; code required</a></div></div>
+<header id="site-header">
   <a class="brand" href="/" aria-label="JALDO Travel public overview">
     <img src="/brand/jaldo-logo-white.webp" alt="JALDO" width="160" height="42">
     <span class="sub">Travel</span>
   </a>
-  <nav aria-label="Main navigation">
-    <a href="#benefits">The problem</a>
-    <a href="#loop">How it works</a>
-    <a href="#ai-in-the-work">Where AI fits</a>
-    <a href="#examples">Examples</a>
+  <a class="hdr-demo" href="#sample-demo"><span class="hd-l">Try the demo</span><span class="hd-s">Demo</span></a>
+  <button type="button" class="menu-btn" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" hidden><span class="bars" aria-hidden="true"></span>Menu</button>
+  <nav id="site-nav" aria-label="Main navigation">
+    <a href="#coordinated-response">Friday, 4pm</a>
     <a href="/public-demo#sample-demo">Sample demo</a>
+    <a href="#outcomes">Outcomes</a>
+    <a href="#existing-systems">How it works</a>
+    <a href="#ai-in-the-work">Where AI fits</a>
     <a href="#principles">You stay in control</a>
-    <a href="#contact">Contact</a>
+    <a href="#contact">Discuss a pilot</a>
     <a class="partner" href="/partner-access">Partner Room (access code required)</a>
   </nav>
 </header>
@@ -281,9 +354,14 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
       <p class="eyebrow">JALDO Travel / Hospitality coordination</p>
       <h1 id="h1">Exceptional stays.<br><span>Intelligently<br>coordinated.</span></h1>
       <p class="intro">When several things go wrong at once, give every team a clear priority—and the GM a clear view of what needs a decision.</p>
+      <ul class="promise" aria-label="What that means on a shift">
+        <li>Every guest promise has a named owner and a time.</li>
+        <li>Each team sees its next action, not the whole noise.</li>
+        <li>Nothing is marked done until someone has checked it.</li>
+      </ul>
       <div class="actions">
         <a class="btn btn-light" href="#coordinated-response">See the coordinated response <span class="arr" aria-hidden="true">&rarr;</span></a>
-        <a class="btn btn-ghost" href="/public-demo">Try the fictional sample <span class="arr" aria-hidden="true">&rarr;</span></a>
+        <a class="btn btn-ghost" href="#sample-demo">Try the guided demo <span class="arr" aria-hidden="true">&rarr;</span></a>
       </div>
       <p class="note">Today this is synthetic working proof and a proposed pilot, not a live deployment. Commercial and deeper materials sit in the Partner Room, by invitation.</p>
     </div>
@@ -315,13 +393,7 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
         <li><span class="st">3 &middot; Checked recovery</span><h3>Recovery is confirmed, not assumed</h3>
           <ul><li>Rooms released when inspected</li><li>Lift faults closed only after repair and safety checks</li><li>Anything unconfirmed stays visibly open</li></ul></li>
       </ol>
-      <div class="ben" aria-label="Who benefits">
-        <div><b>Teams</b><p>Know their next action.</p></div>
-        <div><b>GM</b><p>Sees ownership, what is overdue and what needs a decision.</p></div>
-        <div><b>Owner</b><p>Sees a controlled recovery, with evidence.</p></div>
-        <div><b>Group</b><p>Sees where support is genuinely needed.</p></div>
-      </div>
-      <p class="fict">Intended outcomes must be checked by people. Nothing is resolved automatically.</p>
+      <p class="fict">Intended outcomes must be checked by people. Nothing is resolved automatically. <a href="#sample-demo">Step through one room from this afternoon in the guided demo</a>.</p>
       <details>
         <summary>What is proven, planned and still to be validated</summary>
         <ul>
@@ -340,6 +412,134 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
         </ul>
         <p>Existing playbooks, communications and operations views are shown there as gated, synthetic proof only.</p>
       </details>
+    </div>
+  </section>
+
+  <section id="sample-demo" class="demo" aria-labelledby="demo-h">
+    <div class="wrap">
+      <div class="demo-head">
+        <div><p class="eyebrow">Guided sample demo</p><h2 id="demo-h">One delayed room. A connected hotel. One coordinated response.</h2></div>
+      </div>
+      <p class="label dm-notice" id="demo-notice">Interactive fictional demonstration — no live actions</p>
+      <p class="lede">Explore the coordinated response at your own pace. Harbour Lane Hotel (invented), 2:40pm. Choose a response, run the checks, act as the Duty Manager where authority is needed, and see what stays open. Then a repair delay changes the situation and the response has to be checked and approved again. The &ldquo;Your next step&rdquo; panel always shows what to do. Everything happens in this page only.</p>
+      <div class="dm" id="demo-app">
+        <div class="dm-top">
+          <div class="aiw-group" role="group" aria-label="View as">
+            <span class="aiw-gl">View as &middot; explains each role's work, not access permissions</span>
+            <button type="button" class="aiw-chip" id="demo-role-reception" data-r="reception" aria-pressed="true">Reception</button>
+            <button type="button" class="aiw-chip" id="demo-role-housekeeping" data-r="housekeeping" aria-pressed="false">Housekeeping</button>
+            <button type="button" class="aiw-chip" id="demo-role-maintenance" data-r="maintenance" aria-pressed="false">Maintenance</button>
+            <button type="button" class="aiw-chip" id="demo-role-guest" data-r="guest" aria-pressed="false">Guest services</button>
+            <button type="button" class="aiw-chip" id="demo-role-manager" data-r="manager" aria-pressed="false">Duty Manager</button>
+          </div>
+          <div class="dm-prog">
+            <label for="demo-progress"><span id="demo-progress-label">Response (version 1)</span> &middot; <span id="demo-progress-text">0 of 8 steps</span></label>
+            <progress id="demo-progress" max="8" value="0">0 of 8 steps</progress>
+            <button type="button" class="btn btn-ghost dm-sm" id="demo-restart">Restart demo</button>
+          </div>
+        </div>
+        <p class="aiw-state" id="demo-status" role="status" aria-live="polite" tabindex="-1"></p>
+        <div class="dm-grid">
+          <div class="dm-miles"><p class="dm-miles-h" id="demo-milestones-h">Steps for this response</p><ol id="demo-milestones" aria-labelledby="demo-milestones-h"></ol><p class="dm-note" id="demo-v1-summary" hidden></p></div>
+          <div class="dm-main" id="demo-main"></div>
+        </div>
+      </div>
+      <p class="fict">Guests, rooms, staff names and times are invented; no private details are shown. This shows intended design on synthetic data, not measured results or a live integration. <a id="demo-link-validation" href="/partner-access?returnTo=%2Fpartner-room%2Fvalidation%23evidence-status">Evidence and pilot validation (Partner Room — access code required)</a></p>
+    </div>
+  </section>
+
+  <section id="outcomes" class="outcomes band" aria-labelledby="outcomes-h">
+    <div class="wrap">
+      <p class="eyebrow">Intended outcomes</p>
+      <h2 id="outcomes-h">What should feel different on a hard shift.</h2>
+      <div class="out-grid">
+        <article aria-labelledby="out-guests"><h3 id="out-guests">For guests</h3><ul>
+          <li>One honest update from someone who owns their issue.</li>
+          <li>Promises are kept, or openly changed with a new answer, not quietly dropped.</li>
+          <li>Estimates are called estimates until a room is inspected.</li></ul></article>
+        <article aria-labelledby="out-teams"><h3 id="out-teams">For teams</h3><ul>
+          <li>Know their next action, with an owner and a time.</li>
+          <li>Handover context travels with the work.</li>
+          <li>Capacity is checked before anyone commits them.</li></ul></article>
+        <article aria-labelledby="out-gm"><h3 id="out-gm">For the GM</h3><ul>
+          <li>Sees ownership, what is overdue and what needs a decision.</li>
+          <li>Approves exceptions with the evidence in front of them.</li>
+          <li>Sees what is still open, not a false all-clear.</li></ul></article>
+      </div>
+      <p class="out-also"><b>Owners</b> see a controlled recovery, with evidence. <b>Groups</b> see where support is genuinely needed.</p>
+      <p class="fict">Intended design on synthetic data, not measured results. Outcomes must be checked by people in a bounded pilot.</p>
+    </div>
+  </section>
+
+  <section id="existing-systems" class="coord band" aria-labelledby="coord-h">
+    <div class="wrap coord-grid">
+      <div>
+        <p class="eyebrow">How JALDO works with your systems</p>
+        <h2 id="coord-h">Not another system of record. The thread between them.</h2>
+        <ul class="things">
+          <li><b>Guest moments</b>Early arrivals, requests, complaints, recovery gestures.</li>
+          <li><b>Room readiness</b>Clean, inspected, fixed, released, and who confirmed it.</li>
+          <li><b>Service backlog</b>Open requests and work orders that are ageing or blocked.</li>
+          <li><b>Handovers</b>What the next shift must know and own.</li>
+          <li><b>Promises</b>Anything said to a guest, with an owner and a due time.</li>
+          <li><b>Across properties</b>Optional: shared patterns and support between sites.</li>
+        </ul>
+        <div class="sor">
+          <strong>Your existing systems stay the systems of record.</strong>
+          <p>Any integration with a PMS or operations tool is proposed. It would need your permissions, the vendor's terms and validation in a pilot before anything is relied on. There are no live PMS connections today.</p>
+        </div>
+        <p class="ai-line"><strong>AI interprets signals and proposes responses. Rules set limits. People decide.</strong> Workflow then follows through to checked evidence. See <a href="#loop">the six-step loop</a>, <a href="#ai-in-the-work">where AI fits</a> and <a href="#principles">how you stay in control</a>.</p>
+      </div>
+      <figure>
+        <img src="/images/travel/team-coordination.webp" alt="Illustrative hotel team members conferring together over a shared plan." width="1200" height="800" loading="lazy">
+        <figcaption>Illustrative imagery. Not a customer site.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="contact" class="contact wrap" aria-labelledby="contact-h">
+    <div class="contact-grid">
+      <div>
+        <p class="eyebrow">Next step</p>
+        <h2 id="contact-h">Discuss a bounded pilot.</h2>
+        <p>Send a short note about your property or group. A person reads every request.</p>
+        <ol class="steps-next">
+          <li>We talk through one coordination problem you want to fix.</li>
+          <li>If it fits, we shape a small, bounded pilot together.</li>
+          <li>Partner Room access, if useful, is granted manually. Never automatically.</li>
+        </ol>
+      </div>
+      <div class="cards">
+        <a class="card" href="mailto:lance@rtbx.com.au?subject=Explore%20a%20Design%20Partnership%20%E2%80%94%20JALDO%20Travel"><strong>Discuss a bounded pilot &rarr;</strong><span>For operators ready to shape a first pilot.</span></a>
+        <a class="card" href="mailto:lance@rtbx.com.au?subject=Request%20Partner%20Access%20%E2%80%94%20JALDO%20Travel"><strong>Request partner access &rarr;</strong><span>Email us. Access is reviewed and granted manually.</span></a>
+        <a class="card partner" href="/partner-access"><strong>Partner Room (access code required) &rarr;</strong><span>For invited partners who already hold a code.</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="supporting-detail" class="support" aria-labelledby="support-h">
+    <div class="wrap">
+      <p class="eyebrow">Supporting detail</p>
+      <h2 id="support-h">The mechanics, for those who want them.</h2>
+      <p class="lede">Principles, the role of AI, the six-step loop, the problem we address and more fictional examples.</p>
+      <ul aria-label="Supporting sections">
+        <li><a href="#principles">Control principles</a></li>
+        <li><a href="#ai-in-the-work">The role of AI</a></li>
+        <li><a href="#loop">Six-step loop</a></li>
+        <li><a href="#benefits">The problem</a></li>
+        <li><a href="#examples">Practical examples</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="principles" class="band wrap" aria-labelledby="principles-h">
+    <p class="eyebrow">You stay in control</p>
+    <h2 id="principles-h">JALDO coordinates the work. Your people retain authority.</h2>
+    <div class="rules">
+        <div><h3>Your people retain authority</h3><p>Named owners act within agreed authority, with approval for exceptions where required.</p></div>
+        <div><h3>Capacity is checked before commitments</h3><p>Staff, rooms and support availability shape the response.</p></div>
+        <div><h3>Completion needs evidence</h3><p>Missing receipts or measurements stay unconfirmed.</p></div>
+        <div><h3>Improvements are reviewed before use</h3><p>Review a proposed change before testing it; a replay does not deploy it.</p></div>
     </div>
   </section>
 
@@ -390,6 +590,20 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
     </div>
   </section>
 
+  <section id="loop" class="loop band wrap" aria-labelledby="loop-h">
+    <p class="eyebrow">How it works</p>
+    <h2 id="loop-h">Six steps, one accountable loop.</h2>
+    <ol>
+      <li><h3>Signal</h3><p>Something needs attention: a late room, an ageing request, a guest message.</p></li>
+      <li><h3>Context</h3><p>What is known is gathered: the guest, the room, what was promised, who is on shift.</p></li>
+      <li><h3>Human decision</h3><p>A named person chooses what happens. Suggestions are offered, never imposed.</p></li>
+      <li><h3>Coordinated action</h3><p>The right teams get a clear task, an owner and a time.</p></li>
+      <li><h3>Evidence</h3><p>Completion is recorded only when it is confirmed. Missing receipt stays visibly unconfirmed.</p></li>
+      <li><h3>Reviewed learning</h3><p>Patterns are reviewed by people. Nothing is changed or deployed automatically.</p></li>
+    </ol>
+    <p class="hint">Approval is a decision, not a guarantee. If housekeeping has no capacity, approving a promise does not create it. The loop is designed to show that gap early so the team can choose again.</p>
+  </section>
+
   <section id="benefits" class="band wrap" aria-labelledby="benefits-h">
     <div class="split">
       <div>
@@ -407,45 +621,6 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
         <li><strong>No closed loop</strong><span>Work is done but not confirmed, or confirmed but not told to the guest. Lessons stay in someone's head.</span></li>
       </ul>
     </div>
-  </section>
-
-  <section class="coord band" aria-labelledby="coord-h">
-    <div class="wrap coord-grid">
-      <div>
-        <p class="eyebrow">What is coordinated</p>
-        <h2 id="coord-h">Not another system of record. The thread between them.</h2>
-        <ul class="things">
-          <li><b>Guest moments</b>Early arrivals, requests, complaints, recovery gestures.</li>
-          <li><b>Room readiness</b>Clean, inspected, fixed, released, and who confirmed it.</li>
-          <li><b>Service backlog</b>Open requests and work orders that are ageing or blocked.</li>
-          <li><b>Handovers</b>What the next shift must know and own.</li>
-          <li><b>Promises</b>Anything said to a guest, with an owner and a due time.</li>
-          <li><b>Across properties</b>Optional: shared patterns and support between sites.</li>
-        </ul>
-        <div class="sor">
-          <strong>Your existing systems stay the systems of record.</strong>
-          <p>Any integration with a PMS or operations tool is proposed. It would need your permissions, the vendor's terms and validation in a pilot before anything is relied on. There are no live PMS connections today.</p>
-        </div>
-      </div>
-      <figure>
-        <img src="/images/travel/team-coordination.webp" alt="Illustrative hotel team members conferring together over a shared plan." width="1200" height="800" loading="lazy">
-        <figcaption>Illustrative imagery. Not a customer site.</figcaption>
-      </figure>
-    </div>
-  </section>
-
-  <section id="loop" class="loop band wrap" aria-labelledby="loop-h">
-    <p class="eyebrow">How it works</p>
-    <h2 id="loop-h">Six steps, one accountable loop.</h2>
-    <ol>
-      <li><h3>Signal</h3><p>Something needs attention: a late room, an ageing request, a guest message.</p></li>
-      <li><h3>Context</h3><p>What is known is gathered: the guest, the room, what was promised, who is on shift.</p></li>
-      <li><h3>Human decision</h3><p>A named person chooses what happens. Suggestions are offered, never imposed.</p></li>
-      <li><h3>Coordinated action</h3><p>The right teams get a clear task, an owner and a time.</p></li>
-      <li><h3>Evidence</h3><p>Completion is recorded only when it is confirmed. Missing receipt stays visibly unconfirmed.</p></li>
-      <li><h3>Reviewed learning</h3><p>Patterns are reviewed by people. Nothing is changed or deployed automatically.</p></li>
-    </ol>
-    <p class="hint">Approval is a decision, not a guarantee. If housekeeping has no capacity, approving a promise does not create it. The loop is designed to show that gap early so the team can choose again.</p>
   </section>
 
   <section id="examples" class="examples band" aria-labelledby="ex-h">
@@ -489,50 +664,6 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
     </div>
   </section>
 
-  <section id="sample-demo" class="demo" aria-labelledby="demo-h">
-    <div class="wrap">
-      <div class="demo-head">
-        <div><p class="eyebrow">Sample demo &middot; about two minutes</p><h2 id="demo-h">One delayed room. A connected hotel. One coordinated response.</h2></div>
-      </div>
-      <p class="label dm-notice" id="demo-notice">Interactive fictional demonstration — no live actions</p>
-      <p class="lede">Harbour Lane Hotel (invented), 2:40pm. Choose a response, run the checks, act as the Duty Manager where authority is needed, and see what stays open. Everything happens in this page only.</p>
-      <div class="dm" id="demo-app">
-        <div class="dm-top">
-          <div class="aiw-group" role="group" aria-label="View as">
-            <span class="aiw-gl">View as &middot; explains each role's work, not access permissions</span>
-            <button type="button" class="aiw-chip" id="demo-role-reception" data-r="reception" aria-pressed="true">Reception</button>
-            <button type="button" class="aiw-chip" id="demo-role-housekeeping" data-r="housekeeping" aria-pressed="false">Housekeeping</button>
-            <button type="button" class="aiw-chip" id="demo-role-maintenance" data-r="maintenance" aria-pressed="false">Maintenance</button>
-            <button type="button" class="aiw-chip" id="demo-role-guest" data-r="guest" aria-pressed="false">Guest services</button>
-            <button type="button" class="aiw-chip" id="demo-role-manager" data-r="manager" aria-pressed="false">Duty Manager</button>
-          </div>
-          <div class="dm-prog">
-            <label for="demo-progress">Progress <span id="demo-progress-text">0 of 11</span></label>
-            <progress id="demo-progress" max="11" value="0">0 of 11</progress>
-            <button type="button" class="btn btn-ghost dm-sm" id="demo-restart">Restart demo</button>
-          </div>
-        </div>
-        <p class="aiw-state" id="demo-status" role="status" aria-live="polite" tabindex="-1"></p>
-        <div class="dm-grid">
-          <ol class="dm-miles" id="demo-milestones" aria-label="Demo milestones"></ol>
-          <div class="dm-main" id="demo-main"></div>
-        </div>
-      </div>
-      <p class="fict">Guests, rooms, staff names and times are invented; no private details are shown. This shows intended design on synthetic data, not measured results or a live integration. <a id="demo-link-validation" href="/partner-access?returnTo=%2Fpartner-room%2Fvalidation%23evidence-status">Evidence and pilot validation (Partner Room — access code required)</a></p>
-    </div>
-  </section>
-
-  <section id="principles" class="band wrap" aria-labelledby="principles-h">
-    <p class="eyebrow">You stay in control</p>
-    <h2 id="principles-h">JALDO coordinates the work. Your people retain authority.</h2>
-    <div class="rules">
-        <div><h3>Your people retain authority</h3><p>Named owners act within agreed authority, with approval for exceptions where required.</p></div>
-        <div><h3>Capacity is checked before commitments</h3><p>Staff, rooms and support availability shape the response.</p></div>
-        <div><h3>Completion needs evidence</h3><p>Missing receipts or measurements stay unconfirmed.</p></div>
-        <div><h3>Improvements are reviewed before use</h3><p>Review a proposed change before testing it; a replay does not deploy it.</p></div>
-    </div>
-  </section>
-
   <section class="priv band" aria-labelledby="priv-h">
     <div class="wrap priv-grid">
       <div>
@@ -547,26 +678,6 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
         <li>Deeper simulations and calculator</li>
         <li>Strategy and roadmap</li>
       </ul>
-    </div>
-  </section>
-
-  <section id="contact" class="contact wrap" aria-labelledby="contact-h">
-    <div class="contact-grid">
-      <div>
-        <p class="eyebrow">Next step</p>
-        <h2 id="contact-h">Discuss a bounded pilot.</h2>
-        <p>Send a short note about your property or group. A person reads every request.</p>
-        <ol class="steps-next">
-          <li>We talk through one coordination problem you want to fix.</li>
-          <li>If it fits, we shape a small, bounded pilot together.</li>
-          <li>Partner Room access, if useful, is granted manually. Never automatically.</li>
-        </ol>
-      </div>
-      <div class="cards">
-        <a class="card" href="mailto:lance@rtbx.com.au?subject=Explore%20a%20Design%20Partnership%20%E2%80%94%20JALDO%20Travel"><strong>Discuss a bounded pilot &rarr;</strong><span>For operators ready to shape a first pilot.</span></a>
-        <a class="card" href="mailto:lance@rtbx.com.au?subject=Request%20Partner%20Access%20%E2%80%94%20JALDO%20Travel"><strong>Request partner access &rarr;</strong><span>Email us. Access is reviewed and granted manually.</span></a>
-        <a class="card partner" href="/partner-access"><strong>Partner Room (access code required) &rarr;</strong><span>For invited partners who already hold a code.</span></a>
-      </div>
     </div>
   </section>
 </main>
@@ -599,10 +710,13 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
      tasks:{reception:"Explain the 304 delay and the 221 plan; record whether the family accept.",housekeeping:"Clean and inspect 221 by 4:40pm; record receipt.",guest:"Extend the quiet corner; book dinner seating; keep luggage tagged."}}]
   };
   var ACK=[["reception","Reception"],["housekeeping","Housekeeping"],["maintenance","Maintenance"],["guest","Guest services"]];
-  var MILES=["Signals and interpretation reviewed","Response chosen","Availability checked","Exception approved (Duty Manager)","Response dispatched","Acknowledgements received","Evidence recorded","Family acceptance recorded","Repair delay: revised response chosen and checked","Revised response re-approved and dispatched","Revised response checked and agreed"];
+  // Steps are counted per response version. A superseded version keeps exactly what was recorded.
+  var STEPS=[["Signals and interpretation reviewed","Response chosen","Availability checked","Exception approved (Duty Manager)","Owned tasks dispatched","Acknowledgements received","Evidence recorded","Family acceptance recorded"],
+    ["3:25pm repair update received","Revised response chosen","Revised availability checked","Exception re-approved (Duty Manager)","Revised tasks dispatched","Acknowledgements received","Evidence recorded","Family acceptance recorded"]];
+  var START="2:40pm: room 304 is blocked by a leak (WO-1182) and the Rowan family has been waiting since 2:20pm.";
   var s;
   function V(){return {plan:null,checks:{},decision:null,dispatched:false,acks:{},ev:{},accepted:false}}
-  function reset(){s={role:"reception",read:false,ver:0,v:[V()],delay:false,hist:[]}}
+  function reset(){s={role:"reception",read:false,ver:0,v:[V()],delay:false,hist:[],last:START}}
   reset();
   function cur(){return s.v[s.ver]}
   function def(v,i){return v.plan?P[v.plan][i]:null}
@@ -612,26 +726,52 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
   function evd(v,i){var d=def(v,i);return d&&allIn(d.ev,v.ev)}
   function done(v,i){return v.dispatched&&acked(v)&&evd(v,i)&&v.accepted}
   function log(t){s.hist.push({ver:s.ver,t:t,tag:""})}
-  function miles(){var a=s.v[0],b=s.v[1];return [s.read,!!a.plan||s.delay,checked(a,0)||s.delay,a.decision==="approved",a.dispatched,acked(a),evd(a,0),a.accepted,!!(b&&checked(b,1)),!!(b&&b.dispatched),!!(b&&done(b,1))]}
+  function steps(k){var v=s.v[k];return [k?true:s.read,!!v.plan,!!checked(v,k),v.decision==="approved",v.dispatched,acked(v),!!evd(v,k),v.accepted]}
+  // done | open | superseded. Never marks an unrecorded earlier step as complete.
+  function stepState(k,j){return steps(k)[j]?"done":(k===0&&s.delay?"superseded":"open")}
+  function count(k){return steps(k).filter(Boolean).length}
+  function names(list,obj,want){return list.filter(function(x){return !!obj[x[0]]===want}).map(function(x){return x[1]})}
   function btn(id,label,on,cls,extra){return '<button type="button" class="btn '+(cls||"btn-ghost")+'" id="'+id+'"'+(on?"":" disabled")+(extra||"")+'>'+label+'</button>'}
   function status(){
-    var v=cur(),d=def(v,s.ver);
+    var v=cur(),i=s.ver,d=def(v,i),gap=s.delay?8-count(0):0;
     if(!s.read)return ["Open: read the sourced signals and the proposed interpretation.",true];
     if(!v.plan)return [s.delay?"Open: the repair delay invalidated the earlier commitment and its approval. Choose a revised response.":(v.decision==="declined"?"Open: plan declined. Choose a revised response.":"Open: choose a response."),true];
     if(v.decision==="held")return ["Open: Duty Manager placed the exception on hold. Nothing is dispatched.",true];
-    if(!checked(v,s.ver))return ["Open: availability checks outstanding for "+d.name+".",true];
+    if(!checked(v,i))return ["Open: availability checks outstanding for "+d.name+". Approval is blocked until they are confirmed.",true];
     if(v.decision!=="approved")return ["Open: awaiting Duty Manager exception approval."+(s.role!=="manager"?" Switch to the Duty Manager view to decide.":""),true];
     if(!v.dispatched)return ["Approved, not yet dispatched. Approval alone sends nothing.",true];
-    if(s.ver===0&&!s.delay&&done(v,0))return ["Agreed and checked for now. Room 304 stays held. Advance the clock to see the repair update.",true];
     if(!acked(v))return ["Dispatched. Open: acknowledgements missing.",true];
-    if(!evd(v,s.ver))return ["Open: evidence receipts missing, so results stay unconfirmed.",true];
+    if(!evd(v,i))return ["Open: evidence receipts missing, so results stay unconfirmed.",true];
     if(!v.accepted)return ["Open: family acceptance not recorded. No agreed plan yet.",true];
-    if(s.ver===0)return ["Agreed and checked for now. Room 304 stays held. Advance the clock to see the repair update.",true];
-    return ["Family plan agreed and checked. Room 304 remains held pending clearance; WO-1182 stays open with its owner.",false];
+    if(i===0)return ["Version 1 complete: agreed and checked for now. Room 304 stays held. Advance the clock to see the repair update.",true];
+    return ["Revised response complete: 8 of 8 steps. Family plan agreed and checked."+(gap?" Version 1 was superseded with "+gap+" of 8 steps never recorded.":"")+" Room 304 remains held pending clearance; WO-1182 stays open with its owner.",false];
+  }
+  function next(){
+    var v=cur(),i=s.ver,d=def(v,i),mgr=s.role==="manager";
+    var early=i===0&&v.dispatched&&!done(v,0)?" You may also advance the clock now; unfinished version 1 steps would then stay unrecorded and be shown as superseded.":"";
+    if(!s.read)return {who:"You, reviewing for the duty team",todo:"Read the sourced signals and the scripted interpretation, then mark them reviewed.",go:"demo-interpret-ack"};
+    if(!v.plan)return {who:"Reception, with the Duty Manager",todo:i?"Choose a revised response that no longer depends on room 304.":"Choose a response for the Rowan family.",go:"demo-plan-room"};
+    if(v.decision==="held")return {who:"Duty Manager",todo:mgr?"The exception is on hold. Resume review or decline it.":"The exception is on hold. Switch to the Duty Manager view to resume or decline it.",go:mgr?"demo-resume":"demo-role-manager"};
+    if(!checked(v,i)){var c=d.checks.filter(function(x){return !v.checks[x[0]]});return {who:"Housekeeping, guest services and maintenance",todo:"Confirm availability: "+c.length+" of "+d.checks.length+" checks outstanding. Approval stays blocked until all are confirmed.",go:"demo-check-"+c[0][0]}}
+    if(v.decision!=="approved")return {who:"Duty Manager",todo:mgr?"Approve, hold or decline the exception.":"Switch to the Duty Manager view to approve, hold or decline the exception.",go:mgr?"demo-approve":"demo-role-manager"};
+    if(!v.dispatched)return {who:"Duty Manager",todo:"Dispatch owned tasks to the teams. Approval alone sends nothing.",go:"demo-dispatch"};
+    var a=ACK.filter(function(x){return !v.acks[x[0]]});
+    if(a.length)return {who:a.map(function(x){return x[1]}).join(", "),todo:"Record each team's acknowledgement ("+a.length+" missing)."+early,go:"demo-ack-"+a[0][0]};
+    var e=d.ev.filter(function(x){return !v.ev[x[0]]});
+    if(e.length)return {who:"The owner named on each receipt",todo:"Record evidence receipts ("+e.length+" missing). Until then the result stays unconfirmed."+early,go:"demo-evidence-"+e[0][0]};
+    if(!v.accepted)return {who:"Reception, with the Rowan family",todo:"Record whether the family accepts the plan."+early,go:"demo-accept"};
+    if(i===0)return {who:"Maintenance (WO-1182)",todo:"Advance the clock to 3:25pm to see the repair update.",go:"demo-delay"};
+    return {who:"No one in this sample. Maintenance still owns WO-1182.",todo:"This response is complete. Restart to try the other response.",go:"demo-restart"};
   }
   function render(){
     var focusId=document.activeElement&&document.activeElement.id;
-    var v=cur(),i=s.ver,d=def(v,i),mgr=s.role==="manager",h=[];
+    var v=cur(),i=s.ver,d=def(v,i),mgr=s.role==="manager",h=[],nx=next(),n=count(i);
+    h.push('<div class="dm-blk dm-next" id="demo-next" aria-labelledby="demo-next-h"><span class="dm-k" id="demo-next-h">Your next step</span><dl>'+
+      '<dt>What changed</dt><dd id="demo-next-changed">'+s.last+'</dd>'+
+      '<dt>Who needs to act</dt><dd id="demo-next-who">'+nx.who+'</dd>'+
+      '<dt>Do next</dt><dd class="do" id="demo-next-do">'+nx.todo+'</dd>'+
+      '<dt>Still open</dt><dd id="demo-next-open">'+(8-n?(8-n)+" of 8 steps for this response. ":"Nothing left in this response. ")+'Room 304 held; WO-1182 open.'+(s.delay&&count(0)<8?" Version 1: "+(8-count(0))+" steps superseded, never recorded.":"")+'</dd></dl>'+
+      '<div class="dm-row">'+btn("demo-next-go","Go to next step",true,"btn-dark",' aria-describedby="demo-next-do"')+'</div></div>');
     // signals + interpretation
     h.push('<details class="dm-blk" id="demo-signals"'+(s.read?'':' open')+'><summary class="dm-k">2:40pm &middot; sourced fictional signals and interpretation</summary><ul class="dm-list">'+
       '<li><b>Arrivals list (synthetic PMS extract):</b> 23 arrivals due before 4pm; 9 already in the lobby.</li>'+
@@ -642,65 +782,90 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
       '<div class="dm-cols"><div><b>AI (scripted)</b>Links sources, states uncertainty, drafts options.</div><div><b>Deterministic rules</b>A room is assignable only when inspected. A room with an open fault is never released without safety clearance. Exceptions need Duty Manager approval.</div><div><b>Human authority</b>The Duty Manager approves, holds or declines exceptions. The family decides whether to accept.</div></div>'+
       '<div class="dm-row">'+btn("demo-interpret-ack",s.read?"Signals reviewed":"Mark signals and interpretation reviewed",!s.read,"btn-dark")+'</div></details>');
     if(s.delay)h.push('<p class="dm-alert" id="demo-delay-notice"><b>3:25pm, WO-1182 update:</b> replacement part delayed; 304 will not be repaired before tomorrow afternoon and still needs safety clearance after repair. The earlier commitment that depended on 304 is withdrawn and its approval is no longer valid.</p>');
-    // choose
-    var canChoose=s.read&&!(v.decision==="approved"||v.decision==="held");
-    h.push('<div class="dm-blk" id="demo-choose"><span class="dm-k">'+(i?"Revised response (version 2)":"Response (version 1)")+'</span><h3>Choose a response for the Rowan family</h3><div class="dm-row" role="group" aria-label="Response options">'+
-      btn("demo-plan-room",P.room[i].name,canChoose,"",' aria-pressed="'+(v.plan==="room")+'"')+btn("demo-plan-wait",P.wait[i].name,canChoose,"",' aria-pressed="'+(v.plan==="wait")+'"')+'</div>'+
-      (d?'<p class="dm-note" id="demo-plan-text">'+d.text+'</p>':'')+'</div>');
+    // choose (revealed once the signals are reviewed)
+    if(s.read){
+      var canChoose=!(v.decision==="approved"||v.decision==="held");
+      h.push('<div class="dm-blk" id="demo-choose"><span class="dm-k">'+(i?"Revised response (version 2)":"Response (version 1)")+'</span><h3>Choose a response for the Rowan family</h3><div class="dm-row" role="group" aria-label="Response options">'+
+        btn("demo-plan-room",P.room[i].name,canChoose,"",' aria-pressed="'+(v.plan==="room")+'"')+btn("demo-plan-wait",P.wait[i].name,canChoose,"",' aria-pressed="'+(v.plan==="wait")+'"')+'</div>'+
+        (d?'<p class="dm-note" id="demo-plan-text">'+d.text+(i&&!v.decision?' Carried over from version 1; you can switch.':'')+'</p>':'')+'</div>');
+    }
     if(d){
-      var lock=v.decision==="approved"||v.decision==="held";
+      var lock=v.decision==="approved"||v.decision==="held",ok=checked(v,i),miss=d.checks.filter(function(c){return !v.checks[c[0]]}).length;
       h.push('<fieldset class="dm-blk" id="demo-checks"><legend class="dm-k">Availability checks for this plan</legend>'+
         d.checks.map(function(c){return '<label class="dm-chk"><input type="checkbox" id="demo-check-'+c[0]+'" data-c="'+c[0]+'"'+(v.checks[c[0]]?" checked":"")+(lock?" disabled":"")+'> <span>Checked: '+c[1]+'</span></label>'}).join("")+'</fieldset>');
-      var ok=checked(v,i);
-      h.push('<div class="dm-blk" id="demo-approval"><span class="dm-k">Exception approval &middot; Duty Manager only</span><p class="dm-note">'+d.exc+' Decision: <b id="demo-decision">'+({approved:"approved",held:"on hold",declined:"declined"}[v.decision]||"pending")+'</b>.'+(mgr?"":" Approval controls work only in the Duty Manager view; changing view grants nothing on its own.")+'</p><div class="dm-row">'+
+      h.push('<div class="dm-blk" id="demo-approval"><span class="dm-k">Exception approval &middot; Duty Manager only</span><p class="dm-note">'+d.exc+' Decision: <b id="demo-decision">'+({approved:"approved",held:"on hold",declined:"declined"}[v.decision]||"pending")+'</b>.'+(mgr?"":" Approval controls work only in the Duty Manager view; changing view grants nothing on its own.")+'</p>'+
+        (!ok&&!v.decision?'<p class="dm-note" id="demo-approval-blocked"><span class="dm-pill o">Blocked</span> Approval needs all availability checks: '+miss+' outstanding.</p>':'')+'<div class="dm-row">'+
         btn("demo-approve","Approve exception",mgr&&ok&&!v.decision,"btn-dark")+btn("demo-hold","Hold",mgr&&!v.decision)+btn("demo-decline","Decline",mgr&&(!v.decision||v.decision==="held"))+btn("demo-resume","Resume review",mgr&&v.decision==="held")+'</div></div>');
-      h.push('<div class="dm-blk" id="demo-dispatch-blk"><span class="dm-k">Dispatch, acknowledgements and evidence</span><div class="dm-row">'+btn("demo-dispatch",v.dispatched?"Dispatched to teams":"Dispatch owned tasks",v.decision==="approved"&&!v.dispatched,"btn-dark")+'</div>'+
-        '<p class="dm-note">Synthetic acknowledgements (a team has accepted its task):</p><div class="dm-row">'+ACK.map(function(a){return btn("demo-ack-"+a[0],(v.acks[a[0]]?"Acknowledged: ":"Record acknowledgement: ")+a[1],v.dispatched&&!v.acks[a[0]])}).join("")+'</div>'+
-        '<p class="dm-note">Synthetic evidence (the work is shown to be done):</p><div class="dm-row">'+d.ev.map(function(e){return btn("demo-evidence-"+e[0],(v.ev[e[0]]?"Recorded: ":"Record: ")+e[1],v.dispatched&&!v.ev[e[0]])}).join("")+'</div>'+
-        '<p class="dm-note">Family decision, recorded by Reception:</p><div class="dm-row">'+btn("demo-accept",v.accepted?"Family acceptance recorded":"Record family acceptance",v.dispatched&&!v.accepted)+'</div></div>');
+      // dispatch is revealed by approval; delivery records are revealed by dispatch
+      if(v.decision==="approved"){
+        var dh='<div class="dm-blk" id="demo-dispatch-blk"><span class="dm-k">Dispatch, acknowledgements and evidence</span><div class="dm-row">'+btn("demo-dispatch",v.dispatched?"Dispatched to teams":"Dispatch owned tasks",!v.dispatched,"btn-dark")+'</div>';
+        if(v.dispatched)dh+='<p class="dm-note">Synthetic acknowledgements (a team has accepted its task):</p><div class="dm-row">'+ACK.map(function(a){return btn("demo-ack-"+a[0],(v.acks[a[0]]?"Acknowledged: ":"Record acknowledgement: ")+a[1],!v.acks[a[0]])}).join("")+'</div>'+
+          '<p class="dm-note">Synthetic evidence (the work is shown to be done):</p><div class="dm-row">'+d.ev.map(function(e){return btn("demo-evidence-"+e[0],(v.ev[e[0]]?"Recorded: ":"Record: ")+e[1],!v.ev[e[0]])}).join("")+'</div>'+
+          '<p class="dm-note">Family decision, recorded by Reception:</p><div class="dm-row">'+btn("demo-accept",v.accepted?"Family acceptance recorded":"Record family acceptance",!v.accepted)+'</div>';
+        h.push(dh+'</div>');
+      }
     }
-    if(!s.delay)h.push('<div class="dm-blk"><span class="dm-k">Later in the afternoon</span><div class="dm-row">'+btn("demo-delay","Advance to 3:25pm: maintenance update",s.v[0].dispatched)+'</div><p class="dm-note">Available once the first response is dispatched.</p></div>');
+    if(!s.delay&&s.v[0].dispatched){var left=8-count(0);
+      h.push('<div class="dm-blk" id="demo-delay-blk"><span class="dm-k">Later in the afternoon</span><div class="dm-row">'+btn("demo-delay","Advance to 3:25pm: maintenance update",true)+'</div><p class="dm-note">'+(left?"Version 1 still has "+left+" unrecorded step"+(left>1?"s":"")+". Advancing now keeps them unrecorded: they will be shown as superseded, not complete.":"Version 1 is complete. See what happens when the situation changes.")+'</p></div>');}
+    // superseded version 1, exactly as recorded
+    if(s.delay){var a0=s.v[0],d0=def(a0,0);
+      h.push('<div class="dm-blk dm-v1" id="demo-v1-record"><span class="dm-k">Version 1 record &middot; superseded at 3:25pm</span><p class="dm-note">Kept as it was when the repair delay arrived. Steps not recorded by then stay unrecorded; nothing is completed after the fact.</p><ul class="dm-list">'+
+        STEPS[0].map(function(t,j){var st=stepState(0,j),det="";
+          if(j===1)det=": "+d0.name;
+          if(j===5)det=" &middot; recorded: "+(names(ACK,a0.acks,true).join(", ")||"none")+(acked(a0)?"":"; missing: "+names(ACK,a0.acks,false).join(", "));
+          if(j===6)det=" &middot; recorded: "+(names(d0.ev,a0.ev,true).join("; ")||"none")+(evd(a0,0)?"":"; missing: "+names(d0.ev,a0.ev,false).join("; "));
+          var pill=j===3&&st==="done"?'<span class="dm-pill o">Recorded &middot; approval invalidated</span>':(st==="done"?'<span class="dm-pill">Recorded</span>':'<span class="dm-pill s">Not recorded &middot; superseded</span>');
+          return '<li data-state="'+(j===3&&st==="done"?"invalidated":st)+'">'+pill+' '+t+det+'</li>'}).join("")+'</ul></div>');}
     // role view
     var rt="";
     if(s.role==="maintenance")rt="WO-1182, room 304: owner M. Okafor (Maintenance lead). Room held, not released. Next follow-up: "+(s.delay?"tomorrow 1pm part arrival, then clearance":"3:45pm technician check")+"; safety clearance required after repair.";
-    else if(s.role==="manager")rt="Decision queue: "+(d?(d.name+" — "+(v.decision||"pending")):"no response chosen yet")+". Open items: "+(MILES.length-miles().filter(Boolean).length)+". WO-1182 stays open.";
+    else if(s.role==="manager")rt="Decision queue: "+(d?(d.name+" — "+(v.decision||"pending")):"no response chosen yet")+". Open steps for this response: "+(8-n)+". WO-1182 stays open.";
     else rt=d?d.tasks[s.role]:"No task yet: waiting for a response to be chosen.";
     var ownAck=s.role==="manager"?"":(" Acknowledgement: "+(v.dispatched?(v.acks[s.role]?"recorded":"missing"):"not dispatched")+".");
-    h.unshift('<div class="dm-blk aiw-role" id="demo-role-view"><small>'+ROLES[s.role]+' view &middot; explanation, not access control</small>'+rt+ownAck+'</div>');
+    h.splice(1,0,'<div class="dm-blk aiw-role" id="demo-role-view"><small>'+ROLES[s.role]+' view &middot; explanation, not access control</small>'+rt+ownAck+'</div>');
     // 304 + history + outcome
     h.push('<div class="dm-blk" id="demo-room304"><span class="dm-k">Room 304</span><p class="dm-note"><b>Held &middot; not released.</b> Blocked by WO-1182 pending repair and safety clearance. Owner: M. Okafor, Maintenance. Follow-up: '+(s.delay?"tomorrow 1pm part arrival, then clearance":"3:45pm technician check")+'. <span class="dm-pill o">Open</span></p></div>');
     h.push('<div class="dm-blk"><span class="dm-k">Review history</span><ol class="dm-list" id="demo-history">'+(s.hist.length?s.hist.map(function(e,k){return '<li id="demo-history-'+k+'"><b>V'+(e.ver+1)+':</b> '+e.t+(e.tag?' <span class="dm-pill o">'+e.tag+'</span>':'')+'</li>'}).join(""):'<li>No decisions yet.</li>')+'</ol></div>');
     var b=s.v[1],fin=b&&done(b,1);
     h.push('<div class="dm-blk" id="demo-outcome"><span class="dm-k">Outcome so far</span><ul class="dm-list">'+
-      '<li><b>Family plan:</b> '+(done(v,i)?"agreed and checked: "+d.name+".":(cur().accepted?"accepted, but checks still open.":"not agreed yet."))+'</li>'+
+      '<li><b>Family plan:</b> '+(done(v,i)?"agreed and checked: "+d.name+".":(v.accepted?"accepted, but acknowledgements or evidence still open.":"not agreed yet."))+'</li>'+
+      (s.delay?'<li><b>Version 1:</b> superseded at 3:25pm with '+count(0)+' of 8 steps recorded'+(count(0)<8?'; the rest were never recorded.':'.')+'</li>':'')+
       '<li><b>Room 304:</b> held pending clearance. WO-1182 open, owner named.</li>'+
       '<li><b>Other arrivals:</b> outside this demonstration; not claimed as resolved.</li>'+
       (fin?'<li id="demo-improvement"><b>Proposed improvement:</b> check open work orders against arrivals earlier in the day. Awaiting authorised review; not deployed.</li>':'')+'</ul></div>');
     $("demo-main").innerHTML=h.join("");
-    var m=miles(),n=m.filter(Boolean).length;
-    $("demo-milestones").innerHTML=MILES.map(function(t,k){return '<li class="'+(m[k]?"done":"open")+'">'+t+'<span class="sr-only"> — '+(m[k]?"done":"open")+'</span></li>'}).join("");
-    $("demo-progress").value=n;$("demo-progress").textContent=n+" of 11";$("demo-progress-text").textContent=n+" of 11";
+    var first=steps(i).indexOf(false);
+    $("demo-milestones").innerHTML=STEPS[i].map(function(t,k){var st=stepState(i,k),cls=st==="open"&&k===first?"open next":st;return '<li class="'+cls+'">'+t+'<span class="sr-only"> — '+(st==="done"?"complete":(k===first?"next, outstanding":"outstanding"))+'</span></li>'}).join("");
+    var sum=$("demo-v1-summary");sum.hidden=!s.delay;if(s.delay)sum.textContent="Version 1 (superseded at 3:25pm): "+count(0)+" of 8 recorded"+(count(0)<8?", "+(8-count(0))+" never recorded.":".");
+    $("demo-progress-label").textContent=i?"Revised response (version 2)":"Response (version 1)";
+    $("demo-progress").value=n;$("demo-progress").textContent=n+" of 8 steps";$("demo-progress-text").textContent=n+" of 8 steps";
     var st=status();$("demo-status").textContent=st[0];$("demo-status").className="aiw-state"+(st[1]?" open":"");
     var a=$("demo-app");a.dataset.version=String(i+1);a.dataset.plan=v.plan||"";a.dataset.decision=v.decision||"pending";a.dataset.dispatched=String(v.dispatched);a.dataset.agreed=String(!!done(v,i));a.dataset.role=s.role;
+    a.dataset.progress=n+"/8";a.dataset.superseded=String(s.delay?8-count(0):0);
     [].forEach.call(document.querySelectorAll("#demo-app .aiw-chip"),function(x){x.setAttribute("aria-pressed",String(x.dataset.r===s.role))});
-    if(focusId&&$(focusId)&&document.activeElement===document.body){var f=$(focusId);if(f.disabled){f=$("demo-status")}if(f&&!f.disabled)f.focus({preventScroll:true})}
+    // If the control just used is gone or now disabled, keep keyboard users in the demo at "Go to next step".
+    if(focusId&&document.activeElement===document.body){var f=$(focusId);if(!f||f.disabled)f=$("demo-next-go");if(f)f.focus({preventScroll:true})}
   }
-  $("demo-app").addEventListener("change",function(e){var c=e.target.dataset&&e.target.dataset.c;if(!c)return;cur().checks[c]=e.target.checked;render()});
+  $("demo-app").addEventListener("change",function(e){var c=e.target.dataset&&e.target.dataset.c;if(!c)return;var d=def(cur(),s.ver);cur().checks[c]=e.target.checked;
+    s.last=(e.target.checked?"Confirmed: ":"Unconfirmed: ")+d.checks.filter(function(x){return x[0]===c})[0][1]+".";render()});
   $("demo-app").addEventListener("click",function(e){
     var t=e.target.closest("button");if(!t||t.disabled)return;var id=t.id,v=cur(),d=def(v,s.ver);
+    if(id==="demo-next-go"){var g=$(next().go);if(g){g.scrollIntoView({block:"center"});g.focus({preventScroll:true})}return}
     if(t.dataset.r){s.role=t.dataset.r;render();return}
     if(id==="demo-restart"){reset();render();$("demo-restart").focus();return}
-    if(id==="demo-interpret-ack")s.read=true;
-    else if(id==="demo-plan-room"||id==="demo-plan-wait"){var p=id.slice(10);if(v.plan!==p){v.plan=p;v.checks={};if(v.decision==="declined")v.decision=null}}
-    else if(s.role==="manager"&&id==="demo-approve"){v.decision="approved";log("Duty Manager approved exception for "+d.name+".")}
-    else if(s.role==="manager"&&id==="demo-hold"){v.decision="held";log("Duty Manager put "+d.name+" on hold.")}
-    else if(s.role==="manager"&&id==="demo-resume"){v.decision=null;log("Duty Manager resumed review of "+d.name+".")}
-    else if(s.role==="manager"&&id==="demo-decline"){log("Duty Manager declined "+d.name+".");v.decision="declined";v.plan=null;v.checks={}}
-    else if(id==="demo-dispatch"){v.dispatched=true;log("Dispatched owned tasks for "+d.name+" (separate from approval).")}
-    else if(id.indexOf("demo-ack-")===0)v.acks[id.slice(9)]=true;
-    else if(id.indexOf("demo-evidence-")===0)v.ev[id.slice(14)]=true;
-    else if(id==="demo-accept"){v.accepted=true;log("Reception recorded the family's acceptance of "+d.name+".")}
-    else if(id==="demo-delay"){s.delay=true;s.hist.forEach(function(e){if(e.ver===0&&/approved/.test(e.t))e.tag="Invalidated by 3:25pm repair delay"});s.ver=1;var nv=V();nv.plan=s.v[0].plan;s.v.push(nv);s.hist.push({ver:1,t:"Repair delay invalidated version 1 commitment and approval. Revised response required.",tag:""})}
+    if(id==="demo-interpret-ack"){s.read=true;s.last="Signals and the scripted interpretation were reviewed."}
+    else if(id==="demo-plan-room"||id==="demo-plan-wait"){var p=id.slice(10);if(v.plan!==p){v.plan=p;v.checks={};if(v.decision==="declined")v.decision=null}s.last="Response chosen: "+P[p][s.ver].name+". Its checks start unconfirmed."}
+    else if(s.role==="manager"&&id==="demo-approve"){v.decision="approved";log("Duty Manager approved exception for "+d.name+".");s.last="Duty Manager approved the exception. Nothing is sent until tasks are dispatched."}
+    else if(s.role==="manager"&&id==="demo-hold"){v.decision="held";log("Duty Manager put "+d.name+" on hold.");s.last="Duty Manager put the exception on hold."}
+    else if(s.role==="manager"&&id==="demo-resume"){v.decision=null;log("Duty Manager resumed review of "+d.name+".");s.last="Duty Manager resumed review."}
+    else if(s.role==="manager"&&id==="demo-decline"){log("Duty Manager declined "+d.name+".");s.last="Duty Manager declined "+d.name+". The case stays open for a new plan.";v.decision="declined";v.plan=null;v.checks={}}
+    else if(id==="demo-dispatch"){v.dispatched=true;log("Dispatched owned tasks for "+d.name+" (separate from approval).");s.last="Owned tasks were dispatched to Reception, Housekeeping, Maintenance and Guest services."}
+    else if(id.indexOf("demo-ack-")===0){v.acks[id.slice(9)]=true;s.last=ROLES[id.slice(9)]+" acknowledged its task."}
+    else if(id.indexOf("demo-evidence-")===0){var k=id.slice(14);v.ev[k]=true;s.last="Evidence recorded: "+d.ev.filter(function(x){return x[0]===k})[0][1]+"."}
+    else if(id==="demo-accept"){v.accepted=true;log("Reception recorded the family's acceptance of "+d.name+".");s.last="Reception recorded the family's acceptance."}
+    else if(id==="demo-delay"){var gap=8-count(0);s.delay=true;s.hist.forEach(function(e){if(e.ver===0&&/approved/.test(e.t))e.tag="Invalidated by 3:25pm repair delay"});s.ver=1;var nv=V();nv.plan=s.v[0].plan;s.v.push(nv);
+      s.hist.push({ver:1,t:"Repair delay invalidated version 1 commitment and approval. Revised response required."+(gap?" Version 1 superseded with "+gap+" steps unrecorded.":""),tag:""});
+      s.last="3:25pm: the WO-1182 part is delayed, so room 304 cannot be ready today. The version 1 commitment and its approval no longer stand; fresh checks and renewed approval are needed."}
     else return;
     render();
   });
@@ -763,6 +928,21 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
   $("aiw-reset").addEventListener("click",function(){i=0;role="reception";ev="missing";
     [].forEach.call(document.querySelectorAll("#ai-in-the-work .aiw-chip"),function(x){x.setAttribute("aria-pressed",(x.id==="aiw-role-reception"||x.id==="aiw-evidence-missing")?"true":"false")});render();$("aiw-next").focus();});
   render();
+})();
+</script>
+<script>
+(function(){
+  // Compact navigation below 960px. Without this script the full link list stays visible.
+  var header=document.getElementById("site-header"),btn=document.getElementById("nav-toggle"),nav=document.getElementById("site-nav");
+  var compact=window.matchMedia("(max-width:960px)");
+  header.classList.add("js-menu");btn.hidden=false;
+  function set(open,restore){header.classList.toggle("open",open);btn.setAttribute("aria-expanded",String(open));if(!open&&restore)btn.focus()}
+  btn.addEventListener("click",function(){var open=btn.getAttribute("aria-expanded")!=="true";set(open);if(open)nav.querySelector("a").focus()});
+  nav.addEventListener("click",function(e){if(e.target.closest("a")&&compact.matches)set(false)});
+  header.addEventListener("keydown",function(e){if(e.key==="Escape"&&btn.getAttribute("aria-expanded")==="true"){e.preventDefault();set(false,true)}});
+  header.addEventListener("focusout",function(e){if(compact.matches&&e.relatedTarget&&!header.contains(e.relatedTarget))set(false)});
+  document.addEventListener("click",function(e){if(!header.contains(e.target))set(false)});
+  compact.addEventListener("change",function(){set(false)});
 })();
 </script>
 </body>
