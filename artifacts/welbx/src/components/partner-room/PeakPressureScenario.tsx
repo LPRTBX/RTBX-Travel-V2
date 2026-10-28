@@ -82,8 +82,8 @@ export function PeakPressureScenario({ state, setState, onRestart }: {
 
   return (
     <section id="peak-pressure" className="pk" aria-labelledby="peak-pressure-title">
-      <p className="pk-eyebrow">Stage 3 · Harbour Hotel · planned simulation</p>
-      <h2 id="peak-pressure-title">Peak-period team pressure: a wellbeing and safety intervention, decided by a person.</h2>
+      <p className="pk-eyebrow">Coordinated Response · Harbour Hotel · planned simulation</p>
+      <h2 id="peak-pressure-title">Peak-pressure response: a wellbeing and safety intervention, decided by a person.</h2>
       <p className="pk-lead">
         A busy arrival period meets a short-staffed shift. No single reading proves anything, but when several independent signals point the same way, JALDO asks the accountable manager to review the pattern. The manager decides; named owners act; results are measured afterwards. Approval, execution and verified outcome are recorded separately.
       </p>

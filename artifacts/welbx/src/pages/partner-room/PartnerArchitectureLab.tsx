@@ -282,10 +282,10 @@ export default function PartnerArchitectureLab() {
 
         <section style={{ ...box, marginTop: 26, padding: 24, borderTop: "2px solid #f59e0b" }}>
           <h3 style={{ margin: "0 0 8px" }}>Next story: pressure on the team, then a disruption across hotels.</h3>
-          <p style={{ ...muted, lineHeight: 1.65, margin: "0 0 16px", maxWidth: 900 }}>Stage 3 extends coordination and reviewed learning across properties. Explore peak-pressure wellbeing support or portfolio disruption. Both are fictional planned simulations, not live execution. Approval is not delivery; evidence must confirm the response. No illustrative outcome becomes real ROI.</p>
+          <p style={{ ...muted, lineHeight: 1.65, margin: "0 0 16px", maxWidth: 900 }}>Coordinated Response extends coordination and reviewed learning across properties. See the hotel respond under pressure, or explore Coordination across hotels. Both are fictional planned simulations, not live execution. Approval is not delivery; evidence must confirm the response. No illustrative outcome becomes real ROI.</p>
           <div className="travel-architecture-actions">
-            <Link className="travel-architecture-action" href="/partner-room/product-proof/stage-3-operating-layer?scenario=peak">Peak-pressure wellbeing story →</Link>
-            <Link className="travel-architecture-action" href="/partner-room/product-proof/stage-3-operating-layer?scenario=portfolio">Portfolio disruption story →</Link>
+            <Link className="travel-architecture-action" href="/partner-room/product-proof/stage-3-operating-layer?scenario=peak">Peak-pressure response →</Link>
+            <Link className="travel-architecture-action" href="/partner-room/product-proof/stage-3-operating-layer?scenario=portfolio">Coordination across hotels →</Link>
             <Link className="travel-architecture-action" href="/partner-room/build-configure">Build & Configure →</Link>
             <Link className="travel-architecture-action" href="/partner-room/integration-brief">Integration →</Link>
             <Link className="travel-architecture-action" href="/partner-room/operating-evolution">Watch the operation evolve →</Link>

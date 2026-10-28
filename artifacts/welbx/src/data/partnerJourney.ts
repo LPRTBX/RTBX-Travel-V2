@@ -173,12 +173,12 @@ export const GUIDED_ROUTE: JourneyStep[] = [
   },
   {
     id: "stage-3",
-    title: "Stage 3",
+    title: "Coordinated Response",
     path: "/partner-room/product-proof/stage-3-operating-layer",
-    summary: "See the planned connected operating layer, simulated end to end.",
+    summary: "See the hotel respond under pressure.",
     shows: ["signal", "action", "evidence"],
     orientation: {
-      onScreen: "The planned connected operating layer, simulated for peak pressure and a portfolio disruption.",
+      onScreen: "Peak-pressure response and Coordination across hotels: fictional simulations of planned coordination.",
       doHere: "Choose a story and step through it. Note what stays open at each step.",
       forHotel: "How coordination could extend across teams and properties. Planned and simulated, not live.",
     },
