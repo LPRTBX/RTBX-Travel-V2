@@ -25,19 +25,19 @@ p{margin:16px 0;color:var(--muted);font-size:16px}
 .eyebrow::before{content:"";width:26px;height:2px;background:var(--orange)}
 .skip{position:absolute;left:10px;top:8px;transform:translateY(-220%);background:var(--ivory);color:var(--navy);padding:14px;z-index:10}
 .skip:focus{transform:none}
-.topbar{background:var(--deep);color:#d3e0e3;font-size:12.5px}
-.topbar .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-block:8px}
-.topbar a{min-height:32px;display:inline-flex;align-items:center;text-underline-offset:4px}
-header{background:var(--navy);color:#f8f6f1;display:flex;justify-content:space-between;align-items:center;gap:24px;padding:20px 48px;flex-wrap:wrap}
-.brand{display:flex;align-items:center;gap:18px;text-decoration:none}
-.brand img{width:126px;height:auto;display:block}
-.brand span.sub{font-size:12px;letter-spacing:.23em;text-transform:uppercase;border-left:1px solid #f8f6f155;padding-left:18px}
-nav{display:flex;gap:24px;flex-wrap:wrap;font-size:13px}
-nav a{min-height:44px;display:inline-flex;align-items:center;text-decoration:none}
-nav a:hover{text-decoration:underline;text-underline-offset:6px}
-nav .partner{border-bottom:1px solid #f8f6f170}
-.topbar .tb-partner,.hdr-demo,.menu-btn{display:none}
-.menu-btn{align-items:center;gap:10px;min-height:44px;padding:8px 14px;background:transparent;color:#f8f6f1;border:1px solid #f8f6f188;font:600 14px/1 inherit;font-family:inherit;cursor:pointer}
+header{background:var(--navy);color:#f8f6f1;border-bottom:1px solid #a8dedb22}
+.hdr-in{width:min(1280px,calc(100% - 112px));margin-inline:auto;display:flex;align-items:center;gap:20px 36px;padding-block:22px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:18px;text-decoration:none;flex:none}
+.brand img{width:128px;height:auto;display:block;flex-shrink:0}
+.brand span.sub{font-size:12px;letter-spacing:.23em;text-transform:uppercase;border-left:1px solid #f8f6f155;padding-left:18px;white-space:nowrap}
+header nav{display:flex;align-items:center;gap:4px 30px;flex-wrap:wrap;font-size:14px;margin-left:auto}
+header nav a{min-height:44px;display:inline-flex;align-items:center;text-decoration:none;color:#e3ecec}
+header nav a:hover{color:#f8f6f1;text-decoration:underline;text-decoration-color:var(--orange);text-underline-offset:7px}
+header nav .partner{color:#a9bfc3;font-size:13px;padding-left:26px;border-left:1px solid #f8f6f133}
+.hdr-cta{display:flex;align-items:center;gap:14px;flex:none}
+.hdr-demo{display:inline-flex;align-items:center;min-height:46px;padding:10px 20px;background:var(--orange);color:var(--deep);font-weight:700;font-size:14px;text-decoration:none;white-space:nowrap;transition:background .2s}
+.hdr-demo:hover{background:#f4a574}
+.menu-btn{display:none;align-items:center;gap:10px;min-height:44px;padding:8px 14px;background:transparent;color:#f8f6f1;border:1px solid #f8f6f188;font:600 14px/1 inherit;font-family:inherit;cursor:pointer;white-space:nowrap;flex:none}
 .menu-btn .bars{width:16px;height:2px;background:currentColor;position:relative}
 .menu-btn .bars::before,.menu-btn .bars::after{content:"";position:absolute;left:0;width:16px;height:2px;background:currentColor}
 .menu-btn .bars::before{top:-5px}.menu-btn .bars::after{top:5px}
@@ -45,29 +45,25 @@ nav .partner{border-bottom:1px solid #f8f6f170}
 .menu-btn[aria-expanded="true"] .bars::before{top:0;transform:rotate(45deg)}
 .menu-btn[aria-expanded="true"] .bars::after{top:0;transform:rotate(-45deg)}
 .menu-btn:focus-visible,.hdr-demo:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+.hd-s{display:none}
+@media(max-width:1180px){.hdr-in{gap:16px 26px}header nav{gap:4px 22px}}
 @media(max-width:960px){
-  .topbar .tb-note{display:none}
-  .topbar .tb-partner{display:inline-flex;font-weight:600}
-  header.js-menu{padding:12px 20px;gap:10px 12px;flex-wrap:wrap}
-  /* One row at any width: the brand takes what is left; the controls never wrap. */
-  header.js-menu .brand{gap:12px;flex:1 1 0;min-width:0;container-type:inline-size}
-  header.js-menu .brand img{flex-shrink:0}
-  header.js-menu .brand span.sub{white-space:nowrap}
-  header.js-menu .hdr-demo,header.js-menu .menu-btn{flex:none;white-space:nowrap}
-  header.js-menu nav{flex-basis:100%}
-  header.js-menu .brand img{width:96px}
-  header.js-menu .brand span.sub{padding-left:12px;letter-spacing:.18em;font-size:11px}
-  header.js-menu .hdr-demo{display:inline-flex;align-items:center;min-height:44px;padding:8px 14px;background:var(--orange);color:var(--deep);font-weight:700;font-size:14px;text-decoration:none}
+  .hdr-in{width:calc(100% - 48px);padding-block:14px;gap:10px 12px}
+  .brand{gap:12px;flex:1 1 0;min-width:0}
+  .brand img{width:100px}
+  .brand span.sub{padding-left:12px;letter-spacing:.18em;font-size:11px}
+  /* No-JS fallback: links wrap onto their own row and stay visible. */
+  header nav{order:3;flex-basis:100%;margin-left:0;gap:0 20px}
+  header nav .partner{padding-left:0;border-left:0}
   header.js-menu .menu-btn{display:inline-flex}
-  header.js-menu nav{display:none;width:100%;flex-direction:column;gap:0;font-size:15px;padding:6px 0 4px;border-top:1px solid #f8f6f133}
+  header.js-menu nav{display:none;flex-direction:column;align-items:stretch;gap:0;font-size:15px;padding:6px 0 4px;border-top:1px solid #f8f6f133}
   header.js-menu.open nav{display:flex}
   header.js-menu nav a{min-height:48px;border-bottom:1px solid #f8f6f122}
-  header.js-menu nav .partner{margin-top:10px;justify-content:center;border:1px solid var(--mist);color:var(--mist);font-weight:600}
+  header.js-menu nav .partner{margin-top:12px;justify-content:center;border:1px solid #a8dedb88;color:var(--mist);font-weight:600;font-size:14px}
 }
-.hd-s{display:none}
-@media(max-width:440px){.hd-l{display:none}.hd-s{display:inline}header.js-menu .brand{gap:10px}header.js-menu .brand span.sub{padding-left:10px;letter-spacing:.14em}header.js-menu .menu-btn{padding:8px 12px}}
-@media(max-width:400px){.topbar .tb-back{display:none}.topbar .wrap{flex-wrap:nowrap}.topbar a{white-space:nowrap}}
-@container (max-width:169px){.brand span.sub{display:none}}
+@media(max-width:600px){.hdr-in{width:calc(100% - 40px)}}
+@media(max-width:440px){.hd-l{display:none}.hd-s{display:inline}.hdr-in{width:calc(100% - 32px);gap:10px 8px}.brand{gap:9px}.brand img{width:84px}.brand span.sub{padding-left:9px;letter-spacing:.12em;font-size:10.5px}.hdr-demo{padding:8px 12px;min-height:44px}.menu-btn{padding:8px 10px;gap:8px}.hdr-cta{gap:8px}}
+@media(max-width:360px){.brand img{width:74px}.brand{gap:7px}.brand span.sub{padding-left:7px;letter-spacing:.08em}.hdr-demo{padding:8px 10px}}
 .hero{position:relative;isolation:isolate;background:var(--navy);color:#f8f6f1}
 .hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:65% center;z-index:-2}
 .hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(6,26,37,.94),rgba(6,26,37,.8) 42%,rgba(6,26,37,.25) 80%)}
@@ -207,8 +203,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;
 footer strong{color:var(--navy);display:block;font-size:14px}
 footer p{font-size:12.5px;max-width:560px;margin:0}
 @media(max-width:1000px){.loop ol{grid-template-columns:repeat(3,1fr);row-gap:28px}}
-@media(max-width:900px){.wrap{width:calc(100% - 56px)}header{padding:18px 28px}.split,.coord-grid,.priv-grid,.contact-grid{grid-template-columns:1fr;gap:36px}.ex-grid{grid-template-columns:1fr}.ex.wide{grid-row:auto}.honest-grid{grid-template-columns:1fr}.col+.col{border-left:0;border-top:1px solid var(--line)}.stage{grid-template-columns:1fr}.steps{border-right:0;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:4px 18px}}
-@media(max-width:600px){.wrap{width:calc(100% - 40px)}header{padding:16px 20px}nav{width:100%;gap:2px 16px;font-size:12.5px}.brand img{width:108px}.hero .wrap{padding-block:60px 52px}.hero::after{background:linear-gradient(90deg,rgba(6,26,37,.94),rgba(6,26,37,.75))}.hero p.intro,.lede{font-size:16px}.band,.demo,.contact{padding-block:56px}.loop ol{grid-template-columns:1fr 1fr}.gaps li{grid-template-columns:1fr;gap:4px}.things{grid-template-columns:1fr}.rules{grid-template-columns:1fr}.ex{padding:24px 20px}.ex dl{grid-template-columns:1fr}.ex dd{border-top:0;padding-top:0}.panel{padding:24px 20px}.steps{padding:16px 20px}.steps li{padding:4px 0;font-size:13px}.btn{width:100%;justify-content:space-between}}
+@media(max-width:900px){.wrap{width:calc(100% - 56px)}.split,.coord-grid,.priv-grid,.contact-grid{grid-template-columns:1fr;gap:36px}.ex-grid{grid-template-columns:1fr}.ex.wide{grid-row:auto}.honest-grid{grid-template-columns:1fr}.col+.col{border-left:0;border-top:1px solid var(--line)}.stage{grid-template-columns:1fr}.steps{border-right:0;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:4px 18px}}
+@media(max-width:600px){.wrap{width:calc(100% - 40px)}.hero .wrap{padding-block:60px 52px}.hero::after{background:linear-gradient(90deg,rgba(6,26,37,.94),rgba(6,26,37,.75))}.hero p.intro,.lede{font-size:16px}.band,.demo,.contact{padding-block:56px}.loop ol{grid-template-columns:1fr 1fr}.gaps li{grid-template-columns:1fr;gap:4px}.things{grid-template-columns:1fr}.rules{grid-template-columns:1fr}.ex{padding:24px 20px}.ex dl{grid-template-columns:1fr}.ex dd{border-top:0;padding-top:0}.panel{padding:24px 20px}.steps{padding:16px 20px}.steps li{padding:4px 0;font-size:13px}.btn{width:100%;justify-content:space-between}}
 /* AI in the work */
 .aiw{background:var(--ivory);border-bottom:1px solid var(--line)}
 .aiw-head{display:grid;grid-template-columns:1.4fr 1fr;gap:40px;align-items:end}
@@ -327,24 +323,23 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-<div class="topbar"><div class="wrap"><a href="https://wearejaldo.com">&larr; <span class="tb-back">Back to </span>JALDO<span class="tb-note">&nbsp;(wearejaldo.com)</span></a><span class="tb-note">Public overview. Includes one fictional sample.</span><a class="tb-partner" href="/partner-access">Partner Room &middot; code required</a></div></div>
 <header id="site-header">
+ <div class="hdr-in">
   <a class="brand" href="/" aria-label="JALDO Travel public overview">
     <img src="/brand/jaldo-logo-white.webp" alt="JALDO" width="160" height="42">
     <span class="sub">Travel</span>
   </a>
-  <a class="hdr-demo" href="#sample-demo"><span class="hd-l">Try the demo</span><span class="hd-s">Demo</span></a>
-  <button type="button" class="menu-btn" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" hidden><span class="bars" aria-hidden="true"></span>Menu</button>
   <nav id="site-nav" aria-label="Main navigation">
-    <a href="#coordinated-response">Friday, 4pm</a>
-    <a href="/public-demo#sample-demo">Sample demo</a>
-    <a href="#outcomes">Outcomes</a>
     <a href="#existing-systems">How it works</a>
-    <a href="#ai-in-the-work">Where AI fits</a>
-    <a href="#principles">You stay in control</a>
-    <a href="#contact">Discuss a pilot</a>
-    <a class="partner" href="/partner-access">Partner Room (access code required)</a>
+    <a href="#coordinated-response">In action</a>
+    <a href="#outcomes">Outcomes</a>
+    <a class="partner" href="/partner-access">Partner Room</a>
   </nav>
+  <div class="hdr-cta">
+    <a class="hdr-demo" href="/public-demo#sample-demo" aria-label="Explore the demo"><span class="hd-l">Explore the demo</span><span class="hd-s">Demo</span></a>
+    <button type="button" class="menu-btn" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" hidden><span class="bars" aria-hidden="true"></span>Menu</button>
+  </div>
+ </div>
 </header>
 <main id="main">
   <section class="hero" aria-labelledby="h1">
@@ -681,7 +676,7 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
     </div>
   </section>
 </main>
-<footer><div class="wrap"><div><strong>JALDO Travel</strong>Hospitality coordination, accountably followed through.<br><a href="https://wearejaldo.com">wearejaldo.com</a></div><p>Illustrative imagery. Examples and sample demo are fictional. Synthetic working proof only; no customer deployment, verified outcomes or endorsement implied.</p></div></footer>
+<footer><div class="wrap"><div><strong>JALDO Travel</strong>Hospitality coordination, accountably followed through.<br><a href="https://wearejaldo.com">&larr; Back to JALDO (wearejaldo.com)</a></div><p>Illustrative imagery. Examples and sample demo are fictional. Synthetic working proof only; no customer deployment, verified outcomes or endorsement implied.</p></div></footer>
 
 <script>
 (function(){
@@ -935,6 +930,10 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
   // Compact navigation below 960px. Without this script the full link list stays visible.
   var header=document.getElementById("site-header"),btn=document.getElementById("nav-toggle"),nav=document.getElementById("site-nav");
   var compact=window.matchMedia("(max-width:960px)");
+  var row=header.querySelector(".hdr-in"),controls=header.querySelector(".hdr-cta");
+  // Keep reading and keyboard order aligned with the visible layout at each width.
+  function order(){if(compact.matches)row.appendChild(nav);else row.insertBefore(nav,controls)}
+  order();
   header.classList.add("js-menu");btn.hidden=false;
   function set(open,restore){header.classList.toggle("open",open);btn.setAttribute("aria-expanded",String(open));if(!open&&restore)btn.focus()}
   btn.addEventListener("click",function(){var open=btn.getAttribute("aria-expanded")!=="true";set(open);if(open)nav.querySelector("a").focus()});
@@ -942,7 +941,7 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
   header.addEventListener("keydown",function(e){if(e.key==="Escape"&&btn.getAttribute("aria-expanded")==="true"){e.preventDefault();set(false,true)}});
   header.addEventListener("focusout",function(e){if(compact.matches&&e.relatedTarget&&!header.contains(e.relatedTarget))set(false)});
   document.addEventListener("click",function(e){if(!header.contains(e.target))set(false)});
-  compact.addEventListener("change",function(){set(false)});
+  compact.addEventListener("change",function(){set(false);order()});
 })();
 </script>
 </body>
