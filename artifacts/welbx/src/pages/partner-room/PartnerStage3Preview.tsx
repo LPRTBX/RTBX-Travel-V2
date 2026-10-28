@@ -65,7 +65,7 @@ export default function PartnerStage3Preview() {
         <div style={{ fontSize: 8, letterSpacing: "0.2em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase", fontWeight: 700, marginBottom: 10, display: "flex", gap: 8, alignItems: "center" }}>
           <Link href="/partner-room/product-proof"><span style={{ cursor: "pointer", color: "rgba(255,255,255,0.35)" }}>Product Proof</span></Link>
           <span style={{ color: "rgba(255,255,255,0.12)" }}>·</span>
-          <span>Stage 3 Operating Layer</span>
+          <span>Coordinated Response</span>
         </div>
 
         {/* Header */}
@@ -76,10 +76,10 @@ export default function PartnerStage3Preview() {
             </div>
           </div>
           <h1 style={{ fontSize: 34, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", marginBottom: 14, lineHeight: 1.1 }}>
-            JALDO Stage 3 · Connected scenario
+            When pressure builds, the whole hotel responds together.
           </h1>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.45)", lineHeight: 1.8, maxWidth: 720, marginBottom: 24 }}>
-            Compare today’s working demonstration with two fictional Travel scenarios: peak-period team pressure and a Portfolio disruption. Safety intervention starts earlier; Stage 3 extends coordination and reviewed learning across properties.
+            Connect guest needs, staff capacity, room readiness and safety signals. Give each team a clear next action, keep decisions with authorised people, and verify what happened.
           </p>
 
           {/* Disclaimer */}
@@ -92,7 +92,7 @@ export default function PartnerStage3Preview() {
             marginBottom: 12,
           }}>
             <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.4)", lineHeight: 1.7, margin: 0 }}>
-              Stage 3 is planned. All people, properties, signals, decisions, assignments, notifications, outcomes and metrics here are simulated. No live integration, message, task, partner request, room allocation or private-support action occurs.
+              Fictional simulations of planned coordination: Peak-pressure response and Coordination across hotels. Safety intervention starts earlier; these demonstrations extend coordination and reviewed learning across properties. All people, properties, signals, decisions, assignments, notifications, outcomes and metrics here are simulated. No live integration, message, task, partner request, room allocation or private-support action occurs.
             </p>
           </div>
 
@@ -113,7 +113,7 @@ export default function PartnerStage3Preview() {
             Explore today · Working Proof
           </button>
           <button type="button" aria-pressed={view === "stage3"} onClick={() => setView("stage3")} style={{ padding: "12px 18px", cursor: "pointer", border: "1px solid #a78bfa", background: view === "stage3" ? "#a78bfa" : "transparent", color: view === "stage3" ? "#101113" : "#a78bfa", fontWeight: 700 }}>
-            Experience Stage 3 · Planned simulation
+            See the hotel respond under pressure · Planned simulation
           </button>
         </div>
 
@@ -274,7 +274,7 @@ export default function PartnerStage3Preview() {
         <div style={{ marginBottom: 72 }}>
           <div style={{ marginBottom: 18 }}>
             <div style={{ fontSize: 8, letterSpacing: "0.18em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase", fontWeight: 700, marginBottom: 6 }}>Section E</div>
-            <div style={{ fontSize: 17, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em" }}>Role-Based Views at Stage 3</div>
+            <div style={{ fontSize: 17, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em" }}>Coordinated Response · Role views</div>
           </div>
 
           <div className="rtbx-grid-4" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
@@ -297,7 +297,7 @@ export default function PartnerStage3Preview() {
         <div style={{ marginBottom: 48 }}>
           <div style={{ marginBottom: 18 }}>
             <div style={{ fontSize: 8, letterSpacing: "0.18em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase", fontWeight: 700, marginBottom: 6 }}>Section F</div>
-            <div style={{ fontSize: 17, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em" }}>Stage 3 System Flow</div>
+            <div style={{ fontSize: 17, fontWeight: 800, color: "#fff", letterSpacing: "-0.01em" }}>Coordinated Response · How it works</div>
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: 0, maxWidth: 560 }}>

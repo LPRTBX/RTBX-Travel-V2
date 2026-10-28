@@ -11,7 +11,7 @@ export const PRIMARY_NAV: NavItem[] = [
   { label: "Working Proof", path: "/partner-room/operations" },
   { label: "Evidence", path: "/partner-room/operations#generated-evidence" },
   { label: "Calculator", path: "/partner-room/proof-calculator" },
-  { label: "Stage 3", path: "/partner-room/product-proof/stage-3-operating-layer" },
+  { label: "Coordinated Response", path: "/partner-room/product-proof/stage-3-operating-layer" },
   { label: "Pilot", path: "/partner-room/pilot-model" },
   { label: "Next Step", path: "/partner-room/next-step" },
 ];
@@ -66,7 +66,7 @@ export const NAV_GROUPS: NavGroup[] = [
   {
     label: "Pilot and Partnership",
     items: [
-      { label: "Stage 3 Operating Layer", path: "/partner-room/product-proof/stage-3-operating-layer" },
+      { label: "Coordinated Response", path: "/partner-room/product-proof/stage-3-operating-layer" },
       { label: "Pilot Model",       path: "/partner-room/pilot-model" },
       { label: "Deployment",        path: "/partner-room/rollout-model" },
       { label: "Partner Ecosystem", path: "/partner-room/partner-ecosystem" },

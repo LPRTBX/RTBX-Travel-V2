@@ -23,9 +23,9 @@ export default function Stage3PeakExperience() {
 
   return (
     <>
-      <div role="group" aria-label="Choose a Stage 3 scenario" style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 24 }}>
-        <button type="button" data-testid="scenario-peak-pressure" aria-pressed={scenario === "peak"} onClick={() => setScenario("peak")} style={tab(scenario === "peak")}>Peak-period team pressure</button>
-        <button type="button" data-testid="scenario-portfolio-disruption" aria-pressed={scenario === "portfolio"} onClick={() => setScenario("portfolio")} style={tab(scenario === "portfolio")}>Portfolio disruption</button>
+      <div role="group" aria-label="Choose a Coordinated Response scenario" style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 24 }}>
+        <button type="button" data-testid="scenario-peak-pressure" aria-pressed={scenario === "peak"} onClick={() => setScenario("peak")} style={tab(scenario === "peak")}>Peak-pressure response</button>
+        <button type="button" data-testid="scenario-portfolio-disruption" aria-pressed={scenario === "portfolio"} onClick={() => setScenario("portfolio")} style={tab(scenario === "portfolio")}>Coordination across hotels</button>
       </div>
       <div hidden={scenario !== "peak"}>
         <PeakPressureScenario key={run} state={state} setState={setState} onRestart={restart} />

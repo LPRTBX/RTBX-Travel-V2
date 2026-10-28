@@ -111,9 +111,9 @@ export default function PartnerPilotExpansionPreview() {
         <div style={{ marginBottom: 60 }}>
           <div className="rtbx-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
             {[
-              { stage: "Stage 1 — Push-First MVP", color: "#a8dedb", desc: "Synthetic staff, guest and operator-entered signals. Manual intake. Governed workflow demonstrated.", status: "Working Proof" },
-              { stage: "Stage 2 — Integration-Assisted Pilot", color: "#10b981", desc: "PMS, task, messaging, weather and marketplace signals added only after integrations are approved.", status: "Planned" },
-              { stage: "Stage 3 — Multi-Site Operating Layer", color: "#a78bfa", desc: "Proposed multi-property signal visibility, pattern insights, value evaluation and scale.", status: "Planned" },
+              { stage: "Deployment phase 1 — Push-First MVP", color: "#a8dedb", desc: "Synthetic staff, guest and operator-entered signals. Manual intake. Governed workflow demonstrated.", status: "Working Proof" },
+              { stage: "Deployment phase 2 — Integration-Assisted Pilot", color: "#10b981", desc: "PMS, task, messaging, weather and marketplace signals added only after integrations are approved.", status: "Planned" },
+              { stage: "Deployment phase 3 — Coordination across hotels", color: "#a78bfa", desc: "Proposed multi-property signal visibility, pattern insights, value evaluation and scale.", status: "Planned" },
             ].map(s => (
               <div key={s.stage} style={{
                 padding: "20px 20px",
@@ -183,7 +183,7 @@ export default function PartnerPilotExpansionPreview() {
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
             {[
               { label: "Working Proof", href: WORKING_PROOF_PATH, ext: false },
-              { label: "Stage 3 Operating Layer", href: "/partner-room/product-proof/stage-3-operating-layer", ext: false },
+              { label: "Coordinated Response", href: "/partner-room/product-proof/stage-3-operating-layer", ext: false },
               { label: "Signal Capture", href: "/partner-room/product-proof/signal-capture", ext: false },
               { label: "Integration Brief", href: "/partner-room/integration-brief", ext: false },
               { label: "Product Proof", href: "/partner-room/product-proof", ext: false },

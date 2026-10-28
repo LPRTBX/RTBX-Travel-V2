@@ -7,12 +7,12 @@ const proofPaths = [
     detail: "Approve a synthetic response, check delivery, keep the original result and review a separate replay. Missing evidence and insufficient capacity stay visible.",
   },
   {
-    title: "Peak-period team pressure",
+    title: "Peak-pressure response",
     href: "/partner-room/product-proof/stage-3-operating-layer",
     detail: "Inspect the existing wellbeing and staffing simulation. Approval, staff release and arrival are separate; arrival evidence is required before break cover.",
   },
   {
-    title: "Portfolio disruption",
+    title: "Coordination across hotels",
     href: "/partner-room/product-proof/stage-3-operating-layer?scenario=portfolio",
     detail: "Compare network and local choices. Changed room capacity reopens approvals; receipts and named follow-up keep the unresolved booking visible.",
   },
@@ -58,7 +58,7 @@ export function PressureProofEntry() {
         ))}
       </div>
       <p style={{ color: "#d4e1e5", lineHeight: 1.7 }}>
-        Safety support starts earlier. Stage 3 explores broader coordination and reviewed learning across properties;
+        Safety support starts earlier. Coordinated Response explores broader coordination and reviewed learning across properties;
         it is not a live capability. Private staff support details belong only with authorised support roles, not broad team or portfolio views.
         Demonstration views are not authenticated role permissions.
       </p>
