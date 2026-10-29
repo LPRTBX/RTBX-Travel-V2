@@ -22,7 +22,7 @@ const SECTIONS = [
     items: [
       { label: "Moment Response Working Proof", desc: "Interactive, synthetic capture, classification, assignment, drafted communication, escalation and assurance logging.", href: WORKING_PROOF_PATH, cta: "Open Working Proof", color: "#a8dedb", ext: false },
       { label: "Integration-Assisted Pilot Preview", desc: "How the Moment Response workflow becomes faster and more automated when PMS, task, messaging, weather and marketplace integrations are approved and connected.", href: "/partner-room/product-proof/pilot-expansion-preview", cta: "View Pilot Expansion", color: "#10b981" },
-      { label: "Coordinated Response", desc: "Planned simulations: Peak-pressure response and Coordination across hotels. Synthetic; nothing dispatched.", href: "/partner-room/product-proof/stage-3-operating-layer", cta: "See the hotel respond under pressure", color: "#a78bfa" },
+      { label: "Coordinated Response", desc: "Planned simulations: Peak-pressure response, Coordination across hotels and Coordinate wellbeing support. Synthetic; nothing dispatched.", href: "/partner-room/product-proof/stage-3-operating-layer", cta: "See the hotel respond under pressure", color: "#a78bfa" },
     ],
   },
   {
