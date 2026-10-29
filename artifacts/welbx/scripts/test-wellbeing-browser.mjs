@@ -1,16 +1,20 @@
-// Built-app fixture with an ephemeral credential. No managed access configuration is changed.
+// Anonymous public story by default. --partner preserves the protected-tab regression.
+// An ephemeral fixture credential is used only by that optional protected check.
 import assert from "node:assert/strict";
 import { randomBytes } from "node:crypto";
-import { mkdir } from "node:fs/promises";
+import { mkdir, readdir } from "node:fs/promises";
 import { chromium } from "playwright";
 import { createTravelServer } from "../server/app.mjs";
 import { createAccess } from "../server/access.mjs";
 
 const code = randomBytes(32).toString("hex");
-const server = createTravelServer({ access: createAccess({ getCode: () => code }) });
-await new Promise(resolve => server.listen(0, "127.0.0.1", resolve));
-const base = `http://localhost:${server.address().port}`;
-const path = "/partner-room/product-proof/stage-3-operating-layer?scenario=wellbeing";
+const protectedMode = process.argv.includes("--partner");
+const external = process.argv.find(arg => /^https?:\/\//.test(arg));
+assert(!(external && protectedMode), "Never submit a fixture credential to a managed server");
+const server = external ? null : createTravelServer({ access: createAccess({ getCode: () => code }) });
+if (server) await new Promise(resolve => server.listen(0, "127.0.0.1", resolve));
+const base = external ? external.replace(/\/$/, "") : `http://localhost:${server.address().port}`;
+const path = protectedMode ? "/partner-room/product-proof/stage-3-operating-layer?scenario=wellbeing" : "/public-wellbeing";
 const browser = await chromium.launch({ executablePath: process.env.PLAYWRIGHT_EXECUTABLE_PATH || undefined });
 const outputs = new URL("../../../generated-artifacts/", import.meta.url);
 await mkdir(outputs, { recursive: true });
@@ -20,15 +24,25 @@ try {
     const errors = [];
     page.on("pageerror", e => errors.push(e.message));
     page.on("console", m => { if (/violates.*Content Security Policy/i.test(m.text())) errors.push(m.text()); });
-    await page.goto(base);
-    const entry = page.getByRole("link", { name: "Coordinate wellbeing support", exact: false });
-    assert.equal(await entry.count(), 1);
-    await entry.focus();
-    await page.keyboard.press("Enter");
-    await page.waitForURL("**/partner-access?**");
-    assert.equal(new URL(page.url()).searchParams.get("returnTo"), path);
-    await page.getByLabel("Access code", { exact: true }).fill(code);
-    await page.getByRole("button", { name: "Enter Partner Room", exact: true }).click();
+    assert.equal((await page.context().cookies()).length, 0);
+    if (protectedMode) {
+      await page.goto(base + "/partner-access?returnTo=" + encodeURIComponent(path));
+      await page.getByLabel("Access code", { exact: true }).fill(code);
+      await page.getByRole("button", { name: "Enter Partner Room", exact: true }).click();
+    } else {
+      // Independent direct entry, with no preceding login or cookies.
+      const direct = await browser.newPage({ viewport: { width, height: 950 } });
+      const response = await direct.goto(base + path, { waitUntil: "networkidle" });
+      assert.equal(response.status(), 200);
+      await direct.getByTestId("panel-wellbeing-support").waitFor({ state: "visible" });
+      assert.equal((await direct.context().cookies()).length, 0);
+      await direct.close();
+      await page.goto(base);
+      const entry = page.getByRole("link", { name: "Coordinate wellbeing support", exact: false });
+      assert.equal(await entry.count(), 1);
+      await entry.focus();
+      await page.keyboard.press("Enter");
+    }
     await page.waitForURL(url => url.pathname + url.search === path);
     const panel = page.getByTestId("panel-wellbeing-support");
     await panel.waitFor({ state: "visible" });
@@ -100,18 +114,22 @@ try {
       await panel.locator(".wbs-comms").scrollIntoViewIfNeeded();
       await page.screenshot({ path: new URL("wellbeing-communications-desktop.jpg", outputs).pathname, type: "jpeg", quality: 80 });
     }
-    // Reset isolation: retain portfolio selection while wellbeing reset clears only wellbeing.
-    await page.getByTestId("scenario-portfolio-disruption").click();
-    await page.getByTestId("pd-next").click();
-    await page.getByTestId("pd-choice-network").click();
-    await page.getByTestId("scenario-wellbeing-support").click();
-    assert((await summary()).includes("delivered with receipt"), "scenario switching lost progress");
-    await reset();
-    await page.getByTestId("scenario-portfolio-disruption").click();
-    assert.equal(await page.getByTestId("pd-choice-network").getAttribute("aria-pressed"), "true", "wellbeing reset changed portfolio");
-    await page.getByTestId("scenario-peak-pressure").click();
-    assert(await page.locator("#peak-pressure").isVisible(), "existing pressure scenario missing");
-    await page.getByTestId("scenario-wellbeing-support").click();
+    if (protectedMode) {
+      // Reset isolation: retain portfolio selection while wellbeing reset clears only wellbeing.
+      await page.getByTestId("scenario-portfolio-disruption").click();
+      await page.getByTestId("pd-next").click();
+      await page.getByTestId("pd-choice-network").click();
+      await page.getByTestId("scenario-wellbeing-support").click();
+      assert((await summary()).includes("delivered with receipt"), "scenario switching lost progress");
+      await reset();
+      await page.getByTestId("scenario-portfolio-disruption").click();
+      assert.equal(await page.getByTestId("pd-choice-network").getAttribute("aria-pressed"), "true", "wellbeing reset changed portfolio");
+      await page.getByTestId("scenario-peak-pressure").click();
+      assert(await page.locator("#peak-pressure").isVisible(), "existing pressure scenario missing");
+      await page.getByTestId("scenario-wellbeing-support").click();
+    } else {
+      await reset();
+    }
     await role("Duty Manager"); await disabled("approve");
     // Unavailable recipient and material change: renew every check and owner.
     await checks(); await release();
@@ -138,10 +156,26 @@ try {
     if (width !== 820)
       await page.screenshot({ path: new URL(`wellbeing-${width === 390 ? "phone" : "desktop"}.jpg`, outputs).pathname, type: "jpeg", quality: 80 });
     assert.deepEqual(errors, [], `browser errors: ${errors.join("; ")}`);
-    console.log(`PASS ${width}px: keyboard, consent/checks, hold/decline, communications, delivery/feedback, privacy, unavailable/replan, overdue, reset isolation`);
+    if (!protectedMode) {
+      assert.equal((await page.context().cookies()).length, 0, "public story created a login cookie");
+      assert.equal((await page.request.get(base + "/partner-session")).status(), 401);
+      await page.getByRole("link", { name: "Public overview", exact: true }).focus();
+      await page.keyboard.press("Enter");
+      await page.waitForURL(base + "/");
+      assert(await page.getByRole("link", { name: "Coordinate wellbeing support", exact: false }).isVisible());
+    }
+    console.log(`PASS ${width}px: ${protectedMode ? "protected tabs / reset isolation" : "anonymous direct URL / homepage entry / return / no cookies"}, keyboard, consent/checks, hold/decline, communications, delivery/feedback, privacy, unavailable/replan, overdue, reset`);
     await page.close();
   }
+  // Every chunk of the protected application remains inaccessible, not just its pages.
+  for (const name of await readdir(new URL("../dist/public/assets/", import.meta.url))) {
+    assert.equal((await fetch(base + "/assets/" + name)).status, 401, `protected asset exposed: ${name}`);
+  }
+  for (const address of ["/partner-room/architecture-lab", "/partner-room/scenario-builder", "/partner-room/brief.pdf"]) {
+    assert.equal((await fetch(base + address, { redirect: "manual" })).status, 401, `protected route exposed: ${address}`);
+  }
+  console.log("PASS anonymous protected pages, documents and every protected application asset denied");
 } finally {
   await browser.close();
-  await new Promise(resolve => server.close(resolve));
+  if (server) await new Promise(resolve => server.close(resolve));
 }
