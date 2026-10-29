@@ -12,3 +12,4 @@
 - [Scenario ownership boundaries](scenario-ownership-boundaries.md) — Library explores, Build & Configure validates/activates, and only the Execution Centre runs scenarios.
 - [Authorised decision gate](authorised-decision-gate.md) — approval role, disagreement, escalation acknowledgement and per-scenario requirements are enforced in the engine; use the decision functions.
 - [Commercial resource boundaries](commercial-resource-boundaries.md) — public sample is separate; partner pages/assets/downloads require server entry, never static or unguarded Vite serving.
+- [Wellbeing demo guidance](wellbeing-demo-guidance.md) — role handovers never carry out actions; privacy applies to next-action guidance and counts as well as records.

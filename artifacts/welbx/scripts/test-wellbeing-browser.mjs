@@ -54,11 +54,18 @@ try {
     };
     const action = async id => {
       const button = panel.getByTestId(`button-wellbeing-${id}`);
+      for (const detail of await button.locator("xpath=ancestor::details[not(@open)]").all()) {
+        await detail.locator(":scope > summary").focus();
+        await page.keyboard.press("Enter");
+      }
       assert(await button.isEnabled(), `${width}: ${id} unexpectedly disabled`);
       await button.focus();
       await page.keyboard.press("Enter");
     };
-    const disabled = async id => assert(await panel.getByTestId(`button-wellbeing-${id}`).isDisabled(), `${id} should be held`);
+    const disabled = async id => {
+      const button = panel.getByTestId(`button-wellbeing-${id}`);
+      assert((await button.count()) === 0 || await button.isDisabled(), `${id} should be held or not yet offered`);
+    };
     const summary = () => panel.getByTestId("list-wellbeing-summary").innerText();
     const reset = async () => { await panel.getByTestId("button-wellbeing-reset").click(); };
     const checks = async () => {
@@ -73,13 +80,60 @@ try {
       await role("Housekeeping lead"); await action("reallocate");
       await role(owner); await action("accept"); await action("arrive"); await action("deliver");
     };
+    // The primary action / handover controls complete a run without any implicit action.
+    if (!protectedMode) {
+      assert(!(await summary()).includes("replacement"), "initial plan described as a replacement");
+      assert.equal(await panel.locator(".wbs-primary button").count(), 1);
+      for (const id of ["helped", "needs-support", "pending"]) assert.equal(await panel.getByTestId(`button-wellbeing-${id}`).count(), 0);
+      assert.equal(await panel.locator("button:disabled").count(), 0, "premature disabled controls shown");
+      await page.waitForFunction(() => {
+        const img = document.querySelector(".wbs-photo img");
+        return img?.complete && img.naturalWidth > 0;
+      });
+      for (const initialRole of ["Guest", "Reception"]) {
+        await role(initialRole);
+        await panel.locator(".wbs-hero").scrollIntoViewIfNeeded();
+        if (width !== 820) await page.screenshot({ path: new URL(`wellbeing-after-${initialRole.toLowerCase()}-${width}.jpg`, outputs).pathname, type: "jpeg", quality: 80 });
+      }
+      await role("Guest");
+      const guided = [];
+      for (let step = 0; step < 60 && !guided.includes("followup"); step++) {
+        const primary = panel.locator(".wbs-primary button");
+        if (await primary.count()) {
+          const id = (await primary.getAttribute("data-testid")).replace("button-wellbeing-", "");
+          await action(id); guided.push(id);
+          if (id === "pending") {
+            assert((await panel.getByTestId("status-wellbeing-feedback").innerText()).includes("Feedback left pending by choice"));
+            assert.equal(await panel.getByTestId("button-wellbeing-pending").count(), 0, "same pending choice can be accidentally recorded again");
+          }
+        } else {
+          const handover = panel.getByTestId("button-wellbeing-continue");
+          assert.equal(await handover.count(), 1, "guided journey has no next action or handover");
+          const previousRole = await panel.locator(".wbs-role[aria-pressed=true]").innerText();
+          const before = await summary();
+          const history = await panel.getByTestId("list-wellbeing-history").textContent().catch(() => "");
+          await handover.focus(); await page.keyboard.press("Enter");
+          const receivingRole = await panel.locator(".wbs-role[aria-pressed=true]").innerText();
+          assert.notEqual(receivingRole, previousRole);
+          await role(previousRole);
+          assert.equal(await summary(), before, "handover changed the plan without an action");
+          assert.equal(await panel.getByTestId("list-wellbeing-history").textContent().catch(() => ""), history, "handover recorded an implicit action");
+          await handover.focus(); await page.keyboard.press("Enter");
+        }
+      }
+      for (const required of ["consent", "quiet", "capacity", "review", "approve", "release", "accept", "arrive", "deliver", "pending", "followup"])
+        assert(guided.includes(required), `guided journey skipped ${required}`);
+      await role("Guest");
+      assert((await summary()).includes("Pending") && (await summary()).includes("repair remains open"));
+      await reset();
+    }
     // Missing checks, hold and decline cannot release.
     await role("Duty Manager");
     await disabled("approve"); await disabled("release");
     await action("hold"); await disabled("release"); await action("resume");
     await action("decline"); await disabled("release"); await action("resume");
     await role("Guest Services");
-    assert(!(await panel.getByTestId("list-wellbeing-facts").innerText()).includes("quieter waiting"));
+    assert(!(await panel.getByTestId("list-wellbeing-facts").textContent()).includes("quieter waiting"));
     await disabled("accept"); await disabled("deliver");
     await checks();
     await action("approve");

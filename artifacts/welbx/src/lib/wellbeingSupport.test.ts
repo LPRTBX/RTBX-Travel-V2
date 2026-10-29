@@ -73,7 +73,7 @@ describe("fictional wellbeing response gates", () => {
     expect(supportPlan(s).decision).toBe("Invalidated");
     expect(act(s, "Guest Services", "accept")).toBe(s);
     expect(act(s, "Guest Services", "deliver")).toBe(s);
-    expect(supportView(s, "Guest").status).toBe("Plan awaiting review");
+    expect(supportView(s, "Guest").status).toBe("Earlier plan paused");
     expect(supportView(s, "Guest").summary.join(" ")).not.toContain("Agreed support:");
   });
   it("material revisions preserve earlier records and require renewed checks and approval", () => {
@@ -121,6 +121,97 @@ describe("fictional wellbeing response gates", () => {
     expect(supportPlan(s).followup).toBe(true);
     expect(supportPlan(s).feedback).toBe("Pending");
     expect(supportView(s, "Guest").summary.join(" ")).toContain("Room repair remains open");
+  });
+});
+
+describe("public wellbeing next-action guidance", () => {
+  it("starts with explicit plain-language consent, no feedback controls or replacement-plan copy", () => {
+    const view = supportView(initialSupportState(), "Guest");
+    expect(view.guidance.primary?.type).toBe("consent");
+    expect(view.guidance.primary?.label).toBe("Share what would help with the guest support team");
+    expect(view.guidance.primary?.reason).toContain("Reception, Guest Services and the Duty Manager");
+    expect(view.guidance.alternatives).toEqual([]);
+    expect([view.status, ...view.summary, view.guidance.context].join(" ")).not.toMatch(/replacement|revised/i);
+    expect(supportPlan(initialSupportState()).consent).toBe(false);
+  });
+  it.each(["consent", "quiet", "capacity"] as const)("hands over to the actual missing %s check, not approval", missing => {
+    const s = checked();
+    supportPlan(s)[missing] = false;
+    const g = supportView(s, "Duty Manager").guidance;
+    const owner = { consent: "Guest", quiet: "Reception", capacity: "Housekeeping lead" }[missing];
+    expect(g.primary).toBeNull();
+    expect(g.handover?.role).toBe(owner);
+    expect(act(s, "Duty Manager", "approve")).toBe(s);
+  });
+  it("skips previously completed checks, including checks done in another order", () => {
+    let s = initialSupportState();
+    s = act(s, "Housekeeping lead", "capacity");
+    s = act(s, "Duty Manager", "review");
+    s = act(s, "Reception", "quiet");
+    s = act(s, "Guest", "consent");
+    expect(supportView(s, "Guest").guidance.handover).toMatchObject({ role: "Duty Manager", action: "approve" });
+    expect(supportView(s, "Duty Manager").guidance.primary?.type).toBe("approve");
+  });
+  it("guides a complete run with explicit actions and role switches that leave state unchanged", () => {
+    let s = initialSupportState(), role: SupportRole = "Guest";
+    const performed: SupportAction[] = [];
+    for (let i = 0; i < 60 && !supportPlan(s).followup; i++) {
+      const saved = structuredClone(s);
+      const g = supportView(s, role).guidance;
+      if (g.primary) {
+        expect(g.primary.enabled).toBe(true);
+        performed.push(g.primary.type);
+        s = act(s, role, g.primary.type);
+        expect(s).not.toEqual(saved);
+      } else {
+        expect(g.handover).not.toBeNull();
+        role = g.handover!.role;
+        expect(s).toEqual(saved);
+      }
+    }
+    expect(supportPlan(s)).toMatchObject({ delivered: true, feedback: "Pending", feedbackRecorded: true, followup: true });
+    for (const action of ["consent", "quiet", "capacity", "review", "approve", "release", "accept", "arrive", "deliver", "pending", "followup"] as const)
+      expect(performed).toContain(action);
+    expect(performed.indexOf("release")).toBeGreaterThan(performed.indexOf("approve"));
+    expect(performed.indexOf("arrive")).toBeGreaterThan(performed.indexOf("accept"));
+    expect(supportView(s, "Guest").summary.join(" ")).toContain("Room repair remains open");
+  });
+  it.each(["hold", "decline"] as const)("describes %s as a paused decision, not a replacement already approved", action => {
+    const s = act(checked(), "Duty Manager", action);
+    expect(supportView(s, "Guest").status).toBe(action === "hold" ? "Plan on hold" : "Plan declined");
+    expect(supportView(s, "Guest").summary.join(" ")).not.toContain("approved replacement");
+    expect(supportView(s, "Duty Manager").guidance.primary?.type).toBe("resume");
+  });
+  it("requires renewed agreement and accurate scope for a real replacement", () => {
+    let s = act(released(), "Guest Services", "unavailable");
+    expect(supportView(s, "Guest").status).toBe("Earlier plan paused");
+    expect(supportView(s, "Duty Manager").guidance.primary?.type).toBe("revise");
+    s = act(s, "Duty Manager", "revise");
+    expect(supportView(s, "Guest").status).toBe("Replacement plan awaiting review");
+    expect(supportView(s, "Guest").guidance.primary?.reason).toContain("Reception and the Duty Manager");
+    expect(supportView(s, "Guest").guidance.primary?.reason).not.toContain("Reception, Guest Services");
+    s = act(s, "Guest", "consent");
+    expect(supportView(s, "Guest Services").facts.join(" ")).not.toContain("quieter waiting");
+    expect(act(s, "Duty Manager", "approve")).toBe(s);
+  });
+  it("keeps shared-role guidance and all counts/history unchanged by private feedback", () => {
+    let s = delivered();
+    for (const role of ["Housekeeping lead", "Guest Services"] as const) {
+      const before = supportView(s, role);
+      for (const action of ["helped", "needs-support", "pending"] as const) {
+        s = act(s, "Guest", action);
+        expect(supportView(s, role)).toEqual(before);
+      }
+    }
+  });
+  it("confirms an explicit pending choice without duplicate history and shows the fictional clock", () => {
+    const s = act(delivered(), "Guest", "pending");
+    expect(supportView(s, "Guest").feedbackNotice).toContain("Feedback left pending by choice");
+    expect(act(s, "Guest", "pending")).toBe(s);
+    expect(supportView(s, "Housekeeping lead").feedbackNotice).toBeNull();
+    expect(supportView(s, "Guest Services").feedbackNotice).toBeNull();
+    expect(supportView(s, "Duty Manager").clock).toBe("3:25 pm");
+    expect(supportView(act(s, "Duty Manager", "overdue"), "Duty Manager").clock).toBe("3:50 pm");
   });
 });
 

@@ -17,7 +17,7 @@ export type SupportPlan = {
   decision: "Pending" | "Approved" | "Held" | "Declined" | "Invalidated";
   released: boolean; accepted: boolean; reallocated: boolean; updated: boolean;
   arrived: boolean; delivered: boolean; unavailable: boolean; followup: boolean;
-  feedback: "Pending" | "Helped" | "Still needs support";
+  feedback: "Pending" | "Helped" | "Still needs support"; feedbackRecorded: boolean;
 };
 export type SupportState = { plans: SupportPlan[]; records: SupportRecord[]; history: SupportHistory[]; minute: number };
 const managers: SupportRole[] = ["Duty Manager"];
@@ -28,7 +28,7 @@ const blank = (version = 1): SupportPlan => ({
   version, owner: version === 1 ? "Guest Services contact A" : "Duty Manager contact B",
   consent: false, quiet: false, capacity: false, reviewed: false, decision: "Pending",
   released: false, accepted: false, reallocated: false, updated: false,
-  arrived: false, delivered: false, unavailable: false, followup: false, feedback: "Pending",
+  arrived: false, delivered: false, unavailable: false, followup: false, feedback: "Pending", feedbackRecorded: false,
 });
 export const initialSupportState = (): SupportState => ({ plans: [blank()], records: [], history: [], minute: 25 });
 export const supportPlan = (state: SupportState) => state.plans[state.plans.length - 1];
@@ -45,9 +45,10 @@ export function supportActions(state: SupportState, role: SupportRole): ActionSp
   const list: ActionSpec[] = [];
   const add = (type: SupportAction, label: string, enabled: boolean, reason: string) => list.push({ type, label, enabled, reason });
   if (role === "Guest") {
-    add("consent", p.version === 1 ? "Agree to share practical support preferences" : "Renew agreement for the revised handover", editing && !p.consent, "Agreement is recorded before support details can be handed over.");
-    for (const [type, label] of [["helped", "Support helped"], ["needs-support", "Still needs support"], ["pending", "Keep feedback pending"]] as const)
-      add(type, label, p.delivered, "Feedback follows delivered support; it is separate from delivery evidence.");
+    add("consent", p.version === 1 ? "Share what would help with the guest support team" : "Agree to share with the replacement support team", editing && !p.consent,
+      `Share your request for quieter waiting and practical assistance with ${supportOwnerRole(p) === "Duty Manager" ? "Reception and the Duty Manager" : "Reception, Guest Services and the Duty Manager"}, for this plan only. Housekeeping receives workload tasks, not your preferences. Nothing is shared until you choose.`);
+    for (const [type, label, value] of [["helped", "Support helped", "Helped"], ["needs-support", "Still needs support", "Still needs support"], ["pending", "Keep feedback pending", "Pending"]] as const)
+      add(type, label, p.delivered && (!p.feedbackRecorded || p.feedback !== value), "Feedback follows delivered support; it is separate from delivery evidence.");
   }
   if (role === "Reception") {
     add("quiet", "Confirm quiet-space availability", editing && !p.quiet, "Reception must check availability before a commitment.");
@@ -139,18 +140,89 @@ export function reduceSupport(state: SupportState, role: SupportRole, action: Su
       break;
     case "overdue": next.minute = 50; log("Fictional clock advanced to 3:50 pm. Duty Manager must review overdue follow-up.", managers); break;
     case "followup": p.followup = true; log("Duty Manager recorded the timed follow-up review. Pending feedback or further support is not closed by this review.", [...supportTeam, "Guest"]); break;
-    case "helped": p.feedback = "Helped"; log("Guest reported support helped. No clinical or measured wellbeing outcome is inferred.", guestTeam); break;
-    case "needs-support": p.feedback = "Still needs support"; log("Guest requests further support. Duty Manager owns the next review.", guestTeam); break;
-    case "pending": p.feedback = "Pending"; log("Guest feedback remains pending; no benefit is inferred.", guestTeam); break;
+    case "helped": p.feedback = "Helped"; p.feedbackRecorded = true; log("Guest reported support helped. No clinical or measured wellbeing outcome is inferred.", guestTeam); break;
+    case "needs-support": p.feedback = "Still needs support"; p.feedbackRecorded = true; log("Guest requests further support. Duty Manager owns the next review.", guestTeam); break;
+    case "pending": p.feedback = "Pending"; p.feedbackRecorded = true; log("Guest feedback remains pending; no benefit is inferred.", guestTeam); break;
   }
   return next;
+}
+
+type Requirement = { role: SupportRole; action: SupportAction | null };
+/** A missing requirement, never a fixed step index or an action performed by role switching. */
+function nextRequirement(state: SupportState): Requirement | null {
+  const p = supportPlan(state);
+  if (p.decision === "Invalidated") return { role: "Duty Manager", action: "revise" };
+  if (p.decision === "Held" || p.decision === "Declined") return { role: "Duty Manager", action: "resume" };
+  if (!p.consent) return { role: "Guest", action: "consent" };
+  if (!p.quiet) return { role: "Reception", action: "quiet" };
+  if (!p.capacity) return { role: "Housekeeping lead", action: "capacity" };
+  if (!p.reviewed) return { role: "Duty Manager", action: "review" };
+  if (p.decision !== "Approved") return { role: "Duty Manager", action: "approve" };
+  if (!p.released) return { role: "Duty Manager", action: "release" };
+  if (!p.accepted) return { role: supportOwnerRole(p), action: "accept" };
+  if (!p.reallocated) return { role: "Housekeeping lead", action: "reallocate" };
+  if (!p.updated) return { role: "Reception", action: "update" };
+  if (!p.arrived) return { role: supportOwnerRole(p), action: "arrive" };
+  if (!p.delivered) return { role: supportOwnerRole(p), action: "deliver" };
+  // Choosing to leave feedback pending is explicit, not a successful outcome or a delivery gate.
+  if (!p.feedbackRecorded) return { role: "Guest", action: "pending" };
+  if (!p.followup) return { role: "Duty Manager", action: state.minute < 45 ? "overdue" : "followup" };
+  return null;
+}
+
+export function supportGuidance(state: SupportState, role: SupportRole) {
+  const p = supportPlan(state);
+  const actions = supportActions(state, role).filter(a => a.enabled && a.type !== "reset");
+  let target = nextRequirement(state);
+  let context = p.decision === "Invalidated" ? "The earlier commitment is paused. A manager must review a replacement, with renewed agreement and checks."
+    : p.decision === "Held" ? "This plan is on hold. The request remains open; nothing is released."
+    : p.decision === "Declined" ? "This plan was declined. The request remains open for another reviewed response."
+    : p.version > 1 && p.decision === "Pending" ? "A replacement plan is being checked. Earlier decisions and receipts remain in history."
+    : p.decision === "Pending" ? "The first plan is being checked. Guest agreement, an available space, staff capacity and human review are needed before approval."
+    : !p.released ? "The plan is approved, but no instructions have been released."
+    : !p.accepted ? "Instructions are released. The named support contact still needs to accept the handover."
+    : !p.arrived ? "The handover is accepted. Contact arrival and support delivery still need separate receipts."
+    : !p.delivered ? "The contact has arrived. Confirm the guest update and workload handover, then record actual support."
+    : "Support delivery is recorded. Guest feedback and the Duty Manager's timed follow-up are separate; room repair remains open.";
+  // Shared-workload guidance must not change with private feedback, preferences or counts.
+  if (role === "Housekeeping lead") {
+    target = !p.capacity && p.decision === "Pending" ? { role, action: "capacity" }
+      : p.released && p.decision === "Approved" && !p.reallocated ? { role, action: "reallocate" }
+      : p.delivered || target?.action === "consent" || !target ? { role: "Duty Manager", action: null }
+      : target;
+    context = p.decision === "Invalidated" ? "The workload instruction is paused. The Duty Manager must review new instructions."
+      : p.reallocated ? "Your task reallocation is acknowledged. The Duty Manager owns remaining coordination; Maintenance owns repair and clearance."
+      : p.capacity ? "Capacity is confirmed. The Duty Manager must check the remaining requirements before releasing a workload instruction."
+      : "Check capacity and room priorities before staff are committed. Personal support notes are not part of this view.";
+  }
+  if (role === "Guest Services" && p.delivered) {
+    target = { role: "Duty Manager", action: null };
+    context = "Your delivery receipt is recorded. The Duty Manager owns timed follow-up. Private guest feedback is not included in this view.";
+  }
+  const optional: SupportAction[] = ["hold", "decline", "revise", "unavailable", "helped", "needs-support", "pending", "overdue"];
+  const primary = actions.find(a => target?.role === role && target.action === a.type)
+    ?? actions.find(a => !optional.includes(a.type))
+    ?? null;
+  const alternatives = actions.filter(a => a.type !== primary?.type &&
+    (optional.includes(a.type) || a.type === "followup") &&
+    (a.type !== "overdue" || p.delivered));
+  const targetAction = target?.action
+    ? supportActions(state, target.role).find(a => a.type === target.action) : null;
+  const handover = target && target.role !== role ? {
+    role: target.role, action: target.action,
+    text: role === "Housekeeping lead" || (role === "Guest Services" && p.delivered)
+      ? `Continue the demonstration with ${target.role} to review remaining coordination. Switching views does not carry out an action.`
+      : `${target.role} needs to ${targetAction?.label.toLowerCase() ?? "review the outstanding response"}. Switching views does not carry out that action.`,
+  } : null;
+  return { primary, alternatives, handover, context };
 }
 
 /** All visible records, counts, history and summaries derive from this projection. */
 export function supportView(state: SupportState, role: SupportRole) {
   const p = supportPlan(state);
   const active = p.released && p.decision === "Approved";
-  const privateSupport = role === "Guest" || role === "Reception" || (p.consent && (role === "Guest Services" || role === "Duty Manager"));
+  const privateSupport = role === "Guest" || role === "Reception" ||
+    (p.consent && (role === "Duty Manager" || (role === "Guest Services" && supportOwnerRole(p) === role)));
   const facts = role === "Guest"
     ? ["3:25 pm · Your request: somewhere quiet and practical support while your room is delayed."]
     : [
@@ -168,44 +240,36 @@ export function supportView(state: SupportState, role: SupportRole) {
   const summary = role === "Housekeeping lead"
     ? [`Task reallocation: ${p.decision === "Invalidated" ? "previous plan invalidated; await reviewed instructions" : p.reallocated ? "confirmed" : "open"}.`, "Room 304 repair: open · Maintenance lead; awaiting repair and clearance."]
     : role === "Guest"
-      ? [active ? `Agreed support: quiet lounge · named contact ${p.owner}.` : "Your support plan is not yet released or has been paused; Reception owns the next update.",
-        `Support: ${p.delivered ? "delivered with receipt" : "not yet verified"}.`, `Your feedback: ${p.feedback}.`, active ? `Next update: ${followup}.` : "Next update time awaits the approved replacement plan.", "Room repair remains open."]
+      ? [active ? `Agreed support: quiet lounge · named contact ${p.owner}.`
+          : p.decision === "Invalidated" ? "Your earlier plan is paused. Reception owns the next update while a replacement is reviewed."
+          : p.decision === "Held" || p.decision === "Declined" ? `Your plan is ${p.decision === "Held" ? "on hold" : "declined"}. Your request remains open; Reception owns the next update.`
+          : p.version > 1 ? "Your replacement plan is being checked. Nothing has been released."
+          : "Your first support plan is being checked. Nothing has been released.",
+        `Support: ${p.delivered ? "delivered with receipt" : "not yet verified"}.`, `Your feedback: ${p.feedback}.`, active ? `Next update: ${followup}.`
+          : p.version > 1 || p.decision === "Invalidated" ? "Next update will be confirmed with the reviewed replacement plan."
+          : "Proposed follow-up: 3:45 pm · Duty Manager; to be confirmed with the plan.", "Room repair remains open."]
       : [`Support: ${p.delivered ? "delivered with receipt" : "open; no delivery receipt"}.`,
         `Handover: ${p.decision === "Invalidated" ? "previous commitment invalidated" : p.accepted ? "accepted" : "not accepted"}.`,
         `Guest update: ${p.updated ? "recorded" : "open"}.`,
         ...(role === "Duty Manager" || role === "Reception" ? [`Guest feedback: ${p.feedback}; separate from delivery.`] : []),
         `Follow-up: ${followup}.`, "Room 304 repair: open · Maintenance lead; awaiting repair and clearance."];
   const actions = supportActions(state, role);
-  const preferred = actions.find(a => a.enabled && !["reset", "overdue", "hold", "decline", "revise", "unavailable", "pending", "helped", "needs-support"].includes(a.type));
-  const awaiting = role === "Housekeeping lead"
-    ? "Await the Duty Manager's released workload instruction; personal support details are not part of this view."
-    : role === "Guest"
-      ? p.delivered ? "Record your feedback if you wish. Pending feedback is not a failed outcome." : "Reception will confirm the reviewed plan and next update. Switch fictional view to continue the team story."
-      : p.decision === "Invalidated" ? "Duty Manager: review reassignment. Renew guest agreement, availability, capacity and approval."
-      : p.decision === "Held" || p.decision === "Declined" ? "Duty Manager: reopen review or review a replacement; no response is released."
-      : !p.consent ? "Guest: review and agree the minimum-necessary support handover before details are shared."
-      : !p.quiet ? "Reception: confirm quiet-space availability."
-      : !p.capacity ? "Housekeeping lead: confirm staff capacity and priorities."
-      : !p.reviewed ? "Duty Manager: review the reported facts and scripted suggestion."
-      : p.decision !== "Approved" ? "Duty Manager: approve, hold or decline the checked plan."
-      : !p.released ? "Duty Manager: release the response. Approval alone sent nothing."
-      : !p.accepted ? `${supportOwnerRole(p)}: accept the support handover. Dispatch is not acceptance.`
-      : !p.reallocated ? "Housekeeping lead: acknowledge and confirm task reallocation."
-      : !p.updated ? "Reception: record the approved guest update."
-      : !p.arrived ? `${supportOwnerRole(p)}: record actual contact arrival.`
-      : !p.delivered ? `${supportOwnerRole(p)}: record practical support delivered.`
-      : !p.followup ? "Duty Manager: record the timed follow-up. Delivery alone is not improved wellbeing."
-      : p.feedback === "Still needs support" ? "Duty Manager owns further support review; the guest request remains open."
-      : p.feedback === "Pending" ? "Guest feedback remains optional and pending; no benefit is inferred."
-      : "Support and feedback are recorded. Room repair is still a separate open issue.";
+  const guidance = supportGuidance(state, role);
   return {
     facts, records, history, summary, actions,
-    next: preferred?.label ?? awaiting,
+    guidance,
+    clock: supportTime(state.minute),
+    feedbackNotice: p.feedbackRecorded && ["Guest", "Reception", "Duty Manager"].includes(role)
+      ? p.feedback === "Pending" ? "Feedback left pending by choice. It remains open; no benefit is inferred."
+        : p.feedback === "Still needs support" ? "Further support requested. The Duty Manager owns the next review."
+        : "Guest feedback recorded: support helped. This is not a measured wellbeing outcome."
+      : null,
+    next: guidance.primary?.label ?? guidance.context,
     suggestion: role === "Guest" ? "People will review your request with you; no automatic decision is made."
       : role === "Housekeeping lead" ? "Scripted suggestion: verify capacity and agree room priorities before committing staff. No personal support notes are shared in this view."
       : privateSupport ? "Scripted AI suggestion: reported room delay, an explicit support request and capacity pressure suggest checking a quiet space and a named practical-support contact. People verify availability, review options and authorise. No diagnosis, inferred emotion or risk score."
-      : "Await guest agreement before sharing support preferences. Only reported room status and capacity facts are available in this view.",
-    status: role === "Guest" ? active ? "Agreed plan released" : "Plan awaiting review" : role === "Housekeeping lead" ? p.decision === "Invalidated" ? "Instructions awaiting renewed review" : p.reallocated ? "Reallocation acknowledged" : "Workload confirmation open" : p.decision,
+      : "Only the assigned support team receives authorised preferences after guest agreement. This view has reported room status and capacity facts only.",
+    status: role === "Guest" ? active ? "Agreed plan released" : p.decision === "Invalidated" ? "Earlier plan paused" : p.decision === "Held" ? "Plan on hold" : p.decision === "Declined" ? "Plan declined" : p.version > 1 ? "Replacement plan awaiting review" : "First plan awaiting review" : role === "Housekeeping lead" ? p.decision === "Invalidated" ? "Instructions awaiting renewed review" : p.reallocated ? "Reallocation acknowledged" : "Workload confirmation open" : p.decision,
     version: p.version,
   };
 }
