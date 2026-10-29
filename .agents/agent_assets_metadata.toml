@@ -56,3 +56,31 @@ mtime_ms = 1793313336727
 storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:557c817c-5b57-4f89-853f-727501b877fb/5ea15f8c-5d67-4aa8-9afa-d082a5abb72b/de5de1a9-eac2-4bb1-8a55-442d01a2639b"
 storage_version_token = "1793313529581890"
 content_type = "image/jpeg"
+
+[[outputs]]
+id = "vMk9Ffkg1OAVMFppz8z4P"
+uri = "file://generated-artifacts/wellbeing-guest-before-after.jpg"
+type = "image"
+title = "Guest view — before and after"
+description = "Actual public preview captures comparing the previous initial Guest screen with the refined hotel story and next-action view."
+logical_id = "ab2a4dbd-2fe6-4836-85bd-b4a01b661f4c"
+content_hash = "sha256:2b03d80596300ef450a31603301058ffe550deaebf91f282aedee5553261493b"
+size = 307039
+mtime_ms = 1793317304117
+storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:557c817c-5b57-4f89-853f-727501b877fb/ab2a4dbd-2fe6-4836-85bd-b4a01b661f4c/3b90c903-3e62-443c-9e3b-94fa8630dc60"
+storage_version_token = "1793317357501362"
+content_type = "image/jpeg"
+
+[[outputs]]
+id = "ai5dAt2admvuNJkm5eHYx"
+uri = "file://generated-artifacts/wellbeing-reception-before-after.jpg"
+type = "image"
+title = "Reception view — before and after"
+description = "Actual initial Reception screens: clearer role action, no premature feedback controls and truthful handover guidance."
+logical_id = "0b8ec800-def5-47cc-b6ad-be0ad057c54c"
+content_hash = "sha256:cb6de3345b45bb73cfebf742fd057b248efb84a624dab1d2f41d0f6d531bdf5b"
+size = 289950
+mtime_ms = 1793317306169
+storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:557c817c-5b57-4f89-853f-727501b877fb/0b8ec800-def5-47cc-b6ad-be0ad057c54c/21de7818-dfc1-4a1b-995c-ef1180aadc2b"
+storage_version_token = "1793317358185277"
+content_type = "image/jpeg"
