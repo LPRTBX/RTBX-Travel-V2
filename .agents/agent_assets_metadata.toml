@@ -28,3 +28,31 @@ mtime_ms = 1791596403871
 storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:557c817c-5b57-4f89-853f-727501b877fb/39a4e77f-6c1d-4fef-8d3d-7ad25891b7d8/105305fb-2783-47e7-8fa4-c95ae2c3d277"
 storage_version_token = "1791596959990786"
 content_type = "image/jpeg"
+
+[[outputs]]
+id = "l5RFuj8eK8E7AbDsrWXP0"
+uri = "file://generated-artifacts/wellbeing-phone.jpg"
+type = "image"
+title = "Wellbeing support — phone view"
+description = "Captured from the rebuilt app in an isolated authenticated test fixture; fictional Guest view and role controls."
+logical_id = "b52d80e4-a69d-415f-aed2-6d6fce788583"
+content_hash = "sha256:24d8cf71be82fbfc2d80d20c10acdf39db35bf682689f49aaab5f4863a4f54b6"
+size = 60617
+mtime_ms = 1793313322491
+storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:557c817c-5b57-4f89-853f-727501b877fb/b52d80e4-a69d-415f-aed2-6d6fce788583/89561c59-5fa5-480f-b8ad-8aba8414f89b"
+storage_version_token = "1793313528954149"
+content_type = "image/jpeg"
+
+[[outputs]]
+id = "3jc5Snz1a36Gn_sZtL5uW"
+uri = "file://generated-artifacts/wellbeing-communications-desktop.jpg"
+type = "image"
+title = "Wellbeing support — coordinated communications"
+description = "Fictional Duty Manager view showing source facts, intended recipients and acknowledged response records."
+logical_id = "5ea15f8c-5d67-4aa8-9afa-d082a5abb72b"
+content_hash = "sha256:e66cc64d56a05dcbfe7eafceafbcc4e8c1101fad3bf675b66727d1d0ff74fecb"
+size = 143404
+mtime_ms = 1793313336727
+storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:557c817c-5b57-4f89-853f-727501b877fb/5ea15f8c-5d67-4aa8-9afa-d082a5abb72b/de5de1a9-eac2-4bb1-8a55-442d01a2639b"
+storage_version_token = "1793313529581890"
+content_type = "image/jpeg"
