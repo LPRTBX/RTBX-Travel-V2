@@ -43,7 +43,10 @@ describe("Stage 3 scenario boundaries", () => {
 
   it("keeps the retained guest-disruption scenario separate and mounted without resurrecting the old shell", () => {
     const portfolio = source("src/components/partner-room/PortfolioDisruptionScenario.tsx");
-    expect(experience).toContain('new URLSearchParams(search).get("scenario") === "portfolio" ? "portfolio" : "peak"');
+    expect(experience).toContain('const q = new URLSearchParams(search).get("scenario")');
+    expect(experience).toContain('return q === "portfolio" || q === "wellbeing" ? q : "peak"');
+    expect(experience).toContain('data-testid="scenario-wellbeing-support"');
+    expect(experience).toContain('hidden={scenario !== "wellbeing"}');
     expect(experience).toContain('data-testid="scenario-portfolio-disruption"');
     expect(experience).toContain('hidden={scenario !== "peak"}');
     expect(experience).toContain('hidden={scenario !== "portfolio"}');

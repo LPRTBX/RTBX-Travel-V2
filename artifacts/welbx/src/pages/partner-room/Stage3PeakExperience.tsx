@@ -5,17 +5,20 @@ import { approvePortfolioSupport, initialPeakState, portfolioSummary, type Chall
 import { PeakPressureScenario } from "@/components/partner-room/PeakPressureScenario";
 import { PortfolioCoordination } from "@/components/partner-room/PortfolioCoordination";
 import { PortfolioDisruptionScenario } from "@/components/partner-room/PortfolioDisruptionScenario";
+import { WellbeingSupportScenario } from "@/components/partner-room/WellbeingSupportScenario";
 
 /**
- * Stage 3 planned simulations: peak-period team pressure (default) and a Portfolio disruption.
- * Both stay mounted; the inactive one is hidden so its state persists.
+ * Coordinated Response fictional simulations: peak pressure, portfolio disruption and wellbeing support.
+ * All stay mounted; inactive scenarios are hidden so their independent state persists.
  */
 export default function Stage3PeakExperience() {
   const search = useSearch();
   const [state, setState] = useState(() => initialPeakState("standard"));
   const [run, setRun] = useState(0);
-  const [scenario, setScenario] = useState<"peak" | "portfolio">(() =>
-    new URLSearchParams(search).get("scenario") === "portfolio" ? "portfolio" : "peak");
+  const [scenario, setScenario] = useState<"peak" | "portfolio" | "wellbeing">(() => {
+    const q = new URLSearchParams(search).get("scenario");
+    return q === "portfolio" || q === "wellbeing" ? q : "peak";
+  });
   const restart = (challenge: ChallengeId) => { setState(initialPeakState(challenge)); setRun(n => n + 1); };
   // The portfolio exception is raised only once the Duty Manager has recorded the escalation.
   const needsCover = state.challenge === "capacity" && state.review.status === "approved" && "escalate" in state.done;
@@ -26,6 +29,7 @@ export default function Stage3PeakExperience() {
       <div role="group" aria-label="Choose a Coordinated Response scenario" style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 24 }}>
         <button type="button" data-testid="scenario-peak-pressure" aria-pressed={scenario === "peak"} onClick={() => setScenario("peak")} style={tab(scenario === "peak")}>Peak-pressure response</button>
         <button type="button" data-testid="scenario-portfolio-disruption" aria-pressed={scenario === "portfolio"} onClick={() => setScenario("portfolio")} style={tab(scenario === "portfolio")}>Coordination across hotels</button>
+        <button type="button" data-testid="scenario-wellbeing-support" aria-pressed={scenario === "wellbeing"} onClick={() => setScenario("wellbeing")} style={tab(scenario === "wellbeing")}>Coordinate wellbeing support</button>
       </div>
       <div hidden={scenario !== "peak"}>
         <PeakPressureScenario key={run} state={state} setState={setState} onRestart={restart} />
@@ -38,6 +42,9 @@ export default function Stage3PeakExperience() {
       </div>
       <div hidden={scenario !== "portfolio"}>
         <PortfolioDisruptionScenario />
+      </div>
+      <div hidden={scenario !== "wellbeing"}>
+        <WellbeingSupportScenario />
       </div>
     </>
   );
