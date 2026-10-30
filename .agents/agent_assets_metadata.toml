@@ -84,3 +84,31 @@ mtime_ms = 1793317306169
 storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:557c817c-5b57-4f89-853f-727501b877fb/0b8ec800-def5-47cc-b6ad-be0ad057c54c/21de7818-dfc1-4a1b-995c-ef1180aadc2b"
 storage_version_token = "1793317358185277"
 content_type = "image/jpeg"
+
+[[outputs]]
+id = "wbOoTJFmBWaQyWpaC_sGY"
+uri = "file://generated-artifacts/safeguarding-initial-1440.jpg"
+type = "image"
+title = "Guest feels unsafe — public desktop walkthrough"
+description = "Actual anonymous preview: scenario choice, reported concern, immediately available simulated emergency path, role views and initial open items."
+logical_id = "7608dbf0-cac4-42b2-8f4e-c0cabac82670"
+content_hash = "sha256:ff1c3e67aaf3525e8e1264417ed7b343efb6ea80c2911a48a8a85ef81e116a29"
+size = 265090
+mtime_ms = 1793324023906
+storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:557c817c-5b57-4f89-853f-727501b877fb/7608dbf0-cac4-42b2-8f4e-c0cabac82670/aca42f75-2305-40c8-900d-64c7ee255f48"
+storage_version_token = "1793324095620741"
+content_type = "image/jpeg"
+
+[[outputs]]
+id = "1dJ5IH0tgnRZDLjTxdbRY"
+uri = "file://generated-artifacts/safeguarding-guided-390.jpg"
+type = "image"
+title = "Safeguarding coordination — phone result"
+description = "Actual 390px preview after the guided synthetic run: delivered support, pending guest feedback, recorded follow-up and an explicitly open concern."
+logical_id = "9cb3658c-f60f-431d-8f9b-106bcce276e7"
+content_hash = "sha256:553758429c28433a3b02f0d650862b401494fc55ab4f858c764b0f7a742b7433"
+size = 65506
+mtime_ms = 1793323997606
+storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:557c817c-5b57-4f89-853f-727501b877fb/9cb3658c-f60f-431d-8f9b-106bcce276e7/64963bab-c4dc-471c-a7bc-34f7d206c89c"
+storage_version_token = "1793324096430481"
+content_type = "image/jpeg"

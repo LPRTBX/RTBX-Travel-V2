@@ -14,4 +14,8 @@ body{margin:0}
 a:focus-visible{outline:3px solid #ee8c50;outline-offset:5px}
 .pw-sr,.pw-skip:not(:focus){position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 .pw-skip:focus{display:block;position:relative;background:#fffaf3;color:#102d39;padding:16px}
+.pw-choice{margin-bottom:20px;padding:20px;border:1px solid #81959766;background:#fffaf3}
+.pw-choice h2{font-size:20px;margin:0 0 12px}
+.pw-choice p{font-size:15px;line-height:1.6;margin:12px 0 0;color:#43565d}
+.pw-choice button:focus-visible{outline:3px solid #102d39;outline-offset:3px}
 @media(max-width:520px){.pw-header{gap:12px;padding:20px}.pw-header nav{gap:22px}#walkthrough{margin:16px auto;padding:0 12px}}

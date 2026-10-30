@@ -1,0 +1,7 @@
+.sg .sg-emergency{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,.8fr);gap:8px 24px;padding:16px;background:var(--wb-paper);border:2px solid var(--wb-orange);border-radius:4px;align-items:start}
+.sg .sg-emergency strong{font-size:17px}
+.sg-emergency>strong,.sg-emergency>p{grid-column:1}
+.sg .sg-emergency>.wbs-alts{grid-column:2;grid-row:1 / span 2;display:grid;margin:0}
+.sg .sg-emergency .wbs-act{max-width:none}
+.sg .wbs-next:focus-visible{outline:3px solid var(--wb-mid);outline-offset:3px}
+@media(max-width:760px){.sg .sg-emergency{display:block}.sg .sg-emergency>p{margin-top:6px}.sg .sg-emergency>.wbs-alts{margin-top:12px}}
