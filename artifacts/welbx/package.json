@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "pnpm run build && node server/start.mjs",
-    "build": "node scripts/check-access-boundaries.mjs && vite build --config vite.config.ts && node scripts/check-bundle-boundaries.mjs",
+    "build": "node scripts/check-access-boundaries.mjs && vite build --config vite.config.ts && vite build --config vite.public-wellbeing.config.ts && node scripts/check-bundle-boundaries.mjs",
     "serve": "node server/start.mjs",
-    "test:server-access": "node --test server/access.test.mjs",
+    "test:server-access": "node --test server/access.test.mjs server/public-wellbeing.test.mjs",
     "test:partner-browser": "node scripts/test-partner-browser.mjs",
     "verify:preview": "node scripts/verify-preview.mjs",
     "typecheck": "tsc -p tsconfig.json --noEmit",
