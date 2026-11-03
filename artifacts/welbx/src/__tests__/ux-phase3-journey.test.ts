@@ -24,7 +24,7 @@ describe("Phase 3 guided route", () => {
   it("follows the agreed order", () => {
     expect(GUIDED_ROUTE.map(step => step.title)).toEqual([
       "Architecture", "Build & Configure", "Configured execution and evidence", "Simulation Lab",
-      "Operating Evolution", "Value Calculator", "Stage 3", "Pilot",
+      "Operating Evolution", "Value Calculator", "Coordinated Response", "Pilot",
     ]);
   });
 
@@ -55,7 +55,7 @@ describe("Phase 3 navigation", () => {
       ["Working Proof", "/partner-room/operations"],
       ["Evidence", "/partner-room/operations#generated-evidence"],
       ["Calculator", "/partner-room/proof-calculator"],
-      ["Stage 3", "/partner-room/product-proof/stage-3-operating-layer"],
+      ["Coordinated Response", "/partner-room/product-proof/stage-3-operating-layer"],
       ["Pilot", "/partner-room/pilot-model"],
       ["Next Step", "/partner-room/next-step"],
     ]);

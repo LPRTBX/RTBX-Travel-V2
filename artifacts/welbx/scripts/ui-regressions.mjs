@@ -617,7 +617,7 @@ const ROUTE = [
   ["Simulation Lab", "/partner-room/operations", "?view=simulation"],
   ["Operating Evolution", "/partner-room/operating-evolution", ""],
   ["Value Calculator", "/partner-room/proof-calculator", ""],
-  ["Stage 3", "/partner-room/product-proof/stage-3-operating-layer", ""],
+  ["Coordinated Response", "/partner-room/product-proof/stage-3-operating-layer", ""],
   ["Pilot", "/partner-room/pilot-model", ""],
 ];
 const inViewport = (page, selector) => page.evaluate(sel => {
@@ -677,7 +677,7 @@ await check("Guided route back from the Simulation Lab returns to the configured
 });
 
 for (const viewport of [{ width: 390, height: 844 }, { width: 820, height: 1180 }, { width: 1440, height: 900 }]) {
-  await check(`Navigation reaches Calculator, Stage 3 and generated evidence at ${viewport.width}px`, viewport, async page => {
+  await check(`Navigation reaches Calculator, Coordinated Response and generated evidence at ${viewport.width}px`, viewport, async page => {
     const desktop = viewport.width >= 1024;
     const menu = async () => {
       if (desktop) return page.getByRole("navigation", { name: "Partner Room navigation" });
@@ -688,8 +688,18 @@ for (const viewport of [{ width: 390, height: 844 }, { width: 820, height: 1180 
     await (await menu()).getByRole("link", { name: "Calculator", exact: true }).click();
     await page.waitForURL(url => url.pathname === "/partner-room/proof-calculator");
     await page.getByRole("heading", { level: 1, name: /Everyday operations/ }).waitFor();
-    await (await menu()).getByRole("link", { name: "Stage 3", exact: true }).click();
+    await (await menu()).getByRole("link", { name: "Coordinated Response", exact: true }).click();
     await page.waitForURL(url => url.pathname === "/partner-room/product-proof/stage-3-operating-layer");
+    await page.getByRole("heading", { level: 1, name: "When pressure builds, the whole hotel responds together.", exact: true }).waitFor();
+    assert(await page.getByRole("button", { name: "Peak-pressure response", exact: true }).isVisible(), "peak-pressure scenario label missing");
+    assert(await page.getByRole("button", { name: "Coordination across hotels", exact: true }).isVisible(), "cross-hotel scenario label missing");
+    await page.getByRole("button", { name: "Coordination across hotels", exact: true }).focus();
+    await page.keyboard.press("Enter");
+    assert(await page.locator('[data-testid="portfolio-disruption"]').isVisible(), "keyboard scenario selection failed");
+    await page.getByRole("button", { name: "Peak-pressure response", exact: true }).click();
+    assert(await page.getByRole("heading", { name: /Peak-pressure response: a wellbeing/ }).isVisible(), "peak-pressure return failed");
+    assert(!(await page.locator("body").innerText()).match(/Stage 3|Peak-period team pressure|Portfolio disruption/), "old visitor terminology remains");
+    assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), "longer terminology causes horizontal overflow");
     await (await menu()).getByRole("link", { name: "Evidence", exact: true }).click();
     await page.waitForURL(url => url.pathname === "/partner-room/operations" && url.hash === "#generated-evidence");
     await page.waitForFunction(() => { const r = document.querySelector("#generated-evidence")?.getBoundingClientRect(); return !!r && r.top >= 0 && r.top < innerHeight / 2; }, null, { timeout: 5000 });
@@ -708,7 +718,7 @@ await check("Reference menu works by keyboard and keeps every destination at 144
   await items.first().waitFor();
   assert(await items.first().evaluate(el => el === document.activeElement), "ArrowDown did not focus the first item");
   const labels = await items.allInnerTexts();
-  for (const label of ["Guided Route", "Architecture Lab", "Build & Configure", "Generated Evidence", "Simulation Lab", "Operating Evolution", "Value Calculator", "Stage 3 Operating Layer", "Pilot Model", "Static Examples: Outcomes and Value"]) {
+  for (const label of ["Guided Route", "Architecture Lab", "Build & Configure", "Generated Evidence", "Simulation Lab", "Operating Evolution", "Value Calculator", "Coordinated Response", "Pilot Model", "Static Examples: Outcomes and Value"]) {
     assert(labels.includes(label), `menu lacks ${label}`);
   }
   await page.keyboard.press("End");
@@ -747,7 +757,7 @@ await check("Evidence navigation shows the records a run generated at 1440px", {
 });
 
 // Generated evidence is a session record: it survives Partner Room navigation and never outlives its configuration.
-const PRIMARY = ["Working Proof", "Evidence", "Calculator", "Stage 3", "Pilot", "Next Step"];
+const PRIMARY = ["Working Proof", "Evidence", "Calculator", "Coordinated Response", "Pilot", "Next Step"];
 async function goVia(page, label, width) {
   const desktop = width >= 1024;
   if (!desktop) await page.getByRole("button", { name: "Open navigation menu" }).click();
@@ -904,7 +914,7 @@ for (const viewport of [{ width: 390, height: 844 }, { width: 820, height: 1180 
 
     // Stage 3: several properties, local accountability, governed portfolio exceptions.
     await open(page, "/partner-room");
-    await goVia(page, "Stage 3", viewport.width);
+    await goVia(page, "Coordinated Response", viewport.width);
     const portfolio = page.locator("#portfolio-coordination");
     await portfolio.waitFor();
     assert(await portfolio.locator("[data-property]").count() === 4, "expected four properties");
@@ -983,7 +993,7 @@ for (const viewport of [{ width: 390, height: 844 }, { width: 820, height: 1180 
     await noHorizontalScroll(page, viewport.width);
 
     // The draft survives moving away and back within the session.
-    await goVia(page, "Stage 3", viewport.width);
+    await goVia(page, "Coordinated Response", viewport.width);
     await page.locator("#portfolio-coordination").waitFor();
     await goVia(page, "Pilot", viewport.width);
     assert(await page.locator("#pilot-scope").getByLabel("Property 2 name").inputValue() === "Coastal Resort", "scope lost on navigation");
@@ -1001,7 +1011,7 @@ for (const viewport of [{ width: 390, height: 844 }, { width: 820, height: 1180 
     const requests = [];
     page.on("request", request => requests.push({ method: request.method(), url: request.url(), body: request.postData() }));
     await open(page, "/partner-room");
-    await goVia(page, "Stage 3", viewport.width);
+    await goVia(page, "Coordinated Response", viewport.width);
     const peak = page.locator("#peak-pressure");
     await peak.waitFor();
     const approval = page.getByTestId("peak-approval");
@@ -1230,7 +1240,7 @@ for (const choice of ["network", "local"]) {
     const today = page.getByRole("region", { name: "Explore today" });
     assert(await today.locator('a[href="/partner-room/guest-demo"]').count() === 1, "guest link changed");
     assert(await today.getByRole("link", { name: "Open the current Working Proof →", exact: true }).count() === 1, "working proof link changed");
-    await page.getByRole("button", { name: "Experience Stage 3 · Planned simulation", exact: true }).click();
+    await page.getByRole("button", { name: "See the hotel respond under pressure · Planned simulation", exact: true }).click();
     assert(/23 of 24/.test(await pd.innerText()), "today toggle lost outcome continuity");
     await noHorizontalScroll(page, forcedWidth || 1440);
     assert(errors.length === 0, `browser errors: ${errors.join("; ")}`);

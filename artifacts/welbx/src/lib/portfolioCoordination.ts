@@ -12,7 +12,7 @@ export type CapabilityStatus = "implemented" | "simulated" | "proposed";
 
 export const CAPABILITY_LABELS: Record<CapabilityStatus, string> = {
   implemented: "Implemented in the Working Proof (one property)",
-  simulated: "Simulated here (planned Stage 3)",
+  simulated: "Simulated here (planned coordination across hotels)",
   proposed: "Proposed integration (not built)",
 };
 

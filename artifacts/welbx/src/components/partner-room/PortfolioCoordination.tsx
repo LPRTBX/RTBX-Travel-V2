@@ -82,7 +82,7 @@ export function PortfolioCoordination({ peak }: { peak?: PeakPortfolioLink }) {
 
   return (
     <section id="portfolio-coordination" className="pc" aria-labelledby="portfolio-coordination-title">
-      <p className="pc-eyebrow">Stage 3 · Portfolio coordination · planned simulation</p>
+      <p className="pc-eyebrow">Coordination across hotels · planned simulation</p>
       <h2 id="portfolio-coordination-title">Several properties, local accountability, one governed portfolio response.</h2>
       <p className="pc-lead">
         Each property keeps its own accountable people and decides its own cases. Only situations that cross a property's authority, or repeat across properties, reach the portfolio, and each names exactly who may decide it.
@@ -113,7 +113,7 @@ export function PortfolioCoordination({ peak }: { peak?: PeakPortfolioLink }) {
               <p className="pc-authority"><span>Decides locally:</span> {property.localAuthority}</p>
               <ul className="pc-cases">
                 {peak && property.id === "harbour" && (
-                  <li><strong>Peak-period team pressure</strong><span>{actorLabel("dm-harbour")} · {peak.response}</span></li>
+                  <li><strong>Peak-pressure response</strong><span>{actorLabel("dm-harbour")} · {peak.response}</span></li>
                 )}
                 {property.cases.map(item => (
                   <li key={item.title}><strong>{item.title}</strong><span>{actorLabel(item.ownerId)} · {item.state}</span></li>

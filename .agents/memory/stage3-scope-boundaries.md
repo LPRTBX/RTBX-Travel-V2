@@ -3,6 +3,12 @@ name: Stage 3 scope boundaries
 description: How to distinguish documented Travel Stage 3 plans from unapproved Enterprise concepts.
 ---
 
+Visitor language should describe hotel work, not internal roadmap numbering: use “Coordinated Response” for navigation and the guided journey, “See the hotel respond under pressure” for the invitation, “Peak-pressure response” for the staffing scenario, and “Coordination across hotels” for portfolio coordination. Genuine rollout milestones are “deployment phases”; unrelated numbered steps retain their meaning.
+
+**Why:** The owner explicitly approved hotel-facing language instead of internal-sounding Stage 3 references. This is presentation only, not an expanded capability or reordered flow.
+
+**How to apply:** Keep existing route/anchor identifiers for bookmarks and preserve synthetic/planned qualifications, authority gates and unresolved outcomes while updating visible labels.
+
 The Travel Stage 3 preview may demonstrate planned multi-property coordination, signal streams, proposed action routing, role views, assurance and illustrative value reporting. An Enterprise workplace-risk or private-support journey is a proposed concept, not approved roadmap scope. Keep both journeys synthetic and local-only; approval in the preview is not operational authority.
 
 **Why:** The available Travel roadmap documents expansion and future-stage capabilities, but no approved Enterprise workplace-risk or private-support roadmap was found when this preview was built. Treating the latter as a planned product capability would overclaim readiness and mishandle a sensitive use case.

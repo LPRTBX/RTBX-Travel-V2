@@ -15,7 +15,7 @@ describe("Stage 3 scenario boundaries", () => {
     expect(preview).toContain("Explore today · Working Proof");
     expect(preview).toContain('href="/partner-room/guest-demo"');
     expect(preview).toContain("href={WORKING_PROOF_PATH}");
-    expect(preview).toContain("Experience Stage 3 · Planned simulation");
+    expect(preview).toContain("See the hotel respond under pressure · Planned simulation");
   });
 
   it("replaces the old walkthrough with one connected peak-pressure and portfolio experience", () => {

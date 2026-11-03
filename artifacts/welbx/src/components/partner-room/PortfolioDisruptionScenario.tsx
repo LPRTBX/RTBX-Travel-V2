@@ -156,7 +156,7 @@ export function PortfolioDisruptionScenario() {
       {holding && !portfolioReady(state) && <p className="pdemo-hold" role="status">Holding: {missingOwners.length ? `awaiting ${missingOwners.join("; ")}.` : "choose the revised plan before recording renewed confirmations."} The next step is blocked.</p>}
       <div className="pdemo-actions">
         {step < 5 && <button type="button" data-testid="pd-next" disabled={!portfolioReady(state)} onClick={() => dispatch({ type: "next" })}>Next</button>}
-        <button type="button" className="pdemo-ghost" data-testid="pd-reset" onClick={() => dispatch({ type: "reset" })}>Reset Portfolio scenario</button>
+        <button type="button" className="pdemo-ghost" data-testid="pd-reset" onClick={() => dispatch({ type: "reset" })}>Reset Coordination across hotels</button>
       </div>
     </section>
   );

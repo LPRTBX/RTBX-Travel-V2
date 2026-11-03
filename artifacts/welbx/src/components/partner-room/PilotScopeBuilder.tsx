@@ -56,7 +56,7 @@ export function PilotScopeBuilder() {
       <p className="ps-eyebrow">Pilot pathway</p>
       <h2 id="pilot-scope-title">Define a concrete pilot scope.</h2>
       <p className="ps-lead">
-        Set the properties, accountable people, moments, baseline, measures, prerequisites and review decision. It uses the Stage 3 portfolio model, the Calculator and the Integration Brief. {PILOT_PROPOSITION.targetEnvironment}.
+        Set the properties, accountable people, moments, baseline, measures, prerequisites and review decision. It uses Coordination across hotels, the Calculator and the Integration Brief. {PILOT_PROPOSITION.targetEnvironment}.
       </p>
       <p className="ps-session" data-testid="scope-session-notice">
         Kept in this browser tab while you move between Partner Room pages. Refreshing ends the session and clears it. Nothing is saved or sent from this page.
@@ -86,7 +86,7 @@ export function PilotScopeBuilder() {
             })}>Use the configured deployment ({activeDeployment.deploymentName})</button>
           )}
         </div>
-        {isPortfolio(scope) && <p className="ps-hint">More than one property: a portfolio exception owner is needed, as in the <RouteLink href="/partner-room/product-proof/stage-3-operating-layer#portfolio-coordination">Stage 3 portfolio model</RouteLink>.</p>}
+        {isPortfolio(scope) && <p className="ps-hint">More than one property: a portfolio exception owner is needed, as in <RouteLink href="/partner-room/product-proof/stage-3-operating-layer#portfolio-coordination">Coordination across hotels</RouteLink>.</p>}
       </fieldset>
 
       <fieldset className="ps-block">

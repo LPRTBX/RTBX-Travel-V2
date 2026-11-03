@@ -532,21 +532,21 @@ export const DEPLOYMENT_PACKAGE: DeploymentPackageSection[] = [
 export const EXPANSION_STAGES: ExpansionStage[] = [
   {
     id: "expand-scenarios",
-    label: "Stage 1 — Expand scenarios",
+    label: "Deployment phase 1 — Expand scenarios",
     description: "Add additional scenarios within the same operating systems already activated.",
     examples: ["Premium guest opportunity", "Service backlog variation", "Additional maintenance types"],
     maturityGate: "Pilot proven and operating systems established",
   },
   {
     id: "expand-roles",
-    label: "Stage 2 — Expand roles",
+    label: "Deployment phase 2 — Expand roles",
     description: "Include more departments, properties or regional leadership in the active deployment.",
     examples: ["Regional operations", "Group operations", "Additional property roles"],
     maturityGate: "Core roles proven and confident in the platform",
   },
   {
     id: "expand-properties",
-    label: "Stage 3 — Expand properties",
+    label: "Deployment phase 3 — Expand properties",
     description: "Move from one property to multi-property deployment within the same group.",
     examples: ["Second property in the same group", "Regional cluster", "Group-wide rollout"],
     maturityGate: "Property model proven and staff adoption confirmed",

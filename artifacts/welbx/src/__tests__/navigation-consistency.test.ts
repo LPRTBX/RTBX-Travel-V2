@@ -50,7 +50,7 @@ const EXPECTED_NAVIGATION = [
   {
     label: "Pilot and Partnership",
     items: [
-      ["Stage 3 Operating Layer", "/partner-room/product-proof/stage-3-operating-layer"],
+      ["Coordinated Response", "/partner-room/product-proof/stage-3-operating-layer"],
       ["Pilot Model", "/partner-room/pilot-model"],
       ["Deployment", "/partner-room/rollout-model"],
       ["Partner Ecosystem", "/partner-room/partner-ecosystem"],

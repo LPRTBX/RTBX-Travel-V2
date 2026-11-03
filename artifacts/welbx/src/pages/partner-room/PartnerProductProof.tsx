@@ -417,7 +417,7 @@ export default function PartnerProductProof() {
               Demo Pathways
             </div>
             <p style={{ fontSize: 13, color: "rgba(255,255,255,0.34)", lineHeight: 1.65, maxWidth: 600, margin: 0 }}>
-              Three views of JALDO Travel across the deployment pathway — the current Working Proof, a Planned integration-assisted pilot, and a Planned Stage 3 operating layer.
+              Three views of JALDO Travel across the deployment pathway — the current Working Proof, a planned integration-assisted pilot, and Coordinated Response: planned coordination across teams and hotels.
             </p>
           </div>
            <div className="rtbx-responsive-grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 2 }}>
@@ -477,11 +477,11 @@ export default function PartnerProductProof() {
                   <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#a78bfa", flexShrink: 0 }} />
                   <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#a78bfa" }}>Future-State Operating Preview</div>
                 </div>
-                <div style={{ fontSize: 14, fontWeight: 800, color: "#fff", marginBottom: 12, lineHeight: 1.3 }}>Stage 3 Operating Layer Preview</div>
+                <div style={{ fontSize: 14, fontWeight: 800, color: "#fff", marginBottom: 12, lineHeight: 1.3 }}>Coordinated Response</div>
                 <p style={{ fontSize: 13, color: "rgba(255,255,255,0.42)", lineHeight: 1.65, flex: 1, marginBottom: 20 }}>
-                  Two fictional simulations: combined peak-period team pressure with portfolio coordination, and a Portfolio disruption across three hotels. Synthetic, nothing dispatched.
+                  Two fictional simulations: Peak-pressure response and Coordination across hotels. Synthetic, nothing dispatched.
                 </p>
-                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#a78bfa" }}>Experience Stage 3 · Planned simulation →</div>
+                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#a78bfa" }}>See the hotel respond under pressure · Planned simulation →</div>
               </div>
             </Link>
           </div>
