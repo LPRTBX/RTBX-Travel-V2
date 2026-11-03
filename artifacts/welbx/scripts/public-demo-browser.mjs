@@ -17,16 +17,16 @@ export async function checkPublicNavigation(page, width) {
   const links = page.locator("#site-nav a");
   const heroTop = await page.locator(".hero").evaluate(el => el.getBoundingClientRect().top + scrollY);
   const order = await page.locator("main > section").evaluateAll(list => list.map(section => section.id || section.className.split(" ")[0]));
-  assert(order.slice(0, 6).join() === "hero,coordinated-response,sample-demo,outcomes,existing-systems,contact", `public page order changed: ${order}`);
-  assert(order.indexOf("supporting-detail") === 6 && ["principles", "ai-in-the-work", "loop"].every(id => order.indexOf(id) > 6), "supporting detail not labelled after the main story");
+  assert(order.slice(0, 7).join() === "hero,coordinated-response,wellbeing-support,sample-demo,outcomes,existing-systems,contact", `public page order changed: ${order}`);
+  assert(order.indexOf("supporting-detail") === 7 && ["principles", "ai-in-the-work", "loop"].every(id => order.indexOf(id) > 7), "supporting detail not labelled after the main story");
   if (width >= 1000) {
     assert(!(await toggle.isVisible()) && await links.first().isVisible(), "desktop navigation collapsed");
-    assert(await links.count() === 8 && await page.locator("#site-nav a:visible").count() === 8, "desktop navigation incomplete");
+    assert(await links.count() === 4 && await page.locator("#site-nav a:visible").count() === 4, "approved simplified desktop navigation changed");
     return;
   }
   assert(heroTop <= 140, `mobile header still pushes the hero to ${heroTop}px`);
   assert(await toggle.isVisible() && await toggle.getAttribute("aria-expanded") === "false", "menu control missing or open");
-  assert(await page.locator(".hdr-demo").isVisible() && await page.locator(".tb-partner").isVisible(), "demo or Partner Room entry not prominent");
+  assert(await page.locator(".hdr-demo").isVisible() && await page.locator("#site-nav .partner").count() === 1, "demo or Partner Room entry missing");
   assert(!(await links.first().isVisible()), "collapsed navigation still visible");
   await toggle.focus();
   assert(await toggle.evaluate(el => getComputedStyle(el).outlineStyle !== "none"), "menu control focus not visible");
@@ -116,15 +116,10 @@ export async function checkPublicDemo(page, base, width) {
     name: "JALDO coordinates the work. Your people retain authority.", exact: true,
   }).count() === 1, "control principles lost their own heading");
   await page.goto(base, { waitUntil: "networkidle" });
-  const openMenu = async () => {
-    if (await page.locator("#nav-toggle").isVisible() && await page.locator("#nav-toggle").getAttribute("aria-expanded") === "false") await activate("nav-toggle");
-  };
-  await openMenu();
-  await page.getByRole("link", { name: "You stay in control", exact: true }).focus();
+  await page.locator('#supporting-detail a[href="#principles"]').focus();
   await page.keyboard.press("Enter");
   await page.waitForURL(url => url.hash === "#principles");
-  await openMenu();
-  await page.getByRole("link", { name: "Sample demo", exact: true }).focus();
+  await page.getByRole("link", { name: "Explore the demo", exact: true }).focus();
   await page.keyboard.press("Enter");
   await page.waitForURL(url => url.pathname === "/public-demo" && url.hash === "#sample-demo");
   await page.goto(`${base}/public-demo`, { waitUntil: "networkidle" });

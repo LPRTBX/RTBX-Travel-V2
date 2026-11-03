@@ -13,6 +13,7 @@ export const PUBLIC_FILES = new Set([
 const TYPES = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8", ".svg": "image/svg+xml", ".jpg": "image/jpeg", ".webp": "image/webp", ".json": "application/json", ".pdf": "application/pdf" };
 const root = fileURLToPath(new URL("../dist/public/", import.meta.url));
 const publicPage = fileURLToPath(new URL("./public.html", import.meta.url));
+const wellbeingRoot = fileURLToPath(new URL("../dist/wellbeing/", import.meta.url));
 
 function htmlPolicy(html) {
   const hashes = tag => [...html.matchAll(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`, "gi"))]
@@ -21,7 +22,7 @@ function htmlPolicy(html) {
 }
 const partnerPolicy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self' https://replit.com https://*.replit.com https://*.replit.dev";
 
-export function createTravelServer({ access = createAccess({ getPaused: () => process.env.TRAVEL_PARTNER_ACCESS_PAUSED === "true" }), dist = root, publicHtmlPath = publicPage } = {}) {
+export function createTravelServer({ access = createAccess({ getPaused: () => process.env.TRAVEL_PARTNER_ACCESS_PAUSED === "true" }), dist = root, publicHtmlPath = publicPage, publicWellbeingDist = wellbeingRoot } = {}) {
   return createServer(async (req, res) => {
     const send = (status, body, type = "text/html; charset=utf-8") => {
       res.writeHead(status, { "Content-Type": type });
@@ -90,6 +91,20 @@ export function createTravelServer({ access = createAccess({ getPaused: () => pr
         const html = await readFile(publicHtmlPath, "utf8");
         res.setHeader("Content-Security-Policy", htmlPolicy(html));
         return send(200, html);
+      }
+      // Only this separately built, approved fictional story is public.
+      // No protected SPA fallback or general static directory is opened here.
+      if (path === "/public-wellbeing" || path === "/public-wellbeing/") {
+        const html = await readFile(resolve(publicWellbeingDist, "index.html"), "utf8");
+        res.setHeader("Content-Security-Policy", htmlPolicy(html));
+        return send(200, html);
+      }
+      if (/^\/public-wellbeing\/assets\/[A-Za-z0-9_-]+\.(?:js|css)$/.test(path)) {
+        const file = resolve(publicWellbeingDist, "assets", path.split("/").at(-1));
+        let body;
+        try { body = await readFile(file); } catch { return send(404, "Not found.", "text/plain"); }
+        res.setHeader("Content-Security-Policy", "default-src 'none'");
+        return send(200, body, TYPES[extname(file)]);
       }
       if (path === "/partner-access") {
         const destination = returnPath(url.searchParams.get("returnTo"));

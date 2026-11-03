@@ -63,11 +63,7 @@ try {
       assert(await page.locator(href).count() === 1, `public anchor missing: ${href}`);
     }
     await checkPublicNavigation(page, width);
-    if (await page.locator("#nav-toggle").isVisible()) {
-      await page.locator("#nav-toggle").focus();
-      await page.keyboard.press("Enter");
-    }
-    await page.locator('nav a[href="#ai-in-the-work"]').focus();
+    await page.locator('#supporting-detail a[href="#ai-in-the-work"]').focus();
     await page.keyboard.press("Enter");
     await page.waitForURL(url => url.hash === "#ai-in-the-work");
     assert(new URL(page.url()).hash === "#ai-in-the-work", "AI explanation not discoverable by keyboard");

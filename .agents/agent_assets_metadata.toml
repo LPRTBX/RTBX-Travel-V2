@@ -28,3 +28,87 @@ mtime_ms = 1791596403871
 storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:557c817c-5b57-4f89-853f-727501b877fb/39a4e77f-6c1d-4fef-8d3d-7ad25891b7d8/105305fb-2783-47e7-8fa4-c95ae2c3d277"
 storage_version_token = "1791596959990786"
 content_type = "image/jpeg"
+
+[[outputs]]
+id = "l5RFuj8eK8E7AbDsrWXP0"
+uri = "file://generated-artifacts/wellbeing-phone.jpg"
+type = "image"
+title = "Wellbeing support — phone view"
+description = "Captured from the rebuilt app in an isolated authenticated test fixture; fictional Guest view and role controls."
+logical_id = "b52d80e4-a69d-415f-aed2-6d6fce788583"
+content_hash = "sha256:24d8cf71be82fbfc2d80d20c10acdf39db35bf682689f49aaab5f4863a4f54b6"
+size = 60617
+mtime_ms = 1793313322491
+storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:557c817c-5b57-4f89-853f-727501b877fb/b52d80e4-a69d-415f-aed2-6d6fce788583/89561c59-5fa5-480f-b8ad-8aba8414f89b"
+storage_version_token = "1793313528954149"
+content_type = "image/jpeg"
+
+[[outputs]]
+id = "3jc5Snz1a36Gn_sZtL5uW"
+uri = "file://generated-artifacts/wellbeing-communications-desktop.jpg"
+type = "image"
+title = "Wellbeing support — coordinated communications"
+description = "Fictional Duty Manager view showing source facts, intended recipients and acknowledged response records."
+logical_id = "5ea15f8c-5d67-4aa8-9afa-d082a5abb72b"
+content_hash = "sha256:e66cc64d56a05dcbfe7eafceafbcc4e8c1101fad3bf675b66727d1d0ff74fecb"
+size = 143404
+mtime_ms = 1793313336727
+storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:557c817c-5b57-4f89-853f-727501b877fb/5ea15f8c-5d67-4aa8-9afa-d082a5abb72b/de5de1a9-eac2-4bb1-8a55-442d01a2639b"
+storage_version_token = "1793313529581890"
+content_type = "image/jpeg"
+
+[[outputs]]
+id = "vMk9Ffkg1OAVMFppz8z4P"
+uri = "file://generated-artifacts/wellbeing-guest-before-after.jpg"
+type = "image"
+title = "Guest view — before and after"
+description = "Actual public preview captures comparing the previous initial Guest screen with the refined hotel story and next-action view."
+logical_id = "ab2a4dbd-2fe6-4836-85bd-b4a01b661f4c"
+content_hash = "sha256:2b03d80596300ef450a31603301058ffe550deaebf91f282aedee5553261493b"
+size = 307039
+mtime_ms = 1793317304117
+storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:557c817c-5b57-4f89-853f-727501b877fb/ab2a4dbd-2fe6-4836-85bd-b4a01b661f4c/3b90c903-3e62-443c-9e3b-94fa8630dc60"
+storage_version_token = "1793317357501362"
+content_type = "image/jpeg"
+
+[[outputs]]
+id = "ai5dAt2admvuNJkm5eHYx"
+uri = "file://generated-artifacts/wellbeing-reception-before-after.jpg"
+type = "image"
+title = "Reception view — before and after"
+description = "Actual initial Reception screens: clearer role action, no premature feedback controls and truthful handover guidance."
+logical_id = "0b8ec800-def5-47cc-b6ad-be0ad057c54c"
+content_hash = "sha256:cb6de3345b45bb73cfebf742fd057b248efb84a624dab1d2f41d0f6d531bdf5b"
+size = 289950
+mtime_ms = 1793317306169
+storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:557c817c-5b57-4f89-853f-727501b877fb/0b8ec800-def5-47cc-b6ad-be0ad057c54c/21de7818-dfc1-4a1b-995c-ef1180aadc2b"
+storage_version_token = "1793317358185277"
+content_type = "image/jpeg"
+
+[[outputs]]
+id = "wbOoTJFmBWaQyWpaC_sGY"
+uri = "file://generated-artifacts/safeguarding-initial-1440.jpg"
+type = "image"
+title = "Guest feels unsafe — public desktop walkthrough"
+description = "Actual anonymous preview: scenario choice, reported concern, immediately available simulated emergency path, role views and initial open items."
+logical_id = "7608dbf0-cac4-42b2-8f4e-c0cabac82670"
+content_hash = "sha256:ff1c3e67aaf3525e8e1264417ed7b343efb6ea80c2911a48a8a85ef81e116a29"
+size = 265090
+mtime_ms = 1793324023906
+storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:557c817c-5b57-4f89-853f-727501b877fb/7608dbf0-cac4-42b2-8f4e-c0cabac82670/aca42f75-2305-40c8-900d-64c7ee255f48"
+storage_version_token = "1793324095620741"
+content_type = "image/jpeg"
+
+[[outputs]]
+id = "1dJ5IH0tgnRZDLjTxdbRY"
+uri = "file://generated-artifacts/safeguarding-guided-390.jpg"
+type = "image"
+title = "Safeguarding coordination — phone result"
+description = "Actual 390px preview after the guided synthetic run: delivered support, pending guest feedback, recorded follow-up and an explicitly open concern."
+logical_id = "9cb3658c-f60f-431d-8f9b-106bcce276e7"
+content_hash = "sha256:553758429c28433a3b02f0d650862b401494fc55ab4f858c764b0f7a742b7433"
+size = 65506
+mtime_ms = 1793323997606
+storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:557c817c-5b57-4f89-853f-727501b877fb/9cb3658c-f60f-431d-8f9b-106bcce276e7/64963bab-c4dc-471c-a7bc-34f7d206c89c"
+storage_version_token = "1793324096430481"
+content_type = "image/jpeg"

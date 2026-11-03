@@ -479,7 +479,7 @@ export default function PartnerProductProof() {
                 </div>
                 <div style={{ fontSize: 14, fontWeight: 800, color: "#fff", marginBottom: 12, lineHeight: 1.3 }}>Coordinated Response</div>
                 <p style={{ fontSize: 13, color: "rgba(255,255,255,0.42)", lineHeight: 1.65, flex: 1, marginBottom: 20 }}>
-                  Two fictional simulations: Peak-pressure response and Coordination across hotels. Synthetic, nothing dispatched.
+                  Three fictional simulations: Peak-pressure response, Coordination across hotels and Coordinate wellbeing support. Synthetic, nothing dispatched.
                 </p>
                 <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#a78bfa" }}>See the hotel respond under pressure · Planned simulation →</div>
               </div>
