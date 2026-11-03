@@ -20,7 +20,7 @@ on:
 jobs:
   travel-qa:
     name: Travel QA
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout
@@ -86,4 +86,3 @@ jobs:
 
       - name: Check assets
         run: pnpm --filter @workspace/rtbx-travel run check:assets
-
