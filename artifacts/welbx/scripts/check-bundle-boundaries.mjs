@@ -26,6 +26,9 @@ const fileNames = files.join("\n");
 // opengraph.jpg is an old Partner Room screenshot and is protected.
 const approvedNonTextAssets = new Set(["favicon.svg", "opengraph.jpg",
   "brand/jaldo-logo-white.webp",
+  "images/guest-app/stay.webp",
+  "images/guest-app/explore.webp",
+  "images/guest-app/plans.webp",
   "images/travel/arrival-hero.webp",
   "images/travel/team-coordination.webp",
 ]);

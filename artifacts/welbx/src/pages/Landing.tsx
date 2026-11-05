@@ -17,6 +17,7 @@ export default function Landing() {
         </Link>
         <nav aria-label="Main navigation">
           <Link href="/story">The experience</Link>
+          <a href="#travel-guest-app">Guest app</a>
           <a href="#travel-proof">Working proof</a>
           <Link href="/partner-room" className="travel-nav-partner">Partner Room <ArrowUpRight size={15} aria-hidden="true" /></Link>
         </nav>
@@ -36,6 +37,31 @@ export default function Landing() {
             <p className="travel-access-note">Partner Room access code required when enabled. Synthetic demonstration.</p>
           </div>
           <div className="travel-hero-bottom travel-container"><span>People. Decisions. Service.</span><span>Travel &amp; hospitality operating layer</span></div>
+        </section>
+        <section id="travel-guest-app" className="travel-guest-app" aria-labelledby="travel-guest-app-heading">
+          <div className="travel-container">
+            <div className="travel-section-heading">
+              <div><p className="travel-eyebrow">The guest experience</p><h2 id="travel-guest-app-heading">One connected stay.<br /><span>Powered by JALDO.</span></h2></div>
+              <span className="travel-tag">Interactive prototype · Synthetic data</span>
+            </div>
+            <p className="travel-guest-intro">Behind every guest interaction, JALDO Travel is designed to coordinate the people, systems, decisions and follow-through. See how that operating model comes together in the guest app.</p>
+            <div className="travel-guest-screens">
+              <figure><div className="travel-guest-phone"><img src={asset("images/guest-app/stay.webp")} alt="Actual guest prototype Stay screen, showing room details, service requests and a discreet support entry." width="530" height="936" loading="lazy" decoding="async" /></div><figcaption><span>01 / Your stay</span><h3>Help, without the chase.</h3><p>Requests, progress and discreet support in one familiar place.</p></figcaption></figure>
+              <figure><div className="travel-guest-phone"><img src={asset("images/guest-app/explore.webp")} alt="Actual guest prototype Explore screen, showing activity, dining, fitness and show filters and optional suggestion preferences." width="530" height="936" loading="lazy" decoding="async" /></div><figcaption><span>02 / Explore</span><h3>A little more to the stay.</h3><p>Free and paid experiences, saved favourites and suggestions the guest chooses to receive.</p></figcaption></figure>
+              <figure><div className="travel-guest-phone"><img src={asset("images/guest-app/plans.webp")} alt="Actual guest prototype My plans screen, showing the connected arrival story and an unresolved request marked for follow-up." width="530" height="936" loading="lazy" decoding="async" /></div><figcaption><span>03 / My plans</span><h3>Clear about what’s agreed.</h3><p>Enquiries, arrangements, changed plans and outcomes that still need confirmation.</p></figcaption></figure>
+            </div>
+            <div className="travel-guest-coordination"><p className="travel-eyebrow">One operating model</p><h3>Guest need. Accountable response. Checked outcome.</h3><p>The intended architecture connects JALDO Core OS, its Travel deployment and the guest and staff interfaces. The guest app currently demonstrates this model through scripted interactions; its Core runtime connection is not yet verified.</p></div>
+            <div className="travel-guest-actions">
+              <a href="#travel-guest-access" className="travel-button travel-button-dark">Experience the guest app <ArrowRight size={18} aria-hidden="true" /></a>
+              <Link href={WORKING_PROOF_PATH} className="travel-text-link">See how the hotel coordinates the response <ArrowUpRight size={18} aria-hidden="true" /></Link>
+            </div>
+            <div id="travel-guest-access" className="travel-guest-access" tabIndex={-1}>
+              <h3>Guest app preview · access by invitation</h3>
+              <p>The standalone preview is private. Request a guided walkthrough to explore the guest journey. A publicly accessible app link will be added after access and release checks.</p>
+              <a className="travel-text-link" href="mailto:lance@wearejaldo.com?subject=JALDO%20Travel%20guest%20app%20walkthrough">Request a guest app walkthrough <ArrowRight size={17} aria-hidden="true" /></a>
+              <p className="travel-guest-boundary">Actual screens captured from the branded guest review build. All guests, hotel details, experiences, prices, staff updates and confirmations are fictional. No live booking, payment, hotel messaging or Core integration is implied. Hotel-response proof opens in the Partner Room; existing access controls apply.</p>
+            </div>
+          </div>
         </section>
         <section className="travel-editorial travel-container" aria-labelledby="travel-team-heading">
           <div>

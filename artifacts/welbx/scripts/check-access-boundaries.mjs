@@ -176,6 +176,9 @@ function walkFiles(dir) {
 // opengraph Partner Room screenshot requires auth in server/app.mjs.
 const approvedPublicFiles = new Set(["favicon.svg", "opengraph.jpg",
   "brand/jaldo-logo-white.webp",
+  "images/guest-app/stay.webp",
+  "images/guest-app/explore.webp",
+  "images/guest-app/plans.webp",
   "images/travel/arrival-hero.webp",
   "images/travel/team-coordination.webp",
 ]);
