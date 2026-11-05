@@ -16,7 +16,7 @@ try {
     await page.goto(base);
     const header = page.locator("#site-header");
     assert.equal(await page.locator(".topbar").count(), 0);
-    assert.equal(await header.getByRole("link", { includeHidden: true }).count(), 6);
+    assert.equal(await header.getByRole("link", { includeHidden: true }).count(), 7);
     assert.equal(await header.locator(".hdr-demo").count(), 1);
     assert.equal(await header.locator(".hdr-demo").getAttribute("href"), "/public-demo#sample-demo");
     assert(await header.locator(".brand .sub").isVisible());
@@ -50,6 +50,7 @@ try {
     for (const [label, hash] of [
       ["How it works", "#existing-systems"],
       ["In action", "#coordinated-response"],
+      ["Guest app", "#travel-guest-app"],
       ["Outcomes", "#outcomes"],
     ]) {
       if (width <= 960 && !(await page.locator("#site-nav").isVisible())) await toggle.click();
