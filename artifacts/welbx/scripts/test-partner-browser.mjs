@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { chromium } from "playwright";
 import { createTravelServer } from "../server/app.mjs";
 import { createAccess, SESSION_MS } from "../server/access.mjs";
-import { checkPublicDemo, checkPublicNavigation } from "./public-demo-browser.mjs";
+import { checkPublicDemo, checkPublicGuestShowcase, checkPublicNavigation } from "./public-demo-browser.mjs";
 
 const assert = (condition, message) => { if (!condition) throw new Error(message); };
 const code = randomBytes(32).toString("hex"); // isolated, never displayed or configured
@@ -63,11 +63,8 @@ try {
       assert(await page.locator(href).count() === 1, `public anchor missing: ${href}`);
     }
     await checkPublicNavigation(page, width);
-    if (await page.locator("#nav-toggle").isVisible()) {
-      await page.locator("#nav-toggle").focus();
-      await page.keyboard.press("Enter");
-    }
-    await page.locator('nav a[href="#ai-in-the-work"]').focus();
+    await checkPublicGuestShowcase(page, base, width);
+    await page.locator("#supporting-detail").getByRole("link", { name: "The role of AI", exact: true }).focus();
     await page.keyboard.press("Enter");
     await page.waitForURL(url => url.hash === "#ai-in-the-work");
     assert(new URL(page.url()).hash === "#ai-in-the-work", "AI explanation not discoverable by keyboard");

@@ -17,16 +17,24 @@ export async function checkPublicNavigation(page, width) {
   const links = page.locator("#site-nav a");
   const heroTop = await page.locator(".hero").evaluate(el => el.getBoundingClientRect().top + scrollY);
   const order = await page.locator("main > section").evaluateAll(list => list.map(section => section.id || section.className.split(" ")[0]));
-  assert(order.slice(0, 6).join() === "hero,coordinated-response,sample-demo,outcomes,existing-systems,contact", `public page order changed: ${order}`);
-  assert(order.indexOf("supporting-detail") === 6 && ["principles", "ai-in-the-work", "loop"].every(id => order.indexOf(id) > 6), "supporting detail not labelled after the main story");
-  if (width >= 1000) {
+  // The approved guest showcase follows the hero; supporting mechanics stay after the main story.
+  const mainStory = ["hero", "travel-guest-app", "coordinated-response", "sample-demo", "outcomes", "existing-systems", "contact"];
+  assert(order.slice(0, mainStory.length).join() === mainStory.join(), `public page order changed: ${order}`);
+  assert(order.indexOf("supporting-detail") === mainStory.length && ["principles", "ai-in-the-work", "loop"].every(id => order.indexOf(id) > mainStory.length), "supporting detail not labelled after the main story");
+  const expectedNavigation = [
+    ["How it works", "#existing-systems"], ["In action", "#coordinated-response"],
+    ["Guest app", "#travel-guest-app"], ["Outcomes", "#outcomes"], ["Partner Room", "/partner-access"],
+  ];
+  const navigation = await links.evaluateAll(list => list.map(link => [link.textContent.trim(), link.getAttribute("href")]));
+  assert(JSON.stringify(navigation) === JSON.stringify(expectedNavigation), `public navigation changed: ${JSON.stringify(navigation)}`);
+  assert(await page.getByRole("link", { name: "Explore the demo", exact: true }).isVisible(), "header demo entry not prominent");
+  if (width > 960) {
     assert(!(await toggle.isVisible()) && await links.first().isVisible(), "desktop navigation collapsed");
-    assert(await links.count() === 8 && await page.locator("#site-nav a:visible").count() === 8, "desktop navigation incomplete");
+    assert(await page.locator("#site-nav a:visible").count() === expectedNavigation.length, "desktop navigation incomplete");
     return;
   }
   assert(heroTop <= 140, `mobile header still pushes the hero to ${heroTop}px`);
   assert(await toggle.isVisible() && await toggle.getAttribute("aria-expanded") === "false", "menu control missing or open");
-  assert(await page.locator(".hdr-demo").isVisible() && await page.locator(".tb-partner").isVisible(), "demo or Partner Room entry not prominent");
   assert(!(await links.first().isVisible()), "collapsed navigation still visible");
   await toggle.focus();
   assert(await toggle.evaluate(el => getComputedStyle(el).outlineStyle !== "none"), "menu control focus not visible");
@@ -34,6 +42,7 @@ export async function checkPublicNavigation(page, width) {
   assert(await toggle.getAttribute("aria-expanded") === "true" && await links.first().isVisible(), "menu did not open");
   assert(await page.evaluate(() => document.activeElement.closest("#site-nav") !== null), "focus did not move into opened menu");
   assert(await page.locator("#site-nav .partner").isVisible(), "Partner Room missing from menu");
+  assert(await page.locator("#site-nav a:visible").count() === expectedNavigation.length, "opened mobile navigation incomplete");
   await page.keyboard.press("Tab");
   assert(await page.evaluate(() => getComputedStyle(document.activeElement).outlineStyle !== "none"), "menu link focus not visible");
   await page.keyboard.press("Escape");
@@ -44,6 +53,59 @@ export async function checkPublicNavigation(page, width) {
   assert(await toggle.getAttribute("aria-expanded") === "false", "menu stayed open after choosing a link");
   assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `navigation overflow at ${width}px`);
   await page.evaluate(() => scrollTo(0, 0));
+}
+
+export async function checkPublicGuestShowcase(page, base, width) {
+  const toggle = page.locator("#nav-toggle");
+  if (await toggle.isVisible()) {
+    await toggle.focus();
+    await page.keyboard.press("Enter");
+  }
+  await page.locator('#site-nav a[href="#travel-guest-app"]').focus();
+  await page.keyboard.press("Enter");
+  await page.waitForURL(url => url.hash === "#travel-guest-app");
+  if (await toggle.isVisible()) assert(await toggle.getAttribute("aria-expanded") === "false", "guest app link left mobile navigation open");
+  const showcase = page.locator("#travel-guest-app");
+  assert(await showcase.getByRole("heading", { name: "One connected stay. Powered by JALDO.", exact: true }).isVisible(), "guest showcase heading missing");
+  assert(/Interactive prototype · Synthetic data/.test(await showcase.innerText()), "guest showcase synthetic label missing");
+  const screens = showcase.locator(".travel-guest-screens img");
+  assert(await screens.count() === 3, "guest showcase must retain all three screens");
+  for (const [index, name] of ["stay", "explore", "plans"].entries()) {
+    const screen = screens.nth(index);
+    assert(await screen.getAttribute("src") === `/images/guest-app/${name}.webp`, `wrong guest ${name} capture`);
+    assert((await screen.getAttribute("alt") || "").length > 30, `guest ${name} screen lacks descriptive alternative text`);
+    await screen.scrollIntoViewIfNeeded();
+    await screen.evaluate(img => img.decode());
+    assert(await screen.evaluate(img => img.complete && img.naturalWidth > 0 && img.naturalHeight > 0), `guest ${name} image failed to load`);
+  }
+  const cards = await showcase.locator(".travel-guest-screens figure").evaluateAll(list => list.map(el => {
+    const box = el.getBoundingClientRect();
+    return { top: box.top, bottom: box.bottom, left: box.left, right: box.right };
+  }));
+  if (width <= 760) {
+    assert(cards.slice(1).every((card, i) => card.top >= cards[i].bottom && Math.abs(card.left - cards[i].left) < 2), "guest screens do not stack on mobile");
+  } else {
+    assert(cards.slice(1).every((card, i) => Math.abs(card.top - cards[0].top) < 2 && card.left >= cards[i].right), "guest screens do not form three columns");
+  }
+  assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `guest showcase overflow at ${width}px`);
+  await showcase.getByRole("link", { name: /^Experience the guest app/ }).focus();
+  await page.keyboard.press("Enter");
+  await page.waitForURL(url => url.hash === "#travel-guest-access");
+  const invitation = page.locator("#travel-guest-access");
+  assert(await invitation.getByRole("heading", { name: "Guest app preview · access by invitation", exact: true }).isVisible(), "private guest preview invitation missing");
+  assert(/No live booking, payment, hotel messaging or Core integration is implied/.test(await invitation.innerText()), "guest access boundary missing");
+  assert(await invitation.getByRole("link", { name: /^Request a guest app walkthrough/ }).getAttribute("href") === "mailto:lance@wearejaldo.com?subject=JALDO%20Travel%20guest%20app%20walkthrough", "guest walkthrough request destination changed");
+  const response = showcase.getByRole("link", { name: /^See how the hotel coordinates the response/ });
+  assert(await response.getAttribute("href") === "/public-demo#sample-demo", "guest response proof no longer uses the public sample");
+  await response.focus();
+  await page.keyboard.press("Enter");
+  await page.waitForURL(`${base}/public-demo#sample-demo`);
+  assert(await page.locator("#demo-notice").textContent() === "Interactive fictional demonstration — no live actions", "guest response CTA missed fictional sample");
+  await page.goBack({ waitUntil: "networkidle" });
+  assert(new URL(page.url()).hash === "#travel-guest-access", "Back lost guest invitation");
+  await page.goForward({ waitUntil: "networkidle" });
+  assert(new URL(page.url()).pathname === "/public-demo" && new URL(page.url()).hash === "#sample-demo", "Forward lost guest response sample");
+  await page.goto(base, { waitUntil: "networkidle" });
 }
 
 export async function checkPublicDemo(page, base, width) {
@@ -116,15 +178,10 @@ export async function checkPublicDemo(page, base, width) {
     name: "JALDO coordinates the work. Your people retain authority.", exact: true,
   }).count() === 1, "control principles lost their own heading");
   await page.goto(base, { waitUntil: "networkidle" });
-  const openMenu = async () => {
-    if (await page.locator("#nav-toggle").isVisible() && await page.locator("#nav-toggle").getAttribute("aria-expanded") === "false") await activate("nav-toggle");
-  };
-  await openMenu();
-  await page.getByRole("link", { name: "You stay in control", exact: true }).focus();
+  await page.locator("#supporting-detail").getByRole("link", { name: "Control principles", exact: true }).focus();
   await page.keyboard.press("Enter");
   await page.waitForURL(url => url.hash === "#principles");
-  await openMenu();
-  await page.getByRole("link", { name: "Sample demo", exact: true }).focus();
+  await page.getByRole("link", { name: "Explore the demo", exact: true }).focus();
   await page.keyboard.press("Enter");
   await page.waitForURL(url => url.pathname === "/public-demo" && url.hash === "#sample-demo");
   await page.goto(`${base}/public-demo`, { waitUntil: "networkidle" });
