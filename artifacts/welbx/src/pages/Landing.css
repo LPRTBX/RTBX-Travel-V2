@@ -72,3 +72,24 @@
 #jaldo-travel-home .travel-skip:focus{transform:none}
 @media(max-width:900px){#jaldo-travel-home .travel-container{width:calc(100% - 56px)}#jaldo-travel-home .travel-header{padding:18px 28px;flex-wrap:wrap;gap:8px}#jaldo-travel-home nav{gap:24px}#jaldo-travel-home .travel-editorial,#jaldo-travel-home .travel-stage-grid{gap:35px}#jaldo-travel-home .travel-section-heading{align-items:start;flex-direction:column}#jaldo-travel-home .travel-closing{align-items:start;flex-direction:column}}
 @media(max-width:640px){#jaldo-travel-home .travel-container{width:calc(100% - 40px)}#jaldo-travel-home .travel-header{padding:18px 20px}#jaldo-travel-home .travel-brand img{width:115px}#jaldo-travel-home nav{width:100%;justify-content:space-between;gap:8px;font-size:11px}#jaldo-travel-home .travel-hero-content{padding-block:62px 48px}#jaldo-travel-home .travel-hero-photo{object-position:73% center}#jaldo-travel-home .travel-hero-shade{background:linear-gradient(90deg,rgba(6,26,37,.92),rgba(6,26,37,.65))}#jaldo-travel-home h1{font-size:clamp(39px,9vw,56px)}#jaldo-travel-home .travel-hero-intro{font-size:16px;max-width:340px}#jaldo-travel-home .travel-actions{gap:10px}#jaldo-travel-home .travel-button{padding:16px 19px;font-size:13px;max-width:100%}#jaldo-travel-home .travel-hero-bottom{flex-direction:column;gap:9px;font-size:10px}#jaldo-travel-home .travel-editorial,#jaldo-travel-home .travel-stage-grid,#jaldo-travel-home .travel-proof-footer{grid-template-columns:minmax(0,1fr);gap:30px}#jaldo-travel-home .travel-editorial,#jaldo-travel-home .travel-stage,#jaldo-travel-home .travel-proof,#jaldo-travel-home .travel-closing{padding-block:54px}#jaldo-travel-home .travel-proof-steps{grid-template-columns:1fr;gap:25px;margin-top:30px}#jaldo-travel-home .travel-proof-footer .travel-button{justify-self:start}#jaldo-travel-home .travel-role-preview{padding:20px}#jaldo-travel-home .travel-footer .travel-container{align-items:start;flex-direction:column;gap:17px}}
+/* Guest app showcase — real prototype captures, explicit access boundary. */
+#jaldo-travel-home .travel-guest-app{background:#f0f3ee;padding:88px 0;scroll-margin-top:24px}
+#jaldo-travel-home .travel-guest-app h2 span{color:var(--travel-teal)}
+#jaldo-travel-home .travel-guest-intro{max-width:760px;margin:28px 0 40px}
+#jaldo-travel-home .travel-guest-screens{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:34px;align-items:start}
+#jaldo-travel-home .travel-guest-screens figure{min-width:0;margin:0}
+#jaldo-travel-home .travel-guest-phone{background:var(--travel-navy);padding:7px;border:1px solid #284952;border-radius:24px;overflow:hidden;max-width:300px;margin-inline:auto;box-shadow:0 12px 32px #102d3910}
+#jaldo-travel-home .travel-guest-phone img{display:block;width:100%;height:auto;aspect-ratio:530/936;object-fit:cover;object-position:top;border-radius:17px}
+#jaldo-travel-home .travel-guest-screens figcaption{padding:24px 4px 0}
+#jaldo-travel-home .travel-guest-screens figcaption>span{font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--travel-teal)}
+#jaldo-travel-home .travel-guest-screens h3{font-size:19px;margin-top:12px}
+#jaldo-travel-home .travel-guest-screens p{font-size:14px;line-height:1.7;margin:12px 0 0}
+#jaldo-travel-home .travel-guest-coordination{border-top:1px solid #cad6d0;margin-top:44px;padding-top:28px;max-width:820px}
+#jaldo-travel-home .travel-guest-coordination p{font-size:14px;margin:14px 0 0}
+#jaldo-travel-home .travel-guest-coordination .travel-eyebrow{font-size:10px;margin:0 0 14px;color:var(--travel-teal)}
+#jaldo-travel-home .travel-guest-actions{display:flex;align-items:center;gap:25px;flex-wrap:wrap;margin:30px 0 24px}
+#jaldo-travel-home .travel-guest-access{border-left:3px solid var(--travel-orange);padding:20px 24px;background:var(--travel-ivory);scroll-margin-top:24px}
+#jaldo-travel-home .travel-guest-access h3{font-size:17px}
+#jaldo-travel-home .travel-guest-access p{font-size:13px;margin:12px 0}
+#jaldo-travel-home .travel-guest-access .travel-guest-boundary{font-size:11px;line-height:1.7;max-width:900px;margin-bottom:0}
+@media(max-width:760px){#jaldo-travel-home .travel-guest-app{padding:56px 0}#jaldo-travel-home .travel-guest-screens{grid-template-columns:1fr;gap:38px}#jaldo-travel-home .travel-guest-screens figure{max-width:360px;margin-inline:auto}#jaldo-travel-home .travel-guest-phone{max-width:280px}#jaldo-travel-home .travel-guest-actions{align-items:stretch;flex-direction:column;gap:12px}#jaldo-travel-home .travel-guest-access{padding:18px}#jaldo-travel-home .travel-guest-coordination{margin-top:32px}}

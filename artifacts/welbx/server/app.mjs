@@ -8,6 +8,9 @@ import { loginPage } from "./login.mjs";
 
 export const PUBLIC_FILES = new Set([
   "/favicon.svg", "/brand/jaldo-logo-white.webp",
+  "/images/guest-app/stay.webp",
+  "/images/guest-app/explore.webp",
+  "/images/guest-app/plans.webp",
   "/images/travel/arrival-hero.webp", "/images/travel/team-coordination.webp",
 ]);
 const TYPES = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8", ".svg": "image/svg+xml", ".jpg": "image/jpeg", ".webp": "image/webp", ".json": "application/json", ".pdf": "application/pdf" };
