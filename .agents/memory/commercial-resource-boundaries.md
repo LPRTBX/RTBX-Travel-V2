@@ -7,7 +7,13 @@ Client-side access gates are presentation controls, not confidentiality controls
 
 **Why:** The user explicitly requested server-enforced access while preserving partner materials. A static SPA or ordinary Vite development server can deliver confidential content before a client code check. Publication is separately authorized; updating preview does not secure the already-published older build.
 
-**How to apply:** Default new routes/files to protected. Keep the public page independent of partner imports, and serve partner chunks through the same server check as pages. Do not revert to static hosting or unguarded Vite preview. Secrets stay server-side, missing configuration fails closed, and shared-code preview access is not named-user permission for live data. Preserve exclusion of unreviewed commercial claims unless separately approved.
+**How to apply:** Default new routes/files to protected. Keep public pages independent of the protected application and serve partner chunks through the same server check as pages. Do not revert to static hosting or unguarded Vite preview. Secrets stay server-side, missing configuration fails closed, and shared-code preview access is not named-user permission for live data. Preserve exclusion of unreviewed commercial claims unless separately approved.
+
+The owner explicitly approved the fictional wellbeing walkthrough as PUBLIC, without an access code, including communications and the five demonstration perspectives. This is not approval to expose the Partner Room or its application bundle.
+
+**Why:** The initial wellbeing entry incorrectly required Partner Room access; the owner corrected its intended public placement.
+
+**How to apply:** Reuse only the synthetic scenario and in-memory engine in a separately audited public build, never the protected router/providers or documents. Role switching is a fictional perspective, not authentication. All other partner material remains server-gated.
 
 Verify cookie attributes in the actual managed preview and separately after any approved publication; application settings and loopback browser tests are not proof of delivered cookie attributes.
 

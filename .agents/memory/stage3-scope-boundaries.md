@@ -9,6 +9,12 @@ Visitor language should describe hotel work, not internal roadmap numbering: use
 
 **How to apply:** Keep existing route/anchor identifiers for bookmarks and preserve synthetic/planned qualifications, authority gates and unresolved outcomes while updating visible labels.
 
+Tailoring the wellbeing coordination pattern for Enterprise, Sport/Integrity, Care, Protection and Assure remains future design discussion, not implemented integrations or permission to edit those sites.
+
+**Why:** The owner requested building the Travel demonstration and documenting those other examples only.
+
+**How to apply:** Require separate scope and domain-authority, consent and recipient-boundary review before implementation in another vertical. Practical support delivery is not evidence of improved wellbeing.
+
 The Travel Stage 3 preview may demonstrate planned multi-property coordination, signal streams, proposed action routing, role views, assurance and illustrative value reporting. An Enterprise workplace-risk or private-support journey is a proposed concept, not approved roadmap scope. Keep both journeys synthetic and local-only; approval in the preview is not operational authority.
 
 **Why:** The available Travel roadmap documents expansion and future-stage capabilities, but no approved Enterprise workplace-risk or private-support roadmap was found when this preview was built. Treating the latter as a planned product capability would overclaim readiness and mishandle a sensitive use case.
