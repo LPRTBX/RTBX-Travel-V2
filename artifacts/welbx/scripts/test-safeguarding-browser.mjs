@@ -2,8 +2,17 @@ import assert from "node:assert/strict";
 import { mkdir } from "node:fs/promises";
 import { chromium } from "playwright";
 
-const base = process.argv[2]?.replace(/\/$/, "");
-assert(base && /^https?:\/\//.test(base), "Provide the managed preview URL; no credentials are used.");
+// With no URL argument the suite starts its own isolated, loopback-only server (as test-wellbeing-browser does) so CI needs no preview.
+// With a URL it checks that managed preview and uses no credentials.
+import { randomBytes } from "node:crypto";
+import { createTravelServer } from "../server/app.mjs";
+import { createAccess } from "../server/access.mjs";
+const external = process.argv[2]?.replace(/\/$/, "");
+assert(!external || /^https?:\/\//.test(external), "Provide a preview URL or no argument; no credentials are used.");
+const fixtureCode = randomBytes(32).toString("hex");
+const server = external ? null : createTravelServer({ access: createAccess({ getCode: () => fixtureCode }) });
+if (server) await new Promise(resolve => server.listen(0, "127.0.0.1", resolve));
+const base = external ?? `http://localhost:${server.address().port}`;
 const browser = await chromium.launch({ executablePath: process.env.PLAYWRIGHT_EXECUTABLE_PATH || undefined });
 const output = new URL("../../../generated-artifacts/", import.meta.url);
 await mkdir(output, { recursive: true });
@@ -157,4 +166,7 @@ try {
     console.log(`PASS ${width}px: anonymous/direct public entry; emergency before gates; complete keyboard guide; hold/decline; missing checks; two reassignment paths/renewed approval/acceptance; feedback/open concern; all role projections/counts/history; scenario isolation/reset; layout; no network writes`);
     await page.close();
   }
-} finally { await browser.close(); }
+} finally {
+  await browser.close();
+  if (server) await new Promise(resolve => server.close(resolve));
+}

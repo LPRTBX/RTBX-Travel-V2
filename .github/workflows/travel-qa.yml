@@ -62,6 +62,15 @@ jobs:
       - name: Test public and partner browser boundary
         run: pnpm --filter @workspace/rtbx-travel run test:partner-browser
 
+      - name: Wellbeing stories, public (practical support)
+        run: pnpm --filter @workspace/rtbx-travel run test:wellbeing-browser
+
+      - name: Wellbeing stories, protected tab and gate regression
+        run: pnpm --filter @workspace/rtbx-travel run test:wellbeing-browser:partner
+
+      - name: Wellbeing stories, Guest feels unsafe (safeguarding)
+        run: pnpm --filter @workspace/rtbx-travel run test:safeguarding-browser
+
       - name: UI regressions
         run: pnpm --filter @workspace/rtbx-travel run test:ui
 
