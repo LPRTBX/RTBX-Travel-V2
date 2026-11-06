@@ -1,0 +1,10 @@
+{
+  "repository": "LPRTBX/RTBX-Main",
+  "commit": "79939dcc69755353f5cdbdebc52dce4af05724c4",
+  "branch": "feat/jaldo-os-bridge-commands",
+  "note": "Head of the draft Core PR #121 (contract 1.2 bridge/projection work). Not on Core main until that PR is merged; if the branch is force-pushed the commit stays fetchable only while a ref points at it.",
+  "package": "@workspace/jaldo-orchestration",
+  "contractVersion": "1.2.0",
+  "configuration": "travel-practical-support@1.0.0",
+  "defaultRelativePath": "../../../../rtbx-main"
+}
