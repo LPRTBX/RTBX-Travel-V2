@@ -1,0 +1,24 @@
+/* Additions to the approved JALDO wellbeing styles (page.css, wellbeing-support.css), using the same palette and type. */
+.hz-banner{margin:0;background:#ee8c50;color:#102d39;padding:8px clamp(16px,4vw,48px);font-weight:700;font-size:14.5px;line-height:1.4}
+.hz-main{max-width:1200px;margin:24px auto;padding:0 16px;border:0;background:transparent;display:grid;gap:16px}
+.hz-controls{display:grid;gap:10px}
+.hz-clock{align-self:center}
+.wbs{font-size:16px;line-height:1.5}
+.wbs-k{font-size:14px}
+.wbs-h3{font-size:16px;margin:14px 0 6px}
+.wbs-scroll{overflow-x:auto;max-width:100%}
+.wbs-table{border-collapse:collapse;width:100%;font-size:14.5px}
+.wbs-table th,.wbs-table td{border:1px solid var(--wb-line);padding:8px 10px;text-align:left;vertical-align:top;min-width:96px}
+.wbs-table th{background:var(--wb-mist);font-size:14px}
+.wbs-reason{color:#8a1f1f}
+#result{padding:12px 14px;border-left:4px solid var(--wb-mid);background:var(--wb-mist);font-size:15px}
+#result.refused{border-left-color:#8a1f1f;background:#f6e7e4}
+#result:focus,#role-view:focus{outline:3px solid #ee8c50;outline-offset:3px}
+.wbs-next:focus-within{outline:0}
+.wbs-btn,.wbs-role{max-width:100%;overflow-wrap:anywhere}
+.wbs-card h3{margin:0}
+.wbs-hist li{grid-template-columns:auto 1fr}
+.pw-header nav span{font-size:14px}
+.wbs-lede{font-size:16px}
+.wbs-photo img{max-width:100%;height:auto}
+@media(max-width:760px){.wbs-hist li{grid-template-columns:1fr}.hz-main{padding:0 12px}}

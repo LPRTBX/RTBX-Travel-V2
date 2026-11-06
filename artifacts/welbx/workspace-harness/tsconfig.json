@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "ES2022", "module": "ESNext", "moduleResolution": "bundler", "strict": true, "skipLibCheck": true, "noEmit": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"], "allowImportingTsExtensions": true, "types": ["vite/client", "node"], "typeRoots": ["../node_modules/@types"],
+    "baseUrl": ".",
+    "paths": {
+      "@workspace/jaldo-orchestration": ["../../../../rtbx-main/lib/jaldo-orchestration/src/index.ts"],
+      "@workspace/jaldo-orchestration/deployments": ["../../../../rtbx-main/lib/jaldo-orchestration/src/deployments/index.ts"]
+    }
+  },
+  "include": ["src", "tests", "vite-env.d.ts"]
+}
