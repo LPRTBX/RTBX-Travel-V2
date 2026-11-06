@@ -15,7 +15,7 @@ const results = [];
 const check = (name, ok, detail) => results.push({ name, ok, detail });
 const get = path => fetch(base + path, { redirect: "manual", headers: { accept: "text/html,application/json" } });
 
-for (const path of ["/", "/public-demo"]) {
+for (const path of ["/", "/public-demo", "/public-wellbeing"]) {
   const response = await get(path);
   const body = await response.text();
   check(`Public page ${path} loads`, response.status === 200 && /JALDO Travel/.test(body) && !/\/@vite\/client|src\/main\.tsx/.test(body),

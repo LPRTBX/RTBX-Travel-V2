@@ -18,7 +18,7 @@ export async function checkPublicNavigation(page, width) {
   const heroTop = await page.locator(".hero").evaluate(el => el.getBoundingClientRect().top + scrollY);
   const order = await page.locator("main > section").evaluateAll(list => list.map(section => section.id || section.className.split(" ")[0]));
   // The approved guest showcase follows the hero; supporting mechanics stay after the main story.
-  const mainStory = ["hero", "travel-guest-app", "coordinated-response", "sample-demo", "outcomes", "existing-systems", "contact"];
+  const mainStory = ["hero", "travel-guest-app", "coordinated-response", "wellbeing-support", "sample-demo", "outcomes", "existing-systems", "contact"];
   assert(order.slice(0, mainStory.length).join() === mainStory.join(), `public page order changed: ${order}`);
   assert(order.indexOf("supporting-detail") === mainStory.length && ["principles", "ai-in-the-work", "loop"].every(id => order.indexOf(id) > mainStory.length), "supporting detail not labelled after the main story");
   const expectedNavigation = [
@@ -35,6 +35,7 @@ export async function checkPublicNavigation(page, width) {
   }
   assert(heroTop <= 140, `mobile header still pushes the hero to ${heroTop}px`);
   assert(await toggle.isVisible() && await toggle.getAttribute("aria-expanded") === "false", "menu control missing or open");
+  assert(await page.locator(".hdr-demo").isVisible() && await page.locator("#site-nav .partner").count() === 1, "demo or Partner Room entry missing");
   assert(!(await links.first().isVisible()), "collapsed navigation still visible");
   await toggle.focus();
   assert(await toggle.evaluate(el => getComputedStyle(el).outlineStyle !== "none"), "menu control focus not visible");

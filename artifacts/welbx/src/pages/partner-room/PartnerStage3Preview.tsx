@@ -92,7 +92,7 @@ export default function PartnerStage3Preview() {
             marginBottom: 12,
           }}>
             <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.4)", lineHeight: 1.7, margin: 0 }}>
-              Fictional simulations of planned coordination: Peak-pressure response and Coordination across hotels. Safety intervention starts earlier; these demonstrations extend coordination and reviewed learning across properties. All people, properties, signals, decisions, assignments, notifications, outcomes and metrics here are simulated. No live integration, message, task, partner request, room allocation or private-support action occurs.
+              Fictional simulations of planned coordination: Peak-pressure response, Coordination across hotels and Coordinate wellbeing support. Safety intervention starts earlier; these demonstrations extend coordination and reviewed learning across properties. All people, properties, signals, decisions, assignments, notifications, outcomes and metrics here are simulated. No live integration, message, task, partner request, room allocation or private-support action occurs.
             </p>
           </div>
 
