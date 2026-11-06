@@ -9,3 +9,8 @@ The standalone Sites preview is owner-private. The public CTA therefore opens th
 The served public page's hotel-response CTA opens `/public-demo#sample-demo`; the React landing retains its existing governed working-proof entry. Three synthetic screen assets are explicitly classified in source checks, bundle checks and the server public-file list. All other files remain closed by default.
 
 Validation: TypeScript type-check, Vite production build, access-boundary check, local-asset check, production bundle-boundary check and nine server-access tests passed. Desktop browser review confirmed the showcase and navigation anchor. Narrow-viewport visual QA is still unverified; responsive styles stack the three screen cards below 760px. No merge or deployment is included.
+
+
+## Samples-only decision — 6 November 2026
+
+The guest showcase is sample screens only. Remove the guest-app launch CTA and invitation/walkthrough CTA. Keep the separate hotel-response demo entry. No guest-app URL or guest return navigation is introduced. The standalone return-link PR was closed without merging. Public app-link enablement is not part of this change.
