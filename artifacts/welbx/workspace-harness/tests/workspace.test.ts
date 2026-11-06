@@ -273,3 +273,21 @@ describe("isolation and dependencies", () => {
     expect(DEMO_ROLES.length).toBe(6);
   });
 });
+
+describe("every option Core offers a role can be reached on the page", () => {
+  it("the guest can record a response even while an earlier approval is waiting (found in review)", () => {
+    const s = new Session(); runPath(s, "didnothelp");
+    const html = roleView(s, "guest", null);
+    expect(nextSteps(s, "guest").length).toBeGreaterThan(1);
+    for (const label of ["Support helped", "Still needs support", "Keep feedback pending"]) expect(html).toContain(label);
+  });
+  it("every option listed for any step is rendered as a button, for every role on every path", () => {
+    for (const id of Object.keys(SCRIPTS)) {
+      const s = new Session(); runPath(s, id);
+      for (const r of ROLE_ORDER) {
+        const html = roleView(s, r, null);
+        for (const n of nextSteps(s, r)) for (const c of [n.primary, ...n.others]) if (c) expect(html, `${id}/${r}: ${c.label}`).toContain(c.label.replace(/&/g, "&amp;"));
+      }
+    }
+  });
+});

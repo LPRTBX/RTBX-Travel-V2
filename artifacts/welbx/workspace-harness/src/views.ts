@@ -44,7 +44,7 @@ function nextCard(items: NextStep[], role: DemoRoleId, waitingOnOthers: string[]
     <p class="do">${esc(first.what)}</p>
     <div class="wbs-primary">${first.primary ? btn(first.primary, "main") : first.others.length ? `<p class="wbs-small">Choose one. None is the expected answer.</p><div class="wbs-alts">${first.others.map((c) => btn(c, "alt")).join("")}</div>` : `<p class="wbs-small">Core would not accept any command from this role for this step yet.</p>`}</div>
     ${first.primary && first.others.length ? `<details class="wbs-more"><summary>Other options for this step (${first.others.length})</summary><div class="wbs-alts">${first.others.map((c) => btn(c, "alt")).join("")}</div></details>` : ""}
-    ${rest.length ? `<details class="wbs-more"><summary>Also waiting for you (${rest.length})</summary><ul class="wbs-list">${rest.map((x) => `<li>${esc(x.what)}${x.primary ? `<br>${btn(x.primary, "alt")}` : ""}</li>`).join("")}</ul></details>` : ""}
+    ${rest.length ? `<details class="wbs-more"><summary>Also waiting for you (${rest.length})</summary><ul class="wbs-list">${rest.map((x) => `<li>${esc(x.what)}${x.primary ? `<br>${btn(x.primary, "alt")}${x.others.length ? `<details class="wbs-more"><summary>Other options for this step (${x.others.length})</summary><div class="wbs-alts">${x.others.map((c) => btn(c, "alt")).join("")}</div></details>` : ""}` : x.others.length ? `<br><span class="wbs-small">Choose one. None is the expected answer.</span><div class="wbs-alts">${x.others.map((c) => btn(c, "alt")).join("")}</div>` : ""}</li>`).join("")}</ul></details>` : ""}
   </section>`;
 }
 
@@ -169,7 +169,7 @@ export function page(s: Session, role: DemoRoleId, resultText: { ok: boolean; te
   const pin = typeof __CORE_PIN__ !== "undefined" ? __CORE_PIN__ : { commit: "test", contractVersion: "" };
   const path = PATHS.find((p) => p.id === pathId);
   return `<a class="pw-skip" href="#role-view">Skip to the selected role's view</a>
-  <header class="pw-header"><a class="pw-brand" href="#" aria-label="JALDO Travel review workspace"><img src="/brand/jaldo-logo-white.webp" alt="JALDO" width="120"><span>TRAVEL · REVIEW WORKSPACE</span></a>
+  <header class="pw-header"><div class="pw-brand"><img src="/brand/jaldo-logo-white.webp" alt="JALDO" width="120"><span>TRAVEL · REVIEW WORKSPACE</span></div>
     <nav aria-label="Workspace"><span>Core ${esc(pin.commit.slice(0, 7))} · contract ${esc(pin.contractVersion)}</span></nav></header>
   <p class="hz-banner" role="note">${esc(LABELS.banner)}</p>
   <main id="main" class="wbs hz-main">

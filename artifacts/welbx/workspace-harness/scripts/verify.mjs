@@ -7,9 +7,14 @@ import { dirname, resolve } from "node:path";
 const here = dirname(fileURLToPath(import.meta.url)), root = resolve(here, "..");
 const require = createRequire(import.meta.url);
 let chromium; try { ({ chromium } = require("playwright")); } catch { ({ chromium } = require(resolve(process.env.NODE_PATH || "", "playwright"))); }
-const srv = spawn("node", ["../node_modules/vite/bin/vite.js", "preview", "--config", "vite.config.ts", "--port", "5320", "--strictPort"], { cwd: root, stdio: "ignore" });
-await new Promise((r) => setTimeout(r, 2500));
-const URL = "http://127.0.0.1:5320/";
+// Target: VERIFY_FILE=<path to the packaged single HTML file> tests that file over file:// ; otherwise tests `vite preview` of dist/.
+const FILE = process.env.VERIFY_FILE ? resolve(process.env.VERIFY_FILE) : null;
+const srv = FILE ? { kill() {} } : spawn("node", ["../node_modules/vite/bin/vite.js", "preview", "--config", "vite.config.ts", "--port", "5320", "--strictPort"], { cwd: root, stdio: "ignore" });
+if (!FILE) await new Promise((r) => setTimeout(r, 2500));
+const URL = FILE ? "file://" + FILE : "http://127.0.0.1:5320/";
+import { mkdirSync } from "node:fs";
+const shotDir = resolve(root, FILE ? "screenshots/packaged" : "screenshots"); mkdirSync(shotDir, { recursive: true });
+const shot = (n) => resolve(shotDir, n);
 const fails = [], ok = [];
 const check = (c, m) => (c ? ok : fails).push(m);
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM || "/opt/pw-browsers/chromium", args: ["--no-sandbox"] });
@@ -51,7 +56,7 @@ try {
   // keyboard: tab reaches a role button and shows a visible focus ring; focus moves to result after a command
   await p.keyboard.press("Tab"); const focusable = await p.evaluate(() => document.activeElement?.tagName);
   check(!!focusable, "keyboard focus lands on an element");
-  await p.screenshot({ path: resolve(root, "screenshots/desktop-1440-journey-end.png"), fullPage: true });
+  await p.screenshot({ path: shot("desktop-1440-journey-end.png"), fullPage: true });
   // each path
   const paths = ["normal", "missing", "capacity", "dependency", "didnothelp", "noresponse", "maintenance"];
   for (const id of paths) {
@@ -64,7 +69,7 @@ try {
       check(small === 0, `path ${id} / ${r}: no text under 12.5px`);
     }
     await role(p, "duty-lead");
-    await p.screenshot({ path: resolve(root, `screenshots/path-${id}-duty-lead-1440.png`), fullPage: true });
+    await p.screenshot({ path: shot(`path-${id}-duty-lead-1440.png`), fullPage: true });
   }
   await p.close();
   // overflow at three widths + mobile/tablet screenshots
@@ -74,8 +79,8 @@ try {
       await guide(q); await q.click(`[data-path="${id}"]`);
       for (const r of roles) { await role(q, r); const o = await q.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth); check(o <= 0, `${w}px ${id}/${r}: no horizontal page overflow`); }
     }
-    await role(q, "guest"); await q.screenshot({ path: resolve(root, `screenshots/${w <= 390 ? "mobile-390" : w <= 820 ? "tablet-820" : "desktop-1440"}-guest-maintenance.png`), fullPage: true });
-    await role(q, "duty-lead"); await q.screenshot({ path: resolve(root, `screenshots/${w <= 390 ? "mobile-390" : w <= 820 ? "tablet-820" : "desktop-1440"}-duty-lead-maintenance.png`), fullPage: true });
+    await role(q, "guest"); await q.screenshot({ path: shot(`${w <= 390 ? "mobile-390" : w <= 820 ? "tablet-820" : "desktop-1440"}-guest-maintenance.png`), fullPage: true });
+    await role(q, "duty-lead"); await q.screenshot({ path: shot(`${w <= 390 ? "mobile-390" : w <= 820 ? "tablet-820" : "desktop-1440"}-duty-lead-maintenance.png`), fullPage: true });
     await q.close();
   }
   check(errors.length === 0, `no console or page errors (${errors.length})`);

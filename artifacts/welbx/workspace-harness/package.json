@@ -8,6 +8,7 @@
     "check:core-pin": "node check-core-pin.mjs",
     "typecheck": "node ../../../node_modules/typescript/bin/tsc -p tsconfig.json",
     "test": "node ../node_modules/vitest/vitest.mjs run --config vitest.config.ts",
+    "package": "node scripts/package-single.mjs",
     "build": "node ../node_modules/vite/bin/vite.js build --config vite.config.ts",
     "dev": "node ../node_modules/vite/bin/vite.js --config vite.config.ts",
     "preview": "node ../node_modules/vite/bin/vite.js preview --config vite.config.ts",
