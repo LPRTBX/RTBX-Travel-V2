@@ -33,7 +33,9 @@ const guide = async (p) => { await tools(p); if (!(await p.locator("#guide").eva
 const text = (p) => p.locator("#role-view").innerText();
 /** One step a person could take by clicking: adopt a recognised moment, a highlighted next step, or the guest's explicit choice to allow. */
 const stepOnce = async (p) => {
-  const adopt = p.locator("[data-adopt]").first(); if ((await adopt.count()) && (await adopt.isVisible())) { await adopt.click(); return true; }
+  // The guest answers "Would you like practical help?" explicitly (yes), then chooses what to share. Neither is automatic.
+  const yes = p.locator('[data-help="yes"]').first(); if ((await yes.count()) && (await yes.isVisible())) { await yes.click(); return true; }
+  const adopt = p.locator("[data-adopt]").first(); if ((await adopt.count()) && (await adopt.isVisible())) { await p.fill("#adopt-reason", "The room is still unavailable and the repair is long, so a check-in is sensible."); await adopt.click(); return true; }
   const b = p.locator('[data-testid="next-step"] .wbs-primary button.main').first(); if (await b.count()) { await b.click(); return true; }
   const allow = p.locator('[data-testid="next-step"] .wbs-alts button').filter({ hasText: /^Allow / }).first(); if (await allow.count()) { await allow.click(); return true; }
   return false;

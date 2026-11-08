@@ -35,10 +35,12 @@ export function runPath(s: Session, id: string): { ok: true } | { ok: false; mes
   s.reset();
   // Starting from signals, every path except the first adopts the recognised moment as the Duty lead, then carries on as before.
   if (s.origin === "signals" && (SCRIPTS[id] ?? []).length > 0) {
-    const a = s.adopt("duty-lead");
+    const a = s.adopt("duty-lead", { reason: "Review setup: opening the proactive check-in because the room is still unavailable." });
     if (!a.ok) return { ok: false, message: `Setup stopped: adopting the recognised moment was refused (${a.code}): ${a.message}` };
   }
   for (const [role, command] of SCRIPTS[id] ?? []) {
+    // From signals, the guest says yes to practical help before any sharing choice (a demonstration answer, not a Core command).
+    if (s.origin === "signals" && role === "guest" && s.help !== "yes") { const h = s.chooseHelp("yes"); if (!h.ok) return { ok: false, message: `Setup stopped: ${h.message}` }; }
     const r = s.apply(role, command);
     if (!r.ok) return { ok: false, message: `Setup stopped: Core refused ${command.type} as ${role} (${r.code}): ${r.message}` };
   }

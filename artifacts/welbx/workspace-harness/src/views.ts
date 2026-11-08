@@ -2,10 +2,10 @@
 // role (holderView, subjectView, recipientView, deadlinesFor, linksFor) and from evidence addressed to that role's audience.
 // The holder's history, owners, follow-ups and other units' work are rendered for the holder alone.
 import { GENERIC_RESTRICTION, deadlineExpired, deadlinesFor, holderView, isLive, linksFor, partyOf, recipientView, subjectOf, subjectView, type DeadlineRecord, type EvidenceRecord } from "@workspace/jaldo-orchestration";
-import { CONTRACTS, DEADLINE_NAMES, DEADLINE_WORDS, DEPENDENCY_WORDS, FOLLOWUP_WORDS, GAPS, GUEST_SHARE, INTRO, JALDO_DOES, LABELS, LINK_WORDS, NEEDS_ATTENTION, PATHS, REASON_WORDS, STATE_WORDS, STEP, STEP_STATUS, STOPS, STRENGTH, WORDS } from "./copy";
+import { CONTRACTS, DEADLINE_NAMES, HELP_ACCEPTED, HELP_WORDS, DEADLINE_WORDS, DEPENDENCY_WORDS, FOLLOWUP_WORDS, GAPS, GUEST_SHARE, INTRO, JALDO_DOES, LABELS, LINK_WORDS, NEEDS_ATTENTION, PATHS, REASON_WORDS, STATE_WORDS, STEP, STEP_STATUS, STOPS, STRENGTH, WORDS } from "./copy";
 import { moreOptions, nextSteps, optionsFor, planOptions, refusals, typeOptions, type Candidate, type NextStep } from "./next";
 import { DERIVATION_NOTE } from "./config";
-import { RULE, SOURCES } from "./signals";
+import { RULE, SOURCES, display, fullTime } from "./signals";
 import { DEMO_ROLES, MEMBER_NAMES, roleOf, type DemoRoleId, type Session } from "./session";
 
 export const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
@@ -114,23 +114,32 @@ function mobileSteps(s: Session, v: HolderV, owner: (id: string) => string): str
   return `<ol class="wbs-list wbs-steps">${items}</ol>`;
 }
 
-/** Evidence the duty lead can see for one source or step, as event rows for the signal table. */
+/** The signal table: every event, in event-time order, with its full time, what it reported, how it was handled and how fresh the current reading is. */
 function signalRows(s: Session): string {
-  const rows = [...s.desk.received].sort((a, b) => Date.parse(a.signal.occurredAt) - Date.parse(b.signal.occurredAt) || a.order - b.order);
-  return rows.map((r) => `<tr>${cell("Source", esc(SOURCES[r.signal.source].label))}${cell("Event time (UTC)", esc(hhmm(r.signal.occurredAt)))}${cell("Arrived", `#${r.order}`)}${cell("What it reported", `<ul class="wbs-list">${Object.entries(r.signal.context).map(([k, val]) => `<li>${esc(factLabel(k))}: ${esc(val)}</li>`).join("")}</ul>`)}${cell("How it was handled", `<strong>${esc(HANDLED[r.outcome])}</strong><br><span class="wbs-small">${esc(r.reason)}</span>`)}</tr>`).join("");
+  const now = s.clock;
+  const rows = [...s.desk.received].sort((a, b) => (Date.parse(a.signal.occurredAt) || 0) - (Date.parse(b.signal.occurredAt) || 0) || a.order - b.order);
+  const fresh = new Map(s.desk.assess(now).freshness.map((f) => [f.source, f]));
+  return rows.map((r) => {
+    const isCurrent = s.desk.current(r.signal.source) === r;
+    const f = fresh.get(r.signal.source);
+    const freshness = isCurrent && f ? `<strong>${f.fresh ? "Fresh" : "Too old: supports nothing"}</strong><br><span class="wbs-small">${f.ageMinutes} min old · maximum ${f.maxAgeMinutes} min · ${f.fresh ? "fresh until" : "was fresh until"} ${esc(fullTime(f.freshUntil))}</span>` : `<span class="wbs-small">${r.outcome === "taken-in" ? "Not the current reading" : "Not relied on"}</span>`;
+    const when = Number.isNaN(Date.parse(r.signal.occurredAt)) ? esc(String(r.signal.occurredAt || "(missing)")) : esc(fullTime(r.signal.occurredAt));
+    return `<tr>${cell("Source", esc(SOURCES[r.signal.source].label))}${cell("Event time", when)}${cell("Arrived", `#${r.order}`)}${cell("What it reported", `<ul class="wbs-list">${Object.entries(r.signal.context).map(([k, val]) => `<li>${esc(factLabel(k))}: ${esc(r.outcome === "refused" ? (val === "" ? "(missing)" : val) : display(r.signal.source, k, val))}</li>`).join("")}</ul>`)}${cell("How it was handled", `<strong>${esc(HANDLED[r.outcome])}</strong><br><span class="wbs-small">${esc(r.reason)}</span>`)}${cell("Freshness", freshness)}</tr>`;
+  }).join("");
 }
 const HANDLED: Record<string, string> = { "taken-in": "Taken in", duplicate: "Duplicate: no second effect", conflict: "Conflict: nothing recorded", superseded: "Superseded: older than the current reading", refused: "Refused" };
-const factLabel = (k: string) => ({ room: "Location", status: "Status", promisedReady: "Promised ready", guestArrived: "Guest arrived", guestHelpRequest: "Help request from guest", workOrder: "Work order", estimatedCompletion: "Estimated completion" } as Record<string, string>)[k] ?? k;
+const factLabel = (k: string) => ({ room: "Room", status: "Status", promisedReady: "Promised ready", guestArrived: "Guest arrived", guestHelpRequest: "Help request from guest", workOrder: "Work order", estimatedCompletion: "Estimated completion" } as Record<string, string>)[k] ?? k;
 
 function signalTable(s: Session): string {
-  return `<div class="wbs-scroll"><table class="wbs-table review-responsive"><thead><tr><th>Source</th><th>Event time (UTC)</th><th>Arrived</th><th>What it reported</th><th>How it was handled</th></tr></thead><tbody>${signalRows(s) || "<tr><td colspan='5'>No events have arrived.</td></tr>"}</tbody></table></div>
-    <p class="wbs-small">Events arrive in the order shown by “Arrived”; they are read in event-time order. Core's event envelope validates each one. The maintenance event type is not one Core admits: ${esc(s.coreRefusesMaintenance())}</p>`;
+  const f = s.desk.freshness;
+  return `<div class="wbs-scroll"><table class="wbs-table review-responsive"><thead><tr><th>Source</th><th>Event time</th><th>Arrived</th><th>What it reported</th><th>How it was handled</th><th>Freshness</th></tr></thead><tbody>${signalRows(s) || "<tr><td colspan='6'>No events have arrived.</td></tr>"}</tbody></table></div>
+    <p class="wbs-small">Events are read in event-time order, whatever order they arrived in. Core's event envelope validates each one; the checks on required fields, allowed values, room matching and full timestamps, and the freshness limits (${esc(SOURCES.pms.label)} ${f.maxAgeMinutes.pms} min, ${esc(SOURCES.maintenance.label)} ${f.maxAgeMinutes.maintenance} min), belong to this demonstration adapter. Freshness is re-evaluated whenever the clock moves and again at the moment of adoption. The maintenance event type is not one Core admits: ${esc(s.coreRefusesMaintenance())}</p>`;
 }
 
 /** Before any request exists: what JALDO received, what it recognised and why, what is uncertain, and the one permitted next action. */
 function signalDesk(s: Session): string {
   const a = s.desk.assess(s.clock);
-  const evidence = a.evidence.map((e) => `<li><strong>${esc(e.source)}</strong> · event ${esc(hhmm(e.time))} UTC: ${e.facts.map((f) => `${esc(f.label)} ${esc(f.value)}`).join("; ")}</li>`).join("");
+  const evidence = a.evidence.map((e) => { const f = a.freshness.find((x) => x.label === e.source); return `<li><strong>${esc(e.source)}</strong> · event ${esc(fullTime(e.time))}${f ? ` · ${f.ageMinutes} min old (maximum ${f.maxAgeMinutes}${f.fresh ? "" : ": too old"})` : ""}<br>${e.facts.map((x) => `${esc(x.label)}: ${esc(x.value)}`).join("; ")}</li>`; }).join("");
   const reco = a.recognised
     ? `<section class="wbs-card review-reco" aria-labelledby="reco-h"><span class="wbs-k">Recognised moment · demonstrated recommendation</span><h2 id="reco-h">A proactive service check-in may help</h2>
         <p><strong>Why.</strong> ${esc(a.reason)}</p>
@@ -138,21 +147,59 @@ function signalDesk(s: Session): string {
         <h3 class="wbs-h3">Not established</h3><ul class="wbs-list">${a.uncertainty.map((u) => `<li>${esc(u)}</li>`).join("")}</ul>
         <h3 class="wbs-h3">Who decides, and what happens next</h3>
         <p>The Duty lead decides. If opened, the Duty lead accepts responsibility, then the guest chooses whether practical help is wanted before anything is shared. Guest services would deliver it; Reception and Housekeeping would only be asked for checks and would not receive guest details.</p>
-        <p><button type="button" class="wbs-btn main" data-adopt="1">Open a proactive check-in for me to review</button></p>
-        <p class="wbs-small">Opening it records a request addressed to you. It approves nothing, shares nothing and releases nothing. Leaving it unopened is also a valid decision.</p></section>`
-    : `<section class="wbs-card review-reco" aria-labelledby="reco-h"><span class="wbs-k">Recognised moment · demonstrated recommendation</span><h2 id="reco-h">Not enough to recommend a check-in</h2>
+        <p class="wbs-small">Freshness is checked again when you decide: if a reading has aged out or the evidence has changed, nothing is opened.</p>
+        <p><label class="wbs-label" for="adopt-reason"><strong>Why are you opening it?</strong> Your reason is recorded with your decision.</label><br><textarea id="adopt-reason" class="wbs-textarea" rows="2" maxlength="300" aria-describedby="adopt-note"></textarea></p>
+        <p><button type="button" class="wbs-btn main" data-adopt="${esc(s.desk.digest())}">Open a proactive check-in for me to review</button></p>
+        <p class="wbs-small" id="adopt-note">Opening it records a request addressed to you. It approves nothing, shares nothing and releases nothing. The guest then decides whether help is wanted, and separately what may be shared. Leaving it unopened is also a valid decision.</p></section>`
+    : `<section class="wbs-card review-reco" aria-labelledby="reco-h"><span class="wbs-k">Recognised moment · demonstrated recommendation</span><h2 id="reco-h">${a.missing.some((m) => /old/.test(m)) ? "The evidence is too old to recommend a check-in" : "Not enough to recommend a check-in"}</h2>
         <p>${esc(a.reason)}</p><h3 class="wbs-h3">What is missing or against it</h3><ul class="wbs-list">${a.missing.map((m) => `<li>${esc(m)}</li>`).join("")}</ul>
         <p class="wbs-small">A single source, a short wait, or a guest who has already asked does not call for a proactive check-in. Operational delay alone never establishes distress.</p></section>`;
   return `<section class="wbs-card" aria-labelledby="sig-h"><span class="wbs-k" id="sig-h">What JALDO received</span>${signalTable(s)}</section>${reco}`;
 }
 
-/** After adoption, the lead can still see what the request rests on. */
+/** After adoption: why the response exists. The demonstration decision record and Core's own evidence are shown apart, on purpose. */
 function recognisedBasis(s: Session): string {
   if (s.origin !== "signals") return "";
-  const a = s.desk.assess(s.clock);
+  const r = s.adoptions[0];
+  if (!r) return "";
+  const core = s.evidence.find((e) => e.kind === "request.opened");
   return `<section class="wbs-card" aria-labelledby="basis-h"><span class="wbs-k" id="basis-h">Why this response exists</span>
-    <p>JALDO recognised a possible need at ${esc(hhmm(s.desk.recognisedAt ?? s.clock.toISOString()))} UTC from two independent sources and recommended a proactive check-in; the Duty lead adopted it at ${esc(hhmm(s.adoptedAt ?? ""))} UTC. The guest had not asked. ${esc(a.uncertainty[2])}</p>
+    <p>JALDO recognised a possible need${r.recognisedAt ? ` at ${esc(fullTime(r.recognisedAt))}` : ""} from two independent, fresh sources and recommended a proactive check-in. The guest had not asked. ${esc(s.desk.assess(s.clock).uncertainty[2])}</p>
+    <h3 class="wbs-h3">Demonstration decision record <span class="wbs-small">(kept by this adapter; not Core evidence)</span></h3>
+    <dl class="wbs-outcome" data-testid="decision-record"><dt>Authorised by</dt><dd>${esc(r.decidedBy.label)} · ${esc(r.decidedBy.note)}</dd>
+      <dt>When</dt><dd>${esc(fullTime(r.decidedAt))}</dd><dt>Reason given</dt><dd>${esc(r.reason)}</dd>
+      <dt>Interpretation rule</dt><dd>${esc(r.rule.id)} version ${esc(r.rule.version)}</dd>
+      <dt>Source references</dt><dd>${r.sources.map((x) => `${esc(x.label)} ${esc(x.id)} (event ${esc(fullTime(x.occurredAt))}; ${x.ageMinutes} min old at decision, maximum ${x.maxAgeMinutes})`).join("<br>")}</dd>
+      <dt>Evidence checked</dt><dd>Fingerprint ${esc(r.evidenceDigest)}, re-checked at the moment of decision</dd></dl>
+    <h3 class="wbs-h3">Core-owned evidence <span class="wbs-small">(recorded by the Core kernel)</span></h3>
+    <dl class="wbs-outcome" data-testid="core-record"><dt>Opening event</dt><dd>${esc(r.core.eventId)} · idempotency key ${esc(r.core.idempotencyKey)}</dd>
+      <dt>Core evidence</dt><dd>request.opened${r.core.evidenceSequence !== null ? `, sequence ${r.core.evidenceSequence}` : ""}, recorded by ${core?.actor?.kind === "system" ? "Core's system actor" : "Core"}</dd></dl>
+    <p class="wbs-small">Core holds the opening event and its sequence. It has no field for who decided, why, on which sources or under which rule version, so those live only in the demonstration record above (CORE-GAPS.md, G5).</p>
     <details class="wbs-more"><summary>Source events and how each was handled</summary>${signalTable(s)}</details></section>`;
+}
+
+/** The guest's own answer about help, and what it does and does not mean. Held by this adapter, not Core. */
+function helpSection(s: Session): string {
+  if (s.origin !== "signals" || !s.opened) return "";
+  const words = { unanswered: "The guest has not answered yet. That is not a yes and not a no.", yes: "The guest said yes to practical help.", no: "The guest said no thanks." }[s.help];
+  const hist = s.helpHistory.map((h) => `<li>${esc(fullTime(h.at))} · ${HELP_WORDS[h.status]}</li>`).join("");
+  return `<section class="wbs-card" aria-labelledby="help-h"><span class="wbs-k" id="help-h">The guest's choice about help <span class="wbs-small">(demonstration record; not Core evidence)</span></span>
+    <p><strong>${esc(words)}</strong>${s.offeredAt && s.help === "unanswered" ? ` Offered at ${esc(fullTime(s.offeredAt))}${s.helpOffered ? "" : ""}.` : ""}</p>
+    ${hist ? `<ul class="wbs-list">${hist}</ul>` : ""}
+    <p class="wbs-small">Accepting help and agreeing to share are two decisions. Saying yes shares nothing; agreeing to share never counts as saying yes. Core has no contract for accepting an offer of help, so this answer and the gate in front of the guest's sharing choices are demonstration only (CORE-GAPS.md, G8).</p></section>`;
+}
+
+/** What the guest sees before saying yes to help, while saying no, and before the offer reaches them. Sharing choices are not shown here. */
+function guestHelpView(s: Session, resultText: { ok: boolean; text: string } | null): string {
+  const live = `<div id="result" role="status" aria-live="polite" class="wbs-scope${resultText && !resultText.ok ? " refused" : ""}" tabindex="-1">${resultText ? esc(resultText.text) : esc(WORDS.actionsNote)}</div>`;
+  let card: string;
+  if (!s.helpOffered) card = `<section class="wbs-card" aria-labelledby="g-none"><span class="wbs-k" id="g-none">Nothing is waiting for your choice yet</span><p>The hotel is preparing an offer. Nothing about you has been shared.</p></section>`;
+  else if (s.help === "no") card = `<section class="wbs-card" aria-labelledby="g-no"><span class="wbs-k" id="g-no">You said no thanks</span><p>Nothing will be shared and nothing is sent. You can change your mind at any time.</p><p><button type="button" class="wbs-btn alt" data-help="yes">Actually, yes please</button></p></section>`;
+  else card = `<section class="wbs-card wbs-ask" aria-labelledby="g-q"><span class="wbs-k">Your choice</span><h2 id="g-q">Would you like practical help?</h2>
+    <p>The hotel noticed your room is delayed. Help could mean somewhere calm to wait, water and help with luggage (fictional). Saying yes does not share anything: you choose what may be shared next, and you can still decline any of it.</p>
+    <div class="wbs-alts wbs-equal" role="group" aria-label="Would you like practical help?"><button type="button" class="wbs-btn alt" data-help="yes">Yes, I would like help</button><button type="button" class="wbs-btn alt" data-help="no">No thanks</button></div>
+    <p class="wbs-small">Not answering is not a yes and not a no. Nothing is shared either way until you say yes and choose.</p></section>`;
+  return `${hero(s, "guest")}<div class="wbs-body">${live}${card}</div>`;
 }
 
 /** Milestones from Core's own evidence, then what was recognised, delivered, felt and left open. Describes steps, never people. */
@@ -163,6 +210,7 @@ function processReview(s: Session, v: HolderV): string {
   const miles: { label: string; at: string | null }[] = [
     ...(s.origin === "signals" ? [{ label: "JALDO recognised the moment from system events", at: s.desk.recognisedAt }, { label: "Duty lead opened the proactive check-in", at: s.adoptedAt }] : [{ label: "The guest's request arrived", at: first("request.opened")?.at ?? null }]),
     { label: "Duty lead accepted responsibility", at: first("request.accepted")?.at ?? null },
+    ...(s.origin === "signals" ? [{ label: "Offer of help reached the guest (demonstration record)", at: s.offeredAt }, { label: `Guest answered about help: ${s.help === "unanswered" ? "no response" : s.help === "yes" ? "yes" : "no thanks"} (demonstration record)`, at: s.helpHistory[0]?.at ?? null }] : []),
     { label: "Guest chose to share (first agreement)", at: guestApprovals[0]?.at ?? null },
     { label: "Handover released (simulated)", at: s.evidence.find((e) => e.kind === "disclosure.made" && s.state.actions.find((a) => a.id === e.actionId)?.typeId === "support-handover")?.at ?? null },
     { label: "Delivery reported by the unit", at: first("completion.recorded")?.at ?? null },
@@ -190,7 +238,8 @@ function processReview(s: Session, v: HolderV): string {
   if (s.origin === "signals") proposals.push(`Consider whether the recognition rule's ${RULE.minimumRepairWaitMinutes}-minute repair threshold suits this property. Observed: recognised from two sources before the guest asked. (The rule is Travel-side demonstration data.)`);
   return `<section class="wbs-card" aria-labelledby="rev-h"><span class="wbs-k" id="rev-h">Process review · for authorised review</span>
     <p class="wbs-small">Describes the steps of this response, not the people in it. Nobody is scored or ranked. Nothing below changes a rule.</p>
-    <h3 class="wbs-h3">What was recognised</h3><p>${s.origin === "signals" ? `System events (${esc(SOURCES.pms.label)}, ${esc(SOURCES.maintenance.label)}) were read as a possible need before the guest asked. ${esc(s.desk.assess(s.clock).uncertainty[2])}` : "The guest asked directly. Nothing was recognised from system events."}</p>
+    <h3 class="wbs-h3">What was recognised</h3><p>${s.origin === "signals" ? `System events (${esc(SOURCES.pms.label)}, ${esc(SOURCES.maintenance.label)}) were read as a possible need before the guest asked, under ${esc(RULE.id)} v${esc(RULE.version)}. ${esc(s.desk.assess(s.clock).uncertainty[2])}` : "The guest asked directly. Nothing was recognised from system events."}</p>
+    ${s.adoptions[0] ? `<p><strong>Authorised by</strong> ${esc(s.adoptions[0].decidedBy.label)} at ${esc(fullTime(s.adoptions[0].decidedAt))}: “${esc(s.adoptions[0].reason)}” <span class="wbs-small">(demonstration decision record; Core holds only the opening event, sequence ${s.adoptions[0].core.evidenceSequence})</span></p>` : ""}
     <h3 class="wbs-h3">Response timing</h3><div class="wbs-scroll"><table class="wbs-table review-responsive"><thead><tr><th>Step</th><th>Time (UTC)</th><th>Since the step before</th></tr></thead><tbody>${timing}</tbody></table></div><p class="wbs-small">The clock is synthetic: it moves only when the reviewer moves it.</p>
     <h3 class="wbs-h3">Delivery evidence</h3><ul class="wbs-list">${evid || "<li>Nothing delivered yet.</li>"}</ul>
     <h3 class="wbs-h3">Guest outcome</h3>${out ? outcomeHtml(out) : "<p>Support has not been handed over yet.</p>"}
@@ -225,6 +274,7 @@ function attention(s: Session): string {
     return list.length ? `<div class="wbs-alts" role="group" aria-label="${esc(heading)}">${forward.map(btn).join("")}</div>${back.length ? `<details class="wbs-more"><summary>Other options that step back (${back.length})</summary><div class="wbs-alts">${back.map(btn).join("")}</div></details>` : ""}` : `<p class="wbs-small">Nothing is permitted to you on this yet.</p>`;
   };
   const rows: string[] = [];
+  if (s.origin === "signals" && s.help === "no") rows.push(`<li><strong>The guest said no thanks to help.</strong><p>Nothing will be shared or sent. The open steps can be withdrawn; the guest can still change their mind.</p>${buttons(v.actions.filter((a) => isLive(a)).flatMap((a) => optionsFor(s, role, a.id, ["withdraw"])), "Responses to a declined offer")}</li>`);
   const open = (c?.followUps ?? []).filter((f) => NEEDS_ATTENTION.followUp[f.status]);
   for (const f of open) rows.push(`<li><strong>The guest still needs support.</strong><p>Follow-up ${esc(f.id)} is open · owner: ${esc(MEMBER_NAMES[f.openedOwner ?? ""] ?? "the holder")}. Review the guest's response and coordinate further support. The earlier delivery record remains unchanged.</p>${buttons(optionsFor(s, role, f.actionId, ["closeFollowUp"]).filter((x) => x.command.type === "closeFollowUp" && x.command.followUpId === f.id), "Close the follow-up")}<a href="#followup-review">Review the open follow-up</a></li>`);
   for (const l of c?.links ?? []) {
@@ -242,7 +292,7 @@ function holderSections(s: Session): string {
   const v = holderView(s.config, s.state, s.evidence, s.facts(), "member-a");
   if (!v) {
     // Before the addressed duty lead accepts, Core gives no holder view yet; they see only the request as it was sent to them.
-    return `<section class="wbs-card" aria-labelledby="pre-h"><span class="wbs-k" id="pre-h">The request sent to you</span><ul class="wbs-list">${s.state.request.map((f) => `<li><strong>${esc(f.label)}:</strong> ${esc(f.value)}</li>`).join("")}</ul><p class="wbs-small">Accepting makes you the accountable holder. Until then Core shows no plan, history or owners.</p></section>`;
+    return `${recognisedBasis(s)}<section class="wbs-card" aria-labelledby="pre-h"><span class="wbs-k" id="pre-h">The request sent to you</span><ul class="wbs-list">${s.state.request.map((f) => `<li><strong>${esc(f.label)}:</strong> ${esc(f.value)}</li>`).join("")}</ul><p class="wbs-small">Accepting makes you the accountable holder. Until then Core shows no plan, history or owners.</p></section>`;
   }
   const assurance = v.assurance.actions;
   const owner = (id: string) => assurance.find((a) => a.actionId === id)?.nextStepOwner ?? "";
@@ -317,8 +367,10 @@ function guestSections(s: Session): string {
     <dl class="wbs-outcome"><dt>Delivery confirmation</dt><dd>${reported ? `The unit reports it delivered the support${lines.some((l) => l.kind === "confirmation.recorded") ? "; you confirmed it" : ". That is their report; you have not confirmed it"}.` : "Not reported yet."}</dd>
     <dt>Your feedback</dt><dd>${mine.length ? mine.map((l) => esc(l.text)).join(" → ") : "Not given yet. Not answering is not a “yes” or a “no”."}</dd>
     <dt>Resolution</dt><dd>Delivery alone does not settle it. Your feedback tells the hotel whether more help is needed.</dd></dl></section>` : "";
+  const said = s.origin === "signals" ? s.helpHistory.filter((h) => HELP_ACCEPTED[h.status]).at(-1) : null;
+  const helpNote = said ? `<p class="wbs-small" data-testid="help-note">You said yes to practical help at ${esc(fullTime(said.at))}. That is separate from what you agree to share below. <button type="button" class="wbs-btn ghost" data-help="no">Change my answer to No thanks</button></p>` : "";
   return `
-    <section class="wbs-card" aria-labelledby="g-ask"><span class="wbs-k" id="g-ask">${esc(GUEST_SHARE.section)}</span><ul class="wbs-list">${asks || "<li>Nothing is waiting for your choice.</li>"}</ul>${followList ? `<h3 class="wbs-h3">What follows</h3><ul class="wbs-list">${followList}</ul>` : ""}</section>
+    <section class="wbs-card" aria-labelledby="g-ask"><span class="wbs-k" id="g-ask">${esc(GUEST_SHARE.section)}</span>${helpNote}<ul class="wbs-list">${asks || "<li>Nothing is waiting for your choice.</li>"}</ul>${followList ? `<h3 class="wbs-h3">What follows</h3><ul class="wbs-list">${followList}</ul>` : ""}</section>
     ${outcome}
     <section class="wbs-card" aria-labelledby="g-now"><span class="wbs-k" id="g-now">What is happening</span><ol class="wbs-list wbs-hist">${stream.map((x) => `<li><time>${esc(x.time)}</time><span>${esc(x.text)}</span></li>`).join("") || "<li>Nothing yet.</li>"}</ol></section>
     <details class="wbs-more"><summary>Your record in detail, with who recorded each line</summary>${historyList(lines)}</details>`;
@@ -354,6 +406,7 @@ function preOpen(s: Session, role: DemoRoleId, resultText: { ok: boolean; text: 
 export function roleView(s: Session, role: DemoRoleId, resultText: { ok: boolean; text: string } | null): string {
   if (!s.opened) return preOpen(s, role, resultText);
   const r = roleOf(role);
+  if (role === "guest" && s.origin === "signals" && !(s.helpOffered && s.sharingOpen)) return guestHelpView(s, resultText);
   const items = nextSteps(s, role);
   const others = r.kind === "holder" ? s.report.plan.awaitingHuman.filter((h) => !["The request holder", "The addressed contact"].includes(h.who)).map((h) => `${h.who}: ${h.what}`) : [];
   const sections = r.kind === "holder" ? holderSections(s) : r.kind === "subject" ? guestSections(s) : r.kind === "unit" ? unitSections(s, role) : linkedSections(s, role);
@@ -366,6 +419,7 @@ export function roleView(s: Session, role: DemoRoleId, resultText: { ok: boolean
     <div id="result" role="status" aria-live="polite" class="wbs-scope${resultText && !resultText.ok ? " refused" : ""}" tabindex="-1">${resultText ? esc(resultText.text) : esc(WORDS.actionsNote)}</div>
     ${attn}
     ${nextCard(s, items, role, others, attn ? WORDS.otherWork : WORDS.nextStep)}
+    ${r.kind === "holder" ? helpSection(s) : ""}
     ${sections}
     ${rest.length === 0 ? "" : `<details class="wbs-more"><summary>${esc(WORDS.moreActions)} (${rest.length})</summary><div class="wbs-alts">${rest.map((c) => `<button type="button" class="wbs-btn alt" data-cmd="${cmdKey(c)}" data-focus="cmd">${esc(c.label)}</button>`).join("") || "<p class='wbs-small'>Nothing else.</p>"}</div></details>`}
     <details class="wbs-more" id="refusals-details"><summary>${esc(WORDS.unavailable)} (${refused.length}), with Core's reason</summary><div class="wbs-scroll"><table class="wbs-table" id="refusals"><tbody>${refused.map((x) => `<tr><td>${esc(x.label)}</td><td class="wbs-reason">${esc(x.code)}: ${esc(x.message)}</td></tr>`).join("")}</tbody></table></div></details>
@@ -378,6 +432,7 @@ function technical(s: Session): string {
     <li><strong>Core kernel:</strong> the actual JALDO Core kernel runs in this page (commit ${esc(pin.commit.slice(0, 7))}, contract ${esc(pin.contractVersion)}). Approvals, handovers, checks, delivery records and follow-up are Core's.</li>
     <li><strong>Configuration:</strong> ${esc(DERIVATION_NOTE)}</li>
     <li><strong>Recognition and recommendation:</strong> demonstrated, not AI. The proactive recommendation comes from a fixed, versioned rule (${esc(RULE.id)} v${esc(RULE.version)}: ${esc(RULE.label)}) with fixed wording. Core's recognition rules and wording are likewise configured text. <strong>No model is connected</strong> and nothing here claims model quality. A connected recommendation model would be a separate capability that no accepted Core contract covers.</li>
+    <li><strong>Signal checks, freshness and the guest's help answer:</strong> required fields, allowed values, room matching, full timestamps, per-source maximum ages (property ${s.desk.freshness.maxAgeMinutes.pms} min, maintenance ${s.desk.freshness.maxAgeMinutes.maintenance} min, future tolerance ${s.desk.freshness.futureToleranceSeconds} s), the adoption decision record and the guest's answer about help are all demonstration-adapter behaviour. Core provides none of them.</li>
     <li><strong>People and channels:</strong> demo roles are a view selector, not access control; delivery is simulated; every system event is fictional; the clock is synthetic.</li></ul>
     <h3 class="wbs-h3">Core contract status (a merged contract is not an accepted contract)</h3>
     <div class="wbs-scroll"><table class="wbs-table review-responsive"><thead><tr><th>Contract</th><th>Status recorded in Core</th><th>Here</th></tr></thead><tbody>${CONTRACTS.map((c) => `<tr><td data-label="Contract">${esc(c.name)}</td><td data-label="Status recorded in Core">${esc(c.status)}</td><td data-label="Here">${esc(c.used)}</td></tr>`).join("")}</tbody></table></div>
@@ -400,7 +455,7 @@ export function page(s: Session, role: DemoRoleId, resultText: { ok: boolean; te
       <span class="wbs-k">Starting point</span>
       <div class="wbs-tabs" role="group" aria-label="Starting point">${([["signals", "System events first"], ["guest", "Guest asks first"]] as const).map(([id, label]) => `<button type="button" class="wbs-role" data-origin="${id}" aria-pressed="${id === s.origin}">${label}</button>`).join("")}</div>
       <span class="wbs-k">Signal checks (before a request is opened)</span>
-      <div class="wbs-tabs">${[["duplicate", "Repeat the property event"], ["conflict", "Same key, different content"], ["stale", "Late, older property reading"], ["asked", "Guest already asked"], ["out-of-order", "Maintenance arrives first"], ["pms-only", "Only the property event"], ["short-repair", "Short repair"], ["maintenance", "Add the maintenance event"], ["reset-signals", "Restore both events"]].map(([id, label]) => `<button type="button" class="wbs-btn alt" data-signal="${id}">${label}</button>`).join("")}</div>
+      <div class="wbs-tabs">${[["duplicate", "Repeat the property event"], ["conflict", "Same key, different content"], ["stale", "Late, older property reading"], ["asked", "Guest already asked"], ["future", "Future-dated event"], ["malformed", "Malformed time"], ["missing", "Missing field"], ["bad-status", "Unknown status"], ["out-of-order", "Maintenance arrives first"], ["pms-only", "Only the property event"], ["short-repair", "Short repair"], ["maintenance", "Add the maintenance event"], ["reset-signals", "Restore both events"]].map(([id, label]) => `<button type="button" class="wbs-btn alt" data-signal="${id}">${label}</button>`).join("")}</div>
       <span class="wbs-k">Synthetic facts (the reviewer, not a role)</span>
       <div class="wbs-tabs"><span class="wbs-small hz-clock">Synthetic clock ${esc(s.clock.toISOString().slice(11, 16))} UTC</span>
         <button type="button" class="wbs-btn alt" data-adv="10">Advance 10 min</button><button type="button" class="wbs-btn alt" data-adv="60">Advance 60 min</button>

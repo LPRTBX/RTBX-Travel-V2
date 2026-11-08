@@ -91,6 +91,7 @@ check(await p.evaluate(() => !document.body.innerText.includes("Alex") || true),
 
 // 4. Primary actions and expandable details by keyboard (as the duty lead: accept the request)
 await tools(); await p.locator('[data-role="duty-lead"]').focus(); await p.keyboard.press("Enter");
+await p.fill("#adopt-reason", "The room is still unavailable and the repair is long, so a check-in is sensible.");
 const before = await evCount();
 const prim = await tabTo((x) => x.inRole && x.cmd !== null && x.cmd !== undefined, 40);
 check(!!prim, `Tab reaches the primary action inside the role view ("${prim?.text}")`);

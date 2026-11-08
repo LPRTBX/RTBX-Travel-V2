@@ -15,6 +15,8 @@ const view = (s: Session, role: DemoRoleId) => text(roleView(s, role, null));
 const ROLES = DEMO_ROLES.map((r) => r.id);
 const NOON = new Date("2026-11-02T09:00:00.000Z");
 const signals = () => new Session("signals");
+const REASON = "The room is still unavailable and the repair is long, so a check-in is sensible.";
+const adopt = (s: Session, extra: { expectedDigest?: string } = {}) => s.adopt("duty-lead", { reason: REASON, ...extra });
 const guestAllow = (s: Session) => nextSteps(s, "guest")[0].others.find((c) => c.command.type === "approve")!;
 
 describe("what Core does and does not provide (each claim in CORE-GAPS.md is checked here)", () => {
@@ -43,7 +45,7 @@ describe("what Core does and does not provide (each claim in CORE-GAPS.md is che
     expect(orchestrateMoment(without, null, { kind: "event", event, actor: { kind: "system", scope: SCOPE }, routing: { destination: "member-a" } }, s.facts(), "c2").ok).toBe(false);
   });
   it("G4: Core derives no recommendation for a holder who has not accepted", () => {
-    const s = signals(); expect(s.adopt("duty-lead").ok).toBe(true);
+    const s = signals(); expect(adopt(s).ok).toBe(true);
     expect(recognise(s.config, s.state, s.facts(), "member-a").active).toEqual([]);
     expect(s.report.recognised).toEqual([]);
   });
@@ -52,7 +54,7 @@ describe("what Core does and does not provide (each claim in CORE-GAPS.md is che
     expect(t("1.3.0").status).toMatch(/DRAFT/); expect(t("1.3.0").used).toMatch(/^Not used/);
     expect(t("1.2.0").status).toMatch(/no owner acceptance is recorded/);
     expect(CONTRACTS.filter((c) => /^Accepted/.test(c.status)).map((c) => c.name)).toEqual(["ADR-0036 (coordination foundation)"]);
-    expect(GAPS.map((g) => g.id)).toEqual(["G1", "G2", "G3", "G4", "G5", "G6", "G7"]);
+    expect(GAPS.map((g) => g.id)).toEqual(["G1", "G2", "G3", "G4", "G5", "G6", "G7", "G8"]);
   });
 });
 
@@ -99,7 +101,7 @@ describe("the signal desk: duplicate, stale, out-of-order and insufficient signa
     for (const [name, d, at] of cases) { const a = d.assess(at ?? NOON); expect(a.recognised, name).toBe(false); expect(a.missing.length, name).toBeGreaterThan(0); }
     const s = signals(); s.signalAction("pms-only");
     expect(view(s, "duty-lead")).toMatch(/Not enough to recommend a check-in/);
-    const r = s.adopt("duty-lead"); expect(r.ok).toBe(false); expect(s.opened).toBe(false);
+    const r = adopt(s); expect(r.ok).toBe(false); expect(s.opened).toBe(false);
   });
   it("every signal is validated against Core's event envelope", () => {
     const d = new SignalDesk();
@@ -111,7 +113,7 @@ describe("the signal desk: duplicate, stale, out-of-order and insufficient signa
 describe("recognition recommends; people decide; Core does the rest", () => {
   it("adopting records one request addressed to the Duty lead and approves, shares and releases nothing", () => {
     const s = signals(); expect(s.opened).toBe(false);
-    expect(s.adopt("duty-lead").ok).toBe(true);
+    expect(adopt(s).ok).toBe(true);
     expect(s.evidence.map((e) => e.kind)).toEqual(["event.recorded", "request.opened"]);
     expect(s.state.actions).toEqual([]); expect(s.state.owner).toBeNull();
     expect(s.evidence.find((e) => e.kind === "request.opened")!.actor).toMatchObject({ kind: "system" });
@@ -120,8 +122,8 @@ describe("recognition recommends; people decide; Core does the rest", () => {
     expect(kinds).not.toContain("approval.recorded"); expect(kinds).not.toContain("disclosure.made"); expect(kinds).not.toContain("execution.attempted");
   });
   it("only the Duty lead may adopt, and a second adoption is refused", () => {
-    for (const r of ROLES.filter((x) => x !== "duty-lead")) { const s = signals(); expect(s.adopt(r).ok, r).toBe(false); expect(s.opened).toBe(false); }
-    const s = signals(); s.adopt("duty-lead"); expect(s.adopt("duty-lead").ok).toBe(false);
+    for (const r of ROLES.filter((x) => x !== "duty-lead")) { const s = signals(); expect(s.adopt(r, { reason: REASON }).ok, r).toBe(false); expect(s.opened).toBe(false); }
+    const s = signals(); adopt(s); expect(adopt(s).ok).toBe(false);
   });
   it("before adoption there is no coordination, and every other role sees nothing of the signals", () => {
     const s = signals();
@@ -133,7 +135,7 @@ describe("recognition recommends; people decide; Core does the rest", () => {
   it("the recommendation shows its reason, the responsible team and the next permitted action, and names a demonstration, not a model", () => {
     const html = view(signals(), "duty-lead");
     expect(html).toMatch(/A proactive service check-in may help/);
-    expect(html).toMatch(/Why\. Two independent sources agree/);
+    expect(html).toMatch(/Why\. Two independent, fresh sources agree/);
     expect(html).toMatch(/The Duty lead decides/); expect(html).toMatch(/Guest services would deliver/);
     expect(html).toMatch(/Open a proactive check-in for me to review/);
     expect(html).toMatch(/demonstrated recommendation/i);
@@ -152,7 +154,7 @@ describe("recognition recommends; people decide; Core does the rest", () => {
 });
 
 describe("the guest chooses before anything is shared", () => {
-  const start = () => { const s = signals(); runPath(s, "missing"); return s; };
+  const start = () => { const s = signals(); runPath(s, "missing"); expect(s.chooseHelp("yes").ok).toBe(true); return s; };
   it("beside equally accessible allow and decline choices the guest sees the exact values, recipient and purpose", () => {
     const s = start(); const step = nextSteps(s, "guest")[0];
     expect(step.primary).toBeNull();

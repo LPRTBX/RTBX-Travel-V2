@@ -23,7 +23,12 @@ for (const w of [390, 820, 1440]) {
   await go("didnothelp", "guest"); await p.evaluate(() => document.querySelectorAll("#role-view details").forEach((d) => (d.open = true))); await p.locator("#role-view button[data-cmd]").filter({ hasText: "Still needs support" }).first().click();
   await tools(); await p.click('[data-role="duty-lead"]'); await snap("guest-needs-support-lead");
   await tools(); await p.click('[data-role="guest"]'); await snap("guest-sharing-and-progress");
-  await go("didnothelp", "duty-lead"); await go("missing", "guest"); await snap("guest-choose-what-to-share");
+  await go("normal", "duty-lead"); await tools(); await p.click('[data-adv="10"]'); await p.click('[data-adv="10"]'); await p.click('[data-adv="10"]'); await snap("evidence-too-old-lead");
+  await tools(); await p.click("[data-reset]");
+  await go("missing", "duty-lead"); await snap("decision-record-lead");
+  await tools(); await p.click('[data-role="guest"]'); await snap("guest-help-question");
+  await p.click('[data-help="no"]'); await tools(); await p.click('[data-role="duty-lead"]'); await snap("help-declined-lead");
+  await tools(); await p.click('[data-role="guest"]'); await p.click('[data-help="yes"]'); await snap("guest-choose-what-to-share");
   await go("maintenance", "duty-lead"); await snap("process-review-required-vs-independent-lead");
   await tools(); await p.click('[data-role="maintenance"]'); await snap("maintenance-own-work");
   await go("noresponse", "duty-lead"); await tools(); await p.click('[data-adv="60"]'); await p.click('[data-adv="60"]'); await snap("deadline-overdue-lead");

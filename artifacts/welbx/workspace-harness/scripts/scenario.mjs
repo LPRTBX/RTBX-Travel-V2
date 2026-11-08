@@ -26,16 +26,18 @@ const signal = async (kind) => { await tools(); await p.click(`[data-signal="${k
 const guide = async (id) => { await tools(); if (!(await p.locator("#guide").evaluate((e) => e.open))) await p.locator("#guide > summary").click(); await p.click(`[data-path="${id}"]`); };
 const shot = async (n) => { await p.evaluate(() => (document.getElementById("review-tools").open = false)); await p.screenshot({ path: resolve(dir, n), fullPage: true }); };
 async function click(label) { await openAll(); const b = p.locator("#role-view button[data-cmd]").filter({ hasText: label }).first(); if (!(await b.count())) throw new Error(`no control "${label}"`); await b.click(); }
+let panel;
 const ROLES = ["duty-lead", "guest", "reception", "housekeeping", "guest-services", "maintenance"];
 
 // 1. Signals: source, event time and relevant facts
 let t = await txt();
 check(/JALDO is watching permitted system events/.test(t), "1. the experience leads with what JALDO does");
-check(/Property management system.*08:50.*Room 412.*Not ready.*Promised ready 08:45/.test(t) || /Property management system 08:50/.test(t.replace(/\s+/g, " ")), "1. the property event shows its source, event time and facts");
-check(/Maintenance work orders/.test(t) && /08:55/.test(t) && /WO-1182/.test(t) && /Estimated completion: 11:30/.test(t), "1. the maintenance event shows its source, event time and facts");
+check(/Property management system\s*2 Nov 08:50 UTC/.test(t) && /Room: Room 412 \(fictional\)/.test(t) && /Status: Not ready/.test(t) && /Promised ready: 2 Nov 08:45 UTC/.test(t), "1. the property event shows its source, full event time and facts");
+check(/Maintenance work orders/.test(t) && /2 Nov 08:55 UTC/.test(t) && /WO-1182/.test(t) && /Estimated completion: 2 Nov 11:30 UTC/.test(t), "1. the maintenance event shows its source, full event time and facts");
+check(/Fresh/.test(t) && /10 min old · maximum 30 min · fresh until 2 Nov 09:20 UTC/.test(t), "1. each current reading shows its age, maximum age and when it expires");
 check(/Core's event envelope validates each one/.test(t) && /event_not_permitted/.test(t), "1. Core's admission result for the maintenance event type is shown, not assumed");
 // 2 + 3. Recognition, evidence, uncertainty, recommendation, responsible team, next permitted action
-check(/A proactive service check-in may help/.test(t) && /Why\. Two independent sources agree/.test(t), "2. the moment is recognised with its reason");
+check(/A proactive service check-in may help/.test(t) && /Why\. Two independent, fresh sources agree/.test(t), "2. the moment is recognised with its reason");
 check(/does not establish distress/i.test(t) && /Not established/.test(t), "2. uncertainty is stated and a delay is not read as distress");
 check(/The Duty lead decides/.test(t) && /Guest services would deliver/.test(t) && (await p.locator("[data-adopt]").count()) === 1, "3. the recommendation names who decides, the responsible team and the one permitted action");
 check(/demonstrated recommendation/i.test(t), "3. it is labelled a demonstrated recommendation");
@@ -53,27 +55,58 @@ await signal("pms-only"); t = await txt(); check(/Not enough to recommend a chec
 await signal("asked"); await signal("short-repair"); t = await txt(); check(/Not enough to recommend/.test(t), "signals: a short repair is insufficient");
 await signal("asked"); await signal("reset-signals"); await signal("asked"); t = await txt(); check(/Not enough to recommend/.test(t) && /already has a help request open/.test(t), "signals: a guest who already asked is theirs to lead");
 await signal("reset-signals"); t = await txt(); check(/A proactive service check-in may help/.test(t), "signals: restoring both events restores the recommendation");
-// 4. Adopt (the authorised role decides), then the guest chooses
+check(/refused/i.test(await signal("future")) && /future/i.test(await result()), "signals: a future-dated event is refused");
+check(/refused/i.test(await signal("malformed")) && /full UTC timestamp/.test(await txt()), "signals: a malformed time is refused, with the reason shown");
+check(/refused/i.test(await signal("missing")) && /“estimatedCompletion” is missing/.test(await txt()), "signals: a missing field is refused");
+check(/refused/i.test(await signal("bad-status")) && /Unknown room status/.test(await txt()), "signals: an unknown status is refused");
+t = await txt(); check(/A proactive service check-in may help/.test(t), "signals: none of those refused events disturbed the recommendation");
+// freshness: time passes with no new event
+await tools(); await p.click('[data-adv="10"]'); await p.click('[data-adv="10"]'); await p.click('[data-adv="10"]'); t = await txt();
+check(/The evidence is too old to recommend a check-in/.test(t) && /Too old: supports nothing/.test(t) && (await p.locator("[data-adopt]").count()) === 0, "freshness: with no new event, the old reading stops supporting the recommendation and adoption is not offered");
+await shot("scenario-1b-evidence-too-old.png");
+await tools(); await p.click("[data-reset]"); t = await txt(); check(/A proactive service check-in may help/.test(t), "freshness: starting again restores fresh evidence");
+// 4. Adopt: a reason is required and recorded
+await p.click("[data-adopt]");
+check(/Say why you are opening it/.test(await result()) && (await p.locator("[data-adopt]").count()) === 1 && !(await kinds()).includes("request.opened"), "adoption: refused without a reason, and nothing is opened");
+await p.fill("#adopt-reason", "The room is still unavailable and the repair is long, so a check-in is sensible.");
 await p.click("[data-adopt]");
 check((await kinds()).filter((k) => k === "request.opened").length === 1 && !(await kinds()).includes("approval.recorded") && !(await kinds()).includes("disclosure.made"), "adopting records one request and approves, shares and releases nothing");
+t = await txt();
+check(/Demonstration decision record \(kept by this adapter; not Core evidence\)/.test(t) && /Authorised by\s*Duty lead · A demo role, not an authenticated identity/.test(t) && /sensible/.test(t) && /proactive-checkin-demo version 0\.2/.test(t) && /pms-evt-1/.test(t) && /mnt-evt-1/.test(t), "adoption: who, when, reason, source references and rule version are recorded and shown");
+check(/Core-owned evidence \(recorded by the Core kernel\)/.test(t) && /request\.opened, sequence \d+/.test(t) && /no field for who decided, why/.test(t), "adoption: Core's own evidence is shown apart, with what Core does not hold");
+await shot("scenario-1c-decision-record.png");
 await p.locator('[data-testid="next-step"] .wbs-primary button.main').click(); // the Duty lead accepts responsibility
 check(Object.keys((await state()).actions).length >= 5 && !(await kinds()).includes("disclosure.made"), "Core prepared the plan after acceptance; still nothing shared or released");
+// 4b. Accepting help is separate from sharing: no response, no thanks, then yes
 await role("guest"); t = await txt();
+check(/Would you like practical help\?/.test(t) && (await p.locator('[data-testid="share-detail"]').count()) === 0 && !/Allow (Reception|Guest services) to see these details/.test(t), "help: the guest is asked about help first; no sharing choice is shown yet");
+const hg = await p.evaluate(() => [...document.querySelectorAll("[data-help]")].map((b) => { const r = b.getBoundingClientRect(); const c = getComputedStyle(b); return { l: b.innerText, w: Math.round(r.width), h: Math.round(r.height), bg: c.backgroundColor, fs: c.fontSize }; }));
+check(hg.length === 2 && hg[0].bg === hg[1].bg && hg[0].fs === hg[1].fs && hg[0].w === hg[1].w && hg[0].h === hg[1].h, "help: Yes and No thanks are equally prominent");
+await shot("scenario-2a-help-question.png");
+await role("duty-lead"); t = await txt();
+check(/The guest has not answered yet\. That is not a yes and not a no\./.test(t) && /demonstration record; not Core evidence/.test(t), "help: no response is shown to the Duty lead as unknown, and labelled a demonstration record");
+await role("guest"); await p.click('[data-help="no"]');
+check(/You said no thanks/.test(await txt()) && !(await kinds()).includes("approval.recorded") && !(await kinds()).includes("disclosure.made"), "help: No thanks shares nothing");
+await role("duty-lead"); panel = await p.locator(".review-attention").innerText();
+check(/The guest said no thanks to help/.test(panel) && (await p.locator('.review-attention button', { hasText: "Withdraw" }).count()) > 0, "help: the Duty lead gets Core's withdraw options for a declined offer");
+await shot("scenario-2b-help-declined.png");
+await role("guest"); await p.click('[data-help="yes"]');
+check(!(await kinds()).includes("approval.recorded") && !(await kinds()).includes("disclosure.made"), "help: Yes grants no permission to share");
+t = await txt(); check(/You said yes to practical help at/.test(t) && /That is separate from what you agree to share/.test(t), "help: after yes the sharing choices open, and the page says they are separate");
 const detail = await p.locator('[data-testid="share-detail"]').first().innerText();
-check(/Recipient:\s*(Reception|Guest services)/.test(detail) && /Purpose:/.test(detail) && /Nothing yet: the hotel is offering a check-in/.test(detail) && /Alex \(fictional guest\)|Not yet asked/.test(detail + t), "4. the guest sees the recipient, purpose and exact field values before sharing");
+check(/Recipient:\s*(Reception|Guest services)/.test(detail) && /Purpose:/.test(detail) && /Nothing yet: the hotel is offering a check-in/.test(detail), "4. the guest sees the recipient, purpose and exact field values before sharing");
 const geom = await p.evaluate(() => [...document.querySelectorAll('[data-testid="next-step"] .wbs-alts button')].map((b) => { const r = b.getBoundingClientRect(); const c = getComputedStyle(b); return { label: b.innerText, w: Math.round(r.width), h: Math.round(r.height), bg: c.backgroundColor, fs: c.fontSize }; }));
 check(geom.length >= 2 && /^Allow /.test(geom[0].label) && /^Do not allow /.test(geom[1].label) && geom[0].bg === geom[1].bg && geom[0].fs === geom[1].fs && geom[0].h === geom[1].h && geom[0].w === geom[1].w, "4. allow and decline are equally prominent (same size, colour and type)");
 await shot("scenario-2-guest-choice.png");
 await click("Do not allow"); // the guest declines the first sharing
-const afterDecline = await kinds();
-check(!afterDecline.includes("disclosure.made"), "4. declining shares nothing");
+check(!(await kinds()).includes("disclosure.made"), "4. declining sharing shares nothing, and the answer about help stays yes");
 t = await txt(); check(/Allow (Reception|Guest services) to see these details/.test(t), "4. the guest can still choose for the other recipient");
 await role("duty-lead"); t = await txt(); check(/What is shared, with whom, exactly/.test(t) && /Not shared:/.test(t), "the Duty lead sees what is shared, with whom, exactly");
 check((await p.locator("[data-testid=\"next-step\"]").innerText()).length > 0, "the Duty lead still has Core's next step");
 
 // 6. Changed capacity, unresolved required check, negative feedback, no response: the permitted response is in the attention panel
 await guide("capacity"); await tools(); await p.click('[data-cap="housekeeping:down"]'); await role("duty-lead");
-let panel = await p.locator(".review-attention").innerText();
+panel = await p.locator(".review-attention").innerText();
 check(/Capacity changed/.test(panel) && /Prepare: Check staff capacity/.test(panel), "6. capacity changed: the renewal is offered in the attention panel");
 await shot("scenario-3-capacity-attention.png");
 await p.locator(".review-attention button", { hasText: "Prepare: Check staff capacity" }).first().click();

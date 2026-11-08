@@ -42,3 +42,4 @@
 .wbs-tech .wbs-list{margin:6px 0}
 @media(max-width:600px){.mobile-only{display:block}.desktop-only{display:none}.wbs-outcome,.wbs-step dl{grid-template-columns:1fr}.wbs-outcome dd,.wbs-step dd{margin-bottom:6px}}
 .wbs-equal{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;align-items:stretch}.wbs-equal .wbs-btn{height:100%;width:100%}
+.wbs-textarea{width:100%;max-width:70ch;font:inherit;padding:8px 10px;border:1px solid #526f78;border-radius:6px;background:#fffdf8;color:#102d39}.wbs-textarea:focus-visible{outline:3px solid #a94018;outline-offset:2px}.wbs-label{font-size:15px}.wbs-ask{border:2px solid #226f74;background:#f2fafa}.wbs-ask h2{font-size:22px;margin:4px 0 8px}
