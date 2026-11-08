@@ -88,13 +88,12 @@ export async function checkPublicGuestShowcase(page, base, width) {
     assert(cards.slice(1).every((card, i) => Math.abs(card.top - cards[0].top) < 2 && card.left >= cards[i].right), "guest screens do not form three columns");
   }
   assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `guest showcase overflow at ${width}px`);
-  await showcase.getByRole("link", { name: /^Experience the guest app/ }).focus();
-  await page.keyboard.press("Enter");
-  await page.waitForURL(url => url.hash === "#travel-guest-access");
   const invitation = page.locator("#travel-guest-access");
-  assert(await invitation.getByRole("heading", { name: "Guest app preview · access by invitation", exact: true }).isVisible(), "private guest preview invitation missing");
+  assert(await invitation.getByRole("heading", { name: "Guest experience preview", exact: true }).isVisible(), "sample-only guest preview missing");
+  assert(/guest app remains separate and is not linked from this site/.test(await invitation.innerText()), "guest app access boundary missing");
+  const showcaseLinks = await showcase.locator("a").evaluateAll(links => links.map(link => link.getAttribute("href")));
+  assert(JSON.stringify(showcaseLinks) === JSON.stringify(["/public-demo#sample-demo"]), "guest showcase links must remain limited to the public response sample");
   assert(/No live booking, payment, hotel messaging or Core integration is implied/.test(await invitation.innerText()), "guest access boundary missing");
-  assert(await invitation.getByRole("link", { name: /^Request a guest app walkthrough/ }).getAttribute("href") === "mailto:lance@wearejaldo.com?subject=JALDO%20Travel%20guest%20app%20walkthrough", "guest walkthrough request destination changed");
   const response = showcase.getByRole("link", { name: /^See how the hotel coordinates the response/ });
   assert(await response.getAttribute("href") === "/public-demo#sample-demo", "guest response proof no longer uses the public sample");
   await response.focus();
@@ -102,7 +101,7 @@ export async function checkPublicGuestShowcase(page, base, width) {
   await page.waitForURL(`${base}/public-demo#sample-demo`);
   assert(await page.locator("#demo-notice").textContent() === "Interactive fictional demonstration — no live actions", "guest response CTA missed fictional sample");
   await page.goBack({ waitUntil: "networkidle" });
-  assert(new URL(page.url()).hash === "#travel-guest-access", "Back lost guest invitation");
+  assert(new URL(page.url()).hash === "#travel-guest-app", "Back lost guest showcase");
   await page.goForward({ waitUntil: "networkidle" });
   assert(new URL(page.url()).pathname === "/public-demo" && new URL(page.url()).hash === "#sample-demo", "Forward lost guest response sample");
   await page.goto(base, { waitUntil: "networkidle" });
