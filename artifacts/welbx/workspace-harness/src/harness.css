@@ -1,0 +1,45 @@
+/* Additions to the approved JALDO wellbeing styles (page.css, wellbeing-support.css), using the same palette and type. */
+.hz-banner{margin:0;background:#ee8c50;color:#102d39;padding:8px clamp(16px,4vw,48px);font-weight:700;font-size:14.5px;line-height:1.4}
+.hz-main{max-width:1200px;margin:24px auto;padding:0 16px;border:0;background:transparent;display:grid;gap:16px}
+.hz-controls{display:grid;gap:10px}
+.hz-clock{align-self:center}
+.wbs{font-size:16px;line-height:1.5}
+.wbs-k{font-size:14px}
+.wbs-h3{font-size:16px;margin:14px 0 6px}
+.wbs-scroll{overflow-x:auto;max-width:100%}
+.wbs-table{border-collapse:collapse;width:100%;font-size:14.5px}
+.wbs-table th,.wbs-table td{border:1px solid var(--wb-line);padding:8px 10px;text-align:left;vertical-align:top;min-width:96px}
+.wbs-table th{background:var(--wb-mist);font-size:14px}
+.wbs-reason{color:#8a1f1f}
+#result{padding:12px 14px;border-left:4px solid var(--wb-mid);background:var(--wb-mist);font-size:15px}
+#result.refused{border-left-color:#8a1f1f;background:#f6e7e4}
+#result:focus,#role-view:focus{outline:3px solid #ee8c50;outline-offset:3px}
+.wbs-next:focus-within{outline:0}
+.wbs-btn,.wbs-role{max-width:100%;overflow-wrap:anywhere}
+.wbs-card h3{margin:0}
+.wbs-hist li{grid-template-columns:auto 1fr}
+.pw-header nav span{font-size:14px}
+.wbs-lede{font-size:16px}
+.wbs-photo img{max-width:100%;height:auto}
+@media(max-width:760px){.wbs-hist li{grid-template-columns:1fr}.hz-main{padding:0 12px}}
+
+/* Reviewed presentation: collapsed review tools, compact introduction, attention panel, mobile task cards. */
+.hz-main{margin:16px auto;gap:14px}.hz-controls{display:block;padding:0 18px}.hz-controls>summary{min-height:48px;display:flex;align-items:center;cursor:pointer;font-weight:700;gap:10px}.hz-controls>summary:before{content:'+';font-size:22px}.hz-controls[open]>summary:before{content:'−'}.review-controls-body{display:grid;gap:12px;padding:4px 0 16px}.review-compact{display:block;padding:20px 28px;border-radius:8px 8px 0 0}.review-compact h2{font-size:26px;max-width:none}.review-compact .wbs-lede{margin-top:8px;max-width:80ch}.wbs-body{padding:20px;gap:16px}.wbs-card,.wbs-next{border-radius:8px}.review-attention{border:2px solid #a94018;background:#fff3e9}.review-attention h2{font-size:22px;color:#873713}.review-attention a{color:#873713;font-weight:700;display:inline-block;padding:10px 0;text-underline-offset:4px}.review-attention li strong{font-size:18px;color:#102d39}.wbs-more summary:after{content:'+';margin-left:auto;padding-left:12px}.wbs-more[open]>summary:after{content:'−'}#result{font-size:14px;padding:8px 12px}.pw-header{padding-top:18px;padding-bottom:18px}.pw-header nav{max-width:390px}.wbs-table td{overflow-wrap:normal;word-break:normal}.review-attention~.wbs-next .wbs-btn.main{background:#102d39;border-color:#102d39;color:#fffaf3}a:focus-visible,summary:focus-visible{outline:3px solid #a94018;outline-offset:3px}
+@media(max-width:600px){.pw-header{padding:14px 16px}.pw-header nav{display:none}.hz-banner{font-size:13px;padding:8px 16px}.hz-main{padding:0 10px;margin:10px auto}.review-compact{padding:16px}.review-compact h2{font-size:23px}.review-compact .wbs-lede{font-size:15px}.wbs-body{padding:12px;gap:14px}.wbs-next,.wbs-card:not(.hz-controls){padding:16px}.wbs-role{flex:1 1 125px}.review-responsive,.review-responsive tbody,.review-responsive tr,.review-responsive td{display:block;width:100%;min-width:0}.review-responsive thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}.review-responsive tr{border:1px solid #81959766;border-radius:6px;margin:12px 0;overflow:hidden;background:#fffaf3}.review-responsive td{border:0;border-top:1px solid #81959733;padding:10px 12px;overflow-wrap:break-word}.review-responsive td:first-child{background:#e3f2f1;font-weight:700}.review-responsive td:before{content:attr(data-label);display:block;font-size:13px;letter-spacing:.03em;font-weight:700;color:#226f74;margin-bottom:3px}.review-responsive td[colspan]:before{display:none}.wbs-scroll:has(.review-responsive){overflow:visible}.wbs-hist li{grid-template-columns:1fr}.wbs-btn{width:100%}.wbs-next .do{font-size:18px}}
+
+/* Interactive demonstration: signal desk, guest sharing choice, outcome distinctions, narrow-screen step cards. */
+.mobile-only{display:none}
+.review-reco{border:2px solid #226f74;background:#f2fafa}
+.review-reco h2{font-size:22px;margin:4px 0 8px}
+.wbs-share{border:1px solid #81959799;border-radius:8px;padding:12px;background:#fffaf3;margin:8px 0 12px}
+.wbs-share p{margin:4px 0}
+.wbs-outcome{display:grid;grid-template-columns:max-content 1fr;gap:4px 14px;margin:8px 0 0;font-size:14.5px}
+.wbs-outcome dt{font-weight:700;color:#226f74}.wbs-outcome dd{margin:0}
+.wbs-steps{display:grid;gap:12px;padding:0;list-style:none}
+.wbs-step{border:1px solid #81959766;border-radius:8px;padding:12px;background:#fffaf3}
+.wbs-step dl{display:grid;grid-template-columns:max-content 1fr;gap:3px 12px;margin:8px 0 0;font-size:14.5px}
+.wbs-step dt{font-weight:700;color:#226f74}.wbs-step dd{margin:0}
+.wbs-tech .wbs-list{margin:6px 0}
+@media(max-width:600px){.mobile-only{display:block}.desktop-only{display:none}.wbs-outcome,.wbs-step dl{grid-template-columns:1fr}.wbs-outcome dd,.wbs-step dd{margin-bottom:6px}}
+.wbs-equal{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;align-items:stretch}.wbs-equal .wbs-btn{height:100%;width:100%}
+.wbs-textarea{width:100%;max-width:70ch;font:inherit;padding:8px 10px;border:1px solid #526f78;border-radius:6px;background:#fffdf8;color:#102d39}.wbs-textarea:focus-visible{outline:3px solid #a94018;outline-offset:2px}.wbs-label{font-size:15px}.wbs-ask{border:2px solid #226f74;background:#f2fafa}.wbs-ask h2{font-size:22px;margin:4px 0 8px}
