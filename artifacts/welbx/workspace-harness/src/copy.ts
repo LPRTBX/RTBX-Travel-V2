@@ -80,6 +80,41 @@ export const WORDS = {
   deliveryFollowUp: "Delivery reported — follow-up open",
 };
 
+/** What JALDO does in this demonstration, said accurately. */
+export const JALDO_DOES = {
+  signalsHeading: "JALDO is watching permitted system events",
+  signalsBody: "Fictional property and maintenance events arrive here. JALDO recognises a possible need and recommends a response; people decide; nothing is shared or sent without them.",
+  openedHeading: "Proactive check-in · room delay",
+  openedBody: "JALDO recognised a delay from system events. Coordinate the response with the guest's own choice; track the room repair separately.",
+  guestWaitingHeading: "Your stay",
+  guestWaitingBody: "The hotel has not contacted you about help. Nothing about you has been shared.",
+  unitWaitingBody: "Nothing has been sent to your team. You will see only what is sent to you.",
+  guestOpenedHeading: "Your room is delayed",
+  guestOpenedBody: "The hotel noticed and is offering practical help. You choose whether it is wanted, and exactly what is shared.",
+};
+
+/** Core contract status as the repository records it. A merged contract is not an accepted contract. */
+export const CONTRACTS: { name: string; status: string; used: string }[] = [
+  { name: "jaldo.event envelope and event admission (contracts/events.ts, admitEvent)", status: "In Core. Used by Core's kernel for opening and capacity events.", used: "Used: every signal is validated against the envelope; the opening event is admitted by Core." },
+  { name: "Kernel contract 1.2.0 (plan versions, approval prerequisites, deadlines, responses, linked work)", status: "Merged to Core main (#120, #121). Its documents say “draft for review”; no owner acceptance is recorded.", used: "Used, pinned (79939dc). A review demonstration, not an acceptance claim." },
+  { name: "Kernel contract 1.3.0", status: "DRAFT. Merged to Core main without a recorded owner review (#126, #128); “not reviewed, not accepted”.", used: "Not used. Core main is already at 1.3.0; this workspace stays on the pinned 1.2.0." },
+  { name: "ADR-0036 (coordination foundation)", status: "Accepted by the owner (recorded 2026-10-31).", used: "Not exercised here (no server, storage or bridge)." },
+  { name: "ADR-0037 (multi-party coordination; queued execution)", status: "Proposed. Not accepted.", used: "Not relied on." },
+  { name: "ADR-0038 (federation), consent withdrawal design", status: "Proposed / design only. Not accepted, not implemented.", used: "Not used. Withdrawal is outside this demonstration." },
+  { name: "Advisory recommendation contract (api-server/src/ai/recommendation.ts)", status: "Exists in Core code; no model is connected here.", used: "Not invoked." },
+];
+
+/** What Core does not provide, precisely. Each is checked by a test in this workspace. */
+export const GAPS: { id: string; gap: string; boundary: string }[] = [
+  { id: "G1", gap: "No accepted pre-request signal store: ordering, staleness, cross-source correlation. Core's duplicate rule (idempotency key) exists only inside an opened coordination.", boundary: "The signal desk (Travel-side adapter) mirrors the duplicate rule and adds ordering and staleness. It is labelled a demonstration, not a Core capability." },
+  { id: "G2", gap: "Core admits only an opening event and capacity changes. A maintenance work-order event cannot be recorded as a fact in a coordination.", boundary: "Maintenance facts are held by the desk and shown with source and time; Core refuses the event type (shown in the signal table)." },
+  { id: "G3", gap: "A system actor may open a request only because this configuration's prepare-plan automation lets the kernel's system actor prepare. Core has no purpose-specific permission for \"open from an integration\", and no accepted contract says whether a system may open a guest-related request unprompted.", boundary: "Core's configured system actor records the opening event, and only after the Duty lead adopts the recognised moment. Whether that is acceptable policy is a decision for Core's owners." },
+  { id: "G4", gap: "Core derives recommendations for the request owner after acceptance. None exists for an addressed holder who has not accepted, or as a role-scoped queue.", boundary: "The pre-acceptance recommendation is the desk's, not Core's. After acceptance, Core's plan, approvals and recognition drive everything." },
+  { id: "G5", gap: "No Core command for a holder to adopt a recognised pre-request moment.", boundary: "The Duty lead's \"open a proactive check-in\" button triggers Core's configured system actor; Core sees only the opening event." },
+  { id: "G6", gap: "No Core record for process-review proposals or rule changes.", boundary: "Proposals are shown for authorised review and recorded nowhere; no rule changes." },
+  { id: "G7", gap: "Not connected: real PMS and maintenance systems, verified identity and grants, delivery channels, a recommendation model.", boundary: "Everything is fictional, in-page and simulated." },
+];
+
 export const LINK_REF: Record<string, string> = { "facility-repair": "WO-1182", "area-safety-clearance": "SC-77" };
 
 export const STRENGTH: Record<string, string> = {
@@ -91,7 +126,7 @@ export const STRENGTH: Record<string, string> = {
 };
 
 export const LABELS = {
-  banner: "Fictional · synthetic clock · Demo role selector, not access control · Simulated delivery, nothing is sent · Configured rule, not live AI",
+  banner: "Interactive demonstration · fictional system events · simulated delivery",
   roleNote: "Demo role · not access control. Choosing a role only changes which view and which Core actor you try things as.",
 };
 

@@ -33,6 +33,11 @@ export const SCRIPTS: Record<string, Step[]> = {
 
 export function runPath(s: Session, id: string): { ok: true } | { ok: false; message: string } {
   s.reset();
+  // Starting from signals, every path except the first adopts the recognised moment as the Duty lead, then carries on as before.
+  if (s.origin === "signals" && (SCRIPTS[id] ?? []).length > 0) {
+    const a = s.adopt("duty-lead");
+    if (!a.ok) return { ok: false, message: `Setup stopped: adopting the recognised moment was refused (${a.code}): ${a.message}` };
+  }
   for (const [role, command] of SCRIPTS[id] ?? []) {
     const r = s.apply(role, command);
     if (!r.ok) return { ok: false, message: `Setup stopped: Core refused ${command.type} as ${role} (${r.code}): ${r.message}` };

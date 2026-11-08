@@ -6,6 +6,18 @@ the guest app, and it is not deployed anywhere. Demo roles are a view selector, 
 
 Out of scope for this slice: consent withdrawal after disclosure and the unsafe-guest story (designs live in Core `docs/architecture/`).
 
+## The scenario this demonstrates
+JALDO recognising a moment from permitted system signals, recommending a response, coordinating authorised action and reviewing the outcome, on one fictional case (Room 412 still unavailable). The default start is **system events first**; "Guest asks first" (review tools) keeps the original path, and the seven original review paths work from either start.
+1. **Signals**: a fictional property-system event and a maintenance event, each with source, event time and facts. A signal desk (Travel-side adapter) validates each against Core's event envelope and handles duplicates, conflicts, stale readings, out-of-order arrival and insufficient evidence.
+2. **Recognition and recommendation**: two independent sources agree the room is unavailable past its promised time with a long repair, and no help request is open, so a proactive check-in *may* be appropriate. Evidence and uncertainty are shown; a delay does not establish distress. Single sources, short repairs and a guest who already asked are not enough.
+3. **Authorised decision**: only the Duty lead can open the check-in. Opening records one request addressed to the Duty lead through Core; nothing is approved, shared or released.
+4. **Guest choice**: before anything is shared the guest sees the recipient, purpose and exact field values beside equal Allow / Do not allow choices.
+5. **Core does the rest**: acceptance, plan, approvals, checks, handover, delivery, deadlines, feedback and follow-up are the pinned kernel's.
+6. **Changed capacity, unresolved required check, negative feedback, no response**: the "Needs attention now" panel carries the responses Core would accept.
+7. **Process review** for authorised review: what was recognised, timing, delivery evidence, guest outcome (delivery confirmation, feedback and resolution kept separate), unresolved work, and proposals that are not applied. Steps are described, nobody is scored.
+
+**What is Core's and what is not, and which contracts are accepted, draft or missing: see [CORE-GAPS.md](CORE-GAPS.md).** Reused from JALDO-Travel-Guest PR #9 and its APP_LOOP_AUDIT: interaction lessons only, no code or local lifecycle engine. No AI model is connected; the recommendation is a fixed, versioned rule with fixed wording.
+
 ## Exact Core dependency
 `core-pin.json` pins RTBX-Main commit `79939dcc69755353f5cdbdebc52dce4af05724c4` (draft PR #121, branch `feat/jaldo-os-bridge-commands`, contract 1.2.0).
 Nothing in Travel's `package.json`, lockfile or `pnpm-workspace.yaml` references Core, so normal Travel install and CI are unchanged.
@@ -14,10 +26,11 @@ Nothing in Travel's `package.json`, lockfile or `pnpm-workspace.yaml` references
 1. Check out RTBX-Main at the pinned commit as a sibling (`../../../../rtbx-main` from this folder) or set `JALDO_CORE_DIR`; in Core run `pnpm install --filter "@workspace/jaldo-orchestration..."`.
 2. From `artifacts/welbx/workspace-harness`:
    - `node check-core-pin.mjs` — verifies commit, clean kernel directory, contract version
-   - `node ../node_modules/vitest/vitest.mjs run --config vitest.config.ts` — 32 tests
+   - `node ../node_modules/vitest/vitest.mjs run --config vitest.config.ts` — 65 tests (two files: workspace.test.ts, scenario.test.ts)
    - `node ../../../node_modules/typescript/bin/tsc -p tsconfig.json`
    - `node ../node_modules/vite/bin/vite.js build --config vite.config.ts` (dist contains only index.html, assets and the approved logo)
    - `NODE_PATH=$(npm root -g) node scripts/verify.mjs` — Playwright run against `vite preview` on port 5320 using system Chromium (`CHROMIUM` env to override); 80 checks, writes `screenshots/`
+   - `scenario.mjs` — the whole proactive scenario by clicks only (48 checks: signals, recognition, privacy, adoption, guest choice, capacity, required check, feedback, no response, review)
    - `node scripts/shots.mjs` (390/820/1440 screenshots of the reviewed presentation with an overflow check, into `screenshots/review-2/`, not committed) and
    - `node scripts/package-single.mjs` — after a build, writes ONE self-contained file, `dist-single/jaldo-travel-review-workspace.html` (script, styles and the approved logo embedded; no network, no external URL). It runs the same Core kernel bundle by double-clicking the file (file://).
    - `VERIFY_FILE=dist-single/jaldo-travel-review-workspace.html NODE_PATH=$(npm root -g) node scripts/verify.mjs` / `verify-review.mjs` / `walkthrough.mjs` — the same browser checks run against the packaged file itself (`verify-review.mjs` covers keyboard order and focus visibility, reviewer/role separation, the holder-history leak, and the Core-pin and synthetic-data boundary; `walkthrough.mjs` is the four-step walkthrough below, by clicks only).

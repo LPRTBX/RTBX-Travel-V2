@@ -23,7 +23,7 @@ const errors = []; p.on("pageerror", (e) => errors.push(String(e))); p.on("conso
 await p.goto(URL); await p.waitForSelector("#role-view");
 
 const active = () => p.evaluate(() => { const e = document.activeElement; if (!e || e === document.body) return null; const r = e.getBoundingClientRect(); const cs = getComputedStyle(e);
-  return { tag: e.tagName, id: e.id, role: e.dataset.role ?? null, cmd: e.dataset.cmd ?? null, path: e.dataset.path ?? null, text: (e.innerText || e.getAttribute("aria-label") || "").trim().slice(0, 50), inRole: !!e.closest("#role-view"), inReviewer: !!e.closest("#reviewer, #guide, [data-reviewer]"),
+  return { tag: e.tagName, id: e.id, role: e.dataset.role ?? null, hasInside: e.tagName === "SUMMARY" && !!e.parentElement.querySelector("button, a[href]"), cmd: e.dataset.cmd ?? (e.dataset.adopt ? "adopt" : null), path: e.dataset.path ?? null, text: (e.innerText || e.getAttribute("aria-label") || "").trim().slice(0, 50), inRole: !!e.closest("#role-view"), inReviewer: !!e.closest("#reviewer, #guide, [data-reviewer]"),
     top: r.top + scrollY, left: r.left, vTop: r.top, vBottom: r.bottom, w: r.width, h: r.height,
     ring: (cs.outlineStyle !== "none" && parseFloat(cs.outlineWidth) >= 2 && cs.outlineColor !== "rgba(0, 0, 0, 0)") || (cs.boxShadow !== "none" && cs.boxShadow !== ""), visible: r.width > 0 && r.height > 0 && cs.visibility !== "hidden" }; });
 async function tabTo(pred, max = 80) { for (let i = 0; i < max; i++) { await p.keyboard.press("Tab"); const a = await active(); if (a && pred(a)) return a; } return null; }
@@ -102,8 +102,9 @@ if (prim) {
   check(await p.locator("#result").innerText().then((t) => t.length > 0), "the result is announced in a live region");
   check((await p.locator("#result").getAttribute("aria-live")) === "polite", "result region is aria-live=polite");
 }
-// expandable details
-const sum = await tabTo((x) => x.tag === "SUMMARY" && x.inRole, 60); check(!!sum, `Tab reaches an expandable section in the role view ("${sum?.text}")`);
+// expandable details (after one more highlighted step so there is something to expand: the Duty lead accepts responsibility)
+await p.evaluate(() => document.getElementById("role-view").focus()); { const b = p.locator('[data-testid="next-step"] .wbs-primary button.main').first(); if (await b.count()) await b.click(); }
+const sum = await tabTo((x) => x.tag === "SUMMARY" && x.inRole && x.hasInside, 60); check(!!sum, `Tab reaches an expandable section in the role view ("${sum?.text}")`);
 if (sum) {
   const wasOpen = await p.evaluate(() => document.activeElement.parentElement.open);
   await p.keyboard.press("Enter");
@@ -139,8 +140,9 @@ for (const [r, bad] of Object.entries(FOREIGN)) {
 await tools(); await p.click('[data-role="duty-lead"]');
 const body = await p.evaluate(() => document.body.innerText);
 check(body.includes(pin.commit.slice(0, 7)) && /contract 1\.2\.0/.test(body), `page header shows the Core pin ${pin.commit.slice(0, 7)} and contract 1.2.0`);
-const bannerOk = ["Fictional", "synthetic clock", "not access control", "nothing is sent", "not live AI"].every((w) => new RegExp(w, "i").test(body));
-check(bannerOk, "synthetic-data banner is present (fictional, synthetic clock, not access control, nothing sent, not live AI)");
+check(/Interactive demonstration · fictional system events · simulated delivery/.test(body), "the concise demonstration label is shown");
+const everything = await p.evaluate(() => document.body.textContent.replace(/\s+/g, " "));
+check(["synthetic", "not access control", "No model is connected", "delivery is simulated"].every((w) => new RegExp(w, "i").test(everything)), "technical review details keep the full boundary (synthetic clock, demo roles not access control, no model connected, simulated delivery)");
 check(/nothing is stored, sent or published/i.test(body), "footer states nothing is stored, sent or published");
 if (FILE) {
   const html = readFileSync(FILE, "utf8");

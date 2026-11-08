@@ -7,7 +7,7 @@ import { Session, type ApplyResult, type DemoRoleId } from "./session";
 import { page } from "./views";
 import { VERB } from "./copy";
 
-const session = new Session();
+const session = new Session("signals");
 let role: DemoRoleId = "duty-lead";
 let result: { ok: boolean; text: string } | null = null;
 let pathId: string | null = null;
@@ -33,6 +33,9 @@ const describe = (r: ApplyResult, okText: string): { ok: boolean; text: string }
 root.addEventListener("click", (e) => {
   const t = (e.target as HTMLElement).closest("button") as HTMLButtonElement | null;
   if (!t) return;
+  if (t.dataset.adopt) { result = describe(session.adopt(role), "Proactive check-in opened for you: Core admitted the opening event and addressed the request to the Duty lead."); render("view"); return; }
+  if (t.dataset.origin) { session.origin = t.dataset.origin as "signals" | "guest"; session.reset(); result = null; pathId = null; role = "duty-lead"; render("view"); return; }
+  if (t.dataset.signal) { result = session.signalAction(t.dataset.signal); render("result"); return; }
   if (t.dataset.role) { role = t.dataset.role as DemoRoleId; result = null; render("view"); return; }
   if (t.dataset.cmd) {
     const command = JSON.parse(t.dataset.cmd) as Command;
@@ -51,6 +54,6 @@ root.addEventListener("click", (e) => {
 
 (window as unknown as { __workspace: unknown }).__workspace = {
   /** Read-only views for the review harness's own checks. Nothing here can change the session. */
-  state: () => session.state, evidence: () => session.evidence, clock: () => session.clock.toISOString(), role: () => role,
+  state: () => (session.opened ? session.state : null), desk: () => session.desk.received.map((r) => ({ id: r.signal.id, outcome: r.outcome, order: r.order })), origin: () => session.origin, evidence: () => session.evidence, clock: () => session.clock.toISOString(), role: () => role,
 };
 render("keep");

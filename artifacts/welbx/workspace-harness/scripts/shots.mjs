@@ -17,14 +17,14 @@ for (const w of [390, 820, 1440]) {
   const collapse = () => p.evaluate(() => (document.getElementById("review-tools").open = false));
   const go = async (path, r) => { await tools(); if (!(await p.locator("#guide").evaluate((e) => e.open))) await p.locator("#guide > summary").click(); await p.click(`[data-path="${path}"]`); await tools(); await p.click(`[data-role="${r}"]`); };
   const snap = async (name) => { const o = await p.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth); (o <= 0 ? ok : fails).push(`${w}px ${name}: ${o <= 0 ? "no horizontal overflow" : "overflow " + o + "px"}`); await collapse(); await p.screenshot({ path: resolve(dir, `${w}-${name}.png`), fullPage: true }); };
-  await go("normal", "duty-lead"); await snap("collapsed-tools-intro-normal");
+  await go("normal", "duty-lead"); await snap("signals-recognition-recommendation-lead");
   await p.evaluate(() => (document.getElementById("review-tools").open = true)); await p.screenshot({ path: resolve(dir, `${w}-review-tools-open.png`) });
   await go("dependency", "duty-lead"); await snap("blocked-required-check-lead");
   await go("didnothelp", "guest"); await p.evaluate(() => document.querySelectorAll("#role-view details").forEach((d) => (d.open = true))); await p.locator("#role-view button[data-cmd]").filter({ hasText: "Still needs support" }).first().click();
   await tools(); await p.click('[data-role="duty-lead"]'); await snap("guest-needs-support-lead");
   await tools(); await p.click('[data-role="guest"]'); await snap("guest-sharing-and-progress");
   await go("didnothelp", "duty-lead"); await go("missing", "guest"); await snap("guest-choose-what-to-share");
-  await go("maintenance", "duty-lead"); await snap("required-vs-independent-lead");
+  await go("maintenance", "duty-lead"); await snap("process-review-required-vs-independent-lead");
   await tools(); await p.click('[data-role="maintenance"]'); await snap("maintenance-own-work");
   await go("noresponse", "duty-lead"); await tools(); await p.click('[data-adv="60"]'); await p.click('[data-adv="60"]'); await snap("deadline-overdue-lead");
   await p.close();

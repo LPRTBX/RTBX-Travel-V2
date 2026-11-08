@@ -31,9 +31,16 @@ const collapse = (p) => p.evaluate(() => { document.getElementById("review-tools
 const role = async (p, id) => { await tools(p); await p.click(`[data-role="${id}"]`); };
 const guide = async (p) => { await tools(p); if (!(await p.locator("#guide").evaluate((e) => e.open))) await p.locator("#guide summary").click(); };
 const text = (p) => p.locator("#role-view").innerText();
+/** One step a person could take by clicking: adopt a recognised moment, a highlighted next step, or the guest's explicit choice to allow. */
+const stepOnce = async (p) => {
+  const adopt = p.locator("[data-adopt]").first(); if ((await adopt.count()) && (await adopt.isVisible())) { await adopt.click(); return true; }
+  const b = p.locator('[data-testid="next-step"] .wbs-primary button.main').first(); if (await b.count()) { await b.click(); return true; }
+  const allow = p.locator('[data-testid="next-step"] .wbs-alts button').filter({ hasText: /^Allow / }).first(); if (await allow.count()) { await allow.click(); return true; }
+  return false;
+};
 async function follow(p, max = 40) { // click only the highlighted primary
   let n = 0;
-  while (n < max) { const b = p.locator('[data-testid="next-step"] .wbs-primary button.main').first(); if (!(await b.count())) break; await b.click(); n++; }
+  while (n < max) { if (!(await stepOnce(p))) break; n++; }
   return n;
 }
 try {

@@ -45,9 +45,13 @@ function forAction(s: Session, a: GovernedAction): Candidate[] {
   for (const tpl of s.config.communications.filter((x) => x.trigger.actionType === a.typeId)) out.push(c({ type: "releaseCommunication", templateId: tpl.id, actionId: a.id }, `${VERB.releaseCommunication} · ${name}`));
   for (const f of (s.state.followUps ?? []).filter((x) => x.actionId === a.id)) for (const o of s.config.followUpOutcomes ?? []) out.unshift(c({ type: "closeFollowUp", followUpId: f.id, outcomeId: o.id }, `Close the follow-up: ${o.label}`));
   for (const d of (s.state.deadlines ?? []).filter((x) => x.subject.kind === "action" && x.subject.actionId === a.id)) {
-    // "30 minutes later" means later than the CURRENT recorded due time (not "30 minutes from now"): the label and the command agree.
-    const later = new Date(Date.parse(d.dueAt) + 30 * 60_000);
-    out.unshift(c({ type: "rescheduleDeadline", deadlineId: d.id, dueAt: later.toISOString(), reasonId: s.config.changeReasons![0].id }, `${VERB.rescheduleDeadline}, to ${later.toISOString().slice(11, 16)} UTC · ${name}`));
+    // The label and the command agree. Before the due time passes, "30 minutes later" is the recorded due time + 30. Once it has
+    // passed, that instant could already be in the past (Core refuses a due time that is not later than now), so the control says
+    // plainly that it gives 30 more minutes from now.
+    const passed = s.clock.getTime() >= Date.parse(d.dueAt);
+    const later = new Date(Math.max(Date.parse(d.dueAt), s.clock.getTime()) + 30 * 60_000);
+    const at = later.toISOString().slice(11, 16);
+    out.unshift(c({ type: "rescheduleDeadline", deadlineId: d.id, dueAt: later.toISOString(), reasonId: s.config.changeReasons![0].id }, `${passed ? "Give 30 more minutes from now" : VERB.rescheduleDeadline}, to ${at} UTC · ${name}`));
     out.push(c({ type: "cancelDeadline", deadlineId: d.id, reasonId: s.config.changeReasons![0].id }, `${VERB.cancelDeadline} · ${name}`));
   }
   return out;
@@ -114,7 +118,9 @@ export function nextSteps(s: Session, role: DemoRoleId): NextStep[] {
     const forward = ok.filter((x) => !STOPS.has(x.command.type));
     const stops = ok.filter((x) => STOPS.has(x.command.type));
     // Several answers to one question (the guest's own response) are peers: none is highlighted as the expected one.
-    const peers = forward.length > 1 && forward.some((x) => x.command.type === "recordResponse");
+    // The guest's choice to share is likewise theirs: allow and decline are equal, neither is the expected answer.
+    const sharing = r.kind === "subject" && ok.some((x) => x.command.type === "approve");
+    const peers = (forward.length > 1 && forward.some((x) => x.command.type === "recordResponse")) || sharing;
     result.push({ what: it.what, actionId: it.actionId, primary: peers ? null : (forward[0] ?? null), others: peers ? [...forward, ...stops] : [...forward.slice(1), ...stops] });
   }
   return result;
@@ -145,4 +151,18 @@ export function refusals(s: Session, role: DemoRoleId): Refusal[] {
   const out: Refusal[] = [];
   for (const raw of list) { const x = phrase(s, role, raw); const res = s.ask(role, x.command); if (!res.ok) out.push({ label: x.label, code: res.code, message: res.message }); }
   return out;
+}
+
+/** The commands Core would accept from this role for one action, of the given kinds (used by the attention panel's buttons). */
+export function optionsFor(s: Session, role: DemoRoleId, actionId: string, kinds: readonly Command["type"][]): Candidate[] {
+  const a = s.state.actions.find((x) => x.id === actionId);
+  if (!a) return [];
+  return accepted(s, role, forAction(s, a)).filter((c) => kinds.includes(c.command.type));
+}
+/** The commands Core would accept from this role to prepare a step of one type. */
+export function typeOptions(s: Session, role: DemoRoleId, typeId: string): Candidate[] { return accepted(s, role, forType(s, typeId)); }
+/** Plan-level and link commands Core would accept (for blocked work). */
+export function planOptions(s: Session, role: DemoRoleId, kinds: readonly Command["type"][]): Candidate[] {
+  const list: Candidate[] = [{ command: { type: "revisePlan", reasonId: s.config.changeReasons![0].id }, label: VERB.revisePlan }, ...forLinks(s, role)];
+  return accepted(s, role, list).filter((c) => kinds.includes(c.command.type));
 }

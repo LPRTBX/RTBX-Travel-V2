@@ -18,13 +18,17 @@ const ROLE_ORDER: DemoRoleId[] = ["duty-lead", "guest", "reception", "housekeepi
 /** Follows each role's primary next step, exactly as a person would by clicking it, until Core has nothing left for anyone. */
 function followPrimaries(s: Session, max = 120) {
   for (let i = 0; i < max; i++) {
-    const role = ROLE_ORDER.find((r) => nextSteps(s, r)[0]?.primary);
+    // A highlighted primary is followed as is. The guest's sharing choice has no primary (allow and decline are equal), so the
+    // person following the journey explicitly CHOOSES "allow", exactly as the guest would by pressing that button.
+    const role = ROLE_ORDER.find((r) => nextSteps(s, r)[0]?.primary || guestAllow(s, r));
     if (!role) return i;
-    const r = s.apply(role, nextSteps(s, role)[0].primary!.command);
+    const step = nextSteps(s, role)[0];
+    const r = s.apply(role, (step.primary ?? guestAllow(s, role)!).command);
     if (!r.ok) throw new Error(`${role}: ${r.code} ${r.message}`);
   }
   throw new Error("did not settle");
 }
+const guestAllow = (s: Session, role: DemoRoleId) => (role === "guest" ? nextSteps(s, role)[0]?.others.find((c) => c.command.type === "approve") ?? null : null);
 const deliver = () => { const s = new Session(); runPath(s, "didnothelp"); return s; };
 
 describe("runtime behaviour comes from Core", () => {
@@ -139,14 +143,14 @@ describe("guest feedback, due times and the guest's stream", () => {
     expect(JSON.stringify(sup, ["state", "completedAt", "acceptedAt", "sentAt", "outcome"])).toBe(before);
     const holder = view(s, "duty-lead");
     expect(holder).toMatch(/delivery reported \d\d:\d\d/);
-    expect(holder).toContain("Guest's own response");
+    expect(holder).toMatch(/Delivery confirmation.*Guest feedback.*Still needs support.*Resolution/);
     expect(holder).toMatch(/FU-SUP-1-1 · open · owner: the duty lead/);
     expect(holder).toContain("Review follow-up FU-SUP-1-1");
   });
 
   it("no response is shown as unknown, and one overdue item is raised at expiry", () => {
     const s = deliver();
-    expect(view(s, "duty-lead")).not.toContain("Guest's own response");
+    expect(view(s, "duty-lead")).toMatch(/Guest feedback\s+None yet\. No answer is unknown/);
     s.advance(89);
     const before = s.evidence.length;
     s.advance(1);
@@ -272,8 +276,10 @@ describe("isolation and dependencies", () => {
     const s = new Session();
     const html = page(s, "duty-lead", null, null);
     expect(text(html)).toMatch(/Demo role · not access control/);
-    expect(text(html)).toMatch(/Simulated delivery, nothing is sent/);
-    expect(text(html)).not.toMatch(/signed in|authenticated|verified|live channel/i);
+    expect(text(html)).toMatch(/Interactive demonstration · fictional system events · simulated delivery/);
+    expect(text(html)).toMatch(/No model is connected/);
+    expect(text(html)).not.toMatch(/signed in|you are authenticated|is verified|live channel is connected/i);
+    expect(text(html)).toMatch(/Not connected: real PMS and maintenance systems, verified identity and grants/);
     expect(DEMO_ROLES.length).toBe(6);
   });
 });
@@ -307,6 +313,13 @@ describe("reviewed presentation changes keep Core's rules, permissions and isola
     expect(opt.label).toMatch(/30 minutes later, to 11:00 UTC/);
     expect(s.apply("duty-lead", opt.command).ok).toBe(true);
     expect(Date.parse(moved(s).dueAt)).toBe(before + 30 * 60_000);
+  });
+  it("once the due time has passed, the control gives 30 more minutes from now (30 after a passed due time would be refused)", () => {
+    const s = new Session(); runPath(s, "noresponse"); s.advance(120);
+    const opt = moreOptions(s, "duty-lead").find((o) => o.command.type === "rescheduleDeadline" && o.command.deadlineId.startsWith("guest-response-window"))!;
+    expect(opt.label).toMatch(/^Give 30 more minutes from now, to 11:30 UTC/);
+    expect(s.apply("duty-lead", opt.command).ok).toBe(true);
+    expect(Date.parse(moved(s).dueAt)).toBe(s.clock.getTime() + 30 * 60_000);
   });
   it("the page shows the RECORDED due time and the move, never the configured 90 minutes as if it were the due time", () => {
     const s = new Session(); runPath(s, "maintenance");

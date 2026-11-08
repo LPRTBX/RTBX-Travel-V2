@@ -24,7 +24,14 @@ const kinds = () => p.evaluate(() => window.__workspace.evidence().map((e) => e.
 const openAll = () => p.evaluate(() => document.querySelectorAll("#role-view details").forEach((d) => (d.open = true)));
 const roleText = async () => { await openAll(); return p.locator("#role-view").evaluate((e) => e.textContent.replace(/\s+/g, " ")); };
 async function click(label) { await openAll(); const b = p.locator("#role-view button[data-cmd]").filter({ hasText: label }).first(); if (!(await b.count())) throw new Error(`no control "${label}" for ${await p.locator("#role-view").getAttribute("aria-label")}`); await b.click(); }
-async function primaries(max = 60) { let n = 0, idle = 0; while (idle < 2 && n < max) { let moved = false; for (const r of ROLES) { await role(r); const b = p.locator('[data-testid="next-step"] .wbs-primary button.main').first(); if (await b.count()) { await b.click(); n++; moved = true; } } idle = moved ? 0 : idle + 1; } return n; }
+/** One step a person could take by clicking: adopt a recognised moment, a highlighted next step, or the guest's explicit choice to allow. */
+const stepOnce = async (p) => {
+  const adopt = p.locator("[data-adopt]").first(); if ((await adopt.count()) && (await adopt.isVisible())) { await adopt.click(); return true; }
+  const b = p.locator('[data-testid="next-step"] .wbs-primary button.main').first(); if (await b.count()) { await b.click(); return true; }
+  const allow = p.locator('[data-testid="next-step"] .wbs-alts button').filter({ hasText: /^Allow / }).first(); if (await allow.count()) { await allow.click(); return true; }
+  return false;
+};
+async function primaries(max = 80) { let n = 0, idle = 0; while (idle < 2 && n < max) { let moved = false; for (const r of ROLES) { await role(r); if (await stepOnce(p)) { n++; moved = true; } } idle = moved ? 0 : idle + 1; } return n; }
 const shot = async (n) => { await collapse(); return p.screenshot({ path: resolve(dir, n), fullPage: true }); };
 const guide = async (id) => { await tools(); if (!(await p.locator("#guide").evaluate((e) => e.open))) await p.locator("#guide summary").click(); await p.click(`[data-path="${id}"]`); };
 
