@@ -2,7 +2,7 @@
 // assurance projection's nextStepOwner) and, by a dry run, WHICH commands it would accept from the selected role. This file only
 // lists syntactically possible commands for the steps Core names; it holds no rule about when a command is allowed.
 import { linksFor, partyOf, recipientView, subjectOf, subjectView, type Command, type GovernedAction } from "@workspace/jaldo-orchestration";
-import { COMPLETE, LINK_REF, STEP, STOPS, VERB } from "./copy";
+import { COMPLETE, GUEST_SHARE, LINK_REF, STEP, STOPS, VERB } from "./copy";
 import { roleOf, type DemoRoleId, type Session } from "./session";
 
 const CHECKS4 = { recipient: true, purpose: true, fields: true, authority: true };
@@ -45,7 +45,9 @@ function forAction(s: Session, a: GovernedAction): Candidate[] {
   for (const tpl of s.config.communications.filter((x) => x.trigger.actionType === a.typeId)) out.push(c({ type: "releaseCommunication", templateId: tpl.id, actionId: a.id }, `${VERB.releaseCommunication} · ${name}`));
   for (const f of (s.state.followUps ?? []).filter((x) => x.actionId === a.id)) for (const o of s.config.followUpOutcomes ?? []) out.unshift(c({ type: "closeFollowUp", followUpId: f.id, outcomeId: o.id }, `Close the follow-up: ${o.label}`));
   for (const d of (s.state.deadlines ?? []).filter((x) => x.subject.kind === "action" && x.subject.actionId === a.id)) {
-    out.unshift(c({ type: "rescheduleDeadline", deadlineId: d.id, dueAt: new Date(s.clock.getTime() + 30 * 60_000).toISOString(), reasonId: s.config.changeReasons![0].id }, `${VERB.rescheduleDeadline} · ${name}`));
+    // "30 minutes later" means later than the CURRENT recorded due time (not "30 minutes from now"): the label and the command agree.
+    const later = new Date(Date.parse(d.dueAt) + 30 * 60_000);
+    out.unshift(c({ type: "rescheduleDeadline", deadlineId: d.id, dueAt: later.toISOString(), reasonId: s.config.changeReasons![0].id }, `${VERB.rescheduleDeadline}, to ${later.toISOString().slice(11, 16)} UTC · ${name}`));
     out.push(c({ type: "cancelDeadline", deadlineId: d.id, reasonId: s.config.changeReasons![0].id }, `${VERB.cancelDeadline} · ${name}`));
   }
   return out;
@@ -69,7 +71,16 @@ function forLinks(s: Session, role: DemoRoleId): Candidate[] {
   return out;
 }
 
-const accepted = (s: Session, role: DemoRoleId, list: Candidate[]) => list.filter((x) => s.ask(role, x.command).ok);
+/** What the guest reads on buttons that grant or withhold sharing. Same commands; Core still decides acceptance. */
+function phrase(s: Session, role: DemoRoleId, c: Candidate): Candidate {
+  if (roleOf(role).kind !== "subject" || !("actionId" in c.command)) return c;
+  const a = s.state.actions.find((x) => x.id === (c.command as { actionId: string }).actionId);
+  if (!a || !a.typeId.startsWith("share-")) return c;
+  const unit = STEP[a.typeId].unit;
+  const label = c.command.type === "approve" ? GUEST_SHARE.allow(unit) : c.command.type === "refuse" ? GUEST_SHARE.decline(unit) : c.command.type === "revokeApproval" ? GUEST_SHARE.takeBack(unit) : null;
+  return label ? { ...c, label } : c;
+}
+const accepted = (s: Session, role: DemoRoleId, list: Candidate[]) => list.map((x) => phrase(s, role, x)).filter((x) => s.ask(role, x.command).ok);
 
 /** Core's own list of what is waiting on this role, then the commands Core would accept for each. */
 export function nextSteps(s: Session, role: DemoRoleId): NextStep[] {
@@ -81,7 +92,7 @@ export function nextSteps(s: Session, role: DemoRoleId): NextStep[] {
   const holderWho = ["The request holder", "The addressed contact"];
   for (const h of s.report.plan.awaitingHuman) {
     const mine = r.kind === "holder" ? holderWho.includes(h.who) : r.kind === "subject" ? h.who === subject : unitLabel !== null && h.who === unitLabel;
-    if (mine) items.push({ what: h.what, actionId: h.actionId ?? null, typeId: h.actionType ?? null });
+    if (mine) items.push({ what: r.kind === "subject" && h.actionType?.startsWith("share-") ? GUEST_SHARE.step(STEP[h.actionType].unit) : h.what, actionId: h.actionId ?? null, typeId: h.actionType ?? null });
   }
   for (const a of s.assurance().actions) {
     const mine = r.kind === "subject" ? a.nextStepOwner === subject : unitLabel !== null && r.kind === "unit" && a.nextStepOwner === unitLabel;
@@ -132,6 +143,6 @@ export function refusals(s: Session, role: DemoRoleId): Refusal[] {
   if (r.kind === "holder") for (const t of s.config.actions) list.push(...forType(s, t.id));
   list.push(...forLinks(s, role));
   const out: Refusal[] = [];
-  for (const x of list) { const res = s.ask(role, x.command); if (!res.ok) out.push({ label: x.label, code: res.code, message: res.message }); }
+  for (const raw of list) { const x = phrase(s, role, raw); const res = s.ask(role, x.command); if (!res.ok) out.push({ label: x.label, code: res.code, message: res.message }); }
   return out;
 }

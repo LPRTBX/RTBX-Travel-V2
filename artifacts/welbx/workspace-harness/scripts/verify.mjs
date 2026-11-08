@@ -26,8 +26,10 @@ async function open(w, h) {
   await p.goto(URL); await p.waitForSelector("#role-view");
   return p;
 }
-const role = (p, id) => p.click(`[data-role="${id}"]`);
-const guide = async (p) => { if (!(await p.locator("#guide").evaluate((e) => e.open))) await p.locator("#guide summary").click(); };
+const tools = async (p) => { if (!(await p.locator("#review-tools").evaluate((e) => e.open))) await p.locator("#review-tools > summary").click(); };
+const collapse = (p) => p.evaluate(() => { document.getElementById("review-tools").open = false; });
+const role = async (p, id) => { await tools(p); await p.click(`[data-role="${id}"]`); };
+const guide = async (p) => { await tools(p); if (!(await p.locator("#guide").evaluate((e) => e.open))) await p.locator("#guide summary").click(); };
 const text = (p) => p.locator("#role-view").innerText();
 async function follow(p, max = 40) { // click only the highlighted primary
   let n = 0;
@@ -56,7 +58,7 @@ try {
   // keyboard: tab reaches a role button and shows a visible focus ring; focus moves to result after a command
   await p.keyboard.press("Tab"); const focusable = await p.evaluate(() => document.activeElement?.tagName);
   check(!!focusable, "keyboard focus lands on an element");
-  await p.screenshot({ path: shot("desktop-1440-journey-end.png"), fullPage: true });
+  await collapse(p); await p.screenshot({ path: shot("desktop-1440-journey-end.png"), fullPage: true });
   // each path
   const paths = ["normal", "missing", "capacity", "dependency", "didnothelp", "noresponse", "maintenance"];
   for (const id of paths) {
@@ -69,7 +71,7 @@ try {
       check(small === 0, `path ${id} / ${r}: no text under 12.5px`);
     }
     await role(p, "duty-lead");
-    await p.screenshot({ path: shot(`path-${id}-duty-lead-1440.png`), fullPage: true });
+    await collapse(p); await p.screenshot({ path: shot(`path-${id}-duty-lead-1440.png`), fullPage: true });
   }
   await p.close();
   // overflow at three widths + mobile/tablet screenshots
@@ -79,8 +81,8 @@ try {
       await guide(q); await q.click(`[data-path="${id}"]`);
       for (const r of roles) { await role(q, r); const o = await q.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth); check(o <= 0, `${w}px ${id}/${r}: no horizontal page overflow`); }
     }
-    await role(q, "guest"); await q.screenshot({ path: shot(`${w <= 390 ? "mobile-390" : w <= 820 ? "tablet-820" : "desktop-1440"}-guest-maintenance.png`), fullPage: true });
-    await role(q, "duty-lead"); await q.screenshot({ path: shot(`${w <= 390 ? "mobile-390" : w <= 820 ? "tablet-820" : "desktop-1440"}-duty-lead-maintenance.png`), fullPage: true });
+    await role(q, "guest"); await collapse(q); await q.screenshot({ path: shot(`${w <= 390 ? "mobile-390" : w <= 820 ? "tablet-820" : "desktop-1440"}-guest-maintenance.png`), fullPage: true });
+    await role(q, "duty-lead"); await collapse(q); await q.screenshot({ path: shot(`${w <= 390 ? "mobile-390" : w <= 820 ? "tablet-820" : "desktop-1440"}-duty-lead-maintenance.png`), fullPage: true });
     await q.close();
   }
   check(errors.length === 0, `no console or page errors (${errors.length})`);

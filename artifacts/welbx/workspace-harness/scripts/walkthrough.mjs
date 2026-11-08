@@ -16,15 +16,17 @@ const p = await (await browser.newContext({ viewport: { width: 1280, height: 900
 const errors = []; p.on("pageerror", (e) => errors.push(String(e))); p.on("console", (m) => m.type() === "error" && errors.push(m.text()));
 await p.goto(URL); await p.waitForSelector("#role-view");
 const ROLES = ["duty-lead", "guest", "reception", "housekeeping", "guest-services", "maintenance"];
-const role = (r) => p.click(`[data-role="${r}"]`);
+const tools = async () => { if (!(await p.locator("#review-tools").evaluate((e) => e.open))) await p.locator("#review-tools > summary").click(); };
+const collapse = () => p.evaluate(() => { document.getElementById("review-tools").open = false; });
+const role = async (r) => { await tools(); await p.click(`[data-role="${r}"]`); };
 const state = () => p.evaluate(() => { const s = window.__workspace.state(); return { actions: Object.fromEntries(s.actions.map((a) => [a.id, a.state])), full: s.actions.map((a) => ({ id: a.id, typeId: a.typeId, state: a.state, planVersion: a.planVersion })), links: s.links ?? [], clock: window.__workspace.clock() }; });
 const kinds = () => p.evaluate(() => window.__workspace.evidence().map((e) => e.kind ?? e.record?.kind));
 const openAll = () => p.evaluate(() => document.querySelectorAll("#role-view details").forEach((d) => (d.open = true)));
 const roleText = async () => { await openAll(); return p.locator("#role-view").evaluate((e) => e.textContent.replace(/\s+/g, " ")); };
 async function click(label) { await openAll(); const b = p.locator("#role-view button[data-cmd]").filter({ hasText: label }).first(); if (!(await b.count())) throw new Error(`no control "${label}" for ${await p.locator("#role-view").getAttribute("aria-label")}`); await b.click(); }
 async function primaries(max = 60) { let n = 0, idle = 0; while (idle < 2 && n < max) { let moved = false; for (const r of ROLES) { await role(r); const b = p.locator('[data-testid="next-step"] .wbs-primary button.main').first(); if (await b.count()) { await b.click(); n++; moved = true; } } idle = moved ? 0 : idle + 1; } return n; }
-const shot = (n) => p.screenshot({ path: resolve(dir, n), fullPage: true });
-const guide = async (id) => { if (!(await p.locator("#guide").evaluate((e) => e.open))) await p.locator("#guide summary").click(); await p.click(`[data-path="${id}"]`); };
+const shot = async (n) => { await collapse(); return p.screenshot({ path: resolve(dir, n), fullPage: true }); };
+const guide = async (id) => { await tools(); if (!(await p.locator("#guide").evaluate((e) => e.open))) await p.locator("#guide summary").click(); await p.click(`[data-path="${id}"]`); };
 
 // 1. Normal journey: start from the request, click only highlighted next steps (switching role as the page says).
 let n = await primaries(); let st = await state();
@@ -36,7 +38,7 @@ await role("duty-lead"); await shot("walkthrough-1-normal-journey-end.png");
 // 2. Capacity withdrawn after approval, then recovery.
 await guide("capacity"); await role("duty-lead");
 check((await state()).actions["SUP-1"] === "approved", `2. start: handover approved, not yet released (SUP-1 = ${(await state()).actions["SUP-1"]})`);
-await p.click('[data-cap="housekeeping:down"]');
+await tools(); await p.click('[data-cap="housekeeping:down"]');
 const lead2 = await roleText();
 check(/Renew Capacity check/.test(await p.locator('[data-testid="next-step"]').innerText()), "2. Core's next step for the Duty lead is to renew the lost capacity check");
 check(/renewed check is needed|lost capacity/i.test(lead2), "2. the page says why approval was withdrawn");
@@ -45,7 +47,7 @@ const ref2 = await p.locator("#refusals").innerText();
 check(/Release · Hand the practical support[^\n]*Only an approved action can be executed/.test(ref2), "2. releasing the handover is refused by Core (approval was withdrawn)");
 check(/Approve · Hand the practical support[^\n]*dependency_unmet[^\n]*renewed check is needed/.test(ref2), "2. re-approving is refused until the capacity check is renewed, with Core's reason");
 await shot("walkthrough-2a-capacity-lost.png");
-await p.click('[data-cap="housekeeping:up"]');
+await tools(); await p.click('[data-cap="housekeeping:up"]');
 n = await primaries(); st = await state(); const ev2 = await kinds();
 check(ev2.includes("capacity.lost") && ev2.includes("authority.stale"), "2. Core recorded the capacity loss and the withdrawn approval");
 check(st.actions["SUP-1"] === "completed" || st.actions["SUP-1"] === "confirmed" || st.actions["SUP-1"] === "accepted", `2. recovery by following Core's next steps (${n} clicks) reaches delivery (SUP-1 = ${st.actions["SUP-1"]})`);
@@ -69,7 +71,7 @@ await guide("maintenance"); await role("duty-lead");
 st = await state(); const link = st.links.find((l) => !l.withdrawn);
 check(st.actions["SUP-1"] === "confirmed" || st.actions["SUP-1"] === "completed", `4. support is complete (SUP-1 = ${st.actions["SUP-1"]})`);
 check(!!link && link.status === "open", `4. the linked repair is still open (${link ? link.reference + " " + link.status : "none"})`);
-check(/Facility repair \(WO-1182\)[^.]*open/i.test(await roleText()) && /Independent/i.test(await roleText()), "4. the lead sees the repair listed separately, labelled independent and open");
+check(/Related work · stays open separately[\s\S]*Facility repair · WO-1182 · open/i.test(await roleText()) && /Independent/i.test(await roleText()), "4. the lead sees the repair listed separately, labelled independent and open");
 await role("maintenance"); const m4 = await roleText();
 check(/WO-1182/.test(m4) && !/SUP-1|Alex|SGS-1|CAP-1/.test(m4), "4. Maintenance sees only its own work, none of the guest support");
 await role("duty-lead"); await shot("walkthrough-4-maintenance-open.png");

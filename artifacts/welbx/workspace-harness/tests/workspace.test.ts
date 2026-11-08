@@ -3,9 +3,9 @@ import { describe, expect, it } from "vitest";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { applyCommand, type Command } from "@workspace/jaldo-orchestration";
+import { applyCommand, holderView, type Command } from "@workspace/jaldo-orchestration";
 import { SCRIPTS, runPath } from "../src/paths";
-import { nextSteps, visibleActionIds } from "../src/next";
+import { moreOptions, nextSteps, visibleActionIds } from "../src/next";
 import { DEMO_ROLES, Session, roleOf, type DemoRoleId } from "../src/session";
 import { STEP } from "../src/copy";
 import { page, roleView } from "../src/views";
@@ -46,7 +46,11 @@ describe("runtime behaviour comes from Core", () => {
     for (const role of ["duty-lead", "guest"] as DemoRoleId[]) {
       const first = nextSteps(s, role)[0];
       const coreWho = role === "guest" ? "The guest" : "The request holder";
-      expect(s.report.plan.awaitingHuman.filter((h) => h.who === coreWho).map((h) => h.what)).toContain(first.what);
+      const core = s.report.plan.awaitingHuman.filter((h) => h.who === coreWho);
+      // The step is Core's (same action, same owner). Only the guest's wording about sharing differs from Core's text.
+      expect(core.map((h) => h.actionId)).toContain(first.actionId);
+      if (role === "guest") expect(first.what).toBe("Choose what to share with Reception");
+      else expect(core.map((h) => h.what)).toContain(first.what);
     }
   });
 
@@ -158,9 +162,9 @@ describe("guest feedback, due times and the guest's stream", () => {
     // Re-run to just after release so the handover acceptance deadline is the open one.
     runPath(s, "capacity");
     s.apply("duty-lead", { type: "execute", actionId: "SUP-1" });
-    expect(view(s, "guest-services")).toMatch(/Guest services accept the handover within 20 minutes of release: open \(due \d\d:\d\d UTC\)/);
-    for (const role of ["reception", "housekeeping", "maintenance", "guest"] as DemoRoleId[]) expect(view(s, role), role).not.toMatch(/within 20 minutes|due \d\d:\d\d/);
-    expect(view(s, "duty-lead")).toMatch(/within 20 minutes of release: open \(due \d\d:\d\d UTC\)/);
+    expect(view(s, "guest-services")).toMatch(/Guest services accept the handover: open \(due \d\d:\d\d UTC\)/);
+    for (const role of ["reception", "housekeeping", "maintenance", "guest"] as DemoRoleId[]) expect(view(s, role), role).not.toMatch(/within 20 minutes|accept the handover|due \d\d:\d\d/);
+    expect(view(s, "duty-lead")).toMatch(/Guest services accept the handover: open \(due \d\d:\d\d UTC\)/);
   });
 
   it("the guest's stream is short, tells their own words, and never turns a staff statement into a guest-confirmed fact", () => {
@@ -288,6 +292,89 @@ describe("every option Core offers a role can be reached on the page", () => {
         const html = roleView(s, r, null);
         for (const n of nextSteps(s, r)) for (const c of [n.primary, ...n.others]) if (c) expect(html, `${id}/${r}: ${c.label}`).toContain(c.label.replace(/&/g, "&amp;"));
       }
+    }
+  });
+});
+
+describe("reviewed presentation changes keep Core's rules, permissions and isolation", () => {
+  const paths = Object.keys(SCRIPTS);
+  const moved = (s: Session) => holderView(s.config, s.state, s.evidence, s.facts(), "member-a")!.coordination!.deadlines.find((d) => d.defId === "guest-response-window")!;
+
+  it("\"move the due time 30 minutes later\" moves the recorded due time by exactly 30 minutes, later (found: it used to set now+30, shortening it by an hour)", () => {
+    const s = new Session(); runPath(s, "maintenance");
+    const before = Date.parse(moved(s).dueAt);
+    const opt = moreOptions(s, "duty-lead").find((o) => o.command.type === "rescheduleDeadline" && o.command.deadlineId.startsWith("guest-response-window"))!;
+    expect(opt.label).toMatch(/30 minutes later, to 11:00 UTC/);
+    expect(s.apply("duty-lead", opt.command).ok).toBe(true);
+    expect(Date.parse(moved(s).dueAt)).toBe(before + 30 * 60_000);
+  });
+  it("the page shows the RECORDED due time and the move, never the configured 90 minutes as if it were the due time", () => {
+    const s = new Session(); runPath(s, "maintenance");
+    const opt = moreOptions(s, "duty-lead").find((o) => o.command.type === "rescheduleDeadline" && o.command.deadlineId.startsWith("guest-response-window"))!;
+    s.apply("duty-lead", opt.command);
+    const html = view(s, "duty-lead");
+    expect(html).toMatch(/Guest response deadline: open \(due 11:00 UTC\) · moved 10:30 → 11:00 UTC \(a material change\)/);
+    expect(html).not.toMatch(/within 90 minutes of delivery: open/);
+    expect(html).toMatch(/configured: The guest is asked for a response within 90 minutes of delivery/); // Core's expectation, kept apart from the due time
+  });
+  it("a follow-up, an unresolved required check and an expired deadline are shown first to the holder, and only to the holder", () => {
+    const f = new Session(); runPath(f, "didnothelp"); f.apply("guest", { type: "recordResponse", actionId: "SUP-1", responseId: "still-needs-support" });
+    expect(view(f, "duty-lead")).toMatch(/Needs attention now.*The guest still needs support\..*Review the open follow-up/);
+    expect(view(f, "duty-lead")).toMatch(/Delivery reported — follow-up open/);
+    expect(view(f, "duty-lead")).toMatch(/Other available work/);
+    const d = new Session(); runPath(d, "dependency");
+    expect(view(d, "duty-lead")).toMatch(/Needs attention now.*Handover blocked: Area safety clearance.*Waiting on Maintenance/);
+    const n = new Session(); runPath(n, "noresponse"); n.advance(91);
+    expect(view(n, "duty-lead")).toMatch(/1 deadline is overdue/);
+    for (const s of [f, d, n]) for (const r of ROLE_ORDER.filter((x) => x !== "duty-lead")) expect(view(s, r), r).not.toMatch(/Needs attention now|Handover blocked|still needs support\./);
+  });
+  it("required checks and independent repairs are separate sections with their own effect stated", () => {
+    const s = new Session(); runPath(s, "maintenance");
+    const html = roleView(s, "duty-lead", null);
+    const req = html.indexOf("Required checks"), rel = html.indexOf("Related work · stays open separately");
+    expect(req).toBeGreaterThan(-1); expect(rel).toBeGreaterThan(req);
+    expect(html.slice(rel)).toMatch(/Facility repair<\/strong> · WO-1182 · open/);
+    expect(html.slice(req, rel)).not.toMatch(/WO-1182/);
+    const d = new Session(); runPath(d, "dependency");
+    expect(roleView(d, "duty-lead", null).split("Related work")[0]).toMatch(/Area safety clearance<\/strong> · SC-77/);
+  });
+  it("the guest's sharing wording is clear, and the commands and Core's refusals are unchanged", () => {
+    const s = new Session(); runPath(s, "missing");
+    const steps = nextSteps(s, "guest");
+    expect(steps[0].what).toMatch(/^Choose what to share with /);
+    const labels = [steps[0].primary, ...steps[0].others].filter(Boolean).map((c) => c!.label);
+    expect(labels.some((l) => /^Allow (Reception|Guest services) to see these details$/.test(l))).toBe(true);
+    for (const c of [steps[0].primary, ...steps[0].others]) if (c) expect(["approve", "refuse"]).toContain(c.command.type);
+    const html = roleView(s, "guest", null);
+    expect(html).toMatch(/What you can choose to share/); expect(html).not.toMatch(/Approve · Share|Approve Share|agree to/);
+    // a non-guest still reads the plain Core verbs, and the holder cannot approve for the guest
+    expect(s.ask("duty-lead", { type: "approve", actionId: "SRC-1", checks: { recipient: true, purpose: true, fields: true, authority: true } }).ok).toBe(false);
+  });
+  it("every role on every path keeps the same permitted actions as Core would accept (nothing hidden by the new layout)", () => {
+    for (const id of paths) {
+      const s = new Session(); runPath(s, id);
+      for (const r of ROLE_ORDER) {
+        const html = roleView(s, r, null);
+        for (const c of moreOptions(s, r)) expect(html, `${id}/${r}: ${c.label}`).toContain(c.label.replace(/&/g, "&amp;"));
+      }
+    }
+  });
+  it("the review tools start collapsed, hold the reviewer controls, and stay out of every role view", () => {
+    const s = new Session(); runPath(s, "normal");
+    const html = page(s, "duty-lead", null, null);
+    expect(html).toMatch(/<details class="wbs-card hz-controls" id="review-tools"><summary>Review tools · viewing as Duty lead/);
+    expect(html).not.toMatch(/id="review-tools" open/);
+    const inside = html.slice(html.indexOf('id="review-tools"'), html.indexOf('id="role-view"'));
+    for (const k of ["data-role=", "data-adv=", "data-cap=", "data-reset=", 'id="guide"']) expect(inside).toContain(k);
+    for (const r of ROLE_ORDER) expect(roleView(s, r, null)).not.toMatch(/data-role=|data-path=|data-adv=|data-cap=|data-reset=/);
+  });
+  it("introductions are short, carry no photo, and the tables carry a label on every cell for the mobile cards", () => {
+    const s = new Session(); runPath(s, "maintenance");
+    for (const r of ROLE_ORDER) {
+      const html = roleView(s, r, null);
+      expect(html, r).not.toMatch(/<img|<figure/);
+      expect(text(html.slice(0, html.indexOf('<div class="wbs-body">'))).length, r).toBeLessThan(260);
+      for (const t of html.match(/<table class="wbs-table review-responsive">[\s\S]*?<\/table>/g) ?? []) expect(t.match(/<td(?![^>]*colspan)(?![^>]*data-label)/g), r).toBeNull();
     }
   });
 });

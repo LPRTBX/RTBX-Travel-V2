@@ -16,7 +16,9 @@ const root = document.getElementById("root")!;
 type Focus = "result" | "view" | "keep";
 function render(focus: Focus = "keep") {
   const had = document.activeElement?.getAttribute("data-role");
+  const open = ["review-tools", "guide"].filter((id) => (document.getElementById(id) as HTMLDetailsElement | null)?.open);
   root.innerHTML = page(session, role, result, pathId);
+  for (const id of open) { const d = document.getElementById(id) as HTMLDetailsElement | null; if (d) d.open = true; }
   if (focus === "result") document.getElementById("result")?.focus({ preventScroll: false });
   else if (focus === "view") document.getElementById("role-view")?.focus({ preventScroll: true });
   else if (had) (root.querySelector(`[data-role="${had}"]`) as HTMLElement | null)?.focus();

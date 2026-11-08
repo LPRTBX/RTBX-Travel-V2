@@ -15,12 +15,12 @@ export const sharedAlias = {
   "@workspace/jaldo-orchestration": resolve(core, "index.ts"),
 };
 
-/** The build copies Travel's public folder; keep only the two approved assets this harness uses. */
+/** The build copies Travel's public folder; keep only the approved logo this harness uses (the compact introduction no longer shows the hero photo). */
 const onlyApprovedAssets = () => ({
   name: "only-approved-assets",
   closeBundle() {
     const out = resolve(here, "dist");
-    const keep = new Set(["index.html", "assets", "brand", "images", "brand/jaldo-logo-white.webp", "images/travel", "images/travel/arrival-hero.webp"]);
+    const keep = new Set(["index.html", "assets", "brand", "brand/jaldo-logo-white.webp"]);
     const walk = (dir: string, rel = "") => {
       for (const name of readdirSync(dir)) {
         const r = rel ? `${rel}/${name}` : name;

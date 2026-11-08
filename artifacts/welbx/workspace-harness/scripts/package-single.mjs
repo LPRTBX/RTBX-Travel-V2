@@ -1,4 +1,4 @@
-// Packages the built workspace (dist/) into ONE self-contained HTML file: JS, CSS and the two approved images are embedded.
+// Packages the built workspace (dist/) into ONE self-contained HTML file: JS, CSS and the approved logo are embedded.
 // It does not change the app or the build; it only reads dist/. Output: dist-single/jaldo-travel-review-workspace.html
 import { readFileSync, writeFileSync, mkdirSync, readdirSync } from "node:fs";
 import { resolve, dirname } from "node:path";
@@ -9,7 +9,7 @@ const assets = readdirSync(resolve(dist, "assets"));
 const js = assets.filter((f) => f.endsWith(".js")), css = assets.filter((f) => f.endsWith(".css"));
 if (js.length !== 1 || css.length > 1) throw new Error(`unexpected build output: ${assets.join(", ")}`);
 const uri = (rel, type) => `data:${type};base64,${readFileSync(resolve(dist, rel)).toString("base64")}`;
-const IMAGES = { "/images/travel/arrival-hero.webp": uri("images/travel/arrival-hero.webp", "image/webp"), "/brand/jaldo-logo-white.webp": uri("brand/jaldo-logo-white.webp", "image/webp") };
+const IMAGES = { "/brand/jaldo-logo-white.webp": uri("brand/jaldo-logo-white.webp", "image/webp") };
 let code = readFileSync(resolve(dist, "assets", js[0]), "utf8");
 for (const [path, data] of Object.entries(IMAGES)) { if (!code.includes(path)) throw new Error(`asset not referenced: ${path}`); code = code.split(path).join(data); }
 const style = css.length ? readFileSync(resolve(dist, "assets", css[0]), "utf8") : "";

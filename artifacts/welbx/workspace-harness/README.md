@@ -14,13 +14,19 @@ Nothing in Travel's `package.json`, lockfile or `pnpm-workspace.yaml` references
 1. Check out RTBX-Main at the pinned commit as a sibling (`../../../../rtbx-main` from this folder) or set `JALDO_CORE_DIR`; in Core run `pnpm install --filter "@workspace/jaldo-orchestration..."`.
 2. From `artifacts/welbx/workspace-harness`:
    - `node check-core-pin.mjs` — verifies commit, clean kernel directory, contract version
-   - `node ../node_modules/vitest/vitest.mjs run --config vitest.config.ts` — 22 tests
+   - `node ../node_modules/vitest/vitest.mjs run --config vitest.config.ts` — 32 tests
    - `node ../../../node_modules/typescript/bin/tsc -p tsconfig.json`
-   - `node ../node_modules/vite/bin/vite.js build --config vite.config.ts` (dist contains only index.html, assets, and the two approved images)
+   - `node ../node_modules/vite/bin/vite.js build --config vite.config.ts` (dist contains only index.html, assets and the approved logo)
    - `NODE_PATH=$(npm root -g) node scripts/verify.mjs` — Playwright run against `vite preview` on port 5320 using system Chromium (`CHROMIUM` env to override); 80 checks, writes `screenshots/`
-   - `node scripts/package-single.mjs` — after a build, writes ONE self-contained file, `dist-single/jaldo-travel-review-workspace.html` (script, styles and the two approved images embedded; no network, no external URL). It runs the same Core kernel bundle by double-clicking the file (file://).
+   - `node scripts/shots.mjs` (390/820/1440 screenshots of the reviewed presentation with an overflow check, into `screenshots/review-2/`, not committed) and
+   - `node scripts/package-single.mjs` — after a build, writes ONE self-contained file, `dist-single/jaldo-travel-review-workspace.html` (script, styles and the approved logo embedded; no network, no external URL). It runs the same Core kernel bundle by double-clicking the file (file://).
    - `VERIFY_FILE=dist-single/jaldo-travel-review-workspace.html NODE_PATH=$(npm root -g) node scripts/verify.mjs` / `verify-review.mjs` / `walkthrough.mjs` — the same browser checks run against the packaged file itself (`verify-review.mjs` covers keyboard order and focus visibility, reviewer/role separation, the holder-history leak, and the Core-pin and synthetic-data boundary; `walkthrough.mjs` is the four-step walkthrough below, by clicks only).
    - `node ../node_modules/vite/bin/vite.js --config vite.config.ts` for interactive use (port 5320).
+
+## Reviewed presentation (ported from the reviewed standalone file into the source)
+Collapsed review tools (role selector, synthetic facts and the reviewer guide sit in one disclosure above the role view; the summary names the role being viewed), a short role introduction, mobile task cards for the tables (≤600px), a "Needs attention now" panel for the Duty lead (open guest follow-up, unresolved required check, expired deadline, all from Core's own coordination record and `deadlineExpired`), separate "Required checks" and "Related work · stays open separately", and plain guest wording about sharing ("Choose what to share with Reception", "Allow Reception to see these details"). Only wording and layout changed: the commands, Core's refusals, projections and role isolation are as before. The role view no longer shows the hero photo, so the packaged file embeds only the logo.
+
+**Deadline finding.** The Duty lead's "Move the due time by 30 minutes" control set the new due time to *now* + 30 minutes, not the recorded due time + 30. On the guest-response deadline (due 10:30, clock 09:00) it silently moved the due time *earlier*, to 09:30, while the row still read "within 90 minutes of delivery". Core was correct (it accepts any later instant and records the move). The control now moves the recorded due time 30 minutes later and states the target ("…to 11:00 UTC"), and each deadline row shows the recorded due time plus any move ("moved 10:30 → 11:00 UTC (a material change)"); Core's configured expectation ("within 90 minutes of delivery") is kept in a separate "How due times are set" disclosure rather than as if it were the due time. Regression tests cover the arithmetic and the display.
 
 ## Short walkthrough (what `scripts/walkthrough.mjs` automates)
 1. Normal journey: click only the highlighted "Your next step"; switch role when the page names who is waiting.

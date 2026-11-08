@@ -2,14 +2,6 @@
 // A test fails if this file names an id Core does not define, or a Core id has no wording here.
 import type { Command } from "@workspace/jaldo-orchestration";
 
-export const SITUATION = {
-  eyebrow: "The situation · fictional demonstration",
-  title: "A guest's room is delayed, and they've asked for somewhere quiet.",
-  body: "At 9:00 am Alex, a fictional guest, asks: “Could I wait somewhere quieter and have some practical help?” The team needs an available space, enough capacity, Alex's own agreement to share, one accountable person, and an honest follow-up. Room repair stays a separate job.",
-  image: "/images/travel/arrival-hero.webp",
-  imageAlt: "A hotel host welcoming a guest at a warmly lit entrance",
-};
-
 /** Action types: how each step is described to people. */
 export const STEP: Record<string, { title: string; unit: string }> = {
   "share-reception": { title: "Share the request with Reception", unit: "Reception" },
@@ -42,11 +34,51 @@ export const VERB: Record<string, string> = {
   acceptRequest: "Accept responsibility for this request", propose: "Prepare", submit: "Put forward for approval", approve: "Approve", refuse: "Do not approve",
   revokeApproval: "Take back this agreement (before anything is sent)", execute: "Release", receive: "Record receipt", accept: "Accept", decline: "Decline",
   complete: "Report delivered", confirm: "Confirm", recheck: "Check again", withdraw: "Withdraw", releaseCommunication: "Release the prepared message",
-  revisePlan: "Revise the plan (material change)", rescheduleDeadline: "Move the due time by 30 minutes", cancelDeadline: "Cancel the deadline",
+  revisePlan: "Revise the plan (material change)", rescheduleDeadline: "Move the due time 30 minutes later", cancelDeadline: "Cancel the deadline",
   linkWork: "Link", recordLinkStatus: "Record", withdrawLink: "Withdraw link",
 };
 /** Commands that stop or step back rather than move the response forward. Presentation only; Core still decides acceptance. */
 export const STOPS: ReadonlySet<Command["type"]> = new Set(["withdraw", "refuse", "decline", "revokeApproval", "cancelDeadline", "withdrawLink", "revisePlan"]);
+
+/** Short names for Core's configured deadlines. The configured expectation (e.g. "90 minutes") is Core's label and is not repeated as if it were the due time: the recorded due time is what is shown. */
+export const DEADLINE_NAMES: Record<string, string> = {
+  "handover-acceptance": "Guest services accept the handover",
+  "guest-response-window": "Guest response deadline",
+  "follow-up-review": "Follow-up review deadline",
+};
+export const REASON_WORDS: Record<string, string> = { "material-change": "a material change" };
+
+/** Plain wording for the guest about sharing. The commands are unchanged; only what the guest reads. */
+export const GUEST_SHARE = {
+  step: (unit: string) => `Choose what to share with ${unit}`,
+  allow: (unit: string) => `Allow ${unit} to see these details`,
+  decline: (unit: string) => `Do not allow ${unit} to see these details`,
+  takeBack: (unit: string) => `Take back permission for ${unit} (before anything is sent)`,
+  section: "What you can choose to share",
+  waiting: "awaiting your choice",
+  would: (unit: string, fields: string) => `Would share with ${unit}: ${fields}`,
+};
+
+/** Short introductions, one per kind of role. */
+export const INTRO: Record<"holder" | "subject" | "unit" | "linked", { heading: string; body: string }> = {
+  holder: { heading: "Room delayed · practical support requested", body: "Alex has asked for somewhere calm, water and help with luggage. Coordinate the response; track the room repair separately." },
+  subject: { heading: "Your quiet-space request", body: "You choose which details can be shared. Check progress and tell the team whether the support helped." },
+  unit: { heading: "Your part in the response", body: "See the work and information shared with your team." },
+  linked: { heading: "Your linked work", body: "Update the work assigned to you. Required checks and independent repairs have different effects." },
+};
+
+/** Labels for sections the reviewer sees (presentation only). */
+export const WORDS = {
+  actionsNote: "Actions follow the response's permissions and checks.",
+  moreActions: "More permitted actions",
+  unavailable: "Unavailable actions",
+  nextStep: "Your next step",
+  otherWork: "Other available work",
+  attention: "Needs attention now",
+  requiredChecks: "Required checks",
+  relatedWork: "Related work · stays open separately",
+  deliveryFollowUp: "Delivery reported — follow-up open",
+};
 
 export const LINK_REF: Record<string, string> = { "facility-repair": "WO-1182", "area-safety-clearance": "SC-77" };
 
@@ -77,6 +109,8 @@ export const PATHS: { id: string; title: string; what: string; try: string }[] =
 export const DEADLINE_WORDS: Record<string, string> = { open: "open", met: "met", cancelled: "cancelled" };
 export const FOLLOWUP_WORDS: Record<string, string> = { open: "open", closed: "closed" };
 export const LINK_WORDS: Record<string, string> = { open: "open", resolved: "resolved", unknown: "status not yet known" };
+/** Which recorded statuses call for the holder's attention first (presentation only; Core owns the statuses and what they allow). */
+export const NEEDS_ATTENTION = { followUp: { open: true, closed: false } as Record<string, boolean>, link: { open: true, unknown: true, resolved: false } as Record<string, boolean> };
 export const DEPENDENCY_WORDS: Record<string, string> = {
   required: "Required: blocks release of the handover until it is resolved.",
   informational: "Independent: tracked beside this response; it neither blocks nor is closed by it.",
