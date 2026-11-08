@@ -44,7 +44,7 @@ describe("freshness: an old reading stops supporting a recommendation even if no
   });
   it("the Session re-evaluates when time advances, the card says why, and adoption is refused", () => {
     const s = signals();
-    expect(view(s, "duty-lead")).toMatch(/A proactive service check-in may help/);
+    expect(view(s, "duty-lead")).toMatch(/Recommended: offer the guest a proactive check-in/);
     s.advance(21); // 09:21: the 08:50 property reading is 31 minutes old
     const v = view(s, "duty-lead");
     expect(v).toMatch(/The evidence is too old to recommend a check-in/); expect(v).toMatch(/Too old: supports nothing/);
@@ -166,8 +166,8 @@ describe("adoption evidence: who authorised, when, why, on what, under which rul
     expect(rec.core).toEqual({ eventId: "evt-adopt-1", idempotencyKey: "proactive-adopt-1", evidenceSequence: core.sequence });
     expect(core.provenance.eventId).toBe(rec.core.eventId);
     const v = view(s, "duty-lead");
-    expect(v).toMatch(/Demonstration decision record \(kept by this adapter; not Core evidence\)/);
-    expect(v).toMatch(/Core-owned evidence \(recorded by the Core kernel\)/);
+    expect(v).toMatch(/Demonstration decision record \(kept by this demonstration; not Core evidence\)/);
+    expect(v).toMatch(/Core-owned evidence \(recorded by Core\)/);
     expect(v).toMatch(/Authorised by Duty lead · A demo role, not an authenticated identity/);
     expect(v).toContain(REASON); expect(v).toMatch(/proactive-checkin-demo version 0\.2/);
     expect(v).toMatch(/It has no field for who decided, why, on which sources or under which rule version/);
@@ -267,7 +267,7 @@ describe("accepting help is separate from agreeing to share", () => {
   it("the page states the boundary: help and sharing gates are demonstration only", () => {
     const s = withOffer(); const t = text(page(s, "duty-lead", null, null));
     expect(t).toMatch(/guest's answer about help are all demonstration-adapter behaviour/);
-    expect(view(s, "duty-lead")).toMatch(/Core has no contract for accepting or declining help or for stopping released work/);
+    expect(t).toMatch(/Core has no contract for accepting or declining help or for stopping released work/);
   });
 });
 
@@ -309,9 +309,9 @@ describe("declining help is separate from withdrawing sharing", () => {
     expect(t).toMatch(/Work stopped\s+No\. Recording this answer did not stop or cancel anything, recall any information or withdraw any permission, and Core has not been told\./);
     expect(t).toMatch(/Already released: manual review needed/);
     for (const id of ["SGS-1", "SPC-1", "CAP-1", "SUP-1"]) expect(t).toContain(`(${id})`);
-    expect(t).toMatch(/Core offers no action on it\. Manual review: contact the unit if it should stop\./);
+    expect(t).toMatch(/Core offers no action to stop released work, so contact each unit if it should stop\./);
     expect(view(s, "duty-lead")).toMatch(/The guest has declined further help\./);
-    expect(view(s, "duty-lead")).toMatch(/Unresolved work[\s\S]*declined further help after information was shared[\s\S]*Review each released step manually/);
+    expect(view(s, "duty-lead")).toMatch(/Unresolved work[\s\S]*declined further help after information was shared[\s\S]*review each released step manually/i);
     // every Core action offered in the panel is one Core accepts
     for (const m of panel.matchAll(/data-cmd="([^"]+)"/g)) expect(s.ask("duty-lead", JSON.parse(m[1].replace(/&quot;/g, '"').replace(/&amp;/g, "&"))).ok).toBe(true);
   });

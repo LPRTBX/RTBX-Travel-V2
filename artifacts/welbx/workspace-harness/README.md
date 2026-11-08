@@ -6,6 +6,8 @@ the guest app, and it is not deployed anywhere. Demo roles are a view selector, 
 
 Out of scope for this slice: consent withdrawal after disclosure and the unsafe-guest story (designs live in Core `docs/architecture/`).
 
+**Walkthrough for a hotel decision-maker:** [WALKTHROUGH.md](WALKTHROUGH.md) (five moments, screenshot-led, with the wording and flow findings and what changed).
+
 ## The scenario this demonstrates
 JALDO recognising a moment from permitted system signals, recommending a response, coordinating authorised action and reviewing the outcome, on one fictional case (Room 412 still unavailable). The default start is **system events first**; "Guest asks first" (review tools) keeps the original path, and the seven original review paths work from either start.
 1. **Signals**: a fictional property-system event and a maintenance event, each with source, event time and facts. A signal desk (Travel-side adapter) validates each against Core's event envelope and handles duplicates, conflicts, stale readings, out-of-order arrival and insufficient evidence.
@@ -26,11 +28,12 @@ Nothing in Travel's `package.json`, lockfile or `pnpm-workspace.yaml` references
 1. Check out RTBX-Main at the pinned commit as a sibling (`../../../../rtbx-main` from this folder) or set `JALDO_CORE_DIR`; in Core run `pnpm install --filter "@workspace/jaldo-orchestration..."`.
 2. From `artifacts/welbx/workspace-harness`:
    - `node check-core-pin.mjs` — verifies commit, clean kernel directory, contract version
-   - `node ../node_modules/vitest/vitest.mjs run --config vitest.config.ts` — 122 tests (workspace.test.ts, scenario.test.ts, hardening.test.ts)
+   - `node ../node_modules/vitest/vitest.mjs run --config vitest.config.ts` — 138 tests (workspace, scenario, hardening and moments test files) (workspace.test.ts, scenario.test.ts, hardening.test.ts)
    - `node ../../../node_modules/typescript/bin/tsc -p tsconfig.json`
    - `node ../node_modules/vite/bin/vite.js build --config vite.config.ts` (dist contains only index.html, assets and the approved logo)
    - `NODE_PATH=$(npm root -g) node scripts/verify.mjs` — Playwright run against `vite preview` on port 5320 using system Chromium (`CHROMIUM` env to override); 80 checks, writes `screenshots/`
    - `scenario.mjs` — the whole proactive scenario by clicks only (74 checks: signals, freshness, adoption reason and record, help question, recognition, privacy, adoption, guest choice, capacity, required check, feedback, no response, review)
+   - `node scripts/tour.mjs` — captures the five-moment walkthrough views (one desktop, one mobile each) from the packaged file into `screenshots/tour/`; the walkthrough itself is [WALKTHROUGH.md](WALKTHROUGH.md)
    - `node scripts/shots.mjs` (390/820/1440 screenshots of the reviewed presentation with an overflow check, into `screenshots/review-2/`, not committed) and
    - `node scripts/package-single.mjs` — after a build, writes ONE self-contained file, `dist-single/jaldo-travel-review-workspace.html` (script, styles and the approved logo embedded; no network, no external URL). It runs the same Core kernel bundle by double-clicking the file (file://).
    - `VERIFY_FILE=dist-single/jaldo-travel-review-workspace.html NODE_PATH=$(npm root -g) node scripts/verify.mjs` / `verify-review.mjs` / `walkthrough.mjs` — the same browser checks run against the packaged file itself (`verify-review.mjs` covers keyboard order and focus visibility, reviewer/role separation, the holder-history leak, and the Core-pin and synthetic-data boundary; `walkthrough.mjs` is the four-step walkthrough below, by clicks only).

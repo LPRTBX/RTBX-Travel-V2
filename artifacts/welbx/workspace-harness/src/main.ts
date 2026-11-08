@@ -40,7 +40,7 @@ root.addEventListener("click", (e) => {
   if (t.dataset.adopt) {
     const reason = (document.getElementById("adopt-reason") as HTMLTextAreaElement | null)?.value ?? "";
     draft = reason;
-    result = describe(session.adopt(role, { reason, expectedDigest: t.dataset.adopt }), "Proactive check-in opened for you: Core admitted the opening event and addressed the request to the Duty lead. Your reason is recorded with the decision.");
+    result = describe(session.adopt(role, { reason, expectedDigest: t.dataset.adopt }), "Check-in authorised, with your reason recorded. Next: accept responsibility for the request, so the guest can be offered help.");
     if (result.ok) draft = "";
     render(result.ok ? "view" : "result"); return;
   }

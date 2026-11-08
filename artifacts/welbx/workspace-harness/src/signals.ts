@@ -133,10 +133,10 @@ export class SignalDesk {
     const order = ++this.n;
     const done = (outcome: Outcome, reason: string): Received => { const r = { signal, order, outcome, reason }; this.received.push(r); this.track(now); return r; };
     const parsed = EventEnvelopeSchema.safeParse(envelopeOf(signal));
-    if (!parsed.success) return done("refused", "Core's event envelope refuses it (not a valid jaldo.event).");
+    if (!parsed.success) return done("refused", "Not a valid event.");
     if (classificationRank(parsed.data.classification) > classificationRank("internal")) return done("refused", "More sensitive than this feed may carry.");
     const errs = validateBusiness(signal);
-    if (errs.length) return done("refused", `Refused after Core's envelope check: ${errs.join("; ")}.`);
+    if (errs.length) return done("refused", `${errs.join("; ")}.`);
     const at = Date.parse(signal.occurredAt);
     if (at > now.getTime() + this.freshness.futureToleranceSeconds * 1000) return done("refused", `Dated in the future (${signal.occurredAt}): nothing is recorded from a time that has not happened.`);
     const body = JSON.stringify([signal.type, signal.occurredAt, signal.context]);
@@ -145,7 +145,7 @@ export class SignalDesk {
     this.seen.set(signal.key, body);
     const newest = this.current(signal.source);
     if (newest && at < Date.parse(newest.signal.occurredAt)) return done("superseded", `Older than the current ${SOURCES[signal.source].label} reading: kept on record, changes nothing.`);
-    return done("taken-in", signal.source === "maintenance" ? "Valid under Core's event envelope and the business checks; an independent source." : "Valid under Core's event envelope and the business checks; now the current property reading.");
+    return done("taken-in", signal.source === "maintenance" ? "Valid; an independent source." : "Valid; now the current property reading.");
   }
 
   /** The reading currently relied on for a source: the taken-in signal with the latest EVENT time, whatever order they arrived in. */
