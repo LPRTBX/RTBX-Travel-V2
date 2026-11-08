@@ -2,7 +2,7 @@
 // role (holderView, subjectView, recipientView, deadlinesFor, linksFor) and from evidence addressed to that role's audience.
 // The holder's history, owners, follow-ups and other units' work are rendered for the holder alone.
 import { GENERIC_RESTRICTION, deadlineExpired, deadlinesFor, holderView, isLive, linksFor, partyOf, recipientView, subjectOf, subjectView, type DeadlineRecord, type EvidenceRecord } from "@workspace/jaldo-orchestration";
-import { CONTRACTS, DEADLINE_NAMES, HELP_ACCEPTED, HELP_WORDS, DEADLINE_WORDS, DEPENDENCY_WORDS, FOLLOWUP_WORDS, GAPS, GUEST_SHARE, INTRO, JALDO_DOES, LABELS, LINK_WORDS, NEEDS_ATTENTION, PATHS, REASON_WORDS, STATE_WORDS, STEP, STEP_STATUS, STOPS, STRENGTH, WORDS } from "./copy";
+import { CONTRACTS, DEADLINE_NAMES, HELP_ACCEPTED, HELP_DECLINED, HELP_FURTHER, HELP_WORDS, DEADLINE_WORDS, DEPENDENCY_WORDS, FOLLOWUP_WORDS, GAPS, GUEST_SHARE, INTRO, JALDO_DOES, LABELS, LINK_WORDS, NEEDS_ATTENTION, PATHS, REASON_WORDS, STATE_WORDS, STEP, STEP_STATUS, STOPS, STRENGTH, WORDS } from "./copy";
 import { moreOptions, nextSteps, optionsFor, planOptions, refusals, typeOptions, type Candidate, type NextStep } from "./next";
 import { DERIVATION_NOTE } from "./config";
 import { RULE, SOURCES, display, fullTime } from "./signals";
@@ -19,6 +19,8 @@ const deadlineLine = (s: Session, d: DeadlineRecord) => {
   const note = moved.length ? ` · moved ${moved.map((h) => `${hhmm(h.from)} → ${hhmm(h.to)} UTC${h.reasonId ? ` (${REASON_WORDS[h.reasonId] ?? h.reasonId})` : ""}`).join(", then ")}` : "";
   return `${DEADLINE_NAMES[d.defId] ?? s.config.deadlines!.find((x) => x.id === d.defId)!.label}: ${deadlineWords(d)}${note}`;
 };
+/** The guest's help answer in their own words. After something has been shared, "no" means no FURTHER help. */
+const helpWords = (h: { status: string; afterDisclosure: boolean }) => (HELP_DECLINED[h.status] && h.afterDisclosure ? HELP_FURTHER : HELP_WORDS[h.status]);
 const cell = (label: string, html: string) => `<td data-label="${esc(label)}">${html}</td>`;
 const title = (typeId: string) => STEP[typeId]?.title ?? typeId;
 
@@ -52,7 +54,7 @@ function nextCard(s: Session, items: NextStep[], role: DemoRoleId, waitingOnOthe
   return `<section class="wbs-next" aria-labelledby="next-h" data-testid="next-step"><span class="wbs-k" id="next-h" tabindex="-1">${esc(heading)}</span>
     <p class="do">${esc(first.what)}</p>
     ${role === "guest" && first.actionId ? shareDetail(s, first.actionId) : ""}
-    <div class="wbs-primary">${first.primary ? btn(first.primary, "main") : first.others.length ? `<p class="wbs-small">Choose one. None is the expected answer.</p><div class="wbs-alts wbs-equal">${first.others.map((c) => btn(c, "alt")).join("")}</div>` : `<p class="wbs-small">Core would not accept any command from this role for this step yet.</p>`}</div>
+    <div class="wbs-primary">${first.primary ? btn(first.primary, "main") : first.others.length ? `${first.others.length > 1 ? `<p class="wbs-small">Choose one. None is the expected answer.</p>` : ""}<div class="wbs-alts wbs-equal">${first.others.map((c) => btn(c, "alt")).join("")}</div>` : `<p class="wbs-small">Core would not accept any command from this role for this step yet.</p>`}</div>
     ${first.primary && first.others.length ? `<details class="wbs-more"><summary>Other options for this step (${first.others.length})</summary><div class="wbs-alts">${first.others.map((c) => btn(c, "alt")).join("")}</div></details>` : ""}
     ${rest.length ? `<details class="wbs-more"><summary>Also waiting for you (${rest.length})</summary><ul class="wbs-list">${rest.map((x) => `<li>${esc(x.what)}${x.primary ? `<br>${btn(x.primary, "alt")}${x.others.length ? `<details class="wbs-more"><summary>Other options for this step (${x.others.length})</summary><div class="wbs-alts">${x.others.map((c) => btn(c, "alt")).join("")}</div></details>` : ""}` : x.others.length ? `<br><span class="wbs-small">Choose one. None is the expected answer.</span><div class="wbs-alts wbs-equal">${x.others.map((c) => btn(c, "alt")).join("")}</div>` : ""}</li>`).join("")}</ul></details>` : ""}
   </section>`;
@@ -68,7 +70,7 @@ function shareDetail(s: Session, actionId: string): string {
   const unit = v.recipientLabel.replace(" (fictional)", "");
   return `<div class="wbs-share" data-testid="share-detail"><p><strong>Recipient:</strong> ${esc(unit)}</p><p><strong>Purpose:</strong> ${esc(t.purpose)}</p>
     <table class="wbs-table review-responsive"><thead><tr><th>Detail</th><th>Exact value that would be shared</th></tr></thead><tbody>${v.wouldShare.map((f) => `<tr><td data-label="Detail">${esc(f.label)}</td><td data-label="Exact value that would be shared">${esc(f.value)}</td></tr>`).join("")}</tbody></table>
-    <p class="wbs-small">Not shared: ${esc(t.withheld.join(", "))}. Declining shares nothing, and the hotel can still help in other ways you ask for.</p></div>`;
+    <p class="wbs-small">Not shared: ${esc(t.withheld.join(", "))}. Declining shares nothing, and the hotel can still help in other ways you ask for.${s.sharingOpen ? "" : " Allowing is available after you say yes to practical help; declining is available now."}</p></div>`;
 }
 
 type HolderV = NonNullable<ReturnType<typeof holderView>>;
@@ -181,25 +183,35 @@ function recognisedBasis(s: Session): string {
 /** The guest's own answer about help, and what it does and does not mean. Held by this adapter, not Core. */
 function helpSection(s: Session): string {
   if (s.origin !== "signals" || !s.opened) return "";
-  const words = { unanswered: "The guest has not answered yet. That is not a yes and not a no.", yes: "The guest said yes to practical help.", no: "The guest said no thanks." }[s.help];
-  const hist = s.helpHistory.map((h) => `<li>${esc(fullTime(h.at))} · ${HELP_WORDS[h.status]}</li>`).join("");
+  const last = s.helpHistory.at(-1);
+  const words = { unanswered: "The guest has not answered yet. That is not a yes and not a no.", yes: "The guest said yes to practical help.", no: last?.afterDisclosure ? "The guest has declined further help." : "The guest said no thanks." }[s.help];
+  const hist = s.helpHistory.map((h) => `<li>${esc(fullTime(h.at))} · ${esc(helpWords(h))}${h.afterDisclosure ? " (after something had been shared)" : ""}</li>`).join("");
   return `<section class="wbs-card" aria-labelledby="help-h"><span class="wbs-k" id="help-h">The guest's choice about help <span class="wbs-small">(demonstration record; not Core evidence)</span></span>
-    <p><strong>${esc(words)}</strong>${s.offeredAt && s.help === "unanswered" ? ` Offered at ${esc(fullTime(s.offeredAt))}${s.helpOffered ? "" : ""}.` : ""}</p>
+    <p><strong>${esc(words)}</strong>${s.offeredAt && s.help === "unanswered" ? ` Offered at ${esc(fullTime(s.offeredAt))}.` : ""}</p>
     ${hist ? `<ul class="wbs-list">${hist}</ul>` : ""}
-    <p class="wbs-small">Accepting help and agreeing to share are two decisions. Saying yes shares nothing; agreeing to share never counts as saying yes. Core has no contract for accepting an offer of help, so this answer and the gate in front of the guest's sharing choices are demonstration only (CORE-GAPS.md, G8).</p></section>`;
+    <p class="wbs-small">Accepting help, agreeing to share and withdrawing sharing are three different things. Saying yes shares nothing; agreeing to share never counts as saying yes; and saying no to help neither withdraws permission nor stops work, because Core has no contract for accepting or declining help or for stopping released work. This answer and the gate in front of NEW sharing approval are demonstration only (CORE-GAPS.md, G8, G9).</p></section>`;
 }
 
-/** What the guest sees before saying yes to help, while saying no, and before the offer reaches them. Sharing choices are not shown here. */
+/** What the guest sees while the offer has not reached them (nothing is waiting). */
 function guestHelpView(s: Session, resultText: { ok: boolean; text: string } | null): string {
   const live = `<div id="result" role="status" aria-live="polite" class="wbs-scope${resultText && !resultText.ok ? " refused" : ""}" tabindex="-1">${resultText ? esc(resultText.text) : esc(WORDS.actionsNote)}</div>`;
-  let card: string;
-  if (!s.helpOffered) card = `<section class="wbs-card" aria-labelledby="g-none"><span class="wbs-k" id="g-none">Nothing is waiting for your choice yet</span><p>The hotel is preparing an offer. Nothing about you has been shared.</p></section>`;
-  else if (s.help === "no") card = `<section class="wbs-card" aria-labelledby="g-no"><span class="wbs-k" id="g-no">You said no thanks</span><p>Nothing will be shared and nothing is sent. You can change your mind at any time.</p><p><button type="button" class="wbs-btn alt" data-help="yes">Actually, yes please</button></p></section>`;
-  else card = `<section class="wbs-card wbs-ask" aria-labelledby="g-q"><span class="wbs-k">Your choice</span><h2 id="g-q">Would you like practical help?</h2>
+  return `${hero(s, "guest")}<div class="wbs-body">${live}<section class="wbs-card" aria-labelledby="g-none"><span class="wbs-k" id="g-none">Nothing is waiting for your choice yet</span><p>The hotel is preparing an offer. Nothing about you has been shared.</p></section></div>`;
+}
+
+/** The help question or the guest's answer, above the normal view. Declining or taking back sharing stays reachable below, wherever Core permits. */
+function helpCard(s: Session): string {
+  const none = s.disclosed ? HELP_FURTHER : "No thanks";
+  if (s.help === "unanswered") return `<section class="wbs-card wbs-ask" aria-labelledby="g-q"><span class="wbs-k">Your choice</span><h2 id="g-q">Would you like practical help?</h2>
     <p>The hotel noticed your room is delayed. Help could mean somewhere calm to wait, water and help with luggage (fictional). Saying yes does not share anything: you choose what may be shared next, and you can still decline any of it.</p>
-    <div class="wbs-alts wbs-equal" role="group" aria-label="Would you like practical help?"><button type="button" class="wbs-btn alt" data-help="yes">Yes, I would like help</button><button type="button" class="wbs-btn alt" data-help="no">No thanks</button></div>
-    <p class="wbs-small">Not answering is not a yes and not a no. Nothing is shared either way until you say yes and choose.</p></section>`;
-  return `${hero(s, "guest")}<div class="wbs-body">${live}${card}</div>`;
+    <div class="wbs-alts wbs-equal" role="group" aria-label="Would you like practical help?"><button type="button" class="wbs-btn alt" data-help="yes">Yes, I would like help</button><button type="button" class="wbs-btn alt" data-help="no">${esc(none)}</button></div>
+    <p class="wbs-small">Not answering is not a yes and not a no. You can decline sharing, or take back an approval, whatever you answer here; allowing new sharing opens after you say yes.</p></section>`;
+  const shared = evidenceFor(s, "guest").filter((l) => l.kind === "disclosure.made").map((l) => { const a = l.actionId ? s.state.actions.find((x) => x.id === l.actionId) : null; return `<li>${esc(l.time)} · ${esc(a ? title(a.typeId) : "A step")} was released (simulated)</li>`; }).join("");
+  const after = s.helpHistory.at(-1)?.afterDisclosure ?? false;
+  return `<section class="wbs-card wbs-ask" aria-labelledby="g-no" data-testid="help-declined"><span class="wbs-k" id="g-no">${after ? "You told the hotel you don't want further help" : "You said no thanks"}</span>
+    <p>${after ? "This is recorded as your request. <strong>It does not recall anything already shared, cancel anything already sent, or withdraw your permission.</strong> Work already under way may continue until the hotel's team stops it, and nothing here has told Core to stop anything." : "Nothing will be shared and nothing is sent."}</p>
+    ${after && shared ? `<p class="wbs-small">Already shared, and unchanged by this answer:</p><ul class="wbs-list">${shared}</ul>` : ""}
+    <p class="wbs-small">Where Core allows it you can still decline sharing or take back an approval that has not been sent; those choices are below. You can change your mind about help at any time.</p>
+    <p><button type="button" class="wbs-btn alt" data-help="yes">Actually, yes please</button></p></section>`;
 }
 
 /** Milestones from Core's own evidence, then what was recognised, delivered, felt and left open. Describes steps, never people. */
@@ -210,7 +222,7 @@ function processReview(s: Session, v: HolderV): string {
   const miles: { label: string; at: string | null }[] = [
     ...(s.origin === "signals" ? [{ label: "JALDO recognised the moment from system events", at: s.desk.recognisedAt }, { label: "Duty lead opened the proactive check-in", at: s.adoptedAt }] : [{ label: "The guest's request arrived", at: first("request.opened")?.at ?? null }]),
     { label: "Duty lead accepted responsibility", at: first("request.accepted")?.at ?? null },
-    ...(s.origin === "signals" ? [{ label: "Offer of help reached the guest (demonstration record)", at: s.offeredAt }, { label: `Guest answered about help: ${s.help === "unanswered" ? "no response" : s.help === "yes" ? "yes" : "no thanks"} (demonstration record)`, at: s.helpHistory[0]?.at ?? null }] : []),
+    ...(s.origin === "signals" ? [{ label: "Offer of help reached the guest (demonstration record)", at: s.offeredAt }, { label: `Guest answered about help: ${s.helpHistory.at(-1) ? helpWords(s.helpHistory.at(-1)!).toLowerCase() : "no response"} (demonstration record; recording it stops no work)`, at: s.helpHistory[0]?.at ?? null }] : []),
     { label: "Guest chose to share (first agreement)", at: guestApprovals[0]?.at ?? null },
     { label: "Handover released (simulated)", at: s.evidence.find((e) => e.kind === "disclosure.made" && s.state.actions.find((a) => a.id === e.actionId)?.typeId === "support-handover")?.at ?? null },
     { label: "Delivery reported by the unit", at: first("completion.recorded")?.at ?? null },
@@ -229,6 +241,7 @@ function processReview(s: Session, v: HolderV): string {
   for (const l of v.coordination?.links ?? []) { const k = s.config.linkKinds!.find((x) => x.id === l.kindId)!; if (NEEDS_ATTENTION.link[l.status]) open.push(`${esc(k.label)} (${esc(l.reference)}) is ${LINK_WORDS[l.status]} · ${k.dependency === "required" ? "required: blocks release" : "independent: tracked separately"}.`); }
   const overdue = (v.coordination?.deadlines ?? []).filter((d) => deadlineExpired(d, s.clock));
   if (overdue.length) open.push(`${overdue.length} deadline${overdue.length === 1 ? " has" : "s have"} passed without being met.`);
+  if (s.origin === "signals" && s.help === "no" && s.disclosed) open.push("The guest has declined further help after information was shared. The answer is recorded; released work was not stopped and shared information was not recalled. Review each released step manually.");
   if (s.report.awaitingHuman.some((h) => /^Renew /.test(h.what))) open.push("A capacity check needs renewing after a unit lost capacity.");
   const proposals: string[] = [];
   if (s.evidence.some((e) => e.kind === "capacity.lost")) proposals.push("Consider rechecking capacity just before release, not only at approval. Observed: a unit lost capacity after accepting.");
@@ -274,7 +287,21 @@ function attention(s: Session): string {
     return list.length ? `<div class="wbs-alts" role="group" aria-label="${esc(heading)}">${forward.map(btn).join("")}</div>${back.length ? `<details class="wbs-more"><summary>Other options that step back (${back.length})</summary><div class="wbs-alts">${back.map(btn).join("")}</div></details>` : ""}` : `<p class="wbs-small">Nothing is permitted to you on this yet.</p>`;
   };
   const rows: string[] = [];
-  if (s.origin === "signals" && s.help === "no") rows.push(`<li><strong>The guest said no thanks to help.</strong><p>Nothing will be shared or sent. The open steps can be withdrawn; the guest can still change their mind.</p>${buttons(v.actions.filter((a) => isLive(a)).flatMap((a) => optionsFor(s, role, a.id, ["withdraw"])), "Responses to a declined offer")}</li>`);
+  if (s.origin === "signals" && s.help === "no") {
+    const after = s.helpHistory.at(-1)?.afterDisclosure ?? false;
+    const live = v.actions.filter((a) => isLive(a));
+    const released = live.filter((a) => a.sentAt !== null);
+    const open = live.filter((a) => a.sentAt === null);
+    const answered = s.helpHistory.at(-1)!;
+    const manual = released.map((a) => { const o = optionsFor(s, role, a.id, ["withdraw"]); return `<li><strong>${esc(title(a.typeId))}</strong> <span class="wbs-small">(${esc(a.id)})</span> was released at ${esc(hhmm(a.sentAt))} and is “${esc(STATE_WORDS[a.state] ?? a.state)}”. ${o.length ? "Core offers: " : "Core offers no action on it. Manual review: contact the unit if it should stop."}${o.map((x) => `<button type="button" class="wbs-btn alt" data-cmd="${cmdKey(x)}" data-focus="cmd">${esc(x.label)}</button>`).join(" ")}</li>`; }).join("");
+    rows.push(`<li data-testid="help-declined-lead"><strong>${after ? "The guest has declined further help." : "The guest said no thanks to help."}</strong>
+      <dl class="wbs-outcome"><dt>Guest's request</dt><dd>Recorded at ${esc(fullTime(answered.at))} (demonstration record; not Core evidence).</dd>
+      <dt>Work stopped</dt><dd><strong>No.</strong> Recording this answer did not stop or cancel anything, recall any information or withdraw any permission, and Core has not been told. Everything Core recorded before it is unchanged.</dd></dl>
+      ${released.length ? `<p><strong>Already released: manual review needed.</strong></p><ul class="wbs-list">${manual}</ul>` : ""}
+      ${open.length ? `<p><strong>Not yet released:</strong> Core lets you withdraw these.</p>${buttons(open.flatMap((a) => optionsFor(s, role, a.id, ["withdraw"])), "Responses to declined help")}` : ""}
+      ${buttons(planOptions(s, role, ["revisePlan"]), "Plan-level response")}
+      <p class="wbs-small">The guest can still decline or take back sharing where Core permits it, and can change their mind about help.</p></li>`);
+  }
   const open = (c?.followUps ?? []).filter((f) => NEEDS_ATTENTION.followUp[f.status]);
   for (const f of open) rows.push(`<li><strong>The guest still needs support.</strong><p>Follow-up ${esc(f.id)} is open · owner: ${esc(MEMBER_NAMES[f.openedOwner ?? ""] ?? "the holder")}. Review the guest's response and coordinate further support. The earlier delivery record remains unchanged.</p>${buttons(optionsFor(s, role, f.actionId, ["closeFollowUp"]).filter((x) => x.command.type === "closeFollowUp" && x.command.followUpId === f.id), "Close the follow-up")}<a href="#followup-review">Review the open follow-up</a></li>`);
   for (const l of c?.links ?? []) {
@@ -367,8 +394,8 @@ function guestSections(s: Session): string {
     <dl class="wbs-outcome"><dt>Delivery confirmation</dt><dd>${reported ? `The unit reports it delivered the support${lines.some((l) => l.kind === "confirmation.recorded") ? "; you confirmed it" : ". That is their report; you have not confirmed it"}.` : "Not reported yet."}</dd>
     <dt>Your feedback</dt><dd>${mine.length ? mine.map((l) => esc(l.text)).join(" → ") : "Not given yet. Not answering is not a “yes” or a “no”."}</dd>
     <dt>Resolution</dt><dd>Delivery alone does not settle it. Your feedback tells the hotel whether more help is needed.</dd></dl></section>` : "";
-  const said = s.origin === "signals" ? s.helpHistory.filter((h) => HELP_ACCEPTED[h.status]).at(-1) : null;
-  const helpNote = said ? `<p class="wbs-small" data-testid="help-note">You said yes to practical help at ${esc(fullTime(said.at))}. That is separate from what you agree to share below. <button type="button" class="wbs-btn ghost" data-help="no">Change my answer to No thanks</button></p>` : "";
+  const said = s.origin === "signals" && s.help === "yes" ? s.helpHistory.at(-1) : null;
+  const helpNote = said ? `<p class="wbs-small" data-testid="help-note">You said yes to practical help at ${esc(fullTime(said.at))}. That is separate from what you agree to share below. <button type="button" class="wbs-btn ghost" data-help="no">Change my answer: ${s.disclosed ? HELP_FURTHER : "No thanks"}</button></p>` : "";
   return `
     <section class="wbs-card" aria-labelledby="g-ask"><span class="wbs-k" id="g-ask">${esc(GUEST_SHARE.section)}</span>${helpNote}<ul class="wbs-list">${asks || "<li>Nothing is waiting for your choice.</li>"}</ul>${followList ? `<h3 class="wbs-h3">What follows</h3><ul class="wbs-list">${followList}</ul>` : ""}</section>
     ${outcome}
@@ -406,7 +433,7 @@ function preOpen(s: Session, role: DemoRoleId, resultText: { ok: boolean; text: 
 export function roleView(s: Session, role: DemoRoleId, resultText: { ok: boolean; text: string } | null): string {
   if (!s.opened) return preOpen(s, role, resultText);
   const r = roleOf(role);
-  if (role === "guest" && s.origin === "signals" && !(s.helpOffered && s.sharingOpen)) return guestHelpView(s, resultText);
+  if (role === "guest" && s.origin === "signals" && !s.helpOffered) return guestHelpView(s, resultText);
   const items = nextSteps(s, role);
   const others = r.kind === "holder" ? s.report.plan.awaitingHuman.filter((h) => !["The request holder", "The addressed contact"].includes(h.who)).map((h) => `${h.who}: ${h.what}`) : [];
   const sections = r.kind === "holder" ? holderSections(s) : r.kind === "subject" ? guestSections(s) : r.kind === "unit" ? unitSections(s, role) : linkedSections(s, role);
@@ -417,6 +444,7 @@ export function roleView(s: Session, role: DemoRoleId, resultText: { ok: boolean
   const attn = r.kind === "holder" ? attention(s) : "";
   return `${hero(s, role)}<div class="wbs-body">
     <div id="result" role="status" aria-live="polite" class="wbs-scope${resultText && !resultText.ok ? " refused" : ""}" tabindex="-1">${resultText ? esc(resultText.text) : esc(WORDS.actionsNote)}</div>
+    ${role === "guest" && s.origin === "signals" && !s.sharingOpen ? helpCard(s) : ""}
     ${attn}
     ${nextCard(s, items, role, others, attn ? WORDS.otherWork : WORDS.nextStep)}
     ${r.kind === "holder" ? helpSection(s) : ""}

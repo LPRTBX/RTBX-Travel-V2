@@ -44,7 +44,7 @@ root.addEventListener("click", (e) => {
     if (result.ok) draft = "";
     render(result.ok ? "view" : "result"); return;
   }
-  if (t.dataset.help) { const r = session.chooseHelp(t.dataset.help as "yes" | "no"); result = r.ok ? { ok: true, text: t.dataset.help === "yes" ? "You said yes to practical help. Nothing has been shared: you choose that next." : "You said no thanks. Nothing will be shared." } : { ok: false, text: r.message }; render("result"); return; }
+  if (t.dataset.help) { const r = session.chooseHelp(t.dataset.help as "yes" | "no"); result = r.ok ? { ok: true, text: t.dataset.help === "yes" ? (session.disclosed ? "You said yes to practical help again. What was already shared is unchanged." : "You said yes to practical help. Nothing has been shared: you choose that next.") : (session.disclosed ? "Recorded: you don't want further help. This does not recall anything already shared, cancel anything already sent or withdraw your permission." : "You said no thanks. Nothing will be shared.") } : { ok: false, text: r.message }; render("result"); return; }
   if (t.dataset.origin) { session.origin = t.dataset.origin as "signals" | "guest"; session.reset(); result = null; pathId = null; role = "duty-lead"; render("view"); return; }
   if (t.dataset.signal) { result = session.signalAction(t.dataset.signal); render("result"); return; }
   if (t.dataset.role) { role = t.dataset.role as DemoRoleId; result = null; render("view"); return; }

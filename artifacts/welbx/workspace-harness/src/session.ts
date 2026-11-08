@@ -50,7 +50,7 @@ export interface AdoptionRecord {
 
 /** The guest's answer to "Would you like practical help?". Kept apart from every sharing decision. Held by this adapter, not Core. */
 export type HelpStatus = "unanswered" | "yes" | "no";
-export interface HelpAnswer { status: HelpStatus; at: string }
+export interface HelpAnswer { status: HelpStatus; at: string; /** True when something had already been released to a recipient when the answer was given. */ afterDisclosure: boolean }
 
 export type ApplyResult = { ok: true; evidence: EvidenceRecord[]; automated: string[] } | { ok: false; code: string; message: string };
 
@@ -100,7 +100,7 @@ export class Session {
     const r = orchestrateMoment(this.config, null, { kind: "event", event, actor: roleOf("guest").actor, routing: { destination: "member-a" } }, this.facts(), this.cycle());
     if (!r.ok) throw new Error(r.message);
     this.state = r.state; this.evidence.push(...r.evidence); this.report = r.report; this.opened = true;
-    this.helpHistory = [{ status: "yes", at: this.clock.toISOString() }]; // the guest asked directly: that is a request for help
+    this.helpHistory = [{ status: "yes", at: this.clock.toISOString(), afterDisclosure: false }]; // the guest asked directly: that is a request for help
   }
 
   /** Reviewer controls for the signal checks. They change only the desk, and only before a request exists. */
@@ -174,22 +174,29 @@ export class Session {
   /** Whether the guest's sharing choices are open: only after they have said yes to help. Agreement to share never stands in for this. */
   get sharingOpen(): boolean { return this.help === "yes"; }
 
+  /** True once any disclosure has been recorded by Core. Read from Core's evidence, never decided here. */
+  get disclosed(): boolean { return this.evidence.some((e) => e.kind === "disclosure.made"); }
+
   /**
-   * The guest answers "Would you like practical help?". This is NOT a Core command: Core has no contract for accepting or declining an
-   * offer of help, apart from sharing approvals. It is a demonstration record, and it grants no sharing permission by itself.
+   * The guest answers "Would you like practical help?", or later says they do not want further help. This is NOT a Core command:
+   * Core has no contract for accepting or declining help, or for stopping released work. Recording the answer adds nothing to Core's
+   * evidence and changes nothing in Core: it does not cancel dispatched work, recall information or withdraw any permission. Those
+   * stay separate (refusing or taking back a sharing approval, where Core permits it, is a Core command and is never gated).
    */
   chooseHelp(choice: "yes" | "no"): ApplyResult {
     if (!this.helpOffered) return { ok: false, code: "invalid_state", message: "No offer of help has reached the guest yet." };
-    if (choice === "no" && this.evidence.some((e) => e.kind === "disclosure.made")) return { ok: false, code: "invalid_state", message: "Something has already been shared. Withdrawing permission after sharing is outside this demonstration." };
     if (this.help === choice) return { ok: true, evidence: [], automated: [] };
-    this.helpHistory.push({ status: choice, at: this.clock.toISOString() });
+    this.helpHistory.push({ status: choice, at: this.clock.toISOString(), afterDisclosure: this.disclosed });
     return { ok: true, evidence: [], automated: [] };
   }
-  /** The demonstration gate in front of the guest's sharing decisions (not a Core rule): no sharing choice before "yes" to help. */
+  /**
+   * The demonstration gate in front of NEW sharing approval only (not a Core rule): no approval before the guest says yes to help.
+   * Refusing and taking back an approval are never gated; whether they are allowed is Core's decision alone.
+   */
   private gate(roleId: DemoRoleId, command: Command): { code: string; message: string } | null {
     if (this.origin !== "signals" || roleOf(roleId).kind !== "subject" || this.sharingOpen) return null;
-    if (!["approve", "refuse", "revokeApproval"].includes(command.type)) return null;
-    return { code: "help_not_accepted", message: `Demonstration gate, not Core: the guest has ${this.help === "no" ? "said no thanks to help" : "not yet said whether help is wanted"}, so no sharing choice is open. Agreeing to share is never taken as accepting help.` };
+    if (command.type !== "approve") return null;
+    return { code: "help_not_accepted", message: `Demonstration gate, not Core: no new sharing approval is open because the guest has ${this.help === "no" ? "not accepted help (they declined it)" : "not yet said whether help is wanted"}. Declining or taking back sharing stays available wherever Core permits it. Agreeing to share is never taken as accepting help.` };
   }
 
   private cycle = () => `cycle-${++this.n}`;

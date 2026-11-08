@@ -54,7 +54,7 @@ describe("what Core does and does not provide (each claim in CORE-GAPS.md is che
     expect(t("1.3.0").status).toMatch(/DRAFT/); expect(t("1.3.0").used).toMatch(/^Not used/);
     expect(t("1.2.0").status).toMatch(/no owner acceptance is recorded/);
     expect(CONTRACTS.filter((c) => /^Accepted/.test(c.status)).map((c) => c.name)).toEqual(["ADR-0036 (coordination foundation)"]);
-    expect(GAPS.map((g) => g.id)).toEqual(["G1", "G2", "G3", "G4", "G5", "G6", "G7", "G8"]);
+    expect(GAPS.map((g) => g.id)).toEqual(["G1", "G2", "G3", "G4", "G5", "G6", "G7", "G8", "G9"]);
   });
 });
 

@@ -79,7 +79,8 @@ await p.locator('[data-testid="next-step"] .wbs-primary button.main').click(); /
 check(Object.keys((await state()).actions).length >= 5 && !(await kinds()).includes("disclosure.made"), "Core prepared the plan after acceptance; still nothing shared or released");
 // 4b. Accepting help is separate from sharing: no response, no thanks, then yes
 await role("guest"); t = await txt();
-check(/Would you like practical help\?/.test(t) && (await p.locator('[data-testid="share-detail"]').count()) === 0 && !/Allow (Reception|Guest services) to see these details/.test(t), "help: the guest is asked about help first; no sharing choice is shown yet");
+check(/Would you like practical help\?/.test(t) && (await p.locator('[data-cmd*="approve"]').count()) === 0 && /declining is available now/.test(t), "help: the guest is asked about help first; allowing is not offered yet, declining is");
+check((await p.locator('#role-view button[data-cmd]').filter({ hasText: "Do not allow" }).count()) > 0, "help: declining sharing is reachable before any answer about help");
 const hg = await p.evaluate(() => [...document.querySelectorAll("[data-help]")].map((b) => { const r = b.getBoundingClientRect(); const c = getComputedStyle(b); return { l: b.innerText, w: Math.round(r.width), h: Math.round(r.height), bg: c.backgroundColor, fs: c.fontSize }; }));
 check(hg.length === 2 && hg[0].bg === hg[1].bg && hg[0].fs === hg[1].fs && hg[0].w === hg[1].w && hg[0].h === hg[1].h, "help: Yes and No thanks are equally prominent");
 await shot("scenario-2a-help-question.png");
@@ -129,6 +130,19 @@ await p.locator('.review-attention button', { hasText: "Give 30 more minutes fro
 const after = await p.evaluate(() => window.__workspace.state().deadlines?.map((d) => d.dueAt));
 check(JSON.stringify(before) !== JSON.stringify(after), "6. the permitted reschedule is available from the panel and Core records it");
 await shot("scenario-5-no-response-attention.png");
+
+// declining further help AFTER disclosure: recorded, but nothing is stopped, recalled or withdrawn
+await guide("maintenance"); await role("guest");
+const beforeEv = JSON.stringify(await p.evaluate(() => window.__workspace.evidence()));
+await p.click('[data-help="no"]');
+const afterEv = JSON.stringify(await p.evaluate(() => window.__workspace.evidence()));
+check(beforeEv === afterEv, "decline after disclosure: every piece of Core evidence is unchanged");
+t = await txt(); check(/You told the hotel you don't want further help/.test(t) && /does not recall anything already shared, cancel anything already sent, or withdraw your permission/.test(t) && /Already shared, and unchanged by this answer/.test(t), "decline after disclosure: the guest is told exactly what it does and does not do");
+await shot("scenario-3b-guest-declined-further-help.png");
+await role("duty-lead"); panel = await p.locator(".review-attention").innerText();
+check(/The guest has declined further help/.test(panel) && /Guest's request\s*Recorded at/.test(panel) && /Work stopped\s*No\./.test(panel) && /Already released: manual review needed/.test(panel), "decline after disclosure: the Duty lead sees the request recorded, work NOT stopped, and released steps for manual review");
+await shot("scenario-3c-lead-declined-further-help.png");
+for (const r of ["reception", "housekeeping", "guest-services", "maintenance"]) { await role(r); check(!/further help|Manual review|Work stopped|Guest's request/i.test(await txt()), `privacy: ${r} sees nothing of the decline`); }
 
 // 5/7. Complete journey then the process review
 await guide("maintenance"); await role("duty-lead"); t = await txt();
