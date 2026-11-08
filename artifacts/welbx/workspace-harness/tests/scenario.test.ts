@@ -54,7 +54,7 @@ describe("what Core does and does not provide (each claim in CORE-GAPS.md is che
     expect(t("1.3.0").status).toMatch(/DRAFT/); expect(t("1.3.0").used).toMatch(/^Not used/);
     expect(t("1.2.0").status).toMatch(/no owner acceptance is recorded/);
     expect(CONTRACTS.filter((c) => /^Accepted/.test(c.status)).map((c) => c.name)).toEqual(["ADR-0036 (coordination foundation)"]);
-    expect(GAPS.map((g) => g.id)).toEqual(["G1", "G2", "G3", "G4", "G5", "G6", "G7", "G8"]);
+    expect(GAPS.map((g) => g.id)).toEqual(["G1", "G2", "G3", "G4", "G5", "G6", "G7", "G8", "G9"]);
   });
 });
 
@@ -134,10 +134,10 @@ describe("recognition recommends; people decide; Core does the rest", () => {
   });
   it("the recommendation shows its reason, the responsible team and the next permitted action, and names a demonstration, not a model", () => {
     const html = view(signals(), "duty-lead");
-    expect(html).toMatch(/A proactive service check-in may help/);
+    expect(html).toMatch(/Recommended: offer the guest a proactive check-in/);
     expect(html).toMatch(/Why\. Two independent, fresh sources agree/);
-    expect(html).toMatch(/The Duty lead decides/); expect(html).toMatch(/Guest services would deliver/);
-    expect(html).toMatch(/Open a proactive check-in for me to review/);
+    expect(html).toMatch(/Who authorises it\. You, as Duty lead/); expect(html).toMatch(/Guest services would deliver/);
+    expect(html).toMatch(/Authorise the check-in/);
     expect(html).toMatch(/demonstrated recommendation/i);
     expect(html).not.toMatch(/AI-powered|machine learning|model-based/i);
     expect(text(page(signals(), "duty-lead", null, null))).toMatch(/No model is connected/);
@@ -284,7 +284,7 @@ describe("disclosure values, mobile cards and the process review", () => {
     const review = t.slice(t.indexOf("Process review"));
     expect(review).toMatch(/JALDO recognised the moment from system events/); expect(review).toMatch(/Duty lead opened the proactive check-in/);
     expect(review).toMatch(/Delivery reported by the unit/); expect(review).toMatch(/Guest feedback recorded/);
-    expect(review).toMatch(/Unresolved work[\s\S]*Follow-up FU-SUP-1-1 is open/);
+    expect(review).toMatch(/Unresolved work[\s\S]*follow-up FU-SUP-1-1 is open/i);
     expect(review).toMatch(/Nobody is scored or ranked/); expect(review).toMatch(/Proposals for authorised review/);
     expect(review).toMatch(/Proposal only: not applied/);
     expect(review).not.toMatch(/leaderboard|per person|performance rating|score of/i);

@@ -44,7 +44,7 @@ describe("freshness: an old reading stops supporting a recommendation even if no
   });
   it("the Session re-evaluates when time advances, the card says why, and adoption is refused", () => {
     const s = signals();
-    expect(view(s, "duty-lead")).toMatch(/A proactive service check-in may help/);
+    expect(view(s, "duty-lead")).toMatch(/Recommended: offer the guest a proactive check-in/);
     s.advance(21); // 09:21: the 08:50 property reading is 31 minutes old
     const v = view(s, "duty-lead");
     expect(v).toMatch(/The evidence is too old to recommend a check-in/); expect(v).toMatch(/Too old: supports nothing/);
@@ -166,8 +166,8 @@ describe("adoption evidence: who authorised, when, why, on what, under which rul
     expect(rec.core).toEqual({ eventId: "evt-adopt-1", idempotencyKey: "proactive-adopt-1", evidenceSequence: core.sequence });
     expect(core.provenance.eventId).toBe(rec.core.eventId);
     const v = view(s, "duty-lead");
-    expect(v).toMatch(/Demonstration decision record \(kept by this adapter; not Core evidence\)/);
-    expect(v).toMatch(/Core-owned evidence \(recorded by the Core kernel\)/);
+    expect(v).toMatch(/Demonstration decision record \(kept by this demonstration; not Core evidence\)/);
+    expect(v).toMatch(/Core-owned evidence \(recorded by Core\)/);
     expect(v).toMatch(/Authorised by Duty lead · A demo role, not an authenticated identity/);
     expect(v).toContain(REASON); expect(v).toMatch(/proactive-checkin-demo version 0\.2/);
     expect(v).toMatch(/It has no field for who decided, why, on which sources or under which rule version/);
@@ -220,7 +220,7 @@ describe("accepting help is separate from agreeing to share", () => {
     const applied = s.apply("guest", allow); expect(applied.ok).toBe(false);
     expect(s.evidence.some((e) => e.kind === "approval.recorded")).toBe(false);
     const g = roleView(s, "guest", null);
-    expect(text(g)).toMatch(/Would you like practical help\?/); expect(text(g)).not.toMatch(/Allow (Reception|Guest services) to see these details/);
+    expect(text(g)).toMatch(/Would you like practical help\?/); expect(g).not.toMatch(/data-cmd="[^"]*approve/); // allowing is not offered; the refusal is listed with its reason, not as a button
     expect(g).toContain('data-help="yes"'); expect(g).toContain('data-help="no"');
   });
   it("Yes and No thanks are equally prominent, and neither shares anything", () => {
@@ -239,31 +239,6 @@ describe("accepting help is separate from agreeing to share", () => {
     expect(s.apply("guest", step.others.find((c) => c.command.type === "refuse")!.command).ok).toBe(true);
     expect(s.help).toBe("yes"); expect(s.evidence.some((e) => e.kind === "disclosure.made")).toBe(false);
   });
-  it("agreeing to share can never stand in for accepting help, including after No thanks", () => {
-    const s = withOffer(); s.chooseHelp("no");
-    for (const type of ["approve", "refuse", "revokeApproval"] as const) {
-      const r = s.apply("guest", { type, actionId: "SRC-1", ...(type === "approve" ? { checks: { recipient: true, purpose: true, fields: true, authority: true } } : {}) } as never);
-      expect(r.ok, type).toBe(false); expect(r.ok ? "" : r.code).toBe("help_not_accepted");
-    }
-    expect(s.help).toBe("no");
-  });
-  it("No thanks shares nothing, offers the Duty lead Core's withdraw options, and the guest can change their mind", () => {
-    const s = withOffer(); expect(s.chooseHelp("no").ok).toBe(true);
-    expect(s.evidence.some((e) => e.kind === "disclosure.made" || e.kind === "approval.recorded")).toBe(false);
-    const lead = roleView(s, "duty-lead", null);
-    const panel = lead.slice(lead.indexOf('class="wbs-card review-attention"'), lead.indexOf("</section>", lead.indexOf('class="wbs-card review-attention"')));
-    expect(text(panel)).toMatch(/The guest said no thanks to help\. Nothing will be shared or sent/);
-    const cmds = [...panel.matchAll(/data-cmd="([^"]*withdraw[^"]*)"/g)].map((m) => JSON.parse(m[1].replace(/&quot;/g, '"')));
-    expect(cmds.length).toBeGreaterThan(0); for (const c of cmds) expect(s.ask("duty-lead", c).ok).toBe(true);
-    expect(view(s, "guest")).toMatch(/You said no thanks.*Actually, yes please/);
-    expect(s.chooseHelp("yes").ok).toBe(true); expect(s.help).toBe("yes");
-    expect(s.helpHistory.map((h) => h.status)).toEqual(["no", "yes"]);
-  });
-  it("after something has been shared, No thanks is refused rather than pretending to unsend it", () => {
-    const s = signals(); runPath(s, "maintenance"); expect(s.evidence.some((e) => e.kind === "disclosure.made")).toBe(true);
-    const r = s.chooseHelp("no"); expect(r.ok).toBe(false); expect(r.ok ? "" : r.message).toMatch(/Withdrawing permission after sharing is outside this demonstration/);
-    expect(s.help).toBe("yes");
-  });
   it("no response is its own state: not yes, not no, nothing shared, and the Duty lead is told so", () => {
     const s = withOffer(); s.advance(120);
     expect(s.help).toBe("unanswered"); expect(s.helpHistory).toEqual([]);
@@ -271,7 +246,7 @@ describe("accepting help is separate from agreeing to share", () => {
     const lead = view(s, "duty-lead");
     expect(lead).toMatch(/The guest has not answered yet\. That is not a yes and not a no\./); expect(lead).toMatch(/Offered at 2 Nov 09:00 UTC/);
     expect(lead).not.toMatch(/The guest said no thanks to help/);
-    expect(lead).toMatch(/Guest answered about help: no response \(demonstration record\)/);
+    expect(lead).toMatch(/Guest answered about help: no response \(demonstration record/);
   });
   it("the three answers are recorded as three different things", () => {
     const a = withOffer(); const b = withOffer(); const c = withOffer();
@@ -292,6 +267,118 @@ describe("accepting help is separate from agreeing to share", () => {
   it("the page states the boundary: help and sharing gates are demonstration only", () => {
     const s = withOffer(); const t = text(page(s, "duty-lead", null, null));
     expect(t).toMatch(/guest's answer about help are all demonstration-adapter behaviour/);
-    expect(view(s, "duty-lead")).toMatch(/Core has no contract for accepting an offer of help/);
+    expect(t).toMatch(/Core has no contract for accepting or declining help or for stopping released work/);
+  });
+});
+
+describe("declining help is separate from withdrawing sharing", () => {
+  const OK = { recipient: true, purpose: true, fields: true, authority: true };
+  const strip = (s: Session) => JSON.parse(JSON.stringify({ state: s.state, evidence: s.evidence }));
+  const afterDelivery = () => { const s = signals(); runPath(s, "maintenance"); expect(s.disclosed).toBe(true); return s; };
+
+  it("the guest can say they don't want further help after disclosure, and everything Core recorded stays exactly as it was", () => {
+    const s = afterDelivery(); const before = strip(s);
+    const r = s.chooseHelp("no"); expect(r.ok).toBe(true); expect(r.ok ? r.evidence : null).toEqual([]);
+    expect(strip(s)).toEqual(before); // no Core state or evidence changed: disclosure and delivery evidence are untouched
+    expect(s.help).toBe("no"); expect(s.helpHistory.at(-1)).toMatchObject({ status: "no", afterDisclosure: true });
+    expect(s.evidence.filter((e) => e.kind === "disclosure.made").length).toBeGreaterThan(0);
+    expect(s.evidence.some((e) => e.kind === "completion.recorded")).toBe(true);
+  });
+  it("the guest is told plainly what recording it does not do, and sees what stays shared", () => {
+    const s = afterDelivery(); s.chooseHelp("no");
+    const g = view(s, "guest");
+    expect(g).toMatch(/You told the hotel you don't want further help/);
+    expect(g).toMatch(/This is recorded as your request\. It does not recall anything already shared, cancel anything already sent, or withdraw your permission/);
+    expect(g).toMatch(/nothing here has told Core to stop anything/); expect(g).toMatch(/Already shared, and unchanged by this answer:.*was released/);
+    expect(g).toMatch(/Actually, yes please/);
+    expect(g).not.toMatch(/work (has been )?stopped|permission (has been )?withdrawn|information (has been )?recalled|cancelled for you/i);
+  });
+  it("the label changes with the facts: 'No thanks' before anything is shared, \"I don't want further help\" after", () => {
+    const early = withOffer(); expect(roleView(early, "guest", null)).toMatch(/data-help="no">No thanks</);
+    const late = afterDelivery(); late.chooseHelp("no"); late.chooseHelp("yes");
+    expect(roleView(late, "guest", null)).toMatch(/Change my answer: I don't want further help/);
+  });
+  it("the Duty lead sees the request recorded, not work stopped, released steps for manual review, and Core's available actions", () => {
+    const s = afterDelivery(); s.chooseHelp("no");
+    const html = roleView(s, "duty-lead", null);
+    const start = html.indexOf('data-testid="help-declined-lead"');
+    const panel = html.slice(start, html.indexOf("can change their mind about help", start));
+    const t = text(panel);
+    expect(t).toMatch(/The guest has declined further help\./);
+    expect(t).toMatch(/Guest's request\s+Recorded at 2 Nov 09:00 UTC \(demonstration record; not Core evidence\)/);
+    expect(t).toMatch(/Work stopped\s+No\. Recording this answer did not stop or cancel anything, recall any information or withdraw any permission, and Core has not been told\./);
+    expect(t).toMatch(/Already released: manual review needed/);
+    for (const id of ["SGS-1", "SPC-1", "CAP-1", "SUP-1"]) expect(t).toContain(`(${id})`);
+    expect(t).toMatch(/Core offers no action to stop released work, so contact each unit if it should stop\./);
+    expect(view(s, "duty-lead")).toMatch(/The guest has declined further help\./);
+    expect(view(s, "duty-lead")).toMatch(/Unresolved work[\s\S]*declined further help after information was shared[\s\S]*review each released step manually/i);
+    // every Core action offered in the panel is one Core accepts
+    for (const m of panel.matchAll(/data-cmd="([^"]+)"/g)) expect(s.ask("duty-lead", JSON.parse(m[1].replace(/&quot;/g, '"').replace(/&amp;/g, "&"))).ok).toBe(true);
+  });
+  it("released steps that Core can still act on show Core's action next to them", () => {
+    const s = signals(); runPath(s, "capacity"); // approved, not released: Core offers withdraw
+    s.chooseHelp("no"); const t = view(s, "duty-lead");
+    expect(t).toMatch(/Not yet released:\s*Core lets you withdraw these/);
+    const html = roleView(s, "duty-lead", null);
+    expect(html).toMatch(/data-cmd="[^"]*withdraw[^"]*"/);
+  });
+  it("declining further help is not withdrawing permission: the Core-level sharing records are the same, and a guest request is not 'work stopped'", () => {
+    const s = afterDelivery(); const approvals = s.evidence.filter((e) => e.kind === "approval.recorded").length;
+    s.chooseHelp("no");
+    expect(s.evidence.filter((e) => e.kind === "approval.recorded").length).toBe(approvals);
+    expect(s.evidence.some((e) => e.kind === "approval.revoked" || e.kind === "action.withdrawn" || e.kind === "execution.cancelled")).toBe(false);
+    expect(s.state.actions.filter((a) => a.sentAt !== null).length).toBeGreaterThan(0);
+  });
+
+  it("refusing sharing is reachable without accepting help: before any answer, and after No thanks", () => {
+    for (const answer of [null, "no"] as const) {
+      const s = withOffer(); if (answer) s.chooseHelp(answer);
+      const step = nextSteps(s, "guest")[0];
+      const refuse = step.others.find((c) => c.command.type === "refuse")!; expect(refuse, String(answer)).toBeTruthy();
+      expect(step.others.some((c) => c.command.type === "approve")).toBe(false); // allowing is gated; declining is not
+      const before = s.evidence.length;
+      expect(s.ask("guest", refuse.command).ok).toBe(true); expect(s.apply("guest", refuse.command).ok).toBe(true);
+      expect(s.evidence.length).toBeGreaterThan(before); expect(s.help).toBe(answer ?? "unanswered"); // refusing is not an answer about help
+      expect(s.evidence.some((e) => e.kind === "disclosure.made")).toBe(false);
+      expect(s.state.actions.find((a) => a.id === (refuse.command as { actionId: string }).actionId)!.sentAt).toBeNull();
+    }
+  });
+  it("only NEW sharing approval is gated; Core's refusal and revocation are never blocked by the help answer", () => {
+    const s = withOffer();
+    const approve = { type: "approve", actionId: "SRC-1", checks: OK } as const;
+    const gated = s.ask("guest", approve); expect(gated.ok).toBe(false); expect(gated.ok ? "" : gated.code).toBe("help_not_accepted");
+    expect(gated.ok ? "" : gated.message).toMatch(/no new sharing approval is open/); expect(gated.ok ? "" : gated.message).toMatch(/Declining or taking back sharing stays available/);
+    // revocation with nothing to revoke is Core's refusal, not the gate's
+    const revoke = s.ask("guest", { type: "revokeApproval", actionId: "SRC-1" }); expect(revoke.ok).toBe(false); expect(revoke.ok ? "" : revoke.code).not.toBe("help_not_accepted");
+    expect(s.ask("guest", { type: "refuse", actionId: "SRC-1" }).ok).toBe(true);
+  });
+  it("an unsent approval can be taken back after declining help, and earlier evidence is unchanged", () => {
+    const s = withOffer(); s.chooseHelp("yes");
+    expect(s.apply("guest", { type: "approve", actionId: "SRC-1", checks: OK }).ok).toBe(true);
+    s.chooseHelp("no"); expect(s.help).toBe("no");
+    const before = JSON.parse(JSON.stringify(s.evidence));
+    const guest = roleView(s, "guest", null);
+    expect(guest).toMatch(/Take back permission for Reception \(before anything is sent\)/);
+    const rv = { type: "revokeApproval", actionId: "SRC-1" } as const;
+    expect(s.ask("guest", rv).ok).toBe(true);
+    expect(s.apply("guest", rv).ok).toBe(true);
+    expect(s.evidence.slice(0, before.length)).toEqual(before); // append-only: nothing earlier changed
+    expect(s.evidence.slice(before.length).map((e) => e.kind)).toContain("approval.revoked");
+    expect(s.state.actions.find((a) => a.id === "SRC-1")!.sentAt).toBeNull();
+    expect(s.help).toBe("no");
+    // and new approval is still gated while help is declined
+    expect(s.apply("guest", { type: "approve", actionId: "SGS-1", checks: OK }).ok).toBe(false);
+  });
+  it("role isolation holds: no other role sees the help answer, the decline, the manual-review list or the demonstration record", () => {
+    const s = afterDelivery(); s.chooseHelp("no");
+    for (const r of ["reception", "housekeeping", "guest-services", "maintenance"] as DemoRoleId[]) {
+      expect(view(s, r), r).not.toMatch(/declined further help|further help|Manual review|manual review|Guest's request|Work stopped|choice about help|demonstration record|decision record|Already released/i);
+    }
+    for (const f of s.state.request) expect(view(s, "housekeeping")).not.toContain(f.value);
+    expect(view(s, "guest")).not.toMatch(/Manual review|Work stopped|Guest's request|follow-up|decision record/i);
+  });
+  it("a guest who asked directly is unaffected: declining help does not exist there, and the original gate-free paths are unchanged", () => {
+    const s = new Session("guest"); expect(s.chooseHelp("no").ok).toBe(false);
+    for (const id of ["normal", "capacity", "didnothelp"]) { const g = new Session("guest"); expect(runPath(g, id), id).toEqual({ ok: true }); }
   });
 });

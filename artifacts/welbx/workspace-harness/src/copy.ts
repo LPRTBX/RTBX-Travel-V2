@@ -114,10 +114,13 @@ export const GAPS: { id: string; gap: string; boundary: string }[] = [
   { id: "G6", gap: "No Core record for process-review proposals or rule changes.", boundary: "Proposals are shown for authorised review and recorded nowhere; no rule changes." },
   { id: "G7", gap: "Not connected: real PMS and maintenance systems, verified identity and grants, delivery channels, a recommendation model.", boundary: "Everything is fictional, in-page and simulated." },
   { id: "G8", gap: "No Core contract for the guest to accept or decline an offer of help, distinct from sharing approvals; no record of an offer; no deadline or no-response handling for an unanswered offer. Core's `responses` apply only to completed work.", boundary: "The guest's Yes, No thanks or no response is a demonstration record, and a demonstration gate keeps sharing choices closed until the guest says yes. Agreement to share never stands in for accepting help. Withdrawing after sharing is outside this demonstration." },
+  { id: "G9", gap: "No Core contract for stopping released work, recalling shared information or withdrawing a permission after disclosure (the consent-withdrawal design is a proposal only). Core's `withdraw` and `revokeApproval` apply before release.", boundary: "Declining further help is recorded as the guest's request and nothing else: no Core evidence is added, nothing is cancelled, recalled or withdrawn, and released steps are listed for the Duty lead's manual review with whatever Core actions it does offer." },
 ];
 
 /** The guest's answers about help, in their own words. */
 export const HELP_WORDS: Record<string, string> = { yes: "Yes, I would like help", no: "No thanks", unanswered: "No response" };
+export const HELP_DECLINED: Record<string, boolean> = { yes: false, no: true, unanswered: false };
+export const HELP_FURTHER = "I don't want further help";
 export const HELP_ACCEPTED: Record<string, boolean> = { yes: true, no: false, unanswered: false };
 
 export const LINK_REF: Record<string, string> = { "facility-repair": "WO-1182", "area-safety-clearance": "SC-77" };

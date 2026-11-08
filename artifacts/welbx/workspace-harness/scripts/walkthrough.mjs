@@ -30,6 +30,7 @@ const stepOnce = async (p) => {
   const yes = p.locator('[data-help="yes"]').first(); if ((await yes.count()) && (await yes.isVisible())) { await yes.click(); return true; }
   const adopt = p.locator("[data-adopt]").first(); if ((await adopt.count()) && (await adopt.isVisible())) { await p.fill("#adopt-reason", "The room is still unavailable and the repair is long, so a check-in is sensible."); await adopt.click(); return true; }
   const b = p.locator('[data-testid="next-step"] .wbs-primary button.main').first(); if (await b.count()) { await b.click(); return true; }
+  const renew = p.locator(".review-attention button").filter({ hasText: /^Prepare: / }).first(); if (await renew.count()) { await renew.click(); return true; }
   const allow = p.locator('[data-testid="next-step"] .wbs-alts button').filter({ hasText: /^Allow / }).first(); if (await allow.count()) { await allow.click(); return true; }
   return false;
 };
@@ -49,7 +50,7 @@ await guide("capacity"); await role("duty-lead");
 check((await state()).actions["SUP-1"] === "approved", `2. start: handover approved, not yet released (SUP-1 = ${(await state()).actions["SUP-1"]})`);
 await tools(); await p.click('[data-cap="housekeeping:down"]');
 const lead2 = await roleText();
-check(/Renew Capacity check/.test(await p.locator('[data-testid="next-step"]').innerText()), "2. Core's next step for the Duty lead is to renew the lost capacity check");
+check(/Capacity changed: Housekeeping can no longer act/.test(await p.locator(".review-attention").innerText()) && /Prepare: Check staff capacity/.test(await p.locator(".review-attention").innerText()), "2. Core's next step for the Duty lead is to renew the lost capacity check, offered in the attention panel");
 check(/renewed check is needed|lost capacity/i.test(lead2), "2. the page says why approval was withdrawn");
 await openAll();
 const ref2 = await p.locator("#refusals").innerText();
