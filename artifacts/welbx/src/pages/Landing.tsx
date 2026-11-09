@@ -52,13 +52,12 @@ export default function Landing() {
             </div>
             <div className="travel-guest-coordination"><p className="travel-eyebrow">One operating model</p><h3>Guest need. Accountable response. Checked outcome.</h3><p>The intended architecture connects JALDO Core OS, its Travel deployment and the guest and staff interfaces. The guest app currently demonstrates this model through scripted interactions; its Core runtime connection is not yet verified.</p></div>
             <div className="travel-guest-actions">
-              <a href="#travel-guest-access" className="travel-button travel-button-dark">Experience the guest app <ArrowRight size={18} aria-hidden="true" /></a>
+              <span className="travel-tag">Guest experience preview · Sample screens</span>
               <Link href={WORKING_PROOF_PATH} className="travel-text-link">See how the hotel coordinates the response <ArrowUpRight size={18} aria-hidden="true" /></Link>
             </div>
             <div id="travel-guest-access" className="travel-guest-access" tabIndex={-1}>
-              <h3>Guest app preview · access by invitation</h3>
-              <p>The standalone preview is private. Request a guided walkthrough to explore the guest journey. A publicly accessible app link will be added after access and release checks.</p>
-              <a className="travel-text-link" href="mailto:lance@wearejaldo.com?subject=JALDO%20Travel%20guest%20app%20walkthrough">Request a guest app walkthrough <ArrowRight size={17} aria-hidden="true" /></a>
+              <h3>Guest experience preview</h3>
+              <p>These sample screens illustrate the standalone guest experience. The guest app remains separate and is not linked from this site at this stage.</p>
               <p className="travel-guest-boundary">Actual screens captured from the branded guest review build. All guests, hotel details, experiences, prices, staff updates and confirmations are fictional. No live booking, payment, hotel messaging or Core integration is implied. Hotel-response proof opens in the Partner Room; existing access controls apply.</p>
             </div>
           </div>
