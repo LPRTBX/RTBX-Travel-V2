@@ -55,7 +55,7 @@ while ((m = routeRegex.exec(appContent)) !== null) {
 // Include literal server-owned page routes as well as SPA routes.
 // Their retrieval and authentication are exercised by test:server-access.
 const serverContent = readFileSync(join(root, "server", "app.mjs"), "utf8");
-for (const match of serverContent.matchAll(/path\\s*===\\s*["']([^"']+)["']/g)) {
+for (const match of serverContent.matchAll(/path\s*===\s*["']([^"']+)["']/g)) {
   canonicalRoutes.add(match[1]);
 }
 
