@@ -734,12 +734,12 @@ export function PartnerRoomLayout({ children }: PartnerRoomLayoutProps) {
         </nav>
       </header>
 
-      <div style={{ padding: "16px 20px", borderBottom: "1px solid rgba(168,222,219,0.2)" }}>
+      {location === "/partner-room" && <div style={{ padding: "16px 20px", borderBottom: "1px solid rgba(168,222,219,0.2)" }}>
         <a href="/partner-room/response-workspace" style={{ display: "inline-flex", alignItems: "center", minHeight: 44, padding: "10px 16px", background: "#a94018", color: "#fff", fontWeight: 700, borderRadius: 6 }}>
           Explore the response workspace
         </a>
         <p style={{ margin: "8px 0 0", fontSize: 14 }}>Recognise, coordinate and follow through · interactive demonstration with fictional data.</p>
-      </div>
+      </div>}
 
       {/* Page content */}
        <main className="rtbx-readable-content" style={{ flex: 1 }}>
