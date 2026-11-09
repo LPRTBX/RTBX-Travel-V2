@@ -32,7 +32,7 @@ try {
     assert(geometry.left >= 16 && geometry.right < width - 16, `${width}: brand margins`);
     assert(geometry.ctaTop < geometry.bottom && geometry.ctaBottom > geometry.top, `${width}: controls wrapped`);
     const toggle = page.getByRole("button", { name: "Menu", exact: true });
-    if (width <= 960) {
+    if (width <= 1100) {
       assert(!(await page.locator("#site-nav").isVisible()));
       await toggle.focus();
       await page.keyboard.press("Enter");
@@ -53,7 +53,7 @@ try {
       ["Guest app", "#travel-guest-app"],
       ["Outcomes", "#outcomes"],
     ]) {
-      if (width <= 960 && !(await page.locator("#site-nav").isVisible())) await toggle.click();
+      if (width <= 1100 && !(await page.locator("#site-nav").isVisible())) await toggle.click();
       await header.getByRole("link", { name: label, exact: true }).click();
       assert.equal(new URL(page.url()).hash, hash);
       assert.equal(await page.locator(hash).count(), 1);
@@ -62,7 +62,7 @@ try {
     assert.equal(await page.locator("#contact").count(), 1);
     assert.equal(await page.locator("#ai-in-the-work").count(), 1);
     assert.equal(await page.locator("#principles").count(), 1);
-    if (width <= 960) await toggle.click();
+    if (width <= 1100) await toggle.click();
     await header.getByRole("link", { name: "Partner Room", exact: true }).click();
     await page.waitForURL("**/partner-access");
     assert(await page.getByLabel("Access code", { exact: true }).isVisible());
@@ -72,7 +72,7 @@ try {
     assert(await page.locator("#demo-app").isVisible());
     assert(await page.getByText("Interactive fictional demonstration — no live actions", { exact: true }).isVisible());
     assert.equal(errors.length, 0, errors.join("\n"));
-    console.log(`PASS ${width}px: layout, logo margins, navigation, demo, gate${width <= 960 ? ", keyboard / Escape" : ""}`);
+    console.log(`PASS ${width}px: layout, logo margins, navigation, demo, gate${width <= 1100 ? ", keyboard / Escape" : ""}`);
     await page.close();
   }
   const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 320, height: 900 } });

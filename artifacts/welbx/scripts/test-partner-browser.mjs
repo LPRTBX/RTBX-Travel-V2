@@ -64,10 +64,9 @@ try {
     }
     await checkPublicNavigation(page, width);
     await checkPublicGuestShowcase(page, base, width);
-    await page.locator("#supporting-detail").getByRole("link", { name: "The role of AI", exact: true }).focus();
+    await page.locator("#ai-in-the-work > summary").focus();
     await page.keyboard.press("Enter");
-    await page.waitForURL(url => url.hash === "#ai-in-the-work");
-    assert(new URL(page.url()).hash === "#ai-in-the-work", "AI explanation not discoverable by keyboard");
+    assert(await page.locator("#ai-in-the-work").evaluate(el => el.open), "AI explanation is not discoverable by keyboard");
     const aiStory = page.locator("#ai-in-the-work");
     assert(/no connected model/i.test(await aiStory.innerText()), "scripted AI boundary missing");
     assert(await page.locator("#aiw-steps li").count() === 8, "AI explanation progression incomplete");

@@ -11,16 +11,22 @@ const evidence = {
   wait: [["loungeset", "luggage"], ["ins221", "seating"]],
 };
 
-// Compact, keyboard-operable navigation below 960px; full navigation above.
+// Compact, keyboard-operable navigation through tablet widths; full navigation above.
 export async function checkPublicNavigation(page, width) {
   const toggle = page.locator("#nav-toggle");
   const links = page.locator("#site-nav a");
   const heroTop = await page.locator(".hero").evaluate(el => el.getBoundingClientRect().top + scrollY);
   const order = await page.locator("main > section").evaluateAll(list => list.map(section => section.id || section.className.split(" ")[0]));
-  // The approved guest showcase follows the hero; supporting mechanics stay after the main story.
-  const mainStory = ["hero", "travel-guest-app", "coordinated-response", "wellbeing-support", "sample-demo", "outcomes", "existing-systems", "contact"];
+  // One loop leads into hotel proof, wellbeing, sample screens, outcomes/system fit, detail and next step.
+  const mainStory = ["hero", "loop", "coordinated-response", "sample-demo", "wellbeing-support", "travel-guest-app", "outcomes", "supporting-detail", "contact"];
   assert(order.slice(0, mainStory.length).join() === mainStory.join(), `public page order changed: ${order}`);
-  assert(order.indexOf("supporting-detail") === mainStory.length && ["principles", "ai-in-the-work", "loop"].every(id => order.indexOf(id) > mainStory.length), "supporting detail not labelled after the main story");
+  const targetKinds = await page.evaluate(() => Object.fromEntries(
+    ["principles", "ai-in-the-work", "existing-systems", "benefits", "examples"].map(id => [id, document.getElementById(id)?.tagName])
+  ));
+  assert(Object.values(targetKinds).every(tag => tag === "DETAILS"), `progressive detail targets missing: ${JSON.stringify(targetKinds)}`);
+  assert(await page.locator("#principles").evaluate(el => !!el.closest("#loop")), "control principles were separated from the coordination loop");
+  assert(await page.locator("#existing-systems").evaluate(el => !!el.closest("#outcomes")), "system fit was separated from outcomes");
+  assert(await page.locator("#benefits").evaluate(el => !!el.closest("#supporting-detail")) && await page.locator("#examples").evaluate(el => !!el.closest("#supporting-detail")), "supporting examples are not grouped progressively");
   const expectedNavigation = [
     ["How it works", "#existing-systems"], ["In action", "#coordinated-response"],
     ["Guest app", "#travel-guest-app"], ["Outcomes", "#outcomes"], ["Partner Room", "/partner-access"],
@@ -28,7 +34,7 @@ export async function checkPublicNavigation(page, width) {
   const navigation = await links.evaluateAll(list => list.map(link => [link.textContent.trim(), link.getAttribute("href")]));
   assert(JSON.stringify(navigation) === JSON.stringify(expectedNavigation), `public navigation changed: ${JSON.stringify(navigation)}`);
   assert(await page.getByRole("link", { name: "Explore the demo", exact: true }).isVisible(), "header demo entry not prominent");
-  if (width > 960) {
+  if (width > 1100) {
     assert(!(await toggle.isVisible()) && await links.first().isVisible(), "desktop navigation collapsed");
     assert(await page.locator("#site-nav a:visible").count() === expectedNavigation.length, "desktop navigation incomplete");
     return;
@@ -68,7 +74,7 @@ export async function checkPublicGuestShowcase(page, base, width) {
   if (await toggle.isVisible()) assert(await toggle.getAttribute("aria-expanded") === "false", "guest app link left mobile navigation open");
   const showcase = page.locator("#travel-guest-app");
   assert(await showcase.getByRole("heading", { name: "One connected stay. Powered by JALDO.", exact: true }).isVisible(), "guest showcase heading missing");
-  assert(/Interactive prototype · Synthetic data/.test(await showcase.innerText()), "guest showcase synthetic label missing");
+  assert(/Sample screens · Synthetic data/.test(await showcase.innerText()), "guest showcase is not labelled as static sample screens");
   const screens = showcase.locator(".travel-guest-screens img");
   assert(await screens.count() === 3, "guest showcase must retain all three screens");
   for (const [index, name] of ["stay", "explore", "plans"].entries()) {
@@ -169,18 +175,19 @@ export async function checkPublicDemo(page, base, width) {
   };
 
   // Explicit fragments must not be overridden by the default /public-demo arrival.
-  for (const hash of ["principles", "sample-demo"]) {
+  for (const hash of ["principles", "ai-in-the-work", "existing-systems", "benefits", "examples", "sample-demo"]) {
     await page.goto(`${base}/public-demo#${hash}`, { waitUntil: "networkidle" });
     await page.waitForFunction(id => Math.abs(document.getElementById(id).getBoundingClientRect().top) < 180, hash);
     assert(new URL(page.url()).hash === `#${hash}`, "explicit public fragment overwritten");
+    if (hash !== "sample-demo") assert(await page.locator(`#${hash}`).evaluate(el => el.open), `${hash} disclosure did not open for its direct fragment`);
   }
   assert(await page.getByRole("heading", {
     name: "JALDO coordinates the work. Your people retain authority.", exact: true,
   }).count() === 1, "control principles lost their own heading");
   await page.goto(base, { waitUntil: "networkidle" });
-  await page.locator("#supporting-detail").getByRole("link", { name: "Control principles", exact: true }).focus();
+  await page.locator("#principles summary").focus();
   await page.keyboard.press("Enter");
-  await page.waitForURL(url => url.hash === "#principles");
+  assert(await page.locator("#principles").evaluate(el => el.open), "control principles disclosure is not keyboard operable");
   await page.getByRole("link", { name: "Explore the demo", exact: true }).focus();
   await page.keyboard.press("Enter");
   await page.waitForURL(url => url.pathname === "/public-demo" && url.hash === "#sample-demo");
