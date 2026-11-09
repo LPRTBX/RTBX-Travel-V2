@@ -4,6 +4,7 @@ import { resolve, extname, sep } from "node:path";
 import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { createAccess, cookies, cookie, SESSION_COOKIE, CSRF_COOKIE, returnPath, SESSION_MS } from "./access.mjs";
+import { responseWorkspace } from "./response-workspace.mjs";
 import { loginPage } from "./login.mjs";
 
 export const PUBLIC_FILES = new Set([
@@ -128,6 +129,12 @@ export function createTravelServer({ access = createAccess({ getPaused: () => pr
         if (navigation) return showLogin(access.configured() ? 401 : 503, returnPath(req.url),
           jar[SESSION_COOKIE] ? "Your partner session has ended. Enter your access code again." : "");
         return send(401, '{"error":"Partner access required"}', "application/json");
+      }
+      // Dedicated reviewed package, behind the same session boundary as Partner Room.
+      if (path === "/partner-room/response-workspace" || path === "/partner-room/response-workspace/") {
+        const html = await responseWorkspace();
+        res.setHeader("Content-Security-Policy", htmlPolicy(html).replace("img-src 'self'", "img-src 'self' data:"));
+        return send(200, html);
       }
       // Source and configuration files are never served, even after entry.
       if (path.endsWith(".map") || path.startsWith("/src/") || path.startsWith("/@") || path.split("/").some(p => p.startsWith("."))) return send(404, "Not found.", "text/plain");

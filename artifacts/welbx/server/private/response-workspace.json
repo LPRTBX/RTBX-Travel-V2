@@ -1,0 +1,6 @@
+{
+  "sourceCommit": "f378fbbf7fc79a212917c933e2a0496bf18dfe4c",
+  "coreCommit": "79939dcc69755353f5cdbdebc52dce4af05724c4",
+  "sha256": "e8cc284882919081e0898a423c2526eff92f365053920cb8079212a09d00984e",
+  "note": "Reviewed standalone package. Replace only with a verified rebuild from workspace-harness; never edit bundled JavaScript."
+}
