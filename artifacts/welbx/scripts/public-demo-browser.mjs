@@ -18,18 +18,19 @@ export async function checkPublicNavigation(page, width) {
   const heroTop = await page.locator(".hero").evaluate(el => el.getBoundingClientRect().top + scrollY);
   const order = await page.locator("main > section").evaluateAll(list => list.map(section => section.id || section.className.split(" ")[0]));
   // One loop leads into hotel proof, wellbeing, sample screens, outcomes/system fit, detail and next step.
-  const mainStory = ["hero", "loop", "coordinated-response", "sample-demo", "wellbeing-support", "travel-guest-app", "outcomes", "supporting-detail", "contact"];
+  const mainStory = ["hero", "guided-replay", "loop", "coordinated-response", "demo", "wellbeing-support", "travel-guest-app", "outcomes", "supporting-detail", "contact"];
   assert(order.slice(0, mainStory.length).join() === mainStory.join(), `public page order changed: ${order}`);
   const targetKinds = await page.evaluate(() => Object.fromEntries(
-    ["principles", "ai-in-the-work", "existing-systems", "benefits", "examples"].map(id => [id, document.getElementById(id)?.tagName])
+    ["principles", "ai-in-the-work", "existing-systems", "benefits", "examples", "sample-demo"].map(id => [id, document.getElementById(id)?.tagName])
   ));
   assert(Object.values(targetKinds).every(tag => tag === "DETAILS"), `progressive detail targets missing: ${JSON.stringify(targetKinds)}`);
+  assert(await page.locator("#sample-demo").evaluate(el => el.closest("section.demo") !== null), "detailed response review is not within the demo section");
   assert(await page.locator("#principles").evaluate(el => !!el.closest("#loop")), "control principles were separated from the coordination loop");
   assert(await page.locator("#existing-systems").evaluate(el => !!el.closest("#outcomes")), "system fit was separated from outcomes");
   assert(await page.locator("#benefits").evaluate(el => !!el.closest("#supporting-detail")) && await page.locator("#examples").evaluate(el => !!el.closest("#supporting-detail")), "supporting examples are not grouped progressively");
   const expectedNavigation = [
     ["How it works", "#existing-systems"], ["In action", "#coordinated-response"],
-    ["Guest app", "#travel-guest-app"], ["Outcomes", "#outcomes"], ["Partner Room", "/partner-access"],
+    ["Guest experience samples", "#travel-guest-app"], ["Outcomes", "#outcomes"], ["Partner Room", "/partner-access"],
   ];
   const navigation = await links.evaluateAll(list => list.map(link => [link.textContent.trim(), link.getAttribute("href")]));
   assert(JSON.stringify(navigation) === JSON.stringify(expectedNavigation), `public navigation changed: ${JSON.stringify(navigation)}`);
@@ -99,18 +100,19 @@ export async function checkPublicGuestShowcase(page, base, width) {
   assert(await invitation.getByRole("heading", { name: "Guest experience preview", exact: true }).isVisible(), "sample-only guest preview missing");
   assert(/guest app remains separate and is not linked from this site/.test(await invitation.innerText()), "guest app access boundary missing");
   const showcaseLinks = await showcase.locator("a").evaluateAll(links => links.map(link => link.getAttribute("href")));
-  assert(JSON.stringify(showcaseLinks) === JSON.stringify(["/public-demo#sample-demo"]), "guest showcase links must remain limited to the public response sample");
+  assert(JSON.stringify(showcaseLinks) === JSON.stringify(["/public-demo#guided-replay"]), "guest showcase links must remain limited to the public response sample");
   assert(/No live booking, payment, hotel messaging or Core integration is implied/.test(await invitation.innerText()), "guest access boundary missing");
   const response = showcase.getByRole("link", { name: /^See how the hotel coordinates the response/ });
-  assert(await response.getAttribute("href") === "/public-demo#sample-demo", "guest response proof no longer uses the public sample");
+  assert(await response.getAttribute("href") === "/public-demo#guided-replay", "guest response proof no longer uses the public sample");
   await response.focus();
   await page.keyboard.press("Enter");
-  await page.waitForURL(`${base}/public-demo#sample-demo`);
-  assert(await page.locator("#demo-notice").textContent() === "Interactive fictional demonstration — no live actions", "guest response CTA missed fictional sample");
+  await page.waitForURL(`${base}/public-demo#guided-replay`);
+  assert(await page.locator("#guided-app").isVisible(), "guest response CTA missed the public guided replay");
+  assert(await page.getByText("Scripted fictional replay · No decisions or actions are recorded", { exact: true }).isVisible(), "guided replay status is unclear");
   await page.goBack({ waitUntil: "networkidle" });
   assert(new URL(page.url()).hash === "#travel-guest-app", "Back lost guest showcase");
   await page.goForward({ waitUntil: "networkidle" });
-  assert(new URL(page.url()).pathname === "/public-demo" && new URL(page.url()).hash === "#sample-demo", "Forward lost guest response sample");
+  assert(new URL(page.url()).pathname === "/public-demo" && new URL(page.url()).hash === "#guided-replay", "Forward lost guest response sample");
   await page.goto(base, { waitUntil: "networkidle" });
 }
 
@@ -175,27 +177,45 @@ export async function checkPublicDemo(page, base, width) {
   };
 
   // Explicit fragments must not be overridden by the default /public-demo arrival.
-  for (const hash of ["principles", "ai-in-the-work", "existing-systems", "benefits", "examples", "sample-demo"]) {
+  for (const hash of ["principles", "ai-in-the-work", "existing-systems", "benefits", "examples", "guided-replay", "sample-demo"]) {
     await page.goto(`${base}/public-demo#${hash}`, { waitUntil: "networkidle" });
     await page.waitForFunction(id => Math.abs(document.getElementById(id).getBoundingClientRect().top) < 180, hash);
     assert(new URL(page.url()).hash === `#${hash}`, "explicit public fragment overwritten");
-    if (hash !== "sample-demo") assert(await page.locator(`#${hash}`).evaluate(el => el.open), `${hash} disclosure did not open for its direct fragment`);
+    if (["principles", "ai-in-the-work", "existing-systems", "benefits", "examples", "sample-demo"].includes(hash))
+      assert(await page.locator(`#${hash}`).evaluate(el => el.open), `${hash} disclosure did not open for its direct fragment`);
   }
   assert(await page.getByRole("heading", {
     name: "JALDO coordinates the work. Your people retain authority.", exact: true,
   }).count() === 1, "control principles lost their own heading");
   await page.goto(base, { waitUntil: "networkidle" });
+  assert(!(await page.locator("#principles").evaluate(el => el.open)), "technical/control detail should start collapsed");
   await page.locator("#principles summary").focus();
   await page.keyboard.press("Enter");
   assert(await page.locator("#principles").evaluate(el => el.open), "control principles disclosure is not keyboard operable");
   await page.getByRole("link", { name: "Explore the demo", exact: true }).focus();
   await page.keyboard.press("Enter");
-  await page.waitForURL(url => url.pathname === "/public-demo" && url.hash === "#sample-demo");
+  await page.waitForURL(url => url.pathname === "/public-demo" && url.hash === "#guided-replay");
   await page.goto(`${base}/public-demo`, { waitUntil: "networkidle" });
-  await page.waitForFunction(() => Math.abs(document.getElementById("sample-demo").getBoundingClientRect().top) < 180);
-  assert(await page.locator("#demo-notice").textContent() === "Interactive fictional demonstration — no live actions", "demo identity notice changed");
+  await page.waitForFunction(() => Math.abs(document.getElementById("guided-replay").getBoundingClientRect().top) < 180);
+  assert(await page.getByText("Scripted fictional replay · No decisions or actions are recorded", { exact: true }).isVisible(), "scripted replay status missing");
+  const guided = page.locator("#guided-app");
+  assert(await guided.getAttribute("data-step") === "0", "scripted replay did not start at zero");
+  await activate("guided-next");
+  assert(await guided.getAttribute("data-step") === "1", "guided replay did not advance");
+  await activate("guided-role-manager");
+  assert(await guided.getAttribute("data-step") === "1", "role view changed replay state");
+  assert(await guided.getAttribute("data-role") === "manager", "role view did not change");
+  for (let step = 1; step < 5; step++) await activate("guided-next");
+  assert(await guided.getAttribute("data-step") === "5", "guided replay did not reach its outcome");
+  assert(/unresolved in this replay/i.test(await page.locator("#guided-fact").innerText()), "replay invented a resolved outcome");
+  assert(/guest acceptance and delivery evidence are not recorded/i.test(await page.locator("#guided-outcome").innerText()), "replay implied fabricated acceptance or evidence");
+  await activate("guided-reset");
+  assert(await guided.getAttribute("data-step") === "0", "guided replay reset failed");
+  await page.locator("#sample-demo > summary").click();
+  assert(await page.locator("#demo-app").isVisible(), "deeper interactive review did not open");
+  assert(await page.locator("#demo-notice").isVisible(), "interactive demo boundary missing");
   assert(await page.getByRole("heading", {
-    name: "One delayed room. A connected hotel. One coordinated response.", exact: true,
+    name: "Change the facts. Review the response again.", exact: true,
   }).count() === 1, "approved demo title missing");
   assert(await unavailable("demo-plan-room"), "plan unlocked before signal review");
   assert(/no connected model/.test(await page.locator("#demo-interpretation").innerText()), "scripted AI labelled as live");

@@ -18,7 +18,7 @@ try {
     assert.equal(await page.locator(".topbar").count(), 0);
     assert.equal(await header.getByRole("link", { includeHidden: true }).count(), 7);
     assert.equal(await header.locator(".hdr-demo").count(), 1);
-    assert.equal(await header.locator(".hdr-demo").getAttribute("href"), "/public-demo#sample-demo");
+    assert.equal(await header.locator(".hdr-demo").getAttribute("href"), "/public-demo#guided-replay");
     assert(await header.locator(".brand .sub").isVisible());
     const geometry = await header.evaluate(el => {
       const brand = el.querySelector(".brand").getBoundingClientRect();
@@ -50,7 +50,7 @@ try {
     for (const [label, hash] of [
       ["How it works", "#existing-systems"],
       ["In action", "#coordinated-response"],
-      ["Guest app", "#travel-guest-app"],
+      ["Guest experience samples", "#travel-guest-app"],
       ["Outcomes", "#outcomes"],
     ]) {
       if (width <= 1100 && !(await page.locator("#site-nav").isVisible())) await toggle.click();
@@ -68,9 +68,33 @@ try {
     assert(await page.getByLabel("Access code", { exact: true }).isVisible());
     await page.goto(base);
     await page.getByRole("link", { name: "Explore the demo", exact: true }).click();
-    await page.waitForURL("**/public-demo#sample-demo");
+    await page.waitForURL("**/public-demo#guided-replay");
+    assert(await page.locator("#guided-app").isVisible());
+    assert(await page.getByText("Scripted fictional replay · No decisions or actions are recorded", { exact: true }).isVisible());
+    const replay = page.locator("#guided-app");
+    assert.equal(await replay.getAttribute("data-step"), "0");
+    await page.locator("#guided-next").focus();
+    assert(await page.locator("#guided-next").evaluate(el => getComputedStyle(el).outlineStyle !== "none"), `${width}: replay action lacks visible keyboard focus`);
+    await page.keyboard.press("Enter");
+    assert.equal(await replay.getAttribute("data-step"), "1");
+    await page.getByRole("button", { name: "Housekeeping", exact: true }).focus();
+    await page.keyboard.press("Enter");
+    assert.equal(await replay.getAttribute("data-step"), "1", "role switch changed replay progress");
+    assert.equal(await replay.getAttribute("data-role"), "housekeeping");
+    for (let step = 1; step < 5; step++) {
+      await page.locator("#guided-next").focus();
+      await page.keyboard.press("Enter");
+    }
+    assert.equal(await replay.getAttribute("data-step"), "5");
+    assert(/unresolved in this replay/i.test(await page.locator("#guided-fact").innerText()));
+    assert(/no resolution is claimed/i.test(await page.locator("#guided-outcome").innerText()));
+    await page.locator("#guided-reset").click();
+    assert.equal(await replay.getAttribute("data-step"), "0");
+    await page.goto(`${base}/public-demo#sample-demo`);
+    assert(await page.locator("#sample-demo").evaluate(el => el.open), "legacy detailed-demo anchor did not open");
     assert(await page.locator("#demo-app").isVisible());
-    assert(await page.getByText("Interactive fictional demonstration — no live actions", { exact: true }).isVisible());
+    const contact = page.locator("#contact");
+    assert((await contact.locator('a[href^="mailto:"]').evaluateAll(links => links.map(link => link.href))).every(href => href.startsWith("mailto:lance@wearejaldo.com")), "public contact links do not use the confirmed JALDO address");
     assert.equal(errors.length, 0, errors.join("\n"));
     console.log(`PASS ${width}px: layout, logo margins, navigation, demo, gate${width <= 1100 ? ", keyboard / Escape" : ""}`);
     await page.close();

@@ -164,6 +164,42 @@ section{scroll-margin-top:12px}
 .demo{background:var(--ivory);padding-block:84px}
 .demo-head{display:flex;justify-content:space-between;align-items:end;gap:28px;flex-wrap:wrap}
 .label{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:8px 12px;border:1px dashed var(--orange);color:#8a4518;background:#fbeee4}
+.guided{background:#e8efed;padding-block:64px}
+.guided-lede{max-width:760px}
+.guided-fit{margin:24px 0 0;padding:16px 18px;background:#fffaf3;border-left:3px solid var(--teal);font-size:14px;color:var(--muted)}
+.guided-fit strong{color:var(--navy)}
+.guided-card{margin-top:28px;background:var(--paper);border:1px solid var(--line)}
+.guided-top{display:grid;grid-template-columns:1fr minmax(220px,320px);gap:28px;align-items:center;padding:24px 28px;border-bottom:1px solid var(--line)}
+.guided-top h3{font-size:22px;margin:8px 0}
+.guided-top p{margin:0;font-size:14px}
+.guided-progress label{display:block;font-weight:600;font-size:13px;margin-bottom:8px}
+.guided-progress progress{display:block;width:100%;height:12px;accent-color:var(--teal)}
+.guided-body{display:grid;grid-template-columns:220px 1fr}
+.guided-track{padding:22px;background:#f2f1ea;border-right:1px solid var(--line)}
+.guided-track ol{list-style:none;margin:0;padding:0;counter-reset:guided}
+.guided-track li{display:flex;gap:10px;align-items:center;padding:9px 0;color:var(--muted);font-size:13px}
+.guided-track li::before{counter-increment:guided;content:counter(guided);width:26px;height:26px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;flex:none;background:var(--ivory);font-size:11px}
+.guided-track li[aria-current="step"]{color:var(--navy);font-weight:700}
+.guided-track li[aria-current="step"]::before{background:var(--navy);border-color:var(--navy);color:#fff}
+.guided-track li.done::before{content:"✓";background:var(--mist);border-color:var(--teal);color:var(--navy)}
+.guided-main{padding:28px}
+.guided-main h3{font-size:26px;margin:12px 0}
+.guided-main p{margin:12px 0}
+.guided-fact{background:#fff3e9;border-left:3px solid var(--orange);padding:14px 16px;color:var(--navy);font-size:14px}
+.guided-rolebar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:20px 0 14px}
+.guided-rolebar span{font-size:12px;color:var(--muted);margin-right:4px}
+.guided-role{min-height:42px;padding:8px 12px;border:1px solid #81959788;background:var(--paper);color:var(--navy);font:600 13px/1.2 inherit;font-family:inherit;cursor:pointer}
+.guided-role[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.guided-action{padding:16px 18px;background:#e3f2f1;border-left:3px solid var(--teal);margin-top:18px}
+.guided-action b{display:block;font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:#175b5e}
+.guided-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.guided-actions .btn{min-height:46px;padding:12px 18px}
+.guided-outcome{margin:0;padding:16px 22px;border-top:1px solid var(--line);font-size:14px;background:#f5f3ed}
+.guided-outcome strong{color:var(--navy)}
+.guided-details{margin-top:18px;border-top:1px solid var(--line);padding-top:6px}
+.guided-details summary{cursor:pointer;min-height:48px;display:flex;align-items:center;font-weight:600}
+.guided-details p,.guided-details li{font-size:14px;color:var(--muted)}
+@media(max-width:760px){.guided-top,.guided-body{grid-template-columns:1fr}.guided-track{border-right:0;border-bottom:1px solid var(--line);padding:16px 20px}.guided-track ol{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}.guided-main{padding:22px}.guided-top{padding:20px}.guided{padding-block:52px}}
 .stage{margin-top:38px;display:grid;grid-template-columns:260px 1fr;gap:0;background:var(--paper);border:1px solid var(--line)}
 .steps{list-style:none;margin:0;padding:26px;border-right:1px solid var(--line);background:#f2f1ea}
 .steps li{display:flex;gap:12px;align-items:center;padding:11px 0;font-size:14px;color:var(--muted)}
@@ -382,12 +418,12 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
   <nav id="site-nav" aria-label="Main navigation">
     <a href="#existing-systems">How it works</a>
     <a href="#coordinated-response">In action</a>
-    <a href="#travel-guest-app">Guest app</a>
+    <a href="#travel-guest-app">Guest experience samples</a>
     <a href="#outcomes">Outcomes</a>
     <a class="partner" href="/partner-access">Partner Room</a>
   </nav>
   <div class="hdr-cta">
-    <a class="hdr-demo" href="/public-demo#sample-demo" aria-label="Explore the demo"><span class="hd-l">Explore the demo</span><span class="hd-s">Demo</span></a>
+    <a class="hdr-demo" href="/public-demo#guided-replay" aria-label="Explore the demo"><span class="hd-l">Explore the demo</span><span class="hd-s">Demo</span></a>
     <button type="button" class="menu-btn" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" hidden><span class="bars" aria-hidden="true"></span>Menu</button>
   </div>
  </div>
@@ -407,9 +443,67 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
       </ul>
       <div class="actions">
         <a class="btn btn-light" href="#coordinated-response">See the coordinated response <span class="arr" aria-hidden="true">&rarr;</span></a>
-        <a class="btn btn-ghost" href="#sample-demo">Try the guided demo <span class="arr" aria-hidden="true">&rarr;</span></a>
+        <a class="btn btn-ghost" href="#guided-replay">Start the short guided replay <span class="arr" aria-hidden="true">&rarr;</span></a>
       </div>
       <p class="note">Today this is synthetic working proof and a proposed pilot, not a live deployment. Commercial and deeper materials sit in the Partner Room, by invitation.</p>
+    </div>
+  </section>
+
+  <section id="guided-replay" class="guided" aria-labelledby="guided-h">
+    <div class="wrap">
+      <p class="eyebrow">A hotel moment, made clear</p>
+      <h2 id="guided-h">One delayed room. A clear next step for every team.</h2>
+      <p class="lede guided-lede">A fictional 2:40pm arrival: room 304 is blocked by a leak while a family waits. See what the system can recognise, what it can prepare, who must decide and what still needs checking.</p>
+      <p class="label">Scripted fictional replay · No decisions or actions are recorded</p>
+      <p class="guided-fit"><strong>Works alongside existing systems:</strong> room status, arrivals and work-order records can provide context. JALDO can prepare owned next steps to reduce duplicate chasing between desks and shifts. Any connection is proposed until access, integration testing and site readiness are confirmed; there are no live hotel connections here.</p>
+      <details class="guided-details">
+        <summary>Sources and what this replay does not claim</summary>
+        <ul>
+          <li>Synthetic arrivals note: the Rowan family has been waiting since 2:20pm.</li>
+          <li>Synthetic room-status record: room 304 is blocked and not released.</li>
+          <li>Synthetic maintenance work order WO-1182: leak repair is still open; an estimate is not clearance.</li>
+          <li>This replay does not make or record a human approval, dispatch a task, create delivery evidence, record guest acceptance or claim resolution.</li>
+        </ul>
+      </details>
+      <div class="guided-card" id="guided-app" data-step="0" data-role="reception">
+        <div class="guided-top">
+          <div><span class="label">Guided replay · illustrative sequence</span><h3 id="guided-step-title">Start with the room delay</h3><p id="guided-step-copy" aria-live="polite">Follow five short stages. The replay is prewritten; the separate interactive review below lets you change checks and decisions.</p></div>
+          <div class="guided-progress">
+            <label for="guided-progress"><span id="guided-progress-label">Replay progress</span> · <span id="guided-progress-text">0 of 5 steps</span></label>
+            <progress id="guided-progress" max="5" value="0">0 of 5 steps</progress>
+          </div>
+        </div>
+        <div class="guided-body">
+          <nav class="guided-track" aria-label="Guided replay steps">
+            <ol id="guided-steps">
+              <li data-index="1">Read the situation</li>
+              <li data-index="2">Prepare options</li>
+              <li data-index="3">Human decision</li>
+              <li data-index="4">Owned follow-through</li>
+              <li data-index="5">Check what remains open</li>
+            </ol>
+          </nav>
+          <div class="guided-main">
+            <p class="guided-fact" id="guided-fact">Nothing has been decided or done in this replay.</p>
+            <div class="guided-rolebar" role="group" aria-label="Role perspective for the replay">
+              <span>Next action by role · explanation only</span>
+              <button class="guided-role" id="guided-role-reception" type="button" data-role="reception" aria-pressed="true">Reception</button>
+              <button class="guided-role" id="guided-role-housekeeping" type="button" data-role="housekeeping" aria-pressed="false">Housekeeping</button>
+              <button class="guided-role" id="guided-role-maintenance" type="button" data-role="maintenance" aria-pressed="false">Maintenance</button>
+              <button class="guided-role" id="guided-role-guest" type="button" data-role="guest" aria-pressed="false">Guest services</button>
+              <button class="guided-role" id="guided-role-manager" type="button" data-role="manager" aria-pressed="false">Duty Manager</button>
+            </div>
+            <div class="guided-action" aria-live="polite"><b id="guided-role-label">Reception · next action</b><span id="guided-role-action">Confirm the family’s needs and give an honest update; don’t promise a release time until an inspection is recorded.</span></div>
+            <div class="guided-actions">
+              <button type="button" class="btn btn-ghost" id="guided-back" disabled>Previous</button>
+              <button type="button" class="btn btn-dark" id="guided-next">Start the replay <span class="arr" aria-hidden="true">&rarr;</span></button>
+              <button type="button" class="btn btn-ghost" id="guided-reset" hidden>Reset replay</button>
+              <a class="btn btn-ghost" href="#sample-demo">Open the detailed interactive review <span class="arr" aria-hidden="true">&rarr;</span></a>
+            </div>
+          </div>
+        </div>
+        <p class="guided-outcome" id="guided-outcome"><strong>Replay status: not resolved.</strong> Room 304 stays blocked pending repair clearance and inspection. Guest acceptance and delivery evidence are not recorded here; no resolution is claimed.</p>
+      </div>
     </div>
   </section>
 
@@ -426,7 +520,7 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
         <li><h3>Record evidence</h3><p>Delivery, feedback and resolution remain distinct. Missing evidence stays visibly unconfirmed.</p></li>
         <li><h3>Review learning</h3><p>People review outcomes and proposed improvements before any limited test or change.</p></li>
       </ol>
-      <details id="principles" class="principle-disclosure" open>
+      <details id="principles" class="principle-disclosure">
         <summary><h2 id="principles-h">JALDO coordinates the work. Your people retain authority.</h2></summary>
         <div class="rules">
           <div><h3>People retain authority</h3><p>Named owners act within agreed authority; exceptions need authorised approval.</p></div>
@@ -508,7 +602,7 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
         <li><span class="st">3 &middot; Action + evidence</span><h3>Recovery is confirmed, not assumed</h3>
           <ul><li>Rooms released when inspected</li><li>Lift faults closed only after repair and safety checks</li><li>Anything unconfirmed stays visibly open</li></ul></li>
       </ol>
-      <p class="fict">Intended outcomes must be checked by people. Nothing is resolved automatically. <a href="#sample-demo">Step through one room from this afternoon in the guided demo</a>.</p>
+      <p class="fict">Intended outcomes must be checked by people. Nothing is resolved automatically. <a href="#guided-replay">See the scripted room-delay replay</a>, or open the detailed interactive review below.</p>
       <details>
         <summary>What is proven, planned and still to be validated</summary>
         <ul>
@@ -530,13 +624,16 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
     </div>
   </section>
 
-  <section id="sample-demo" class="demo" aria-labelledby="demo-h">
+  <section class="demo" aria-labelledby="demo-h">
     <div class="wrap">
       <div class="demo-head">
-        <div><p class="eyebrow">Guided sample demo</p><h2 id="demo-h">One delayed room. A connected hotel. One coordinated response.</h2></div>
+        <div><p class="eyebrow">Detailed interactive review</p><h2 id="demo-h">Change the facts. Review the response again.</h2></div>
       </div>
-      <p class="label dm-notice" id="demo-notice">Interactive fictional demonstration — no live actions</p>
-      <p class="lede">Harbour Lane Hotel is invented. Follow a room issue from sourced signals to options, authority checks and team actions. A repair delay then changes the facts: the team must adapt, check again and seek renewed approval. Delivery, evidence and the family’s choice are recorded separately. Everything happens in this page only.</p>
+      <p class="lede">Explore the deeper interactive example: choose a room change or supported wait, check availability, review authority, and then introduce a repair delay that reopens affected approvals. This is separate from the scripted replay above; it uses synthetic data and in-page state only.</p>
+      <details id="sample-demo" class="guided-details">
+        <summary>Open the interactive review · approvals, changed facts and evidence</summary>
+        <p class="label dm-notice" id="demo-notice">Interactive fictional demonstration — no live actions</p>
+        <p class="fict">Harbour Lane Hotel, guests, rooms, staff and events are invented. The controls change this browser-only demonstration; they do not send tasks or messages.</p>
       <div class="dm" id="demo-app">
         <div class="dm-top">
           <div class="aiw-group" role="group" aria-label="View as">
@@ -559,7 +656,8 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
           <div class="dm-main" id="demo-main"></div>
         </div>
       </div>
-      <p class="fict">Guests, rooms, staff names and times are invented; no private details are shown. This shows intended design on synthetic data, not measured results or a live integration. <a id="demo-link-validation" href="/partner-access?returnTo=%2Fpartner-room%2Fvalidation%23evidence-status">Evidence and pilot validation (Partner Room — access code required)</a></p>
+      <p class="fict">Evidence and outcomes remain distinct; missing receipts stay open. <a id="demo-link-validation" href="/partner-access?returnTo=%2Fpartner-room%2Fvalidation%23evidence-status">Evidence and pilot validation (Partner Room — access code required)</a></p>
+      </details>
     </div>
   </section>
 
@@ -592,7 +690,7 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
       <div class="travel-guest-coordination"><p class="travel-eyebrow">One operating model</p><h3>Guest choice. Accountable response. Checked outcome.</h3><p>Guests choose what to request or share. Named hotel teams coordinate the response, with permissions and role boundaries kept clear. These are static sample screens; no live hotel messaging or Core connection is implied.</p></div>
       <div class="travel-guest-actions">
         <span class="travel-tag">Guest experience preview · Sample screens</span>
-        <a href="/public-demo#sample-demo" class="travel-text-link">See how the hotel coordinates the response <span aria-hidden="true">↗</span></a>
+      <a href="/public-demo#guided-replay" class="travel-text-link">See how the hotel coordinates the response <span aria-hidden="true">↗</span></a>
       </div>
       <div id="travel-guest-access" class="travel-guest-access" tabindex="-1">
         <h3>Guest experience preview</h3>
@@ -733,8 +831,8 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
         </ol>
       </div>
       <div class="cards">
-        <a class="card" href="mailto:lance@rtbx.com.au?subject=Explore%20a%20Design%20Partnership%20%E2%80%94%20JALDO%20Travel"><strong>Discuss a bounded pilot &rarr;</strong><span>For operators ready to shape a first pilot.</span></a>
-        <a class="card" href="mailto:lance@rtbx.com.au?subject=Request%20Partner%20Access%20%E2%80%94%20JALDO%20Travel"><strong>Request partner access &rarr;</strong><span>Email us. Access is reviewed and granted manually.</span></a>
+        <a class="card" href="mailto:lance@wearejaldo.com?subject=Explore%20a%20Design%20Partnership%20%E2%80%94%20JALDO%20Travel"><strong>Discuss a bounded pilot &rarr;</strong><span>For hotel operators ready to shape a first pilot.</span></a>
+        <a class="card" href="mailto:lance@wearejaldo.com?subject=Request%20Partner%20Access%20%E2%80%94%20JALDO%20Travel"><strong>Request partner access &rarr;</strong><span>Email Lance at JALDO. Access is reviewed and granted manually.</span></a>
         <a class="card partner" href="/partner-access"><strong>Partner Room (access code required) &rarr;</strong><span>For invited partners who already hold a code.</span></a>
       </div>
     </div>
@@ -743,6 +841,59 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
 </main>
 <footer><div class="wrap"><div><strong>JALDO Travel</strong>Hospitality coordination, accountably followed through.<br><a href="https://wearejaldo.com">&larr; Back to JALDO (wearejaldo.com)</a></div><p>Illustrative imagery. Examples and sample demo are fictional. Synthetic working proof only; no customer deployment, verified outcomes or endorsement implied.</p></div></footer>
 
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id)};
+  var roles={
+    reception:["Reception","Confirm the family’s needs and give an honest update; don’t promise a release time until an inspection is recorded.","Keep the estimate separate from a confirmed room time; prepare clear choices without promising one.","Wait for an authorised decision, then explain the option and record the family’s answer separately.","Acknowledge any assigned handover and record an actual guest update only when it happens.","Keep follow-up open until room status, guest choice and any delivery evidence are recorded."],
+    housekeeping:["Housekeeping","Check the current room status and available inspection capacity.","Confirm which room or inspection slot is genuinely available before a plan relies on it.","Do not release room 304 until repair clearance and inspection are recorded.","Complete assigned room work and record the inspection receipt if the work is actually done.","Leave the inspection open until its receipt is present; estimates are not releases."],
+    maintenance:["Maintenance","Confirm work order WO-1182 and the current repair status.","State what is known and what remains an estimate; do not treat an ETA as clearance.","Keep room 304 unavailable until repair and clearance are confirmed.","Update the work status and record clearance only after the relevant check is completed.","Keep the repair open until a clearance record exists."],
+    guest:["Guest services","Check which practical waiting or room-support options have capacity.","Confirm support availability before anyone promises it to the family.","Wait for an authorised plan and the family’s own agreement before arranging a change.","Record the handover and actual support delivered separately.","Do not treat an offer or dispatch as guest acceptance or delivery."],
+    manager:["Duty Manager","Review the room issue, named owners and which decision sits with you.","Compare options against current room, staffing and support availability; keep estimates visible.","In the real workflow, approve, hold or decline within your authority. This replay records none of those decisions.","Track each owner and revisit the plan if the repair or availability changes.","Name follow-up ownership; keep the case open until evidence and guest choice are recorded."]
+  };
+  var steps=[
+    {title:"1. Read the situation",copy:"At 2:40pm, room 304 is blocked by a leak while the Rowan family waits. A room-status record and work order are shown as fictional sources; the repair estimate is not a clearance.",fact:"Signal: room 304 blocked · WO-1182 open · family waiting. All inputs are synthetic.",next:"Check who is affected and confirm the current room and repair facts."},
+    {title:"2. Prepare options",copy:"This scripted replay brings room status, arrivals and the maintenance note together. It can present a room change or supported wait for people to check; no live records or AI model are queried.",fact:"Prepared, not selected: room change or supported wait. Availability checks remain unconfirmed.",next:"Check room, staffing and guest-support capacity before relying on either option."},
+    {title:"3. Put the decision with the right person",copy:"A Duty Manager reviews any exception against confirmed availability and delegated authority. This replay does not approve, hold, decline or choose a plan.",fact:"Approval: not made in this replay. A proposed option is not an authorised plan.",next:"The Duty Manager would review the evidence and record an explicit decision."},
+    {title:"4. Give each team owned follow-through",copy:"If a plan is authorised, Reception handles the guest update, Housekeeping confirms readiness, Maintenance owns the repair and Guest services confirms practical support. This replay sends or assigns nothing.",fact:"Dispatch and acknowledgement: not recorded. Delivery is not claimed.",next:"Name owners and due times; record each acknowledgement and action separately."},
+    {title:"5. Check what remains open",copy:"A room is ready only after repair clearance and inspection. The family’s acceptance and any support delivered need separate records. This replay contains no such receipts.",fact:"Outcome: unresolved in this replay. Room 304 remains blocked; no guest acceptance or delivery evidence is recorded.",next:"Keep the case open, name a follow-up owner and verify each outcome before closing."}
+  ];
+  var step=0,role="reception";
+  function render(){
+    var item=steps[Math.max(0,step-1)],title=step?item.title:"Start with the room delay";
+    $("guided-step-title").textContent=title;
+    $("guided-step-copy").textContent=step?item.copy:"Follow five short stages. The replay is prewritten; the separate interactive review below lets you change checks and decisions.";
+    $("guided-fact").textContent=step?item.fact:"Nothing has been decided or done in this replay.";
+    $("guided-progress").value=step;
+    $("guided-progress").textContent=step+" of 5 steps";
+    $("guided-progress-text").textContent=step+" of 5 steps";
+    $("guided-step-title").setAttribute("aria-label",title);
+    $("guided-role-label").textContent=roles[role][0]+" · next action";
+    $("guided-role-action").textContent=roles[role][Math.max(1,step)];
+    $("guided-back").disabled=step===0;
+    $("guided-next").innerHTML=step===0?'Start the replay <span class="arr" aria-hidden="true">→</span>':step===5?"At final step":"Next step <span class=\"arr\" aria-hidden=\"true\">→</span>";
+    $("guided-next").disabled=step===5;
+    $("guided-reset").hidden=step===0;
+    $("guided-app").dataset.step=String(step);
+    $("guided-app").dataset.role=role;
+    [].forEach.call($("guided-steps").children,function(li){
+      var n=Number(li.dataset.index);
+      li.classList.toggle("done",n<step);
+      if(n===step)li.setAttribute("aria-current","step");else li.removeAttribute("aria-current");
+    });
+    [].forEach.call(document.querySelectorAll(".guided-role"),function(btn){
+      btn.setAttribute("aria-pressed",String(btn.dataset.role===role));
+    });
+  }
+  $("guided-next").addEventListener("click",function(){if(step<5){step++;render()}});
+  $("guided-back").addEventListener("click",function(){if(step>0){step--;render()}});
+  $("guided-reset").addEventListener("click",function(){step=0;role="reception";render();$("guided-next").focus()});
+  [].forEach.call(document.querySelectorAll(".guided-role"),function(btn){
+    btn.addEventListener("click",function(){role=btn.dataset.role;render()});
+  });
+  render();
+})();
+</script>
 <script>
 (function(){
   var $=function(id){return document.getElementById(id)};
@@ -930,8 +1081,8 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
     render();
   });
   render();
-  // /public-demo without a fragment lands at the demo; any explicit fragment is left to the browser.
-  if(location.pathname.replace(/\/+$/,"")==="/public-demo"&&!location.hash){$("sample-demo").scrollIntoView({behavior:"instant",block:"start"})}
+  // /public-demo without a fragment opens the short replay; explicit fragments retain their destination.
+  if(location.pathname.replace(/\/+$/,"")==="/public-demo"&&!location.hash){$("guided-replay").scrollIntoView({behavior:"instant",block:"start"})}
 })();
 </script>
 <script>
@@ -1017,7 +1168,10 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
     try{id=decodeURIComponent(window.location.hash.slice(1))}catch(_){return}
     var target=document.getElementById(id);
     var disclosure=target&&target.closest("details");
-    if(disclosure)disclosure.open=true;
+    if(disclosure&&!disclosure.open){
+      disclosure.open=true;
+      window.requestAnimationFrame(function(){target.scrollIntoView({block:"start"})});
+    }
   }
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",openFragmentDisclosure,{once:true});
   else openFragmentDisclosure();
