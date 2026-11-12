@@ -4,6 +4,8 @@ import { resolve, extname, sep } from "node:path";
 import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { createAccess, cookies, cookie, SESSION_COOKIE, CSRF_COOKIE, returnPath, SESSION_MS } from "./access.mjs";
+import { seeItWork } from "./see-it-work.mjs";
+import { applicationReview } from "./application-review.mjs";
 import { responseWorkspace } from "./response-workspace.mjs";
 import { loginPage } from "./login.mjs";
 
@@ -96,6 +98,12 @@ export function createTravelServer({ access = createAccess({ getPaused: () => pr
         res.setHeader("Content-Security-Policy", htmlPolicy(html));
         return send(200, html);
       }
+      // Explicit presentation-only entry; never opens the protected SPA or files.
+      if (path === "/see-it-work" || path === "/see-it-work/") {
+        const html = seeItWork();
+        res.setHeader("Content-Security-Policy", htmlPolicy(html));
+        return send(200, html);
+      }
       // Only this separately built, approved fictional story is public.
       // No protected SPA fallback or general static directory is opened here.
       if (path === "/public-wellbeing" || path === "/public-wellbeing/") {
@@ -129,6 +137,12 @@ export function createTravelServer({ access = createAccess({ getPaused: () => pr
         if (navigation) return showLogin(access.configured() ? 401 : 503, returnPath(req.url),
           jar[SESSION_COOKIE] ? "Your partner session has ended. Enter your access code again." : "");
         return send(401, '{"error":"Partner access required"}', "application/json");
+      }
+      // Application evidence remains behind the existing session gate.
+      if (path === "/partner-room/application-review" || path === "/partner-room/application-review/") {
+        const html = await applicationReview();
+        res.setHeader("Content-Security-Policy", htmlPolicy(html));
+        return send(200, html);
       }
       // Dedicated reviewed package, behind the same session boundary as Partner Room.
       if (path === "/partner-room/response-workspace" || path === "/partner-room/response-workspace/") {
