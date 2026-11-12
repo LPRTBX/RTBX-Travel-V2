@@ -22,6 +22,7 @@ function PublicWellbeing() {
         </a>
         <nav aria-label="Public demonstration navigation">
           <a href="/">Public overview</a>
+          <a href="/see-it-work">See it work</a>
           <a href="/public-demo#sample-demo">Hotel room demo</a>
         </nav>
       </header>
