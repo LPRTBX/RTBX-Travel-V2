@@ -7,7 +7,7 @@ export async function responseWorkspace() {
   const html = await readFile(new URL("./private/response-workspace.html", import.meta.url), "utf8");
   const manifest = JSON.parse(await readFile(new URL("./private/response-workspace.json", import.meta.url), "utf8"));
   if (createHash("sha256").update(html).digest("hex") !== manifest.sha256) throw new Error("Workspace package integrity mismatch");
-  const controls = `<nav class="partner-return" aria-label="Partner Room return"><a href="/partner-room">← Return to Partner Room</a></nav>
+  const controls = `<nav class="partner-return" aria-label="Partner Room return"><a href="/partner-room">← Return to Partner Room</a> · <a href="/partner-room/application-review">Application review</a> · <a href="/see-it-work">Public walkthrough</a></nav>
 <style>.partner-return{padding:12px 20px;background:#102d39}.partner-return a{display:inline-flex;align-items:center;min-height:44px;color:#fff;font:600 16px system-ui}.partner-return a:focus-visible{outline:3px solid #fff;outline-offset:4px}</style>
 <script>
 (() => {

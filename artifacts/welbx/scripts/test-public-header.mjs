@@ -18,7 +18,7 @@ try {
     assert.equal(await page.locator(".topbar").count(), 0);
     assert.equal(await header.getByRole("link", { includeHidden: true }).count(), 7);
     assert.equal(await header.locator(".hdr-demo").count(), 1);
-    assert.equal(await header.locator(".hdr-demo").getAttribute("href"), "/public-demo#guided-replay");
+    assert.equal(await header.locator(".hdr-demo").getAttribute("href"), "/see-it-work");
     assert(await header.locator(".brand .sub").isVisible());
     const geometry = await header.evaluate(el => {
       const brand = el.querySelector(".brand").getBoundingClientRect();
@@ -39,7 +39,7 @@ try {
       assert.equal(await toggle.getAttribute("aria-expanded"), "true");
       assert.equal(await page.evaluate(() => document.activeElement.textContent.trim()), "How it works");
       await page.keyboard.press("Tab");
-      assert.equal(await page.evaluate(() => document.activeElement.textContent.trim()), "In action");
+      assert.equal(await page.evaluate(() => document.activeElement.textContent.trim()), "See it work");
       await page.keyboard.press("Escape");
       assert.equal(await toggle.getAttribute("aria-expanded"), "false");
       assert(await toggle.evaluate(el => el === document.activeElement));
@@ -47,16 +47,22 @@ try {
     } else {
       assert(geometry.navTop < geometry.bottom && geometry.navBottom > geometry.top, `${width}: navigation wrapped`);
     }
-    for (const [label, hash] of [
+    for (const [label, destination] of [
       ["How it works", "#existing-systems"],
-      ["In action", "#coordinated-response"],
+      ["See it work", "/see-it-work"],
       ["Guest experience samples", "#travel-guest-app"],
       ["Outcomes", "#outcomes"],
     ]) {
       if (width <= 1100 && !(await page.locator("#site-nav").isVisible())) await toggle.click();
       await header.getByRole("link", { name: label, exact: true }).click();
-      assert.equal(new URL(page.url()).hash, hash);
-      assert.equal(await page.locator(hash).count(), 1);
+      if (destination.startsWith("#")) {
+        assert.equal(new URL(page.url()).hash, destination);
+        assert.equal(await page.locator(destination).count(), 1);
+      } else {
+        await page.waitForURL(`${base}${destination}`);
+        assert(await page.getByRole("heading", { name: /A guest needs help/ }).isVisible());
+        await page.goBack();
+      }
     }
     assert.equal(await page.locator("footer").getByRole("link", { name: /Back to JALDO/ }).getAttribute("href"), "https://wearejaldo.com");
     assert.equal(await page.locator("#contact").count(), 1);
@@ -67,8 +73,12 @@ try {
     await page.waitForURL("**/partner-access");
     assert(await page.getByLabel("Access code", { exact: true }).isVisible());
     await page.goto(base);
-    await page.getByRole("link", { name: "Explore the demo", exact: true }).click();
-    await page.waitForURL("**/public-demo#guided-replay");
+    await page.getByRole("link", { name: "See the hotel respond", exact: true }).click();
+    await page.waitForURL("**/see-it-work");
+    await page.locator('a[href="/public-demo#sample-demo"]').click();
+    await page.waitForURL("**/public-demo#sample-demo");
+    assert(await page.locator("#demo-app").isVisible());
+    await page.goto(`${base}/public-demo#guided-replay`);
     assert(await page.locator("#guided-app").isVisible());
     assert(await page.getByText("Scripted fictional replay · No decisions or actions are recorded", { exact: true }).isVisible());
     const replay = page.locator("#guided-app");

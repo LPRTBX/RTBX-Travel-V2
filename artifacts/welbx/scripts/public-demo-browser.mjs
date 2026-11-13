@@ -12,7 +12,7 @@ const evidence = {
 };
 
 // Compact, keyboard-operable navigation through tablet widths; full navigation above.
-export async function checkPublicNavigation(page, width) {
+export async function checkPublicNavigation(page, base, width) {
   const toggle = page.locator("#nav-toggle");
   const links = page.locator("#site-nav a");
   const heroTop = await page.locator(".hero").evaluate(el => el.getBoundingClientRect().top + scrollY);
@@ -29,12 +29,22 @@ export async function checkPublicNavigation(page, width) {
   assert(await page.locator("#existing-systems").evaluate(el => !!el.closest("#outcomes")), "system fit was separated from outcomes");
   assert(await page.locator("#benefits").evaluate(el => !!el.closest("#supporting-detail")) && await page.locator("#examples").evaluate(el => !!el.closest("#supporting-detail")), "supporting examples are not grouped progressively");
   const expectedNavigation = [
-    ["How it works", "#existing-systems"], ["In action", "#coordinated-response"],
+    ["How it works", "#existing-systems"], ["See it work", "/see-it-work"],
     ["Guest experience samples", "#travel-guest-app"], ["Outcomes", "#outcomes"], ["Partner Room", "/partner-access"],
   ];
   const navigation = await links.evaluateAll(list => list.map(link => [link.textContent.trim(), link.getAttribute("href")]));
   assert(JSON.stringify(navigation) === JSON.stringify(expectedNavigation), `public navigation changed: ${JSON.stringify(navigation)}`);
-  assert(await page.getByRole("link", { name: "Explore the demo", exact: true }).isVisible(), "header demo entry not prominent");
+  const demoAction = page.locator(".hdr-demo");
+  assert(await demoAction.isVisible() && await demoAction.getAttribute("href") === "/see-it-work", "header See it work action is missing or points elsewhere");
+  assert(await demoAction.getAttribute("aria-label") === "See the hotel respond", "header action label changed");
+  const responseLink = page.getByRole("link", { name: "See the coordinated response", exact: true });
+  assert(await responseLink.count() === 1, "existing hotel-response explanation link is missing");
+  await responseLink.focus();
+  assert(await responseLink.evaluate(el => getComputedStyle(el).outlineStyle !== "none"), "hotel-response link focus is not visible");
+  await page.keyboard.press("Enter");
+  await page.waitForURL(url => url.hash === "#coordinated-response");
+  assert(await page.locator("#coordinated-response").isVisible(), "existing hotel-response explanation is not reachable");
+  await page.goto(base, { waitUntil: "networkidle" });
   if (width > 1100) {
     assert(!(await toggle.isVisible()) && await links.first().isVisible(), "desktop navigation collapsed");
     assert(await page.locator("#site-nav a:visible").count() === expectedNavigation.length, "desktop navigation incomplete");
@@ -100,20 +110,75 @@ export async function checkPublicGuestShowcase(page, base, width) {
   assert(await invitation.getByRole("heading", { name: "Guest experience preview", exact: true }).isVisible(), "sample-only guest preview missing");
   assert(/guest app remains separate and is not linked from this site/.test(await invitation.innerText()), "guest app access boundary missing");
   const showcaseLinks = await showcase.locator("a").evaluateAll(links => links.map(link => link.getAttribute("href")));
-  assert(JSON.stringify(showcaseLinks) === JSON.stringify(["/public-demo#guided-replay"]), "guest showcase links must remain limited to the public response sample");
+  assert(JSON.stringify(showcaseLinks) === JSON.stringify(["/see-it-work"]), "guest showcase must link only to the public See it work walkthrough");
   assert(/No live booking, payment, hotel messaging or Core integration is implied/.test(await invitation.innerText()), "guest access boundary missing");
   const response = showcase.getByRole("link", { name: /^See how the hotel coordinates the response/ });
-  assert(await response.getAttribute("href") === "/public-demo#guided-replay", "guest response proof no longer uses the public sample");
+  assert(await response.getAttribute("href") === "/see-it-work", "guest response entry no longer uses See it work");
   await response.focus();
   await page.keyboard.press("Enter");
-  await page.waitForURL(`${base}/public-demo#guided-replay`);
-  assert(await page.locator("#guided-app").isVisible(), "guest response CTA missed the public guided replay");
-  assert(await page.getByText("Scripted fictional replay · No decisions or actions are recorded", { exact: true }).isVisible(), "guided replay status is unclear");
+  await page.waitForURL(`${base}/see-it-work`);
+  assert(await page.getByRole("heading", { name: /A guest needs help/ }).isVisible(), "guest response CTA missed See it work");
   await page.goBack({ waitUntil: "networkidle" });
   assert(new URL(page.url()).hash === "#travel-guest-app", "Back lost guest showcase");
   await page.goForward({ waitUntil: "networkidle" });
-  assert(new URL(page.url()).pathname === "/public-demo" && new URL(page.url()).hash === "#guided-replay", "Forward lost guest response sample");
+  assert(new URL(page.url()).pathname === "/see-it-work", "Forward lost See it work");
   await page.goto(base, { waitUntil: "networkidle" });
+}
+
+export async function checkSeeItWork(page, base, width) {
+  await page.goto(base, { waitUntil: "networkidle" });
+  const entry = page.locator(".hdr-demo");
+  assert(await entry.isVisible() && await entry.getAttribute("href") === "/see-it-work", "homepage See it work entry is missing");
+  await entry.focus();
+  assert(await entry.evaluate(el => getComputedStyle(el).outlineStyle !== "none"), `See it work focus is not visible at ${width}px`);
+  await page.keyboard.press("Enter");
+  await page.waitForURL(`${base}/see-it-work`);
+  assert(await page.getByRole("heading", { name: /A guest needs help/ }).isVisible(), "See it work headline missing");
+  assert(/Illustrative demonstrations/.test(await page.locator(".notice").innerText()), "fictional demonstration label missing");
+  assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `See it work overflow at ${width}px`);
+
+  const roleDetails = page.locator("#roles details");
+  assert(await roleDetails.count() === 4, "role perspectives are missing");
+  for (const detail of await roleDetails.all()) {
+    const summary = detail.locator("summary");
+    await summary.focus();
+    assert(await summary.evaluate(el => document.activeElement === el), "role disclosure is not keyboard focusable");
+    await page.keyboard.press("Enter");
+    assert(await detail.getAttribute("open") !== null, "role disclosure did not open with Enter");
+    assert((await detail.innerText()).trim().length > (await summary.innerText()).trim().length, "opened role disclosure has no detail");
+    await page.keyboard.press("Space");
+    assert(await detail.getAttribute("open") === null, "role disclosure did not close with Space");
+  }
+
+  for (const [path, title] of [
+    ["/public-wellbeing?scenario=practical", /A guest's room is delayed/],
+    ["/public-wellbeing?scenario=unsafe", /Guest feels unsafe/],
+  ]) {
+    const link = page.locator(`a[href="${path}"]`).first();
+    assert(await link.count() === 1, `scenario entry missing: ${path}`);
+    await link.click();
+    await page.waitForURL(`${base}${path}`);
+    assert(await page.getByRole("heading", { name: title }).isVisible(), `scenario did not open: ${path}`);
+    assert(await page.locator('a[href="/"]').filter({ hasText: "Public overview" }).isVisible(), `public return link missing from ${path}`);
+    assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${path} overflow at ${width}px`);
+    await page.locator('a[href="/"]').filter({ hasText: "Public overview" }).click();
+    await page.waitForURL(base + "/");
+    assert(await page.locator("h1").isVisible(), `public overview return failed from ${path}`);
+    await page.locator(".hdr-demo").click();
+    await page.waitForURL(`${base}/see-it-work`);
+  }
+
+  const roomDemo = page.locator('a[href="/public-demo#sample-demo"]');
+  assert(await roomDemo.count() === 1, "existing room-disruption demo link missing");
+  await roomDemo.click();
+  await page.waitForURL(`${base}/public-demo#sample-demo`);
+  assert(await page.locator("#sample-demo").count() === 1, "existing room-disruption demo destination missing");
+  const returnToStory = page.locator(".hdr-demo");
+  assert(await returnToStory.getAttribute("href") === "/see-it-work", "room demo return action is missing");
+  await returnToStory.click();
+  await page.waitForURL(`${base}/see-it-work`);
+  assert(await page.getByRole("heading", { name: /A guest needs help/ }).isVisible(), "room demo return to See it work failed");
+  assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `See it work return overflow at ${width}px`);
 }
 
 export async function checkPublicDemo(page, base, width) {
@@ -192,9 +257,12 @@ export async function checkPublicDemo(page, base, width) {
   await page.locator("#principles summary").focus();
   await page.keyboard.press("Enter");
   assert(await page.locator("#principles").evaluate(el => el.open), "control principles disclosure is not keyboard operable");
-  await page.getByRole("link", { name: "Explore the demo", exact: true }).focus();
+  await page.getByRole("link", { name: "See the hotel respond", exact: true }).focus();
   await page.keyboard.press("Enter");
-  await page.waitForURL(url => url.pathname === "/public-demo" && url.hash === "#guided-replay");
+  await page.waitForURL(`${base}/see-it-work`);
+  await page.locator('a[href="/public-demo#sample-demo"]').focus();
+  await page.keyboard.press("Enter");
+  await page.waitForURL(url => url.pathname === "/public-demo" && url.hash === "#sample-demo");
   await page.goto(`${base}/public-demo`, { waitUntil: "networkidle" });
   await page.waitForFunction(() => Math.abs(document.getElementById("guided-replay").getBoundingClientRect().top) < 180);
   assert(await page.getByText("Scripted fictional replay · No decisions or actions are recorded", { exact: true }).isVisible(), "scripted replay status missing");
