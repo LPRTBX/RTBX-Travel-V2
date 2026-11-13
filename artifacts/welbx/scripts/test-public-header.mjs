@@ -87,7 +87,7 @@ try {
     assert(await page.locator("#guided-next").evaluate(el => getComputedStyle(el).outlineStyle !== "none"), `${width}: replay action lacks visible keyboard focus`);
     await page.keyboard.press("Enter");
     assert.equal(await replay.getAttribute("data-step"), "1");
-    await page.getByRole("button", { name: "Housekeeping", exact: true }).focus();
+    await replay.getByRole("button", { name: "Housekeeping", exact: true }).focus();
     await page.keyboard.press("Enter");
     assert.equal(await replay.getAttribute("data-step"), "1", "role switch changed replay progress");
     assert.equal(await replay.getAttribute("data-role"), "housekeeping");

@@ -404,8 +404,14 @@ export async function checkPublicDemo(page, base, width) {
   assert(await page.locator("#demo-progress").getAttribute("value") === "0", "reset retained progress");
   assert(/No decisions yet/.test(await page.locator("#demo-history").innerText()), "reset retained decision history");
   // Existing AI explanation must remain independent from the expanded public demo.
+  await page.locator("#ai-in-the-work > summary").focus();
+  await page.keyboard.press("Enter");
+  assert(await page.locator("#ai-in-the-work").evaluate(el => el.open), "AI explanation did not reopen after the room demo");
   assert(await page.locator("#aiw-title").innerText() === "Synthetic inputs", "demo controls changed existing AI story");
   assert(await page.locator("#aiw-role-reception").getAttribute("aria-pressed") === "true", "demo role changed AI role");
   assert(await page.locator("#aiw-evidence-missing").getAttribute("aria-pressed") === "true", "demo controls changed AI evidence");
+  await page.locator("#ai-in-the-work > summary").focus();
+  await page.keyboard.press("Enter");
+  assert(!(await page.locator("#ai-in-the-work").evaluate(el => el.open)), "AI detail did not close after the independence check");
   process.stdout.write(`PASS connected public demo: both paths, hold/decline, revised approval, receipts/acceptance, roles/reset, fragments, early-advance regression, guided path (${actions} steps) and keyboard at ${width}px\n`);
 }

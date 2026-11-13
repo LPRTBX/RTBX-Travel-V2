@@ -33,9 +33,16 @@ try {
     assert(await page.locator("h1").isVisible(), "public introduction missing");
     assert(await page.locator(".honest-grid, #status").count() === 0, "removed public proof-status block returned");
     assert(await page.locator("#demo-notice").textContent() === "Interactive fictional demonstration — no live actions", "concise demonstration note missing");
-    for (const title of ["Your people retain authority", "Capacity is checked before commitments", "Completion needs evidence", "Improvements are reviewed before use"]) {
-      assert(await page.getByRole("heading", { name: title, exact: true }).count() === 1, `response principle missing: ${title}`);
+    const principles = page.locator("#principles");
+    await principles.locator("summary").focus();
+    await page.keyboard.press("Enter");
+    assert(await principles.evaluate(el => el.open), "control principles did not open by keyboard");
+    for (const title of ["People retain authority", "Capacity before commitment", "Evidence before completion", "Review before change"]) {
+      assert(await principles.getByRole("heading", { name: title, exact: true }).isVisible(), `response principle missing: ${title}`);
     }
+    await principles.locator("summary").focus();
+    await page.keyboard.press("Enter");
+    assert(!(await principles.evaluate(el => el.open)), "control principles did not close by keyboard");
     assert((await page.request.get(base + "/partner-room/validation")).status() === 401, "validation details exposed anonymously");
     assert(!requests.some(path => path.startsWith("/assets/") || path.startsWith("/src/")), "public page loaded partner code");
     assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `public overflow at ${width}`);
