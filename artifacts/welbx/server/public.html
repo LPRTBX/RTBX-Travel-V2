@@ -47,7 +47,7 @@ header nav .partner{color:#a9bfc3;font-size:13px;padding-left:26px;border-left:1
 .menu-btn:focus-visible,.hdr-demo:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
 .hd-s{display:none}
 @media(max-width:1180px){.hdr-in{gap:16px 26px}header nav{gap:4px 22px}}
-@media(max-width:960px){
+@media(max-width:1100px){
   .hdr-in{width:calc(100% - 48px);padding-block:14px;gap:10px 12px}
   .brand{gap:12px;flex:1 1 0;min-width:0}
   .brand img{width:100px}
@@ -164,6 +164,42 @@ section{scroll-margin-top:12px}
 .demo{background:var(--ivory);padding-block:84px}
 .demo-head{display:flex;justify-content:space-between;align-items:end;gap:28px;flex-wrap:wrap}
 .label{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:8px 12px;border:1px dashed var(--orange);color:#8a4518;background:#fbeee4}
+.guided{background:#e8efed;padding-block:64px}
+.guided-lede{max-width:760px}
+.guided-fit{margin:24px 0 0;padding:16px 18px;background:#fffaf3;border-left:3px solid var(--teal);font-size:14px;color:var(--muted)}
+.guided-fit strong{color:var(--navy)}
+.guided-card{margin-top:28px;background:var(--paper);border:1px solid var(--line)}
+.guided-top{display:grid;grid-template-columns:1fr minmax(220px,320px);gap:28px;align-items:center;padding:24px 28px;border-bottom:1px solid var(--line)}
+.guided-top h3{font-size:22px;margin:8px 0}
+.guided-top p{margin:0;font-size:14px}
+.guided-progress label{display:block;font-weight:600;font-size:13px;margin-bottom:8px}
+.guided-progress progress{display:block;width:100%;height:12px;accent-color:var(--teal)}
+.guided-body{display:grid;grid-template-columns:220px 1fr}
+.guided-track{padding:22px;background:#f2f1ea;border-right:1px solid var(--line)}
+.guided-track ol{list-style:none;margin:0;padding:0;counter-reset:guided}
+.guided-track li{display:flex;gap:10px;align-items:center;padding:9px 0;color:var(--muted);font-size:13px}
+.guided-track li::before{counter-increment:guided;content:counter(guided);width:26px;height:26px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;flex:none;background:var(--ivory);font-size:11px}
+.guided-track li[aria-current="step"]{color:var(--navy);font-weight:700}
+.guided-track li[aria-current="step"]::before{background:var(--navy);border-color:var(--navy);color:#fff}
+.guided-track li.done::before{content:"✓";background:var(--mist);border-color:var(--teal);color:var(--navy)}
+.guided-main{padding:28px}
+.guided-main h3{font-size:26px;margin:12px 0}
+.guided-main p{margin:12px 0}
+.guided-fact{background:#fff3e9;border-left:3px solid var(--orange);padding:14px 16px;color:var(--navy);font-size:14px}
+.guided-rolebar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:20px 0 14px}
+.guided-rolebar span{font-size:12px;color:var(--muted);margin-right:4px}
+.guided-role{min-height:42px;padding:8px 12px;border:1px solid #81959788;background:var(--paper);color:var(--navy);font:600 13px/1.2 inherit;font-family:inherit;cursor:pointer}
+.guided-role[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.guided-action{padding:16px 18px;background:#e3f2f1;border-left:3px solid var(--teal);margin-top:18px}
+.guided-action b{display:block;font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:#175b5e}
+.guided-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.guided-actions .btn{min-height:46px;padding:12px 18px}
+.guided-outcome{margin:0;padding:16px 22px;border-top:1px solid var(--line);font-size:14px;background:#f5f3ed}
+.guided-outcome strong{color:var(--navy)}
+.guided-details{margin-top:18px;border-top:1px solid var(--line);padding-top:6px}
+.guided-details summary{cursor:pointer;min-height:48px;display:flex;align-items:center;font-weight:600}
+.guided-details p,.guided-details li{font-size:14px;color:var(--muted)}
+@media(max-width:760px){.guided-top,.guided-body{grid-template-columns:1fr}.guided-track{border-right:0;border-bottom:1px solid var(--line);padding:16px 20px}.guided-track ol{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}.guided-main{padding:22px}.guided-top{padding:20px}.guided{padding-block:52px}}
 .stage{margin-top:38px;display:grid;grid-template-columns:260px 1fr;gap:0;background:var(--paper);border:1px solid var(--line)}
 .steps{list-style:none;margin:0;padding:26px;border-right:1px solid var(--line);background:#f2f1ea}
 .steps li{display:flex;gap:12px;align-items:center;padding:11px 0;font-size:14px;color:var(--muted)}
@@ -343,6 +379,32 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
 @media(max-width:760px){.travel-guest-app{padding:56px 0}.travel-guest-screens{grid-template-columns:1fr;gap:38px}.travel-guest-screens figure{max-width:360px;margin-inline:auto}.travel-guest-phone{max-width:280px}.travel-guest-actions{align-items:stretch;flex-direction:column;gap:12px}.travel-guest-access{padding:18px}.travel-guest-coordination{margin-top:32px}}
 
 .travel-section-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;flex-wrap:wrap}.travel-tag{display:inline-block;font-size:10px;border:1px solid var(--line);padding:8px 12px}.travel-eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700}.travel-guest-app h2 span{color:var(--teal)}.travel-button,.travel-text-link{display:inline-flex;align-items:center;gap:20px;min-height:48px;text-decoration:none;font-size:14px;font-weight:600}.travel-button-dark{background:var(--navy);color:white;padding:16px 22px}.travel-text-link{color:var(--teal)}
+  /* Focused spacing polish; retain the original sans-serif brand system and palette. */
+  .hero{min-height:min(760px,calc(100svh - 86px));display:flex;align-items:center}
+  .hero .wrap{padding-block:88px 76px}
+  .band,.demo,.contact{padding-block:88px}
+  .travel-guest-app{padding:88px 0}
+  .btn{transition:background .2s,color .2s,transform .18s}
+  .btn:hover{transform:translateY(-2px)}
+  .flow{margin-top:32px}
+  .loop{padding-block:76px}
+  .loop ol{gap:0 18px}
+  .loop li{padding-right:12px}
+  .aiw-disclosure,.principle-disclosure,.support-disclosure{border-top:1px solid var(--line);margin-top:22px;padding-top:8px}
+  .aiw-disclosure>summary,.principle-disclosure>summary,.support-disclosure>summary,.system-fit>summary{cursor:pointer;min-height:48px;display:flex;align-items:center;font-size:16px;font-weight:700;color:var(--navy)}
+  .aiw-disclosure>summary:hover,.principle-disclosure>summary:hover,.support-disclosure>summary:hover,.system-fit>summary:hover{color:var(--teal)}
+  #ai-in-the-work>summary{display:block;padding-block:12px}
+  #ai-in-the-work>summary .eyebrow{display:block}
+  #ai-in-the-work>summary h2,.principle-disclosure>summary h2{font-size:clamp(22px,2.7vw,34px);line-height:1.2}
+  .system-fit>summary #coord-h{font-size:inherit;font-weight:inherit;letter-spacing:inherit;margin:0}
+  .outcomes .coord{margin-top:48px;padding:32px;background:var(--navy);color:#f8f6f1}
+  .outcomes .coord p{color:#cfdde0}
+  .outcomes .coord h3{color:#f8f6f1}
+  .outcomes .coord figure img{width:100%;height:auto;display:block}
+  .support{padding-block:48px}
+  @media(max-width:960px){.hero{min-height:0}.hero .wrap{padding-block:76px 64px}.contact-grid{grid-template-columns:1fr;gap:32px}}
+  @media(max-width:600px){.hero .wrap{padding-block:56px 48px}.band,.demo,.contact,.travel-guest-app{padding-block:56px}.outcomes .coord{padding:22px}.aiw-panel{padding:22px 20px}}
+  @media(prefers-reduced-motion:reduce){.btn:hover{transform:none}}
 </style>
 </head>
 <body>
@@ -355,13 +417,13 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
   </a>
   <nav id="site-nav" aria-label="Main navigation">
     <a href="#existing-systems">How it works</a>
-    <a href="#coordinated-response">In action</a>
-    <a href="#travel-guest-app">Guest app</a>
+    <a href="/see-it-work">See it work</a>
+    <a href="#travel-guest-app">Guest experience samples</a>
     <a href="#outcomes">Outcomes</a>
     <a class="partner" href="/partner-access">Partner Room</a>
   </nav>
   <div class="hdr-cta">
-    <a class="hdr-demo" href="/public-demo#sample-demo" aria-label="Explore the demo"><span class="hd-l">Explore the demo</span><span class="hd-s">Demo</span></a>
+    <a class="hdr-demo" href="/see-it-work" aria-label="See the hotel respond"><span class="hd-l">See it work</span><span class="hd-s">Demo</span></a>
     <button type="button" class="menu-btn" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" hidden><span class="bars" aria-hidden="true"></span>Menu</button>
   </div>
  </div>
@@ -381,36 +443,138 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
       </ul>
       <div class="actions">
         <a class="btn btn-light" href="#coordinated-response">See the coordinated response <span class="arr" aria-hidden="true">&rarr;</span></a>
-        <a class="btn btn-ghost" href="#sample-demo">Try the guided demo <span class="arr" aria-hidden="true">&rarr;</span></a>
+        <a class="btn btn-ghost" href="/see-it-work">Watch the hotel respond <span class="arr" aria-hidden="true">&rarr;</span></a>
       </div>
       <p class="note">Today this is synthetic working proof and a proposed pilot, not a live deployment. Commercial and deeper materials sit in the Partner Room, by invitation.</p>
     </div>
   </section>
 
-        <section id="travel-guest-app" class="travel-guest-app" aria-labelledby="travel-guest-app-heading">
-          <div class="wrap">
-            <div class="travel-section-heading">
-              <div><p class="travel-eyebrow">The guest experience</p><h2 id="travel-guest-app-heading">One connected stay.<br /><span>Powered by JALDO.</span></h2></div>
-              <span class="travel-tag">Interactive prototype · Synthetic data</span>
+  <section id="guided-replay" class="guided" aria-labelledby="guided-h">
+    <div class="wrap">
+      <p class="eyebrow">A hotel moment, made clear</p>
+      <h2 id="guided-h">One delayed room. A clear next step for every team.</h2>
+      <p class="lede guided-lede">A fictional 2:40pm arrival: room 304 is blocked by a leak while a family waits. See what the system can recognise, what it can prepare, who must decide and what still needs checking.</p>
+      <p class="label">Scripted fictional replay · No decisions or actions are recorded</p>
+      <p class="guided-fit"><strong>Works alongside existing systems:</strong> room status, arrivals and work-order records can provide context. JALDO can prepare owned next steps to reduce duplicate chasing between desks and shifts. Any connection is proposed until access, integration testing and site readiness are confirmed; there are no live hotel connections here.</p>
+      <details class="guided-details">
+        <summary>Sources and what this replay does not claim</summary>
+        <ul>
+          <li>Synthetic arrivals note: the Rowan family has been waiting since 2:20pm.</li>
+          <li>Synthetic room-status record: room 304 is blocked and not released.</li>
+          <li>Synthetic maintenance work order WO-1182: leak repair is still open; an estimate is not clearance.</li>
+          <li>This replay does not make or record a human approval, dispatch a task, create delivery evidence, record guest acceptance or claim resolution.</li>
+        </ul>
+      </details>
+      <div class="guided-card" id="guided-app" data-step="0" data-role="reception">
+        <div class="guided-top">
+          <div><span class="label">Guided replay · illustrative sequence</span><h3 id="guided-step-title">Start with the room delay</h3><p id="guided-step-copy" aria-live="polite">Follow five short stages. The replay is prewritten; the separate interactive review below lets you change checks and decisions.</p></div>
+          <div class="guided-progress">
+            <label for="guided-progress"><span id="guided-progress-label">Replay progress</span> · <span id="guided-progress-text">0 of 5 steps</span></label>
+            <progress id="guided-progress" max="5" value="0">0 of 5 steps</progress>
+          </div>
+        </div>
+        <div class="guided-body">
+          <nav class="guided-track" aria-label="Guided replay steps">
+            <ol id="guided-steps">
+              <li data-index="1">Read the situation</li>
+              <li data-index="2">Prepare options</li>
+              <li data-index="3">Human decision</li>
+              <li data-index="4">Owned follow-through</li>
+              <li data-index="5">Check what remains open</li>
+            </ol>
+          </nav>
+          <div class="guided-main">
+            <p class="guided-fact" id="guided-fact">Nothing has been decided or done in this replay.</p>
+            <div class="guided-rolebar" role="group" aria-label="Role perspective for the replay">
+              <span>Next action by role · explanation only</span>
+              <button class="guided-role" id="guided-role-reception" type="button" data-role="reception" aria-pressed="true">Reception</button>
+              <button class="guided-role" id="guided-role-housekeeping" type="button" data-role="housekeeping" aria-pressed="false">Housekeeping</button>
+              <button class="guided-role" id="guided-role-maintenance" type="button" data-role="maintenance" aria-pressed="false">Maintenance</button>
+              <button class="guided-role" id="guided-role-guest" type="button" data-role="guest" aria-pressed="false">Guest services</button>
+              <button class="guided-role" id="guided-role-manager" type="button" data-role="manager" aria-pressed="false">Duty Manager</button>
             </div>
-            <p class="travel-guest-intro">Behind every guest interaction, JALDO Travel is designed to coordinate the people, systems, decisions and follow-through. See how that operating model comes together in the guest app.</p>
-            <div class="travel-guest-screens">
-              <figure><div class="travel-guest-phone"><img src="/images/guest-app/stay.webp" alt="Actual guest prototype Stay screen, showing room details, service requests and a discreet support entry." width="530" height="936" loading="lazy" decoding="async" /></div><figcaption><span>01 / Your stay</span><h3>Help, without the chase.</h3><p>Requests, progress and discreet support in one familiar place.</p></figcaption></figure>
-              <figure><div class="travel-guest-phone"><img src="/images/guest-app/explore.webp" alt="Actual guest prototype Explore screen, showing activity, dining, fitness and show filters and optional suggestion preferences." width="530" height="936" loading="lazy" decoding="async" /></div><figcaption><span>02 / Explore</span><h3>A little more to the stay.</h3><p>Free and paid experiences, saved favourites and suggestions the guest chooses to receive.</p></figcaption></figure>
-              <figure><div class="travel-guest-phone"><img src="/images/guest-app/plans.webp" alt="Actual guest prototype My plans screen, showing the connected arrival story and an unresolved request marked for follow-up." width="530" height="936" loading="lazy" decoding="async" /></div><figcaption><span>03 / My plans</span><h3>Clear about what’s agreed.</h3><p>Enquiries, arrangements, changed plans and outcomes that still need confirmation.</p></figcaption></figure>
-            </div>
-            <div class="travel-guest-coordination"><p class="travel-eyebrow">One operating model</p><h3>Guest need. Accountable response. Checked outcome.</h3><p>The intended architecture connects JALDO Core OS, its Travel deployment and the guest and staff interfaces. The guest app currently demonstrates this model through scripted interactions; its Core runtime connection is not yet verified.</p></div>
-            <div class="travel-guest-actions">
-              <span class="travel-tag">Guest experience preview · Sample screens</span>
-              <a href="/public-demo#sample-demo" class="travel-text-link">See how the hotel coordinates the response <span aria-hidden="true">↗</span></a>
-            </div>
-            <div id="travel-guest-access" class="travel-guest-access" tabindex="-1">
-              <h3>Guest experience preview</h3>
-              <p>These sample screens illustrate the standalone guest experience. The guest app remains separate and is not linked from this site at this stage.</p>
-              <p class="travel-guest-boundary">Actual screens captured from the branded guest review build. All guests, hotel details, experiences, prices, staff updates and confirmations are fictional. No live booking, payment, hotel messaging or Core integration is implied. The hotel-response link opens the public fictional sample; deeper Partner Room materials retain their existing access controls.</p>
+            <div class="guided-action" aria-live="polite"><b id="guided-role-label">Reception · next action</b><span id="guided-role-action">Confirm the family’s needs and give an honest update; don’t promise a release time until an inspection is recorded.</span></div>
+            <div class="guided-actions">
+              <button type="button" class="btn btn-ghost" id="guided-back" disabled>Previous</button>
+              <button type="button" class="btn btn-dark" id="guided-next">Start the replay <span class="arr" aria-hidden="true">&rarr;</span></button>
+              <button type="button" class="btn btn-ghost" id="guided-reset" hidden>Reset replay</button>
+              <a class="btn btn-ghost" href="#sample-demo">Open the detailed interactive review <span class="arr" aria-hidden="true">&rarr;</span></a>
             </div>
           </div>
-        </section>
+        </div>
+        <p class="guided-outcome" id="guided-outcome"><strong>Replay status: not resolved.</strong> Room 304 stays blocked pending repair clearance and inspection. Guest acceptance and delivery evidence are not recorded here; no resolution is claimed.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="loop" class="loop band" aria-labelledby="loop-h">
+    <div class="wrap">
+      <p class="eyebrow">The JALDO coordination loop</p>
+      <h2 id="loop-h">Six steps. One accountable response.</h2>
+      <p class="lede">AI supports interpretation and options; configured rules set boundaries and authorised people decide. Teams act, adapt when conditions change, record evidence and review what was learned.</p>
+      <ol>
+        <li><h3>Signal + context</h3><p>Connect a request or operational signal with its source, timing, promises and relevant capacity.</p></li>
+        <li><h3>Interpret + prepare options</h3><p>AI links the context, names uncertainty and drafts choices. It does not choose, diagnose or infer distress.</p></li>
+        <li><h3>Apply rules + decide</h3><p>Configured rules define limits. An authorised person decides where approval is required; guests choose whether to accept.</p></li>
+        <li><h3>Coordinate + adapt</h3><p>Named people receive actions and due times. If facts change, the plan can be reviewed and checked again.</p></li>
+        <li><h3>Record evidence</h3><p>Delivery, feedback and resolution remain distinct. Missing evidence stays visibly unconfirmed.</p></li>
+        <li><h3>Review learning</h3><p>People review outcomes and proposed improvements before any limited test or change.</p></li>
+      </ol>
+      <details id="principles" class="principle-disclosure">
+        <summary><h2 id="principles-h">JALDO coordinates the work. Your people retain authority.</h2></summary>
+        <div class="rules">
+          <div><h3>People retain authority</h3><p>Named owners act within agreed authority; exceptions need authorised approval.</p></div>
+          <div><h3>Capacity before commitment</h3><p>Staff, rooms and support availability are checked before promises rely on them.</p></div>
+          <div><h3>Evidence before completion</h3><p>Missing receipts or measurements remain unconfirmed.</p></div>
+          <div><h3>Review before change</h3><p>People review a proposed improvement; a replay does not deploy it.</p></div>
+        </div>
+      </details>
+      <details id="ai-in-the-work" class="aiw-disclosure">
+        <summary>
+          <span class="eyebrow">Progressive detail</span>
+          <h2 id="aiw-h">AI interprets. Rules set limits. People decide. Workflow follows through.</h2>
+        </summary>
+        <div class="aiw-head">
+          <p class="lede">Explore the sources, uncertainty, options, rules and evidence from each team’s point of view.</p>
+          <span class="label" id="aiw-label">Fictional composite. Scripted synthetic interpretation, no connected model. Not an executable engine.</span>
+        </div>
+        <div class="aiw-bar">
+          <div class="aiw-group" role="group" aria-label="View as">
+            <span class="aiw-gl">View as · explanation, not access permissions</span>
+            <button type="button" class="aiw-chip" id="aiw-role-reception" data-role="reception" aria-pressed="true">Reception</button>
+            <button type="button" class="aiw-chip" id="aiw-role-housekeeping" data-role="housekeeping" aria-pressed="false">Housekeeping</button>
+            <button type="button" class="aiw-chip" id="aiw-role-manager" data-role="manager" aria-pressed="false">Manager</button>
+          </div>
+          <div class="aiw-group" role="group" aria-label="Inspection evidence">
+            <span class="aiw-gl">Room 412 inspection receipt</span>
+            <button type="button" class="aiw-chip" id="aiw-evidence-missing" data-ev="missing" aria-pressed="true">Missing</button>
+            <button type="button" class="aiw-chip" id="aiw-evidence-supplied" data-ev="supplied" aria-pressed="false">Supplied</button>
+          </div>
+        </div>
+        <div class="aiw-stage">
+          <ol class="aiw-steps" id="aiw-steps" aria-label="Progression"></ol>
+          <div class="aiw-panel">
+            <p class="aiw-who" id="aiw-who"></p>
+            <h3 id="aiw-title"></h3>
+            <p id="aiw-body"></p>
+            <div class="aiw-role" id="aiw-roleline"></div>
+            <p class="aiw-state" id="aiw-state" role="status" aria-live="polite"></p>
+            <div class="aiw-ctl">
+              <button type="button" class="btn btn-ghost" id="aiw-prev">Previous step</button>
+              <button type="button" class="btn btn-dark" id="aiw-next">Next step <span class="arr" aria-hidden="true">&rarr;</span></button>
+              <button type="button" class="btn btn-ghost" id="aiw-reset">Reset</button>
+            </div>
+          </div>
+        </div>
+        <div class="aiw-split" aria-label="Who contributes what">
+          <div><b>AI contribution</b><p>Proposes an interpretation and options, naming sources and uncertainty. It cannot decide, approve or close work.</p></div>
+          <div><b>Deterministic rules</b><p>Configured limits on capacity, responsibility and approval thresholds.</p></div>
+          <div><b>Human authority</b><p>A named, authorised person decides where rules require it. Nothing is approved automatically.</p></div>
+        </div>
+        <p class="fict">Presentation only. Room numbers, guests and shifts are invented; no private staff details are shown. <a href="/partner-access?returnTo=%2Fpartner-room%2Farchitecture-lab" id="aiw-link-architecture">Architecture Lab</a> and <a href="/partner-access?returnTo=%2Fpartner-room%2Fproduct-proof%2Fstage-3-operating-layer%3Fscenario%3Dpeak" id="aiw-link-proof">next synthetic proof</a> (Partner Room, access code required).</p>
+      </details>
+    </div>
+  </section>
 
   <section id="coordinated-response" class="cr band" aria-labelledby="cr-h">
     <div class="wrap">
@@ -418,15 +582,15 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
         <div>
           <p class="eyebrow">The coordinated response</p>
           <h2 id="cr-h">Friday, 4pm.<br>Everything at once.</h2>
-          <p class="lede">60 guests arrive early. 20 rooms are not ready. Two lifts are unavailable. Housekeeping is stretched, and a team member is asking for support.</p>
+          <p class="lede">A fictional Friday peak: 60 guests arrive early, 20 rooms are not ready and two lifts are unavailable. Housekeeping is stretched; a team member has privately asked an authorised person for support.</p>
           <span class="label">Illustrative composite. Not an executable scenario, live integration or customer result.</span>
         </div>
-        <p class="q"><span>Who owns it?</span><span>What is still open?</span><span>What shows it is resolved?</span></p>
+        <p class="q"><span>Signals meet context.</span><span>People coordinate the response.</span><span>Evidence shows what is still open.</span></p>
       </div>
       <ol class="flow" aria-label="From situation to checked recovery">
-        <li><span class="st">1 &middot; Situation</span><h3>Pressure arrives together</h3>
+        <li><span class="st">1 &middot; Signal + context</span><h3>Pressure arrives together</h3>
           <ul><li>Arrivals ahead of rooms</li><li>Lifts out, access affected</li><li>Capacity thin, one person needs help</li></ul></li>
-        <li><span class="st">2 &middot; Accountable roles</span><h3>Each team holds one clear priority</h3>
+        <li><span class="st">2 &middot; Rules + authority</span><h3>Each team holds one clear priority</h3>
           <ul class="roles">
             <li><b>Front Office</b> &middot; guest updates</li>
             <li><b>Housekeeping</b> &middot; room readiness and capacity</li>
@@ -435,18 +599,18 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
             <li><b>Group Operations</b> &middot; support, only with availability and authority</li>
           </ul>
           <p class="priv-note"><b>Restricted, private support.</b> The team member's request is handled separately by an authorised person. No private staff details appear in broad role views.</p></li>
-        <li><span class="st">3 &middot; Checked recovery</span><h3>Recovery is confirmed, not assumed</h3>
+        <li><span class="st">3 &middot; Action + evidence</span><h3>Recovery is confirmed, not assumed</h3>
           <ul><li>Rooms released when inspected</li><li>Lift faults closed only after repair and safety checks</li><li>Anything unconfirmed stays visibly open</li></ul></li>
       </ol>
-      <p class="fict">Intended outcomes must be checked by people. Nothing is resolved automatically. <a href="#sample-demo">Step through one room from this afternoon in the guided demo</a>.</p>
+      <p class="fict">Intended outcomes must be checked by people. Nothing is resolved automatically. <a href="#guided-replay">See the scripted room-delay replay</a>, or open the detailed interactive review below.</p>
       <details>
         <summary>What is proven, planned and still to be validated</summary>
         <ul>
           <li><b>Working synthetic proof:</b> the single-property coordination loop on fictional data.</li>
-          <li><b>Coordination across hotels:</b> planned cross-property coordination and reviewed learning. Safety intervention starts earlier; these simulations explore the broader response.</li>
+          <li><b>Coordination across hotels:</b> planned cross-property coordination and reviewed learning. These simulations explore broader response patterns; they do not infer distress.</li>
           <li><b>Still required:</b> live validation in a bounded pilot. No live PMS connections today.</li>
         </ul>
-        <p>Hotels lead. The same pattern could later suit resorts, holiday parks, venues, destinations and corporate travel. Repeatable deployment means reusing validated mappings, playbooks and configuration only after systems access, integration testing and site readiness, not an instant setup.</p>
+        <p>Hotels lead. The same pattern could later suit resorts, holiday parks, venues, destinations and corporate travel. Reuse would depend on validated mappings, playbooks, access, testing and site readiness—not instant setup.</p>
       </details>
       <details>
         <summary>See existing proof in the Partner Room (access code required)</summary>
@@ -460,27 +624,16 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
     </div>
   </section>
 
-  <section id="wellbeing-support" class="wb-inv" aria-labelledby="wb-h">
-    <div class="wrap wb-in">
-      <div>
-        <p class="eyebrow">Public fictional walkthrough</p>
-        <h2 id="wb-h">A guest needs support. <span>Your whole hotel knows how to respond.</span></h2>
-        <ul class="promise" aria-label="Promise"><li>Connect the right people.</li><li>Coordinate agreed actions.</li><li>Keep follow-up visible.</li></ul>
-      </div>
-      <div>
-        <a class="btn btn-light" href="/public-wellbeing">Coordinate wellbeing support <span class="arr" aria-hidden="true">&rarr;</span></a>
-        <p class="note">Fictional, synthetic and scripted. No live actions, real guests or health inference. Open to explore without an access code.</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="sample-demo" class="demo" aria-labelledby="demo-h">
+  <section class="demo" aria-labelledby="demo-h">
     <div class="wrap">
       <div class="demo-head">
-        <div><p class="eyebrow">Guided sample demo</p><h2 id="demo-h">One delayed room. A connected hotel. One coordinated response.</h2></div>
+        <div><p class="eyebrow">Detailed interactive review</p><h2 id="demo-h">Change the facts. Review the response again.</h2></div>
       </div>
-      <p class="label dm-notice" id="demo-notice">Interactive fictional demonstration — no live actions</p>
-      <p class="lede">Explore the coordinated response at your own pace. Harbour Lane Hotel (invented), 2:40pm. Choose a response, run the checks, act as the Duty Manager where authority is needed, and see what stays open. Then a repair delay changes the situation and the response has to be checked and approved again. The &ldquo;Your next step&rdquo; panel always shows what to do. Everything happens in this page only.</p>
+      <p class="lede">Explore the deeper interactive example: choose a room change or supported wait, check availability, review authority, and then introduce a repair delay that reopens affected approvals. This is separate from the scripted replay above; it uses synthetic data and in-page state only.</p>
+      <details id="sample-demo" class="guided-details">
+        <summary>Open the interactive review · approvals, changed facts and evidence</summary>
+        <p class="label dm-notice" id="demo-notice">Interactive fictional demonstration — no live actions</p>
+        <p class="fict">Harbour Lane Hotel, guests, rooms, staff and events are invented. The controls change this browser-only demonstration; they do not send tasks or messages.</p>
       <div class="dm" id="demo-app">
         <div class="dm-top">
           <div class="aiw-group" role="group" aria-label="View as">
@@ -503,7 +656,47 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
           <div class="dm-main" id="demo-main"></div>
         </div>
       </div>
-      <p class="fict">Guests, rooms, staff names and times are invented; no private details are shown. This shows intended design on synthetic data, not measured results or a live integration. <a id="demo-link-validation" href="/partner-access?returnTo=%2Fpartner-room%2Fvalidation%23evidence-status">Evidence and pilot validation (Partner Room — access code required)</a></p>
+      <p class="fict">Evidence and outcomes remain distinct; missing receipts stay open. <a id="demo-link-validation" href="/partner-access?returnTo=%2Fpartner-room%2Fvalidation%23evidence-status">Evidence and pilot validation (Partner Room — access code required)</a></p>
+      </details>
+    </div>
+  </section>
+
+  <section id="wellbeing-support" class="wb-inv" aria-labelledby="wb-h">
+    <div class="wrap wb-in">
+      <div>
+        <p class="eyebrow">Public fictional walkthrough</p>
+        <h2 id="wb-h">A guest asks for support. <span>The right people respond.</span></h2>
+        <ul class="promise" aria-label="Promise"><li>The guest chooses what to share.</li><li>Authorised people coordinate agreed actions.</li><li>Delivery, feedback and resolution stay distinct.</li></ul>
+      </div>
+      <div>
+        <a class="btn btn-light" href="/public-wellbeing">Coordinate wellbeing support <span class="arr" aria-hidden="true">&rarr;</span></a>
+        <p class="note">Fictional, synthetic and scripted. No live actions, real guests or inferred distress. Open to explore without an access code.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="travel-guest-app" class="travel-guest-app" aria-labelledby="travel-guest-app-heading">
+    <div class="wrap">
+      <div class="travel-section-heading">
+        <div><p class="travel-eyebrow">The guest and team experience</p><h2 id="travel-guest-app-heading">One connected stay.<br /><span>Powered by JALDO.</span></h2></div>
+        <span class="travel-tag">Sample screens · Synthetic data</span>
+      </div>
+      <p class="travel-guest-intro">A stay is a chain of small promises. These sample screens show the guest-facing side of a proposed service model: clear requests, chosen experiences and honest follow-up.</p>
+      <div class="travel-guest-screens">
+        <figure><div class="travel-guest-phone"><img src="/images/guest-app/stay.webp" alt="Actual guest prototype Stay screen, showing room details, service requests and a discreet support entry." width="530" height="936" loading="lazy" decoding="async" /></div><figcaption><span>01 / Your stay</span><h3>Help, without the chase.</h3><p>Requests, progress and discreet support in one familiar place.</p></figcaption></figure>
+        <figure><div class="travel-guest-phone"><img src="/images/guest-app/explore.webp" alt="Actual guest prototype Explore screen, showing activity, dining, fitness and show filters and optional suggestion preferences." width="530" height="936" loading="lazy" decoding="async" /></div><figcaption><span>02 / Explore</span><h3>A little more to the stay.</h3><p>Free and paid experiences, saved favourites and suggestions the guest chooses to receive.</p></figcaption></figure>
+        <figure><div class="travel-guest-phone"><img src="/images/guest-app/plans.webp" alt="Actual guest prototype My plans screen, showing the connected arrival story and an unresolved request marked for follow-up." width="530" height="936" loading="lazy" decoding="async" /></div><figcaption><span>03 / My plans</span><h3>Clear about what’s agreed.</h3><p>Enquiries, arrangements, changed plans and outcomes that still need confirmation.</p></figcaption></figure>
+      </div>
+      <div class="travel-guest-coordination"><p class="travel-eyebrow">One operating model</p><h3>Guest choice. Accountable response. Checked outcome.</h3><p>Guests choose what to request or share. Named hotel teams coordinate the response, with permissions and role boundaries kept clear. These are static sample screens; no live hotel messaging or Core connection is implied.</p></div>
+      <div class="travel-guest-actions">
+        <span class="travel-tag">Guest experience preview · Sample screens</span>
+      <a href="/see-it-work" class="travel-text-link">See how the hotel coordinates the response <span aria-hidden="true">↗</span></a>
+      </div>
+      <div id="travel-guest-access" class="travel-guest-access" tabindex="-1">
+        <h3>Guest experience preview</h3>
+        <p>These sample screens illustrate a standalone guest experience. The guest app remains separate and is not linked from this site at this stage.</p>
+        <p class="travel-guest-boundary">Actual screens captured from the branded guest review build. All guests, hotel details, experiences, prices, staff updates and confirmations are fictional. No live booking, payment, hotel messaging or Core integration is implied. The hotel-response link opens the public fictional sample; deeper Partner Room materials retain their existing access controls.</p>
+      </div>
     </div>
   </section>
 
@@ -527,32 +720,101 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
       </div>
       <p class="out-also"><b>Owners</b> see a controlled recovery, with evidence. <b>Groups</b> see where support is genuinely needed.</p>
       <p class="fict">Intended design on synthetic data, not measured results. Outcomes must be checked by people in a bounded pilot.</p>
+      <details id="existing-systems" class="system-fit">
+        <summary><span id="coord-h">Existing-system fit: connect the work, not replace your records</span></summary>
+        <div class="coord-grid">
+          <div>
+            <p class="eyebrow">Where coordination can connect</p>
+            <h3>Keep the systems you rely on. Connect the work between them.</h3>
+            <ul class="things">
+              <li><b>Guest moments</b>Early arrivals, requests, complaints, recovery gestures.</li>
+              <li><b>Room readiness</b>Clean, inspected, fixed, released, and who confirmed it.</li>
+              <li><b>Service backlog</b>Open requests and work orders that are ageing or blocked.</li>
+              <li><b>Handovers</b>What the next shift must know and own.</li>
+              <li><b>Promises</b>Anything said to a guest, with an owner and a due time.</li>
+              <li><b>Across properties</b>Optional: shared patterns and support between sites.</li>
+            </ul>
+            <div class="sor">
+              <strong>Your existing systems stay the systems of record.</strong>
+              <p>Any future connection to a PMS or operations tool is only a proposal. It would need your permission, vendor terms, integration testing and pilot validation before anyone could rely on it. There are no live PMS connections today.</p>
+            </div>
+          </div>
+          <figure>
+            <img src="/images/travel/team-coordination.webp" alt="Illustrative hotel team members conferring together over a shared plan." width="1200" height="800" loading="lazy">
+            <figcaption>Illustrative imagery. Not a customer site.</figcaption>
+          </figure>
+        </div>
+      </details>
     </div>
   </section>
 
-  <section id="existing-systems" class="coord band" aria-labelledby="coord-h">
-    <div class="wrap coord-grid">
-      <div>
-        <p class="eyebrow">How JALDO works with your systems</p>
-        <h2 id="coord-h">Not another system of record. The thread between them.</h2>
-        <ul class="things">
-          <li><b>Guest moments</b>Early arrivals, requests, complaints, recovery gestures.</li>
-          <li><b>Room readiness</b>Clean, inspected, fixed, released, and who confirmed it.</li>
-          <li><b>Service backlog</b>Open requests and work orders that are ageing or blocked.</li>
-          <li><b>Handovers</b>What the next shift must know and own.</li>
-          <li><b>Promises</b>Anything said to a guest, with an owner and a due time.</li>
-          <li><b>Across properties</b>Optional: shared patterns and support between sites.</li>
-        </ul>
-        <div class="sor">
-          <strong>Your existing systems stay the systems of record.</strong>
-          <p>Any integration with a PMS or operations tool is proposed. It would need your permissions, the vendor's terms and validation in a pilot before anything is relied on. There are no live PMS connections today.</p>
+  <section id="supporting-detail" class="support" aria-labelledby="support-h">
+    <div class="wrap">
+      <p class="eyebrow">More, if useful</p>
+      <h2 id="support-h">Supporting detail</h2>
+      <p class="lede">Fictional examples and the context behind this proposed approach.</p>
+      <details id="benefits" class="support-disclosure">
+        <summary>Why coordination matters to hotel teams</summary>
+        <div class="split">
+          <div>
+            <h3 id="benefits-h">The judgement is already in your team. The gaps are between them.</h3>
+            <p>Front office, housekeeping, maintenance, F&amp;B and guest relations each work well in their own system. Handover context, ownership and guest promises can slip between desks and shifts.</p>
+            <ul class="who" aria-label="Intended audience">
+              <li>Hotel and resort operators</li><li>Owners</li><li>General managers</li><li>Multi-property groups</li>
+            </ul>
+          </div>
+          <ul class="gaps" aria-label="Where coordination breaks down">
+            <li><strong>Disconnected systems</strong><span>PMS, housekeeping, work orders and messaging each hold part of the picture.</span></li>
+            <li><strong>Handovers</strong><span>Shift changes and desk-to-desk calls can lose context.</span></li>
+            <li><strong>Unclear ownership</strong><span>An issue is seen but nobody is named to carry it forward.</span></li>
+            <li><strong>Unconfirmed work</strong><span>Delivery, guest updates and learning need separate follow-through.</span></li>
+          </ul>
         </div>
-        <p class="ai-line"><strong>AI interprets signals and proposes responses. Rules set limits. People decide.</strong> Workflow then follows through to checked evidence. See <a href="#loop">the six-step loop</a>, <a href="#ai-in-the-work">where AI fits</a> and <a href="#principles">how you stay in control</a>.</p>
-      </div>
-      <figure>
-        <img src="/images/travel/team-coordination.webp" alt="Illustrative hotel team members conferring together over a shared plan." width="1200" height="800" loading="lazy">
-        <figcaption>Illustrative imagery. Not a customer site.</figcaption>
-      </figure>
+      </details>
+      <details id="examples" class="support-disclosure">
+        <summary>More fictional examples</summary>
+        <div>
+          <p class="eyebrow">Illustrative only · not measured results</p>
+          <h3 id="ex-h">Three other coordination situations</h3>
+          <div class="ex-grid">
+            <article class="ex wide" aria-labelledby="ex1">
+              <span class="kind">Room readiness · Fictional</span>
+              <h3 id="ex1">Six arrivals, four rooms not released</h3>
+              <p>A coastal resort expects an early group. At 12:40 four of six rooms are still in service.</p>
+              <dl>
+                <dt>Context</dt><dd>Two rooms cleaning, one awaiting a maintenance fix, one ready but uninspected.</dd>
+                <dt>Action</dt><dd>Front office prioritises an inspection and offers luggage hold and lunch seating; housekeeping and maintenance receive owned tasks.</dd>
+                <dt>Evidence</dt><dd>Three rooms are confirmed released. The fix remains open until confirmed.</dd>
+              </dl>
+            </article>
+            <article class="ex dark" aria-labelledby="ex2">
+              <span class="kind">Service recovery · Fictional</span>
+              <h3 id="ex2">A request asked for twice</h3>
+              <p>A guest's extra-pillow and air-con requests have aged three hours across a shift change.</p>
+              <dl>
+                <dt>Decision</dt><dd>A Duty Manager approves a recovery gesture and personal call.</dd>
+                <dt>Evidence</dt><dd>The gesture stays unconfirmed until delivery is recorded.</dd>
+              </dl>
+            </article>
+            <article class="ex mist" aria-labelledby="ex3">
+              <span class="kind">Multi-property · Fictional</span>
+              <h3 id="ex3">Two sites, one pattern</h3>
+              <p>A regional group sees late room release at two city hotels on the same weekday.</p>
+              <dl>
+                <dt>Review</dt><dd>Both GMs review rostering; proposed adjustments are considered per property before any test.</dd>
+              </dl>
+            </article>
+          </div>
+        </div>
+      </details>
+      <details class="support-disclosure">
+        <summary id="priv-h">Public overview and Partner Room access</summary>
+        <p>Public examples are fictional. Detailed materials are shared only with invited partners, using an access code issued manually.</p>
+        <ul aria-label="Kept in the Partner Room">
+          <li>Commercial models</li><li>Invited documents</li><li>Deeper simulations and calculator</li><li>Strategy and roadmap</li>
+        </ul>
+        <p><a href="/partner-access">Partner Room (access code required)</a></p>
+      </details>
     </div>
   </section>
 
@@ -560,8 +822,8 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
     <div class="contact-grid">
       <div>
         <p class="eyebrow">Next step</p>
-        <h2 id="contact-h">Discuss a bounded pilot.</h2>
-        <p>Send a short note about your property or group. A person reads every request.</p>
+        <h2 id="contact-h">Start with one real coordination problem.</h2>
+        <p>Tell us about your property or group. A person reads every request; if there is a fit, we shape a bounded pilot together.</p>
         <ol class="steps-next">
           <li>We talk through one coordination problem you want to fix.</li>
           <li>If it fits, we shape a small, bounded pilot together.</li>
@@ -569,179 +831,69 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
         </ol>
       </div>
       <div class="cards">
-        <a class="card" href="mailto:lance@rtbx.com.au?subject=Explore%20a%20Design%20Partnership%20%E2%80%94%20JALDO%20Travel"><strong>Discuss a bounded pilot &rarr;</strong><span>For operators ready to shape a first pilot.</span></a>
-        <a class="card" href="mailto:lance@rtbx.com.au?subject=Request%20Partner%20Access%20%E2%80%94%20JALDO%20Travel"><strong>Request partner access &rarr;</strong><span>Email us. Access is reviewed and granted manually.</span></a>
+        <a class="card" href="mailto:lance@wearejaldo.com?subject=Explore%20a%20Design%20Partnership%20%E2%80%94%20JALDO%20Travel"><strong>Discuss a bounded pilot &rarr;</strong><span>For hotel operators ready to shape a first pilot.</span></a>
+        <a class="card" href="mailto:lance@wearejaldo.com?subject=Request%20Partner%20Access%20%E2%80%94%20JALDO%20Travel"><strong>Request partner access &rarr;</strong><span>Email Lance at JALDO. Access is reviewed and granted manually.</span></a>
         <a class="card partner" href="/partner-access"><strong>Partner Room (access code required) &rarr;</strong><span>For invited partners who already hold a code.</span></a>
       </div>
     </div>
   </section>
 
-  <section id="supporting-detail" class="support" aria-labelledby="support-h">
-    <div class="wrap">
-      <p class="eyebrow">Supporting detail</p>
-      <h2 id="support-h">The mechanics, for those who want them.</h2>
-      <p class="lede">Principles, the role of AI, the six-step loop, the problem we address and more fictional examples.</p>
-      <ul aria-label="Supporting sections">
-        <li><a href="#principles">Control principles</a></li>
-        <li><a href="#ai-in-the-work">The role of AI</a></li>
-        <li><a href="#loop">Six-step loop</a></li>
-        <li><a href="#benefits">The problem</a></li>
-        <li><a href="#examples">Practical examples</a></li>
-      </ul>
-    </div>
-  </section>
-
-  <section id="principles" class="band wrap" aria-labelledby="principles-h">
-    <p class="eyebrow">You stay in control</p>
-    <h2 id="principles-h">JALDO coordinates the work. Your people retain authority.</h2>
-    <div class="rules">
-        <div><h3>Your people retain authority</h3><p>Named owners act within agreed authority, with approval for exceptions where required.</p></div>
-        <div><h3>Capacity is checked before commitments</h3><p>Staff, rooms and support availability shape the response.</p></div>
-        <div><h3>Completion needs evidence</h3><p>Missing receipts or measurements stay unconfirmed.</p></div>
-        <div><h3>Improvements are reviewed before use</h3><p>Review a proposed change before testing it; a replay does not deploy it.</p></div>
-    </div>
-  </section>
-
-  <section id="ai-in-the-work" class="aiw band" aria-labelledby="aiw-h">
-    <div class="wrap">
-      <div class="aiw-head">
-        <div>
-          <p class="eyebrow">Where AI fits in the work</p>
-          <h2 id="aiw-h">AI interprets. Rules set limits.<br>People decide. Workflow follows through.</h2>
-          <p class="lede">One room-readiness moment within that wider pressure: late rooms, guests with needs, and housekeeping short by two. Step through it from the desk you work at.</p>
-        </div>
-        <span class="label" id="aiw-label">Fictional composite. Scripted synthetic interpretation, no connected model. Not an executable engine.</span>
-      </div>
-      <div class="aiw-bar">
-        <div class="aiw-group" role="group" aria-label="View as">
-          <span class="aiw-gl">View as · explanation, not access permissions</span>
-          <button type="button" class="aiw-chip" id="aiw-role-reception" data-role="reception" aria-pressed="true">Reception</button>
-          <button type="button" class="aiw-chip" id="aiw-role-housekeeping" data-role="housekeeping" aria-pressed="false">Housekeeping</button>
-          <button type="button" class="aiw-chip" id="aiw-role-manager" data-role="manager" aria-pressed="false">Manager</button>
-        </div>
-        <div class="aiw-group" role="group" aria-label="Inspection evidence">
-          <span class="aiw-gl">Room 412 inspection receipt</span>
-          <button type="button" class="aiw-chip" id="aiw-evidence-missing" data-ev="missing" aria-pressed="true">Missing</button>
-          <button type="button" class="aiw-chip" id="aiw-evidence-supplied" data-ev="supplied" aria-pressed="false">Supplied</button>
-        </div>
-      </div>
-      <div class="aiw-stage">
-        <ol class="aiw-steps" id="aiw-steps" aria-label="Progression"></ol>
-        <div class="aiw-panel">
-          <p class="aiw-who" id="aiw-who"></p>
-          <h3 id="aiw-title"></h3>
-          <p id="aiw-body"></p>
-          <div class="aiw-role" id="aiw-roleline"></div>
-          <p class="aiw-state" id="aiw-state" role="status" aria-live="polite"></p>
-          <div class="aiw-ctl">
-            <button type="button" class="btn btn-ghost" id="aiw-prev">Previous step</button>
-            <button type="button" class="btn btn-dark" id="aiw-next">Next step <span class="arr" aria-hidden="true">&rarr;</span></button>
-            <button type="button" class="btn btn-ghost" id="aiw-reset">Reset</button>
-          </div>
-        </div>
-      </div>
-      <div class="aiw-split" aria-label="Who contributes what">
-        <div><b>AI contribution</b><p>Proposes an interpretation and options, naming its sources and uncertainty. It cannot decide, approve, diagnose people or close work.</p></div>
-        <div><b>Deterministic rules</b><p>Configured limits on capacity, responsibility and approval thresholds. Same inputs, same boundary.</p></div>
-        <div><b>Human or delegated authority</b><p>A named, authorised person decides where rules require it. Nothing is approved automatically.</p></div>
-      </div>
-      <p class="fict">Presentation only. Room numbers, guests and shifts are invented; no private staff details are shown. <a href="/partner-access?returnTo=%2Fpartner-room%2Farchitecture-lab" id="aiw-link-architecture">Architecture Lab</a> and <a href="/partner-access?returnTo=%2Fpartner-room%2Fproduct-proof%2Fstage-3-operating-layer%3Fscenario%3Dpeak" id="aiw-link-proof">next synthetic proof</a> (Partner Room, access code required).</p>
-    </div>
-  </section>
-
-  <section id="loop" class="loop band wrap" aria-labelledby="loop-h">
-    <p class="eyebrow">How it works</p>
-    <h2 id="loop-h">Six steps, one accountable loop.</h2>
-    <ol>
-      <li><h3>Signal</h3><p>Something needs attention: a late room, an ageing request, a guest message.</p></li>
-      <li><h3>Context</h3><p>What is known is gathered: the guest, the room, what was promised, who is on shift.</p></li>
-      <li><h3>Human decision</h3><p>A named person chooses what happens. Suggestions are offered, never imposed.</p></li>
-      <li><h3>Coordinated action</h3><p>The right teams get a clear task, an owner and a time.</p></li>
-      <li><h3>Evidence</h3><p>Completion is recorded only when it is confirmed. Missing receipt stays visibly unconfirmed.</p></li>
-      <li><h3>Reviewed learning</h3><p>Patterns are reviewed by people. Nothing is changed or deployed automatically.</p></li>
-    </ol>
-    <p class="hint">Approval is a decision, not a guarantee. If housekeeping has no capacity, approving a promise does not create it. The loop is designed to show that gap early so the team can choose again.</p>
-  </section>
-
-  <section id="benefits" class="band wrap" aria-labelledby="benefits-h">
-    <div class="split">
-      <div>
-        <p class="eyebrow">Who it is for, and why</p>
-        <h2 id="benefits-h">The judgement is already in your team. The gaps are between them.</h2>
-        <p class="lede">Front office, housekeeping, maintenance, F&amp;B and guest relations each work well in their own system. Things slip in the handover: a note in one tool, a call to another desk, a promise nobody is clearly holding.</p>
-        <ul class="who" aria-label="Intended audience">
-          <li>Hotel and resort operators</li><li>Owners</li><li>General managers</li><li>Multi-property groups</li>
-        </ul>
-      </div>
-      <ul class="gaps" aria-label="Where coordination breaks down">
-        <li><strong>Disconnected systems</strong><span>PMS, housekeeping, work orders and messaging each hold part of the picture. No one view shows what was promised to whom.</span></li>
-        <li><strong>Handovers</strong><span>Shift changes and desk-to-desk calls lose context. The next person starts again, or does not start at all.</span></li>
-        <li><strong>Unclear ownership</strong><span>Everyone saw the issue. Nobody was named. The guest asks twice.</span></li>
-        <li><strong>No closed loop</strong><span>Work is done but not confirmed, or confirmed but not told to the guest. Lessons stay in someone's head.</span></li>
-      </ul>
-    </div>
-  </section>
-
-  <section id="examples" class="examples band" aria-labelledby="ex-h">
-    <div class="wrap">
-      <p class="eyebrow">Practical examples</p>
-      <h2 id="ex-h">How coordination could work on a shift.</h2>
-      <div class="ex-grid">
-        <article class="ex wide" aria-labelledby="ex1">
-          <span class="kind">Room readiness &middot; Fictional illustration</span>
-          <h3 id="ex1">Six arrivals, four rooms not released</h3>
-          <p>A coastal resort expects an early group. At 12:40 four of six rooms are still in service.</p>
-          <dl>
-            <dt>Signal</dt><dd>Arrivals due before rooms are inspected.</dd>
-            <dt>Context</dt><dd>Two rooms cleaning, one awaiting a maintenance fix, one ready but uninspected.</dd>
-            <dt>Decision</dt><dd>Front office lead prioritises the inspection and offers the group luggage hold and lunch seating.</dd>
-            <dt>Action</dt><dd>Housekeeping supervisor and maintenance each get one owned task with a time.</dd>
-            <dt>Evidence</dt><dd>Three rooms confirmed released. The fix is not yet confirmed, so it stays open.</dd>
-            <dt>Learning</dt><dd>Review notes a repeating pre-arrival maintenance pattern for the GM to consider.</dd>
-          </dl>
-        </article>
-        <article class="ex dark" aria-labelledby="ex2">
-          <span class="kind">Service recovery &middot; Fictional illustration</span>
-          <h3 id="ex2">A request asked for twice</h3>
-          <p>A guest's extra-pillow and air-con requests have aged three hours across a shift change.</p>
-          <dl>
-            <dt>Decision</dt><dd>Duty manager approves a recovery gesture and a personal call.</dd>
-            <dt>Evidence</dt><dd>Work order closed; guest call logged. The gesture stays unconfirmed until delivery is recorded.</dd>
-          </dl>
-        </article>
-        <article class="ex mist" aria-labelledby="ex3">
-          <span class="kind">Multi-property &middot; Fictional illustration</span>
-          <h3 id="ex3">Two sites, one pattern</h3>
-          <p>A regional group sees late room release at two city hotels on the same weekday.</p>
-          <dl>
-            <dt>Decision</dt><dd>Cluster ops lead asks both GMs to review rostering, without forcing a change.</dd>
-            <dt>Learning</dt><dd>Proposed adjustments are reviewed per property before any is adopted.</dd>
-          </dl>
-        </article>
-      </div>
-      <p class="fict">All examples are fictional and illustrative. They describe the intended design, not measured results.</p>
-    </div>
-  </section>
-
-  <section class="priv band" aria-labelledby="priv-h">
-    <div class="wrap priv-grid">
-      <div>
-        <p class="eyebrow">Public overview vs Partner Room</p>
-        <h2 id="priv-h">This page explains. The Partner Room goes deeper.</h2>
-        <p>Everything on this page is public and the sample is fictional. Detailed materials are shared only with invited partners, using an access code issued manually.</p>
-        <div class="actions"><a class="btn btn-dark" href="/partner-access">Partner Room (access code required) <span class="arr" aria-hidden="true">&rarr;</span></a></div>
-      </div>
-      <ul aria-label="Kept in the Partner Room">
-        <li>Commercial models</li>
-        <li>Invited documents</li>
-        <li>Deeper simulations and calculator</li>
-        <li>Strategy and roadmap</li>
-      </ul>
-    </div>
-  </section>
 </main>
 <footer><div class="wrap"><div><strong>JALDO Travel</strong>Hospitality coordination, accountably followed through.<br><a href="https://wearejaldo.com">&larr; Back to JALDO (wearejaldo.com)</a></div><p>Illustrative imagery. Examples and sample demo are fictional. Synthetic working proof only; no customer deployment, verified outcomes or endorsement implied.</p></div></footer>
 
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id)};
+  var roles={
+    reception:["Reception","Confirm the family’s needs and give an honest update; don’t promise a release time until an inspection is recorded.","Keep the estimate separate from a confirmed room time; prepare clear choices without promising one.","Wait for an authorised decision, then explain the option and record the family’s answer separately.","Acknowledge any assigned handover and record an actual guest update only when it happens.","Keep follow-up open until room status, guest choice and any delivery evidence are recorded."],
+    housekeeping:["Housekeeping","Check the current room status and available inspection capacity.","Confirm which room or inspection slot is genuinely available before a plan relies on it.","Do not release room 304 until repair clearance and inspection are recorded.","Complete assigned room work and record the inspection receipt if the work is actually done.","Leave the inspection open until its receipt is present; estimates are not releases."],
+    maintenance:["Maintenance","Confirm work order WO-1182 and the current repair status.","State what is known and what remains an estimate; do not treat an ETA as clearance.","Keep room 304 unavailable until repair and clearance are confirmed.","Update the work status and record clearance only after the relevant check is completed.","Keep the repair open until a clearance record exists."],
+    guest:["Guest services","Check which practical waiting or room-support options have capacity.","Confirm support availability before anyone promises it to the family.","Wait for an authorised plan and the family’s own agreement before arranging a change.","Record the handover and actual support delivered separately.","Do not treat an offer or dispatch as guest acceptance or delivery."],
+    manager:["Duty Manager","Review the room issue, named owners and which decision sits with you.","Compare options against current room, staffing and support availability; keep estimates visible.","In the real workflow, approve, hold or decline within your authority. This replay records none of those decisions.","Track each owner and revisit the plan if the repair or availability changes.","Name follow-up ownership; keep the case open until evidence and guest choice are recorded."]
+  };
+  var steps=[
+    {title:"1. Read the situation",copy:"At 2:40pm, room 304 is blocked by a leak while the Rowan family waits. A room-status record and work order are shown as fictional sources; the repair estimate is not a clearance.",fact:"Signal: room 304 blocked · WO-1182 open · family waiting. All inputs are synthetic.",next:"Check who is affected and confirm the current room and repair facts."},
+    {title:"2. Prepare options",copy:"This scripted replay brings room status, arrivals and the maintenance note together. It can present a room change or supported wait for people to check; no live records or AI model are queried.",fact:"Prepared, not selected: room change or supported wait. Availability checks remain unconfirmed.",next:"Check room, staffing and guest-support capacity before relying on either option."},
+    {title:"3. Put the decision with the right person",copy:"A Duty Manager reviews any exception against confirmed availability and delegated authority. This replay does not approve, hold, decline or choose a plan.",fact:"Approval: not made in this replay. A proposed option is not an authorised plan.",next:"The Duty Manager would review the evidence and record an explicit decision."},
+    {title:"4. Give each team owned follow-through",copy:"If a plan is authorised, Reception handles the guest update, Housekeeping confirms readiness, Maintenance owns the repair and Guest services confirms practical support. This replay sends or assigns nothing.",fact:"Dispatch and acknowledgement: not recorded. Delivery is not claimed.",next:"Name owners and due times; record each acknowledgement and action separately."},
+    {title:"5. Check what remains open",copy:"A room is ready only after repair clearance and inspection. The family’s acceptance and any support delivered need separate records. This replay contains no such receipts.",fact:"Outcome: unresolved in this replay. Room 304 remains blocked; no guest acceptance or delivery evidence is recorded.",next:"Keep the case open, name a follow-up owner and verify each outcome before closing."}
+  ];
+  var step=0,role="reception";
+  function render(){
+    var item=steps[Math.max(0,step-1)],title=step?item.title:"Start with the room delay";
+    $("guided-step-title").textContent=title;
+    $("guided-step-copy").textContent=step?item.copy:"Follow five short stages. The replay is prewritten; the separate interactive review below lets you change checks and decisions.";
+    $("guided-fact").textContent=step?item.fact:"Nothing has been decided or done in this replay.";
+    $("guided-progress").value=step;
+    $("guided-progress").textContent=step+" of 5 steps";
+    $("guided-progress-text").textContent=step+" of 5 steps";
+    $("guided-step-title").setAttribute("aria-label",title);
+    $("guided-role-label").textContent=roles[role][0]+" · next action";
+    $("guided-role-action").textContent=roles[role][Math.max(1,step)];
+    $("guided-back").disabled=step===0;
+    $("guided-next").innerHTML=step===0?'Start the replay <span class="arr" aria-hidden="true">→</span>':step===5?"At final step":"Next step <span class=\"arr\" aria-hidden=\"true\">→</span>";
+    $("guided-next").disabled=step===5;
+    $("guided-reset").hidden=step===0;
+    $("guided-app").dataset.step=String(step);
+    $("guided-app").dataset.role=role;
+    [].forEach.call($("guided-steps").children,function(li){
+      var n=Number(li.dataset.index);
+      li.classList.toggle("done",n<step);
+      if(n===step)li.setAttribute("aria-current","step");else li.removeAttribute("aria-current");
+    });
+    [].forEach.call(document.querySelectorAll(".guided-role"),function(btn){
+      btn.setAttribute("aria-pressed",String(btn.dataset.role===role));
+    });
+  }
+  $("guided-next").addEventListener("click",function(){if(step<5){step++;render()}});
+  $("guided-back").addEventListener("click",function(){if(step>0){step--;render()}});
+  $("guided-reset").addEventListener("click",function(){step=0;role="reception";render();$("guided-next").focus()});
+  [].forEach.call(document.querySelectorAll(".guided-role"),function(btn){
+    btn.addEventListener("click",function(){role=btn.dataset.role;render()});
+  });
+  render();
+})();
+</script>
 <script>
 (function(){
   var $=function(id){return document.getElementById(id)};
@@ -929,8 +1081,8 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
     render();
   });
   render();
-  // /public-demo without a fragment lands at the demo; any explicit fragment is left to the browser.
-  if(location.pathname.replace(/\/+$/,"")==="/public-demo"&&!location.hash){$("sample-demo").scrollIntoView({behavior:"instant",block:"start"})}
+  // /public-demo without a fragment opens the short replay; explicit fragments retain their destination.
+  if(location.pathname.replace(/\/+$/,"")==="/public-demo"&&!location.hash){$("guided-replay").scrollIntoView({behavior:"instant",block:"start"})}
 })();
 </script>
 <script>
@@ -991,9 +1143,9 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
 </script>
 <script>
 (function(){
-  // Compact navigation below 960px. Without this script the full link list stays visible.
+  // Compact navigation at tablet widths. Without this script the full link list stays visible.
   var header=document.getElementById("site-header"),btn=document.getElementById("nav-toggle"),nav=document.getElementById("site-nav");
-  var compact=window.matchMedia("(max-width:960px)");
+  var compact=window.matchMedia("(max-width:1100px)");
   var row=header.querySelector(".hdr-in"),controls=header.querySelector(".hdr-cta");
   // Keep reading and keyboard order aligned with the visible layout at each width.
   function order(){if(compact.matches)row.appendChild(nav);else row.insertBefore(nav,controls)}
@@ -1006,6 +1158,30 @@ footer p{font-size:12.5px;max-width:560px;margin:0}
   header.addEventListener("focusout",function(e){if(compact.matches&&e.relatedTarget&&!header.contains(e.relatedTarget))set(false)});
   document.addEventListener("click",function(e){if(!header.contains(e.target))set(false)});
   compact.addEventListener("change",function(){set(false);order()});
+})();
+</script>
+<script>
+(function(){
+  function openFragmentDisclosure(){
+    if(!window.location.hash)return;
+    var fragment=window.location.hash;
+    var id;
+    try{id=decodeURIComponent(fragment.slice(1))}catch(_){return}
+    var target=document.getElementById(id);
+    if(!target)return;
+    var disclosure=target.closest("details");
+    while(disclosure){disclosure.open=true;disclosure=disclosure.parentElement&&disclosure.parentElement.closest("details")}
+    // Native fragment scrolling can race disclosure layout, image load and font
+    // metrics. Align the actual destination after those settle, never an old hash.
+    function align(){if(window.location.hash===fragment)target.scrollIntoView({behavior:"instant",block:"start"})}
+    window.requestAnimationFrame(align);
+    if(document.readyState!=="complete")window.addEventListener("load",align,{once:true});
+    if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){window.requestAnimationFrame(align)});
+  }
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",openFragmentDisclosure,{once:true});
+  else openFragmentDisclosure();
+  window.addEventListener("hashchange",openFragmentDisclosure);
+  window.addEventListener("popstate",openFragmentDisclosure);
 })();
 </script>
 </body>

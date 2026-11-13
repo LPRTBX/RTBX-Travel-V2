@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { chromium } from "playwright";
 import { createTravelServer } from "../server/app.mjs";
 import { createAccess, SESSION_MS } from "../server/access.mjs";
-import { checkPublicDemo, checkPublicGuestShowcase, checkPublicNavigation } from "./public-demo-browser.mjs";
+import { checkPublicDemo, checkPublicGuestShowcase, checkPublicNavigation, checkSeeItWork } from "./public-demo-browser.mjs";
 
 const assert = (condition, message) => { if (!condition) throw new Error(message); };
 const code = randomBytes(32).toString("hex"); // isolated, never displayed or configured
@@ -19,7 +19,7 @@ try {
   const journeySource = await readFile(new URL("../src/data/partnerJourney.ts", import.meta.url), "utf8");
   const guidedPaths = [...journeySource.split("export const GUIDED_ROUTE")[1].split("];")[0].matchAll(/path: "([^"]+)"/g)].map(match => match[1]);
   assert(guidedPaths.length === 8, "eight-step journey changed unexpectedly");
-  for (const width of [390, 820, 1440]) {
+  for (const width of [320, 390, 820, 1440]) {
     const context = await browser.newContext({ viewport: { width, height: 950 }, reducedMotion: "reduce" });
     const page = await context.newPage();
     const errors = [];
@@ -33,9 +33,16 @@ try {
     assert(await page.locator("h1").isVisible(), "public introduction missing");
     assert(await page.locator(".honest-grid, #status").count() === 0, "removed public proof-status block returned");
     assert(await page.locator("#demo-notice").textContent() === "Interactive fictional demonstration — no live actions", "concise demonstration note missing");
-    for (const title of ["Your people retain authority", "Capacity is checked before commitments", "Completion needs evidence", "Improvements are reviewed before use"]) {
-      assert(await page.getByRole("heading", { name: title, exact: true }).count() === 1, `response principle missing: ${title}`);
+    const principles = page.locator("#principles");
+    await principles.locator("summary").focus();
+    await page.keyboard.press("Enter");
+    assert(await principles.evaluate(el => el.open), "control principles did not open by keyboard");
+    for (const title of ["People retain authority", "Capacity before commitment", "Evidence before completion", "Review before change"]) {
+      assert(await principles.getByRole("heading", { name: title, exact: true }).isVisible(), `response principle missing: ${title}`);
     }
+    await principles.locator("summary").focus();
+    await page.keyboard.press("Enter");
+    assert(!(await principles.evaluate(el => el.open)), "control principles did not close by keyboard");
     assert((await page.request.get(base + "/partner-room/validation")).status() === 401, "validation details exposed anonymously");
     assert(!requests.some(path => path.startsWith("/assets/") || path.startsWith("/src/")), "public page loaded partner code");
     assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `public overflow at ${width}`);
@@ -62,12 +69,13 @@ try {
     for (const href of await page.locator('a[href^="#"]').evaluateAll(links => links.map(link => link.getAttribute("href")))) {
       assert(await page.locator(href).count() === 1, `public anchor missing: ${href}`);
     }
-    await checkPublicNavigation(page, width);
+    await checkPublicNavigation(page, base, width);
+    await checkSeeItWork(page, base, width);
+    await page.goto(base, { waitUntil: "networkidle" });
     await checkPublicGuestShowcase(page, base, width);
-    await page.locator("#supporting-detail").getByRole("link", { name: "The role of AI", exact: true }).focus();
+    await page.locator("#ai-in-the-work > summary").focus();
     await page.keyboard.press("Enter");
-    await page.waitForURL(url => url.hash === "#ai-in-the-work");
-    assert(new URL(page.url()).hash === "#ai-in-the-work", "AI explanation not discoverable by keyboard");
+    assert(await page.locator("#ai-in-the-work").evaluate(el => el.open), "AI explanation is not discoverable by keyboard");
     const aiStory = page.locator("#ai-in-the-work");
     assert(/no connected model/i.test(await aiStory.innerText()), "scripted AI boundary missing");
     assert(await page.locator("#aiw-steps li").count() === 8, "AI explanation progression incomplete");
@@ -163,16 +171,38 @@ try {
   clock += 15 * 60 * 1000; // expire the fixture rate-limit window, not a production bypass
   const context = await browser.newContext();
   const page = await context.newPage();
-  await page.goto(base + "/partner-access");
+  await page.goto(base + "/partner-room/application-review");
+  assert(await page.getByRole("heading", { name: "Partner Room access" }).isVisible(), "application review direct entry bypassed gate");
   await page.getByLabel("Access code").fill(code);
+  const entryCheck = page.waitForResponse(response => new URL(response.url()).pathname === "/partner-session");
   await page.getByRole("button", { name: "Enter Partner Room" }).click();
-  await page.getByRole("button", { name: "Leave Partner Room" }).waitFor();
+  assert((await entryCheck).status() === 200, "application review session guard rejected approved entry");
+  await page.getByText("Application design review · reference baseline", { exact: true }).waitFor();
+  assert(new URL(page.url()).pathname === "/partner-room/application-review", "approved application review entry lost return destination");
+  const refreshCheck = page.waitForResponse(response => new URL(response.url()).pathname === "/partner-session");
+  const refreshed = await page.reload({ waitUntil: "domcontentloaded" });
+  assert(refreshed.status() === 200 && (await refreshCheck).status() === 200, "application review refresh lost its approved session");
+  await page.getByText("Application design review · reference baseline", { exact: true }).waitFor();
+  assert(await page.evaluate(() => localStorage.length === 0 && sessionStorage.length === 0), "application review persisted credentials or content in storage");
   clock += SESSION_MS + 1;
-  await page.goto(base + "/partner-room/operations");
+  const expired = await page.reload({ waitUntil: "domcontentloaded" });
+  assert(expired.status() === 401, "expired application review refresh was not denied");
   assert(await page.getByRole("heading", { name: "Partner Room access" }).isVisible(), "expired session retrieved page");
   assert(/session has ended/.test(await page.locator("body").innerText()), "expiry message missing");
+  assert(!(await page.locator("body").innerText()).includes("Application design review"), "expired application review content remained visible");
+  await page.getByLabel("Access code").fill(code);
+  const reentryCheck = page.waitForResponse(response => new URL(response.url()).pathname === "/partner-session");
+  await page.getByRole("button", { name: "Enter Partner Room" }).click();
+  assert((await reentryCheck).status() === 200, "application review re-entry failed its session check");
+  await page.getByText("Application design review · reference baseline", { exact: true }).waitFor();
+  await page.locator(".review-return a[href='/partner-room']").click();
+  await page.getByRole("button", { name: "Leave Partner Room" }).click();
+  await page.waitForURL(base + "/");
+  assert((await page.request.get(base + "/partner-room/application-review")).status() === 401, "logout did not revoke application review access");
+  await page.goto(base + "/partner-room/application-review", { waitUntil: "networkidle" });
+  assert(await page.getByRole("heading", { name: "Partner Room access" }).isVisible(), "logged-out application review reopened");
   await context.close();
-  process.stdout.write("PASS expired browser session denied\n");
+  process.stdout.write("PASS isolated application review entry, refresh, expiry, re-entry and logout\n");
 } finally {
   await browser.close();
   await new Promise(resolve => server.close(resolve));
