@@ -247,7 +247,10 @@ export async function checkPublicDemo(page, base, width) {
   await page.locator("#supporting-detail").getByRole("link", { name: "Control principles", exact: true }).focus();
   await page.keyboard.press("Enter");
   await page.waitForURL(url => url.hash === "#principles");
-  await page.getByRole("link", { name: "Explore the demo", exact: true }).focus();
+  await page.getByRole("link", { name: "See the hotel respond", exact: true }).focus();
+  await page.keyboard.press("Enter");
+  await page.waitForURL(`${base}/see-it-work`);
+  await page.locator('a[href="/public-demo#sample-demo"]').focus();
   await page.keyboard.press("Enter");
   await page.waitForURL(url => url.pathname === "/public-demo" && url.hash === "#sample-demo");
   await page.goto(`${base}/public-demo`, { waitUntil: "networkidle" });

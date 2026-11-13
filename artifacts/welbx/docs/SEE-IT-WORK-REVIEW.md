@@ -19,11 +19,18 @@ All people and operational records in the presentation are fictional. No message
 
 ## Validation
 
-- `node --test artifacts/welbx/server/access.test.mjs artifacts/welbx/server/public-wellbeing.test.mjs artifacts/welbx/server/response-workspace.test.mjs artifacts/welbx/server/see-it-work.test.mjs`: 15/15 passed, zero skipped.
-- `node artifacts/welbx/scripts/check-access-boundaries.mjs`: passed; 63 approved SPA routes and 141 active modules. No SPA route change.
-- Browser QA of an isolated static preview: homepage entry navigates to the new public page; role disclosure opens; desktop layout inspected.
-- The static preview did not serve the built interactive wellbeing application or gated server endpoints. Those journeys were not rerun end-to-end in browser. Phone-width visual QA and a full workspace build remain outstanding. Dependency inputs and lockfile are unchanged.
+- Full production build and TypeScript check passed. The existing tooltip sourcemap and large-bundle warnings are non-blocking.
+- Unit suite: 41 files, 868 tests passed. Server/access suite: 15 tests passed, zero skipped.
+- Access boundaries passed: 63 approved SPA routes, 141 active modules and 44 built files scanned. Route imports and 115 internal links passed.
+- The existing browser regression now checks the approved exact `See it work` navigation, header action and guest-sample destination instead of their replaced entry points. It still exercises the hotel-pressure explanation, direct room-demo fragments and both complete room-response decision paths; no coverage was removed.
+- Public/partner browser acceptance passed at 320, 390, 820 and 1440px, including keyboard menus/focus, all four role disclosures, practical/unsafe scenario links, public returns, room-demo entry/return, guest-app isolation, direct protected assets/documents, old bookmarks and logout.
+- The protected application review passed anonymous denial, form entry, refresh, expiry, re-entry and logout against an isolated server using a generated in-memory test credential and test clock. No real code, secret setting or production session was read or changed. Refresh asserts the document and session-check responses explicitly rather than relying on page-wide network idleness.
+- Existing practical-support public/protected and safeguarding browser suites passed at 390, 820 and 1440px, including consent, role filtering, changed plans, missing checks and truthful unresolved states. The UI regression suite passed all 74 checks across its built-in viewports.
+- A separate browser pass against the actual managed preview confirmed the public journey, scenario returns, role disclosure keyboard focus, static guest-screen boundary and technical-review gate at 320 and 390px. No horizontal overflow or application failure was observed.
+- Dependency inputs, lockfile, runtime application code and access controls are unchanged by the release-verification fix. The pre-existing optional CI lint step has no configured script; this is not presented as a completed lint check.
 
 ## Before merging or publishing
 
-Run the standard build and existing browser suites in the complete installed workspace. Check 320px/390px/desktop navigation, the existing practical/unsafe demo entry selections and return links, actual Partner Room login/refresh/expiry, and no protected content in anonymous responses. Confirm design and public wording. Keep this PR draft until those checks are reviewed. Merge and publication are separate actions.
+Require the full GitHub checks on the final review head to pass and review their recorded result. Local `main` remains at `bda64f9dbcb3844aef05b0fa3464a87887346878`, preserving its three local-only commits; they were not silently combined with this PR. Any later release reconciliation must preserve that history deliberately.
+
+Keep this PR draft for review. No merge, production credential/configuration change or publication is part of this verification. A production smoke test after an authorised deployment remains separate; isolated access tests and a working development preview do not establish deployed-build parity.
