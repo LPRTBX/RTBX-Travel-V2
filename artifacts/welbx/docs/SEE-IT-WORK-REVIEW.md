@@ -27,6 +27,7 @@ The owner subsequently authorised combining this reviewed work with local main a
 - Three conflicts were resolved deliberately: homepage, public-navigation tests and wellbeing return navigation. The consolidated public page, five-stage scripted room replay, optional detailed interactive review and contact changes from local main are retained. The approved See it work entry, public role disclosures and gated application review from PR 56 are retained.
 - Navigation uses `See it work` and `Guest experience samples`, with the existing compact-header breakpoint and standalone-app isolation. The wellbeing page retains both See it work and Hotel room replay returns.
 - Both sets of acceptance assertions are retained: consolidated section order and progressive disclosures, guided-replay states and reset, new entry/role/scenario links, full room-response decisions/evidence and isolated protected-review lifecycle.
+- Combined-version CI exposed a direct-fragment landing race on the consolidated page. Destination disclosures now open and realign after layout, load and font readiness, only while that fragment is still current. The exact viewport-position assertions remain in place and report the affected fragment and geometry on failure.
 - No access control, credential, deployment setting, live service or Core contract was changed by reconciliation. The response workspace and private documents retain their existing gate.
 
 ## Prior PR-only validation record

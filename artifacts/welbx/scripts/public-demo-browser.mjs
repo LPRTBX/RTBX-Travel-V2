@@ -244,7 +244,14 @@ export async function checkPublicDemo(page, base, width) {
   // Explicit fragments must not be overridden by the default /public-demo arrival.
   for (const hash of ["principles", "ai-in-the-work", "existing-systems", "benefits", "examples", "guided-replay", "sample-demo"]) {
     await page.goto(`${base}/public-demo#${hash}`, { waitUntil: "networkidle" });
-    await page.waitForFunction(id => Math.abs(document.getElementById(id).getBoundingClientRect().top) < 180, hash);
+    try {
+      await page.waitForFunction(id => Math.abs(document.getElementById(id).getBoundingClientRect().top) < 180, hash);
+    } catch (error) {
+      const landing = await page.locator(`#${hash}`).evaluate(el => ({
+        top: el.getBoundingClientRect().top, open: el.open, hash: location.hash,
+      }));
+      throw new Error(`Direct fragment #${hash} did not land in view at ${width}px: ${JSON.stringify(landing)}`, { cause: error });
+    }
     assert(new URL(page.url()).hash === `#${hash}`, "explicit public fragment overwritten");
     if (["principles", "ai-in-the-work", "existing-systems", "benefits", "examples", "sample-demo"].includes(hash))
       assert(await page.locator(`#${hash}`).evaluate(el => el.open), `${hash} disclosure did not open for its direct fragment`);
