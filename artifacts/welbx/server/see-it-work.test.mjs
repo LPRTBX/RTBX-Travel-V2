@@ -90,7 +90,10 @@ test('public anchors resolve and homepage links into one shared entry', async ()
 });
 
 test('hotel positioning connects ambition to existing demonstrations without changing the protected review', async () => {
-  const server = createTravelServer();
+  // This test exercises an available gate without an authorised session.
+  // Do not depend on developer secrets being present (CI intentionally has none).
+  const code = randomBytes(24).toString('hex');
+  const server = createTravelServer({ access: createAccess({ getCode: () => code }) });
   const walkthrough = (await request(server, '/see-it-work')).body;
   const home = await readFile(new URL('./public.html', import.meta.url), 'utf8');
   for (const html of [home, walkthrough]) {
@@ -116,4 +119,26 @@ test('hotel positioning connects ambition to existing demonstrations without cha
   assert.equal((await request(server, '/partner-room/application-review')).status, 401);
   assert.equal((await request(server, '/partner-room/response-workspace')).status, 401);
   assertCsp(await request(server, '/see-it-work'));
+});
+
+test('unconfigured and paused access keep public stories available and protected reviews unavailable', async () => {
+  const code = randomBytes(24).toString('hex');
+  for (const access of [
+    createAccess({ getCode: () => undefined }),
+    createAccess({ getCode: () => code, getPaused: () => true }),
+  ]) {
+    const server = createTravelServer({ access });
+    for (const path of ['/see-it-work', '/']) {
+      assert.equal((await request(server, path)).status, 200, path);
+    }
+    for (const path of ['/partner-access', '/partner-room/application-review', '/partner-room/response-workspace']) {
+      const result = await request(server, path);
+      assert.equal(result.status, 503, path);
+      assert.match(result.body, /Partner access is awaiting secure setup/);
+      assert.doesNotMatch(result.body, /AC-01|TR-014|reference baseline|id="role-view"/);
+    }
+    const session = await request(server, '/partner-session');
+    assert.equal(session.status, 401);
+    assert.deepEqual(JSON.parse(session.body), { authenticated: false });
+  }
 });
