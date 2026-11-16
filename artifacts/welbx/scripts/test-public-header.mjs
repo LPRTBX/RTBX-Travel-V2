@@ -60,7 +60,7 @@ try {
         assert.equal(await page.locator(destination).count(), 1);
       } else {
         await page.waitForURL(`${base}${destination}`);
-        assert(await page.getByRole("heading", { name: /A guest needs help/ }).isVisible());
+        assert(await page.getByRole("heading", { name: /A better stay\..*A stronger team\..*One coordinated hotel\./ }).isVisible());
         await page.goBack();
       }
     }
