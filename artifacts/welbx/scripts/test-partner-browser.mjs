@@ -46,7 +46,8 @@ try {
     assert((await page.request.get(base + "/partner-room/validation")).status() === 401, "validation details exposed anonymously");
     assert(!requests.some(path => path.startsWith("/assets/") || path.startsWith("/src/")), "public page loaded partner code");
     assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `public overflow at ${width}`);
-    assert(await page.locator(".intro").innerText() === "When several things go wrong at once, give every team a clear priority—and the GM a clear view of what needs a decision.", "approved supporting promise changed");
+    assert(await page.locator(".intro").innerText() === "JALDO Travel is a coordination layer designed to connect permitted hotel signals, guest choices and the people who can decide and act—so teams can enhance stays, support people and check whether it helped.", "approved hotel-transformation promise changed");
+    assert((await page.locator(".hero .category").textContent()).trim() === "Behavioural infrastructure for hospitality", "first-screen category missing");
     const responseLink = page.getByRole("link", { name: "See the coordinated response" });
     await responseLink.focus();
     await page.keyboard.press("Enter");

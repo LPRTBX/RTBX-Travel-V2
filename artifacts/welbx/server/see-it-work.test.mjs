@@ -88,3 +88,57 @@ test('public anchors resolve and homepage links into one shared entry', async ()
   assert.match(home,/id="sample-demo"/); // Legacy room demo remains available.
   assert.match(home,/href="\/public-wellbeing"/); // Existing wellbeing entry remains available.
 });
+
+test('hotel positioning connects ambition to existing demonstrations without changing the protected review', async () => {
+  // This test exercises an available gate without an authorised session.
+  // Do not depend on developer secrets being present (CI intentionally has none).
+  const code = randomBytes(24).toString('hex');
+  const server = createTravelServer({ access: createAccess({ getCode: () => code }) });
+  const walkthrough = (await request(server, '/see-it-work')).body;
+  const home = await readFile(new URL('./public.html', import.meta.url), 'utf8');
+  for (const html of [home, walkthrough]) {
+    assert.match(html, /Behavioural infrastructure for hospitality/);
+    assert.match(html, /A better stay\.<br>A stronger team\.<br>(?:<span>)?One coordinated hotel\./);
+    assert.match(html, /permitted/i);
+    assert.match(html, /guest choice/i);
+    assert.match(html, /AI/);
+    assert.match(html, /review/i);
+    assert.match(html, /proposed/i);
+    assert.doesNotMatch(html, /href="[^"]*(?:replit\.app|guest-app\.wearejaldo)[^"]*"/);
+    assert.doesNotMatch(html, /\sstyle="/);
+  }
+  for (const role of ['Reception', 'Housekeeping', 'Guest Services', 'Maintenance', 'Duty Manager']) {
+    assert.ok(home.includes(role), `${role} responsibility missing`);
+  }
+  for (const phrase of ['lounge', 'luggage', 'dining', 'overdue', 'cover']) {
+    assert.ok(home.toLowerCase().includes(phrase), `${phrase} example missing`);
+  }
+  assert.match(walkthrough, /href="#choose"/);
+  assert.match(walkthrough, /Responder accepted · arrival pending/);
+  assert.match(walkthrough, /Owned · delivery still outstanding/);
+  assert.equal((await request(server, '/partner-room/application-review')).status, 401);
+  assert.equal((await request(server, '/partner-room/response-workspace')).status, 401);
+  assertCsp(await request(server, '/see-it-work'));
+});
+
+test('unconfigured and paused access keep public stories available and protected reviews unavailable', async () => {
+  const code = randomBytes(24).toString('hex');
+  for (const access of [
+    createAccess({ getCode: () => undefined }),
+    createAccess({ getCode: () => code, getPaused: () => true }),
+  ]) {
+    const server = createTravelServer({ access });
+    for (const path of ['/see-it-work', '/']) {
+      assert.equal((await request(server, path)).status, 200, path);
+    }
+    for (const path of ['/partner-access', '/partner-room/application-review', '/partner-room/response-workspace']) {
+      const result = await request(server, path);
+      assert.equal(result.status, 503, path);
+      assert.match(result.body, /Partner access is awaiting secure setup/);
+      assert.doesNotMatch(result.body, /AC-01|TR-014|reference baseline|id="role-view"/);
+    }
+    const session = await request(server, '/partner-session');
+    assert.equal(session.status, 401);
+    assert.deepEqual(JSON.parse(session.body), { authenticated: false });
+  }
+});

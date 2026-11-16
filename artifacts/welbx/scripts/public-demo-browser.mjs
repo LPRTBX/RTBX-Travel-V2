@@ -17,8 +17,8 @@ export async function checkPublicNavigation(page, base, width) {
   const links = page.locator("#site-nav a");
   const heroTop = await page.locator(".hero").evaluate(el => el.getBoundingClientRect().top + scrollY);
   const order = await page.locator("main > section").evaluateAll(list => list.map(section => section.id || section.className.split(" ")[0]));
-  // One loop leads into hotel proof, wellbeing, sample screens, outcomes/system fit, detail and next step.
-  const mainStory = ["hero", "guided-replay", "loop", "coordinated-response", "demo", "wellbeing-support", "travel-guest-app", "outcomes", "supporting-detail", "contact"];
+  // The illustrative hotel story leads into retained proof and optional process detail.
+  const mainStory = ["hero", "coordinated-response", "guided-replay", "loop", "demo", "wellbeing-support", "travel-guest-app", "outcomes", "supporting-detail", "contact"];
   assert(order.slice(0, mainStory.length).join() === mainStory.join(), `public page order changed: ${order}`);
   const targetKinds = await page.evaluate(() => Object.fromEntries(
     ["principles", "ai-in-the-work", "existing-systems", "benefits", "examples", "sample-demo"].map(id => [id, document.getElementById(id)?.tagName])
@@ -117,7 +117,7 @@ export async function checkPublicGuestShowcase(page, base, width) {
   await response.focus();
   await page.keyboard.press("Enter");
   await page.waitForURL(`${base}/see-it-work`);
-  assert(await page.getByRole("heading", { name: /A guest needs help/ }).isVisible(), "guest response CTA missed See it work");
+  assert(await page.getByRole("heading", { name: /A better stay\..*A stronger team\..*One coordinated hotel\./ }).isVisible(), "guest response CTA missed See it work");
   await page.goBack({ waitUntil: "networkidle" });
   assert(new URL(page.url()).hash === "#travel-guest-app", "Back lost guest showcase");
   await page.goForward({ waitUntil: "networkidle" });
@@ -133,7 +133,13 @@ export async function checkSeeItWork(page, base, width) {
   assert(await entry.evaluate(el => getComputedStyle(el).outlineStyle !== "none"), `See it work focus is not visible at ${width}px`);
   await page.keyboard.press("Enter");
   await page.waitForURL(`${base}/see-it-work`);
-  assert(await page.getByRole("heading", { name: /A guest needs help/ }).isVisible(), "See it work headline missing");
+  assert(await page.getByRole("heading", { name: /A better stay\..*A stronger team\..*One coordinated hotel\./ }).isVisible(), "See it work headline missing");
+  const walkthroughBrand = page.locator("header .brand");
+  await walkthroughBrand.focus();
+  assert(await walkthroughBrand.evaluate(el => {
+    const style = getComputedStyle(el);
+    return style.outlineStyle === "solid" && style.outlineColor === "rgb(238, 140, 80)";
+  }), "walkthrough dark-header focus ring lost its high-contrast orange");
   assert(/Illustrative demonstrations/.test(await page.locator(".notice").innerText()), "fictional demonstration label missing");
   assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `See it work overflow at ${width}px`);
 
@@ -177,7 +183,7 @@ export async function checkSeeItWork(page, base, width) {
   assert(await returnToStory.getAttribute("href") === "/see-it-work", "room demo return action is missing");
   await returnToStory.click();
   await page.waitForURL(`${base}/see-it-work`);
-  assert(await page.getByRole("heading", { name: /A guest needs help/ }).isVisible(), "room demo return to See it work failed");
+  assert(await page.getByRole("heading", { name: /A better stay\..*A stronger team\..*One coordinated hotel\./ }).isVisible(), "room demo return to See it work failed");
   assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `See it work return overflow at ${width}px`);
 }
 
